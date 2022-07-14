@@ -1,0 +1,10 @@
+vls.log
+.vscode
+ramblings
+
+*.o
+*-compile
+*-compile.asm
+*-compile.o
+compiler
+a.out
