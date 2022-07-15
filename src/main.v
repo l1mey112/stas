@@ -1,10 +1,17 @@
 import os
+import flag
+import term
 
-fn compile_file_to_asm(filename string)string{
+fn run_pipeline(filename string, mut db Debug)string{
+	db.start("File")
 	data := os.read_file(filename) or {
 		eprintln("Cannot read file '$filename'!")
 		exit(1)
 	}
+	db.info("Opened '$filename'")
+	db.info("Read $data.len characters")
+	db.end()
+	db.start("Scanner")
 	mut scanner := Scanner {
 		text: data
 		cap: data.len
@@ -14,9 +21,16 @@ fn compile_file_to_asm(filename string)string{
 	for {
 		i := scanner.scan_token()
 		if i.token == .eof {
+			db.info("EOF hit, read $tokens.len tokens")
 			break
 		} else { tokens << i }
 	}
+	if tokens.len == 0 {
+		println("File is empty!")
+		exit(0)
+	}
+	db.end()
+	db.start("Parser")
 	mut parser := Parser {
 		s: mut scanner
 		tokens: tokens
@@ -25,38 +39,140 @@ fn compile_file_to_asm(filename string)string{
 	}
 	mut statements := []IR_Statement{cap: 10}
 	for {
-		i := parser.parse_token()
-		if i is IR_EOF {
+		if i := parser.parse_token() {
+			statements << i
+		} else {
+			db.info("No more tokens left, parsed $statements.len statements")
 			break
-		} else { statements << i }
+		}
 	}
+	if _unlikely_(db.is_debug) {
+		mut lit_count := 0
+		mut global_count := 0
+		mut declare_count := 0
+		for _, var in parser.ctx.variables {
+			match var.spec {
+				.literal {lit_count++}
+				.global {global_count++}
+				.declare {declare_count++}
+			}
+		}
+		db.info("Variables counted: $parser.ctx.variables.len")
+		db.info("  $lit_count literals")
+		db.info("  $declare_count decls")
+		db.info("  $global_count globals")
+	}
+	db.end()
+	db.start("Codegen")
 	mut gen := Gen {
-		var_globals: parser.var_globals
-		var_decls: parser.var_decls
 		statements: statements
-		string_lits: parser.string_lits
 		s: mut scanner
+		ctx: parser.ctx
+		db: &db
 	}
 	gen.gen_all()
-	return gen.file.str()
+	file_out := gen.file.str()
+	db.info("Wrote $file_out.len characters")
+	db.end()
+	return file_out
 }
 
-fn main(){
-	filename := "./file"
+const githash = $embed_file('.githash')
 
-	source := compile_file_to_asm(filename)
-	os.write_file('$filename-compile.asm',source) or {
-		panic("Failed to write $filename-compile.asm")
+fn main(){
+	mut fp := flag.new_flag_parser(os.args)
+
+	fp.application(os.file_name(os.args[0]))
+	fp.version('0.0.1 ${githash.to_string()}')
+	fp.description('Compiler for an unknown, unnamed and unheard of stack based programming language')
+	fp.skip_executable()
+
+	pref_run := fp.bool('run', `r`, false, 'run program after compiling, then deletes')
+	pref_bat := fp.bool('show', `s`, false, 'open nasm assembly output in a bat process')
+	mut pref_out := fp.string('', `o`, '', 'output to file (accepts *.asm, *.S, *.o, *)')
+	pref_asm := if fp.bool('', `g`, false, 'compile with debug symbols') { '-g -F stabs' } else { '' }
+	pref_ver := fp.bool('version', `v`, false, fp.default_version_label)
+	pref_deb := fp.bool('debug', `d`, false, 'run the compiler in debug mode')
+
+	args := fp.finalize() or {
+		eprintln(err.msg())
+		exit(1)
 	}
-	if '-r' in os.args {
-		os.execute_or_panic('nasm -g -felf64 -o $filename-compile.o $filename-compile.asm')
-		os.execute_or_panic('ld $filename-compile.o -o $filename-compile')
-		os.execvp('./$filename-compile',[]) or {
-			panic("Failed to start program $filename-compile")
+
+	if pref_ver {
+		println('$fp.application_name $fp.application_version w/ git hash ${githash.to_string()}')
+		exit(0)
+	}
+
+	if args.len == 0 {
+		eprintln("Must provide a file!")
+		exit(1)
+	} else if args.len != 1 {
+		eprintln("Currently only accept single files!")
+		exit(1)
+	}
+	filename := args[0]
+	mut db := Debug{is_debug: pref_deb}
+	source := run_pipeline(filename, mut db)
+
+	pref_ext := os.file_ext(pref_out)
+
+	db.start("Finalise")
+	file_write_tmp := os.join_path_single(os.temp_dir(),get_hash_str(filename))
+	if !pref_bat && pref_ext in ['.asm','.S'] {
+		os.write_file(pref_out,source) or {
+			panic("Failed to write file!")
 		}
+		exit(0)
 	} else {
-		os.execvp('bat', ['-l','nasm','$filename-compile.asm']) or {
-			panic("Failed to start BAT")
+		os.write_file('${file_write_tmp}.asm',source) or {
+			panic("Failed to write temporary file!")
 		}
+	}
+	db.info("Created assembly file on disk")
+
+	if pref_bat {
+		db.end_all()
+		mut run_process := os.new_process('/usr/bin/bat')
+		run_process.set_args(['-l','nasm','${file_write_tmp}.asm'])
+		run_process.wait()
+		os.rm('${file_write_tmp}.asm') or {}
+		exit(0)
+	}
+
+	object_file_out := if pref_ext == '.o' {pref_out} else {'${file_write_tmp}.o'}
+	db.info("Executing 'nasm -felf64 $pref_asm -o $object_file_out ${file_write_tmp}.asm'")
+	nasm_res := os.execute('nasm -felf64 $pref_asm -o $object_file_out ${file_write_tmp}.asm')
+
+	if nasm_res.exit_code != 0 {
+		eprintln(term.red("NASM error, this should never happen"))
+		eprintln(nasm_res.output)
+		exit(1)
+	}
+	db.info("Assembler finished")
+	if pref_ext == '.o' {
+		db.end_all()
+		exit(0)
+	}
+
+	if pref_out == '' {
+		pref_out = 'a.out'
+	} // default output
+	db.info("Executing linker 'nasm -felf64 $pref_asm -o $object_file_out ${file_write_tmp}.asm'")
+	os.execute_or_panic('ld ${file_write_tmp}.o -o $pref_out')
+	db.info("Linker finished")
+
+	os.rm('${file_write_tmp}.asm') or {}
+	os.rm('${file_write_tmp}.o') or {}
+
+	if pref_run {
+		db.end_all()
+		exefile := os.abs_path(pref_out)
+		mut run_process := os.new_process(exefile)
+		run_process.wait()
+		ret := run_process.code
+		run_process.close()
+		os.rm(exefile) or {}
+		exit(ret)
 	}
 }

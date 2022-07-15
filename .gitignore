@@ -2,6 +2,7 @@ vls.log
 .vscode
 ramblings
 
+.githash
 *.o
 *-compile
 *-compile.asm

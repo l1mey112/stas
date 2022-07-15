@@ -30,6 +30,7 @@ enum Tok {
 	sub // -
 	mul // *
 	div // /
+	mod // %
 
 	_keywords_begin_
 	declare // declare
@@ -38,7 +39,9 @@ enum Tok {
 	pop     // pop
 	drop    // drop
 	print   // for char pointers
+	println
 	uput    // for unsigned numbers
+	uputln
 //	sput    // for signed numbers
 //	dispatch
 	_keywords_end_
@@ -47,7 +50,7 @@ enum Tok {
 }
 
 fn build_token_literals() []string {
-	mut a := []string{len: int(Tok._end_)}
+	mut a := []string{len: int(Tok._end_), init: "__NONE__"}
 	a[Tok.error] = "ERROR"
 	a[Tok.eof] = "EOF"
 	a[Tok.name] = "name"
@@ -63,9 +66,20 @@ fn build_token_literals() []string {
 	a[Tok.pop] = "pop"
 	a[Tok.drop] = "drop"
 	a[Tok.print] = "print"
+	a[Tok.println] = "println"
 	a[Tok.uput] = "uput"
+	a[Tok.uputln] = "uputln"
 //	a[Tok.sput] = "sput"
 //	a[Tok.dispatch] = "dispatch"
+
+	$if !prod {
+		for s in a[int(Tok._keywords_begin_)+1..int(Tok._keywords_end_)] {
+			if s == '__NONE__' {
+				panic("Token literals not exaustive")
+			}
+		}
+	}
+
 	return a
 }
 

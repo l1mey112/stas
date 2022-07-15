@@ -1,189 +1,110 @@
 import strings
 
 struct Gen {
-	var_globals map[string]Token
-	var_decls map[string]Token
-	
-	string_lits []Token
+	ctx DataContext
 	statements []IR_Statement
 
 	s Scanner
+	db &Debug
 mut:
 	file strings.Builder
 }
 
-fn hash(index u32) string {
-	mut x := index + 1
-	x = ((x >> 16) ^ x) * 0x45d9f3b
-	x = ((x >> 16) ^ x) * 0x45d9f3b
-	x = (x >> 16) ^ x
-	
-	return 'lit_'+x.str()
-}
-
 const (
-	escape_ch = {
-		`a` : '0x07'
-		`b` : '0x08'
-		`e` : '0x1B'
-		`f` : '0x0C'
-		`n` : '0x0A'
-		`r` : '0x0D'
-		`t` : '0x09'
-		`v` : '0x0B'
-	}
-)
+	header = 
+'[BITS 64]
+global _start
+section .data
+	builtin_nl: db 10'
 
-// parse string escape chars
-fn (g Gen) parse_string(tok Token) string {
-	str := tok.lit[1 .. tok.lit.len-1] // trim quotes
-	mut ret := strings.new_builder(str.len)
-	if str == '' {
-		g.s.error_tok("Empty literal string",tok)
-	}
-	ret.write_u8(`'`)
-	mut pos := 0
-	for {
-		c := str[pos]
-		if c == `\\` {
-			pos++
-			if pos >= str.len {
-				g.s.error_tok("Unhandled escape character",tok)
-			}
-			nextc := str[pos]
-			if nextc == `\\` {
-				ret.write_u8(c)
-				continue
-			}
-			escape := escape_ch[nextc] or {
-				g.s.error_tok("Escape char '${nextc.ascii_str()}' does not exist",tok)
-			}
-			if pos+1 >= str.len {
-				ret.write_string("', $escape")
-				break
-			} else {
-				ret.write_string("', $escape, '")
-			}
-		} else {
-			ret.write_u8(c)
-		}
-
-		pos++
-		if pos >= str.len {
-			ret.write_u8(`'`)
-			break
-		}
-	}
-	return ret.str()
-}
-
-fn (mut g Gen) gen_all(){
-	g.file = strings.new_builder(200)
-
-	// -- HEADER --
-	g.file.writeln(
-		'[BITS 64]\n' +
-		'global _start\n' +
-		'section .data'
-	)
-	// -- STRING LITERALS --
-	g.file.ensure_cap(50)
-	for idx, string_lit in g.string_lits {
-		g.file.writeln('\t${hash(u32(idx))}: db ${g.parse_string(string_lit)}, 0')
-	}
-	// -- VARIABLES --
-	g.file.ensure_cap(50)
-	for var, data in g.var_decls {
-		match data.token {
-			.string_lit {
-				g.file.writeln('\tdecl_$var: db ${g.parse_string(data)}')
-			}
-			.number_lit {
-				g.file.writeln('\tdecl_$var: dq ${data.lit.u64()}')
-			}
-			else { panic("Decl not string or number") }
-		}
-	}
-	g.file.ensure_cap(50)
-	for var, data in g.var_globals {
-		if data.token != .number_lit {
-			panic("Global not u64")
-		}
-		g.file.writeln('\tglobal_$var: dq ${data.lit.u64()}')
-	}
-	// -- START CODE SEGMENT --
-	g.file.writeln(
-		'section .text'
-	)
-	// -- BUILTIN FUNCTIONS --
-	g.file.writeln(
-		'	strlen:\n' +
-		'		mov rdx, 0\n' +
-		'		jmp strloop\n' +
-		'	stradd:\n' +
-		'		add rdx, 1\n' +
-		'		add rdi, 1\n' +
-		'	strloop:\n' +
-		'		movzx eax, byte [rdi]\n' +
-		'		test al, al\n' +
-		'		jne stradd\n' +
-		'		mov rax, rdx\n' +
-		'		ret\n' +
-		'	write:\n' +
-		'		mov rdx, rsi\n' +
-		'		mov rsi, rdi\n' +
-		'		mov rax, 1 ; sys_write\n' +
-		'		mov rdi, 1 ; stdout\n' +
-		'		syscall\n' +
-		'		ret'
-	)
-	g.file.writeln(
-"	uput:
+	builtin_assembly =
+'section .text
+	builtin_strlen:
+		mov rdx, 0
+		jmp builtin_strlen_strloop
+	builtin_strlen_stradd:
+		add rdx, 1
+		add rdi, 1
+	builtin_strlen_strloop:
+		movzx eax, byte [rdi]
+		test al, al
+		jne builtin_strlen_stradd
+		mov rax, rdx
+		ret
+	builtin_write:
+		mov rdx, rsi
+		mov rsi, rdi
+		mov rax, 1 ; sys_write
+		mov rdi, 1 ; stdout
+		syscall
+		ret
+	builtin_newline:
+		mov rdi, builtin_nl
+		mov rsi, 1
+		call builtin_write
+		ret
+	builtin_uput:
 		push rbp
 		mov rbp, rsp
 		mov rbx, rbp
 		sub rsp, 20 
 		mov rcx, 0
 		test rdi, rdi
-		je uput_zero
+		je builtin_uput_zero
 		mov rsi, 10
-	uput_nextc:
+	builtin_uput_nextc:
 		dec rbx
 		mov rax, rdi
 		xor edx, edx
 		div rsi
 		mov rdi, rax
-		add edx, '0'
+		add edx, "0"
 		mov byte [rbx], dl
 		inc rcx
 		test rdi, rdi
-		jne uput_nextc
-	uput_end:
+		jne builtin_uput_nextc
+	builtin_uput_end:
 		mov rdi, rbx
 		mov rsi, rcx
-		call write
+		call builtin_write
 		leave
 		ret
-	uput_zero:
+	builtin_uput_zero:
 		mov rcx, 1
-		mov byte [rbx], '0'
-		jmp uput_end"
-	)
-	
+		mov byte [rbx], "0"
+		jmp builtin_uput_end'
+)
+
+fn (mut g Gen) gen_all(){
+	g.file = strings.new_builder(250)
+
+	// -- HEADER --
+	g.file.writeln(header)
+	// -- VARIABLES --
+	for _, data in g.ctx.variables {
+		g.file.writeln('\t${data.gen(g)}')
+	}
+	g.db.info("Inserted $g.ctx.variables.len variables")
+	// -- BUILTIN FUNCTIONS --
+	g.file.writeln(builtin_assembly)
+	g.db.info("Wrote ${builtin_assembly.count('\n')+1} lines of builtin assembly")
+	// -- START PROGRAM --
 	g.file.writeln(
-		'	; --- START ---\n' +
-		'	_start:'
+'	; --- START ---
+	_start:'
 	)
 	// -- DYNAMIC CODEGEN --
 	for s in g.statements {
 		g.file.writeln(s.gen(g))
 	}
+	g.db.info("Finished dynamic codegen, generated assembly for $g.statements.len statements")
+	// -- EXIT PROGRAM --
 	g.file.writeln(
-		'	; --- END ---\n' +
-		'	exit:\n' +
-		'		mov rax, 60\n' +
-		'		mov rdi, 0\n' +
-		'		syscall'
+'	; --- END ---
+	exit:
+		mov rax, 60
+		mov rdi, 0
+		syscall'
 	)
 }
 
@@ -191,114 +112,111 @@ interface IR_Statement {
 	gen(&Gen) string
 }
 
-struct IR_EOF {}
-fn (i IR_EOF) gen(ctx &Gen) string {
-	panic("IR_EOF gen() called!")
-}
-
 struct IR_PUSH_VAR {var string}
-fn (i IR_PUSH_VAR) gen(ctx &Gen) string {
-	if i.var in ctx.var_globals {
-		if ctx.var_globals[i.var].token == .string_lit {
-			return '		push qword global_$i.var'
-		} else {
-			return '		push qword [global_$i.var]'
-		}
-	} else if i.var in ctx.var_decls {
-		if ctx.var_decls[i.var].token == .string_lit {
-			return '		push qword decl_$i.var'
-		} else {
-			return '		push qword [decl_$i.var]'
-		}
-	} else {
-		panic("Variable not in globals or decl?")
-	}
-} // TODO: handle some kind of pointer and literal value type!
+fn (i IR_PUSH_VAR) gen(gen &Gen) string {
+	return "\t\t${gen.ctx.variables[i.var].push(gen)}"
+}
 
 struct IR_PUSH_NUMBER {data u64}
-fn (i IR_PUSH_NUMBER) gen(ctx &Gen) string {
-	return 
-		'		push $i.data'
-}
-
-struct IR_PUSH_STRING {literal_index u32}
-fn (i IR_PUSH_STRING) gen(ctx &Gen) string {
-	return 
-		'		push ${hash(i.literal_index)}'
+fn (i IR_PUSH_NUMBER) gen(gen &Gen) string {
+	return "\t\tpush $i.data"
 }
 
 struct IR_DROP {}
-fn (i IR_DROP) gen(ctx &Gen) string {
-	return 
-		'		pop rax'
+fn (i IR_DROP) gen(gen &Gen) string {
+	return "\t\tpop rax"
 }
 
 struct IR_POP {var string}
-fn (i IR_POP) gen(ctx &Gen) string {
-	if i.var in ctx.var_globals {
-		return '		pop qword [global_$i.var]'
-	} else if i.var in ctx.var_decls {
-		return '		pop qword [decl_$i.var]'
-	} else {
-		panic("Variable not in globals or decl?")
-	}
+fn (i IR_POP) gen(gen &Gen) string {
+	return "\t\t${gen.ctx.variables[i.var].pop(gen)}"
 }
 
 struct IR_PRINT {}
-fn (i IR_PRINT) gen(ctx &Gen) string {
+fn (i IR_PRINT) gen(gen &Gen) string {
+	return
+'		pop rbx
+		mov rdi, rbx
+		call builtin_strlen
+		mov rdi, rbx
+		mov rsi, rax
+		call builtin_write'
+}
+
+struct IR_PRINTLN {}
+fn (i IR_PRINTLN) gen(gen &Gen) string {
 	return 
-		'		pop rbx\n' +
-		'		mov rdi, rbx\n' +
-		'		call strlen\n' +
-		'		mov rdi, rbx\n' +
-		'		mov rsi, rax\n' +
-		'		call write'
+'		pop rbx
+		mov rdi, rbx
+		call builtin_strlen
+		mov rdi, rbx
+		mov rsi, rax
+		call builtin_write
+		call builtin_newline'
 }
 
 struct IR_UPUT {}
-fn (i IR_UPUT) gen(ctx &Gen) string {
+fn (i IR_UPUT) gen(gen &Gen) string {
 	return
 '		pop rdi
-		call uput'
+		call builtin_uput'
 }
 
-/* struct IR_SPUT {}
-fn (i IR_SPUT) gen(ctx &Gen) string {
-	panic("Statement not implemented")
-} */
+struct IR_UPUTLN {}
+fn (i IR_UPUTLN) gen(gen &Gen) string {
+	return
+'		pop rdi
+		call builtin_uput
+		call builtin_newline'
+}
 
 struct IR_ADD {}
-fn (i IR_ADD) gen(ctx &Gen) string {
+fn (i IR_ADD) gen(gen &Gen) string {
 	return
-		'		pop rdi\n' +
-		'		pop rsi\n' +
-		'		add rsi, rdi\n' +
-		'		push rsi'
+'		pop rdi
+		pop rsi
+		add rsi, rdi
+		push rsi'
 }
 
 struct IR_SUB {}
-fn (i IR_SUB) gen(ctx &Gen) string {
+fn (i IR_SUB) gen(gen &Gen) string {
 	return
-		'		pop rdi\n' +
-		'		pop rsi\n' +
-		'		sub rsi, rdi\n' +
-		'		push rsi'
+'		pop rdi
+		pop rsi
+		sub rsi, rdi
+		push rsi'
 }
 
 struct IR_MUL {}
-fn (i IR_MUL) gen(ctx &Gen) string {
+fn (i IR_MUL) gen(gen &Gen) string {
 	return
-		'		pop rdi\n' +
-		'		pop rsi\n' +
-		'		mul rsi, rdi\n' +
-		'		push rsi'
-}
+'		pop rdi
+		pop rsi
+		imul rsi, rdi
+		push rsi'
+} // trust gcc with imul
 
 struct IR_DIV {}
-fn (i IR_DIV) gen(ctx &Gen) string {
+fn (i IR_DIV) gen(gen &Gen) string {
 	return
-		'		pop rdi\n' + // divisor
-		'		pop rax\n' + // dividend
-		'		div rdi\n' +
-		'		push rax'
+'		pop rdi
+		pop rax
+		xor edx, edx
+		div rdi
+		push rax'
 }
+
+struct IR_MOD {}
+fn (i IR_MOD) gen(gen &Gen) string {
+	return
+'		pop rdi
+		pop rax
+		xor edx, edx
+		div rdi
+		push rdx'
+}
+// TODO:
+// add some kind of divmod token that pushes the division and modulo onto the stack
+// maybe make that the default div and force the user to use the drop operator
+// drop could even be renamed into _? (make sure it doesnt get interpreted as a name)

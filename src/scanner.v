@@ -61,7 +61,8 @@ fn (mut s Scanner) march_name() string {
 }
 
 [direct_array_access]
-fn (mut s Scanner) march_number() string {
+fn (mut s Scanner) march_number(is_neg bool) string {
+	if is_neg {s.pos++}
 	start := s.pos
 	for s.pos < s.cap {
 		c := s.text[s.pos]
@@ -74,7 +75,9 @@ fn (mut s Scanner) march_number() string {
 		s.pos++
 	}
 	s.pos--
-	return s.text[start..s.pos+1]
+	mut ret := s.text[start..s.pos+1]
+	if is_neg {ret = '-'+ret }
+	return ret
 }
 
 [direct_array_access]
@@ -170,7 +173,8 @@ fn (mut s Scanner) scan_token() Token {
 		if s.pos >= s.cap { return s.eof() }
 
 		c := s.text[s.pos]
-		// nextc := s.next()
+		nextc := s.next()
+		isneg := c == `-` && nextc.is_digit()
 		if is_valid_name(c) { // name or keyword
 			name := s.march_name()
 			kind := get_keyword_token(name)
@@ -179,8 +183,8 @@ fn (mut s Scanner) scan_token() Token {
 			}
 
 			return s.new_token(.name, name, name.len)
-		} else if c.is_digit() { // number literals
-			num := s.march_number()
+		} else if c.is_digit() || isneg { // number literals
+			num := s.march_number(isneg)
 			return s.new_token(.number_lit, num, num.len)
 		}
 		match c {
@@ -205,15 +209,12 @@ fn (mut s Scanner) scan_token() Token {
 			`/` {
 				return s.new_token(.div, '', 1)
 			}
+			`%` {
+				return s.new_token(.mod, '', 1)
+			}
 			else {}
 		}
 		break
 	}
 	return s.eof()
 }
-
-// + identifiers and keywords
-// + number_literals
-// + string_literals
-// + comments
-// + array tokens

@@ -1,0 +1,23 @@
+; ADD
+push "10 + 2 = " print
+push 10 push 2 + uputln
+
+; SUBTRACT
+push "200 - 2 = " print
+push 200 push 2 - uputln
+
+; MULTIPLY
+push "199 * 6 = " print
+push 199 push 6 * uputln
+
+; DIVIDE
+push "1000 / 11 = " print
+push 1000 push 11 / uputln
+
+; REMAINDER
+push "1000 % 11 = " print
+push 1000 push 11 % uputln
+
+; LIMIT
+push "Unsigned 64 bit integer limit = " print
+push -1 uputln
