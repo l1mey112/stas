@@ -58,7 +58,7 @@ fn run_pipeline(filename string, mut db Debug)string{
 			}
 		}
 		db.info("Variables counted: $parser.ctx.variables.len")
-		db.info("  $lit_count literals")
+		db.info("  $lit_count string literals")
 		db.info("  $declare_count decls")
 		db.info("  $global_count globals")
 	}
@@ -90,7 +90,7 @@ fn main(){
 	pref_run := fp.bool('run', `r`, false, 'run program after compiling, then deletes')
 	pref_bat := fp.bool('show', `s`, false, 'open nasm assembly output in a bat process')
 	mut pref_out := fp.string('', `o`, '', 'output to file (accepts *.asm, *.S, *.o, *)')
-	pref_asm := if fp.bool('', `g`, false, 'compile with debug symbols') { '-g -F stabs' } else { '' }
+	pref_asm := if fp.bool('', `g`, false, 'compile with debug symbols') { ' -g -F stabs' } else { '' }
 	pref_ver := fp.bool('version', `v`, false, fp.default_version_label)
 	pref_deb := fp.bool('debug', `d`, false, 'run the compiler in debug mode')
 
@@ -141,8 +141,8 @@ fn main(){
 	}
 
 	object_file_out := if pref_ext == '.o' {pref_out} else {'${file_write_tmp}.o'}
-	db.info("Executing 'nasm -felf64 $pref_asm -o $object_file_out ${file_write_tmp}.asm'")
-	nasm_res := os.execute('nasm -felf64 $pref_asm -o $object_file_out ${file_write_tmp}.asm')
+	db.info("Executing 'nasm -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm'")
+	nasm_res := os.execute('nasm -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm')
 
 	if nasm_res.exit_code != 0 {
 		eprintln(term.red("NASM error, this should never happen"))
@@ -158,7 +158,7 @@ fn main(){
 	if pref_out == '' {
 		pref_out = 'a.out'
 	} // default output
-	db.info("Executing linker 'nasm -felf64 $pref_asm -o $object_file_out ${file_write_tmp}.asm'")
+	db.info("Executing 'ld ${file_write_tmp}.o -o $pref_out'")
 	os.execute_or_panic('ld ${file_write_tmp}.o -o $pref_out')
 	db.info("Linker finished")
 
@@ -174,5 +174,8 @@ fn main(){
 		run_process.close()
 		os.rm(exefile) or {}
 		exit(ret)
+	} else {
+		db.info("Executable '$pref_out' compiled!")
+		db.end_all()
 	}
 }

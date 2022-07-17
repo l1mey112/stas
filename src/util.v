@@ -64,7 +64,7 @@ fn (mut d Debug) start(info string){
 [inline]
 fn (d &Debug) info(info string){
 	if _unlikely_(d.is_debug) {
-		println(term.yellow("  :: $info"))
+		println(/* term.yellow */("  :: $info"))
 	}
 }
 

@@ -26,8 +26,7 @@ section .data
 		add rdx, 1
 		add rdi, 1
 	builtin_strlen_strloop:
-		movzx eax, byte [rdi]
-		test al, al
+		cmp byte [rdi], 0
 		jne builtin_strlen_stradd
 		mov rax, rdx
 		ret

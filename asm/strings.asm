@@ -9,6 +9,7 @@ section .text
 	strlen:
 		mov rdx, 0
 		jmp strloop 
+		jmp strloop 
 	stradd:
 		add rdx, 1 ; counts len
 		add rdi, 1 
@@ -18,6 +19,7 @@ section .text
 		jne stradd
 		mov rax, rdx
 		ret
+	
 	write:
 		mov rdx, rsi
 		mov rsi, rdi
