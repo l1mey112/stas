@@ -106,6 +106,25 @@ fn (mut s Scanner) march_string() string {
 	return lit
 }
 
+/* [inline; direct_array_access]
+fn (mut s Scanner) next_is_whitespace()bool{
+	for s.pos+1 < s.cap {
+		return true
+	}
+	c = s.text[s.pos+1]
+	if c == 9 {
+		return true
+	} // 9 = tab
+	if c == 32 || (c > 8 && c < 14) || (c == 0x85) || (c == 0xa0) {
+		return true
+	} // 32 = space
+	c_is_nl := c == `\r` || c == `\n`
+	if c_is_nl && !(s.pos > 0 && s.text[s.pos - 1] == `\r` && c == `\n`) {
+		s.inc_line()
+		return true
+	}
+} */
+
 [direct_array_access; inline]
 fn (mut s Scanner) skip_whitespace() {
 	for s.pos < s.cap {
@@ -159,11 +178,12 @@ fn (s &Scanner) next() u8 {
 
 [direct_array_access; inline]
 fn (mut s Scanner) skip_line() {
-	for s.pos < s.cap && s.text[s.pos] != `\n` {
+	for s.pos < s.cap && s.text[s.pos] !in [`\n`,`\r`] {
 		s.pos++
 	}
 }
 
+[direct_array_access]
 fn (mut s Scanner) scan_token() Token {
 	for {
 		if _likely_(s.is_started){ s.pos++ } 
@@ -192,25 +212,50 @@ fn (mut s Scanner) scan_token() Token {
 				str := s.march_string()
 				return s.new_token(.string_lit, str, str.len)
 			}
-			`;` {
+			`;` {  // new comment
 				s.skip_line()
 				s.inc_line()
 				continue
 			}
 			`+` {
-				return s.new_token(.add, '', 1)
+				if nextc == `=` {
+					s.pos++
+					return s.new_token(.add, '', 2)
+				} else {
+					return s.new_token(.inc, '', 1)
+				}
 			}
 			`-` {
-				return s.new_token(.sub, '', 1)
+				if nextc == `=` {
+					s.pos++
+					return s.new_token(.sub, '', 1)
+				} else {
+					return s.new_token(.dec, '', 1)
+				}
 			}
 			`*` {
-				return s.new_token(.mul, '', 1)
+				if nextc == `=` {
+					s.pos++
+					return s.new_token(.mul, '', 1)
+				} else {
+					comp_error('Unexpected character',s.get_fp())
+				}
 			}
 			`/` {
-				return s.new_token(.div, '', 1)
+				if nextc == `=` {
+					s.pos++
+					return s.new_token(.div, '', 1)
+				} else {
+					comp_error('Unexpected character',s.get_fp())
+				}
 			}
 			`%` {
-				return s.new_token(.mod, '', 1)
+				if nextc == `=` {
+					s.pos++
+					return s.new_token(.mod, '', 1)
+				} else {
+					comp_error('Unexpected character',s.get_fp())
+				}
 			}
 			else {}
 		}

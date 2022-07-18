@@ -13,9 +13,7 @@ mut:
 const (
 	header = 
 '[BITS 64]
-global _start
-section .data
-	builtin_nl: db 10'
+global _start'
 
 	builtin_assembly =
 'section .text
@@ -80,10 +78,26 @@ fn (mut g Gen) gen_all(){
 	// -- HEADER --
 	g.file.writeln(header)
 	// -- VARIABLES --
+
+	mut s_data := strings.new_builder(40)
+	mut s_rodata := strings.new_builder(40)
+	s_data.writeln('section .data')
+	s_rodata.writeln('section .rodata\n\tbuiltin_nl: db 10')
+
 	for _, data in g.ctx.variables {
-		g.file.writeln('\t${data.gen(g)}')
+		match data.spec {
+			.literal, .declare {
+				s_rodata.writeln('\t${data.gen(g)}')
+			}
+			.global {
+				s_data.writeln('\t${data.gen(g)}')
+			}
+		}
 	}
+	g.file.drain_builder(mut s_rodata, 40)
+	g.file.drain_builder(mut s_data, 40)
 	g.db.info("Inserted $g.ctx.variables.len variables")
+
 	// -- BUILTIN FUNCTIONS --
 	g.file.writeln(builtin_assembly)
 	g.db.info("Wrote ${builtin_assembly.count('\n')+1} lines of builtin assembly")

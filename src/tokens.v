@@ -26,11 +26,13 @@ enum Tok {
 	number_lit // 0123456789
 //	array_lit  // [xxx,xxx]
 
-	add // +
-	sub // -
-	mul // *
-	div // /
-	mod // %
+	inc // +
+	dec // -
+	add // +=
+	sub // -=
+	mul // *=
+	div // /=
+	mod // %=
 
 	_keywords_begin_
 	declare // declare
@@ -44,6 +46,11 @@ enum Tok {
 	uputln
 //	sput    // for signed numbers
 //	dispatch
+
+	until
+	do
+	end_block
+
 	_keywords_end_
 
 	_end_
@@ -71,6 +78,10 @@ fn build_token_literals() []string {
 	a[Tok.uputln] = "uputln"
 //	a[Tok.sput] = "sput"
 //	a[Tok.dispatch] = "dispatch"
+
+	a[Tok.until] = "until"
+	a[Tok.do] = "do"
+	a[Tok.end_block] = "end"
 
 	$if !prod {
 		for s in a[int(Tok._keywords_begin_)+1..int(Tok._keywords_end_)] {

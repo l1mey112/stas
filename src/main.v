@@ -17,7 +17,7 @@ fn run_pipeline(filename string, mut db Debug)string{
 		cap: data.len
 		filename: filename
 	}
-	mut tokens := []Token{cap: 10}
+	mut tokens := []Token{cap: 20}
 	for {
 		i := scanner.scan_token()
 		if i.token == .eof {
@@ -37,7 +37,7 @@ fn run_pipeline(filename string, mut db Debug)string{
 		curr: tokens[0]
 		cap: tokens.len
 	}
-	mut statements := []IR_Statement{cap: 10}
+	mut statements := []IR_Statement{cap: 20}
 	for {
 		if i := parser.parse_token() {
 			statements << i
