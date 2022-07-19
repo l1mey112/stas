@@ -229,6 +229,19 @@ fn (i IR_MOD) gen(gen &Gen) string {
 		div rdi
 		push rdx'
 }
+
+struct IR_DIVMOD {}
+fn (i IR_DIVMOD) gen (gen &Gen) string {
+	return
+'		pop rdi
+		pop rax
+		xor rdx, rdx
+		div rdi
+		push rdx
+		push rax'
+}
+
+
 // TODO:
 // add some kind of divmod token that pushes the division and modulo onto the stack
 // maybe make that the default div and force the user to use the drop operator

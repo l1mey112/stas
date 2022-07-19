@@ -157,7 +157,7 @@ fn (mut s Scanner) new_token(tok_kind Tok, lit string, len int) Token {
 	}
 }
 
-[inline]
+/* [inline]
 fn (mut s Scanner) eof() Token {
 	return Token{
 		token: .eof
@@ -165,7 +165,7 @@ fn (mut s Scanner) eof() Token {
 		pos: s.pos
 		len: 1
 	}
-}
+} */
 
 [direct_array_access; inline]
 fn (s &Scanner) next() u8 {
@@ -184,13 +184,13 @@ fn (mut s Scanner) skip_line() {
 }
 
 [direct_array_access]
-fn (mut s Scanner) scan_token() Token {
+fn (mut s Scanner) scan_token() ?Token {
 	for {
 		if _likely_(s.is_started){ s.pos++ } 
 		else { s.is_started = true }
 
 		s.skip_whitespace()
-		if s.pos >= s.cap { return s.eof() }
+		if s.pos >= s.cap { return none }
 
 		c := s.text[s.pos]
 		nextc := s.next()
@@ -253,6 +253,9 @@ fn (mut s Scanner) scan_token() Token {
 				if nextc == `=` {
 					s.pos++
 					return s.new_token(.mod, '', 1)
+				} else if nextc == `%` {
+					s.pos++
+					return s.new_token(.divmod, '', 1)
 				} else {
 					comp_error('Unexpected character',s.get_fp())
 				}
@@ -261,5 +264,5 @@ fn (mut s Scanner) scan_token() Token {
 		}
 		break
 	}
-	return s.eof()
+	return none
 }

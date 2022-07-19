@@ -11,9 +11,6 @@ mut:
 }
 
 enum Tok {
-	error // unknown token
-	eof
-
 	name       // identifier
 //	comment    // ; (lasts till end of line)
 	
@@ -33,6 +30,7 @@ enum Tok {
 	mul // *=
 	div // /=
 	mod // %=
+	divmod // %%
 
 	_keywords_begin_
 	declare // declare
@@ -58,8 +56,6 @@ enum Tok {
 
 fn build_token_literals() []string {
 	mut a := []string{len: int(Tok._end_), init: "__NONE__"}
-	a[Tok.error] = "ERROR"
-	a[Tok.eof] = "EOF"
 	a[Tok.name] = "name"
 //	a[Tok.comment] = ";"
 //	a[Tok.left_sqbr] = "["

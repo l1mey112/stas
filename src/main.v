@@ -19,14 +19,16 @@ fn run_pipeline(filename string, mut db Debug)string{
 	}
 	mut tokens := []Token{cap: 20}
 	for {
-		i := scanner.scan_token()
-		if i.token == .eof {
+		
+		if i := scanner.scan_token() {
+			tokens << i
+		} else {
 			db.info("EOF hit, read $tokens.len tokens")
 			break
-		} else { tokens << i }
+		}
 	}
 	if tokens.len == 0 {
-		println("File is empty!")
+		println("No readable tokens in file!")
 		exit(0)
 	}
 	db.end()

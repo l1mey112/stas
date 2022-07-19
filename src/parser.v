@@ -195,6 +195,7 @@ fn (mut g Parser) parse_token()?IR_Statement{
 			.mul  {return IR_MUL{}}
 			.div  {return IR_DIV{}}
 			.mod  {return IR_MOD{}}
+			.divmod  {return IR_DIVMOD{}}
 			.drop {return IR_DROP{}}
 
 			.name, .number_lit, .string_lit {
