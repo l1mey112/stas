@@ -39,7 +39,7 @@ fn run_pipeline(filename string, mut db Debug)string{
 		curr: tokens[0]
 		cap: tokens.len
 	}
-	mut statements := []IR_Statement{cap: 20}
+	mut statements := []IR_Statement{cap: 15}
 	for {
 		if i := parser.parse_token() {
 			statements << i

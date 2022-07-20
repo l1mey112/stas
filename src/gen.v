@@ -240,9 +240,3 @@ fn (i IR_DIVMOD) gen (gen &Gen) string {
 		push rdx
 		push rax'
 }
-
-
-// TODO:
-// add some kind of divmod token that pushes the division and modulo onto the stack
-// maybe make that the default div and force the user to use the drop operator
-// drop could even be renamed into _? (make sure it doesnt get interpreted as a name)

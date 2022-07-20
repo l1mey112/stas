@@ -1,3 +1,3 @@
 git rev-parse --short HEAD | tr -d '\n' > .githash
-v -g run . $@
+v -g -cflags -march=native run . $@
 exit $?
