@@ -1,0 +1,25 @@
+;   proposition:
+;       there are no functions, only named scopes
+;
+;
+
+func {
+    local scoped_stack_var 0
+
+    if push 19 == do
+        pop scoped_stack_var
+    else
+        push 18
+        pop scoped_stack_var
+    end
+
+    push scoped_stack_var
+}
+
+func main {
+    push 19
+
+    ; new stack context, can init new stack vars
+
+    uput
+}
