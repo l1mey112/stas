@@ -19,7 +19,6 @@ fn run_pipeline(filename string, mut db Debug)string{
 	}
 	mut tokens := []Token{cap: 20}
 	for {
-		
 		if i := scanner.scan_token() {
 			tokens << i
 		} else {

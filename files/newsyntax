@@ -1,25 +1,92 @@
-;   proposition:
-;       there are no functions, only named scopes
-;
-;
+; main: (argc u64, argv *) do
+;     argc
+;     while @ 0 > do
+;         @ argc ^ -=
+;         argv [] puts
+;         --
+;     end
+; end
 
-func {
-    local scoped_stack_var 0
+; you cannot do something like argc-- because it
+; will be interpreted as Tok.name Tok.dec with 0
+; context
 
-    if push 19 == do
-        pop scoped_stack_var
+my_func in a_in do
+    stack var 0
+
+    if a_in 0 > do
+        a_in pop var
     else
-        push 18
-        pop scoped_stack_var
+        stack var_a 0
+        stack var_b 255
+
+        a_in _
     end
 
-    push scoped_stack_var
-}
+    var
+end
 
-func main {
-    push 19
+; count 3 variables?
+; at the start of the function, do `sub rsp, 24`
+; then push the inputs, `push rdi`
+; when the var is initialised, 
 
-    ; new stack context, can init new stack vars
+; push rbp
+; mov rbp, rsp
+; sub rsp, 24
+; 
+; do stuff
+; mov qword [rbp - 8 ], 0   ; var
+; mov qword [rbp - 16], 0   ; var_a
+; mov qword [rbp - 24], 255 ; var_b
+; 
+; leave
+; ret
 
-    uput
-}
+
+my_func in input_a do
+    ; start
+    local var_a 255
+    ; end
+end
+; my_func:
+;   push rbp
+;   mov rbp, rsp
+;   mov qword [rbp - 8], rdi ; input_a
+;   ; sub rsp, 16 - ommitted if it does not create a stack frame (ie call other functions)
+;   ; start
+;   mov qword [rbp - 16], 255 ; var_a
+;   ; end
+;   ; leave - no stack frame! leave this out
+;   ret
+
+main in do
+    argc
+    while @ 0 > do
+        @ argc ^ -=
+        argv [] puts
+        --
+    end
+end
+
+; if i can get below working
+; ive done it!
+
+recurse_fibonacci in count do
+    if count 0 = do
+        0 return
+    else if count 1 = do
+        1 return
+    else
+        count 1 -= recurse_fibonacci
+        count 2 -= recurse_fibonacci
+        += return
+    end end
+end
+
+main in do
+    0  recurse_fibonacci uputln ; 0
+    1  recurse_fibonacci uputln ; 1
+    10 recurse_fibonacci uputln ; 55
+    22 recurse_fibonacci uputln ; 17711
+end
