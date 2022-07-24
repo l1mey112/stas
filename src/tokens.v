@@ -11,42 +11,43 @@ mut:
 }
 
 enum Tok {
-	name       // identifier
-//	comment    // ; (lasts till end of line)
-	
-//	left_sqbr  // [
-//	right_sqbr // ]
-//	separator  // ,
-//	arrays come later, i should add them though!
+	name
+	string_lit
+	number_lit
 
-	string_lit // "abc" -> just a char pointer
-	number_lit // 0123456789
-//	array_lit  // [xxx,xxx]
+	inc     // +
+	dec     // -
+	add     // +=
+	sub     // -=
+	mul     // *=
+	div     // /=
+	mod     // %=
+	divmod  // %%
+	equal   // =
+	greater // >
+	less    // <
 
-	inc // +
-	dec // -
-	add // +=
-	sub // -=
-	mul // *=
-	div // /=
-	mod // %=
-	divmod // %%
+	// stack manipulation
+	dup     // @
+	swap    // ~
+	drop    // _
 
 	_keywords_begin_
-	declare // declare
-	global  // declare
-	push    // push
-	pop     // pop
-	drop    // drop
-	print   // for char pointers
+	print
 	println
-	uput    // for unsigned numbers
+	uput
 	uputln
-//	sput    // for signed numbers
-//	dispatch
 
-	until
-	do
+	pop
+	local
+	ret
+	
+	in_block
+	do_block
+
+	while_block
+	if_block
+	else_block
 	end_block
 
 	_keywords_end_
@@ -57,28 +58,25 @@ enum Tok {
 fn build_token_literals() []string {
 	mut a := []string{len: int(Tok._end_), init: "__NONE__"}
 	a[Tok.name] = "name"
-//	a[Tok.comment] = ";"
-//	a[Tok.left_sqbr] = "["
-//	a[Tok.right_sqbr] = "]"
-//	a[Tok.separator] = ","
 	a[Tok.string_lit] = "string"
 	a[Tok.number_lit] = "number"
-	a[Tok.declare] = "declare"
-	a[Tok.global] = "global"
-	a[Tok.push] = "push"
-	a[Tok.pop] = "pop"
-	a[Tok.drop] = "drop"
+
 	a[Tok.print] = "print"
 	a[Tok.println] = "println"
 	a[Tok.uput] = "uput"
 	a[Tok.uputln] = "uputln"
-//	a[Tok.sput] = "sput"
-//	a[Tok.dispatch] = "dispatch"
+	
+	a[Tok.pop] = "pop"
+	a[Tok.local] = "local"
+	a[Tok.ret] = "return"
 
-	a[Tok.until] = "until"
-	a[Tok.do] = "do"
+	a[Tok.in_block] = "in"
+	a[Tok.do_block] = "do"
+	a[Tok.while_block] = "while"
+	a[Tok.if_block] = "if"
+	a[Tok.else_block] = "else"
 	a[Tok.end_block] = "end"
-
+	
 	$if !prod {
 		for s in a[int(Tok._keywords_begin_)+1..int(Tok._keywords_end_)] {
 			if s == '__NONE__' {

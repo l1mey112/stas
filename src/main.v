@@ -37,39 +37,25 @@ fn run_pipeline(filename string, mut db Debug)string{
 		tokens: tokens
 		curr: tokens[0]
 		cap: tokens.len
+		ctx: unsafe { nil }
 	}
-	mut statements := []IR_Statement{cap: 15}
 	for {
-		if i := parser.parse_token() {
-			statements << i
-		} else {
-			db.info("No more tokens left, parsed $statements.len statements")
+		parser.parse_new_func() or {
+			parser.eof_cleanup()
 			break
 		}
 	}
-	if _unlikely_(db.is_debug) {
-		mut lit_count := 0
-		mut global_count := 0
-		mut declare_count := 0
-		for _, var in parser.ctx.variables {
-			match var.spec {
-				.literal {lit_count++}
-				.global {global_count++}
-				.declare {declare_count++}
-			}
-		}
-		db.info("Variables counted: $parser.ctx.variables.len")
-		db.info("  $lit_count string literals")
-		db.info("  $declare_count decls")
-		db.info("  $global_count globals")
-	}
-	db.end()
+	/* for k, mut i in parser.fns {
+		eprintln("-------- $k --------")
+		eprintln(i.gen())
+		eprintln("-------- END --------")
+	} */
+	
+	
 	db.start("Codegen")
 	mut gen := Gen {
-		statements: statements
+		fns: parser.fns
 		s: mut scanner
-		ctx: parser.ctx
-		db: &db
 	}
 	gen.gen_all()
 	file_out := gen.file.str()

@@ -88,3 +88,48 @@ fn (mut d Debug) end_all(){
 /* fn (t Token) str() string {
 	return "${term.magenta("TOK:$t.row:$t.col")}	${t.token:20} ${term.red(t.lit)}"
 } */
+
+const hash_len = 12
+
+[unsafe]
+fn get_unique_hash_str(mut s strings.Builder,length int){
+	mut static index := 1
+	mut x := index
+
+	for _ in 0..length {
+		n := u8(x % 26 + 65)
+		x = ((x >> 16) ^ x) * 0x45d9f3b
+		x = ((x >> 16) ^ x) * 0x45d9f3b
+		x = (x >> 16) ^ x
+		s.write_u8(n) 
+	}
+
+	index++
+}
+
+fn new_lit_hash() string {
+	mut s := strings.new_builder(4+hash_len) // lit_
+	s.write_string("lit_")
+
+	unsafe { get_unique_hash_str(mut s, hash_len) }
+	
+	return s.str()
+}
+
+fn new_for_hash() string {
+	mut s := strings.new_builder(4+hash_len) // for_
+	s.write_string("for_")
+
+	unsafe { get_unique_hash_str(mut s, hash_len) }
+	
+	return s.str()
+}
+
+fn new_while_hash() string {
+	mut s := strings.new_builder(6+hash_len) // while_
+	s.write_string("while_")
+
+	unsafe { get_unique_hash_str(mut s, hash_len) }
+	
+	return s.str()
+}

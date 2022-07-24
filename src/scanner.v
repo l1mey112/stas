@@ -32,6 +32,17 @@ fn (s Scanner) error_tok(err string,tok Token) {
 	})
 }
 
+[noreturn]
+fn (s Scanner) error_whole(err string) {
+	comp_error(err,FilePos{
+		row: 0
+		col: 0
+		len: 0
+		filename: s.filename
+		text: s.text
+	})
+}
+
 [inline]
 fn is_valid_name(c u8) bool {
 	return (c >= `a` && c <= `z`) || (c >= `A` && c <= `Z`) || c == `_`
@@ -194,6 +205,12 @@ fn (mut s Scanner) scan_token() ?Token {
 
 		c := s.text[s.pos]
 		nextc := s.next()
+
+		if c == `_` && !is_valid_name(nextc) {
+			return s.new_token(.drop, '', 1)
+		}
+
+
 		isneg := c == `-` && nextc.is_digit()
 		if is_valid_name(c) { // name or keyword
 			name := s.march_name()
@@ -221,22 +238,28 @@ fn (mut s Scanner) scan_token() ?Token {
 				if nextc == `=` {
 					s.pos++
 					return s.new_token(.add, '', 2)
+				} else if nextc == `+` {
+					s.pos++
+					return s.new_token(.inc, '', 2)
 				} else {
-					return s.new_token(.inc, '', 1)
+					comp_error('Unexpected character',s.get_fp())
 				}
 			}
 			`-` {
 				if nextc == `=` {
 					s.pos++
-					return s.new_token(.sub, '', 1)
+					return s.new_token(.sub, '', 2)
+				} else if nextc == `-` {
+					s.pos++
+					return s.new_token(.dec, '', 2)
 				} else {
-					return s.new_token(.dec, '', 1)
+					comp_error('Unexpected character',s.get_fp())
 				}
 			}
 			`*` {
 				if nextc == `=` {
 					s.pos++
-					return s.new_token(.mul, '', 1)
+					return s.new_token(.mul, '', 2)
 				} else {
 					comp_error('Unexpected character',s.get_fp())
 				}
@@ -244,7 +267,7 @@ fn (mut s Scanner) scan_token() ?Token {
 			`/` {
 				if nextc == `=` {
 					s.pos++
-					return s.new_token(.div, '', 1)
+					return s.new_token(.div, '', 2)
 				} else {
 					comp_error('Unexpected character',s.get_fp())
 				}
@@ -252,13 +275,28 @@ fn (mut s Scanner) scan_token() ?Token {
 			`%` {
 				if nextc == `=` {
 					s.pos++
-					return s.new_token(.mod, '', 1)
+					return s.new_token(.mod, '', 2)
 				} else if nextc == `%` {
 					s.pos++
-					return s.new_token(.divmod, '', 1)
+					return s.new_token(.divmod, '', 2)
 				} else {
 					comp_error('Unexpected character',s.get_fp())
 				}
+			}
+			`=` {
+				return s.new_token(.equal, '', 1)
+			}
+			`>` {
+				return s.new_token(.greater, '', 1)
+			}
+			`<` {
+				return s.new_token(.less, '', 1)
+			}
+			`@` {
+				return s.new_token(.dup, '', 1)
+			}
+			`~` {
+				return s.new_token(.swap, '', 1)
 			}
 			else {}
 		}

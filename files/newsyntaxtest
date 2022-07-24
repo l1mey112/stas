@@ -1,0 +1,17 @@
+;print_loop in count_a do
+;	count_a
+;	while @ 0 > do
+;	      "Loop!" println
+;	      --
+;	end
+;	_
+;end
+;
+;main in do
+;	8 @ 
+;
+;	"Printing = " print
+;	uputln
+;	
+;	print_loop
+;end
