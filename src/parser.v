@@ -9,8 +9,8 @@ mut:
 
 	has_main bool
 
-	fns map[string]&IR_function
-	ctx &IR_function
+	fns map[string]&Function
+	ctx &Function
 
 	inside_if    bool
 	inside_while bool
@@ -53,15 +53,17 @@ fn str_to_u64(s string)u64{
 fn (mut g Parser) new_push()IR_Statement{
 	if g.curr.token == .name {
 		if g.curr.lit in g.fns {
-			g.ctx.is_stack_frame = true
 			g.trace("new func call '$g.curr.lit'")
+			g.ctx.is_stack_frame = true
 			return IR_CALL_FUNC {
 				argc: g.fns[g.curr.lit].args.len
 				func: g.curr.lit
+				no_return: g.fns[g.curr.lit].no_return
 			}
 		}
 		if g.ctx.get_var(g.curr.lit) {
 			g.trace("new push var '$g.curr.lit'")
+			g.ctx.is_stack_frame = true // very important!
 			return IR_PUSH_VAR {
 				var: g.curr.lit
 			}
@@ -155,14 +157,22 @@ fn (mut g Parser) parse_new_func()?{
 	g.current(.name)
 	name := g.curr
 	g.trace("new func '$name.lit'")
-	g.next(.in_block)
+
+	g.ctx = &Function{}
+
+	g.iter()
+	if g.curr.token == .void {
+		g.ctx.no_return = true
+		g.next(.in_block)
+	} else {
+		g.current(.in_block)
+	}
 
 	g.check_exists(name)
 
 	if name.lit == "main" {
 		g.has_main = true
 	}
-	g.ctx = &IR_function{}
 	g.ctx.name = name.lit
 	g.fns[g.ctx.name] = g.ctx
 
@@ -199,10 +209,10 @@ fn (mut g Parser) trace(str string){
 	eprintln("TRACE -- $str")
 }
 
-fn (mut g Parser) parse_if()IR_if{
+fn (mut g Parser) parse_if()IR_IF{
 	g.trace("new if")
 
-	mut ctx := IR_if{}
+	mut ctx := IR_IF{}
 	g.inside_if = true
 	defer {g.inside_if = false}
 
@@ -248,10 +258,10 @@ fn (mut g Parser) parse_if()IR_if{
 	return ctx
 }
 
-fn (mut g Parser) parse_while()IR_while{
+fn (mut g Parser) parse_while()IR_WHILE{
 	g.trace("new while")
 
-	mut ctx := IR_while{}
+	mut ctx := IR_WHILE{}
 	g.inside_while = true
 	defer {g.inside_while = false}
 
@@ -296,10 +306,18 @@ fn (mut g Parser) parse_token()?IR_Statement{
 				return g.new_stack_var()
 			}
 
-			.print   {return IR_PRINT{} }
-			.println {return IR_PRINTLN{} }
-			.uput    {return IR_UPUT{} }
-			.uputln  {return IR_UPUTLN{} }
+			.print   {g.ctx.is_stack_frame = true return IR_PRINT{} }
+			.println {g.ctx.is_stack_frame = true return IR_PRINTLN{} }
+			.uput    {g.ctx.is_stack_frame = true return IR_UPUT{} }
+			.uputln  {g.ctx.is_stack_frame = true return IR_UPUTLN{} }
+
+			.syscall  {return IR_SYSCALL{}}
+			.syscall1 {return IR_SYSCALL1{}}
+			.syscall2 {return IR_SYSCALL2{}}
+			.syscall3 {return IR_SYSCALL3{}}
+			.syscall4 {return IR_SYSCALL4{}}
+			.syscall5 {return IR_SYSCALL5{}}
+			.syscall6 {return IR_SYSCALL6{}}
 
 			/* .pop {
 				g.iter()

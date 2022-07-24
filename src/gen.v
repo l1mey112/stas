@@ -3,7 +3,7 @@ import strings
 struct Gen {
 	s Scanner
 mut:
-	fns map[string]&IR_function
+	fns map[string]&Function
 	file strings.Builder
 }
 
@@ -107,26 +107,16 @@ fn (mut g Gen) gen_all(){
 }
 
 interface IR_Statement {
-	gen(ctx &IR_function) string
-}
-
-struct IR_RETURN {}
-fn (i IR_RETURN) gen(ctx &IR_function) string {
-	return ''
-}
-
-struct IR_PUSH_NUMBER {data u64}
-fn (i IR_PUSH_NUMBER) gen(ctx &IR_function) string {
-	return "	push $i.data"
+	gen(mut ctx Function) string
 }
 
 struct IR_POP {var string}
-fn (i IR_POP) gen(ctx &IR_function) string {
+fn (i IR_POP) gen(mut ctx Function) string {
 	return ''/* "\t\t${gen.ctx.variables[i.var].pop(gen)}" */
 }
 
 struct IR_PRINT {}
-fn (i IR_PRINT) gen(ctx &IR_function) string {
+fn (i IR_PRINT) gen(mut ctx Function) string {
 	return
 '	pop rbx
 	mov rdi, rbx
@@ -137,7 +127,7 @@ fn (i IR_PRINT) gen(ctx &IR_function) string {
 }
 
 struct IR_PRINTLN {}
-fn (i IR_PRINTLN) gen(ctx &IR_function) string {
+fn (i IR_PRINTLN) gen(mut ctx Function) string {
 	return 
 '	pop rbx
 	mov rdi, rbx
@@ -149,14 +139,14 @@ fn (i IR_PRINTLN) gen(ctx &IR_function) string {
 }
 
 struct IR_UPUT {}
-fn (i IR_UPUT) gen(ctx &IR_function) string {
+fn (i IR_UPUT) gen(mut ctx Function) string {
 	return
 '		pop rdi
 		call builtin_uput'
 }
 
 struct IR_UPUTLN {}
-fn (i IR_UPUTLN) gen(ctx &IR_function) string {
+fn (i IR_UPUTLN) gen(mut ctx Function) string {
 	return
 '		pop rdi
 		call builtin_uput
@@ -164,7 +154,7 @@ fn (i IR_UPUTLN) gen(ctx &IR_function) string {
 }
 
 struct IR_ADD {}
-fn (i IR_ADD) gen(ctx &IR_function) string {
+fn (i IR_ADD) gen(mut ctx Function) string {
 	return
 '		pop rdi
 		pop rsi
@@ -173,7 +163,7 @@ fn (i IR_ADD) gen(ctx &IR_function) string {
 }
 
 struct IR_SUB {}
-fn (i IR_SUB) gen(ctx &IR_function) string {
+fn (i IR_SUB) gen(mut ctx Function) string {
 	return
 '		pop rdi
 		pop rsi
@@ -182,7 +172,7 @@ fn (i IR_SUB) gen(ctx &IR_function) string {
 }
 
 struct IR_MUL {}
-fn (i IR_MUL) gen(ctx &IR_function) string {
+fn (i IR_MUL) gen(mut ctx Function) string {
 	return
 '		pop rdi
 		pop rsi
@@ -191,7 +181,7 @@ fn (i IR_MUL) gen(ctx &IR_function) string {
 }
 
 struct IR_DIV {}
-fn (i IR_DIV) gen(ctx &IR_function) string {
+fn (i IR_DIV) gen(mut ctx Function) string {
 	return
 '		pop rdi
 		pop rax
@@ -201,7 +191,7 @@ fn (i IR_DIV) gen(ctx &IR_function) string {
 }
 
 struct IR_MOD {}
-fn (i IR_MOD) gen(ctx &IR_function) string {
+fn (i IR_MOD) gen(mut ctx Function) string {
 	return
 '		pop rdi
 		pop rax
@@ -211,7 +201,7 @@ fn (i IR_MOD) gen(ctx &IR_function) string {
 }
 
 struct IR_DIVMOD {}
-fn (i IR_DIVMOD) gen (ctx &IR_function) string {
+fn (i IR_DIVMOD) gen (mut ctx Function) string {
 	return
 '		pop rdi
 		pop rax
@@ -222,12 +212,15 @@ fn (i IR_DIVMOD) gen (ctx &IR_function) string {
 }
 
 struct IR_INC {}
-fn (i IR_INC) gen(ctx &IR_function) string {
-	return ''
+fn (i IR_INC) gen(mut ctx Function) string {
+	return 
+'	pop rdi
+	inc rdi
+	push rdi'
 }
 
 struct IR_DEC {}
-fn (i IR_DEC) gen(ctx &IR_function) string {
+fn (i IR_DEC) gen(mut ctx Function) string {
 	return 
 '	pop rdi
 	dec rdi
@@ -235,12 +228,18 @@ fn (i IR_DEC) gen(ctx &IR_function) string {
 }
 
 struct IR_EQUAL {}
-fn (i IR_EQUAL) gen(ctx &IR_function) string {
-	return ''
+fn (i IR_EQUAL) gen(mut ctx Function) string {
+	return
+'	pop rsi ; =
+	pop rdi
+	xor rax, rax
+	cmp rdi, rsi
+	sete al
+	push rax'
 }
 
 struct IR_GREATER {}
-fn (i IR_GREATER) gen(ctx &IR_function) string {
+fn (i IR_GREATER) gen(mut ctx Function) string {
 	return 
 '	pop rsi ; >
 	pop rdi
@@ -251,12 +250,18 @@ fn (i IR_GREATER) gen(ctx &IR_function) string {
 }
 
 struct IR_LESS {}
-fn (i IR_LESS) gen(ctx &IR_function) string {
-	return ''
+fn (i IR_LESS) gen(mut ctx Function) string {
+	return 
+'	pop rsi ; <
+	pop rdi
+	xor rax, rax
+	cmp rdi, rsi
+	setl al
+	push rax'
 }
 
 struct IR_DUP {}
-fn (i IR_DUP) gen(ctx &IR_function) string {
+fn (i IR_DUP) gen(mut ctx Function) string {
 	return 
 '	pop rdi
 	push rdi
@@ -264,16 +269,89 @@ fn (i IR_DUP) gen(ctx &IR_function) string {
 }
 
 struct IR_SWAP {}
-fn (i IR_SWAP) gen(ctx &IR_function) string {
+fn (i IR_SWAP) gen(mut ctx Function) string {
 	return ''
 }
 
 struct IR_DROP {}
-fn (i IR_DROP) gen(ctx &IR_function) string {
+fn (i IR_DROP) gen(mut ctx Function) string {
 	return '\tadd rsp, 8'
 }
 
-struct IR_RET {}
-fn (i IR_RET) gen(ctx &IR_function) string {
-	return ''
+// https://hackeradam.com/x86-64-linux-syscalls/
+struct IR_SYSCALL {}
+fn (i IR_SYSCALL) gen(mut ctx Function) string {
+	return 
+'	pop rax
+	syscall
+	push rax'
+}
+
+struct IR_SYSCALL1 {}
+fn (i IR_SYSCALL1) gen(mut ctx Function) string {
+	return
+'	pop rdi
+	pop rax
+	syscall
+	push rax'
+}
+
+struct IR_SYSCALL2 {}
+fn (i IR_SYSCALL2) gen(mut ctx Function) string {
+	return
+'	pop rsi
+	pop rdi
+	pop rax
+	syscall
+	push rax'
+}
+
+struct IR_SYSCALL3 {}
+fn (i IR_SYSCALL3) gen(mut ctx Function) string {
+	return
+'	pop rdx ; syscall3
+	pop rsi
+	pop rdi
+	pop rax
+	syscall
+	push rax'
+}
+
+struct IR_SYSCALL4 {}
+fn (i IR_SYSCALL4) gen(mut ctx Function) string {
+	return
+'	pop r10
+	pop rdx
+	pop rsi
+	pop rdi
+	pop rax
+	syscall
+	push rax'
+}
+
+struct IR_SYSCALL5 {}
+fn (i IR_SYSCALL5) gen(mut ctx Function) string {
+	return
+'	pop r8
+	pop r10
+	pop rdx
+	pop rsi
+	pop rdi
+	pop rax
+	syscall
+	push rax'
+}
+
+struct IR_SYSCALL6 {}
+fn (i IR_SYSCALL6) gen(mut ctx Function) string {
+	return
+'	pop r9
+	pop r8
+	pop r10
+	pop rdx
+	pop rsi
+	pop rdi
+	pop rax
+	syscall
+	push rax'
 }

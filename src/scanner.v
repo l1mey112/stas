@@ -298,6 +298,9 @@ fn (mut s Scanner) scan_token() ?Token {
 			`~` {
 				return s.new_token(.swap, '', 1)
 			}
+			`!` {
+				return s.new_token(.void, '', 1)
+			}
 			else {}
 		}
 		break

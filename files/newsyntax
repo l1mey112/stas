@@ -109,14 +109,16 @@ end
 ; -- test
 
 
-;main in var_a var_b do
+;main in do
+;	local a_in 22
+;
 ;	if a_in 10 > do
-;		"Greater than 10" println
-;    else if a_in 5 < do
+;		"Greater than 10" println	
+;	else if a_in 5 < do
 ;		"Less than 5" println
 ;	else
 ;		"In between 5 and 10" println
-;	end end
+;	end
 ;end
 
 ;recurse_fibonacci in count do

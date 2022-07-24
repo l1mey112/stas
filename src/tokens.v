@@ -32,6 +32,9 @@ enum Tok {
 	swap    // ~
 	drop    // _
 
+	void    // !
+	// return none in functions
+
 	_keywords_begin_
 	print
 	println
@@ -49,6 +52,14 @@ enum Tok {
 	if_block
 	else_block
 	end_block
+
+	syscall
+	syscall1
+	syscall2
+	syscall3
+	syscall4
+	syscall5
+	syscall6
 
 	_keywords_end_
 
@@ -76,6 +87,14 @@ fn build_token_literals() []string {
 	a[Tok.if_block] = "if"
 	a[Tok.else_block] = "else"
 	a[Tok.end_block] = "end"
+
+	a[Tok.syscall]  = "syscall"
+	a[Tok.syscall1] = "syscall1"
+	a[Tok.syscall2] = "syscall2"
+	a[Tok.syscall3] = "syscall3"
+	a[Tok.syscall4] = "syscall4"
+	a[Tok.syscall5] = "syscall5"
+	a[Tok.syscall6] = "syscall6"
 	
 	$if !prod {
 		for s in a[int(Tok._keywords_begin_)+1..int(Tok._keywords_end_)] {

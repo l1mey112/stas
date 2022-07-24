@@ -116,9 +116,9 @@ fn new_lit_hash() string {
 	return s.str()
 }
 
-fn new_for_hash() string {
-	mut s := strings.new_builder(4+hash_len) // for_
-	s.write_string("for_")
+fn new_if_hash() string {
+	mut s := strings.new_builder(3+hash_len) // if_
+	s.write_string("if_")
 
 	unsafe { get_unique_hash_str(mut s, hash_len) }
 	

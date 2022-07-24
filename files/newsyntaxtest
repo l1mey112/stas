@@ -1,17 +1,18 @@
-;print_loop in count_a do
-;	count_a
-;	while @ 0 > do
-;	      "Loop!" println
-;	      --
-;	end
-;	_
-;end
-;
-;main in do
-;	8 @ 
-;
-;	"Printing = " print
-;	uputln
-;	
-;	print_loop
-;end
+recurse_fibonacci in count do
+    if count 0 = do
+        0 return
+    else if count 1 = do
+        1 return
+    else
+        count 1 -= recurse_fibonacci
+        count 2 -= recurse_fibonacci
+        += return
+    end end
+end
+
+main in do
+    0  recurse_fibonacci uputln ; 0
+    1  recurse_fibonacci uputln ; 1
+    10 recurse_fibonacci uputln ; 55
+    22 recurse_fibonacci uputln ; 17711
+end

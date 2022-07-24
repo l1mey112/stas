@@ -45,13 +45,6 @@ fn run_pipeline(filename string, mut db Debug)string{
 			break
 		}
 	}
-	/* for k, mut i in parser.fns {
-		eprintln("-------- $k --------")
-		eprintln(i.gen())
-		eprintln("-------- END --------")
-	} */
-	
-	
 	db.start("Codegen")
 	mut gen := Gen {
 		fns: parser.fns
@@ -128,8 +121,8 @@ fn main(){
 	}
 
 	object_file_out := if pref_ext == '.o' {pref_out} else {'${file_write_tmp}.o'}
-	db.info("Executing 'nasm -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm'")
-	nasm_res := os.execute('nasm -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm')
+	db.info("Executing 'nasm -O0 -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm'")
+	nasm_res := os.execute('nasm -O0 -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm')
 
 	if nasm_res.exit_code != 0 {
 		eprintln(term.red("NASM error, this should never happen"))
