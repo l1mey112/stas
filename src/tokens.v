@@ -34,19 +34,23 @@ enum Tok {
 	greater  // >
 	less     // <
 
+	sb_l // [
+	sb_r // ]
+
 	// stack manipulation
 	dup     // @
 	swap    // ~
 	drop    // _
 	
+	// pointers
 	deref   // *
+	writep  // &
+	sspec   // ::
 
 	void    // !
 	// return none in functions
 
 	_keywords_begin_
-	print
-	println
 	uput
 	uputln
 
@@ -81,8 +85,6 @@ fn build_token_literals() []string {
 	a[Tok.string_lit] = "string"
 	a[Tok.number_lit] = "number"
 
-	a[Tok.print] = "print"
-	a[Tok.println] = "println"
 	a[Tok.uput] = "uput"
 	a[Tok.uputln] = "uputln"
 	

@@ -4,6 +4,9 @@ struct VarT {
 	t Token 
 	i int
 }
+struct BufT {
+	s int
+}
 
 [heap]
 struct Function{
@@ -12,10 +15,12 @@ mut:
 	args []string
 	vari int = 1
 	vars map[string]VarT
+	bufs map[string]BufT
 	slit map[string]Token
 	body []IR_Statement
 
 	var_offset int
+	buf_offset int
 	is_stack_frame bool
 
 	no_return bool
@@ -69,6 +74,21 @@ fn (i IR_PUSH_VAR) gen(mut ctx Function) string {
 		}
 	}
 	return '\t'+annotate("push qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}]","; <- PUSH VAR '$i.var'")
+}
+
+struct IR_PUSH_BUF_PTR {var string}
+fn (i IR_PUSH_BUF_PTR) gen(mut ctx Function) string {
+	mut offset := 0
+	for name, buf_t in ctx.bufs {
+		if name == i.var {
+			return 
+				'\tmov rax, rbp\n' +
+				'\tsub rax, ${ctx.buf_offset+offset+buf_t.s}\n' +
+				'\t'+annotate("push rax","; <- PUSH BUFFER PTR '$i.var'")
+		}
+		offset += buf_t.s
+	}
+	panic("")
 }
 
 // ---- push
@@ -175,8 +195,14 @@ fn (mut i Function) gen() string {
 		f.writeln('\t${annotate(init_statement,'; | ARG VAR STACK INIT ' + "\'$a\'")}')
 	}
 	i.var_offset = i.args.len*8
-	total_stack_frame := i.var_offset + i.vars.len*8
-	
+	i.buf_offset = i.var_offset + i.vars.len*8
+	mut total_buf_size := 0
+	for _, b in i.bufs {
+		total_buf_size += b.s
+	} 
+	total_stack_frame := i.buf_offset + total_buf_size
+
+	// i seriously do not know if this next line is useless, ill figure it out
 	i.is_stack_frame = i.is_stack_frame && total_stack_frame != 0
 	
 	if i.is_stack_frame {
@@ -217,6 +243,10 @@ fn (i IR_RETURN) gen(mut ctx Function) string {
 
 fn (i Function) get_var(str string) bool {
 	return str in i.args || str in i.vars
+}
+
+fn (i Function) get_buf(str string) bool {
+	return str in i.bufs
 }
 
 struct IR_IF{

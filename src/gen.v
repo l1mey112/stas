@@ -14,17 +14,6 @@ global _start'
 	builtin_assembly =
 '
 section .text
-builtin_strlen:
-	mov rdx, 0
-	jmp builtin_strlen_strloop
-builtin_strlen_stradd:
-	add rdx, 1
-	add rdi, 1
-builtin_strlen_strloop:
-	cmp byte [rdi], 0
-	jne builtin_strlen_stradd
-	mov rax, rdx
-	ret
 builtin_write:
 	mov rdx, rsi
 	mov rsi, rdi
@@ -114,36 +103,61 @@ fn (i IR_POP) gen(mut ctx Function) string {
 	return ''/* "\t\t${gen.ctx.variables[i.var].pop(gen)}" */
 }
 
-struct IR_DEREF {}
-fn (i IR_DEREF) gen(mut ctx Function) string {
+struct IR_DEREF_64 {}
+fn (i IR_DEREF_64) gen(mut ctx Function) string {
 	return
-'	${annotate('xor rax,rax','; INTRINSIC - DEREF')}
+'	${annotate('pop rdi','; INTRINSIC - DEREF U64')}
+	push qword [rdi]'
+}
+
+struct IR_DEREF_32 {}
+fn (i IR_DEREF_32) gen(mut ctx Function) string {
+	return
+'	${annotate('xor rax,rax','; INTRINSIC - DEREF U32')}
+	pop rdi
+	mov eax, dword [rdi]
+	push rax'
+}
+
+struct IR_DEREF_16 {}
+fn (i IR_DEREF_16) gen(mut ctx Function) string {
+	return
+'	${annotate('xor rax,rax','; INTRINSIC - DEREF U16')}
+	pop rdi
+	mov ax, word [rdi]
+	push rax'
+}
+
+struct IR_DEREF_8 {}
+fn (i IR_DEREF_8) gen(mut ctx Function) string {
+	return
+'	${annotate('xor rax,rax','; INTRINSIC - DEREF U8')}
 	pop rdi
 	mov al, byte [rdi]
 	push rax'
 }
 
-struct IR_PRINT {}
-fn (i IR_PRINT) gen(mut ctx Function) string {
-	return
-'	${annotate('pop rbx','; ~ INTRINSIC - PRINT')}
-	mov rdi, rbx
-	call builtin_strlen
-	mov rdi, rbx
-	mov rsi, rax
-	call builtin_write'
+struct IR_WRITEP_64 {}
+fn (i IR_WRITEP_64) gen(mut ctx Function) string {
+	return ''
 }
 
-struct IR_PRINTLN {}
-fn (i IR_PRINTLN) gen(mut ctx Function) string {
-	return 
-'	${annotate('pop rbx','; ~ INTRINSIC - PRINTLN')}
-	mov rdi, rbx
-	call builtin_strlen
-	mov rdi, rbx
-	mov rsi, rax
-	call builtin_write
-	call builtin_newline'
+struct IR_WRITEP_32 {}
+fn (i IR_WRITEP_32) gen(mut ctx Function) string {
+	return ''
+}
+
+struct IR_WRITEP_16 {}
+fn (i IR_WRITEP_16) gen(mut ctx Function) string {
+	return ''
+}
+
+struct IR_WRITEP_8 {}
+fn (i IR_WRITEP_8) gen(mut ctx Function) string {
+	return
+'	${annotate('pop rax','; INTRINSIC - WRITE PTR U8')}
+	pop rdi
+	mov byte [rdi], al'
 }
 
 struct IR_UPUT {}

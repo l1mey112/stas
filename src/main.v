@@ -34,9 +34,9 @@ const githash = $embed_file('.githash')
 fn main(){
 	mut fp := flag.new_flag_parser(os.args)
 
-	fp.application(os.file_name(os.args[0]))
-	fp.version('0.0.1 ${githash.to_string()}')
-	fp.description('Compiler for an unknown, unnamed and unheard of stack based programming language')
+	fp.application("stas") // os.file_name(os.args[0])
+	fp.version('0.0.2 ${githash.to_string()}')
+	fp.description('Compiler for a stack based programming language')
 	fp.skip_executable()
 
 	pref_run := fp.bool('run', `r`, false, 'run program after compiling, then deletes')
@@ -90,7 +90,7 @@ fn main(){
 	}
 
 	object_file_out := if pref_ext == '.o' {pref_out} else {'${file_write_tmp}.o'}
-	nasm_res := os.execute('nasm -O0 -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm')
+	nasm_res := os.execute('nasm -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm')
 
 	if nasm_res.exit_code != 0 {
 		eprintln(term.red("NASM error, this should never happen"))

@@ -1,0 +1,10 @@
+#include "std.stas"
+
+main in do
+	local buf [21]
+	buf 83 20 memset
+
+	buf 20 += 0 & :: 8
+
+	buf println ; 20 Ss
+end

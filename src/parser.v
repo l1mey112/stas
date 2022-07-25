@@ -40,6 +40,13 @@ fn (mut g Parser) next_bool(expected Tok) bool {
 	return g.curr.token == expected
 }
 
+fn (mut g Parser) peek_bool(expected Tok) bool {
+	if g.pos+1 >= g.cap {
+		error_tok("unexpected EOF", g.curr) 
+	}
+	return g.tokens[g.pos+1].token == expected
+}
+
 fn str_to_u64(s string)u64{
 	if s[0] == `-` {
 		return -s[1..].u64()
@@ -61,16 +68,20 @@ fn (mut g Parser) new_push()IR_Statement{
 		}
 		if g.ctx.get_var(g.curr.lit) {
 			g.trace("new push var '$g.curr.lit'")
-			g.ctx.is_stack_frame = true // very important!
+			g.ctx.is_stack_frame = true
 			return IR_PUSH_VAR {
+				var: g.curr.lit
+			}
+		} else if g.ctx.get_buf(g.curr.lit) {
+			g.trace("new push buffer '$g.curr.lit'")
+			g.ctx.is_stack_frame = true
+			return IR_PUSH_BUF_PTR {
 				var: g.curr.lit
 			}
 		} else {
 			error_tok("Variable or function '$g.curr.lit' not found",g.curr)
 		}
-	}
-
-	if g.curr.token == .string_lit {
+	} else if g.curr.token == .string_lit {
 		hash := unsafe { new_lit_hash() }
 		g.ctx.slit[hash] = g.curr
 		return IR_PUSH_STR_VAR {
@@ -94,6 +105,8 @@ fn (mut g Parser) check_exists(tok Token){
 		error_tok("Name is already function '$tok.lit'",tok)
 	} else if tok.lit in g.ctx.args {
 		error_tok("Name is already a function argument '$tok.lit'",tok)
+	} else if tok.lit in g.ctx.bufs {
+		error_tok("Duplicate variable '$tok.lit'",tok)
 	} else if tok.lit in g.ctx.vars {
 		error_tok("Duplicate variable '$tok.lit'",tok)
 	}
@@ -114,25 +127,16 @@ fn (mut g Parser) eof_cleanup(){
 	g.trace("eof cleanup")
 }
 
-fn (mut g Parser) new_stack_var()IR_Statement{
+fn (mut g Parser) new_stack_var()?IR_Statement{
 	g.next(.name)
 	name_tok := g.curr
 	g.check_exists(name_tok)
 	g.trace("new stack var '$name_tok.lit'")
 	g.iter()
 
-	if g.curr.token !in [.string_lit, .number_lit] {
-		if g.curr.token == .name && g.ctx.get_var(g.curr.lit) {
-			g.ctx.vars[name_tok.lit] = VarT {g.curr,g.ctx.vari}
-			g.ctx.vari++
-		}
-		error_tok("Expected literal data or variable, got '$g.curr.token'",g.curr)
-	} else {
+	if g.curr.token == .string_lit {
 		g.ctx.vars[name_tok.lit] = VarT {g.curr,g.ctx.vari}
 		g.ctx.vari++
-	} // change this lol duplicated code twice
-
-	if g.curr.token == .string_lit {
 		hash := unsafe { new_lit_hash() }
 		g.ctx.slit[hash] = g.curr
 		return IR_VAR_INIT_STR {
@@ -140,17 +144,34 @@ fn (mut g Parser) new_stack_var()IR_Statement{
 			data: hash
 		}
 	} else if g.curr.token == .number_lit {
+		g.ctx.vars[name_tok.lit] = VarT {g.curr,g.ctx.vari}
+		g.ctx.vari++
 		return IR_VAR_INIT_NUMBER {
 			var: name_tok.lit
 			data: str_to_u64(g.curr.lit)
 		}
+	} else if g.curr.token == .sb_l {
+		g.next(.number_lit)
+		buf_count_tok := g.curr
+		g.next(.sb_r)
+
+		buf_count := buf_count_tok.lit.int()
+		if buf_count <= 0 {
+			error_tok("Contiguous stack memory cannot be 0 or negative!",g.curr)
+		}
+		g.ctx.bufs[name_tok.lit] = BufT {s: buf_count}
+		return none
 	}
 
-	panic("")
-
-	/* return IR_VAR_INIT{
-		var: name_tok.lit
+	/* if g.curr.token == .name && g.ctx.get_var(g.curr.lit) {
+		g.ctx.vars[name_tok.lit] = VarT {g.curr,g.ctx.vari}
+		g.ctx.vari++
 	} */
+	/* for assigning arguments to variables
+	   its quite useless and wastes precious stack space 
+	*/
+
+	error_tok("Expected literal data or variable, got '$g.curr.token'",g.curr)
 }
 
 fn (mut g Parser) parse_new_func()?{
@@ -294,6 +315,56 @@ fn (mut g Parser) parse_while()IR_WHILE{
 	return ctx
 }
 
+fn (mut g Parser) new_deref()IR_Statement{
+	if g.next_bool(.sspec) {
+		g.next(.number_lit)
+		match g.curr.lit.int() {
+			8 {
+				return IR_DEREF_8{}
+			}
+			16 {
+				return IR_DEREF_16{}
+			}
+			32 {
+				return IR_DEREF_32{}
+			}
+			64 {
+				return IR_DEREF_64{}
+			}
+			else {
+				error_tok("Size specification for dereference operation not 8, 16, 32 or 64",g.curr)
+			}
+		}
+	} else {
+		return IR_DEREF_64{}
+	}
+}
+
+fn (mut g Parser) new_writep()IR_Statement{
+	if g.next_bool(.sspec) {
+		g.next(.number_lit)
+		match g.curr.lit.int() {
+			8 {
+				return IR_WRITEP_8{}
+			}
+			16 {
+				return IR_WRITEP_16{}
+			}
+			32 {
+				return IR_WRITEP_32{}
+			}
+			64 {
+				return IR_WRITEP_64{}
+			}
+			else {
+				error_tok("Size specification for write pointer operation not 8, 16, 32 or 64",g.curr)
+			}
+		}
+	} else {
+		return IR_WRITEP_64{}
+	}
+}
+
 fn (mut g Parser) parse_token()?IR_Statement{
 	for {
 		g.pos++
@@ -304,11 +375,11 @@ fn (mut g Parser) parse_token()?IR_Statement{
 
 		match g.curr.token {
 			.local {
-				return g.new_stack_var()
+				return g.new_stack_var() or {
+					continue
+				}
 			}
 
-			.print   {g.ctx.is_stack_frame = true return IR_PRINT{} }
-			.println {g.ctx.is_stack_frame = true return IR_PRINTLN{} }
 			.uput    {g.ctx.is_stack_frame = true return IR_UPUT{} }
 			.uputln  {g.ctx.is_stack_frame = true return IR_UPUTLN{} }
 
@@ -333,6 +404,9 @@ fn (mut g Parser) parse_token()?IR_Statement{
 				}
 			} */
 
+			.deref    {return g.new_deref()}
+			.writep   {return g.new_writep()}
+
 			.add      {return IR_ADD{}}
 			.sub      {return IR_SUB{}}
 			.mul      {return IR_MUL{}}
@@ -348,7 +422,6 @@ fn (mut g Parser) parse_token()?IR_Statement{
 			.ret      {return IR_RETURN{}}
 			.dup      {return IR_DUP{}}
 			.drop     {return IR_DROP{}}
-			.deref    {return IR_DEREF{}}
 
 			.name, .number_lit, .string_lit {
 				return g.new_push()

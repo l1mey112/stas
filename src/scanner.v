@@ -212,7 +212,6 @@ fn (mut s Scanner) skip_line() {
 	}
 }
 
-
 fn (mut s Scanner) new_directive() {
 	s.pos++
 	name := s.march_name()
@@ -229,10 +228,10 @@ fn (mut s Scanner) new_directive() {
 				comp_error('Cannot include empty path',s.get_fp())
 			}
 			
-			data := file_container.open_file(str,os.path_base(s.filename))
+			data := file_container.open_file(str,os.dir(s.filename)) // ALMOST A PR LOL -> os.path_base(s.filename)
 			tokens_file := scan_file(data, str)
 			s.tokens << tokens_file
-			eprintln("Inserted file '$str' into '$s.filename'")
+			//eprintln("Inserted file '$str' into '$s.filename'")
 		}
 		else {
 			comp_error('Unknown preprocessor directive',s.get_fp())
@@ -355,6 +354,23 @@ fn (mut s Scanner) scan_token() ?Token {
 				} else {
 					return s.new_token(.void, '', 1)
 				}
+			}
+			`:` {
+				if nextc == `:` {
+					s.pos++
+					return s.new_token(.sspec, '', 2)
+				} else {
+					comp_error('Unexpected character',s.get_fp())
+				}
+			}
+			`[` {
+				return s.new_token(.sb_l, '', 1)
+			}
+			`]` {
+				return s.new_token(.sb_r, '', 1)
+			}
+			`&` {
+				return s.new_token(.writep, '', 1)
 			}
 			else {
 				comp_error('Unexpected character',s.get_fp())

@@ -1,3 +1,0 @@
-main in do
-	"Hello!\n" * uputln
-end
