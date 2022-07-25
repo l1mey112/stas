@@ -1,6 +1,6 @@
-write ! in buf count do      ; ! <- void return function
-	1 1 buf count syscall3   ; kernel system call (sys_write)
-	_                        ; drop return value
+write ! in buf count do
+	1 1 buf count syscall3
+	_
 end
 
 endl ! in do
@@ -9,16 +9,16 @@ end
 
 strlen in buf do
     buf
-    while @ * :: 8 0 != do   ; while dereferenced byte != 0
+    while @ * :: 8 0 != do
 		++
     end
-	buf -=                   ; subtract ptr from original ptr for len
+	buf -=
 end
 
-print ! in buf do            ; ! <- void return function
+print ! in buf do
 	buf
-	buf strlen              ; call strlen with buffer
-	write                   ; call write with buffer and length
+	buf strlen
+	write
 end
 
 println ! in buf do
@@ -26,7 +26,7 @@ println ! in buf do
 	endl
 end
 
-memset ! in ptr val len do ; val cannot be greater than 255!
+memset ! in ptr val len do 
 	ptr
     while @ ptr len += < do
 		@ val & :: 8
