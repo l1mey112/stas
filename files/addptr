@@ -1,7 +1,0 @@
-push "trim_thisHello!\n" 
-push 9
-
-+= ; add a 9 byte offset to the char pointer
-
-print
-

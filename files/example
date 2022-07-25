@@ -1,5 +1,0 @@
-global var_global 10
-
-push "Hello!\n" print
-
-push var_global uputln

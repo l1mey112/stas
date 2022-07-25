@@ -1,0 +1,3 @@
+func ! in do
+	"Called from other file!\n" print
+end

@@ -1,11 +1,17 @@
 struct Token {
 	pos int
-	len int // length
+	len int
 
 	row int
 	col int
 
-	lit    string // literal representation
+	lit string
+
+	file string
+	/* 
+	   what file did this come from? 
+	   e.g included files 
+	*/
 mut:
 	token  Tok
 }
@@ -15,22 +21,25 @@ enum Tok {
 	string_lit
 	number_lit
 
-	inc     // +
-	dec     // -
-	add     // +=
-	sub     // -=
-	mul     // *=
-	div     // /=
-	mod     // %=
-	divmod  // %%
-	equal   // =
-	greater // >
-	less    // <
+	inc      // +
+	dec      // -
+	add      // +=
+	sub      // -=
+	mul      // *=
+	div      // /=
+	mod      // %=
+	divmod   // %%
+	equal    // =
+	notequal // !=
+	greater  // >
+	less     // <
 
 	// stack manipulation
 	dup     // @
 	swap    // ~
 	drop    // _
+	
+	deref   // *
 
 	void    // !
 	// return none in functions

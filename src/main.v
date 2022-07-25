@@ -2,38 +2,14 @@ import os
 import flag
 import term
 
-fn run_pipeline(filename string, mut db Debug)string{
-	db.start("File")
-	data := os.read_file(filename) or {
-		eprintln("Cannot read file '$filename'!")
-		exit(1)
-	}
-	db.info("Opened '$filename'")
-	db.info("Read $data.len characters")
-	db.end()
-	db.start("Scanner")
-	mut scanner := Scanner {
-		text: data
-		cap: data.len
-		filename: filename
-	}
-	mut tokens := []Token{cap: 20}
-	for {
-		if i := scanner.scan_token() {
-			tokens << i
-		} else {
-			db.info("EOF hit, read $tokens.len tokens")
-			break
-		}
-	}
-	if tokens.len == 0 {
-		println("No readable tokens in file!")
-		exit(0)
-	}
-	db.end()
-	db.start("Parser")
+[has_globals]
+
+__global file_container = FileContainer{} 
+
+fn run_pipeline(filename string)string{
+	data := file_container.open_file(filename, '')
+	mut tokens := scan_file(data, filename)
 	mut parser := Parser {
-		s: mut scanner
 		tokens: tokens
 		curr: tokens[0]
 		cap: tokens.len
@@ -45,15 +21,11 @@ fn run_pipeline(filename string, mut db Debug)string{
 			break
 		}
 	}
-	db.start("Codegen")
 	mut gen := Gen {
 		fns: parser.fns
-		s: mut scanner
 	}
 	gen.gen_all()
 	file_out := gen.file.str()
-	db.info("Wrote $file_out.len characters")
-	db.end()
 	return file_out
 }
 
@@ -72,7 +44,7 @@ fn main(){
 	mut pref_out := fp.string('', `o`, '', 'output to file (accepts *.asm, *.S, *.o, *)')
 	pref_asm := if fp.bool('', `g`, false, 'compile with debug symbols') { ' -g -F stabs' } else { '' }
 	pref_ver := fp.bool('version', `v`, false, fp.default_version_label)
-	pref_deb := fp.bool('debug', `d`, false, 'run the compiler in debug mode')
+	//pref_deb := fp.bool('debug', `d`, false, 'run the compiler in debug mode')
 
 	args := fp.finalize() or {
 		eprintln(err.msg())
@@ -92,12 +64,11 @@ fn main(){
 		exit(1)
 	}
 	filename := args[0]
-	mut db := Debug{is_debug: pref_deb}
-	source := run_pipeline(filename, mut db)
+
+	source := run_pipeline(filename)
 
 	pref_ext := os.file_ext(pref_out)
 
-	db.start("Finalise")
 	file_write_tmp := os.join_path_single(os.temp_dir(),get_hash_str(filename))
 	if !pref_bat && pref_ext in ['.asm','.S'] {
 		os.write_file(pref_out,source) or {
@@ -109,10 +80,8 @@ fn main(){
 			panic("Failed to write temporary file!")
 		}
 	}
-	db.info("Created assembly file on disk")
 
 	if pref_bat {
-		db.end_all()
 		mut run_process := os.new_process('/usr/bin/bat')
 		run_process.set_args(['-l','nasm','${file_write_tmp}.asm'])
 		run_process.wait()
@@ -121,7 +90,6 @@ fn main(){
 	}
 
 	object_file_out := if pref_ext == '.o' {pref_out} else {'${file_write_tmp}.o'}
-	db.info("Executing 'nasm -O0 -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm'")
 	nasm_res := os.execute('nasm -O0 -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm')
 
 	if nasm_res.exit_code != 0 {
@@ -129,24 +97,19 @@ fn main(){
 		eprintln(nasm_res.output)
 		exit(1)
 	}
-	db.info("Assembler finished")
 	if pref_ext == '.o' {
-		db.end_all()
 		exit(0)
 	}
 
 	if pref_out == '' {
 		pref_out = 'a.out'
 	} // default output
-	db.info("Executing 'ld ${file_write_tmp}.o -o $pref_out'")
 	os.execute_or_panic('ld ${file_write_tmp}.o -o $pref_out')
-	db.info("Linker finished")
 
 	os.rm('${file_write_tmp}.asm') or {}
 	os.rm('${file_write_tmp}.o') or {}
 
 	if pref_run {
-		db.end_all()
 		exefile := os.abs_path(pref_out)
 		mut run_process := os.new_process(exefile)
 		run_process.wait()
@@ -154,8 +117,5 @@ fn main(){
 		run_process.close()
 		os.rm(exefile) or {}
 		exit(ret)
-	} else {
-		db.info("Executable '$pref_out' compiled!")
-		db.end_all()
 	}
 }

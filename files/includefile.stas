@@ -1,0 +1,10 @@
+other ! in do
+	"Before inclusion!\n" print
+end
+
+#include "includethis.stas"
+
+main in do
+	other
+	func
+end

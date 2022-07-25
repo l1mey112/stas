@@ -1,0 +1,27 @@
+write ! in buf count do    ; ! <- void return function
+	1 1 buf count syscall3 ; kernel system call (sys_write)
+	_                      ; drop return value
+end
+
+strlen in buf do
+    buf
+    while @ * 0 != do      ; while dereferenced byte != 0
+		++
+    end
+	buf -=                 ; subtract ptr from original ptr for len
+end
+
+print_std ! in buf do      ; ! <- void return function
+	buf
+	buf strlen             ; call strlen with buffer
+	write                  ; call write with buffer and length
+end
+
+endl ! in do
+	"\n" 1 write
+end
+
+main in do
+	;"Hello from assembly! (compiler intrinsic)\n" print ; written in assembly
+	;"Hello from the standard library!\n" print_std      ; written in my language
+end

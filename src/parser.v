@@ -1,7 +1,5 @@
 struct Parser {
 mut:
-	s Scanner // contains file + error handling
-	
 	tokens []Token
 	curr Token
 	pos int
@@ -19,7 +17,7 @@ mut:
 fn (mut g Parser) iter(){
 	g.pos++
 	if g.pos >= g.cap {
-		g.s.error_tok("unexpected EOF", g.curr) 
+		error_tok("unexpected EOF", g.curr) 
 	}
 	g.curr = g.tokens[g.pos]
 }
@@ -27,13 +25,13 @@ fn (mut g Parser) iter(){
 fn (mut g Parser) next(expected Tok){
 	g.iter()
 	if g.curr.token != expected {
-		g.s.error_tok("expected $expected, got $g.curr.token",g.curr)
+		error_tok("expected $expected, got $g.curr.token",g.curr)
 	}
 }
 
 fn (mut g Parser) current(expected Tok){
 	if g.curr.token != expected {
-		g.s.error_tok("expected $expected, got $g.curr.token",g.curr)
+		error_tok("expected $expected, got $g.curr.token",g.curr)
 	}
 }
 
@@ -68,7 +66,7 @@ fn (mut g Parser) new_push()IR_Statement{
 				var: g.curr.lit
 			}
 		} else {
-			g.s.error_tok("Variable or function '$g.curr.lit' not found",g.curr)
+			error_tok("Variable or function '$g.curr.lit' not found",g.curr)
 		}
 	}
 
@@ -84,7 +82,7 @@ fn (mut g Parser) new_push()IR_Statement{
 		}
 	}
 
-	g.s.error_tok("Expected literal data or variable, got '$g.curr.token'",g.curr)
+	error_tok("Expected literal data or variable, got '$g.curr.token'",g.curr)
 }
 
 fn (mut g Parser) check_exists(tok Token){
@@ -93,11 +91,11 @@ fn (mut g Parser) check_exists(tok Token){
 	}
 
 	if tok.lit in g.fns {
-		g.s.error_tok("Name is already function '$tok.lit'",tok)
+		error_tok("Name is already function '$tok.lit'",tok)
 	} else if tok.lit in g.ctx.args {
-		g.s.error_tok("Name is already a function argument '$tok.lit'",tok)
+		error_tok("Name is already a function argument '$tok.lit'",tok)
 	} else if tok.lit in g.ctx.vars {
-		g.s.error_tok("Duplicate variable '$tok.lit'",tok)
+		error_tok("Duplicate variable '$tok.lit'",tok)
 	}
 }
 
@@ -105,7 +103,9 @@ fn (mut g Parser) eof_cleanup(){
 	// done parsing all, parse_func should not be called anymore
 
 	if !g.has_main {
-		g.s.error_whole("No main function")
+		eprintln("No main function!!!")
+		eprintln("TODO: MAKE PROPER GENERAL ERROR FUNCTION")
+		exit(1)
 	}
 
 	assert !g.inside_if
@@ -126,7 +126,7 @@ fn (mut g Parser) new_stack_var()IR_Statement{
 			g.ctx.vars[name_tok.lit] = VarT {g.curr,g.ctx.vari}
 			g.ctx.vari++
 		}
-		g.s.error_tok("Expected literal data or variable, got '$g.curr.token'",g.curr)
+		error_tok("Expected literal data or variable, got '$g.curr.token'",g.curr)
 	} else {
 		g.ctx.vars[name_tok.lit] = VarT {g.curr,g.ctx.vari}
 		g.ctx.vari++
@@ -171,6 +171,7 @@ fn (mut g Parser) parse_new_func()?{
 	g.check_exists(name)
 
 	if name.lit == "main" {
+		g.ctx.no_return = true // needed
 		g.has_main = true
 	}
 	g.ctx.name = name.lit
@@ -198,7 +199,7 @@ fn (mut g Parser) parse_new_func()?{
 				}
 				return
 			}
-			g.s.error_tok("function does not end",g.curr)
+			error_tok("function does not end",g.curr)
 		}
 	}
 	panic("")
@@ -224,7 +225,7 @@ fn (mut g Parser) parse_if()IR_IF{
 				g.trace("end if args")
 				break
 			}
-			g.s.error_tok("starting statement in if does not end",g.curr)
+			error_tok("starting statement in if does not end",g.curr)
 		}
 	}
 
@@ -241,7 +242,7 @@ fn (mut g Parser) parse_if()IR_IF{
 							g.trace("end if else")
 							break
 						} else {
-							g.s.error_tok("if statement does not end",g.curr)
+							error_tok("if statement does not end",g.curr)
 						}
 					}
 				}
@@ -250,7 +251,7 @@ fn (mut g Parser) parse_if()IR_IF{
 				g.trace("end if")
 				break
 			} else {
-				g.s.error_tok("if statement does not end",g.curr)
+				error_tok("if statement does not end",g.curr)
 			}
 		}
 	}
@@ -273,7 +274,7 @@ fn (mut g Parser) parse_while()IR_WHILE{
 				g.trace("end while args")
 				break
 			}
-			g.s.error_tok("starting statement in while does not end",g.curr)
+			error_tok("starting statement in while does not end",g.curr)
 		}
 	}
 
@@ -285,7 +286,7 @@ fn (mut g Parser) parse_while()IR_WHILE{
 				g.trace("end while")
 				break
 			} else {
-				g.s.error_tok("while loop does not end",g.curr)
+				error_tok("while loop does not end",g.curr)
 			}
 		}
 	}
@@ -323,7 +324,7 @@ fn (mut g Parser) parse_token()?IR_Statement{
 				g.iter()
 				var := g.get_var(g.curr)
 				if var.spec == .declare {
-					g.s.error_tok("Declared variables are immutable",g.curr)
+					error_tok("Declared variables are immutable",g.curr)
 				}
 				
 				// like i said above, do basic typechecking
@@ -332,20 +333,22 @@ fn (mut g Parser) parse_token()?IR_Statement{
 				}
 			} */
 
-			.add     {return IR_ADD{}}
-			.sub     {return IR_SUB{}}
-			.mul     {return IR_MUL{}}
-			.div     {return IR_DIV{}}
-			.mod     {return IR_MOD{}}
-			.divmod  {return IR_DIVMOD{}}
-			.inc     {return IR_INC{}}
-			.dec     {return IR_DEC{}}
-			.greater {return IR_GREATER{}}
-			.less    {return IR_LESS{}}
-			.equal   {return IR_EQUAL{}}
-			.ret     {return IR_RETURN{}}
-			.dup     {return IR_DUP{}}
-			.drop    {return IR_DROP{}}
+			.add      {return IR_ADD{}}
+			.sub      {return IR_SUB{}}
+			.mul      {return IR_MUL{}}
+			.div      {return IR_DIV{}}
+			.mod      {return IR_MOD{}}
+			.divmod   {return IR_DIVMOD{}}
+			.inc      {return IR_INC{}}
+			.dec      {return IR_DEC{}}
+			.greater  {return IR_GREATER{}}
+			.less     {return IR_LESS{}}
+			.equal    {return IR_EQUAL{}}
+			.notequal {return IR_NOTEQUAL{}}
+			.ret      {return IR_RETURN{}}
+			.dup      {return IR_DUP{}}
+			.drop     {return IR_DROP{}}
+			.deref    {return IR_DEREF{}}
 
 			.name, .number_lit, .string_lit {
 				return g.new_push()
@@ -361,7 +364,7 @@ fn (mut g Parser) parse_token()?IR_Statement{
 				if g.inside_if {
 					return none
 				} else {
-					g.s.error_tok("unexpected else while not inside if",g.curr)
+					error_tok("unexpected else while not inside if",g.curr)
 				}
 			}
 
@@ -375,7 +378,7 @@ fn (mut g Parser) parse_token()?IR_Statement{
 				if g.inside_if || g.inside_while {
 					return none
 				} else {
-					g.s.error_tok("unexpected keyword",g.curr)
+					error_tok("unexpected keyword",g.curr)
 				}
 			}
 

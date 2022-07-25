@@ -1,3 +1,27 @@
+import os
+
+fn scan_file(data string, filename string)[]Token{
+	mut scanner := Scanner {
+		text: data
+		cap: data.len
+		filename: filename
+		tokens: []Token{cap: 20}
+	}
+	for {
+		if i := scanner.scan_token() {
+			scanner.tokens << i
+		} else {
+			break
+		}
+	}
+	if scanner.tokens.len == 0 {
+		eprintln("TODO: MAKE SAME AS WHOLE_ERROR FOR NO MAIN (MAKE UNIFIED WHOLE ERROR)")
+		eprintln("No readable tokens in file '$filename'!")
+		exit(0)
+	}
+	return scanner.tokens
+}
+
 struct Scanner {
 	text string
 	filename string
@@ -9,6 +33,11 @@ mut:
 	l_nl int = -1
 
 	is_started bool
+	/*
+		used externally unless manipulated with
+		preprocessor directives
+	*/
+	tokens []Token
 }
 
 fn (s Scanner) get_fp() FilePos {
@@ -17,29 +46,16 @@ fn (s Scanner) get_fp() FilePos {
 		col: s.pos - s.l_nl - 1, 
 		len: 1
 		filename: s.filename, 
-		text: s.text
 	}
 }
 
 [noreturn]
-fn (s Scanner) error_tok(err string,tok Token) {
+fn error_tok(err string,tok Token) {
 	comp_error(err,FilePos{
 		row: tok.row
 		col: tok.col
 		len: tok.len
-		filename: s.filename
-		text: s.text
-	})
-}
-
-[noreturn]
-fn (s Scanner) error_whole(err string) {
-	comp_error(err,FilePos{
-		row: 0
-		col: 0
-		len: 0
-		filename: s.filename
-		text: s.text
+		filename: tok.file
 	})
 }
 
@@ -163,6 +179,8 @@ fn (mut s Scanner) new_token(tok_kind Tok, lit string, len int) Token {
 		pos: s.pos - len + 1
 		len: len
 
+		file: s.filename
+
 		row: s.row
 		col: s.pos - len - s.l_nl
 	}
@@ -191,6 +209,34 @@ fn (s &Scanner) next() u8 {
 fn (mut s Scanner) skip_line() {
 	for s.pos < s.cap && s.text[s.pos] !in [`\n`,`\r`] {
 		s.pos++
+	}
+}
+
+
+fn (mut s Scanner) new_directive() {
+	s.pos++
+	name := s.march_name()
+	match name {
+		"include" {
+			s.pos++
+			s.skip_whitespace()
+			if s.text[s.pos] !in [`'`,`"`] {
+				comp_error('Include directive requires a string',s.get_fp())
+			}
+			st := s.march_string()
+			str := st[1..st.len-1]
+			if str.len == 0 {
+				comp_error('Cannot include empty path',s.get_fp())
+			}
+			
+			data := file_container.open_file(str,os.path_base(s.filename))
+			tokens_file := scan_file(data, str)
+			s.tokens << tokens_file
+			eprintln("Inserted file '$str' into '$s.filename'")
+		}
+		else {
+			comp_error('Unknown preprocessor directive',s.get_fp())
+		}
 	}
 }
 
@@ -225,6 +271,10 @@ fn (mut s Scanner) scan_token() ?Token {
 			return s.new_token(.number_lit, num, num.len)
 		}
 		match c {
+			`#` {
+				s.new_directive()
+				continue
+			}
 			`"`, `'` {
 				str := s.march_string()
 				return s.new_token(.string_lit, str, str.len)
@@ -261,7 +311,7 @@ fn (mut s Scanner) scan_token() ?Token {
 					s.pos++
 					return s.new_token(.mul, '', 2)
 				} else {
-					comp_error('Unexpected character',s.get_fp())
+					return s.new_token(.deref, '', 1)
 				}
 			}
 			`/` {
@@ -299,9 +349,16 @@ fn (mut s Scanner) scan_token() ?Token {
 				return s.new_token(.swap, '', 1)
 			}
 			`!` {
-				return s.new_token(.void, '', 1)
+				if nextc == `=` {
+					s.pos++
+					return s.new_token(.notequal, '', 2)
+				} else {
+					return s.new_token(.void, '', 1)
+				}
 			}
-			else {}
+			else {
+				comp_error('Unexpected character',s.get_fp())
+			}
 		}
 		break
 	}

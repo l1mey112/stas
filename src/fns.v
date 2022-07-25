@@ -36,7 +36,7 @@ struct IR_VAR_INIT_STR {
 	data string
 }
 fn (i IR_VAR_INIT_STR) gen(mut ctx Function) string {
-	return '	mov qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}], $i.data ; var init \'$i.var\''
+	return "\t"+annotate('mov qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}], $i.data','; VAR STACK INIT \'$i.var\'')
 }
 
 struct IR_VAR_INIT_NUMBER {
@@ -44,7 +44,7 @@ struct IR_VAR_INIT_NUMBER {
 	data u64
 }
 fn (i IR_VAR_INIT_NUMBER) gen(mut ctx Function) string {
-	return '	mov qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}], $i.data ; var init \'$i.var\''
+	return "\t"+annotate('mov qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}], $i.data','; VAR STACK INIT \'$i.var\'')
 }
 
 // ---- push 
@@ -53,22 +53,22 @@ fn (i IR_VAR_INIT_NUMBER) gen(mut ctx Function) string {
 
 struct IR_PUSH_NUMBER {data u64}
 fn (i IR_PUSH_NUMBER) gen(mut ctx Function) string {
-	return "	push qword $i.data"
+	return "\t"+annotate('push qword $i.data','; <- LITERAL NUMBER')
 }
 
 struct IR_PUSH_STR_VAR {var string}
 fn (i IR_PUSH_STR_VAR) gen(mut ctx Function) string {
-	return '	push qword $i.var'
+	return '\t'+annotate('push qword $i.var','; <- STRING VAR')
 }
 
 struct IR_PUSH_VAR {var string}
 fn (i IR_PUSH_VAR) gen(mut ctx Function) string {
 	for idx, a in ctx.args {
 		if a == i.var {
-			return '	push qword [rbp - ${(idx+1)*8}] ; push arg \'$i.var\''
+			return '\t'+annotate("push qword [rbp - ${(idx+1)*8}]","; <- PUSH ARG '$i.var'")
 		}
 	}
-	return '	push qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}]'
+	return '\t'+annotate("push qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}]","; <- PUSH VAR '$i.var'")
 }
 
 // ---- push
@@ -84,15 +84,16 @@ const arg_regs = [
 
 struct IR_CALL_FUNC {func string argc int no_return bool}
 fn (i IR_CALL_FUNC) gen(mut ctx Function) string {
-	mut args := strings.new_builder(25)
+	mut args := strings.new_builder(40)
 	mut arg := i.argc
 	for _ in 0 .. i.argc {
 		arg--
-		args.writeln('	pop ${arg_regs[arg]}')
+		arg_statement := 'pop ${arg_regs[arg]}'
+		args.writeln('\n\t${annotate(arg_statement,'; + INIT FUNCTION ARGS')}')
 	}
-	args.write_string('	call $i.func')
+	args.write_string('\t${annotate('call $i.func','; + CALL FUNCTION')}')
 	if !i.no_return {
-		args.write_string('\n	push rax')
+		args.write_string('\n\t${annotate('push rax','; + RETURN VALUE FUNCTION')}')
 	}
 
 	return args.str()
@@ -116,7 +117,7 @@ fn parse_string(tok Token, g &Gen) string {
 	str := tok.lit[1 .. tok.lit.len-1] // trim quotes
 	mut ret := strings.new_builder(str.len)
 	if str == '' {
-		g.s.error_tok("Empty literal string",tok)
+		error_tok("Empty literal string",tok)
 	}
 	ret.write_u8(`'`)
 	mut pos := 0
@@ -125,7 +126,7 @@ fn parse_string(tok Token, g &Gen) string {
 		if c == `\\` {
 			pos++
 			if pos >= str.len {
-				g.s.error_tok("Unhandled escape character",tok)
+				error_tok("Unhandled escape character",tok)
 			}
 			nextc := str[pos]
 			if nextc == `\\` {
@@ -133,7 +134,7 @@ fn parse_string(tok Token, g &Gen) string {
 				continue
 			}
 			escape := escape_ch[nextc] or {
-				g.s.error_tok("Escape char '${nextc.ascii_str()}' does not exist",tok)
+				error_tok("Escape char '${nextc.ascii_str()}' does not exist",tok)
 			}
 			if pos+1 >= str.len {
 				ret.write_string("', $escape")
@@ -165,12 +166,13 @@ fn (mut i Function) gen_rodata(g &Gen) string {
 fn (mut i Function) gen() string {
 	mut f := strings.new_builder(120)
 	f.writeln(
-		'$i.name:\n' +
+		annotate('$i.name:','    ; ----- FUNCTION -----\n') +
 		'	push rbp\n' +
 		'	mov rbp, rsp'
 	)
 	for idx, a in i.args {
-		f.writeln('	mov qword [rbp - ${(idx+1)*8}], ${arg_regs[idx]} ; arg init \'$a\'')
+		init_statement := 'mov qword [rbp - ${(idx+1)*8}], ${arg_regs[idx]}'
+		f.writeln('\t${annotate(init_statement,'; | ARG VAR STACK INIT ' + "\'$a\'")}')
 	}
 	i.var_offset = i.args.len*8
 	total_stack_frame := i.var_offset + i.vars.len*8
@@ -178,7 +180,8 @@ fn (mut i Function) gen() string {
 	i.is_stack_frame = i.is_stack_frame && total_stack_frame != 0
 	
 	if i.is_stack_frame {
-		f.writeln('	sub rsp, ${total_stack_frame}')
+		init_statement := "sub rsp, $total_stack_frame"
+		f.writeln('\t${annotate(init_statement,"; | CREATE STACK FRAME")}')
 	}
 
 	for mut s in i.body {
@@ -189,25 +192,27 @@ fn (mut i Function) gen() string {
 		}
 		f.writeln(data)
 	}
-
+	if !i.no_return {
+		f.writeln('\t${annotate('pop rax',"; | RETURN VALUE FUNCTION")}')
+	}
 	if i.is_stack_frame {
-		f.writeln('	leave')
+		f.writeln('\t${annotate('leave','; | RELEASE STACK FRAME')}')
 	} else {
 		f.writeln('	pop rbp')
 	}
-	f.write_string('	ret')
+	f.write_string('\t${annotate('ret','; | RETURN TO CALLER')}')
 	return f.str()
 }
 
 struct IR_RETURN {}
 fn (i IR_RETURN) gen(mut ctx Function) string {
 	return 
-	'	pop rax\n' + 
+	'\t${annotate('pop rax',"; | EARLY RETURN VALUE")}\n' + 
 	if ctx.is_stack_frame {
-		'	leave\n'
+		'\t${annotate('leave','; | \n')}'
 	} else {
-		'	pop rbp\n'
-	} + '	ret'	
+		'\t${annotate('pop rbp','; | ')}\n'
+	} + '\t${annotate('ret',"; | EARLY RETURN TO CALLER")}'	
 }
 
 fn (i Function) get_var(str string) bool {
@@ -222,9 +227,9 @@ mut:
 }
 
 fn (i IR_IF) gen(mut ctx Function) string {
-	mut f := strings.new_builder(120)
+	mut f := strings.new_builder(220)
 	prepend := new_if_hash()
-	f.writeln('${prepend}_begin:')
+	f.writeln(annotate('${prepend}_begin:','    ; ?? IF - START'))
 
 	for s in i.top {
 		data := s.gen(mut ctx)
@@ -235,7 +240,7 @@ fn (i IR_IF) gen(mut ctx Function) string {
 		f.writeln(data)
 	}
 	f.writeln(
-		'	pop rax ; if conditional\n' +
+		"	${annotate("pop rax","; ?? IF - CHECK CONDITIONAL")}\n" +
 		'	test al, al'
 	)
 	f.writeln(if i.other.len != 0 {
@@ -243,7 +248,7 @@ fn (i IR_IF) gen(mut ctx Function) string {
 	} else {
 		'	je ${prepend}_end'
 	})
-	f.writeln('${prepend}_body:')
+	f.writeln(annotate('${prepend}_body:','    ; ?? IF - BODY'))
 
 	for s in i.body {
 		data := s.gen(mut ctx)
@@ -255,7 +260,7 @@ fn (i IR_IF) gen(mut ctx Function) string {
 	}
 	if i.other.len != 0 {
 		f.writeln('	jmp ${prepend}_end')
-		f.writeln('${prepend}_else:')
+		f.writeln(annotate('${prepend}_else:','    ; ?? IF - ELSE'))
 		for s in i.other {
 			data := s.gen(mut ctx)
 			if data == '' {
@@ -265,7 +270,7 @@ fn (i IR_IF) gen(mut ctx Function) string {
 			f.writeln(data)
 		}
 	}
-	f.write_string('${prepend}_end:')
+	f.write_string(annotate('${prepend}_end:','    ; ?? IF - END'))
 	return f.str()
 }
 
@@ -278,7 +283,7 @@ mut:
 fn (i IR_WHILE) gen(mut ctx Function) string {
 	mut f := strings.new_builder(120)
 	prepend := new_while_hash()
-	f.writeln('${prepend}_begin:')
+	f.writeln(annotate('${prepend}_begin:','    ; <> WHILE - START'))
 
 	for s in i.top {
 		data := s.gen(mut ctx)
@@ -289,11 +294,11 @@ fn (i IR_WHILE) gen(mut ctx Function) string {
 		f.writeln(data)
 	}
 	f.writeln(
-		'	pop rax ; while conditional\n' +
+		'	${annotate("pop rax","; <> WHILE - CHECK CONDITIONAL")}\n' +
 		'	test al, al\n' +
 		'	je ${prepend}_end'
 	)
-	f.writeln('${prepend}:')
+	f.writeln(annotate('${prepend}:','    ; <> WHILE - BODY'))
 
 	for s in i.body {
 		data := s.gen(mut ctx)
@@ -304,6 +309,6 @@ fn (i IR_WHILE) gen(mut ctx Function) string {
 		f.writeln(data)
 	}
 	f.writeln('	jmp ${prepend}_begin')
-	f.write_string('${prepend}_end:')
+	f.write_string(annotate('${prepend}_end:','    ; <> WHILE - END'))
 	return f.str()
 }
