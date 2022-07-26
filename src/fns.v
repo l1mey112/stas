@@ -52,9 +52,12 @@ fn (i IR_VAR_INIT_NUMBER) gen(mut ctx Function) string {
 	return "\t"+annotate('mov qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}], $i.data','; VAR STACK INIT \'$i.var\'')
 }
 
-// ---- push 
+struct IR_POP_NUM_VAR {var string}
+fn (i IR_POP_NUM_VAR) gen(mut ctx Function) string {
+	return "\t"+annotate('pop qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}]','; POP INTO VAR \'$i.var\'')
+}
 
-// pushes must increment depth otherwise segfault!
+// ---- push 
 
 struct IR_PUSH_NUMBER {data u64}
 fn (i IR_PUSH_NUMBER) gen(mut ctx Function) string {

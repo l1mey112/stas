@@ -98,11 +98,6 @@ interface IR_Statement {
 	gen(mut ctx Function) string
 }
 
-struct IR_POP {var string}
-fn (i IR_POP) gen(mut ctx Function) string {
-	return ''/* "\t\t${gen.ctx.variables[i.var].pop(gen)}" */
-}
-
 struct IR_DEREF_64 {}
 fn (i IR_DEREF_64) gen(mut ctx Function) string {
 	return
@@ -229,8 +224,8 @@ fn (i IR_DIVMOD) gen (mut ctx Function) string {
 	pop rax
 	xor rdx, rdx
 	div rdi
-	push rdx
-	push rax'
+	push rax
+	push rdx' // push DIV then MOD
 }
 
 struct IR_INC {}
@@ -303,7 +298,11 @@ fn (i IR_DUP) gen(mut ctx Function) string {
 
 struct IR_SWAP {}
 fn (i IR_SWAP) gen(mut ctx Function) string {
-	return ''
+	return
+'	${annotate('pop rdi','; ~ STACK - SWAP')}
+	pop rsi
+	push rdi
+	push rdi'
 }
 
 struct IR_DROP {}

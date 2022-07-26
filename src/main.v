@@ -42,7 +42,7 @@ fn main(){
 	pref_run := fp.bool('run', `r`, false, 'run program after compiling, then deletes')
 	pref_bat := fp.bool('show', `s`, false, 'open nasm assembly output in a bat process')
 	mut pref_out := fp.string('', `o`, '', 'output to file (accepts *.asm, *.S, *.o, *)')
-	pref_asm := if fp.bool('', `g`, false, 'compile with debug symbols') { ' -g -F stabs' } else { '' }
+	pref_asm := if fp.bool('', `g`, false, 'compile with debug symbols') { ' -F dwarf -g' } else { '' }
 	pref_ver := fp.bool('version', `v`, false, fp.default_version_label)
 	//pref_deb := fp.bool('debug', `d`, false, 'run the compiler in debug mode')
 

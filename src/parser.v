@@ -391,18 +391,17 @@ fn (mut g Parser) parse_token()?IR_Statement{
 			.syscall5 {return IR_SYSCALL5{}}
 			.syscall6 {return IR_SYSCALL6{}}
 
-			/* .pop {
+			.pop {
 				g.iter()
-				var := g.get_var(g.curr)
-				if var.spec == .declare {
-					error_tok("Declared variables are immutable",g.curr)
+				name := g.curr.lit
+				if name in g.ctx.args || (name in g.ctx.vars 
+					&& g.ctx.vars[name].t.token == .number_lit) 
+				{
+					return IR_POP_NUM_VAR{var:name}
 				}
 				
-				// like i said above, do basic typechecking
-				return IR_POP{
-					var: g.curr.lit
-				}
-			} */
+				error_tok("Cannot mutate anything other than number variables!",g.curr)
+			}
 
 			.deref    {return g.new_deref()}
 			.writep   {return g.new_writep()}
@@ -422,6 +421,7 @@ fn (mut g Parser) parse_token()?IR_Statement{
 			.ret      {return IR_RETURN{}}
 			.dup      {return IR_DUP{}}
 			.drop     {return IR_DROP{}}
+			.swap     {return IR_SWAP{}}
 
 			.name, .number_lit, .string_lit {
 				return g.new_push()
