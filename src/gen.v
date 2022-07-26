@@ -6,44 +6,36 @@ mut:
 	file strings.Builder
 }
 
-const (
-	header = 
+const header = 
+
 '[BITS 64]
 global _start'
 
-	builtin_entry = 
-'_start:	
-	call main
+const builtin_entry = 
 
+'_start:
+	call main
 	mov rdi, 0
 	mov rax, 60
 	syscall'
-)
 
 fn (mut g Gen) gen_all(){
 	g.file = strings.new_builder(250)
-
 	// -- HEADER --
 	g.file.writeln(header)
 	// -- VARIABLES --
 	mut s_rodata := strings.new_builder(40)
-	s_rodata.writeln('section .rodata\n\tbuiltin_nl: db 10')
+	s_rodata.writeln('section .rodata')
 	for _, mut i in g.fns {
-		s_rodata.write_u8(`\t`)
 		s_rodata.write_string(i.gen_rodata(g))
 	}
-	g.file.drain_builder(mut s_rodata, 40)
-	// g.db.info("Inserted $g.ctx.variables.len variables")
-
+	g.file.drain_builder(mut s_rodata, 0)
 	g.file.writeln('section .text')
 	// -- START PROGRAM --
-
 	for _, mut i in g.fns {
 		g.file.writeln(i.gen())
 	}
-
 	g.file.writeln(builtin_entry)
-	// g.db.info("Finished dynamic codegen, generated assembly for $g.statements.len statements")
 }
 
 interface IR_Statement {
@@ -210,9 +202,14 @@ fn (i IR_GREATER) gen(mut ctx Function) string {
 	pop rdi
 	xor rax, rax
 	cmp rdi, rsi
-	setg al
+	seta al
 	push rax'
 }
+/* 
+	!!! - setg is a signed comparison!
+	!!! - seta is not!
+	!!! - https://en.wikibooks.org/wiki/X86_Assembly/Control_Flow#Jump_if_Above_(unsigned_comparison)
+*/
 
 struct IR_LESS {}
 fn (i IR_LESS) gen(mut ctx Function) string {
@@ -221,7 +218,7 @@ fn (i IR_LESS) gen(mut ctx Function) string {
 	pop rdi
 	xor rax, rax
 	cmp rdi, rsi
-	setl al
+	setb al
 	push rax'
 }
 
@@ -244,7 +241,7 @@ fn (i IR_SWAP) gen(mut ctx Function) string {
 
 struct IR_DROP {}
 fn (i IR_DROP) gen(mut ctx Function) string {
-	return annotate('add rsp, 8','; ~ STACK - DROP')
+	return '\t${annotate('add rsp, 8','; ~ STACK - DROP')}'
 }
 
 // https://hackeradam.com/x86-64-linux-syscalls/

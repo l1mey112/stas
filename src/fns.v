@@ -181,7 +181,7 @@ fn parse_string(tok Token, g &Gen) string {
 fn (mut i Function) gen_rodata(g &Gen) string {
 	mut f := strings.new_builder(60)
 	for k, d in i.slit {
-		f.writeln("$k: db ${parse_string(d,g)}, 0")
+		f.writeln("\t$k: db ${parse_string(d,g)}, 0")
 	}
 	return f.str()
 }

@@ -8,10 +8,10 @@ endl ! in do
 end
 
 strlen in buf do
-    buf
-    while @ * :: 8 0 != do
+	buf
+	while @ * :: 8 0 != do
 		++
-    end
+	end
 	buf -=
 end
 
@@ -28,15 +28,15 @@ end
 
 memset ! in ptr val len do 
 	ptr
-    while @ ptr len += < do
+	while @ ptr len += < do
 		@ val & :: 8
 		++
-    end
+	end
 	_
 end
 
 uput ! in num do
-	local buf [20]
+	local buf [20]      ; 18446744073709551615
 	local pos 0
 	local len 0
 

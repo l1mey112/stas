@@ -1,5 +1,0 @@
-No symbol table is loaded.  Use the "file" command.
-Make breakpoint pending on future shared library load? (y or [n]) [answered N; input not from terminal]
-.gdbinit:11: Error in sourced command file:
-No executable file specified.
-Use the "file" or "exec-file" command.

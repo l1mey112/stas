@@ -2,6 +2,8 @@ vls.log
 .vscode
 ramblings
 
+gdb.output
+
 .githash
 *.o
 *-compile

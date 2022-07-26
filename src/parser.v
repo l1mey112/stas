@@ -1,3 +1,5 @@
+import strconv
+
 struct Parser {
 mut:
 	tokens []Token
@@ -47,12 +49,15 @@ fn (mut g Parser) peek_bool(expected Tok) bool {
 	return g.tokens[g.pos+1].token == expected
 }
 
-fn str_to_u64(s string)u64{
-	if s[0] == `-` {
-		return -s[1..].u64()
-	} else {
-		return s.u64()
+fn str_to_u64(t Token)u64{
+	isneg := t.lit[0] == `-`
+	str := if isneg {t.lit[1..]} else {t.lit}
+	
+	num := strconv.parse_uint(str,10,64) or {
+		error_tok("Unsigned integer overflow (64 bit)",t)
 	}
+
+	return if isneg {-num} else {num}
 }
 
 fn (mut g Parser) new_push()IR_Statement{
@@ -89,7 +94,7 @@ fn (mut g Parser) new_push()IR_Statement{
 		}
 	} else if g.curr.token == .number_lit {
 		return IR_PUSH_NUMBER {
-			data: str_to_u64(g.curr.lit)
+			data: str_to_u64(g.curr)
 		}
 	}
 
@@ -148,7 +153,7 @@ fn (mut g Parser) new_stack_var()?IR_Statement{
 		g.ctx.vari++
 		return IR_VAR_INIT_NUMBER {
 			var: name_tok.lit
-			data: str_to_u64(g.curr.lit)
+			data: str_to_u64(g.curr)
 		}
 	} else if g.curr.token == .sb_l {
 		g.next(.number_lit)
@@ -379,7 +384,7 @@ fn (mut g Parser) parse_token()?IR_Statement{
 					continue
 				}
 			}
-			
+
 			.syscall  {return IR_SYSCALL{}}
 			.syscall1 {return IR_SYSCALL1{}}
 			.syscall2 {return IR_SYSCALL2{}}
