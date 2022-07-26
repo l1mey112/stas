@@ -11,52 +11,6 @@ const (
 '[BITS 64]
 global _start'
 
-	builtin_assembly =
-'
-section .text
-builtin_write:
-	mov rdx, rsi
-	mov rsi, rdi
-	mov rax, 1 ; sys_write
-	mov rdi, 1 ; stdout
-	syscall
-	ret
-builtin_newline:
-	mov rdi, builtin_nl
-	mov rsi, 1
-	call builtin_write
-	ret
-builtin_uput:
-	push rbp
-	mov rbp, rsp
-	mov rbx, rbp
-	sub rsp, 20 
-	mov rcx, 0
-	test rdi, rdi
-	je builtin_uput_zero
-	mov rsi, 10
-builtin_uput_nextc:
-	dec rbx
-	mov rax, rdi
-	xor edx, edx
-	div rsi
-	mov rdi, rax
-	add edx, "0"
-	mov byte [rbx], dl
-	inc rcx
-	test rdi, rdi
-	jne builtin_uput_nextc
-builtin_uput_end:
-	mov rdi, rbx
-	mov rsi, rcx
-	call builtin_write
-	leave
-	ret
-builtin_uput_zero:
-	mov rcx, 1
-	mov byte [rbx], "0"
-	jmp builtin_uput_end'
-
 	builtin_entry = 
 '_start:	
 	call main
@@ -81,9 +35,7 @@ fn (mut g Gen) gen_all(){
 	g.file.drain_builder(mut s_rodata, 40)
 	// g.db.info("Inserted $g.ctx.variables.len variables")
 
-	// -- BUILTIN FUNCTIONS --
-	g.file.writeln(builtin_assembly)
-	// g.db.info("Wrote ${builtin_assembly.count('\n')+1} lines of builtin assembly")
+	g.file.writeln('section .text')
 	// -- START PROGRAM --
 
 	for _, mut i in g.fns {
@@ -153,21 +105,6 @@ fn (i IR_WRITEP_8) gen(mut ctx Function) string {
 '	${annotate('pop rax','; INTRINSIC - WRITE PTR U8')}
 	pop rdi
 	mov byte [rdi], al'
-}
-
-struct IR_UPUT {}
-fn (i IR_UPUT) gen(mut ctx Function) string {
-	return
-'	${annotate('pop rdi','; ~ INTRINSIC - UPUT')}
-	call builtin_uput'
-}
-
-struct IR_UPUTLN {}
-fn (i IR_UPUTLN) gen(mut ctx Function) string {
-	return
-'	${annotate('pop rdi','; ~ INTRINSIC - UPUTLN')}
-	call builtin_uput
-	call builtin_newline'
 }
 
 struct IR_ADD {}
@@ -302,7 +239,7 @@ fn (i IR_SWAP) gen(mut ctx Function) string {
 '	${annotate('pop rdi','; ~ STACK - SWAP')}
 	pop rsi
 	push rdi
-	push rdi'
+	push rsi' // motherfucker i did a push rdi, push rdi
 }
 
 struct IR_DROP {}

@@ -34,3 +34,36 @@ memset ! in ptr val len do
     end
 	_
 end
+
+uput ! in num do
+	local buf [20]
+	local pos 0
+	local len 0
+
+	if num 0 = do       ; avoid division by 0
+		buf 48 & :: 8   ; '0'
+		buf 1 write
+		return
+	end
+
+	buf 20 += pop pos
+	
+	num
+	while @ 0 > do
+		pos -- pop pos
+
+		10 %%           ; get remainder
+		48 +=           ; convert to ascii
+		pos ~ & :: 8    ; write char into buffer
+
+		len ++ pop len
+	end
+	_
+
+	pos len write
+end
+
+uputln ! in num do
+	num uput
+	endl
+end

@@ -51,9 +51,6 @@ enum Tok {
 	// return none in functions
 
 	_keywords_begin_
-	uput
-	uputln
-
 	pop
 	local
 	ret
@@ -84,9 +81,6 @@ fn build_token_literals() []string {
 	a[Tok.name] = "name"
 	a[Tok.string_lit] = "string"
 	a[Tok.number_lit] = "number"
-
-	a[Tok.uput] = "uput"
-	a[Tok.uputln] = "uputln"
 	
 	a[Tok.pop] = "pop"
 	a[Tok.local] = "local"

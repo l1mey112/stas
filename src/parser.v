@@ -379,10 +379,7 @@ fn (mut g Parser) parse_token()?IR_Statement{
 					continue
 				}
 			}
-
-			.uput    {g.ctx.is_stack_frame = true return IR_UPUT{} }
-			.uputln  {g.ctx.is_stack_frame = true return IR_UPUTLN{} }
-
+			
 			.syscall  {return IR_SYSCALL{}}
 			.syscall1 {return IR_SYSCALL1{}}
 			.syscall2 {return IR_SYSCALL2{}}
