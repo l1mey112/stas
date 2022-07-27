@@ -3,6 +3,13 @@ A werid little stack based programming language and compiler written in V, creat
 
 stas - st(ack) as(sembly)
 
+### blog.l-m.dev
+[Part 1](https://blog.l-m.dev/posts/compiler-part-1/)
+
+[Part 2](https://blog.l-m.dev/posts/compiler-part-2/)
+
+[Part 3](https://blog.l-m.dev/posts/compiler-part-3/)
+
 ### Hello world!
 
 ```
