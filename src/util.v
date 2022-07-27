@@ -10,7 +10,7 @@ mut:
 
 fn (mut f FileContainer) open_file(filepath string, search_path string) string {
 	if os.is_dir(filepath) {
-		eprintln("Cannot pass directory!!!! TODO: UNIFIED ERROR INTERFACE")
+		eprintln("Cannot accept directories!")
 		exit(1)
 	}
 	mut data := ''
@@ -45,20 +45,46 @@ struct FilePos {
 	filename string
 }
 
+[inline]
+fn min<T>(a T, b T) T {
+	return if a < b { a } else { b }
+}
+
+[inline]
+fn max<T>(a T, b T) T {
+	return if a > b { a } else { b }
+}
+
 [noreturn]
 fn comp_error(err string, fp FilePos) {
 	file_contents := file_container.get_file(fp.filename)
-	mut str := strings.new_builder(40)
+	mut str := strings.new_builder(80)
 	rrow := fp.row+1
 	rcol := fp.col+1
+	// error str and file position
 	str.writeln("$fp.filename:$rrow:$rcol: ${term.red(err)}")
-	error_line := file_contents.split_into_lines()[fp.row]
-	prefix := "$rrow | "
-	str.writeln(prefix+error_line)
-	str.ensure_cap(fp.col+prefix.len+fp.len)
-	for _ in 0 .. fp.col+prefix.len {str.write_u8(` `)}
-	for _ in 0 .. fp.len {str.write_u8(`~`)}
+	// show file context
+
+	error_line := file_contents.split_into_lines()
+	for row in max(0,fp.row-2)..min(error_line.len,fp.row+3) {
+		prefix := "$row | "
+		str.writeln(prefix+error_line[row])
+		if row == fp.row {
+			str.ensure_cap(fp.col+prefix.len+fp.len+1)
+			for _ in 0 .. fp.col+prefix.len {str.write_u8(` `)}
+			for _ in 0 .. fp.len {str.write_u8(`~`)}
+			str.write_u8(`\n`)
+		}
+	}
 	eprintln(str.str())
+	exit(1)
+}
+
+[noreturn]
+fn comp_error_file(err string, filename string){
+	mut str := strings.new_builder(60)
+	str.writeln("$filename: ${term.red(err)}")
+	eprint(str.str())
 	exit(1)
 }
 

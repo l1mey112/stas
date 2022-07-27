@@ -24,6 +24,12 @@ Checkout the `files/` directory for more examples, the language is in heavy deve
 
 I use `stas.sh` for quick compiler development. It compiles and runs the entire project and passes the correct arguments to the compiler.
 
+### Disclaimer
+
+Due to the nature of the language, my goals are to emit only statically linked binaries (no libc). It is my intention to communicate with the Linux Kernel using system calls. Make of that what you will. This means limited portability among other operating systems and archutectures.
+
+The language supports the amd64 / x86-64 chipset and operating systems using the Linux Kernel.
+
 ```
 $ ./stas.sh -h                                     
 stas 0.0.2 2d120cf

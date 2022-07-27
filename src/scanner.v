@@ -15,9 +15,7 @@ fn scan_file(data string, filename string)[]Token{
 		}
 	}
 	if scanner.tokens.len == 0 {
-		eprintln("TODO: MAKE SAME AS WHOLE_ERROR FOR NO MAIN (MAKE UNIFIED WHOLE ERROR)")
-		eprintln("No readable tokens in file '$filename'!")
-		exit(0)
+		comp_error_file("No readable tokens",filename)
 	}
 	return scanner.tokens
 }

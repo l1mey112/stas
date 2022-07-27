@@ -120,12 +120,6 @@ fn (mut g Parser) check_exists(tok Token){
 fn (mut g Parser) eof_cleanup(){
 	// done parsing all, parse_func should not be called anymore
 
-	if !g.has_main {
-		eprintln("No main function!!!")
-		eprintln("TODO: MAKE PROPER GENERAL ERROR FUNCTION")
-		exit(1)
-	}
-
 	assert !g.inside_if
 	assert !g.inside_while
 

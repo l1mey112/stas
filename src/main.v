@@ -18,6 +18,9 @@ fn run_pipeline(filename string)string{
 	for {
 		parser.parse_new_func() or {
 			parser.eof_cleanup()
+			if !parser.has_main {
+				comp_error_file("No main function",filename)
+			}
 			break
 		}
 	}
