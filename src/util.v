@@ -67,16 +67,18 @@ fn comp_error(err string, fp FilePos) {
 
 	error_line := file_contents.split_into_lines()
 	for row in max(0,fp.row-2)..min(error_line.len,fp.row+3) {
-		prefix := "$row | "
-		str.writeln(prefix+error_line[row])
+		prefix := "${row:3} | "
+		strline := prefix+error_line[row]
+		tabcount := strline.count('\t') * 3
+		str.writeln(strline.replace('\t', '    ')) // replace with my func lul
 		if row == fp.row {
 			str.ensure_cap(fp.col+prefix.len+fp.len+1)
-			for _ in 0 .. fp.col+prefix.len {str.write_u8(` `)}
+			for _ in 0 .. fp.col+prefix.len+tabcount {str.write_u8(` `)}
 			for _ in 0 .. fp.len {str.write_u8(`~`)}
 			str.write_u8(`\n`)
 		}
 	}
-	eprintln(str.str())
+	eprint(str.str())
 	exit(1)
 }
 

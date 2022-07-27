@@ -261,7 +261,7 @@ mut:
 
 fn (i IR_IF) gen(mut ctx Function) string {
 	mut f := strings.new_builder(220)
-	prepend := new_if_hash()
+	prepend := '${ctx.name}_'+new_if_hash()
 	f.writeln(annotate('${prepend}_begin:','    ; ?? IF - START'))
 
 	for s in i.top {
@@ -315,7 +315,7 @@ mut:
 
 fn (i IR_WHILE) gen(mut ctx Function) string {
 	mut f := strings.new_builder(120)
-	prepend := new_while_hash()
+	prepend := '${ctx.name}_'+new_while_hash()
 	f.writeln(annotate('${prepend}_begin:','    ; <> WHILE - START'))
 
 	for s in i.top {

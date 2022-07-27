@@ -150,6 +150,14 @@ fn (mut s Scanner) next_is_whitespace()bool{
 	}
 } */
 
+fn (mut s Scanner) assert_whitespace(c u8){
+	if !(c == 9 || c == 32 || (c > 8 && c < 14) || (c == 0x85) || (c == 0xa0)) {
+		s.pos++
+		comp_error('Unexpected character',s.get_fp())
+	}
+}
+
+
 [direct_array_access; inline]
 fn (mut s Scanner) skip_whitespace() {
 	for s.pos < s.cap {
@@ -284,9 +292,11 @@ fn (mut s Scanner) scan_token() ?Token {
 			`+` {
 				if nextc == `=` {
 					s.pos++
+					s.assert_whitespace(s.next())
 					return s.new_token(.add, '', 2)
 				} else if nextc == `+` {
 					s.pos++
+					s.assert_whitespace(s.next())
 					return s.new_token(.inc, '', 2)
 				} else {
 					comp_error('Unexpected character',s.get_fp())
@@ -295,9 +305,11 @@ fn (mut s Scanner) scan_token() ?Token {
 			`-` {
 				if nextc == `=` {
 					s.pos++
+					s.assert_whitespace(s.next())
 					return s.new_token(.sub, '', 2)
 				} else if nextc == `-` {
 					s.pos++
+					s.assert_whitespace(s.next())
 					return s.new_token(.dec, '', 2)
 				} else {
 					comp_error('Unexpected character',s.get_fp())
@@ -306,14 +318,17 @@ fn (mut s Scanner) scan_token() ?Token {
 			`*` {
 				if nextc == `=` {
 					s.pos++
+					s.assert_whitespace(s.next())
 					return s.new_token(.mul, '', 2)
 				} else {
+					s.assert_whitespace(s.next())
 					return s.new_token(.deref, '', 1)
 				}
 			}
 			`/` {
 				if nextc == `=` {
 					s.pos++
+					s.assert_whitespace(s.next())
 					return s.new_token(.div, '', 2)
 				} else {
 					comp_error('Unexpected character',s.get_fp())
@@ -322,40 +337,50 @@ fn (mut s Scanner) scan_token() ?Token {
 			`%` {
 				if nextc == `=` {
 					s.pos++
+					s.assert_whitespace(s.next())
 					return s.new_token(.mod, '', 2)
 				} else if nextc == `%` {
 					s.pos++
+					s.assert_whitespace(s.next())
 					return s.new_token(.divmod, '', 2)
 				} else {
 					comp_error('Unexpected character',s.get_fp())
 				}
 			}
 			`=` {
+				s.assert_whitespace(s.next())
 				return s.new_token(.equal, '', 1)
 			}
 			`>` {
+				s.assert_whitespace(s.next())
 				return s.new_token(.greater, '', 1)
 			}
 			`<` {
+				s.assert_whitespace(s.next())
 				return s.new_token(.less, '', 1)
 			}
 			`@` {
+				s.assert_whitespace(s.next())
 				return s.new_token(.dup, '', 1)
 			}
 			`~` {
+				s.assert_whitespace(s.next())
 				return s.new_token(.swap, '', 1)
 			}
 			`!` {
 				if nextc == `=` {
 					s.pos++
+					s.assert_whitespace(s.next())
 					return s.new_token(.notequal, '', 2)
 				} else {
+					s.assert_whitespace(s.next())
 					return s.new_token(.void, '', 1)
 				}
 			}
 			`:` {
 				if nextc == `:` {
 					s.pos++
+					s.assert_whitespace(s.next())
 					return s.new_token(.sspec, '', 2)
 				} else {
 					comp_error('Unexpected character',s.get_fp())
@@ -368,6 +393,7 @@ fn (mut s Scanner) scan_token() ?Token {
 				return s.new_token(.sb_r, '', 1)
 			}
 			`&` {
+				s.assert_whitespace(s.next())
 				return s.new_token(.writep, '', 1)
 			}
 			else {
