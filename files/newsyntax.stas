@@ -1,0 +1,24 @@
+#include "std.stas"
+
+; ptr num str
+
+typed_func ptr in buf::str len::num do
+    buf
+end
+
+; untyped_args ptr in buf::str len::num do
+;     buf
+; end
+
+main ! in do
+	local buf [32]
+    
+    buf 10 &
+    buf 8 += 
+    12 &
+
+    3 buf [] :: 64 ; this is just pointer addition with extra steps????
+    12 &
+
+    ; god this syntax is weird
+end

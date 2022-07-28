@@ -21,6 +21,9 @@ fn run_pipeline(filename string)string{
 			if !parser.has_main {
 				comp_error_file("No main function",filename)
 			}
+			if !parser.fns["main"].return_none {
+				comp_error_file("Main function must return void",filename)
+			}
 			break
 		}
 	}

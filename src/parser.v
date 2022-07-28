@@ -158,7 +158,7 @@ fn (mut g Parser) new_stack_var()?IR_Statement{
 		if buf_count <= 0 {
 			error_tok("Contiguous stack memory cannot be 0 or negative!",g.curr)
 		}
-		g.ctx.bufs[name_tok.lit] = BufT {s: buf_count}
+		g.ctx.bufs[name_tok.lit] = buf_count
 		return none
 	}
 
@@ -191,7 +191,7 @@ fn (mut g Parser) parse_new_func()?{
 	g.check_exists(name)
 
 	if name.lit == "main" {
-		g.ctx.no_return = true // needed
+		// g.ctx.no_return = true
 		g.has_main = true
 	}
 	g.ctx.name = name.lit

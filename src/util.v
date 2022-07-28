@@ -13,10 +13,11 @@ fn (mut f FileContainer) open_file(filepath string, search_path string) string {
 		eprintln("Cannot accept directories!")
 		exit(1)
 	}
+	mut relpath := ''
 	mut data := ''
 	if !os.exists(filepath) && search_path != '' {
 		assert os.is_dir(search_path)
-		relative_path := os.join_path_single(search_path,filepath)
+		relpath = os.join_path_single(search_path,filepath)
 		data = os.read_file(relative_path) or {
 			eprintln("Cannot find file '$relative_path'!")
 			exit(1)
@@ -26,9 +27,10 @@ fn (mut f FileContainer) open_file(filepath string, search_path string) string {
 			eprintln("Cannot find file '$filepath'!")
 			exit(1)
 		}
+		relpath = filepath
 	}
-	f.files[filepath] = data
-	return f.files[filepath]
+	f.files[relpath] = data
+	return f.files[relpath]
 }
 
 [inline]
@@ -64,13 +66,12 @@ fn comp_error(err string, fp FilePos) {
 	// error str and file position
 	str.writeln("$fp.filename:$rrow:$rcol: ${term.red(err)}")
 	// show file context
-
 	error_line := file_contents.split_into_lines()
 	for row in max(0,fp.row-2)..min(error_line.len,fp.row+3) {
 		prefix := "${row:3} | "
 		strline := prefix+error_line[row]
 		tabcount := strline.count('\t') * 3
-		str.writeln(strline.replace('\t', '    ')) // replace with my func lul
+		str.writeln(strline.normalize_tabs(4))
 		if row == fp.row {
 			str.ensure_cap(fp.col+prefix.len+fp.len+1)
 			for _ in 0 .. fp.col+prefix.len+tabcount {str.write_u8(` `)}

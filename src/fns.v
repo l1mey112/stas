@@ -1,21 +1,28 @@
 import strings
 
+enum BuiltinType {
+	empty
+	number_t
+	pointer_t
+	str_t
+}
+
 struct VarT {
 	t Token 
 	i int
-}
-struct BufT {
-	s int
+	typ BuiltinType
 }
 
 [heap]
 struct Function{
 mut:
 	name string
+
+	ret BuiltinType
 	args []string
 	vari int = 1
 	vars map[string]VarT
-	bufs map[string]BufT
+	bufs map[string]int
 	slit map[string]Token
 	body []IR_Statement
 
@@ -86,10 +93,10 @@ fn (i IR_PUSH_BUF_PTR) gen(mut ctx Function) string {
 		if name == i.var {
 			return 
 				'\tmov rax, rbp\n' +
-				'\tsub rax, ${ctx.buf_offset+offset+buf_t.s}\n' +
+				'\tsub rax, ${ctx.buf_offset+offset+buf_t}\n' +
 				'\t'+annotate("push rax","; <- PUSH BUFFER PTR '$i.var'")
 		}
-		offset += buf_t.s
+		offset += buf_t
 	}
 	panic("")
 }
@@ -201,7 +208,7 @@ fn (mut i Function) gen() string {
 	i.buf_offset = i.var_offset + i.vars.len*8
 	mut total_buf_size := 0
 	for _, b in i.bufs {
-		total_buf_size += b.s
+		total_buf_size += b
 	} 
 	total_stack_frame := i.buf_offset + total_buf_size
 
