@@ -16,6 +16,15 @@ mut:
 	token  Tok
 }
 
+fn (tok Token) fpos() FilePos {
+	return FilePos{
+		row: tok.row
+		col: tok.col
+		len: tok.len
+		filename: tok.file
+	}
+}
+
 enum Tok {
 	name
 	string_lit
@@ -34,8 +43,8 @@ enum Tok {
 	greater  // >
 	less     // <
 
-	sb_l // [
-	sb_r // ]
+	sb_l     // [
+	sb_r     // ]
 
 	// stack manipulation
 	dup     // @
@@ -48,7 +57,6 @@ enum Tok {
 	sspec   // ::
 
 	void    // !
-	// return none in functions
 
 	_keywords_begin_
 	pop
@@ -63,6 +71,13 @@ enum Tok {
 	else_block
 	end_block
 
+	_true
+	_false
+	
+	integer // int
+	boolean // bool
+//	pointer // *
+
 	syscall
 	syscall1
 	syscall2
@@ -70,6 +85,8 @@ enum Tok {
 	syscall4
 	syscall5
 	syscall6
+
+	debug_stack_dump
 
 	_keywords_end_
 
@@ -93,6 +110,12 @@ fn build_token_literals() []string {
 	a[Tok.else_block] = "else"
 	a[Tok.end_block] = "end"
 
+	a[Tok._true] = "true"
+	a[Tok._false] = "false"
+
+	a[Tok.integer] = "int"
+	a[Tok.boolean] = "bool"
+
 	a[Tok.syscall]  = "syscall"
 	a[Tok.syscall1] = "syscall1"
 	a[Tok.syscall2] = "syscall2"
@@ -100,6 +123,8 @@ fn build_token_literals() []string {
 	a[Tok.syscall4] = "syscall4"
 	a[Tok.syscall5] = "syscall5"
 	a[Tok.syscall6] = "syscall6"
+
+	a[Tok.debug_stack_dump] = "_dump"
 	
 	$if !prod {
 		for s in a[int(Tok._keywords_begin_)+1..int(Tok._keywords_end_)] {

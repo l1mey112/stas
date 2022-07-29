@@ -1,7 +1,7 @@
 #include "std.stas"
 
-main in do
-	local str_ptr [4]
+main ! in do
+	local * str_ptr [4]
 
 	str_ptr
 	

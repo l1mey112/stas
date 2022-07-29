@@ -1,0 +1,33 @@
+#include "std.stas"
+#use_dump
+
+dangling_func ! in do
+	1 true "Hello!"
+end
+
+args_func ! in a int b int do
+	
+end
+
+main ! in do
+	local int int_var 0
+	local * str_var "Hello!\n"
+
+	; int_var str_var /= uputln
+		; obviously it would be dumb to multiply
+		; and divide with a pointer
+	
+	; dangling_func
+		; func returns none and leaves values
+		; unaccounted for on the stack
+
+	; int_var *
+		; dereferencing integers?
+		; nope!
+	
+	; 2 args_func
+		; not enough values to consume
+
+	int_var _dump _
+	str_var _dump _
+end

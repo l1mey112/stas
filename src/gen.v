@@ -3,6 +3,7 @@ import strings
 struct Gen {
 mut:
 	fns map[string]&Function
+	data []IR_Statement
 	file strings.Builder
 }
 
@@ -40,16 +41,17 @@ fn (mut g Gen) gen_all(){
 
 interface IR_Statement {
 	gen(mut ctx Function) string
+	pos FilePos
 }
 
-struct IR_DEREF_64 {}
+struct IR_DEREF_64 {pos FilePos}
 fn (i IR_DEREF_64) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rdi','; INTRINSIC - DEREF U64')}
 	push qword [rdi]'
 }
 
-struct IR_DEREF_32 {}
+struct IR_DEREF_32 {pos FilePos}
 fn (i IR_DEREF_32) gen(mut ctx Function) string {
 	return
 '	${annotate('xor rax,rax','; INTRINSIC - DEREF U32')}
@@ -58,7 +60,7 @@ fn (i IR_DEREF_32) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_DEREF_16 {}
+struct IR_DEREF_16 {pos FilePos}
 fn (i IR_DEREF_16) gen(mut ctx Function) string {
 	return
 '	${annotate('xor rax,rax','; INTRINSIC - DEREF U16')}
@@ -67,7 +69,7 @@ fn (i IR_DEREF_16) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_DEREF_8 {}
+struct IR_DEREF_8 {pos FilePos}
 fn (i IR_DEREF_8) gen(mut ctx Function) string {
 	return
 '	${annotate('xor rax,rax','; INTRINSIC - DEREF U8')}
@@ -76,22 +78,22 @@ fn (i IR_DEREF_8) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_WRITEP_64 {}
+struct IR_WRITEP_64 {pos FilePos}
 fn (i IR_WRITEP_64) gen(mut ctx Function) string {
 	return ''
 }
 
-struct IR_WRITEP_32 {}
+struct IR_WRITEP_32 {pos FilePos}
 fn (i IR_WRITEP_32) gen(mut ctx Function) string {
 	return ''
 }
 
-struct IR_WRITEP_16 {}
+struct IR_WRITEP_16 {pos FilePos}
 fn (i IR_WRITEP_16) gen(mut ctx Function) string {
 	return ''
 }
 
-struct IR_WRITEP_8 {}
+struct IR_WRITEP_8 {pos FilePos}
 fn (i IR_WRITEP_8) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rax','; INTRINSIC - WRITE PTR U8')}
@@ -99,7 +101,7 @@ fn (i IR_WRITEP_8) gen(mut ctx Function) string {
 	mov byte [rdi], al'
 }
 
-struct IR_ADD {}
+struct IR_ADD {pos FilePos}
 fn (i IR_ADD) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rdi','; ~ OPERATOR - ADD')}
@@ -108,7 +110,7 @@ fn (i IR_ADD) gen(mut ctx Function) string {
 	push rsi'
 }
 
-struct IR_SUB {}
+struct IR_SUB {pos FilePos}
 fn (i IR_SUB) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rdi','; ~ OPERATOR - SUBTRACT')}
@@ -117,7 +119,7 @@ fn (i IR_SUB) gen(mut ctx Function) string {
 	push rsi'
 }
 
-struct IR_MUL {}
+struct IR_MUL {pos FilePos}
 fn (i IR_MUL) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rdi','; ~ OPERATOR - MULTIPLY')}
@@ -126,7 +128,7 @@ fn (i IR_MUL) gen(mut ctx Function) string {
 	push rsi'
 }
 
-struct IR_DIV {}
+struct IR_DIV {pos FilePos}
 fn (i IR_DIV) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rdi','; ~ OPERATOR - DIVIDE')}
@@ -136,7 +138,7 @@ fn (i IR_DIV) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_MOD {}
+struct IR_MOD {pos FilePos}
 fn (i IR_MOD) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rdi','; ~ OPERATOR - MODULO')}
@@ -146,7 +148,7 @@ fn (i IR_MOD) gen(mut ctx Function) string {
 	push rdx'
 }
 
-struct IR_DIVMOD {}
+struct IR_DIVMOD {pos FilePos}
 fn (i IR_DIVMOD) gen (mut ctx Function) string {
 	return
 '	${annotate('pop rdi','; ~ OPERATOR - DIVIDE AND MODULO')}
@@ -157,7 +159,7 @@ fn (i IR_DIVMOD) gen (mut ctx Function) string {
 	push rdx' // push DIV then MOD
 }
 
-struct IR_INC {}
+struct IR_INC {pos FilePos}
 fn (i IR_INC) gen(mut ctx Function) string {
 	return 
 '	${annotate('pop rdi','; ~ OPERATOR - INCREMENT')}
@@ -165,7 +167,7 @@ fn (i IR_INC) gen(mut ctx Function) string {
 	push rdi'
 }
 
-struct IR_DEC {}
+struct IR_DEC {pos FilePos}
 fn (i IR_DEC) gen(mut ctx Function) string {
 	return 
 '	${annotate('pop rdi','; ~ OPERATOR - DECREMENT')}
@@ -173,7 +175,7 @@ fn (i IR_DEC) gen(mut ctx Function) string {
 	push rdi'
 }
 
-struct IR_EQUAL {}
+struct IR_EQUAL {pos FilePos}
 fn (i IR_EQUAL) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rsi','; ~ CONDITIONAL - EQUAL')}
@@ -184,7 +186,7 @@ fn (i IR_EQUAL) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_NOTEQUAL {}
+struct IR_NOTEQUAL {pos FilePos}
 fn (i IR_NOTEQUAL) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rsi','; ~ CONDITIONAL - NOT EQUAL')}
@@ -195,7 +197,7 @@ fn (i IR_NOTEQUAL) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_GREATER {}
+struct IR_GREATER {pos FilePos}
 fn (i IR_GREATER) gen(mut ctx Function) string {
 	return 
 '	${annotate('pop rsi','; ~ CONDITIONAL - GREATER THAN')}
@@ -211,7 +213,7 @@ fn (i IR_GREATER) gen(mut ctx Function) string {
 	!!! - https://en.wikibooks.org/wiki/X86_Assembly/Control_Flow#Jump_if_Above_(unsigned_comparison)
 */
 
-struct IR_LESS {}
+struct IR_LESS {pos FilePos}
 fn (i IR_LESS) gen(mut ctx Function) string {
 	return 
 '	${annotate('pop rsi','; ~ CONDITIONAL - LESS THAN')}
@@ -222,7 +224,7 @@ fn (i IR_LESS) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_DUP {}
+struct IR_DUP {pos FilePos}
 fn (i IR_DUP) gen(mut ctx Function) string {
 	return 
 '	${annotate('pop rdi','; ~ STACK - DUPLICATE')}
@@ -230,7 +232,7 @@ fn (i IR_DUP) gen(mut ctx Function) string {
 	push rdi'
 }
 
-struct IR_SWAP {}
+struct IR_SWAP {pos FilePos}
 fn (i IR_SWAP) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rdi','; ~ STACK - SWAP')}
@@ -239,13 +241,13 @@ fn (i IR_SWAP) gen(mut ctx Function) string {
 	push rsi' // motherfucker i did a push rdi, push rdi
 }
 
-struct IR_DROP {}
+struct IR_DROP {pos FilePos}
 fn (i IR_DROP) gen(mut ctx Function) string {
 	return '\t${annotate('add rsp, 8','; ~ STACK - DROP')}'
 }
 
 // https://hackeradam.com/x86-64-linux-syscalls/
-struct IR_SYSCALL {}
+struct IR_SYSCALL {pos FilePos}
 fn (i IR_SYSCALL) gen(mut ctx Function) string {
 	return 
 '	${annotate('pop rax','; ~ INTRINSIC - SYSCALL')}
@@ -253,7 +255,7 @@ fn (i IR_SYSCALL) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_SYSCALL1 {}
+struct IR_SYSCALL1 {pos FilePos}
 fn (i IR_SYSCALL1) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rdi','; ~ INTRINSIC - SYSCALL1')}
@@ -262,7 +264,7 @@ fn (i IR_SYSCALL1) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_SYSCALL2 {}
+struct IR_SYSCALL2 {pos FilePos}
 fn (i IR_SYSCALL2) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rsi','; ~ INTRINSIC - SYSCALL2')}
@@ -272,7 +274,7 @@ fn (i IR_SYSCALL2) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_SYSCALL3 {}
+struct IR_SYSCALL3 {pos FilePos}
 fn (i IR_SYSCALL3) gen(mut ctx Function) string {
 	return
 '	${annotate('pop rdx','; ~ INTRINSIC - SYSCALL3')}
@@ -283,7 +285,7 @@ fn (i IR_SYSCALL3) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_SYSCALL4 {}
+struct IR_SYSCALL4 {pos FilePos}
 fn (i IR_SYSCALL4) gen(mut ctx Function) string {
 	return
 '	${annotate('pop r10','; ~ INTRINSIC - SYSCALL4')}
@@ -295,7 +297,7 @@ fn (i IR_SYSCALL4) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_SYSCALL5 {}
+struct IR_SYSCALL5 {pos FilePos}
 fn (i IR_SYSCALL5) gen(mut ctx Function) string {
 	return
 '	${annotate('pop r8','; ~ INTRINSIC - SYSCALL5')}
@@ -308,7 +310,7 @@ fn (i IR_SYSCALL5) gen(mut ctx Function) string {
 	push rax'
 }
 
-struct IR_SYSCALL6 {}
+struct IR_SYSCALL6 {pos FilePos}
 fn (i IR_SYSCALL6) gen(mut ctx Function) string {
 	return
 '	${annotate('pop r9','; ~ INTRINSIC - SYSCALL6')}

@@ -1,4 +1,9 @@
-write ! in buf count do
+exit ! in code int do
+	60 code syscall1
+	_
+end
+
+write ! in buf * count int do
 	1 1 buf count syscall3
 	_
 end
@@ -7,7 +12,7 @@ endl ! in do
 	"\n" 1 write
 end
 
-strlen in buf do
+strlen int in buf * do
 	buf
 	while @ * :: 8 0 != do
 		++
@@ -15,18 +20,26 @@ strlen in buf do
 	buf -=
 end
 
-print ! in buf do
+print ! in buf * do
 	buf
 	buf strlen
 	write
 end
 
-println ! in buf do
-	print
+println ! in buf * do
+	buf print
 	endl
 end
 
-memset ! in ptr val len do 
+assert ! in check bool do
+	if check do else
+		"---------- Assertation failed! ----------" println
+		"TODO: proper filepos keyword and panic function" println
+		1 exit
+	end
+end
+
+memset ! in ptr * val int len int do 
 	ptr
 	while @ ptr len += < do
 		@ val & :: 8
@@ -35,10 +48,10 @@ memset ! in ptr val len do
 	_
 end
 
-uput ! in num do
-	local buf [20]      ; 18446744073709551615
-	local pos 0
-	local len 0
+uput ! in num int do
+	local * buf [20]      ; 18446744073709551615
+	local * pos 0
+	local int len 0
 
 	if num 0 = do       ; avoid division by 0
 		buf 48 & :: 8   ; '0'
@@ -63,7 +76,7 @@ uput ! in num do
 	pos len write
 end
 
-uputln ! in num do
+uputln ! in num int do
 	num uput
 	endl
 end

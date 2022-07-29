@@ -1,7 +1,8 @@
 #include "std.stas"
+#use_dump
 
-main in do
-	local buf [21]
+main ! in do
+	local * buf [21]
 	buf 83 20 memset
 
 	buf 21 += 0 & :: 8

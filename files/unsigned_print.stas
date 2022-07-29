@@ -1,10 +1,10 @@
 #include "std.stas"
 
 main ! in do
-	18446744073709551615 uputln
-	-1 uputln
+	18446744073709551615 @ uputln
+	-1 @ uputln
+	= assert
 	44444433 uputln
-	22323232323 uputln
 
 	; 18446744073709551616 uputln
 	; error - overflow!

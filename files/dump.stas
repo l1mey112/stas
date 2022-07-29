@@ -1,0 +1,11 @@
+#include "std.stas"
+#use_dump
+
+func ! in do
+	5 5 5 _dump _ _ _
+end
+
+main ! in do
+	func
+	1 true "Hello!" _dump
+end

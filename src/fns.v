@@ -1,25 +1,40 @@
 import strings
 
-enum BuiltinType {
-	empty
-	number_t
-	pointer_t
-	str_t
-}
-
 struct VarT {
 	t Token 
 	i int
 	typ BuiltinType
 }
 
+struct ArgT {
+	name string
+	typ BuiltinType
+}
+
+fn (t []ArgT) is_in(b string)bool {
+	for a in t {
+		if a.name == b {
+			return true
+		}
+	}
+	return false
+}
+
+fn (t []ArgT) get(b string) ?ArgT {
+	for a in t {
+		if a.name == b {
+			return a
+		}
+	}
+	return none
+}
+
 [heap]
-struct Function{
+struct Function {
 mut:
 	name string
 
-	ret BuiltinType
-	args []string
+	args []ArgT
 	vari int = 1
 	vars map[string]VarT
 	bufs map[string]int
@@ -29,10 +44,8 @@ mut:
 	var_offset int
 	buf_offset int
 	is_stack_frame bool
-
-	no_return bool
-	/*	main ! in do --- end
-	        ~~~              */
+	
+	ret BuiltinType
 }
 
 /* struct IR_VAR_INIT {
@@ -46,7 +59,9 @@ fn (i IR_VAR_INIT) gen(mut ctx Function) string {
 struct IR_VAR_INIT_STR {
 	var string
 	data string
+	pos FilePos
 }
+
 fn (i IR_VAR_INIT_STR) gen(mut ctx Function) string {
 	return "\t"+annotate('mov qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}], $i.data','; VAR STACK INIT \'$i.var\'')
 }
@@ -54,39 +69,45 @@ fn (i IR_VAR_INIT_STR) gen(mut ctx Function) string {
 struct IR_VAR_INIT_NUMBER {
 	var string
 	data u64
+	pos FilePos
 }
 fn (i IR_VAR_INIT_NUMBER) gen(mut ctx Function) string {
 	return "\t"+annotate('mov qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}], $i.data','; VAR STACK INIT \'$i.var\'')
 }
 
-struct IR_POP_NUM_VAR {var string}
+struct IR_POP_NUM_VAR {var string pos FilePos}
 fn (i IR_POP_NUM_VAR) gen(mut ctx Function) string {
 	return "\t"+annotate('pop qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}]','; POP INTO VAR \'$i.var\'')
 }
 
 // ---- push 
 
-struct IR_PUSH_NUMBER {data u64}
+struct IR_PUSH_NUMBER {data u64 pos FilePos}
 fn (i IR_PUSH_NUMBER) gen(mut ctx Function) string {
 	return "\t"+annotate('push qword $i.data','; <- LITERAL NUMBER')
 }
 
-struct IR_PUSH_STR_VAR {var string}
+struct IR_PUSH_BOOL {data bool pos FilePos}
+fn (i IR_PUSH_BOOL) gen(mut ctx Function) string {
+	return "\t"+annotate('push qword ${int(i.data)}','; <- LITERAL BOOLEAN')
+}
+
+struct IR_PUSH_STR_VAR {var string pos FilePos}
 fn (i IR_PUSH_STR_VAR) gen(mut ctx Function) string {
 	return '\t'+annotate('push qword $i.var','; <- STRING VAR')
 }
 
-struct IR_PUSH_VAR {var string}
+struct IR_PUSH_VAR {var string pos FilePos}
 fn (i IR_PUSH_VAR) gen(mut ctx Function) string {
 	for idx, a in ctx.args {
-		if a == i.var {
+		if a.name == i.var {
 			return '\t'+annotate("push qword [rbp - ${(idx+1)*8}]","; <- PUSH ARG '$i.var'")
 		}
 	}
 	return '\t'+annotate("push qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}]","; <- PUSH VAR '$i.var'")
 }
 
-struct IR_PUSH_BUF_PTR {var string}
+struct IR_PUSH_BUF_PTR {var string pos FilePos}
 fn (i IR_PUSH_BUF_PTR) gen(mut ctx Function) string {
 	mut offset := 0
 	for name, buf_t in ctx.bufs {
@@ -112,7 +133,7 @@ const arg_regs = [
 	'r9'
 ]
 
-struct IR_CALL_FUNC {func string argc int no_return bool}
+struct IR_CALL_FUNC {func string argc int no_return bool pos FilePos}
 fn (i IR_CALL_FUNC) gen(mut ctx Function) string {
 	mut args := strings.new_builder(40)
 	mut arg := i.argc
@@ -202,7 +223,7 @@ fn (mut i Function) gen() string {
 	)
 	for idx, a in i.args {
 		init_statement := 'mov qword [rbp - ${(idx+1)*8}], ${arg_regs[idx]}'
-		f.writeln('\t${annotate(init_statement,'; | ARG VAR STACK INIT ' + "\'$a\'")}')
+		f.writeln('\t${annotate(init_statement,'; | ARG VAR STACK INIT ' + "\'$a.name\'")}')
 	}
 	i.var_offset = i.args.len*8
 	i.buf_offset = i.var_offset + i.vars.len*8
@@ -228,7 +249,7 @@ fn (mut i Function) gen() string {
 		}
 		f.writeln(data)
 	}
-	if !i.no_return {
+	if i.ret != .void_t {
 		f.writeln('\t${annotate('pop rax',"; | RETURN VALUE FUNCTION")}')
 	}
 	if i.is_stack_frame {
@@ -240,7 +261,7 @@ fn (mut i Function) gen() string {
 	return f.str()
 }
 
-struct IR_RETURN {}
+struct IR_RETURN {pos FilePos}
 fn (i IR_RETURN) gen(mut ctx Function) string {
 	return 
 	'\t${annotate('pop rax',"; | EARLY RETURN VALUE")}\n' + 
@@ -252,7 +273,7 @@ fn (i IR_RETURN) gen(mut ctx Function) string {
 }
 
 fn (i Function) get_var(str string) bool {
-	return str in i.args || str in i.vars
+	return i.args.is_in(str) || str in i.vars
 }
 
 fn (i Function) get_buf(str string) bool {
@@ -260,6 +281,7 @@ fn (i Function) get_buf(str string) bool {
 }
 
 struct IR_IF{
+	pos FilePos
 mut:
 	top   []IR_Statement
 	body  []IR_Statement
@@ -315,6 +337,7 @@ fn (i IR_IF) gen(mut ctx Function) string {
 }
 
 struct IR_WHILE{
+	pos FilePos
 mut:
 	top   []IR_Statement
 	body  []IR_Statement

@@ -1,6 +1,6 @@
 import os
 
-fn scan_file(data string, filename string)[]Token{
+fn scan_file(data string, filename string)([]Token, CompilePrefs){
 	mut scanner := Scanner {
 		text: data
 		cap: data.len
@@ -17,7 +17,7 @@ fn scan_file(data string, filename string)[]Token{
 	if scanner.tokens.len == 0 {
 		comp_error_file("No readable tokens",filename)
 	}
-	return scanner.tokens
+	return scanner.tokens, scanner.prefs
 }
 
 struct Scanner {
@@ -26,15 +26,12 @@ struct Scanner {
 
 	cap int
 mut:
+	prefs CompilePrefs
 	pos int
 	row int
 	l_nl int = -1
 
 	is_started bool
-	/*
-		used externally unless manipulated with
-		preprocessor directives
-	*/
 	tokens []Token
 }
 
@@ -49,12 +46,7 @@ fn (s Scanner) get_fp() FilePos {
 
 [noreturn]
 fn error_tok(err string,tok Token) {
-	comp_error(err,FilePos{
-		row: tok.row
-		col: tok.col
-		len: tok.len
-		filename: tok.file
-	})
+	comp_error(err,tok.fpos())
 }
 
 [inline]
@@ -234,10 +226,13 @@ fn (mut s Scanner) new_directive() {
 				comp_error('Cannot include empty path',s.get_fp())
 			}
 			
-			data := file_container.open_file(str,os.dir(s.filename)) // ALMOST A PR LOL -> os.path_base(s.filename)
-			tokens_file := scan_file(data, str)
+			data, real_fp := file_container.open_file(str,os.dir(s.filename)) // ALMOST A PR LOL -> os.path_base(s.filename)
+			tokens_file, _ := scan_file(data, real_fp)
 			s.tokens << tokens_file
 			//eprintln("Inserted file '$str' into '$s.filename'")
+		}
+		"use_dump" {
+			s.prefs.use_dump = true
 		}
 		else {
 			comp_error('Unknown preprocessor directive',s.get_fp())

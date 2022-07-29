@@ -4,16 +4,17 @@ import term
 
 [has_globals]
 
-__global file_container = FileContainer{} 
+__global file_container = FileCache{} 
 
 fn run_pipeline(filename string)string{
-	data := file_container.open_file(filename, '')
-	mut tokens := scan_file(data, filename)
+	data, _ := file_container.open_file(filename, '')
+	mut tokens, prefs := scan_file(data, filename)
 	mut parser := Parser {
 		tokens: tokens
 		curr: tokens[0]
 		cap: tokens.len
 		ctx: unsafe { nil }
+		prefs: prefs
 	}
 	for {
 		parser.parse_new_func() or {
@@ -21,18 +22,24 @@ fn run_pipeline(filename string)string{
 			if !parser.has_main {
 				comp_error_file("No main function",filename)
 			}
-			if !parser.fns["main"].return_none {
+			if parser.fns["main"].ret != .void_t {
 				comp_error_file("Main function must return void",filename)
 			}
 			break
 		}
 	}
+
+	mut checker := Checker {
+		fns: parser.fns
+		curr: parser.fns["main"].body[0] // so compiler doesn't give warning
+	}
+	checker.check_all()
+	
 	mut gen := Gen {
 		fns: parser.fns
 	}
 	gen.gen_all()
-	file_out := gen.file.str()
-	return file_out
+	return gen.file.str()
 }
 
 const githash = $embed_file('.githash')
