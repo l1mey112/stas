@@ -101,6 +101,10 @@ fn (fp FilePos) str() string {
 	return bold("$fp.filename:${fp.row+1}:${fp.col+1}")
 }
 
+fn (fp FilePos) plain_str() string {
+	return "$fp.filename:${fp.row+1}:${fp.col+1}"
+}
+
 fn (fp FilePos) to(fp_next FilePos) FilePos {
 	if fp == fp_next {
 		return fp

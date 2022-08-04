@@ -2,7 +2,7 @@ import os
 import flag
 import term
 
-[has_globals]
+[has_globals] // i dunno, builtin has it?
 
 __global file_container = FileCache{} 
 
@@ -31,15 +31,15 @@ fn run_pipeline(filename string)string{
 
 	mut checker := Checker {
 		fns: parser.fns
-		curr: parser.fns["main"].body[0] // so compiler doesn't give warning
+		curr:  unsafe { &DEBUG_DUMP(0) } //parser.fns["main"].body[0] //unsafe { &DEBUG_DUMP(0) } // // so compiler doesn't give warning
 	}
 	checker.check_all()
 	
 	mut gen := Gen {
-		fns: parser.fns
+		fns: mut parser.fns
 	}
-	gen.gen_all()
-	return gen.file.str()
+	out := gen.gen_all()
+	return out
 }
 
 const githash = $embed_file('.githash')

@@ -44,6 +44,8 @@ mut:
 	var_offset int
 	buf_offset int
 	is_stack_frame bool
+
+	fn_calls []string // dead function elimination
 	
 	ret BuiltinType
 }

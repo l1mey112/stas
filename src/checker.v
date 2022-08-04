@@ -357,6 +357,8 @@ fn (mut c Checker) check_all(){
 	c.sim_function(c.fns["main"])
 }
 
+// debug keywords
+
 struct DEBUG_DUMP {
 	pos FilePos
 	amt int = 1

@@ -5,6 +5,7 @@ mut:
 	fns map[string]&Function
 	data []IR_Statement
 	file strings.Builder
+	header strings.Builder
 }
 
 const header = 
@@ -20,23 +21,37 @@ const builtin_entry =
 	mov rax, 60
 	syscall'
 
-fn (mut g Gen) gen_all(){
+fn (mut g Gen) traverse_tree(func string){
+	for f in g.fns[func].fn_calls {
+		if unsafe { g.fns[f] == nil } {
+			continue
+		}
+
+		g.traverse_tree(f)
+		
+		g.file.writeln(g.fns[f].gen())
+		g.header.write_string(g.fns[f].gen_rodata(g))
+		g.fns[f] = unsafe { nil }
+	}
+}
+
+fn (mut g Gen) gen_all() string {
 	g.file = strings.new_builder(250)
 	// -- HEADER --
-	g.file.writeln(header)
-	// -- VARIABLES --
-	mut s_rodata := strings.new_builder(40)
-	s_rodata.writeln('section .rodata')
-	for _, mut i in g.fns {
-		s_rodata.write_string(i.gen_rodata(g))
-	}
-	g.file.drain_builder(mut s_rodata, 0)
+	g.header = strings.new_builder(60)
+	g.header.writeln(header)
+	g.header.writeln('section .rodata')
+	//g.file.drain_builder(mut s_rodata, 0)
 	g.file.writeln('section .text')
 	// -- START PROGRAM --
-	for _, mut i in g.fns {
-		g.file.writeln(i.gen())
-	}
+	
+	g.file.writeln(g.fns['main'].gen())
+	g.header.write_string(g.fns['main'].gen_rodata(g))
+	g.traverse_tree('main')
+		// dead function elimination
 	g.file.writeln(builtin_entry)
+	
+	return g.header.str() + g.file.str()
 }
 
 interface IR_Statement {

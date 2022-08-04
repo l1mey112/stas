@@ -5,14 +5,14 @@ struct Token {
 	row int
 	col int
 
-	lit string
-
 	file string
 	/* 
 	   what file did this come from? 
 	   e.g included files 
 	*/
 mut:
+	lit string
+
 	token  Tok
 }
 
@@ -87,6 +87,7 @@ enum Tok {
 	syscall6
 
 	debug_stack_dump
+	debug_filepos
 
 	_keywords_end_
 
@@ -125,6 +126,7 @@ fn build_token_literals() []string {
 	a[Tok.syscall6] = "syscall6"
 
 	a[Tok.debug_stack_dump] = "_dump"
+	a[Tok.debug_filepos] = "_here"
 	
 	$if !prod {
 		for s in a[int(Tok._keywords_begin_)+1..int(Tok._keywords_end_)] {

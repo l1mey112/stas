@@ -68,6 +68,9 @@ fn (mut g Parser) new_push()IR_Statement{
 		if g.curr.lit in g.fns {
 			g.trace("new func call '$g.curr.lit'")
 			g.ctx.is_stack_frame = true
+			if g.curr.lit != g.ctx.name {
+				g.ctx.fn_calls << g.curr.lit
+			}
 			return IR_CALL_FUNC {
 				argc: g.fns[g.curr.lit].args.len
 				func: g.curr.lit
@@ -533,6 +536,16 @@ fn (mut g Parser) parse_token()?IR_Statement{
 					return DEBUG_DUMP{pos: g.fpos}
 				}
 				continue
+			}
+			.debug_filepos {
+				hash := unsafe { new_lit_hash() }
+				mut tok := g.curr
+				tok.lit = '"$g.fpos.plain_str()"'
+				g.ctx.slit[hash] = tok
+				return IR_PUSH_STR_VAR {
+					var: hash
+					pos: g.fpos
+				}
 			}
 
 			else {panic("Parser not exaustive! 'Tok.$g.curr.token'")}
