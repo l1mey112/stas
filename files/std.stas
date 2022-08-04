@@ -80,3 +80,16 @@ uputln ! in num int do
 	num uput
 	endl
 end
+
+getch int in do
+	local * ch [1]
+	0 0 ch 1 syscall3
+	_
+	
+	ch * :: 8
+end
+
+read_stdin ! in buf * len int do
+	0 0 buf len syscall3
+	_
+end

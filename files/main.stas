@@ -1,5 +1,5 @@
 #include "std.stas"
 
 main ! in do
-	_here println
+	
 end
