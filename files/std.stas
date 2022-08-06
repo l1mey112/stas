@@ -31,13 +31,13 @@ println ! in buf * do
 	endl
 end
 
-assert ! in check bool do
-	if check do else
-		"---------- Assertation failed! ----------" println
-		"TODO: proper filepos keyword and panic function" println
-		1 exit
-	end
-end
+; assert ! in check bool do
+; 	if check do else
+; 		"---------- Assertation failed! ----------" println
+; 		"TODO: proper filepos keyword and panic function" println
+; 		1 exit
+; 	end
+; end
 
 memset ! in ptr * val int len int do 
 	ptr

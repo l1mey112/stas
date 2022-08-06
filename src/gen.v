@@ -15,9 +15,18 @@ global _start'
 
 const builtin_entry = 
 
-'_start:
+'_fatal:
+	mov rdx, rsi
+	mov rsi, rdi
+	mov rax, 1
+	mov rdi, 2
+	syscall
+	mov rdi, 1
+	jmp _exit
+_start:
 	call main
-	mov rdi, 0
+	xor rdi, rdi
+_exit:
 	mov rax, 60
 	syscall'
 
@@ -43,13 +52,13 @@ fn (mut g Gen) gen_all() string {
 	g.header.writeln('section .rodata')
 	//g.file.drain_builder(mut s_rodata, 0)
 	g.file.writeln('section .text')
+	g.file.writeln(builtin_entry)
 	// -- START PROGRAM --
 	
 	g.file.writeln(g.fns['main'].gen())
 	g.header.write_string(g.fns['main'].gen_rodata(g))
 	g.traverse_tree('main')
 		// dead function elimination
-	g.file.writeln(builtin_entry)
 	
 	return g.header.str() + g.file.str()
 }
@@ -337,4 +346,21 @@ fn (i IR_SYSCALL6) gen(mut ctx Function) string {
 	pop rax
 	syscall
 	push rax'
+}
+
+struct IR_ASSERT {
+	pos FilePos
+	msg string
+	msglen int
+}
+fn (i IR_ASSERT) gen(mut ctx Function) string {
+	next := new_next_hash()
+	return 
+'	pop rax
+	test al, al
+	jne $next
+	mov rdi, $i.msg
+	mov rsi, $i.msglen
+	jmp _fatal
+$next:'
 }

@@ -1,0 +1,8 @@
+main ! in do
+	true assert
+	
+	; false assert
+
+	; checker steps in here
+	; 0 assert
+end

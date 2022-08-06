@@ -87,6 +87,8 @@ enum Tok {
 	syscall5
 	syscall6
 
+	_assert
+
 	debug_stack_dump
 	debug_filepos
 
@@ -126,6 +128,8 @@ fn build_token_literals() []string {
 	a[Tok.syscall4] = "syscall4"
 	a[Tok.syscall5] = "syscall5"
 	a[Tok.syscall6] = "syscall6"
+
+	a[Tok._assert] = "assert"
 
 	a[Tok.debug_stack_dump] = "_dump"
 	a[Tok.debug_filepos] = "_here"

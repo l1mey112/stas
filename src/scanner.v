@@ -183,6 +183,7 @@ fn (mut s Scanner) march_char() u8 {
 		}
 		else {}
 	}
+	s.pos--
 	comp_error("Char literals may only contain a single char",s.get_fp())
 }
 

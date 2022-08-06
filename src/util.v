@@ -44,6 +44,10 @@ mut:
 	files map[string]OpenedFile
 }
 
+fn stas_panic_msg_tok(msg string, fpos FilePos)string{
+	return '"stas panic: ${fpos.non_quoted()}\\n       msg: $msg\\n"'
+}
+
 fn (mut f FileCache) open_file(filepath string, search_path string) (string, string) {
 	if os.is_dir(filepath) {
 		eprintln("Cannot accept directories!")
@@ -97,12 +101,12 @@ mut:
 	len int
 }
 
-fn (fp FilePos) str() string {
-	return bold("$fp.filename:${fp.row+1}:${fp.col+1}")
+fn (fp FilePos) non_quoted() string {
+	return "$fp.filename:${fp.row+1}:${fp.col+1}"
 }
 
-fn (fp FilePos) plain_str() string {
-	return "$fp.filename:${fp.row+1}:${fp.col+1}"
+fn (fp FilePos) str() string {
+	return "'$fp.filename:${fp.row+1}:${fp.col+1}'"
 }
 
 fn (fp FilePos) to(fp_next FilePos) FilePos {
@@ -156,7 +160,7 @@ fn print_error(err string, fp FilePos) {
 	rrow := fp.row+1
 	//rcol := fp.col+1
 	// error str and file position
-	str.writeln("${fp.str()}: ${term.red(err)}")
+	str.writeln("${bold(fp.non_quoted())}: ${term.red(err)}")
 	// show file context
 	error_line := file_container.get_lines(fp.filename)
 	for row in max(0,rrow-3)..min(error_line.len,rrow+2) {
@@ -209,60 +213,23 @@ fn get_hash_str(filename string)string{
 	return s.str()
 }
 
-/* [heap]
-struct Debug {
-	is_debug bool
-mut:
-	bench time.StopWatch
-	total time.Duration
-}
-
-[inline]
-fn (mut d Debug) start(info string){
-	if _unlikely_(d.is_debug) {
-		println(term.green("Start: $info"))
-		d.bench = time.new_stopwatch()
-	}
-}
-
-[inline]
-fn (d &Debug) info(info string){
-	if _unlikely_(d.is_debug) {
-		println(/* term.yellow */("  :: $info"))
-	}
-}
-
-[inline]
-fn (mut d Debug) end(){
-	if _unlikely_(d.is_debug) {
-		elapsed := d.bench.elapsed()
-		println(term.red("End: $elapsed"))
-		d.total = d.total + elapsed
-	}
-}
-
-[inline]
-fn (mut d Debug) end_all(){
-	if _unlikely_(d.is_debug) {
-		d.end()
-		println(term.magenta("--- Finished, $d.total elapsed ---"))
-	}
-} */
-
 const hash_len = 12
 
 [unsafe]
 fn get_unique_hash_str(mut s strings.Builder,length int){
-	mut static index := 1
-	mut x := index
+//	mut static index := 1
+//	mut x := index
+	mut static index := 0
 
-	for _ in 0..length {
-		n := u8(x % 26 + 65)
-		x = ((x >> 16) ^ x) * 0x45d9f3b
-		x = ((x >> 16) ^ x) * 0x45d9f3b
-		x = (x >> 16) ^ x
-		s.write_u8(n) 
-	}
+//	for _ in 0..length {
+//		n := u8(x % 26 + 65)
+//		x = ((x >> 16) ^ x) * 0x45d9f3b
+//		x = ((x >> 16) ^ x) * 0x45d9f3b
+//		x = (x >> 16) ^ x
+//		s.write_u8(n) 
+//	}
+
+	s.write_string('${index:005}')
 
 	index++
 }
@@ -300,6 +267,13 @@ fn new_match_hash() string {
 
 	unsafe { get_unique_hash_str(mut s, hash_len) }
 	
+	return s.str()
+}
+
+fn new_next_hash() string {
+	mut s := strings.new_builder(6+hash_len) // .next_
+	s.write_string(".next_")
+	unsafe { get_unique_hash_str(mut s, hash_len) }
 	return s.str()
 }
 

@@ -219,7 +219,7 @@ fn (mut i Function) gen_rodata(g &Gen) string {
 fn (mut i Function) gen() string {
 	mut f := strings.new_builder(120)
 	f.writeln(
-		annotate('$i.name:','    ; ----- FUNCTION -----\n') +
+		'$i.name:\n' +
 		'	push rbp\n' +
 		'	mov rbp, rsp'
 	)
@@ -399,7 +399,8 @@ fn (i IR_MATCH) gen(mut ctx Function) string {
 	mut match_header := strings.new_builder(120)
 	mut match_bodies := strings.new_builder(120)
 
-	end_jmp := '${ctx.name}_${new_match_hash()}_end'
+	prepend := '${ctx.name}_'+new_match_hash()
+	end_jmp := '${prepend}_end'
 
 	for s in i.top {
 		data := s.gen(mut ctx)
@@ -409,8 +410,8 @@ fn (i IR_MATCH) gen(mut ctx Function) string {
 		match_header.writeln(data)
 	}
 	match_header.writeln('	pop rbx')
-	for body in i.body {
-		hash := '${ctx.name}_'+new_match_hash()
+	for idx, body in i.body {
+		hash := '${prepend}_$idx'
 		for s in body.top {
 			data := s.gen(mut ctx)
 			if data == '' {

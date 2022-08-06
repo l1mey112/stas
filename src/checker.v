@@ -251,6 +251,9 @@ fn (mut c Checker) sim_body(body []IR_Statement, ctx &Function){
 					c.pop(ctx.ret)
 				}
 			}
+			IR_ASSERT {
+				c.pop(.bool_t)
+			}
 			IR_VAR_INIT_NUMBER{}
 			IR_VAR_INIT_STR{}
 			// --- DONE ---

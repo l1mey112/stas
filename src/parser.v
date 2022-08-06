@@ -251,6 +251,9 @@ fn (mut g Parser) parse_new_func()?{
 	}
 	g.next(.in_block)
 	g.check_exists(name)
+	if name.lit[0] == `_` {
+		error_tok("Function name must not contain a leading underscore",name)
+	}
 
 	if name.lit == "main" {
 		// g.ctx.no_return = true
@@ -486,6 +489,20 @@ fn (mut g Parser) new_writep()IR_Statement{
 	}
 }
 
+fn (mut g Parser) new_assert()IR_Statement{
+	hash := unsafe { new_lit_hash() }
+	assert_str := stas_panic_msg_tok('Assertation failed.',g.fpos)
+		// string literal emulation
+	mut tok := g.curr
+	tok.lit = assert_str
+	g.ctx.slit[hash] = tok
+	return IR_ASSERT {
+		pos: g.fpos
+		msg: hash
+		msglen: assert_str.len
+	}
+}
+
 fn (mut g Parser) parse_token()?IR_Statement{
 	for {
 		g.pos++
@@ -509,6 +526,8 @@ fn (mut g Parser) parse_token()?IR_Statement{
 			.syscall4 {return IR_SYSCALL4{g.fpos}}
 			.syscall5 {return IR_SYSCALL5{g.fpos}}
 			.syscall6 {return IR_SYSCALL6{g.fpos}}
+
+			._assert {return g.new_assert()}
 
 			.pop {
 				g.iter()
@@ -603,7 +622,7 @@ fn (mut g Parser) parse_token()?IR_Statement{
 			.debug_filepos {
 				hash := unsafe { new_lit_hash() }
 				mut tok := g.curr
-				tok.lit = '"$g.fpos.plain_str()"'
+				tok.lit = '"$g.fpos.non_quoted()"'
 				g.ctx.slit[hash] = tok
 				return IR_PUSH_STR_VAR {
 					var: hash
