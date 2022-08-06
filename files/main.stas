@@ -1,5 +1,11 @@
 #include "std.stas"
 
 main ! in do
-	
+	`\n` `\n` `a` `B` `0`
+
+	uputln
+	uputln
+	uputln
+	uputln
+	uputln
 end

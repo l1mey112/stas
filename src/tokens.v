@@ -70,6 +70,7 @@ enum Tok {
 	if_block
 	else_block
 	end_block
+	match_block
 
 	_true
 	_false
@@ -110,6 +111,7 @@ fn build_token_literals() []string {
 	a[Tok.if_block] = "if"
 	a[Tok.else_block] = "else"
 	a[Tok.end_block] = "end"
+	a[Tok.match_block] = "match"
 
 	a[Tok._true] = "true"
 	a[Tok._false] = "false"

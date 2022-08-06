@@ -1,0 +1,17 @@
+#include "std.stas"
+
+; todo:::
+
+main ! in do
+	match 11 in
+		13 do
+			_here println
+		end
+		12 do
+			_here println
+		end
+		11 do
+			_here println
+		end
+	end
+end

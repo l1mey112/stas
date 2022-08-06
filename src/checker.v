@@ -243,6 +243,9 @@ fn (mut c Checker) sim_body(body []IR_Statement, ctx &Function){
 			IR_WHILE {
 				c.sim_while(s ,ctx)
 			}
+			IR_MATCH {
+				c.sim_match(s ,ctx)
+			}
 			IR_RETURN {
 				if ctx.ret != .void_t {
 					c.pop(ctx.ret)
@@ -287,6 +290,27 @@ fn (mut c Checker) sim_while(statement &IR_WHILE, ctx &Function){
 
 	c.sim_body(statement.body, ctx)
 	assert c.stack == stack_untouched
+}
+
+fn (mut c Checker) sim_match(statement &IR_MATCH, ctx &Function){
+	// IR_MATCH.top
+	{
+		stack_untouched := c.stack.clone()
+		c.sim_body(statement.top, ctx)
+		c.pop(.int_t | .ptr_t | .bool_t) // literally anything
+		assert c.stack == stack_untouched
+	}
+	// IR_MATCH.body
+	stack_untouched := c.stack.clone()
+	for body in statement.body {
+		c.sim_body(body.top, ctx)
+		c.pop(.int_t | .ptr_t | .bool_t)
+		assert c.stack == stack_untouched
+
+		c.stack = stack_untouched
+		c.sim_body(body.body, ctx)
+		assert c.stack == stack_untouched
+	}
 }
 
 fn (mut c Checker) error_empty(err string){

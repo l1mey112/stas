@@ -31,7 +31,8 @@ fn run_pipeline(filename string)string{
 
 	mut checker := Checker {
 		fns: parser.fns
-		curr:  unsafe { &DEBUG_DUMP(0) } //parser.fns["main"].body[0] //unsafe { &DEBUG_DUMP(0) } // // so compiler doesn't give warning
+		curr:  unsafe { &DEBUG_DUMP(0) } // parser.fns["main"].body[0] //unsafe { &DEBUG_DUMP(0) } // // so compiler doesn't give warning
+		// why does it need to be inintialised compiler hmm!!!!!
 	}
 	checker.check_all()
 	
@@ -51,7 +52,6 @@ fn main(){
 	fp.version('0.0.2 ${githash.to_string()}')
 	fp.description('Compiler for a stack based programming language')
 	fp.skip_executable()
-
 	pref_run := fp.bool('run', `r`, false, 'run program after compiling, then deletes')
 	pref_bat := fp.bool('show', `s`, false, 'open nasm assembly output in a bat process')
 	mut pref_out := fp.string('', `o`, '', 'output to file (accepts *.asm, *.S, *.o, *)')

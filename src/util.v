@@ -294,9 +294,18 @@ fn new_while_hash() string {
 	return s.str()
 }
 
+fn new_match_hash() string {
+	mut s := strings.new_builder(6+hash_len) // match_
+	s.write_string("match_")
+
+	unsafe { get_unique_hash_str(mut s, hash_len) }
+	
+	return s.str()
+}
+
 const annotation_padding = 30
 fn annotate(line string, comment string) string {
-	$if no_annotations ? {
+	$if !use_annotations ? {
 		return line
 	} $else {
 		padding := annotation_padding-line.len

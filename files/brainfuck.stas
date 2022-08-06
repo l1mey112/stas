@@ -19,31 +19,40 @@ main ! in do
     input_bf pop current_bf
     while current_bf * :: 8 @ 0 != do
         pop current_ch
-        
-        if current_ch 62 = do      ; >
-            ptr_bf ++ pop ptr_bf
-        else if current_ch 60 = do ; <
-            ptr_bf -- pop ptr_bf
-        else if current_ch 43 = do ; +
-            buffer_bf ptr_bf += @
-            * :: 8 ++ & :: 8
-        else if current_ch 45 = do ; -
-            buffer_bf ptr_bf += @
-            * :: 8 -- & :: 8
-        else if current_ch 46 = do ; .
-            buffer_bf ptr_bf +=
-            1 write
-        else if current_ch 44 = do ; ,
-            buffer_bf ptr_bf +=
-            getch & :: 8
-        else if current_ch 91 = do ; [
-            current_bf pop last_loop
-        else if current_ch 93 = do ; ]
-            last_loop 0 != assert
-            if buffer_bf ptr_bf += * :: 8 0 != do
-                last_loop pop current_bf
+        match current_ch in 
+            `>` do                         ; >
+                ptr_bf ++ pop ptr_bf
             end
-        end end end end end end end end ; yikes...
+            `<` do                         ; <
+                ptr_bf 0 != assert
+                ptr_bf -- pop ptr_bf
+            end
+            `+` do                         ; +
+                buffer_bf ptr_bf += @
+                * :: 8 ++ & :: 8
+            end
+            `-` do                         ; -
+                buffer_bf ptr_bf += @
+                * :: 8 -- & :: 8
+            end
+            `.` do                         ; .
+                buffer_bf ptr_bf +=
+                1 write
+            end
+            `,` do                         ; ,
+                buffer_bf ptr_bf +=
+                getch & :: 8
+            end
+            `[` do                         ; [
+                current_bf pop last_loop
+            end
+            `]` do                         ; ]
+                last_loop 0 != assert
+                if buffer_bf ptr_bf += * :: 8 0 != do
+                    last_loop pop current_bf
+                end
+            end
+        end
         current_bf ++ pop current_bf
     end
     endl

@@ -16,6 +16,7 @@ mut:
 
 	inside_if    bool
 	inside_while bool
+	inside_match bool
 }
 
 fn (mut g Parser) iter(){
@@ -135,6 +136,7 @@ fn (mut g Parser) eof_cleanup(){
 
 	assert !g.inside_if
 	assert !g.inside_while
+	assert !g.inside_match
 
 	g.trace("eof cleanup")
 }
@@ -407,6 +409,57 @@ fn (mut g Parser) new_deref()IR_Statement{
 	}
 }
 
+fn (mut g Parser) parse_match()IR_MATCH{
+	g.trace("new match")
+
+	mut ctx := IR_MATCH{pos: g.fpos}
+	g.inside_match = true
+	defer { g.inside_match = false }
+
+	for {
+		if i := g.parse_token() {
+			ctx.top << i
+		} else {
+			if g.curr.token == .in_block {
+				g.trace("end match args")
+				break
+			}
+			error_tok("starting statement in match does not end",g.curr)
+		}
+	}
+
+	outer: for {
+		mut m_ctx := MatchBody{}
+		for {
+			if i := g.parse_token() {
+				m_ctx.top << i
+			} else {
+				if g.curr.token == .do_block {
+					g.trace("end match do args")
+					break
+				} else if g.curr.token == .end_block {
+					break outer
+				}
+				error_tok("statement in match does not end",g.curr)
+			}
+		}
+		for {
+			if i := g.parse_token() {
+				m_ctx.body << i
+			} else {
+				if g.curr.token == .end_block {
+					g.trace("end match do body")
+					break
+				}
+				error_tok("statement in match does not end",g.curr)
+			}
+		}
+		ctx.body << m_ctx
+	}
+	
+	return ctx
+}
+
 fn (mut g Parser) new_writep()IR_Statement{
 	fpos := g.fpos
 	if g.next_bool(.sspec) {
@@ -519,14 +572,24 @@ fn (mut g Parser) parse_token()?IR_Statement{
 					error_tok("unexpected else while not inside if",g.curr)
 				}
 			}
+			.match_block {
+				return g.parse_match()
+			}
 			.end_block {
 				return none
 				/* if g.inside_if && g.inside_if */
 			}
 			.do_block {
-				if g.inside_if || g.inside_while {
+				if g.inside_if || g.inside_while || g.inside_match {
 					return none
 				} else {
+					error_tok("unexpected keyword",g.curr)
+				}
+			}
+			.in_block {
+				if g.inside_match {
+					return none
+				}else {
 					error_tok("unexpected keyword",g.curr)
 				}
 			}

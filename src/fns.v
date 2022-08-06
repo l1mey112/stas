@@ -96,7 +96,7 @@ fn (i IR_PUSH_BOOL) gen(mut ctx Function) string {
 
 struct IR_PUSH_STR_VAR {var string pos FilePos}
 fn (i IR_PUSH_STR_VAR) gen(mut ctx Function) string {
-	return '\t'+annotate('push qword $i.var','; <- STRING VAR')
+	return '\t'+annotate('push qword ${i.var}','; <- STRING VAR')
 }
 
 struct IR_PUSH_VAR {var string pos FilePos}
@@ -142,7 +142,7 @@ fn (i IR_CALL_FUNC) gen(mut ctx Function) string {
 	for _ in 0 .. i.argc {
 		arg--
 		arg_statement := 'pop ${arg_regs[arg]}'
-		args.writeln('\n\t${annotate(arg_statement,'; + INIT FUNCTION ARGS')}')
+		args.writeln('\t${annotate(arg_statement,'; + INIT FUNCTION ARGS')}')
 	}
 	args.write_string('\t${annotate('call $i.func','; + CALL FUNCTION')}')
 	if !i.no_return {
@@ -154,14 +154,14 @@ fn (i IR_CALL_FUNC) gen(mut ctx Function) string {
 
 const (
 	escape_ch = {
-		`a` : '0x07'
-		`b` : '0x08'
-		`e` : '0x1B'
-		`f` : '0x0C'
-		`n` : '0x0A'
-		`r` : '0x0D'
-		`t` : '0x09'
-		`v` : '0x0B'
+		`a` : u8(0x07)
+		`b` : 0x08
+		`e` : 0x1B
+		`f` : 0x0C
+		`n` : 0x0A
+		`r` : 0x0D
+		`t` : 0x09
+		`v` : 0x0B
 	}
 )
 
@@ -268,7 +268,7 @@ fn (i IR_RETURN) gen(mut ctx Function) string {
 	return 
 	'\t${annotate('pop rax',"; | EARLY RETURN VALUE")}\n' + 
 	if ctx.is_stack_frame {
-		'\t${annotate('leave','; | \n')}'
+		'\t${annotate('leave','; | \n')}\n'
 	} else {
 		'\t${annotate('pop rbp','; | ')}\n'
 	} + '\t${annotate('ret',"; | EARLY RETURN TO CALLER")}'	
@@ -376,4 +376,64 @@ fn (i IR_WHILE) gen(mut ctx Function) string {
 	f.writeln('	jmp ${prepend}_begin')
 	f.write_string(annotate('${prepend}_end:','    ; <> WHILE - END'))
 	return f.str()
+}
+
+struct MatchBody {
+mut:
+	top  []IR_Statement
+	body []IR_Statement
+}
+
+struct IR_MATCH{
+	pos FilePos
+mut:
+	top  []IR_Statement
+	body []MatchBody
+}
+
+// NOTE: the RBX register is something that should be preserved
+//       over the entirety of the match statement or any statement.
+//       should never be used in lesser statements
+
+fn (i IR_MATCH) gen(mut ctx Function) string {
+	mut match_header := strings.new_builder(120)
+	mut match_bodies := strings.new_builder(120)
+
+	end_jmp := '${ctx.name}_${new_match_hash()}_end'
+
+	for s in i.top {
+		data := s.gen(mut ctx)
+		if data == '' {
+			panic("returned none [in match body] $s")
+		}
+		match_header.writeln(data)
+	}
+	match_header.writeln('	pop rbx')
+	for body in i.body {
+		hash := '${ctx.name}_'+new_match_hash()
+		for s in body.top {
+			data := s.gen(mut ctx)
+			if data == '' {
+				panic("returned none [in match body] $s")
+			}
+			match_header.writeln(data)
+		}
+		match_header.writeln(
+			'	pop rax\n' +
+			'	cmp rax, rbx\n' +
+			'	je $hash'
+		)
+		match_bodies.writeln('${hash}:')
+		for s in body.body {
+			data := s.gen(mut ctx)
+			if data == '' {
+				panic("returned none [in match body] $s")
+			}
+			match_bodies.writeln(data)
+		}
+		match_bodies.writeln('	jmp $end_jmp')
+	}
+	match_header.writeln('	jmp $end_jmp')
+	match_bodies.write_string('${end_jmp}:')
+	return match_header.str() + match_bodies.str()
 }

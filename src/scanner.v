@@ -122,6 +122,69 @@ fn (mut s Scanner) march_string() string {
 	}
 	return lit
 }
+/*	mut ret := u64(0)
+	for {
+		s.pos++
+		if s.pos >= s.cap {
+			comp_error('Unfinished character literal',s.get_fp())
+		}
+		ch := s.text[s.pos]
+		if ch == `\\` {
+			s.pos++
+			if s.pos >= s.cap {
+				error_tok("Unhandled escape character",s.get_fp())
+			}
+			nextc := str[pos]
+			if nextc == `\\` {
+				ret = u64(`\\`)
+				break
+			}
+			escape := escape_ch[nextc] or {
+				error_tok("Escape char '${nextc.ascii_str()}' does not exist",tok)
+			}
+			ret = u64(escape)
+			break
+		} else {
+			len++
+		}
+	}
+	s.pos++
+	if s.text[s.pos] != `\`` {
+		error_tok("Character literals may only contain a single character",s.get_fp())
+	}
+	return ret */
+[direct_array_access]
+fn (mut s Scanner) march_char() u8 {
+	start := s.pos
+	mut len := 0
+
+	for {
+		s.pos++
+		if s.pos >= s.cap {
+			comp_error('Unfinished character literal',s.get_fp())
+		}
+		ch := s.text[s.pos]
+		if ch == `\`` {
+			break
+		}
+		len++
+	}
+	mut c := s.text[start+1..s.pos]
+	match len {
+		1 {
+			return c[0]
+		}
+		2 {
+			if c[0] == `\\` {
+				return escape_ch[c[1]] or {
+					comp_error("Escape char '${c[1].ascii_str()}' does not exist",s.get_fp())
+				}
+			}
+		}
+		else {}
+	}
+	comp_error("Char literals may only contain a single char",s.get_fp())
+}
 
 /* [inline; direct_array_access]
 fn (mut s Scanner) next_is_whitespace()bool{
@@ -274,6 +337,11 @@ fn (mut s Scanner) scan_token() ?Token {
 			`#` {
 				s.new_directive()
 				continue
+			}
+			`\`` {
+				oldpos := s.pos - 1
+				cha := s.march_char().str()
+				return s.new_token(.number_lit, cha, s.pos - oldpos)
 			}
 			`"`, `'` {
 				str := s.march_string()
