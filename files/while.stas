@@ -1,0 +1,10 @@
+#include "std.stas"
+
+main ! in do
+	10
+	while @ 0 > do
+		"Hello!" println
+		--
+	end
+	_
+end

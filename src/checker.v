@@ -10,8 +10,9 @@ enum BuiltinType {
 }
 
 struct StackElement {
-	typ BuiltinType
 	pos FilePos
+mut:
+	typ BuiltinType
 }
 
 fn (a StackElement) == (b StackElement) bool {
@@ -257,7 +258,9 @@ fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
 			if ctx.ret != .void_t {
 				c.pop(ctx.ret)
 			}
-		}
+		} 
+		// this may be bad
+		// it does not not check for unreachable code
 		IR_ASSERT {
 			c.pop(.bool_t)
 		}
@@ -388,6 +391,13 @@ fn (mut c Checker) error(err string){
 	exit(1)
 }
 
+fn promote_type(typ BuiltinType)BuiltinType{
+	if typ.has(.int_t | .ptr_t) {
+		return .int_t | .ptr_t
+	}
+	return typ
+}
+
 fn (mut c Checker) sim_function(ctx &Function){
 	trace("new sim $ctx.name",@FN)
 	for typ in ctx.args.reverse() {
@@ -400,11 +410,14 @@ fn (mut c Checker) sim_function(ctx &Function){
 	
 	if ctx.ret != .void_t {
 		ret := c.stack.last()
+		typ := promote_type(ret.typ)
 		entry_pos++
-		if !ret.typ.has(ctx.ret) {
+		if !typ.has(ctx.ret) {
 			c.error_fp("Returning stack type is incompatible with ${ctx.ret}",ret.pos)
 		}
-		trace("  fn ret $ret.typ - $ctx.name",@FN)
+		trace("  fn ret $typ - $ctx.name",@FN)
+
+		c.stack[c.stack.len-1].typ = typ
 	}
 	if c.stack.len != entry_pos {
 		c.error("Returning from function '$ctx.name' with $c.stack.len value/s on stack")
@@ -415,14 +428,14 @@ fn (mut c Checker) sim_function(ctx &Function){
 }
 
 fn (mut c Checker) check_all(){
-	for _, f in c.fns {
+	/* for _, f in c.fns {
 		for s in f.args {
 			assert s.typ != .void_t
 		}
 		for s in f.body {
 			assert s.pos.len != 0
 		}
-	}
+	} */
 	mut count := 0
 	for _, i in c.fns {
 		count += i.body.len

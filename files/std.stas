@@ -3,7 +3,7 @@ exit ! in code int do
 	_
 end
 
-write ! in buf * count int do
+write sds ! in buf * count int do
 	1 1 buf count syscall3
 	_
 end
@@ -30,14 +30,6 @@ println ! in buf * do
 	buf print
 	endl
 end
-
-; assert ! in check bool do
-; 	if check do else
-; 		"---------- Assertation failed! ----------" println
-; 		"TODO: proper filepos keyword and panic function" println
-; 		1 exit
-; 	end
-; end
 
 memset ! in ptr * val int len int do 
 	ptr
