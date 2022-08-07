@@ -155,15 +155,11 @@ fn underline_source_token(fp FilePos) string {
 	return str.str()
 }
 
-fn print_error(err string, fp FilePos) {
+fn create_underline(fp FilePos, size int) string {
 	mut str := strings.new_builder(80)
 	rrow := fp.row+1
-	//rcol := fp.col+1
-	// error str and file position
-	str.writeln("${bold(fp.non_quoted())}: ${term.red(err)}")
-	// show file context
 	error_line := file_container.get_lines(fp.filename)
-	for row in max(0,rrow-3)..min(error_line.len,rrow+2) {
+	for row in max(0,rrow-size-1)..min(error_line.len,rrow+size) {
 		prefix := "${row+1:3} | "
 		strline := prefix+error_line[row]
 		tabcount := strline.count('\t') * 3
@@ -175,6 +171,14 @@ fn print_error(err string, fp FilePos) {
 			str.write_u8(`\n`)
 		}
 	}
+	return str.str()
+}
+
+fn print_error(err string, fp FilePos) {
+	mut str := strings.new_builder(80)
+	str.writeln("${bold(fp.non_quoted())}: ${term.red(err)}")
+	// show file context
+	str.write_string(create_underline(fp,2))
 	eprint(str.str())
 }
 

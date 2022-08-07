@@ -1,3 +1,6 @@
+import readline
+import term
+
 [flag]
 enum BuiltinType {
 	void_t
@@ -20,6 +23,9 @@ struct Checker {
 mut:
 	stack []StackElement
 	curr IR_Statement
+
+	readline readline.Readline
+	is_tutor bool
 }
 
 fn (mut c Checker) push(t BuiltinType){
@@ -30,15 +36,15 @@ fn (mut c Checker) push(t BuiltinType){
 	}
 }
 
-fn (mut c Checker) pop(t BuiltinType){
+fn (mut c Checker) pop(t BuiltinType)BuiltinType{
 	if c.stack.len != 0 {
 		elm := c.stack.pop()
 		if !elm.typ.has(t) {
 			c.error_empty("Stack value is incorrect type '$t'")
 		}
-	} else {
-		c.error_empty("Not enough values to consume from stack")
+		return elm.typ
 	}
+	c.error_empty("Not enough values to consume from stack")
 }
 
 fn (mut c Checker) top(t BuiltinType){
@@ -53,7 +59,7 @@ fn (mut c Checker) top(t BuiltinType){
 
 fn (mut c Checker) dump_top(){
 	if c.stack.len == 0 {
-		eprintln("${c.curr.pos.str()}: ${notice("stack empty")}")
+		println("${c.curr.pos.str()}: ${notice("stack empty")}")
 	} else {
 		top := c.stack.last()
 		eprintln("${c.curr.pos.str()}: type "+notice('$top.typ')+" pushed by "+info("${top.pos}"))
@@ -63,207 +69,249 @@ fn (mut c Checker) dump_top(){
 
 fn (mut c Checker) dump_stack(len int){
 	if c.stack.len == 0 {
-		eprintln("internal: ${notice("stack empty")}")
+		println("internal: ${notice("stack empty")}")
 	} else {
+		println("-----  Stack Top   ----- ")
 		stack := c.stack[max(0,c.stack.len-len)..]
-		for idx, top in stack {
-			eprintln("${bold(idx.str())}: type "+notice('$top.typ')+" pushed by "+info("${top.pos}"))
-			eprintln(underline_source_token(top.pos))
+		for idx, top in stack.reverse() {
+			println("${bold(idx.str())}: type "+notice('$top.typ')+" pushed by "+info("${top.pos}"))
+			println(underline_source_token(top.pos))
 		}
+		println("----- Stack Bottom ----- ")
+	}
+}
+
+fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
+	c.curr = s
+	match s {
+		// --- PUSH/POP ---
+		IR_PUSH_NUMBER {c.push(.int_t)}
+		IR_PUSH_BOOL {c.push(.bool_t)}
+		IR_PUSH_STR_VAR {c.push(.ptr_t)}
+		IR_PUSH_VAR {
+			if a := ctx.args.get(s.var) {
+				c.push(a.typ)
+			} else if a := ctx.vars[s.var] {
+				c.push(a.typ)
+			} else {
+				panic("unhandled")
+			}
+		}
+		IR_PUSH_BUF_PTR {
+			c.push(.ptr_t)
+		}
+		IR_POP_NUM_VAR {
+			c.pop(.int_t | .ptr_t | .bool_t)
+		}
+		// --- OPERATIONS ---
+		IR_ADD {
+			a := c.pop(.int_t | .ptr_t)
+			b := c.pop(.int_t | .ptr_t)
+			c.push(a | b)
+		}
+		IR_SUB {
+			a := c.pop(.int_t | .ptr_t)
+			b := c.pop(.int_t | .ptr_t)
+			c.push(a | b)
+		}
+		IR_MUL {
+			c.pop(.int_t)
+			c.pop(.int_t)
+			c.push(.int_t)
+		}
+		IR_DIV {
+			c.pop(.int_t)
+			c.pop(.int_t)
+			c.push(.int_t)
+		}
+		IR_MOD {
+			c.pop(.int_t)
+			c.pop(.int_t)
+			c.push(.int_t)
+		}
+		IR_DIVMOD {
+			c.pop(.int_t)
+			c.pop(.int_t)
+			c.push(.int_t)
+			c.push(.int_t)
+		}
+		IR_DEC {
+			c.top(.int_t | .ptr_t)
+		}
+		IR_INC {
+			c.top(.int_t | .ptr_t)
+		}
+		// --- STACK ---
+		IR_DROP {
+			c.stack.pop()
+		}
+		IR_DUP {
+			c.stack << c.stack.last()
+		}
+		IR_SWAP {
+			first := c.stack.pop()
+			last := c.stack.pop()
+			c.stack << first
+			c.stack << last
+		}
+		// --- COMPARISION --
+		IR_EQUAL {
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.push(.bool_t)
+		}
+		IR_NOTEQUAL {
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.push(.bool_t)
+		}
+		IR_GREATER {
+			c.pop(.int_t | .ptr_t)
+			c.pop(.int_t | .ptr_t)
+			c.push(.bool_t)
+		}
+		IR_LESS {
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.push(.bool_t)
+		}
+		// --- POINTERS ---
+		IR_DEREF_8, IR_DEREF_16, IR_DEREF_32, IR_DEREF_64 {
+			c.pop(.ptr_t)
+			c.push(.int_t)
+		}
+		IR_WRITEP_8 {
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.ptr_t)
+		}
+		// --- INTRINSIC ---
+		IR_SYSCALL {
+			c.pop(.int_t)
+			c.push(.int_t)
+		}
+		IR_SYSCALL1 {
+			c.pop(.int_t | .ptr_t | .bool_t)
+
+			c.pop(.int_t)
+			c.push(.int_t)
+		}
+		IR_SYSCALL2 {
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+
+			c.pop(.int_t)
+			c.push(.int_t)
+		}
+		IR_SYSCALL3 {
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+
+			c.pop(.int_t)
+			c.push(.int_t)
+		}
+		IR_SYSCALL4 {
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+
+			c.pop(.int_t)
+			c.push(.int_t)
+		}
+		IR_SYSCALL5 {
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+
+			c.pop(.int_t)
+			c.push(.int_t)
+		}
+		IR_SYSCALL6 {
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+
+			c.pop(.int_t)
+			c.push(.int_t)
+		}
+		// --- COMPOUND ---
+		IR_CALL_FUNC {
+			c.sim_function(c.fns[s.func])
+		}
+		IR_IF {
+			c.sim_if(s ,ctx)
+		}
+		IR_WHILE {
+			c.sim_while(s ,ctx)
+		}
+		IR_MATCH {
+			c.sim_match(s ,ctx)
+		}
+		IR_RETURN {
+			if ctx.ret != .void_t {
+				c.pop(ctx.ret)
+			}
+		}
+		IR_ASSERT {
+			c.pop(.bool_t)
+		}
+		IR_VAR_INIT_NUMBER{}
+		IR_VAR_INIT_STR{}
+		// --- DONE ---
+		DEBUG_DUMP {
+			c.dump_top()
+		}
+		else {
+			panic("Check not exaustive! $s")
+		}
+	}
+	if c.is_tutor && ctx.name == 'main' {
+		println(bold(
+"  
+ Function: $ctx.name
+  Returns: $ctx.ret
+ Location: ${ctx.pos.non_quoted()}
+"
+		))
+		println(create_underline(s.pos,10))
+		c.dump_stack(5)
+		for {
+			rline := c.readline.read_line("awaiting... ") or { 
+				println('')
+				exit(0)
+			}
+			_ := rline
+			/* match rline.trim_space() {
+				'help' {
+					println("help!")
+					continue
+				}
+				'next', 'n' {
+
+				}
+				'step', 's' {
+
+				}
+				else {
+					println("nothing!")
+					continue
+				}
+			} */
+			break
+		}
+		term.clear()
 	}
 }
 
 fn (mut c Checker) sim_body(body []IR_Statement, ctx &Function){
 	for s in body {
-		c.curr = s
-		match s {
-			// --- PUSH/POP ---
-			IR_PUSH_NUMBER {c.push(.int_t)}
-			IR_PUSH_BOOL {c.push(.bool_t)}
-			IR_PUSH_STR_VAR {c.push(.ptr_t)}
-			IR_PUSH_VAR {
-				if a := ctx.args.get(s.var) {
-					c.push(a.typ)
-				} else if a := ctx.vars[s.var] {
-					c.push(a.typ)
-				} else {
-					panic("unhandled")
-				}
-			}
-			IR_PUSH_BUF_PTR {
-				c.push(.ptr_t)
-			}
-			IR_POP_NUM_VAR {
-				c.pop(.int_t | .ptr_t | .bool_t)
-			}
-			// --- OPERATIONS ---
-			IR_ADD {
-				c.pop(.int_t | .ptr_t)
-				c.pop(.int_t | .ptr_t)
-				c.push(.int_t | .ptr_t)
-			}
-			IR_SUB {
-				c.pop(.int_t | .ptr_t)
-				c.pop(.int_t | .ptr_t)
-				c.push(.int_t | .ptr_t)
-			}
-			IR_MUL {
-				c.pop(.int_t)
-				c.pop(.int_t)
-				c.push(.int_t)
-			}
-			IR_DIV {
-				c.pop(.int_t)
-				c.pop(.int_t)
-				c.push(.int_t)
-			}
-			IR_MOD {
-				c.pop(.int_t)
-				c.pop(.int_t)
-				c.push(.int_t)
-			}
-			IR_DIVMOD {
-				c.pop(.int_t)
-				c.pop(.int_t)
-				c.push(.int_t)
-				c.push(.int_t)
-			}
-			IR_DEC {
-				c.top(.int_t | .ptr_t)
-			}
-			IR_INC {
-				c.top(.int_t | .ptr_t)
-			}
-			// --- STACK ---
-			IR_DROP {
-				c.stack.pop()
-			}
-			IR_DUP {
-				c.stack << c.stack.last()
-			}
-			IR_SWAP {
-				first := c.stack.pop()
-				last := c.stack.pop()
-				c.stack << first
-				c.stack << last
-			}
-			// --- COMPARISION --
-			IR_EQUAL {
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.push(.bool_t)
-			}
-			IR_NOTEQUAL {
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.push(.bool_t)
-			}
-			IR_GREATER {
-				c.pop(.int_t | .ptr_t)
-				c.pop(.int_t | .ptr_t)
-				c.push(.bool_t)
-			}
-			IR_LESS {
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.push(.bool_t)
-			}
-			// --- POINTERS ---
-			IR_DEREF_8, IR_DEREF_16, IR_DEREF_32, IR_DEREF_64 {
-				c.pop(.ptr_t)
-				c.push(.int_t)
-			}
-			IR_WRITEP_8 {
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.ptr_t)
-			}
-			// --- INTRINSIC ---
-			IR_SYSCALL {
-				c.pop(.int_t)
-				c.push(.int_t)
-			}
-			IR_SYSCALL1 {
-				c.pop(.int_t | .ptr_t | .bool_t)
-
-				c.pop(.int_t)
-				c.push(.int_t)
-			}
-			IR_SYSCALL2 {
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-
-				c.pop(.int_t)
-				c.push(.int_t)
-			}
-			IR_SYSCALL3 {
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-
-				c.pop(.int_t)
-				c.push(.int_t)
-			}
-			IR_SYSCALL4 {
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-
-				c.pop(.int_t)
-				c.push(.int_t)
-			}
-			IR_SYSCALL5 {
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-
-				c.pop(.int_t)
-				c.push(.int_t)
-			}
-			IR_SYSCALL6 {
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-				c.pop(.int_t | .ptr_t | .bool_t)
-
-				c.pop(.int_t)
-				c.push(.int_t)
-			}
-			// --- COMPOUND ---
-			IR_CALL_FUNC {
-				c.sim_function(c.fns[s.func])
-			}
-			IR_IF {
-				c.sim_if(s ,ctx)
-			}
-			IR_WHILE {
-				c.sim_while(s ,ctx)
-			}
-			IR_MATCH {
-				c.sim_match(s ,ctx)
-			}
-			IR_RETURN {
-				if ctx.ret != .void_t {
-					c.pop(ctx.ret)
-				}
-			}
-			IR_ASSERT {
-				c.pop(.bool_t)
-			}
-			IR_VAR_INIT_NUMBER{}
-			IR_VAR_INIT_STR{}
-			// --- DONE ---
-			DEBUG_DUMP {
-				c.dump_top()
-			}
-			else {
-				panic("Check not exaustive! $s")
-			}
-		}
+		c.sim_single(s,ctx)
 	}
 }
 
@@ -316,6 +364,7 @@ fn (mut c Checker) sim_match(statement &IR_MATCH, ctx &Function){
 	}
 }
 
+[noreturn]
 fn (mut c Checker) error_empty(err string){
 	print_error(err,c.curr.pos)
 	eprintln(bold("--- Stack Dump ---"))
@@ -323,6 +372,7 @@ fn (mut c Checker) error_empty(err string){
 	exit(1)
 }
 
+[noreturn]
 fn (mut c Checker) error_fp(err string, fp FilePos){
 	print_error(err,fp)
 	eprintln(bold("--- Stack Dump ---"))
@@ -330,7 +380,7 @@ fn (mut c Checker) error_fp(err string, fp FilePos){
 	exit(1)
 }
 
-
+[noreturn]
 fn (mut c Checker) error(err string){
 	print_error_file(err,c.stack.last().pos.filename)
 	eprintln(bold("--- Stack Dump ---"))

@@ -243,7 +243,7 @@ fn (mut g Parser) parse_new_func()?{
 	name := g.curr
 	g.trace("new func '$name.lit'")
 
-	g.ctx = &Function{}
+	g.ctx = &Function{pos: g.fpos}
 
 	g.iter()
 	g.ctx.ret = g.get_type() or {
@@ -499,7 +499,7 @@ fn (mut g Parser) new_assert()IR_Statement{
 	return IR_ASSERT {
 		pos: g.fpos
 		msg: hash
-		msglen: assert_str.len
+		msglen: assert_str.len-2-2 // 1 because quotes, 2 because \n should be 1 char
 	}
 }
 

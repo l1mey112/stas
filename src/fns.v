@@ -47,6 +47,7 @@ mut:
 
 	fn_calls []string // dead function elimination
 	
+	pos FilePos
 	ret BuiltinType
 }
 

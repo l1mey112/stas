@@ -6,7 +6,7 @@ import term
 
 __global file_container = FileCache{} 
 
-fn run_pipeline(filename string)string{
+fn run_pipeline(filename string, is_tutor bool)string{
 	data, _ := file_container.open_file(filename, '')
 	mut tokens, prefs := scan_file(data, filename)
 	mut parser := Parser {
@@ -29,13 +29,19 @@ fn run_pipeline(filename string)string{
 		}
 	}
 
-	mut checker := Checker {
+	mut checker := &Checker {
 		fns: parser.fns
-		curr:  unsafe { &DEBUG_DUMP(0) } // parser.fns["main"].body[0] //unsafe { &DEBUG_DUMP(0) } // // so compiler doesn't give warning
-		// why does it need to be inintialised compiler hmm!!!!!
+		curr:  unsafe { &DEBUG_DUMP(0) }
 	}
 	checker.check_all()
-	
+
+	if is_tutor {
+		checker.is_tutor = true
+		term.clear()
+		checker.check_all()
+		exit(0)
+	}
+
 	mut gen := Gen {
 		fns: mut parser.fns
 	}
@@ -53,6 +59,7 @@ fn main(){
 	fp.description('Compiler for a stack based programming language')
 	fp.skip_executable()
 	pref_run := fp.bool('run', `r`, false, 'run program after compiling, then deletes')
+	pref_tut := fp.bool('tutor', 0, false, 'activate tutor mode. program will stop at the checker and display information relating to the stack, used for learning the language')
 	pref_bat := fp.bool('show', `s`, false, 'open nasm assembly output in a bat process')
 	//pref_ir := fp.string('show_ir', 0, '', '')
 	mut pref_out := fp.string('', `o`, '', 'output to file (accepts *.asm, *.S, *.o, *)')
@@ -79,7 +86,7 @@ fn main(){
 	}
 	filename := args[0]
 
-	source := run_pipeline(filename)
+	source := run_pipeline(filename, pref_tut)
 
 	pref_ext := os.file_ext(pref_out)
 
