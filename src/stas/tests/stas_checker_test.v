@@ -1,5 +1,11 @@
 import stas
 
+// does not compile or generate programs
+// nor does it verify binaries
+
+// it just makes sure that a wide range of files can
+// be parsed, and that core stas features remain untouched
+
 const files = @VMODROOT+'/tests/testdata'
 
 fn test_unused_fns() {
@@ -21,6 +27,10 @@ fn test_basic_programs() {
 	stas.check_entirety(stas.parse_entirety('$files/add.stas'))
 	stas.check_entirety(stas.parse_entirety('$files/addup.stas'))
 	stas.check_entirety(stas.parse_entirety('$files/arrays.stas'))
+}
+
+fn test_complex() {
+	stas.check_entirety(stas.parse_entirety('$files/brainfuck.stas'))
 }
 
 fn test_arguments_variables() {

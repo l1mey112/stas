@@ -25,8 +25,6 @@ _push:
 
 */
 
-[has_globals] // i dunno, builtin has it?
-
 __global file_container = FileCache{} 
 
 pub fn parse_entirety (filename string) map[string]&Function {
