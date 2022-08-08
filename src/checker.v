@@ -116,25 +116,25 @@ fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
 			c.push(a | b)
 		}
 		IR_MUL {
-			c.pop(.int_t)
-			c.pop(.int_t)
-			c.push(.int_t)
+			a := c.pop(.int_t)
+			b := c.pop(.int_t)
+			c.push(a | b)
 		}
 		IR_DIV {
-			c.pop(.int_t)
-			c.pop(.int_t)
-			c.push(.int_t)
+			a := c.pop(.int_t)
+			b := c.pop(.int_t)
+			c.push(a | b)
 		}
 		IR_MOD {
-			c.pop(.int_t)
-			c.pop(.int_t)
-			c.push(.int_t)
+			a := c.pop(.int_t)
+			b := c.pop(.int_t)
+			c.push(a | b)
 		}
 		IR_DIVMOD {
-			c.pop(.int_t)
-			c.pop(.int_t)
-			c.push(.int_t)
-			c.push(.int_t)
+			a := c.pop(.int_t)
+			b := c.pop(.int_t)
+			c.push(a | b)
+			c.push(a | b)
 		}
 		IR_DEC {
 			c.top(.int_t | .ptr_t)

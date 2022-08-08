@@ -2,6 +2,37 @@ import os
 import flag
 import term
 
+/*
+
+import stas
+stas.run_nasm()
+
+stack datatype
+
+local stack buf [100]
+2
+pop buf
+buf {
+	5 2 1
+}
+push buf
+push buf
+push buf
+push buf
+
+_push:
+#bounds_checking ; runtime bounds c
+
+; test
+true if do
+if true do
+1 match in
+match 1 in
+
+
+
+*/
+
 [has_globals] // i dunno, builtin has it?
 
 __global file_container = FileCache{} 

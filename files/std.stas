@@ -3,7 +3,7 @@ exit ! in code int do
 	_
 end
 
-write sds ! in buf * count int do
+write ! in buf * count int do
 	1 1 buf count syscall3
 	_
 end
