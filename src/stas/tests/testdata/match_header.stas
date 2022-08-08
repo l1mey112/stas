@@ -1,0 +1,9 @@
+main ! in do
+	1 match in
+		2 do end
+	end
+
+	match 1 in
+		2 do end
+	end
+end

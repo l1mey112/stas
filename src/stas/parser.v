@@ -1,3 +1,5 @@
+module stas
+
 import strconv
 
 struct Parser {
@@ -626,6 +628,11 @@ fn (mut g Parser) parse_token()?IR_Statement{
 				g.ctx.slit[hash] = tok
 				return IR_PUSH_STR_VAR {
 					var: hash
+					pos: g.fpos
+				}
+			}
+			.debug_nop {
+				return IR_ASM_NOP {
 					pos: g.fpos
 				}
 			}

@@ -1,3 +1,5 @@
+module stas
+
 import strings
 
 struct Gen {
@@ -363,4 +365,9 @@ fn (i IR_ASSERT) gen(mut ctx Function) string {
 	mov rsi, $i.msglen
 	jmp _fatal
 $next:'
+}
+
+struct IR_ASM_NOP {pos FilePos}
+fn (i IR_ASM_NOP) gen(mut ctx Function) string {
+	return '	nop'
 }

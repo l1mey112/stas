@@ -1,84 +1,9 @@
+module main
+
+import stas
 import os
 import flag
 import term
-
-/*
-
-import stas
-stas.run_nasm()
-
-stack datatype
-
-local stack buf [100]
-2
-pop buf
-buf {
-	5 2 1
-}
-push buf
-push buf
-push buf
-push buf
-
-_push:
-#bounds_checking ; runtime bounds c
-
-; test
-true if do
-if true do
-1 match in
-match 1 in
-
-
-
-*/
-
-[has_globals] // i dunno, builtin has it?
-
-__global file_container = FileCache{} 
-
-fn run_pipeline(filename string, is_tutor bool)string{
-	data, _ := file_container.open_file(filename, '')
-	mut tokens, prefs := scan_file(data, filename)
-	mut parser := Parser {
-		tokens: tokens
-		curr: tokens[0]
-		cap: tokens.len
-		ctx: unsafe { nil }
-		prefs: prefs
-	}
-	for {
-		parser.parse_new_func() or {
-			parser.eof_cleanup()
-			if !parser.has_main {
-				comp_error_file("No main function",filename)
-			}
-			if parser.fns["main"].ret != .void_t {
-				comp_error_file("Main function must return void",filename)
-			}
-			break
-		}
-	}
-
-	mut checker := &Checker {
-		fns: parser.fns
-		curr:  unsafe { &DEBUG_DUMP(0) }
-	}
-	checker.check_all()
-
-	if is_tutor {
-		checker.is_tutor = true
-		term.clear()
-		checker.check_all()
-		exit(0)
-	}
-
-	mut gen := Gen {
-		fns: mut parser.fns
-	}
-	out := gen.gen_all()
-	return out
-}
 
 const githash = $embed_file('.githash')
 
@@ -117,11 +42,11 @@ fn main(){
 	}
 	filename := args[0]
 
-	source := run_pipeline(filename, pref_tut)
+	source := stas.compile_nasm(filename, pref_tut)
 
 	pref_ext := os.file_ext(pref_out)
 
-	file_write_tmp := os.join_path_single(os.temp_dir(),get_hash_str(filename))
+	file_write_tmp := os.join_path_single(os.temp_dir(),stas.get_hash_str(filename))
 	if !pref_bat && pref_ext in ['.asm','.S'] {
 		os.write_file(pref_out,source) or {
 			panic("Failed to write file!")

@@ -11,15 +11,13 @@ main ! in do
     buffer_bf 0 20000 memset ; juust incase
 
     local int ptr_bf 0
-    local int current_ch 0
 
     local * last_loop 0
     local * current_bf 0
 
     input_bf pop current_bf
     while current_bf * :: 8 @ 0 != do
-        pop current_ch
-        match current_ch in 
+        match in 
             `>` do                         ; >
                 ptr_bf ++ pop ptr_bf
             end

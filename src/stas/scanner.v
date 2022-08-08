@@ -1,6 +1,8 @@
+module stas
+
 import os
 
-fn scan_file(data string, filename string)([]Token, CompilePrefs){
+pub fn scan_file(data string, filename string)([]Token, CompilePrefs){
 	mut scanner := Scanner {
 		text: data
 		cap: data.len

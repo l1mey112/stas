@@ -1,3 +1,5 @@
+module stas
+
 struct Token {
 	pos int
 	len int
@@ -91,6 +93,7 @@ enum Tok {
 
 	debug_stack_dump
 	debug_filepos
+	debug_nop
 
 	_keywords_end_
 
@@ -133,6 +136,7 @@ fn build_token_literals() []string {
 
 	a[Tok.debug_stack_dump] = "_dump"
 	a[Tok.debug_filepos] = "_here"
+	a[Tok.debug_nop] = "_nop"
 	
 	$if !prod {
 		for s in a[int(Tok._keywords_begin_)+1..int(Tok._keywords_end_)] {

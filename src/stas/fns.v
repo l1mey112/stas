@@ -1,12 +1,16 @@
+module stas
+
 import strings
 
 struct VarT {
+pub:
 	t Token 
 	i int
 	typ BuiltinType
 }
 
 struct ArgT {
+pub:
 	name string
 	typ BuiltinType
 }
@@ -31,7 +35,7 @@ fn (t []ArgT) get(b string) ?ArgT {
 
 [heap]
 struct Function {
-mut:
+pub mut:
 	name string
 
 	args []ArgT

@@ -1,8 +1,10 @@
+module stas
+
 import readline
 import term
 
 [flag]
-enum BuiltinType {
+pub enum BuiltinType {
 	void_t
 	int_t
 	bool_t
@@ -270,6 +272,7 @@ fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
 		DEBUG_DUMP {
 			c.dump_top()
 		}
+		IR_ASM_NOP {}
 		else {
 			panic("Check not exaustive! $s")
 		}
@@ -350,9 +353,13 @@ fn (mut c Checker) sim_match(statement &IR_MATCH, ctx &Function){
 	// IR_MATCH.top
 	{
 		stack_untouched := c.stack.clone()
-		c.sim_body(statement.top, ctx)
-		c.pop(.int_t | .ptr_t | .bool_t) // literally anything
-		assert c.stack == stack_untouched
+		if statement.top.len != 0 {
+			c.sim_body(statement.top, ctx)
+			c.pop(.int_t | .ptr_t | .bool_t) // literally anything
+			assert c.stack == stack_untouched
+		} else {
+			c.pop(.int_t | .ptr_t | .bool_t)
+		}
 	}
 	// IR_MATCH.body
 	stack_untouched := c.stack.clone()

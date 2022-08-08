@@ -1,0 +1,13 @@
+#include "std.stas"
+#use_dump
+
+args_func ! in a int b bool c * do
+	
+end
+
+main ! in do
+	local int int_var 5
+	local bool bool_var true
+	local * buf_var [20]
+	local * str_var "Hello!\n"
+end

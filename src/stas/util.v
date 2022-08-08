@@ -1,3 +1,5 @@
+module stas
+
 import term
 import strings
 import hash
@@ -200,7 +202,7 @@ fn comp_error_file(err string, filename string){
 	exit(1)
 }
 
-fn get_hash_str(filename string)string{
+pub fn get_hash_str(filename string)string{
 	length := 8
 	mut x := hash.sum64_string(os.abs_path(filename),0)
 

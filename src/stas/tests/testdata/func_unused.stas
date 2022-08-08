@@ -1,0 +1,11 @@
+used_func ! in do
+
+end
+
+unused_func * in do
+	used_func
+end
+
+main ! in do
+
+end

@@ -11,3 +11,5 @@ gdb.output
 *-compile.o
 compiler
 a.out
+
+src/stas/tests/testdata/std.stas

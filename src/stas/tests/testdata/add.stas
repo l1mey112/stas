@@ -1,5 +1,9 @@
 #include "std.stas"
 
 main ! in do
-	false assert
+	10 15 +=
+
+	5 +=
+
+	uputln
 end
