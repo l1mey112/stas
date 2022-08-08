@@ -10,6 +10,12 @@ stas - st(ack) as(sembly)
 
 [Part 3](https://blog.l-m.dev/posts/compiler-part-3/)
 
+[Part 4](https://blog.l-m.dev/posts/compiler-part-4/)
+
+[Part 5](https://blog.l-m.dev/posts/compiler-part-5/)
+
+[https://blog.l-m.dev/tags/stas/](https://blog.l-m.dev/tags/stas/)
+
 ### Hello world!
 
 ```
