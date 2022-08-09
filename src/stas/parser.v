@@ -88,6 +88,7 @@ fn (mut g Parser) new_push()IR_Statement{
 				loc: v.loc
 				pos: g.fpos
 				name: g.curr.lit
+				is_buf: v.is_buf
 				typ: v.typ
 			}
 		} else {
@@ -136,13 +137,14 @@ fn (mut g Parser) eof_cleanup(){
 	g.trace("eof cleanup")
 }
 
-fn (mut g Parser) make_var(tok Token, typ BuiltinType,size int) {
+fn (mut g Parser) make_var(tok Token, typ BuiltinType, is_buf bool,size int) {
 	assert size > 0
 	g.ctx.stack_frame += size
 	g.ctx.vars[tok.lit] = VarT {
 		t: tok
 		loc: g.ctx.stack_frame 
 		typ: typ
+		is_buf: is_buf
 		size: size
 	}
 }
@@ -178,14 +180,14 @@ fn (mut g Parser) new_stack_var()?IR_Statement{
 			pos: fpos.to(g.fpos)
 		}
 	} else */ if g.curr.token == .number_lit {
-		g.make_var(name_tok,var_typ,8)
+		g.make_var(name_tok,var_typ, false,8)
 		return IR_VAR_INIT_NUMBER {
 			loc: g.ctx.vars[name_tok.lit].loc
 			data: str_to_u64(g.curr)
 			pos: fpos.to(g.fpos)
 		}
 	} else if g.curr.token in [._true, ._false] {
-		g.make_var(name_tok,var_typ,8)
+		g.make_var(name_tok,var_typ, false,8)
 		return IR_VAR_INIT_NUMBER {
 			loc: g.ctx.vars[name_tok.lit].loc
 			data: if g.curr.token == ._true {u64(1)} else {u64(0)}
@@ -208,7 +210,7 @@ fn (mut g Parser) new_stack_var()?IR_Statement{
 		if buf_count <= 0 {
 			error_tok("Contiguous stack memory cannot be 0 or negative",g.curr)
 		}
-		g.make_var(name_tok,.ptr_t,buf_count)
+		g.make_var(name_tok,.ptr_t, true,buf_count)
 		return none
 	}
 

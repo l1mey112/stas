@@ -7,6 +7,7 @@ pub:
 	t Token 
 	loc int
 	typ BuiltinType
+	is_buf bool
 	size int = 8
 }
 
@@ -15,11 +16,13 @@ pub:
 	name string
 	loc int
 	typ BuiltinType
+	is_buf bool
 }
 
 interface DataT {
 	loc int
 	typ BuiltinType
+	is_buf bool
 }
 
 fn (t []ArgT) is_in(b string)bool {
@@ -108,7 +111,7 @@ fn (i IR_PUSH_STR_VAR) gen(mut ctx Function) string {
 	return '\t'+annotate('push qword ${i.var}','; <- STRING VAR')
 }
 
-struct IR_PUSH_VAR {loc int typ BuiltinType name string pos FilePos}
+struct IR_PUSH_VAR {loc int typ BuiltinType is_buf bool name string pos FilePos}
 fn (i IR_PUSH_VAR) gen(mut ctx Function) string {
 	/* for idx, a in ctx.args {
 		if a.name == i.var {
@@ -116,7 +119,8 @@ fn (i IR_PUSH_VAR) gen(mut ctx Function) string {
 		}
 	}
 	return '\t'+annotate("push qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}]","; <- PUSH VAR '$i.var'") */
-	if i.typ != .ptr_t {
+
+	if !i.is_buf {
 		return '	push qword [rbp - $i.loc]'
 	}
 	if i.loc != 0 {
