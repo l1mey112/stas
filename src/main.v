@@ -42,7 +42,9 @@ fn main(){
 	}
 	filename := args[0]
 
+//	-----------------------------------------------
 	source := stas.compile_nasm(filename, pref_tut)
+//	-----------------------------------------------
 
 	pref_ext := os.file_ext(pref_out)
 
@@ -67,7 +69,8 @@ fn main(){
 	}
 
 	object_file_out := if pref_ext == '.o' {pref_out} else {'${file_write_tmp}.o'}
-	nasm_res := os.execute('nasm -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm')
+	nasm_res := os.execute('nasm -a -O0 -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm')
+	// no preprocessing, minimal optimisation
 
 	if nasm_res.exit_code != 0 {
 		eprintln(term.red("NASM error, this should never happen"))

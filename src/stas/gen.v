@@ -13,7 +13,7 @@ mut:
 const header = 
 
 '[BITS 64]
-global _start'
+[global _start]'
 
 const builtin_entry = 
 
@@ -51,9 +51,9 @@ fn (mut g Gen) gen_all() string {
 	// -- HEADER --
 	g.header = strings.new_builder(60)
 	g.header.writeln(header)
-	g.header.writeln('section .rodata')
+	g.header.writeln('[section .rodata]')
 	//g.file.drain_builder(mut s_rodata, 0)
-	g.file.writeln('section .text')
+	g.file.writeln('[section .text]')
 	g.file.writeln(builtin_entry)
 	// -- START PROGRAM --
 	

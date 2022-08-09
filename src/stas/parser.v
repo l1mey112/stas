@@ -81,19 +81,14 @@ fn (mut g Parser) new_push()IR_Statement{
 				pos: g.fpos
 			}
 		}
-		if g.ctx.get_var(g.curr.lit) {
-			g.trace("new push var '$g.curr.lit'")
+		if v := g.ctx.get_var(g.curr.lit) {
+			//g.trace("new push var '$g.curr.lit'")
 			g.ctx.is_stack_frame = true
 			return IR_PUSH_VAR {
-				var: g.curr.lit
+				loc: v.loc
 				pos: g.fpos
-			}
-		} else if g.ctx.get_buf(g.curr.lit) {
-			g.trace("new push buffer '$g.curr.lit'")
-			g.ctx.is_stack_frame = true
-			return IR_PUSH_BUF_PTR {
-				var: g.curr.lit
-				pos: g.fpos
+				name: g.curr.lit
+				typ: v.typ
 			}
 		} else {
 			error_tok("Variable or function '$g.curr.lit' not found",g.curr)
@@ -126,8 +121,6 @@ fn (mut g Parser) check_exists(tok Token){
 		error_tok("Name is already function '$tok.lit'",tok)
 	} else if g.ctx.args.is_in(tok.lit) {
 		error_tok("Name is already a function argument '$tok.lit'",tok)
-	} else if tok.lit in g.ctx.bufs {
-		error_tok("Duplicate variable '$tok.lit'",tok)
 	} else if tok.lit in g.ctx.vars {
 		error_tok("Duplicate variable '$tok.lit'",tok)
 	}
@@ -141,6 +134,17 @@ fn (mut g Parser) eof_cleanup(){
 	assert !g.inside_match
 
 	g.trace("eof cleanup")
+}
+
+fn (mut g Parser) make_var(tok Token, typ BuiltinType,size int) {
+	assert size > 0
+	g.ctx.stack_frame += size
+	g.ctx.vars[tok.lit] = VarT {
+		t: tok
+		loc: g.ctx.stack_frame 
+		typ: typ
+		size: size
+	}
 }
 
 fn (mut g Parser) new_stack_var()?IR_Statement{
@@ -159,32 +163,31 @@ fn (mut g Parser) new_stack_var()?IR_Statement{
 	g.trace("new stack var '$name_tok.lit'")
 	g.iter()
 
-	if g.curr.token == .string_lit {
+	// string literal vars are currently not possible
+	/* if g.curr.token == .string_lit {
 		if var_typ != .ptr_t {
 			error_tok("String literals must have type pointer",var_tok)
 		}
 		g.ctx.vars[name_tok.lit] = VarT {g.curr,g.ctx.vari, .ptr_t}
 		g.ctx.vari++
-		hash := unsafe { new_lit_hash() }
+		g.make_var(name_tok,.ptr_t,8)
 		g.ctx.slit[hash] = g.curr
 		return IR_VAR_INIT_STR {
 			var: name_tok.lit
 			data: hash
 			pos: fpos.to(g.fpos)
 		}
-	} else if g.curr.token == .number_lit {
-		g.ctx.vars[name_tok.lit] = VarT {g.curr,g.ctx.vari, var_typ}
-		g.ctx.vari++
+	} else */ if g.curr.token == .number_lit {
+		g.make_var(name_tok,var_typ,8)
 		return IR_VAR_INIT_NUMBER {
-			var: name_tok.lit
+			loc: g.ctx.vars[name_tok.lit].loc
 			data: str_to_u64(g.curr)
 			pos: fpos.to(g.fpos)
 		}
 	} else if g.curr.token in [._true, ._false] {
-		g.ctx.vars[name_tok.lit] = VarT {g.curr,g.ctx.vari, var_typ}
-		g.ctx.vari++
+		g.make_var(name_tok,var_typ,8)
 		return IR_VAR_INIT_NUMBER {
-			var: name_tok.lit
+			loc: g.ctx.vars[name_tok.lit].loc
 			data: if g.curr.token == ._true {u64(1)} else {u64(0)}
 			pos: fpos.to(g.fpos)
 		} // variable inits are ignored by the checker
@@ -205,7 +208,7 @@ fn (mut g Parser) new_stack_var()?IR_Statement{
 		if buf_count <= 0 {
 			error_tok("Contiguous stack memory cannot be 0 or negative",g.curr)
 		}
-		g.ctx.bufs[name_tok.lit] = buf_count
+		g.make_var(name_tok,.ptr_t,buf_count)
 		return none
 	}
 
@@ -268,11 +271,14 @@ fn (mut g Parser) parse_new_func()?{
 		g.check_exists(g.curr)
 		arg_name_tok := g.curr
 		g.iter()
+		typ := g.get_type() or {
+			error_tok("Argument must specify type",arg_name_tok)
+		}
+		g.ctx.stack_frame += 8
 		g.ctx.args << ArgT {
 			name: arg_name_tok.lit
-			typ: g.get_type() or {
-				error_tok("Argument must specify type",arg_name_tok)
-			}
+			typ: typ
+			loc: g.ctx.stack_frame
 		}
 	}
 	assert g.ctx.args.len <= 6 
@@ -532,16 +538,15 @@ fn (mut g Parser) parse_token()?IR_Statement{
 			._assert {return g.new_assert()}
 
 			.pop {
+				bef := g.fpos
 				g.iter()
 				name := g.curr.lit
-
-				if g.ctx.args.is_in(name) || (name in g.ctx.vars 
-					&& g.ctx.vars[name].t.token == .number_lit) 
-				{
-					return IR_POP_NUM_VAR{var:name pos:g.fpos + g.tokens[g.pos].fpos()}
-				}
-				
-				error_tok("Cannot mutate anything other than number variables!",g.curr)
+				if v := g.ctx.get_var(name) {
+					/* if g.ctx.vars[name].t.token != .number_lit {
+						error_tok("Cannot mutate anything other than number variables!",g.curr)
+					} */
+					return IR_POP_NUM_VAR{loc:v.loc pos:bef + g.fpos}
+				}	
 			}
 
 			.deref    {return g.new_deref()}

@@ -23,6 +23,21 @@ push buf
 _push:
 #bounds_checking ; runtime bounds c
 
+creating an extra stack
+create a len variable to 
+keep track of a stack length
+, make it be next to the stack
+as a stack var
+either stack_bot - 8 = len
+either stack_top - 8 = len
+
+stack -> {
+	10
+	5
+	5
+	5
+}
+
 */
 
 __global file_container = FileCache{} 

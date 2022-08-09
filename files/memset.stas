@@ -2,10 +2,14 @@
 #use_dump
 
 main ! in do
-	local * buf [21]
-	buf 83 20 memset
+	local * buf1 [21]
+	local * buf2 [31]
+	buf1 83 20 memset
+	buf2 48 30 memset
 
-	buf 21 += 0 & :: 8
+	buf1 21 += 0 & :: 8
+	buf2 31 += 0 & :: 8
 
-	buf println ; 20 Ss
+	buf1 println ; 20 Ss
+	buf2 println ; 20 Ss
 end

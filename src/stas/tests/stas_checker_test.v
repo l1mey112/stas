@@ -33,15 +33,13 @@ fn test_complex() {
 	stas.check_entirety(stas.parse_entirety('$files/brainfuck.stas'))
 }
 
-fn test_arguments_variables() {
+/* fn test_arguments_variables() {
 	fns := stas.parse_entirety('$files/arguments_variables.stas')
 	stas.check_entirety(fns)
 
 	main := fns['main']
 	assert main.vars.keys() == ['int_var','bool_var','str_var']
-	assert 'buf_var' !in main.vars.keys()
-	assert 'buf_var' in main.bufs.keys()
-	assert main.bufs['buf_var'] == 20 // 20 bytes
+	assert 'buf_var' in main.vars.keys()
 
 	args_func := fns['args_func']
 	assert args_func.args.len == 3
@@ -51,4 +49,4 @@ fn test_arguments_variables() {
 	assert args_func.args[1].typ == .bool_t
 	assert args_func.args[2].name == 'c'
 	assert args_func.args[2].typ == .ptr_t
-}
+} */

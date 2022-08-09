@@ -5,13 +5,20 @@ import strings
 struct VarT {
 pub:
 	t Token 
-	i int
+	loc int
 	typ BuiltinType
+	size int = 8
 }
 
 struct ArgT {
 pub:
 	name string
+	loc int
+	typ BuiltinType
+}
+
+interface DataT {
+	loc int
 	typ BuiltinType
 }
 
@@ -39,15 +46,12 @@ pub mut:
 	name string
 
 	args []ArgT
-	vari int = 1
 	vars map[string]VarT
-	bufs map[string]int
-	slit map[string]Token
+	slit map[string]Token // merge slit and vars?
 	body []IR_Statement
 
-	var_offset int
-	buf_offset int
 	is_stack_frame bool
+	stack_frame int
 
 	fn_calls []string // dead function elimination
 	
@@ -64,27 +68,27 @@ fn (i IR_VAR_INIT) gen(mut ctx Function) string {
 } */
 
 struct IR_VAR_INIT_STR {
-	var string
+	loc int
 	data string
 	pos FilePos
 }
 
 fn (i IR_VAR_INIT_STR) gen(mut ctx Function) string {
-	return "\t"+annotate('mov qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}], $i.data','; VAR STACK INIT \'$i.var\'')
+	return "\t"+annotate('mov qword [rbp - $i.loc], $i.data','; VAR STACK INIT')
 }
 
 struct IR_VAR_INIT_NUMBER {
-	var string
+	loc int
 	data u64
 	pos FilePos
 }
 fn (i IR_VAR_INIT_NUMBER) gen(mut ctx Function) string {
-	return "\t"+annotate('mov qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}], $i.data','; VAR STACK INIT \'$i.var\'')
+	return "\t"+annotate('mov qword [rbp - $i.loc], $i.data','; VAR STACK INIT')
 }
 
-struct IR_POP_NUM_VAR {var string pos FilePos}
+struct IR_POP_NUM_VAR {loc int pos FilePos}
 fn (i IR_POP_NUM_VAR) gen(mut ctx Function) string {
-	return "\t"+annotate('pop qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}]','; POP INTO VAR \'$i.var\'')
+	return "\t"+annotate('pop qword [rbp - $i.loc]','; POP INTO VAR')
 }
 
 // ---- push 
@@ -104,30 +108,41 @@ fn (i IR_PUSH_STR_VAR) gen(mut ctx Function) string {
 	return '\t'+annotate('push qword ${i.var}','; <- STRING VAR')
 }
 
-struct IR_PUSH_VAR {var string pos FilePos}
+struct IR_PUSH_VAR {loc int typ BuiltinType name string pos FilePos}
 fn (i IR_PUSH_VAR) gen(mut ctx Function) string {
-	for idx, a in ctx.args {
+	/* for idx, a in ctx.args {
 		if a.name == i.var {
-			return '\t'+annotate("push qword [rbp - ${(idx+1)*8}]","; <- PUSH ARG '$i.var'")
+			return '\t'+annotate("push qword [rbp - $i.loc]","; <- PUSH ARG '$i.var'")
 		}
 	}
-	return '\t'+annotate("push qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}]","; <- PUSH VAR '$i.var'")
+	return '\t'+annotate("push qword [rbp - ${ctx.var_offset+ctx.vars[i.var].i*8}]","; <- PUSH VAR '$i.var'") */
+	if i.typ != .ptr_t {
+		return '	push qword [rbp - $i.loc]'
+	}
+	if i.loc != 0 {
+		return 
+		'\tmov rax, rbp\n' +
+		'\tsub rax, $i.loc\n' +
+		'\t'+annotate("push rax","; <- PUSH BUFFER PTR '$i.name'")
+	} else {
+		return '\t'+annotate("push rbp","; <- PUSH BUFFER PTR '$i.name'")
+	}
 }
 
-struct IR_PUSH_BUF_PTR {var string pos FilePos}
+/* struct IR_PUSH_BUF_PTR {var string pos FilePos}
 fn (i IR_PUSH_BUF_PTR) gen(mut ctx Function) string {
 	mut offset := 0
 	for name, buf_t in ctx.bufs {
 		if name == i.var {
 			return 
 				'\tmov rax, rbp\n' +
-				'\tsub rax, ${ctx.buf_offset+offset+buf_t}\n' +
+				'\tsub rax, ${ctx.buf_offset+offset+buf_t} ; ress>>\n' +
 				'\t'+annotate("push rax","; <- PUSH BUFFER PTR '$i.var'")
 		}
 		offset += buf_t
 	}
 	panic("")
-}
+} */
 
 // ---- push
 
@@ -232,19 +247,8 @@ fn (mut i Function) gen() string {
 		init_statement := 'mov qword [rbp - ${(idx+1)*8}], ${arg_regs[idx]}'
 		f.writeln('\t${annotate(init_statement,'; | ARG VAR STACK INIT ' + "\'$a.name\'")}')
 	}
-	i.var_offset = i.args.len*8
-	i.buf_offset = i.var_offset + i.vars.len*8
-	mut total_buf_size := 0
-	for _, b in i.bufs {
-		total_buf_size += b
-	} 
-	total_stack_frame := i.buf_offset + total_buf_size
-
-	// i seriously do not know if this next line is useless, ill figure it out
-	i.is_stack_frame = i.is_stack_frame && total_stack_frame != 0
-	
 	if i.is_stack_frame {
-		init_statement := "sub rsp, $total_stack_frame"
+		init_statement := "sub rsp, $i.stack_frame"
 		f.writeln('\t${annotate(init_statement,"; | CREATE STACK FRAME")}')
 	}
 
@@ -279,12 +283,15 @@ fn (i IR_RETURN) gen(mut ctx Function) string {
 	} + '\t${annotate('ret',"; | EARLY RETURN TO CALLER")}'	
 }
 
-fn (i Function) get_var(str string) bool {
-	return i.args.is_in(str) || str in i.vars
-}
-
-fn (i Function) get_buf(str string) bool {
-	return str in i.bufs
+fn (i Function) get_var(str string) ?DataT {
+	return i.vars[str] or {
+		for idx, v in i.args {
+			if v.name == str {
+				return i.args[idx]
+			} 
+		}
+		return none 	
+	}
 }
 
 struct IR_IF{

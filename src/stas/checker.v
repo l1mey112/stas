@@ -92,17 +92,15 @@ fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
 		IR_PUSH_BOOL {c.push(.bool_t)}
 		IR_PUSH_STR_VAR {c.push(.ptr_t)}
 		IR_PUSH_VAR {
-			if a := ctx.args.get(s.var) {
-				c.push(a.typ)
-			} else if a := ctx.vars[s.var] {
+			if a := ctx.get_var(s.name) {
 				c.push(a.typ)
 			} else {
 				panic("unhandled")
 			}
 		}
-		IR_PUSH_BUF_PTR {
+		/* IR_PUSH_BUF_PTR {
 			c.push(.ptr_t)
-		}
+		} */
 		IR_POP_NUM_VAR {
 			c.pop(.int_t | .ptr_t | .bool_t)
 		}
