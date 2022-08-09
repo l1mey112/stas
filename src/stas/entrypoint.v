@@ -76,7 +76,7 @@ pub fn check_entirety (fns map[string]&Function) &Checker {
 	return checker
 }
 
-pub fn compile_nasm (filename string, is_tutor bool)string{
+pub fn compile_fasm (filename string, is_tutor bool)string{
 	
 	fns := parse_entirety(filename)
 	mut checker := check_entirety(fns)

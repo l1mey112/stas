@@ -18,8 +18,7 @@ fn main(){
 	pref_tut := fp.bool('tutor', 0, false, 'activate tutor mode. program will stop at the checker and display information relating to the stack, used for learning the language')
 	pref_bat := fp.bool('show', `s`, false, 'open nasm assembly output in a bat process')
 	//pref_ir := fp.string('show_ir', 0, '', '')
-	mut pref_out := fp.string('', `o`, '', 'output to file (accepts *.asm, *.S, *.o, *)')
-	pref_asm := if fp.bool('', `g`, false, 'compile with debug symbols') { ' -F dwarf -g' } else { '' }
+	mut pref_out := fp.string('', `o`, '', 'output to file (accepts *.asm, *.S, *)')
 	pref_ver := fp.bool('version', `v`, false, fp.default_version_label)
 	//pref_deb := fp.bool('debug', `d`, false, 'run the compiler in debug mode')
 
@@ -43,7 +42,7 @@ fn main(){
 	filename := args[0]
 
 //	-----------------------------------------------
-	source := stas.compile_nasm(filename, pref_tut)
+	source := stas.compile_fasm(filename, pref_tut)
 //	-----------------------------------------------
 
 	pref_ext := os.file_ext(pref_out)
@@ -62,32 +61,23 @@ fn main(){
 
 	if pref_bat {
 		mut run_process := os.new_process('/usr/bin/bat')
-		run_process.set_args(['-l','nasm','${file_write_tmp}.asm'])
+		run_process.set_args(['-l','fasm','${file_write_tmp}.asm'])
 		run_process.wait()
 		os.rm('${file_write_tmp}.asm') or {}
 		exit(0)
 	}
-
-	object_file_out := if pref_ext == '.o' {pref_out} else {'${file_write_tmp}.o'}
-	nasm_res := os.execute('nasm -a -O0 -felf64$pref_asm -o $object_file_out ${file_write_tmp}.asm')
-	// no preprocessing, minimal optimisation
-
-	if nasm_res.exit_code != 0 {
-		eprintln(term.red("NASM error, this should never happen"))
-		eprintln(nasm_res.output)
-		exit(1)
-	}
-	if pref_ext == '.o' {
-		exit(0)
-	}
-
 	if pref_out == '' {
 		pref_out = 'a.out'
-	} // default output
-	os.execute_or_panic('ld ${file_write_tmp}.o -o $pref_out')
+	}
+	fasm_res := os.execute('fasm ${file_write_tmp}.asm')
 
+	if fasm_res.exit_code != 0 {
+		eprintln(term.red("FASM error, this should never happen"))
+		eprintln(fasm_res.output)
+		exit(1)
+	}
+	os.cp(file_write_tmp,pref_out) or {}
 	os.rm('${file_write_tmp}.asm') or {}
-	os.rm('${file_write_tmp}.o') or {}
 
 	if pref_run {
 		exefile := os.abs_path(pref_out)
