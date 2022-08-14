@@ -7,8 +7,8 @@ main ! in do
 	buf1 83 20 memset
 	buf2 48 30 memset
 
-	buf1 21 += 0 & :: 8
-	buf2 31 += 0 & :: 8
+	buf1 21 += 0 &8
+	buf2 31 += 0 &8
 
 	buf1 println ; 20 Ss
 	buf2 println ; 20 Ss

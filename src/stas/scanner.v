@@ -387,7 +387,7 @@ fn (mut s Scanner) scan_token() ?Token {
 					s.assert_whitespace(s.next())
 					return s.new_token(.mul, '', 2)
 				} else {
-					s.assert_whitespace(s.next())
+					//s.assert_whitespace(s.next())
 					return s.new_token(.deref, '', 1)
 				}
 			}
@@ -414,8 +414,13 @@ fn (mut s Scanner) scan_token() ?Token {
 				}
 			}
 			`=` {
-				s.assert_whitespace(s.next())
-				return s.new_token(.equal, '', 1)
+				if nextc == `=` {
+					s.pos++
+					s.assert_whitespace(s.next())
+					return s.new_token(.equal, '', 2)
+				} else {
+					comp_error('Unexpected character',s.get_fp())
+				}
 			}
 			`>` {
 				s.assert_whitespace(s.next())
@@ -443,7 +448,7 @@ fn (mut s Scanner) scan_token() ?Token {
 					return s.new_token(.void, '', 1)
 				}
 			}
-			`:` {
+			/* `:` {
 				if nextc == `:` {
 					s.pos++
 					s.assert_whitespace(s.next())
@@ -451,7 +456,7 @@ fn (mut s Scanner) scan_token() ?Token {
 				} else {
 					comp_error('Unexpected character',s.get_fp())
 				}
-			}
+			} */
 			`[` {
 				return s.new_token(.sb_l, '', 1)
 			}
@@ -459,7 +464,7 @@ fn (mut s Scanner) scan_token() ?Token {
 				return s.new_token(.sb_r, '', 1)
 			}
 			`&` {
-				s.assert_whitespace(s.next())
+				//s.assert_whitespace(s.next())
 				return s.new_token(.writep, '', 1)
 			}
 			else {

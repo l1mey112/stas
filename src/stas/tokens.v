@@ -40,7 +40,7 @@ enum Tok {
 	div      // /=
 	mod      // %=
 	divmod   // %%
-	equal    // =
+	equal    // ==
 	notequal // !=
 	greater  // >
 	less     // <
@@ -56,7 +56,6 @@ enum Tok {
 	// pointers
 	deref   // *
 	writep  // &
-	sspec   // ::
 
 	void    // !
 

@@ -41,9 +41,18 @@ mut:
 	lines []string
 }
 
+fn new_filecache() FileCache {
+	mut a := FileCache{}
+	a.libfiles = os.ls('lib') or {
+		panic('stas library folder not found!')
+	}
+	return a
+}
+
 struct FileCache {
 mut:
 	files map[string]OpenedFile
+	libfiles []string 
 }
 
 fn stas_panic_msg_tok(msg string, fpos FilePos)string{
@@ -51,13 +60,30 @@ fn stas_panic_msg_tok(msg string, fpos FilePos)string{
 }
 
 fn (mut f FileCache) open_file(filepath string, search_path string) (string, string) {
-	if os.is_dir(filepath) {
+	/* if os.is_dir(filepath) {
 		eprintln("Cannot accept directories!")
 		exit(1)
+	} */
+	if !filepath.contains('.stas') {
+		panic("do msg later")
 	}
 	mut relpath := ''
 	mut data := ''
-	if !os.exists(filepath) && search_path != '' {
+	
+	if filepath in f.libfiles {
+		relpath = os.join_path_single('lib',filepath)
+		data = os.read_file(relpath) or {
+			eprintln("Cannot find file '$filepath'!")
+			exit(1)
+		//	can never be called, but still here anyway
+		}
+	} else if os.exists(filepath) {
+		data = os.read_file(filepath) or {
+			eprintln("Cannot find file '$filepath'!")
+			exit(1)
+		}
+		relpath = filepath
+	} else if search_path != '' {
 		assert os.is_dir(search_path)
 		relpath = os.join_path_single(search_path,filepath)
 		data = os.read_file(relpath) or {
@@ -65,12 +91,10 @@ fn (mut f FileCache) open_file(filepath string, search_path string) (string, str
 			exit(1)
 		}
 	} else {
-		data = os.read_file(filepath) or {
-			eprintln("Cannot find file '$filepath'!")
-			exit(1)
-		}
-		relpath = filepath
+		eprintln("Cannot find file '$filepath'!")
+		exit(1)
 	}
+	
 	f.files[relpath] = OpenedFile {
 		lit: data
 	}

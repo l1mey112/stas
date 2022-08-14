@@ -40,7 +40,7 @@ stack -> {
 
 */
 
-__global file_container = FileCache{} 
+__global file_container = new_filecache()
 
 pub fn parse_entirety (filename string) map[string]&Function {
 	data, _ := file_container.open_file(filename, '')
@@ -58,7 +58,7 @@ pub fn parse_entirety (filename string) map[string]&Function {
 			if !parser.has_main {
 				comp_error_file("No main function",filename)
 			}
-			if parser.fns["main"].ret != .void_t {
+			if parser.fns["main"].ret.typ != .void_t {
 				comp_error_file("Main function must return void",filename)
 			}
 			break
@@ -77,7 +77,6 @@ pub fn check_entirety (fns map[string]&Function) &Checker {
 }
 
 pub fn compile_fasm (filename string, is_tutor bool)string{
-	
 	fns := parse_entirety(filename)
 	mut checker := check_entirety(fns)
 

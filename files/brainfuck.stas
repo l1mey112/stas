@@ -16,7 +16,7 @@ main ! in do
     local * current_bf 0
 
     input_bf pop current_bf
-    while current_bf * :: 8 @ 0 != do
+    while current_bf *8 @ 0 != do
         match in 
             `>` do                         ; >
                 ptr_bf ++ pop ptr_bf
@@ -27,11 +27,11 @@ main ! in do
             end
             `+` do                         ; +
                 buffer_bf ptr_bf += @
-                * :: 8 ++ & :: 8
+                *8 ++ &8
             end
             `-` do                         ; -
                 buffer_bf ptr_bf += @
-                * :: 8 -- & :: 8
+                *8 -- &8
             end
             `.` do                         ; .
                 buffer_bf ptr_bf +=
@@ -39,14 +39,14 @@ main ! in do
             end
             `,` do                         ; ,
                 buffer_bf ptr_bf +=
-                getch & :: 8
+                getch &8
             end
             `[` do                         ; [
                 current_bf pop last_loop
             end
             `]` do                         ; ]
                 last_loop 0 != assert
-                if buffer_bf ptr_bf += * :: 8 0 != do
+                if buffer_bf ptr_bf += *8 0 != do
                     last_loop pop current_bf
                 end
             end

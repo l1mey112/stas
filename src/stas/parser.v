@@ -30,6 +30,16 @@ fn (mut g Parser) iter(){
 	g.fpos = g.curr.fpos()
 }
 
+fn (mut g Parser) back(){
+	g.pos--
+	if g.pos >= g.cap {
+		error_tok("unexpected EOF", g.curr) 
+	}
+	g.curr = g.tokens[g.pos]
+	g.fpos = g.curr.fpos()
+}
+
+
 fn (mut g Parser) next(expected Tok){
 	g.iter()
 	if g.curr.token != expected {
@@ -41,6 +51,10 @@ fn (mut g Parser) current(expected Tok){
 	if g.curr.token != expected {
 		error_tok("expected $expected, got $g.curr.token",g.curr)
 	}
+}
+
+fn (mut g Parser) current_bool(expected Tok) bool {
+	return g.curr.token == expected
 }
 
 fn (mut g Parser) next_bool(expected Tok) bool {
@@ -77,7 +91,7 @@ fn (mut g Parser) new_push()IR_Statement{
 			return IR_CALL_FUNC {
 				argc: g.fns[g.curr.lit].args.len
 				func: g.curr.lit
-				no_return: g.fns[g.curr.lit].ret == .void_t
+				no_return: g.fns[g.curr.lit].ret.typ == .void_t
 				pos: g.fpos
 			}
 		}
@@ -153,10 +167,10 @@ fn (mut g Parser) new_stack_var()?IR_Statement{
 	fpos := g.fpos
 	g.iter()
 	var_tok := g.curr
-	var_typ := g.get_type() or {
+	var_typ := g.parse_type() or {
 		error_tok("Expected type keyword",var_tok)
 	}
-	if var_typ == .void_t {
+	if var_typ.typ == .void_t {
 		error_tok("Stack variables cannot have void type",var_tok)
 	}
 	g.next(.name)
@@ -202,15 +216,20 @@ fn (mut g Parser) new_stack_var()?IR_Statement{
 		g.next(.number_lit)
 		buf_count_tok := g.curr
 		g.next(.sb_r)
-
-		buf_count := buf_count_tok.lit.int()
-		if var_typ != .ptr_t {
+		
+		elm_size := if var_typ.typ == .ptr_t {
+			1
+		} else {
+			8
+		}
+		buf_count := buf_count_tok.lit.int() * elm_size
+		if var_typ.ptr_level == 0 {
 			error_tok("Contiguous stack memory must have type pointer",var_tok)
 		}
 		if buf_count <= 0 {
 			error_tok("Contiguous stack memory cannot be 0 or negative",g.curr)
 		}
-		g.make_var(name_tok,.ptr_t, true,buf_count)
+		g.make_var(name_tok,var_typ,true,buf_count)
 		return none
 	}
 
@@ -225,24 +244,42 @@ fn (mut g Parser) new_stack_var()?IR_Statement{
 	error_tok("Expected literal data or variable, got '$g.curr.token'",g.curr)
 }
 
-fn (mut g Parser) get_type()?BuiltinType{
+fn (mut g Parser) parse_type()?BuiltinType{
+	mut t := BuiltinType{}
+	for {
+		match g.curr.token {
+			.deref {
+				t.ptr_level++
+			}
+			else {
+				break
+			}
+		}
+		g.iter()
+	}
 	match g.curr.token {
 		.void {
-			return .void_t
+			t.typ = .void_t
 		}
 		.integer {
-			return .int_t
+			t.typ = .int_t
 		}
 		.boolean {
-			return .bool_t
-		}
-		.deref {
-			return .ptr_t
+			t.typ = .bool_t
 		}
 		else {
-			return none
+			if t.ptr_level != 0 {
+				t.typ = .ptr_t
+				g.back()
+			} else {
+				return none
+			}
 		}
 	}
+	if t.ptr_level != 0 && t.typ == .void_t {
+		return none
+	} // insead of a return none, do some actual error reporting here
+	return t
 }
 
 fn (mut g Parser) parse_new_func()?{
@@ -253,7 +290,7 @@ fn (mut g Parser) parse_new_func()?{
 	g.ctx = &Function{pos: g.fpos}
 
 	g.iter()
-	g.ctx.ret = g.get_type() or {
+	g.ctx.ret = g.parse_type() or {
 		error_tok("Function must specify type",name)
 	}
 	g.next(.in_block)
@@ -268,12 +305,12 @@ fn (mut g Parser) parse_new_func()?{
 	}
 	g.ctx.name = name.lit
 	g.fns[g.ctx.name] = g.ctx
-
+	
 	for g.next_bool(.name) {
 		g.check_exists(g.curr)
 		arg_name_tok := g.curr
 		g.iter()
-		typ := g.get_type() or {
+		typ := g.parse_type() or {
 			error_tok("Argument must specify type",arg_name_tok)
 		}
 		g.ctx.stack_frame += 8
@@ -398,8 +435,7 @@ fn (mut g Parser) parse_while()IR_WHILE{
 
 fn (mut g Parser) new_deref()IR_Statement{
 	fpos := g.fpos
-	if g.next_bool(.sspec) {
-		g.next(.number_lit)
+	if g.next_bool(.number_lit) {
 		match g.curr.lit.int() {
 			8 {
 				return IR_DEREF_8{fpos.to(g.fpos)}
@@ -417,9 +453,8 @@ fn (mut g Parser) new_deref()IR_Statement{
 				error_tok("Size specification for dereference operation not 8, 16, 32 or 64",g.curr)
 			}
 		}
-	} else {
-		return IR_DEREF_64{fpos}
 	}
+	error_tok("No size specification with dereference",g.curr)
 }
 
 fn (mut g Parser) parse_match()IR_MATCH{
@@ -475,8 +510,9 @@ fn (mut g Parser) parse_match()IR_MATCH{
 
 fn (mut g Parser) new_writep()IR_Statement{
 	fpos := g.fpos
-	if g.next_bool(.sspec) {
-		g.next(.number_lit)
+	g.iter()
+	curr := g.curr
+	if curr.token == .number_lit {
 		match g.curr.lit.int() {
 			8 {
 				return IR_WRITEP_8{fpos.to(g.fpos)}
@@ -494,9 +530,20 @@ fn (mut g Parser) new_writep()IR_Statement{
 				error_tok("Size specification for write pointer operation not 8, 16, 32 or 64",g.curr)
 			}
 		}
-	} else {
-		return IR_WRITEP_64{fpos}
+	} else if curr.token == .name {
+		if v := g.ctx.get_var(g.curr.lit) {
+			g.ctx.is_stack_frame = true
+			return IR_PUSH_VAR_PTR {
+				loc: v.loc
+				pos: fpos.to(g.fpos)
+				name: g.curr.lit
+				typ: v.typ
+			}
+		} else {
+			error_tok("Variable or function '$g.curr.lit' not found",g.curr)
+		}
 	}
+	error_tok("No variable or size specification",g.curr)
 }
 
 fn (mut g Parser) new_assert()IR_Statement{
@@ -547,7 +594,7 @@ fn (mut g Parser) parse_token()?IR_Statement{
 					/* if g.ctx.vars[name].t.token != .number_lit {
 						error_tok("Cannot mutate anything other than number variables!",g.curr)
 					} */
-					return IR_POP_NUM_VAR{loc:v.loc pos:bef + g.fpos}
+					return IR_POP_NUM_VAR{loc:v.loc pos:bef + g.fpos typ: v.typ}
 				}	
 			}
 

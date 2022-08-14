@@ -1,0 +1,16 @@
+#include "std.stas"
+#use_dump
+
+main ! in do
+    local int var 100
+    
+    &var         ; get the address of var
+    *64          ; dereference a 64 bit address
+
+    ++           ; increment dereferenced value
+
+    &var ~ &64   ; place address of var and
+                 ; write to the 64 bit address
+
+    var uputln   ; print the variable
+end

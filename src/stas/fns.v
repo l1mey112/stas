@@ -89,7 +89,7 @@ fn (i IR_VAR_INIT_NUMBER) gen(mut ctx Function) string {
 	return "\t"+annotate('mov qword [rbp - $i.loc], $i.data','; VAR STACK INIT')
 }
 
-struct IR_POP_NUM_VAR {loc int pos FilePos}
+struct IR_POP_NUM_VAR {loc int pos FilePos typ BuiltinType}
 fn (i IR_POP_NUM_VAR) gen(mut ctx Function) string {
 	return "\t"+annotate('pop qword [rbp - $i.loc]','; POP INTO VAR')
 }
@@ -131,6 +131,15 @@ fn (i IR_PUSH_VAR) gen(mut ctx Function) string {
 	} else {
 		return '\t'+annotate("push rbp","; <- PUSH BUFFER PTR '$i.name'")
 	}
+}
+
+struct IR_PUSH_VAR_PTR {loc int typ BuiltinType is_buf bool name string pos FilePos}
+fn (i IR_PUSH_VAR_PTR) gen(mut ctx Function) string {
+	return 
+	'\tmov rax, rbp\n' +
+	'\tsub rax, $i.loc\n' +
+	'\tpush rax'
+	//return '\tpush rbp - $i.loc'
 }
 
 /* struct IR_PUSH_BUF_PTR {var string pos FilePos}
@@ -264,7 +273,7 @@ fn (mut i Function) gen() string {
 		}
 		f.writeln(data)
 	}
-	if i.ret != .void_t {
+	if i.ret.typ != .void_t {
 		f.writeln('\t${annotate('pop rax',"; | RETURN VALUE FUNCTION")}')
 	}
 	if i.is_stack_frame {

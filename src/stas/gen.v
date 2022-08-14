@@ -106,7 +106,10 @@ fn (i IR_DEREF_8) gen(mut ctx Function) string {
 
 struct IR_WRITEP_64 {pos FilePos}
 fn (i IR_WRITEP_64) gen(mut ctx Function) string {
-	return ''
+	return 
+'	pop rax
+	pop rdi
+	mov qword [rdi], rax'
 }
 
 struct IR_WRITEP_32 {pos FilePos}
@@ -370,4 +373,16 @@ $next:'
 struct IR_ASM_NOP {pos FilePos}
 fn (i IR_ASM_NOP) gen(mut ctx Function) string {
 	return '	nop'
+}
+
+// debug keywords
+
+struct DEBUG_DUMP {
+	pos FilePos
+	amt int = 1
+}
+
+fn (i DEBUG_DUMP) gen(mut ctx Function) string {
+	return '; --- dump ---'
+	/* panic("Code for _dump must never be generated") */
 }

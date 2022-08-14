@@ -3,14 +3,6 @@ module stas
 import readline
 import term
 
-[flag]
-pub enum BuiltinType {
-	void_t
-	int_t
-	bool_t
-	ptr_t
-}
-
 struct StackElement {
 	pos FilePos
 mut:
@@ -32,27 +24,56 @@ mut:
 }
 
 fn (mut c Checker) push(t BuiltinType){
-	assert !t.has(.void_t)
+	assert t.typ != .void_t
 	c.stack << StackElement {
 		typ: t
 		pos: c.curr.pos
 	}
 }
 
-fn (mut c Checker) pop(t BuiltinType)BuiltinType{
+fn (mut c Checker) pushtyp(t Typ, lvl int){
+	c.stack << StackElement {
+		typ: BuiltinType {
+			typ: t
+			ptr_level: lvl
+		}
+		pos: c.curr.pos
+	}
+}
+
+fn (mut c Checker) poptyp(t BuiltinType)BuiltinType{
 	if c.stack.len != 0 {
 		elm := c.stack.pop()
-		if !elm.typ.has(t) {
+		if !elm.typ.typ.has(t.typ) {
 			c.error_empty("Stack value is incorrect type '$t'")
+		}
+		if elm.typ.ptr_level != t.ptr_level {
+			c.error_empty("Stack value pointer is incompatible '$t'")
 		}
 		return elm.typ
 	}
 	c.error_empty("Not enough values to consume from stack")
 }
 
-fn (mut c Checker) top(t BuiltinType){
+fn (mut c Checker) pop(t Typ)BuiltinType{
+	if c.stack.len != 0 {
+		elm := c.stack.pop()
+		if !elm.typ.typ.has(t) {
+			c.error_empty("Stack value is incorrect type '$t'")
+		}
+		/* if is_prim {
+			if elm.ptr_level != 0 {
+				c.error_empty("Stack value is not a pointer '$t'")
+			}
+		} */
+		return elm.typ
+	}
+	c.error_empty("Not enough values to consume from stack")
+}
+
+fn (mut c Checker) top(t Typ){
 	elm := c.stack.last()
-	if !elm.typ.has(t) {
+	if !elm.typ.typ.has(t) {
 		dump(elm)
 		dump(t)
 		c.dump_stack(5)
@@ -84,13 +105,46 @@ fn (mut c Checker) dump_stack(len int){
 	}
 }
 
+/* fn (mut c Checker) merge(a BuiltinType,b BuiltinType)BuiltinType{
+	mut c := a
+	c.typ |= b.typ
+	if c.ptr_level != b.ptr_level {
+		c.error_empty("Pointer variables are incompatible")
+	}
+	return c
+}
+
+[inline]
+fn (mut c Checker) isprimitive(a BuiltinType){
+	if a.ptr_level != 0 {
+		c.error_empty("Variable cannot be a pointer")
+	}
+} */
+
+fn (mut c Checker) equal(a BuiltinType,b BuiltinType){
+	if a.typ in [.ptr_t, .int_t] && b.typ in [.ptr_t, .int_t] {
+
+	} else {
+		if a != b {
+			c.error_empty("Variable types are incompatible")
+		}
+	}
+}
+
+fn (mut c Checker) equalprim(a BuiltinType,b BuiltinType){
+	c.equal(a,b)
+	if a.ptr_level != 0 || b.ptr_level != 0 {
+		c.error_empty("Variable cannot be a pointer")
+	}
+}
+
 fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
 	c.curr = s
 	match s {
 		// --- PUSH/POP ---
-		IR_PUSH_NUMBER {c.push(.int_t)}
-		IR_PUSH_BOOL {c.push(.bool_t)}
-		IR_PUSH_STR_VAR {c.push(.ptr_t)}
+		IR_PUSH_NUMBER {c.pushtyp(.int_t,0)}
+		IR_PUSH_BOOL {c.pushtyp(.bool_t,0)}
+		IR_PUSH_STR_VAR {c.pushtyp(.ptr_t,1)}
 		IR_PUSH_VAR {
 			if a := ctx.get_var(s.name) {
 				c.push(a.typ)
@@ -98,43 +152,55 @@ fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
 				panic("unhandled")
 			}
 		}
-		/* IR_PUSH_BUF_PTR {
-			c.push(.ptr_t)
-		} */
+		IR_PUSH_VAR_PTR {
+			c.stack << StackElement {
+				typ: BuiltinType {
+					typ: s.typ.typ
+					ptr_level: s.typ.ptr_level+1
+				}
+				pos: c.curr.pos
+			}
+		}
 		IR_POP_NUM_VAR {
-			c.pop(.int_t | .ptr_t | .bool_t)
+			c.poptyp(s.typ)
 		}
 		// --- OPERATIONS ---
 		IR_ADD {
 			a := c.pop(.int_t | .ptr_t)
 			b := c.pop(.int_t | .ptr_t)
-			c.push(a | b)
+			c.equal(a,b)
+			c.push(b)
 		}
 		IR_SUB {
 			a := c.pop(.int_t | .ptr_t)
 			b := c.pop(.int_t | .ptr_t)
-			c.push(a | b)
+			c.equal(a,b)
+			c.push(b)
 		}
 		IR_MUL {
 			a := c.pop(.int_t)
 			b := c.pop(.int_t)
-			c.push(a | b)
+			c.equalprim(a,b)
+			c.push(a)
 		}
 		IR_DIV {
 			a := c.pop(.int_t)
 			b := c.pop(.int_t)
-			c.push(a | b)
+			c.equalprim(a,b)
+			c.push(a)
 		}
 		IR_MOD {
 			a := c.pop(.int_t)
 			b := c.pop(.int_t)
-			c.push(a | b)
+			c.equalprim(a,b)
+			c.push(a)
 		}
 		IR_DIVMOD {
 			a := c.pop(.int_t)
 			b := c.pop(.int_t)
-			c.push(a | b)
-			c.push(a | b)
+			c.equalprim(a,b)
+			c.push(a)
+			c.push(a)
 		}
 		IR_DEC {
 			c.top(.int_t | .ptr_t)
@@ -157,59 +223,71 @@ fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
 		}
 		// --- COMPARISION --
 		IR_EQUAL {
-			c.pop(.int_t | .ptr_t | .bool_t)
-			c.pop(.int_t | .ptr_t | .bool_t)
-			c.push(.bool_t)
+			a := c.pop(.int_t | .bool_t | .ptr_t)
+			b := c.pop(.int_t | .bool_t | .ptr_t)
+			c.equal(a,b)
+			c.pushtyp(.bool_t,0)
 		}
 		IR_NOTEQUAL {
-			c.pop(.int_t | .ptr_t | .bool_t)
-			c.pop(.int_t | .ptr_t | .bool_t)
-			c.push(.bool_t)
+			a := c.pop(.int_t | .bool_t | .ptr_t)
+			b := c.pop(.int_t | .bool_t | .ptr_t)
+			c.equal(a,b)
+			c.pushtyp(.bool_t,0)
 		}
 		IR_GREATER {
-			c.pop(.int_t | .ptr_t)
-			c.pop(.int_t | .ptr_t)
-			c.push(.bool_t)
+			a := c.pop(.int_t | .bool_t | .ptr_t)
+			b := c.pop(.int_t | .bool_t | .ptr_t)
+			c.equal(a,b)
+			c.pushtyp(.bool_t,0)
 		}
 		IR_LESS {
-			c.pop(.int_t | .ptr_t | .bool_t)
-			c.pop(.int_t | .ptr_t | .bool_t)
-			c.push(.bool_t)
+			a := c.pop(.int_t | .bool_t | .ptr_t)
+			b := c.pop(.int_t | .bool_t | .ptr_t)
+			c.equal(a,b)
+			c.pushtyp(.bool_t,0)
 		}
 		// --- POINTERS ---
 		IR_DEREF_8, IR_DEREF_16, IR_DEREF_32, IR_DEREF_64 {
-			c.pop(.ptr_t)
-			c.push(.int_t)
+			if c.stack[c.stack.len-1].typ.ptr_level == 0 {
+				c.error_empty("Cannot dereference non pointer")
+			}
+			c.stack[c.stack.len-1].typ.ptr_level--
+			if c.stack[c.stack.len-1].typ.typ == .ptr_t {
+				c.stack[c.stack.len-1].typ.typ = .int_t
+			}
 		}
-		IR_WRITEP_8 {
+		IR_WRITEP_8, IR_WRITEP_16, IR_WRITEP_32, IR_WRITEP_64 {
 			c.pop(.int_t | .ptr_t | .bool_t)
-			c.pop(.ptr_t)
+			ptr := c.stack.pop()
+			if ptr.typ.ptr_level == 0 {
+				c.error_empty("Variable is not a pointer")
+			}
 		}
 		// --- INTRINSIC ---
 		IR_SYSCALL {
-			c.pop(.int_t)
-			c.push(.int_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pushtyp(.int_t,0)
 		}
 		IR_SYSCALL1 {
 			c.pop(.int_t | .ptr_t | .bool_t)
 
-			c.pop(.int_t)
-			c.push(.int_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pushtyp(.int_t,0)
 		}
 		IR_SYSCALL2 {
 			c.pop(.int_t | .ptr_t | .bool_t)
 			c.pop(.int_t | .ptr_t | .bool_t)
 
-			c.pop(.int_t)
-			c.push(.int_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pushtyp(.int_t,0)
 		}
 		IR_SYSCALL3 {
 			c.pop(.int_t | .ptr_t | .bool_t)
 			c.pop(.int_t | .ptr_t | .bool_t)
 			c.pop(.int_t | .ptr_t | .bool_t)
 
-			c.pop(.int_t)
-			c.push(.int_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pushtyp(.int_t,0)
 		}
 		IR_SYSCALL4 {
 			c.pop(.int_t | .ptr_t | .bool_t)
@@ -217,8 +295,8 @@ fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
 			c.pop(.int_t | .ptr_t | .bool_t)
 			c.pop(.int_t | .ptr_t | .bool_t)
 
-			c.pop(.int_t)
-			c.push(.int_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pushtyp(.int_t,0)
 		}
 		IR_SYSCALL5 {
 			c.pop(.int_t | .ptr_t | .bool_t)
@@ -227,8 +305,8 @@ fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
 			c.pop(.int_t | .ptr_t | .bool_t)
 			c.pop(.int_t | .ptr_t | .bool_t)
 
-			c.pop(.int_t)
-			c.push(.int_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pushtyp(.int_t,0)
 		}
 		IR_SYSCALL6 {
 			c.pop(.int_t | .ptr_t | .bool_t)
@@ -238,8 +316,8 @@ fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
 			c.pop(.int_t | .ptr_t | .bool_t)
 			c.pop(.int_t | .ptr_t | .bool_t)
 
-			c.pop(.int_t)
-			c.push(.int_t)
+			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pushtyp(.int_t,0)
 		}
 		// --- COMPOUND ---
 		IR_CALL_FUNC {
@@ -255,8 +333,8 @@ fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
 			c.sim_match(s ,ctx)
 		}
 		IR_RETURN {
-			if ctx.ret != .void_t {
-				c.pop(ctx.ret)
+			if ctx.ret.typ != .void_t {
+				c.poptyp(ctx.ret)
 			}
 		} 
 		// this may be bad
@@ -286,7 +364,7 @@ fn (mut c Checker) sim_single(s IR_Statement, ctx &Function){
 		println(create_underline(s.pos,10))
 		c.dump_stack(5)
 		for {
-			rline := c.readline.read_line("awaiting... ") or { 
+			rline := c.readline.read_line("awaiting..") or { 
 				println('')
 				exit(0)
 			}
@@ -353,17 +431,17 @@ fn (mut c Checker) sim_match(statement &IR_MATCH, ctx &Function){
 		stack_untouched := c.stack.clone()
 		if statement.top.len != 0 {
 			c.sim_body(statement.top, ctx)
-			c.pop(.int_t | .ptr_t | .bool_t) // literally anything
+			c.pop(.int_t | .bool_t) // literally anything
 			assert c.stack == stack_untouched
 		} else {
-			c.pop(.int_t | .ptr_t | .bool_t)
+			c.pop(.int_t | .bool_t)
 		}
 	}
 	// IR_MATCH.body
 	stack_untouched := c.stack.clone()
 	for body in statement.body {
 		c.sim_body(body.top, ctx)
-		c.pop(.int_t | .ptr_t | .bool_t)
+		c.pop(.int_t | .bool_t)
 		assert c.stack == stack_untouched
 
 		c.stack = stack_untouched
@@ -396,28 +474,21 @@ fn (mut c Checker) error(err string){
 	exit(1)
 }
 
-fn promote_type(typ BuiltinType)BuiltinType{
-	if typ.has(.int_t | .ptr_t) {
-		return .int_t | .ptr_t
-	}
-	return typ
-}
-
 fn (mut c Checker) sim_function(ctx &Function){
 	trace("new sim $ctx.name",@FN)
 	for typ in ctx.args.reverse() {
-		c.pop(typ.typ)
+		c.poptyp(typ.typ)
 		//trace("pop arg $typ.name - $typ.typ",@FN)
 	}
 	mut entry_pos := c.stack.len
 	c.sim_body(ctx.body, ctx)
 	trace("  finish sim - $ctx.name",@FN)
 	
-	if ctx.ret != .void_t {
+	if ctx.ret.typ != .void_t {
 		ret := c.stack.last()
-		typ := promote_type(ret.typ)
+		typ := ret.typ
 		entry_pos++
-		if !typ.has(ctx.ret) {
+		if !typ.typ.has(ctx.ret.typ) {
 			c.error_fp("Returning stack type is incompatible with ${ctx.ret}",ret.pos)
 		}
 		trace("  fn ret $typ - $ctx.name",@FN)
@@ -450,16 +521,4 @@ fn (mut c Checker) check_all(){
 		unsafe { free(c.stack) }
 	}
 	c.sim_function(c.fns["main"])
-}
-
-// debug keywords
-
-struct DEBUG_DUMP {
-	pos FilePos
-	amt int = 1
-}
-
-fn (i DEBUG_DUMP) gen(mut ctx Function) string {
-	return '; --- dump ---'
-	/* panic("Code for _dump must never be generated") */
 }

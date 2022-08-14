@@ -1,4 +1,5 @@
 set pagination off
+set debuginfod enabled off
 #set logging file gdb.output
 #set logging on
 
@@ -8,7 +9,7 @@ end
 lay regs
 b main
 
-run
-
-display *(unsigned long *)($rsp)
-lay asm
+#run
+#
+#display *(unsigned long *)($rsp)
+#lay asm

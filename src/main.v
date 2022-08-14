@@ -12,7 +12,7 @@ fn main(){
 
 	fp.application("stas") // os.file_name(os.args[0])
 	fp.version('0.0.2 ${githash.to_string()}')
-	fp.description('Compiler for a stack based programming language')
+	fp.description('compiler for a stack based programming language called stas')
 	fp.skip_executable()
 	pref_run := fp.bool('run', `r`, false, 'run program after compiling, then deletes')
 	pref_tut := fp.bool('tutor', 0, false, 'activate tutor mode. program will stop at the checker and display information relating to the stack, used for learning the language')
@@ -61,7 +61,7 @@ fn main(){
 
 	if pref_bat {
 		mut run_process := os.new_process('/usr/bin/bat')
-		run_process.set_args(['-l','fasm','${file_write_tmp}.asm'])
+		run_process.set_args(['-l','nasm','${file_write_tmp}.asm'])
 		run_process.wait()
 		os.rm('${file_write_tmp}.asm') or {}
 		exit(0)

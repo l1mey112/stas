@@ -3,7 +3,7 @@
 main ! in do
 	18446744073709551615 @ uputln
 	-1 @ uputln
-	= assert
+	== assert
 	44444433 uputln
 
 	; 18446744073709551616 uputln

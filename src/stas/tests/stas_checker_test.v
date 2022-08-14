@@ -1,4 +1,10 @@
-import stas
+/* import stas
+
+
+
+/*
+	test cases are sort of irrelevant because it does not compile any binaries
+*/
 
 // does not compile or generate programs
 // nor does it verify binaries
@@ -49,4 +55,4 @@ fn test_complex() {
 	assert args_func.args[1].typ == .bool_t
 	assert args_func.args[2].name == 'c'
 	assert args_func.args[2].typ == .ptr_t
-} */
+} */ */

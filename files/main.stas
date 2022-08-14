@@ -1,5 +1,8 @@
-#include "std.stas"
-
 main ! in do
-	false assert
+	; local * int asdsd [2]
+	; local * int asdsde [2]
+end
+
+main1 int in assad * int do
+	
 end

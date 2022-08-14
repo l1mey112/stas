@@ -14,7 +14,7 @@ end
 
 strlen int in buf * do
 	buf
-	while @ * :: 8 0 != do
+	while @ *8 0 != do
 		++
 	end
 	buf -=
@@ -34,7 +34,7 @@ end
 memset ! in ptr * val int len int do 
 	ptr
 	while @ ptr len += < do
-		@ val & :: 8
+		@ val &8
 		++
 	end
 	_
@@ -45,8 +45,8 @@ uput ! in num int do
 	local * pos 0
 	local int len 0
 
-	if num 0 = do       ; avoid division by 0
-		buf 48 & :: 8   ; '0'
+	if num 0 == do       ; avoid division by 0
+		buf 48 &8   ; '0'
 		buf 1 write
 		return
 	end
@@ -59,7 +59,7 @@ uput ! in num int do
 
 		10 %%           ; get remainder
 		48 +=           ; convert to ascii
-		pos ~ & :: 8    ; write char into buffer
+		pos ~ &8        ; write char into buffer
 
 		len ++ pop len
 	end
@@ -78,7 +78,7 @@ getch int in do
 	0 0 ch 1 syscall3
 	_
 	
-	ch * :: 8
+	ch *8
 end
 
 read_stdin ! in buf * len int do
