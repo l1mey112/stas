@@ -1,9 +1,0 @@
-main ! in do
-	while true do
-
-	end
-
-	; true while do
-	; 	
-	; end
-end

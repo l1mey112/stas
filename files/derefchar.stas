@@ -1,6 +1,0 @@
-#include "std.stas"
-
-main ! in do
-	"Hello!" *8   ; dereference byte
-	uputln            ; 72 -> 'H'
-end

@@ -1,0 +1,19 @@
+include "std.stas"
+
+define [= dup enddef
+
+main ! in do
+	9999999
+
+	10 15 +=
+
+	5 += ++ ; hello!!!
+
+	[=
+	[=
+	[=
+
+	"hello world!"
+
+	uputlnarg arg
+end

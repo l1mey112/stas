@@ -1,9 +1,0 @@
-main ! in do
-	true if do
-		_nop
-	end
-
-	if true do
-		_nop
-	end
-end

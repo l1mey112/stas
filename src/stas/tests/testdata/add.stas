@@ -1,9 +1,0 @@
-#include "std.stas"
-
-main ! in do
-	10 15 +=
-
-	5 +=
-
-	uputln
-end
