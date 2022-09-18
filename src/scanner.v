@@ -11,10 +11,14 @@ enum Tok {
 	        // reserve Wordsize quadword_var
 
 	retarrw  // ->
+	
 	func
 	endfunc
 	do_block
-//	in_block // function arguments, maybe...
+
+	if_block
+	else_block
+	endif_block
 
 	// as much as i love braces, using them
 	// for function definitions only when
@@ -51,6 +55,7 @@ enum Tok {
 	write64  
 
 	drop
+	ret
 
 //	dup      // dup
 //	swap     // swap
@@ -82,11 +87,16 @@ fn match_token(data string, pos int) Token {
 		">>" { new(.shr)      }
 		"<<" { new(.shl)      }
 
+		"ret" { new(.ret) }
 		"drop" { new(.drop) }
 		"reserve" { new(.reserve) }
 		"endfn" { new(.endfunc) }
 		"do" { new(.do_block) }
 		"->" { new(.retarrw) }
+
+		"if" { new(.if_block) }
+		"endif" { new(.endif_block) }
+		"else" { new(.else_block) }
 
 		"*8"  { new(.deref8)  }
 		"*16" { new(.deref16) }
@@ -111,6 +121,10 @@ fn match_token(data string, pos int) Token {
 
 struct Token {
 	pos int
+
+//	row int
+//	col int
+
 //	len int
 //	file_idx int
 	
