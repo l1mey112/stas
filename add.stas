@@ -1,19 +1,19 @@
-include "std.stas"
+; include "std.stas" ; these arent handled yet
+; define Wordsize 8 enddef
 
-define [= dup enddef
+fn return_func 1 -> do
+	drop
+	48
+endfn
 
-main ! in do
-	9999999
+fn main do
+	99999 999999 +
+	2 <<
+	drop
 
-	10 15 +=
-
-	5 += ++ ; hello!!!
-
-	[=
-	[=
-	[=
-
-	"hello world!"
-
-	uputlnarg arg
-end
+	10
+	return_func
+	
+	; __breakpoint_inspect
+	drop
+endfn

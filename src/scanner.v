@@ -7,6 +7,25 @@ enum Tok {
 	d_define
 	d_enddef
 
+	reserve // define Wordsize 8 enddef
+	        // reserve Wordsize quadword_var
+
+	retarrw  // ->
+	func
+	endfunc
+	do_block
+//	in_block // function arguments, maybe...
+
+	// as much as i love braces, using them
+	// for function definitions only when
+	// if, while and for loops will exist
+	// will just make it inconsistent
+	//
+	// gotta keep parsing simple everybody.
+	// 
+	// l_cb     // {
+	// r_cb     // }
+
 	inc      // ++
 	dec      // --
 	add      // +
@@ -19,14 +38,75 @@ enum Tok {
 	notequal // !=
 	greater  // >
 	less     // <
+	shr      // >>
+	shl      // <<
 
-	dup      // dup
-	swap     // swap
-	drop     // drop
-	rot      // rot
+	deref8   
+	deref16  
+	deref32  
+	deref64  
+	write8   
+	write16  
+	write32  
+	write64  
+
+	drop
+
+//	dup      // dup
+//	swap     // swap
+//	drop     // drop
+//	rot      // rot
 //	pop      // pop
 
-	__end__
+	__breakpoint_inspect
+}
+
+fn match_token(data string, pos int) Token {
+	new := fn [data, pos] (a Tok) Token {
+		return Token {lit: data, pos: pos, tok: a}
+	}
+
+	return match data {
+		"++" { new(.inc)      }
+		"--" { new(.dec)      }
+		"+"  { new(.add)      }
+		"-"  { new(.sub)      }
+		"*"  { new(.mul)      }
+		"/"  { new(.div)      }
+		"%"  { new(.mod)      }
+		"%%" { new(.divmod)   }
+		"="  { new(.equal)    }
+		"!=" { new(.notequal) }
+		">"  { new(.greater)  }
+		"<"  { new(.less)     }
+		">>" { new(.shr)      }
+		"<<" { new(.shl)      }
+
+		"drop" { new(.drop) }
+		"reserve" { new(.reserve) }
+		"endfn" { new(.endfunc) }
+		"do" { new(.do_block) }
+		"->" { new(.retarrw) }
+
+		"*8"  { new(.deref8)  }
+		"*16" { new(.deref16) }
+		"*32" { new(.deref32) }
+		"*64" { new(.deref64) }
+		"&8"  { new(.write8)  }
+		"&16" { new(.write16) }
+		"&32" { new(.write32) }
+		"&64" { new(.write64) }
+
+		"enddef" { new(.d_enddef) }
+		"include" { new(.d_include) }
+		"define" { new(.d_define) }
+
+		"__breakpoint_inspect" { new(.__breakpoint_inspect) }
+		else {
+			if data == "fn" { new(.func) }
+			else {new(.name)}
+		}
+	}
 }
 
 struct Token {
@@ -66,37 +146,41 @@ fn scan_file(data string, mut token_bucket []Token){
 			}
 		}
 
-		if data[pos] in [`'`, `"`] {
-			str_quote := data[pos]
-			str_start := pos + 1 
-			// skip quotes, .lit will be the actual string data
+		match data[pos] {
+			`'`, `"` {
+				str_quote := data[pos]
+				str_start := pos + 1 
+				// skip quotes, .lit will be the actual string data
 
-			for {
+				for {
+					pos++
+					assert pos < data.len, 'unfinished string literal'
+
+					if data[pos] == str_quote {
+						break
+					}
+				}
+
 				pos++
-				assert pos < data.len, 'unfinished string literal'
 
-				if data[pos] == str_quote {
-					break
+				token_bucket << Token {
+					lit: data[str_start..pos-1]
+					pos: str_start
+					tok: .string_lit
 				}
+
+				continue
 			}
-
-			pos++
-
-			token_bucket << Token {
-				lit: data[str_start..pos-1]
-				pos: str_start
-				tok: .string_lit
-			}
-
-			continue
-		} else if data[pos] == `;` {
-			for data[pos] != `\n` {
-				pos++ 
-				if pos >= data.len {
-					return
+			`;` {
+				for data[pos] != `\n` {
+					pos++ 
+					if pos >= data.len {
+						return
+					}
 				}
+				continue
 			}
-			continue
+			else {}
 		}
 
 		start = pos
@@ -122,36 +206,5 @@ fn scan_file(data string, mut token_bucket []Token){
 				tok: .number_lit
 			}
 		}
-	}
-}
-
-fn match_token(data string, pos int) Token {
-	new := fn [data, pos] (a Tok) Token {
-		return Token {lit: data, pos: pos, tok: a}
-	}
-
-	return match data {
-		"++"   { new(.inc)      }
-		"--"   { new(.dec)      }
-		"+"    { new(.add)      }
-		"-"    { new(.sub)      }
-		"*"    { new(.mul)      }
-		"/"    { new(.div)      }
-		"%"    { new(.mod)      }
-		"%%"   { new(.divmod)   }
-		"="    { new(.equal)    }
-		"!="   { new(.notequal) }
-		">"    { new(.greater)  }
-		"<"    { new(.less)     }
-		"dup"  { new(.dup)      }
-		"swap" { new(.swap)     }
-		"drop" { new(.drop)     }
-		"rot"  { new(.rot)      }
-
-		"enddef" { new(.d_enddef) }
-
-		"include" { new(.d_include) }
-		"define" { new(.d_define) }
-		else   { new(.name) }
 	}
 }

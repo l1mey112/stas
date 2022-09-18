@@ -9,7 +9,9 @@ fn main() {
 	scan_file(data, mut initial_bucket)
 	preprocess(initial_bucket, mut final_bucket)
 
-	for a in final_bucket {
+	get_asm(final_bucket)
+
+	/* for a in final_bucket {
 		println('${'$a.tok':14} - $a.pos	$a.lit')
-	}
+	} */
 }

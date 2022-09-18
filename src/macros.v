@@ -15,17 +15,18 @@ fn preprocess(tokens []Token, mut final_bucket []Token) {
 			}
 			.d_define {
 				pos++
-				assert pos < tokens.len, "unexpected EOF from processing macro definition"
+				assert pos < tokens.len, "unexpected EOF when processing macro definition"
 				assert tokens[pos].tok != .d_enddef, "cannot define empty macro definition"
 				assert tokens[pos].tok == .name, "macro definition must not be an intrinsic"
 				macro_tok := tokens[pos]
 				mut macro_toks := []Token{}
 				pos++
 				assert tokens[pos].tok != .d_enddef, "cannot define macro with no body"
+				assert pos < tokens.len, "unexpected EOF when processing macro definition"
 				for tokens[pos].tok != .d_enddef {
-					assert pos < tokens.len, "unexpected EOF from processing macro definition"
 					macro_toks << tokens[pos]
 					pos++
+					assert pos < tokens.len, "unexpected EOF when processing macro definition"
 				}
 				macros[macro_tok.lit] = macro_toks
 			}
