@@ -1,4 +1,4 @@
-fn preprocess(tokens []Token, mut final_bucket []Token) {
+/* fn preprocess(tokens []Token, mut final_bucket []Token) {
 	mut macros := map[string]([]Token)
 	
 	mut pos := 0
@@ -46,4 +46,4 @@ fn preprocess(tokens []Token, mut final_bucket []Token) {
 			break
 		}
 	}
-}
+} */

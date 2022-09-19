@@ -3,15 +3,12 @@ import os
 fn main() {
 	data := os.read_file('add.stas') or { panic(err) }
 
-	mut initial_bucket := []Token{cap: 10}
-	mut final_bucket := []Token{cap: 10}
+	scan_file(data)
+	inspect()
+	get_asm()
 
-	scan_file(data, mut initial_bucket)
-	preprocess(initial_bucket, mut final_bucket)
-
-	get_asm(final_bucket)
-
-	/* for a in final_bucket {
-		println('${'$a.tok':14} - $a.pos	$a.lit')
+	/* eprintln(function_list)
+	for idx, a in tokens {
+		println('${'$a.tok':14}${a.pos:5}${idx:5} ${a.usr1:5}')
 	} */
 }

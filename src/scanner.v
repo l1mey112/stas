@@ -66,9 +66,11 @@ enum Tok {
 	__breakpoint_inspect
 }
 
+__global name_strings = []string{}
+
 fn match_token(data string, pos int) Token {
-	new := fn [data, pos] (a Tok) Token {
-		return Token {lit: data, pos: pos, tok: a}
+	new := fn [pos] (a Tok) Token {
+		return Token {pos: pos, tok: a}
 	}
 
 	return match data {
@@ -114,7 +116,12 @@ fn match_token(data string, pos int) Token {
 		"__breakpoint_inspect" { new(.__breakpoint_inspect) }
 		else {
 			if data == "fn" { new(.func) }
-			else {new(.name)}
+			else {
+				nsl := u64(name_strings.len)
+				name_strings << data
+
+				Token {pos: pos, tok: .name, usr1: nsl}
+			}
 		}
 	}
 }
@@ -129,12 +136,26 @@ struct Token {
 //	file_idx int
 	
 	tok  Tok
-	lit string
+//	lit string
+mut:
+	usr1 u64
 }
 
-[inline]
-fn is_whitespace(c u8) bool {
-	return c in [`\r`, `\n`, `\t`, ` `]
+fn (t Token) str() string {
+	if t.tok == .name {
+		return
+'Token(name){
+    pos: ${t.pos}
+    tok: ${t.tok}
+    usr1: ${name_strings[t.usr1]}
+}'
+	}
+	return
+'Token{
+    pos: ${t.pos}
+    tok: ${t.tok}
+    usr1: ${t.usr1}
+}'
 }
 
 // token scanner is incredibly simpler now
@@ -144,7 +165,7 @@ fn is_whitespace(c u8) bool {
 // would take place
 // 
 // whole line comments are denoted with `;`
-fn scan_file(data string, mut token_bucket []Token){
+fn scan_file(data string){
 	mut pos := 0
 	mut start := 0
 
@@ -153,7 +174,7 @@ fn scan_file(data string, mut token_bucket []Token){
 		if pos >= data.len {
 			return
 		}
-		for is_whitespace(data[pos]) {
+		for data[pos] in [`\r`, `\n`, `\t`, ` `] {
 			pos++
 			if pos >= data.len {
 				return
@@ -177,8 +198,8 @@ fn scan_file(data string, mut token_bucket []Token){
 
 				pos++
 
-				token_bucket << Token {
-					lit: data[str_start..pos-1]
+				tokens << Token {
+				//	lit: data[str_start..pos-1]
 					pos: str_start
 					tok: .string_lit
 				}
@@ -199,7 +220,7 @@ fn scan_file(data string, mut token_bucket []Token){
 
 		start = pos
 
-		for !is_whitespace(data[pos]) {
+		for data[pos] !in [`\r`, `\n`, `\t`, ` `] {
 			if is_number && !(data[pos] >= `0` && data[pos] <= `9`) {
 				is_number = false
 			}
@@ -212,13 +233,21 @@ fn scan_file(data string, mut token_bucket []Token){
 		ret := data[start..pos]
 
 		if !is_number {
-			token_bucket << match_token(ret, start)
+			tokens << match_token(ret, start)
 		} else {
-			token_bucket << Token {
-				lit: ret
+			tokens << Token {
+			//	lit: ret
 				pos: start
 				tok: .number_lit
+				
+				usr1: ret.u64()
 			}
 		}
+	}
+}
+
+fn stub__(){
+	$if prod {
+		$compile_error('cannot be compiled with prod, this will remove asserts')
 	}
 }

@@ -1,52 +1,13 @@
-; include "std.stas" ; these arent handled yet
-; define Wordsize 8 enddef
-
-;fn return_func 1 -> do
-;	drop
-;	48
-;endfn
-;
-;; early returns should allow unhandled stack values
-;fn early_ret 0 -> do
-;	12
-;	ret
-;	12
-;endfn
-;
-;fn test do
-;	22 22 + 22 + 22 + drop
-;endfn
-
-fn iffs 0 -> do
-	1 if
-		0 if 
-			12 ret
-		else
-			19 ret
-		endif
+fn iffer 1 1 do
+	if
+		15
 	else
-		16 ret
+		16
 	endif
-
-	0 ; dummy value
 endfn
 
 fn main do
-	iffs
+	1 iffer
+	__breakpoint_inspect
 	drop
 endfn
-
-;fn main do
-;	99999 999999 +
-;	2 <<
-;	drop
-;
-;	10
-;	return_func
-;	drop
-;
-;	early_ret
-;
-;	; __breakpoint_inspect
-;	drop
-;endfn

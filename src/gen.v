@@ -11,21 +11,11 @@ const fn_arg_regs = [
 	'r9'
 ]
 
-struct GenContext {
-	tokens []Token
-mut:
-	pos int
-	stackdepth int
-	in_func bool
-	in_if bool
-	does_current_func_ret bool
-	funcs map[string] struct {
-		ret bool
-		args int
-	}
-}
+// function_list
 
-fn get_asm(tokens []Token) {
+fn get_asm() {
+	assert has_main, "no main function"
+
 	writeln('format ELF64 executable')
 	writeln('segment readable executable')
 	writeln('entry _start')
@@ -36,111 +26,159 @@ fn get_asm(tokens []Token) {
 	writeln('mov rax, 60')
 	writeln('syscall')
 
-	mut ctx := GenContext{tokens: tokens}
-
-	ctx.gen()
+	gen()
 }
 
-fn (mut c GenContext) gen_if() {
-	mut branchdepth := 0
-	mut contains_else := false
+// automatic function hoisting because asm and intermediate step
 
-	mut tpos := c.pos
-	for c.tokens[tpos].tok != .endif_block {
-		if c.tokens[tpos].tok == .else_block {
-			assert !contains_else, "multiple else blocks while parsing if statement"
-			contains_else = true
-		}
-		tpos++
-		assert tpos < c.tokens.len, "unexpected EOF when parsing if statement"
-	}
+fn gen() {
+	// for i := function idx start ; i < function idx end
+	// maybe do this, i don't see the need though
 
-	label := '.${c.pos}_if'
+	mut pos := u64(0)
+	for ; pos < tokens.len ; pos++ {
+		match tokens[pos].tok {
+			.func {
+				f := function_list[tokens[pos].usr1]
+				// Function{name:, argc:, retc:, idx_start:, idx_end:}
+				assert f.idx_start > pos, "something bad has happened"
+				assert f.idx_end > pos, "something bad has happened part two"
 
-	writeln('pop rax')
-	writeln('test al, al')
-	if contains_else {
-		writeln('je ${label}_else')
-	} else {
-		writeln('je ${label}_end')
-	}
-	writeln('$label:')
+				writeln('${name_strings[f.name]}:')
+				writeln('push rbp')
+				writeln('mov rbp, rsp')
 
-	assert c.stackdepth > 0, "no value on stack to consume for if statement"
-	c.stackdepth--
+				for i := 0 ; i < f.argc ; i++ {
+					writeln('push ${fn_arg_regs[i]}')
+				}
 
-	branchdepth = c.stackdepth
-	for {
-		c.pos++	
-		ret := c.genone()
+				mut stackdepth := int(f.argc) // THIS HAS TO BE AN INT.....
 
-		if ret == -1 {
-			branchdepth -= c.stackdepth
-			break
-		}
+				mut ipos := f.idx_start
+				for ; ipos <= f.idx_end ; ipos++ {
+					match tokens[ipos].tok {
+						.endfunc, .ret {
+							stackdepth -= int(f.retc)
+							assert stackdepth >= 0, "not enough values on stack to consume for returning"
+							assert stackdepth == 0, "unhandled elements on the stack"
 
-		assert tpos < c.tokens.len, "unexpected EOF when parsing if statement"
-	}
-	if contains_else {
-		writeln('jmp ${label}_end')
-		writeln('${label}_else:')
-		mut elsebranchdepth := c.stackdepth
-		for {
-			c.pos++	
-			ret := c.genone()
+							for retc := f.retc ; retc > 0 ; {
+								retc--
+								writeln('pop ${fn_arg_regs[retc]}')
+							}
+							writeln('leave')
+							writeln('ret')
+						}
+						.if_block {
+							assert stackdepth > 0, "no boolean on stack to consume for if statement"
+							stackdepth--
 
-			if ret == -1 {
-				elsebranchdepth -= c.stackdepth
-				break
+							if_tok := ipos
+							mut ifpos := ipos + 1
+
+							writeln('pop rax')
+							writeln('test al, al')
+							if tokens[if_tok].usr1 != 0 { // has else
+								writeln('je .${if_tok}_if_else')
+							} else {
+								writeln('je .${if_tok}_if_end')
+							}
+							writeln('.${if_tok}_if:')
+
+							mut ifend := tokens[if_tok].usr1
+
+							startdepth := stackdepth
+							for ; ifpos < ifend ; ifpos++ {
+								stackdepth = genone(stackdepth, ifpos)
+							}
+							branchdepth := stackdepth
+
+							if tokens[ifend].usr1 != 0 {
+								stackdepth = startdepth
+
+								ifend = tokens[ifend].usr1
+								writeln('jmp .${if_tok}_if_end')
+								writeln('.${if_tok}_if_else:')
+								assert tokens[ifpos].tok == .else_block, "oops" 
+								ifpos++
+
+								for ; ifpos < ifend ; ifpos++ {
+									stackdepth = genone(stackdepth, ifpos)
+								}
+								assert branchdepth == stackdepth, "unbalaced stack on both if and else branches"
+							}
+							writeln('.${if_tok}_if_end:')
+
+							ipos = ifend
+						}
+						else {
+							stackdepth = genone(stackdepth, ipos)
+						}
+					}
+					assert stackdepth >= 0, "-----------------" // shouldn't reach here
+				}
+				pos = f.idx_end
 			}
-
-			assert tpos < c.tokens.len, "unexpected EOF when parsing else in if statement"
+			else {
+				eprintln(tokens[pos])
+				eprintln(pos)
+				assert false, "unexpected toplevel keyword"
+			}
 		}
-		assert elsebranchdepth == branchdepth, "unbalaced stack on both if and else branches"
 	}
-	writeln('${label}_end:')
 }
+// TODO: move all this match statement stuff to another function
+//       then merge if and func to end up on the same for thingy.
+//       the for pos < func/idx_end stuff should be recursive
 
-fn (mut c GenContext) genone() int {
-	match c.tokens[c.pos].tok {
+fn genone(_stackdepth int, ipos u64) (int) {
+	mut stackdepth := _stackdepth
+
+	match tokens[ipos].tok {
 		.add {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rdi')
 			writeln('pop rsi')
 			writeln('add rsi, rdi')
 			writeln('push rsi')
-				c.stackdepth--
+			stackdepth--
 		}
 		.sub {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rdi')
 			writeln('pop rsi')
 			writeln('sub rsi, rdi')
 			writeln('push rsi')
-				c.stackdepth--
+			stackdepth--
 		}
 		.mul {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rdi')
 			writeln('pop rsi')
 			writeln('imul rsi, rdi')
 			writeln('push rsi')
-				c.stackdepth--
+			stackdepth--
 		}
 		.div {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rdi')
 			writeln('pop rax')
 			writeln('xor edx, edx')
 			writeln('div rdi')
 			writeln('push rax')
-				c.stackdepth--
+			stackdepth--
 		}
 		.mod {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rdi')
 			writeln('pop rax')
 			writeln('xor edx, edx')
 			writeln('div rdi')
 			writeln('push rdx')
-				c.stackdepth--
+			stackdepth--
 		}
 		.divmod {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rdi')
 			writeln('pop rax')
 			writeln('xor rdx, rdx')
@@ -149,205 +187,115 @@ fn (mut c GenContext) genone() int {
 			writeln('push rdx')
 		}
 		.inc {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rdi')
 			writeln('inc rdi')
 			writeln('push rdi')
 		}
 		.dec {
+			assert stackdepth >= 1, "not enough values on the stack to consume"
 			writeln('pop rdi')
 			writeln('dec rdi')
 			writeln('push rdi')
 		}
 		.equal {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rsi')
 			writeln('pop rdi')
 			writeln('xor rax, rax')
 			writeln('cmp rdi, rsi')
 			writeln('sete al')
 			writeln('push rax')
-				c.stackdepth--
+			stackdepth--
 		}
 		.notequal {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rsi')
 			writeln('pop rdi')
 			writeln('xor rax, rax')
 			writeln('cmp rdi, rsi')
 			writeln('setne al')
 			writeln('push rax')
-				c.stackdepth--
+			stackdepth--
 		}
 		.greater {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rsi')
 			writeln('pop rdi')
 			writeln('xor rax, rax')
 			writeln('cmp rdi, rsi')
 			writeln('seta al')
 			writeln('push rax')
-				c.stackdepth--
+			stackdepth--
 		}
 		.less {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rsi')
 			writeln('pop rdi')
 			writeln('xor rax, rax')
 			writeln('cmp rdi, rsi')
 			writeln('setb al')
 			writeln('push rax')
-				c.stackdepth--
+			stackdepth--
 		}
 		.shr {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rcx')
 			writeln('pop rdi')
 			writeln('shr rdi, cl')
 			writeln('push rdi')
-				c.stackdepth--
+			stackdepth--
 		}
 		.shl {
+			assert stackdepth >= 2, "not enough values on the stack to consume"
 			writeln('pop rcx')
 			writeln('pop rdi')
 			writeln('shl rdi, cl')
 			writeln('push rdi')
-				c.stackdepth--
+			stackdepth--
 		}
 		.drop {
+			assert stackdepth >= 1, "not enough values on the stack to consume"
 			writeln('add rsp, 8')
-				c.stackdepth--
-		}
-		.ret {
-			if c.does_current_func_ret {
-				assert  c.stackdepth > 0, "no value on stack to consume for returning"
-					c.stackdepth--
-				writeln('pop rax')
-			}
-			writeln('leave')
-			writeln('ret')
-		}
-		.endfunc {
-			if c.does_current_func_ret {
-				assert  c.stackdepth == 1, "no value on stack to consume for returning"
-					c.stackdepth = 0
-				c.does_current_func_ret = false
-				writeln('pop rax')
-			} else {
-				assert  c.stackdepth == 0, "unhandled elements on the stack"
-			}
-			// unhandled data is perfectly fine
-			// just issue a warning
-
-			c.stackdepth = 0 // makes sure
-			writeln('leave')
-			writeln('ret')
-
-			c.in_func = false
-		}
-		.if_block {
-			c.gen_if()
-		}
-		.else_block, .endif_block {
-			return -1
+			stackdepth--
 		}
 		.number_lit {
-			num := c.tokens[c.pos].lit.u64()
-			writeln('push $num')
-			
-			c.stackdepth++
+			writeln('push ${tokens[ipos].usr1}')
+			stackdepth++
 		}
 		.name {
-			assert c.tokens[c.pos].lit in c.funcs, "unknown function or value name"
-				c.stackdepth -= c.funcs[c.tokens[c.pos].lit].args
-			assert  c.stackdepth >= 0, "not enough arguments to consume from stack"
+			mut fn_call := Function{}
+			for fer in function_list {
+				if name_strings[fer.name] == name_strings[tokens[ipos].usr1] { // idx == idx
+					fn_call = fer 
+					break
+				}
+			}
+			assert fn_call.idx_start != 0, "unknown function or value name"
+
+			stackdepth -= int(fn_call.argc)
+			assert stackdepth >= 0, "not enough arguments to consume from stack for function call"
 			
-			mut argc := c.funcs[c.tokens[c.pos].lit].args
-			for argc > 0 {
+			for argc := fn_call.argc ; argc > 0 ; {
 				argc--
 				writeln('pop ${fn_arg_regs[argc]}')
 			}
-			
-			writeln('call ${c.tokens[c.pos].lit}')
-			if c.funcs[c.tokens[c.pos].lit].ret {
-				writeln('push rax')
-					c.stackdepth++
+
+			writeln('call ${name_strings[fn_call.name]}')
+			for i := 0 ; i < fn_call.retc ; i++ {
+				writeln('push ${fn_arg_regs[i]}')
 			}
+			stackdepth += int(fn_call.retc)
 		}
 		.deref8, .deref16, .deref32, .deref64, .write8, .write16, .write32, .write64 {panic("")}
 		.string_lit, .d_define, .d_enddef, .d_include, .reserve {panic("")}
 		.__breakpoint_inspect {
-			assert  c.stackdepth > 0, "must contain at least one value on the stack to inspect"
-			writeln('mov rax, [rsp-8]')
+			assert stackdepth > 0, "must contain at least one value on the stack to inspect"
+			writeln('mov rax, [rsp]')
 			writeln('db 0xcc') // int 3
 		}
-		else {panic("${c.tokens[c.pos]}")}
-	}
-	return 0
-}
-
-fn (mut c GenContext) gen() {
-	for {
-		if c.pos >= c.tokens.len {
-			break
-		}
-		if c.in_func {
-			c.genone()
-		} else {
-			match c.tokens[c.pos].tok {
-				.func {
-					c.gen_func()
-				}
-				else {
-					panic("----- ${c.tokens[c.pos]}")
-				}
-			}
-		}
-		assert  c.stackdepth >= 0, "stack empty, cannot consume a value"
-		c.pos++
-	}
-	assert !c.in_func, "unexpected EOF, function was not ended"
-	assert 'main' in c.funcs, "no main function"
-
-	/* println('----------------')
-	println(funcs) */
-}
-
-fn (mut c GenContext) gen_func() {
-	c.pos++
-	assert c.pos < c.tokens.len, "unexpected EOF when parsing function"
-	assert c.tokens[c.pos].tok == .name, "function name must not be an intrinsic"
-	assert c.tokens[c.pos].lit[0] != `_`, "function name must not contain an underscore"
-	fn_name := c.tokens[c.pos].lit
-
-	c.pos++
-	assert c.pos < c.tokens.len, "unexpected EOF when parsing function"
-	mut fn_rets := false 
-	mut fn_args := 0
-	if c.tokens[c.pos].tok != .do_block {
-		assert c.tokens[c.pos].tok == .number_lit, "function argument count must be a number"
-		fn_args = c.tokens[c.pos].lit.int()
-		// the way the scanner has been set up, this can never fail. forget the strconv above
-		
-		assert fn_args <= 6, "function must not accept more that 6 arguments"
-		// just a setup for when stack locals come into place
-
-		c.pos++
-		assert c.pos < c.tokens.len, "unexpected EOF when parsing function"
-		if c.tokens[c.pos].tok == .retarrw {
-			fn_rets = true
-			c.does_current_func_ret = true
-			c.pos++
-			assert c.pos < c.tokens.len, "unexpected EOF when parsing function"
-		}
-		assert c.tokens[c.pos].tok == .do_block, "functions must not contain arguments, for now"
+		else {panic("${tokens[ipos]} $ipos")}
 	}
 	
-	c.funcs[fn_name] = struct {
-		ret: fn_rets
-		args: fn_args
-	}
-	c.in_func = true
-		c.stackdepth += fn_args // setup stack with args
-	writeln('$fn_name:')
-	writeln('push rbp')
-	writeln('mov rbp, rsp')
-
-	for i := 0 ; i < fn_args ; i++ {
-		writeln('push ${fn_arg_regs[i]}')
-	}
+	return stackdepth
 }
