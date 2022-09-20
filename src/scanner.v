@@ -20,6 +20,9 @@ enum Tok {
 	else_block
 	endif_block
 
+	while_block
+	endwhile_block
+
 	// as much as i love braces, using them
 	// for function definitions only when
 	// if, while and for loops will exist
@@ -106,6 +109,9 @@ fn match_token(data string, pos int) Token {
 		"if" { new(.if_block) }
 		"endif" { new(.endif_block) }
 		"else" { new(.else_block) }
+
+		"while" { new(.while_block) }
+		"endwhile" { new(.endwhile_block) }
 
 //		"*8"  { new(.deref8)  }
 //		"*16" { new(.deref16) }

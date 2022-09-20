@@ -116,46 +116,8 @@ fn inspect_function(_idx u64) u64 {
 				func.idx_end = idx // for pos < idx_end
 				break
 			}
-			._asm {
-				assert idx + 3 <= tokens.len &&
-				    tokens[idx+1].tok == .number_lit && 
-				    tokens[idx+2].tok == .number_lit &&
-				    tokens[idx+3].tok == .string_lit, "asm expects numbers being inputs and outputs with a string literal as the 3 next tokens"
-				
-				idx += 3 // skip over
-			}
-			.reserve {
-				assert idx + 2 <= tokens.len &&
-				    tokens[idx+1].tok == .number_lit && 
-				    tokens[idx+2].tok == .name, "reserve keyword must contain a number and a buf name"
-
-				for f in func.stackvars {
-					assert name_strings[tokens[f.tok].usr1] != name_strings[tokens[idx+2].usr1], "duplicate function name"
-				}
-
-				// don't want UB because unaligned stack
-				
-				align := fn (n u64) u64 {
-					return ((n + 7) & ~(7))
-				}
-				
-				func.stackframe += align(tokens[idx+1].usr1)
-				func.stackvars << StackVar {
-					tok: idx + 2
-					loc: func.stackframe
-				//	size: tokens[idx+1].usr1
-				}
-
-				idx += 2
-			}
-			.string_lit {
-				func.string_lits << idx
-			}
-			.func {
-				assert false, "cannot define a function inside a function"
-			}
 			else {
-				idx = inspect_one(idx)
+				idx = inspect_one(idx, mut func)
 			}
 		}
 	}
@@ -164,48 +126,114 @@ fn inspect_function(_idx u64) u64 {
 	return idx // do not skip over .endfunc, will be incremented anyway
 }
 
-fn inspect_one(_idx u64) u64 {
-	match tokens[_idx].tok {
+fn inspect_one(_idx u64, mut func Function) u64 {
+	mut idx := _idx
+	match tokens[idx].tok {
 		.if_block {
-			return inspect_if(_idx)
-		}
-		else {
-			return _idx
-		}
-	}
-}
-
-fn inspect_if(_idx u64) u64 {
-	mut idx := _idx + 1
-	mut elsep := u64(0)
-
-	for ; idx < tokens.len ; idx++ {
-		match tokens[idx].tok {
-			.else_block {
-				assert elsep == 0, "if statement cannot contain multiple else blocks"
-				elsep = idx
+			mut elsep := u64(0)
+			mut broken := false
+			
+			idx++ // skip if
+			
+			for ; idx < tokens.len ; idx++ {
+				match tokens[idx].tok {
+					.else_block {
+						assert elsep == 0, "if statement cannot contain multiple else blocks"
+						elsep = idx
+					}
+					.endif_block {
+						broken = true
+						break
+					}
+					else {
+						idx = inspect_one(idx, mut func)
+					}
+				}
 			}
-			.endif_block {
-				break
+
+			assert broken, "EOF when parsing if statement"
+
+			if elsep != 0 {
+				tokens[_idx].usr1 = elsep
+				tokens[elsep].usr1 = idx
+				tokens[idx].usr1 = 0
+			} else {
+				tokens[_idx].usr1 = idx
+				tokens[idx].usr1 = 0
 			}
-			else {
-				idx = inspect_one(idx)
-			}
+
+			// if -> else -> endif -> 0
 		}
+		.while_block {
+			mut broken := false
+			mut dop := u64(0)
+
+			idx++
+
+			for ; idx < tokens.len ; idx++ {
+				match tokens[idx].tok {
+					.do_block {
+						assert dop == 0, "while statement cannot contain multiple do blocks"
+						dop = idx
+					}
+					.endwhile_block {
+						broken = true
+						break
+					}
+					else {
+						idx = inspect_one(idx, mut func)
+					}
+				}
+			}
+
+			assert broken, "EOF when parsing while statement"
+			assert dop != 0, "while statement does not contain a body (do block)"
+
+			tokens[_idx].usr1 = dop
+			tokens[dop].usr1 = idx
+			tokens[idx].usr1 = 0
+
+			// while  -> do -> endwhile -> 0
+		}
+		._asm {
+			assert idx + 3 <= tokens.len &&
+				tokens[idx+1].tok == .number_lit && 
+				tokens[idx+2].tok == .number_lit &&
+				tokens[idx+3].tok == .string_lit, "asm expects numbers being inputs and outputs with a string literal as the 3 next tokens"
+			
+			idx += 3 // skip over
+		}
+		.reserve {
+			assert idx + 2 <= tokens.len &&
+				tokens[idx+1].tok == .number_lit && 
+				tokens[idx+2].tok == .name, "reserve keyword must contain a number and a buf name"
+
+			for f in func.stackvars {
+				assert name_strings[tokens[f.tok].usr1] != name_strings[tokens[idx+2].usr1], "duplicate function name"
+			}
+
+			// don't want UB because unaligned stack
+			
+			align := fn (n u64) u64 {
+				return ((n + 7) & ~(7))
+			}
+			
+			func.stackframe += align(tokens[idx+1].usr1)
+			func.stackvars << StackVar {
+				tok: idx + 2
+				loc: func.stackframe
+			//	size: tokens[idx+1].usr1
+			}
+
+			idx += 2
+		}
+		.string_lit {
+			func.string_lits << idx
+		}
+		.func {
+			assert false, "cannot define a function inside a function"
+		}
+		else {}
 	}
-
-	if elsep != 0 {
-		tokens[_idx].usr1 = elsep
-		tokens[elsep].usr1 = idx
-		tokens[idx].usr1 = 0
-	} else {
-		tokens[_idx].usr1 = idx
-		tokens[idx].usr1 = 0
-	}
-
-	// if -> else -> endif
-	// |                |
-	// +-----<<<<<<-----+
-
 	return idx
 }

@@ -14,7 +14,7 @@ fn main() {
 	get_asm()
 
 	//eprintln(function_list)
-	/* for idx, a in tokens {
+	for idx, a in tokens {
 		eprintln('${'$a.tok':14}${a.pos:5}${idx:5} ${a.usr1:5}')
-	} */
+	}
 }

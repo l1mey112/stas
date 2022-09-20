@@ -1,70 +1,47 @@
-fn deref8 1 1 do
-	asm 1 1
-"	pop rdi
-	movsx rdi, byte [rdi]
-	push qword rdi"
+fn ptrinc 1 0 do
+	double deref64 ++ write64
 endfn
 
-fn double 1 2 do
-	asm 1 2
-"	mov rdi, [rsp]
-	push rdi"
+fn ptrdec 1 0 do
+	double deref64 -- write64
 endfn
 
-fn drop 1 0 do
-	asm 1 0
-"	add rsp, 8"
-endfn
+fn uput 1 0 do
+	reserve 20 buf
+	reserve 8 pos
+	reserve 8 len
 
-fn swap 2 2 do
-	asm 2 2
-"	pop rdi
-	pop rsi
-	push rdi
-	push rsi"
-endfn
+	double
 
-fn rot 3 3 do
-	reserve 8 rot1
-	reserve 8 rot2
-	reserve 8 rot3
+	0 = if
+		buf 48 write8
+		buf 1 write
+		ret           ; ret doesn't worry about unhandled
+	endif             ; values on the stack
 
-	rot1 swap write64
-	rot2 swap write64
-	rot3 swap write64
+	len 0 write64
+	pos buf 20 + write64
 
-	rot1 deref64
-	rot3 deref64
-	rot2 deref64
-endfn
+	while double 0 > do
+		pos ptrdec
 
-fn write 2 0 do
-	1 rot 1 rot syscall3
+		10 %%
+		48 +
+
+		pos deref64 swap write8
+
+		len ptrinc
+	endwhile
 	drop
+
+	pos deref64 len deref64 write
 endfn
 
-fn recurse_strlen 1 1 do
-	double deref8 if
-		++
-		recurse_strlen
-	endif
-endfn
-
-fn strlen 1 1 do
-	double recurse_strlen swap -
-endfn
-
-fn endl 0 0 do
-	reserve 1 newline
-	newline 10 write8
-	newline 1 write
-endfn
-
-fn println 1 0 do
-	double strlen write
+fn uputln 1 0 do
+	uput
 	endl
 endfn
 
 fn main do
-	"Hello world!!!!!!!!!!1" println
+	44323232 uputln
 endfn

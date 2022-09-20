@@ -1,4 +1,66 @@
+fn deref8 1 1 do
+	asm 1 1
+"	pop rdi
+	movsx rdi, byte [rdi]
+	push qword rdi"
+endfn
 
+fn double 1 2 do
+	asm 1 2
+"	mov rdi, [rsp]
+	push rdi"
+endfn
+
+fn drop 1 0 do
+	asm 1 0
+"	add rsp, 8"
+endfn
+
+fn swap 2 2 do
+	asm 2 2
+"	pop rdi
+	pop rsi
+	push rdi
+	push rsi"
+endfn
+
+fn rot 3 3 do
+	reserve 8 rot1
+	reserve 8 rot2
+	reserve 8 rot3
+
+	rot1 swap write64
+	rot2 swap write64
+	rot3 swap write64
+
+	rot1 deref64
+	rot3 deref64
+	rot2 deref64
+endfn
+
+fn write 2 0 do
+	1 rot 1 rot syscall3
+	drop
+endfn
+
+fn strlen 1 1 do
+	double
+	while double deref8 0 != do
+		++
+	endwhile
+	swap -
+endfn
+
+fn endl 0 0 do
+	reserve 1 newline
+	newline 10 write8
+	newline 1 write
+endfn
+
+fn println 1 0 do
+	double strlen write
+	endl
+endfn
 
 fn deref64 1 1 do
 	asm 1 1

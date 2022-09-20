@@ -100,84 +100,7 @@ fn gen() {
 
 				mut ipos := f.idx_start
 				for ; ipos <= f.idx_end ; ipos++ {
-					match tokens[ipos].tok {
-						.endfunc, .ret {
-							stackdepth -= int(f.retc)
-							assert stackdepth >= 0, "not enough values on stack to consume for returning"
-							assert stackdepth == 0, "unhandled elements on the stack"
-
-							for retc := f.retc ; retc > 0 ; {
-								retc--
-								writeln('pop ${fn_arg_regs[retc]}')
-							}
-							writeln('leave')
-							writeln('ret')
-						}
-						._asm {
-							ipos++
-							stackdepth -= int(tokens[ipos].usr1)
-							assert stackdepth >= 0, "not enough values on stack to consume for inline assembly"
-							ipos++
-							stackdepth += int(tokens[ipos].usr1)
-							ipos++							
-							writeln('; <asm>')
-							writeln(name_strings[tokens[ipos].usr1])
-							writeln('; </asm>')
-						}
-						.string_lit {
-							writeln('push slit_${f.idx_start}_${ipos}')
-							stackdepth++
-						}
-						.reserve {
-							ipos += 2
-						}
-						
-						.if_block {
-							assert stackdepth > 0, "no boolean on stack to consume for if statement"
-							stackdepth--
-
-							if_tok := ipos
-							mut ifpos := ipos + 1
-
-							writeln('pop rax')
-							writeln('test al, al')
-							if tokens[tokens[if_tok].usr1].usr1 != 0 { // has else
-								writeln('je .${if_tok}_if_else')
-							} else {
-								writeln('je .${if_tok}_if_end')
-							}
-							writeln('.${if_tok}_if:')
-
-							mut ifend := tokens[if_tok].usr1
-
-							startdepth := stackdepth
-							for ; ifpos < ifend ; ifpos++ {
-								stackdepth = genone(stackdepth, ifpos, f)
-							}
-							branchdepth := stackdepth
-
-							if tokens[ifend].usr1 != 0 {
-								stackdepth = startdepth
-
-								ifend = tokens[ifend].usr1
-								writeln('jmp .${if_tok}_if_end')
-								writeln('.${if_tok}_if_else:')
-								assert tokens[ifpos].tok == .else_block, "oops" 
-								ifpos++
-
-								for ; ifpos < ifend ; ifpos++ {
-									stackdepth = genone(stackdepth, ifpos, f)
-								}
-								assert branchdepth == stackdepth, "unbalaced stack on both if and else branches"
-							}
-							writeln('.${if_tok}_if_end:')
-
-							ipos = ifend
-						}
-						else {
-							stackdepth = genone(stackdepth, ipos, f)
-						}
-					}
+					stackdepth, ipos = genone(stackdepth, ipos, f)
 					assert stackdepth >= 0, "-----------------" // shouldn't reach here
 				}
 				pos = f.idx_end
@@ -191,8 +114,9 @@ fn gen() {
 	}
 }
 
-fn genone(_stackdepth int, ipos u64, f Function) (int) {
+fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 	mut stackdepth := _stackdepth
+	mut ipos := _ipos
 
 	match tokens[ipos].tok {
 		.add {
@@ -315,7 +239,7 @@ fn genone(_stackdepth int, ipos u64, f Function) (int) {
 			stackdepth--
 		}
 		.number_lit {
-			writeln('push ${tokens[ipos].usr1}')
+			writeln('push 0x${tokens[ipos].usr1.hex()}')
 			stackdepth++
 		}
 //		.deref8, .deref16, .deref32, .deref64, .write8, .write16, .write32, .write64 {panic("")}
@@ -324,6 +248,79 @@ fn genone(_stackdepth int, ipos u64, f Function) (int) {
 			assert stackdepth > 0, "must contain at least one value on the stack to inspect"
 			writeln('mov rax, [rsp]')
 			writeln('db 0xcc') // int 3
+		}
+		.while_block {
+			while_tok := ipos
+			mut whilepos := ipos + 1
+			doend := tokens[while_tok].usr1
+
+			writeln('.${while_tok}_while:')
+
+			for ; whilepos < doend ; whilepos++ {
+				stackdepth, whilepos = genone(stackdepth, whilepos, f)
+			}
+
+			assert tokens[whilepos].tok == .do_block, "oopsies"
+
+			assert stackdepth > 0, "no boolean on stack to consume for while statement"
+			stackdepth--
+
+			writeln('pop rax')
+			writeln('test al, al')
+			writeln('je .${while_tok}_while_end')
+
+			whileend := tokens[doend].usr1
+
+			whilepos++
+			for ; whilepos < whileend ; whilepos++ {
+				stackdepth, whilepos = genone(stackdepth, whilepos, f)
+			}
+
+			writeln('jmp .${while_tok}_while')
+			writeln('.${while_tok}_while_end:')
+
+			ipos = whilepos
+		}
+		.if_block {
+			assert stackdepth > 0, "no boolean on stack to consume for if statement"
+			stackdepth--
+
+			if_tok := ipos
+			mut ifpos := ipos + 1
+
+			writeln('pop rax')
+			writeln('test al, al')
+			if tokens[tokens[if_tok].usr1].usr1 != 0 { // has else
+				writeln('je .${if_tok}_if_else')
+			} else {
+				writeln('je .${if_tok}_if_end')
+			}
+			writeln('.${if_tok}_if:')
+
+			mut ifend := tokens[if_tok].usr1
+
+			startdepth := stackdepth
+			for ; ifpos < ifend ; ifpos++ {
+				stackdepth, ifpos = genone(stackdepth, ifpos, f)
+			}
+			branchdepth := stackdepth
+
+			if tokens[ifend].usr1 != 0 {
+				stackdepth = startdepth
+
+				ifend = tokens[ifend].usr1
+				writeln('jmp .${if_tok}_if_end')
+				writeln('.${if_tok}_if_else:')
+				assert tokens[ifpos].tok == .else_block, "oops" 
+				ifpos++
+
+				for ; ifpos < ifend ; ifpos++ {
+					stackdepth, ifpos = genone(stackdepth, ifpos, f)
+				}
+				assert branchdepth == stackdepth, "unbalaced stack on both if and else branches"
+			}
+			writeln('.${if_tok}_if_end:')
+			ipos = ifend
 		}
 		.name {
 			mut fn_call := Function{}
@@ -363,8 +360,40 @@ fn genone(_stackdepth int, ipos u64, f Function) (int) {
 				stackdepth++
 			}							
 		}
+		.endfunc, .ret {
+			stackdepth -= int(f.retc)
+			assert stackdepth >= 0, "not enough values on stack to consume for returning"
+			if tokens[ipos].tok == .endfunc {
+				assert stackdepth == 0, "unhandled elements on the stack"
+			}
+
+			for retc := f.retc ; retc > 0 ; {
+				retc--
+				writeln('pop ${fn_arg_regs[retc]}')
+			}
+			writeln('leave')
+			writeln('ret')
+		}
+		._asm {
+			ipos++
+			stackdepth -= int(tokens[ipos].usr1)
+			assert stackdepth >= 0, "not enough values on stack to consume for inline assembly"
+			ipos++
+			stackdepth += int(tokens[ipos].usr1)
+			ipos++							
+			writeln('; <asm>')
+			writeln(name_strings[tokens[ipos].usr1])
+			writeln('; </asm>')
+		}
+		.string_lit {
+			writeln('push slit_${f.idx_start}_${ipos}')
+			stackdepth++
+		}
+		.reserve {
+			ipos += 2
+		}
 		else {panic("${tokens[ipos]} $ipos")}
 	}
 	
-	return stackdepth
+	return stackdepth, ipos
 }
