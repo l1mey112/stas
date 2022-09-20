@@ -6,8 +6,44 @@ fn iffer 1 1 do
 	endif
 endfn
 
+fn @ 1 2 do
+	_inline_ 1 2
+"	mov rdi, [rsp]
+	push rdi"
+endfn
+
+fn _ 1 0 do
+	_inline_ 1 0
+"	sub rsp, "
+endfn
+
+; if inspector sees _inline_, skip three places.
+; move assertations to inspector
+
+;fn strlen 1 1 do
+;	dup *8
+;endfn
+
+fn syscall3 4 1 do
+	_inline_ 4 1
+"	pop rdx
+	pop rsi
+	pop rdi
+	pop rax
+	syscall
+	push rax"
+endfn
+
+;fn write 2 0 do
+;	1 1 
+;endfn
+
 fn main do
-	1 iffer
-	__breakpoint_inspect
+	"arg"
+	"hello"
+	@
+	_breakpoint_inspect_
+	drop drop
+	_breakpoint_inspect_
 	drop
 endfn

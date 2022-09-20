@@ -63,8 +63,17 @@ enum Tok {
 //	rot      // rot
 //	pop      // pop
 
-	__breakpoint_inspect
+	_inline_
+	_breakpoint_inspect_
 }
+
+/* 
+
+_inline_ 2 3
+"
+"
+
+*/
 
 __global name_strings = []string{}
 
@@ -113,7 +122,8 @@ fn match_token(data string, pos int) Token {
 		"include" { new(.d_include) }
 		"define" { new(.d_define) }
 
-		"__breakpoint_inspect" { new(.__breakpoint_inspect) }
+		"_inline_" { new(._inline_) }
+		"_breakpoint_inspect_" { new(._breakpoint_inspect_) }
 		else {
 			if data == "fn" { new(.func) }
 			else {
@@ -196,13 +206,16 @@ fn scan_file(data string){
 					}
 				}
 
-				pos++
+				nsl := u64(name_strings.len)
+				name_strings << data[str_start..pos]
 
 				tokens << Token {
-				//	lit: data[str_start..pos-1]
 					pos: str_start
 					tok: .string_lit
+					usr1: nsl
 				}
+
+				pos++
 
 				continue
 			}

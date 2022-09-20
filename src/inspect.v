@@ -20,6 +20,8 @@ mut:
 
 	idx_start u64
 	idx_end u64
+
+	string_lits []u64
 }
 
 __global function_list = []Function{}
@@ -27,6 +29,14 @@ __global has_main = false
 __global tokens = []Token{}
 
 fn (f Function) str() string {
+	mut slit := '['
+	for i, s in f.string_lits {
+		slit += "'${name_strings[s]}'"
+		if i < f.string_lits.len - 1 {
+			slit += ', '
+		}
+	}
+	slit += ']'
 	return
 'Function{
     name: ${name_strings[f.name]}
@@ -34,6 +44,7 @@ fn (f Function) str() string {
     retc: ${f.retc}
     idx_start: ${f.idx_start}
     idx_end: ${f.idx_end}
+    string_lits: $slit
 }'
 }
 
@@ -86,6 +97,16 @@ fn inspect_function(_idx u64) u64 {
 			.endfunc {
 				func.idx_end = idx // for pos < idx_end
 				break
+			}
+			._inline_ {
+				assert idx + 3 <= tokens.len &&
+				        tokens[idx+1].tok == .number_lit && 
+				        tokens[idx+2].tok == .number_lit &&
+				        tokens[idx+3].tok == .string_lit, "_inline_ expects numbers being inputs and outputs with a string literal as the 3 next tokens"
+				idx += 3 // skip over
+			}
+			.string_lit {
+				func.string_lits << idx
 			}
 			.func {
 				assert false, "cannot define a function inside a function"

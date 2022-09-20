@@ -1,6 +1,9 @@
 fn writeln(a string) {
 	println(a)
 }
+fn write(a string) {
+	print(a)
+}
 
 const fn_arg_regs = [
 	'rdi'
@@ -17,6 +20,18 @@ fn get_asm() {
 	assert has_main, "no main function"
 
 	writeln('format ELF64 executable')
+	writeln('segment readable')
+
+	for f in function_list {
+		for i in f.string_lits {
+			write('slit_${f.idx_start}_${i}: db ')
+			for c in name_strings[tokens[i].usr1] {
+				write('${u8(c).hex()}h, ')
+			}
+			writeln('0')
+		}
+	}
+
 	writeln('segment readable executable')
 	writeln('entry _start')
 	writeln('_start:')
@@ -30,6 +45,9 @@ fn get_asm() {
 }
 
 // automatic function hoisting because asm and intermediate step
+
+// automatic function inlining since this push and pop (stack)
+// just copy paste
 
 fn gen() {
 	// for i := function idx start ; i < function idx end
@@ -68,6 +86,21 @@ fn gen() {
 							}
 							writeln('leave')
 							writeln('ret')
+						}
+						._inline_ {
+							ipos++
+							stackdepth -= int(tokens[ipos].usr1)
+							assert stackdepth >= 0, "not enough values on stack to consume for inline assembly"
+							ipos++
+							stackdepth += int(tokens[ipos].usr1)
+							ipos++							
+							writeln('; <_inline_>')
+							writeln(name_strings[tokens[ipos].usr1])
+							writeln('; </_inline_>')
+						}
+						.string_lit {
+							writeln('push slit_${f.idx_start}_${ipos}')
+							stackdepth++
 						}
 						.if_block {
 							assert stackdepth > 0, "no boolean on stack to consume for if statement"
@@ -127,9 +160,6 @@ fn gen() {
 		}
 	}
 }
-// TODO: move all this match statement stuff to another function
-//       then merge if and func to end up on the same for thingy.
-//       the for pos < func/idx_end stuff should be recursive
 
 fn genone(_stackdepth int, ipos u64) (int) {
 	mut stackdepth := _stackdepth
@@ -287,9 +317,9 @@ fn genone(_stackdepth int, ipos u64) (int) {
 			}
 			stackdepth += int(fn_call.retc)
 		}
-		.deref8, .deref16, .deref32, .deref64, .write8, .write16, .write32, .write64 {panic("")}
-		.string_lit, .d_define, .d_enddef, .d_include, .reserve {panic("")}
-		.__breakpoint_inspect {
+//		.deref8, .deref16, .deref32, .deref64, .write8, .write16, .write32, .write64 {panic("")}
+//		.string_lit, .d_define, .d_enddef, .d_include, .reserve {panic("")}
+		._breakpoint_inspect_ {
 			assert stackdepth > 0, "must contain at least one value on the stack to inspect"
 			writeln('mov rax, [rsp]')
 			writeln('db 0xcc') // int 3
