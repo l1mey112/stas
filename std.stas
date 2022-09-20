@@ -1,0 +1,40 @@
+
+
+fn deref64 1 1 do
+	asm 1 1
+"	pop rdi
+	push qword [rdi]"
+endfn
+
+fn write64 2 0 do
+	asm 2 0
+"	pop rax
+	pop rdi
+	mov qword [rdi], rax"
+endfn
+
+fn write8 2 0 do
+	asm 2 0
+"	pop rax
+	pop rdi
+	mov byte [rdi], al"
+endfn
+
+fn syscall3 4 1 do
+	asm 4 1
+"	pop rdx
+	pop rsi
+	pop rdi
+	pop rax
+	syscall
+	push rax"
+endfn
+
+fn getch 0 1 do
+	reserve 1 ch
+	
+	0 0 ch 1 syscall3
+	drop
+
+	ch deref8 
+endfn

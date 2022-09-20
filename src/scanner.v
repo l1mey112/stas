@@ -10,7 +10,7 @@ enum Tok {
 	reserve // define Wordsize 8 enddef
 	        // reserve Wordsize quadword_var
 
-	retarrw  // ->
+	//retarrw  // ->
 	
 	func
 	endfunc
@@ -45,16 +45,16 @@ enum Tok {
 	shr      // >>
 	shl      // <<
 
-	deref8   
-	deref16  
-	deref32  
-	deref64  
-	write8   
-	write16  
-	write32  
-	write64  
+//	deref8   
+//	deref16  
+//	deref32  
+//	deref64  
+//	write8   
+//	write16  
+//	write32  
+//	write64  
 
-	drop
+//	drop
 	ret
 
 //	dup      // dup
@@ -63,13 +63,13 @@ enum Tok {
 //	rot      // rot
 //	pop      // pop
 
-	_inline_
+	_asm
 	_breakpoint_inspect_
 }
 
 /* 
 
-_inline_ 2 3
+asm 2 3
 "
 "
 
@@ -99,30 +99,28 @@ fn match_token(data string, pos int) Token {
 		"<<" { new(.shl)      }
 
 		"ret" { new(.ret) }
-		"drop" { new(.drop) }
 		"reserve" { new(.reserve) }
 		"endfn" { new(.endfunc) }
 		"do" { new(.do_block) }
-		"->" { new(.retarrw) }
 
 		"if" { new(.if_block) }
 		"endif" { new(.endif_block) }
 		"else" { new(.else_block) }
 
-		"*8"  { new(.deref8)  }
-		"*16" { new(.deref16) }
-		"*32" { new(.deref32) }
-		"*64" { new(.deref64) }
-		"&8"  { new(.write8)  }
-		"&16" { new(.write16) }
-		"&32" { new(.write32) }
-		"&64" { new(.write64) }
+//		"*8"  { new(.deref8)  }
+//		"*16" { new(.deref16) }
+//		"*32" { new(.deref32) }
+//		"*64" { new(.deref64) }
+//		"&8"  { new(.write8)  }
+//		"&16" { new(.write16) }
+//		"&32" { new(.write32) }
+//		"&64" { new(.write64) }
 
 		"enddef" { new(.d_enddef) }
 		"include" { new(.d_include) }
 		"define" { new(.d_define) }
 
-		"_inline_" { new(._inline_) }
+		"asm" { new(._asm) }
 		"_breakpoint_inspect_" { new(._breakpoint_inspect_) }
 		else {
 			if data == "fn" { new(.func) }
@@ -167,6 +165,10 @@ fn (t Token) str() string {
     usr1: ${t.usr1}
 }'
 }
+
+// for file inclusions, since it's a global variable
+// the entire process can just be recursed. just call
+// scan_file('std.stas') when recursing.
 
 // token scanner is incredibly simpler now
 // 

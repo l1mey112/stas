@@ -12,6 +12,6 @@ gdb.output
 compiler
 a.out
 
-.fasm
+*.fasm
 
 src/stas/tests/testdata/std.stas

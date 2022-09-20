@@ -1,0 +1,18 @@
+fn iffer 1 1 do ; accepts 1 argument (starts with 1 on the stack), 
+	if          ; must return 1 argument (must leave 1 on the stack)
+		15      ; if statement consumes one value on the stack
+	else
+		16
+	endif       ; leaves one value on the stack to be consumed
+endfn
+
+fn main do
+	0 iffer     ; calling function consumes the 'false' value
+
+		asm 1 0 "add rsp, 8" 
+	;   +-+ + + +----------+
+	;   |   | | inline assembly
+	;   |   | returns none
+	;   |   accepts one
+	;   inline asm keyword
+endfn

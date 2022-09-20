@@ -16,15 +16,27 @@ const fn_arg_regs = [
 
 // function_list
 
+__global create_debug_object = false
+
 fn get_asm() {
 	assert has_main, "no main function"
 
-	writeln('format ELF64 executable')
-	writeln('segment readable')
+	if create_debug_object {
+		writeln('format ELF64')
+		writeln('section \'.rodata\'')
+	} else {
+		writeln('format ELF64 executable')
+		writeln('segment readable')
+	}
+	
 
 	for f in function_list {
 		for i in f.string_lits {
-			write('slit_${f.idx_start}_${i}: db ')
+			label := 'slit_${f.idx_start}_${i}'
+			if create_debug_object {
+				writeln('public $label')
+			}
+			write('$label: db ')
 			for c in name_strings[tokens[i].usr1] {
 				write('${u8(c).hex()}h, ')
 			}
@@ -32,8 +44,15 @@ fn get_asm() {
 		}
 	}
 
-	writeln('segment readable executable')
-	writeln('entry _start')
+	if create_debug_object {
+		writeln('section \'.text\' executable')
+		writeln('public _start')
+		writeln('public _exit')
+	} else {
+		writeln('segment readable executable')
+		writeln('entry _start')
+	}
+	
 	writeln('_start:')
 	writeln('call main')
 	writeln('xor rdi, rdi')
@@ -58,13 +77,20 @@ fn gen() {
 		match tokens[pos].tok {
 			.func {
 				f := function_list[tokens[pos].usr1]
-				// Function{name:, argc:, retc:, idx_start:, idx_end:}
+
 				assert f.idx_start > pos, "something bad has happened"
 				assert f.idx_end > pos, "something bad has happened part two"
 
+				if create_debug_object {
+					writeln('public ${name_strings[f.name]}')
+				}
 				writeln('${name_strings[f.name]}:')
 				writeln('push rbp')
 				writeln('mov rbp, rsp')
+				writeln('sub rsp, ${f.stackframe}')
+				
+				// writeln('lea rdi, [rbp-32]')
+				// lea rax, [rbp-16]
 
 				for i := 0 ; i < f.argc ; i++ {
 					writeln('push ${fn_arg_regs[i]}')
@@ -87,21 +113,25 @@ fn gen() {
 							writeln('leave')
 							writeln('ret')
 						}
-						._inline_ {
+						._asm {
 							ipos++
 							stackdepth -= int(tokens[ipos].usr1)
 							assert stackdepth >= 0, "not enough values on stack to consume for inline assembly"
 							ipos++
 							stackdepth += int(tokens[ipos].usr1)
 							ipos++							
-							writeln('; <_inline_>')
+							writeln('; <asm>')
 							writeln(name_strings[tokens[ipos].usr1])
-							writeln('; </_inline_>')
+							writeln('; </asm>')
 						}
 						.string_lit {
 							writeln('push slit_${f.idx_start}_${ipos}')
 							stackdepth++
 						}
+						.reserve {
+							ipos += 2
+						}
+						
 						.if_block {
 							assert stackdepth > 0, "no boolean on stack to consume for if statement"
 							stackdepth--
@@ -111,7 +141,7 @@ fn gen() {
 
 							writeln('pop rax')
 							writeln('test al, al')
-							if tokens[if_tok].usr1 != 0 { // has else
+							if tokens[tokens[if_tok].usr1].usr1 != 0 { // has else
 								writeln('je .${if_tok}_if_else')
 							} else {
 								writeln('je .${if_tok}_if_end')
@@ -122,7 +152,7 @@ fn gen() {
 
 							startdepth := stackdepth
 							for ; ifpos < ifend ; ifpos++ {
-								stackdepth = genone(stackdepth, ifpos)
+								stackdepth = genone(stackdepth, ifpos, f)
 							}
 							branchdepth := stackdepth
 
@@ -136,7 +166,7 @@ fn gen() {
 								ifpos++
 
 								for ; ifpos < ifend ; ifpos++ {
-									stackdepth = genone(stackdepth, ifpos)
+									stackdepth = genone(stackdepth, ifpos, f)
 								}
 								assert branchdepth == stackdepth, "unbalaced stack on both if and else branches"
 							}
@@ -145,7 +175,7 @@ fn gen() {
 							ipos = ifend
 						}
 						else {
-							stackdepth = genone(stackdepth, ipos)
+							stackdepth = genone(stackdepth, ipos, f)
 						}
 					}
 					assert stackdepth >= 0, "-----------------" // shouldn't reach here
@@ -161,7 +191,7 @@ fn gen() {
 	}
 }
 
-fn genone(_stackdepth int, ipos u64) (int) {
+fn genone(_stackdepth int, ipos u64, f Function) (int) {
 	mut stackdepth := _stackdepth
 
 	match tokens[ipos].tok {
@@ -217,7 +247,7 @@ fn genone(_stackdepth int, ipos u64) (int) {
 			writeln('push rdx')
 		}
 		.inc {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			assert stackdepth >= 1, "not enough values on the stack to consume"
 			writeln('pop rdi')
 			writeln('inc rdi')
 			writeln('push rdi')
@@ -284,38 +314,9 @@ fn genone(_stackdepth int, ipos u64) (int) {
 			writeln('push rdi')
 			stackdepth--
 		}
-		.drop {
-			assert stackdepth >= 1, "not enough values on the stack to consume"
-			writeln('add rsp, 8')
-			stackdepth--
-		}
 		.number_lit {
 			writeln('push ${tokens[ipos].usr1}')
 			stackdepth++
-		}
-		.name {
-			mut fn_call := Function{}
-			for fer in function_list {
-				if name_strings[fer.name] == name_strings[tokens[ipos].usr1] { // idx == idx
-					fn_call = fer 
-					break
-				}
-			}
-			assert fn_call.idx_start != 0, "unknown function or value name"
-
-			stackdepth -= int(fn_call.argc)
-			assert stackdepth >= 0, "not enough arguments to consume from stack for function call"
-			
-			for argc := fn_call.argc ; argc > 0 ; {
-				argc--
-				writeln('pop ${fn_arg_regs[argc]}')
-			}
-
-			writeln('call ${name_strings[fn_call.name]}')
-			for i := 0 ; i < fn_call.retc ; i++ {
-				writeln('push ${fn_arg_regs[i]}')
-			}
-			stackdepth += int(fn_call.retc)
 		}
 //		.deref8, .deref16, .deref32, .deref64, .write8, .write16, .write32, .write64 {panic("")}
 //		.string_lit, .d_define, .d_enddef, .d_include, .reserve {panic("")}
@@ -323,6 +324,44 @@ fn genone(_stackdepth int, ipos u64) (int) {
 			assert stackdepth > 0, "must contain at least one value on the stack to inspect"
 			writeln('mov rax, [rsp]')
 			writeln('db 0xcc') // int 3
+		}
+		.name {
+			mut fn_call := Function{}
+			for fer in function_list {
+				if name_strings[fer.name] == name_strings[tokens[ipos].usr1] {
+					fn_call = fer 
+					break
+				}
+			}
+			if fn_call.idx_start != 0 {
+				stackdepth -= int(fn_call.argc)
+				assert stackdepth >= 0, "not enough arguments to consume from stack for function call"
+				
+				for argc := fn_call.argc ; argc > 0 ; {
+					argc--
+					writeln('pop ${fn_arg_regs[argc]}')
+				}
+
+				writeln('call ${name_strings[fn_call.name]}')
+				for i := 0 ; i < fn_call.retc ; i++ {
+					writeln('push ${fn_arg_regs[i]}')
+				}
+				stackdepth += int(fn_call.retc)
+			} else {
+				mut svar := StackVar{}
+				for fer in f.stackvars {
+					if name_strings[tokens[fer.tok].usr1] == name_strings[tokens[ipos].usr1] {
+						svar = fer
+						break
+					}
+				}
+
+				assert svar.tok != 0, "unknown function or value name"
+
+				writeln('lea rdi, [rbp-$svar.loc]')
+				writeln('push rdi')
+				stackdepth++
+			}							
 		}
 		else {panic("${tokens[ipos]} $ipos")}
 	}

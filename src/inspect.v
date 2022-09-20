@@ -12,6 +12,12 @@ fn inspect() {
 	}
 }
 
+struct StackVar {
+	tok u64
+	loc u64
+//	size u64
+}
+
 struct Function {
 mut:
 	name u64
@@ -22,11 +28,21 @@ mut:
 	idx_end u64
 
 	string_lits []u64
+
+	stackvars []StackVar
+	stackframe u64
 }
 
 __global function_list = []Function{}
 __global has_main = false
 __global tokens = []Token{}
+
+fn (f StackVar) str() string {
+	return 'StackVar{
+    tok: ${name_strings[tokens[f.tok].usr1]}
+    loc: $f.loc
+}'
+}
 
 fn (f Function) str() string {
 	mut slit := '['
@@ -45,6 +61,8 @@ fn (f Function) str() string {
     idx_start: ${f.idx_start}
     idx_end: ${f.idx_end}
     string_lits: $slit
+    stackvars: $f.stackvars
+    stackframe: $f.stackframe
 }'
 }
 
@@ -57,7 +75,7 @@ fn inspect_function(_idx u64) u64 {
 	idx++
 	assert idx < tokens.len, "unexpected EOF when parsing function"
 	assert tokens[idx].tok == .name, "function name must not be an intrinsic"
-	assert name_strings[tokens[idx].usr1][0] != `_`, "function name must not contain a leading underscore"
+	// assert name_strings[tokens[idx].usr1][0] != `_`, "function name must not contain a leading underscore"
 	if name_strings[tokens[idx].usr1] == 'main' {
 		has_main = true
 	}
@@ -98,12 +116,37 @@ fn inspect_function(_idx u64) u64 {
 				func.idx_end = idx // for pos < idx_end
 				break
 			}
-			._inline_ {
+			._asm {
 				assert idx + 3 <= tokens.len &&
-				        tokens[idx+1].tok == .number_lit && 
-				        tokens[idx+2].tok == .number_lit &&
-				        tokens[idx+3].tok == .string_lit, "_inline_ expects numbers being inputs and outputs with a string literal as the 3 next tokens"
+				    tokens[idx+1].tok == .number_lit && 
+				    tokens[idx+2].tok == .number_lit &&
+				    tokens[idx+3].tok == .string_lit, "asm expects numbers being inputs and outputs with a string literal as the 3 next tokens"
+				
 				idx += 3 // skip over
+			}
+			.reserve {
+				assert idx + 2 <= tokens.len &&
+				    tokens[idx+1].tok == .number_lit && 
+				    tokens[idx+2].tok == .name, "reserve keyword must contain a number and a buf name"
+
+				for f in func.stackvars {
+					assert name_strings[tokens[f.tok].usr1] != name_strings[tokens[idx+2].usr1], "duplicate function name"
+				}
+
+				// don't want UB because unaligned stack
+				
+				align := fn (n u64) u64 {
+					return ((n + 7) & ~(7))
+				}
+				
+				func.stackframe += align(tokens[idx+1].usr1)
+				func.stackvars << StackVar {
+					tok: idx + 2
+					loc: func.stackframe
+				//	size: tokens[idx+1].usr1
+				}
+
+				idx += 2
 			}
 			.string_lit {
 				func.string_lits << idx

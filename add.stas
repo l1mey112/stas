@@ -1,49 +1,70 @@
-fn iffer 1 1 do
-	if
-		15
-	else
-		16
-	endif
+fn deref8 1 1 do
+	asm 1 1
+"	pop rdi
+	movsx rdi, byte [rdi]
+	push qword rdi"
 endfn
 
-fn @ 1 2 do
-	_inline_ 1 2
+fn double 1 2 do
+	asm 1 2
 "	mov rdi, [rsp]
 	push rdi"
 endfn
 
-fn _ 1 0 do
-	_inline_ 1 0
-"	sub rsp, "
+fn drop 1 0 do
+	asm 1 0
+"	add rsp, 8"
 endfn
 
-; if inspector sees _inline_, skip three places.
-; move assertations to inspector
-
-;fn strlen 1 1 do
-;	dup *8
-;endfn
-
-fn syscall3 4 1 do
-	_inline_ 4 1
-"	pop rdx
+fn swap 2 2 do
+	asm 2 2
+"	pop rdi
 	pop rsi
-	pop rdi
-	pop rax
-	syscall
-	push rax"
+	push rdi
+	push rsi"
 endfn
 
-;fn write 2 0 do
-;	1 1 
-;endfn
+fn rot 3 3 do
+	reserve 8 rot1
+	reserve 8 rot2
+	reserve 8 rot3
+
+	rot1 swap write64
+	rot2 swap write64
+	rot3 swap write64
+
+	rot1 deref64
+	rot3 deref64
+	rot2 deref64
+endfn
+
+fn write 2 0 do
+	1 rot 1 rot syscall3
+	drop
+endfn
+
+fn recurse_strlen 1 1 do
+	double deref8 if
+		++
+		recurse_strlen
+	endif
+endfn
+
+fn strlen 1 1 do
+	double recurse_strlen swap -
+endfn
+
+fn endl 0 0 do
+	reserve 1 newline
+	newline 10 write8
+	newline 1 write
+endfn
+
+fn println 1 0 do
+	double strlen write
+	endl
+endfn
 
 fn main do
-	"arg"
-	"hello"
-	@
-	_breakpoint_inspect_
-	drop drop
-	_breakpoint_inspect_
-	drop
+	"Hello world!!!!!!!!!!1" println
 endfn
