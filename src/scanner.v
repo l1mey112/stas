@@ -217,7 +217,7 @@ fn scan_file(data string){
 				nsl := u64(name_strings.len)
 				name_strings << data[str_start..pos]
 
-				tokens << Token {
+				initial_tokens << Token {
 					pos: str_start
 					tok: .string_lit
 					usr1: nsl
@@ -254,9 +254,9 @@ fn scan_file(data string){
 		ret := data[start..pos]
 
 		if !is_number {
-			tokens << match_token(ret, start)
+			initial_tokens << match_token(ret, start)
 		} else {
-			tokens << Token {
+			initial_tokens << Token {
 			//	lit: ret
 				pos: start
 				tok: .number_lit

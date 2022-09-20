@@ -1,5 +1,7 @@
 import os
 
+__global initial_tokens = []Token{}
+
 fn main() {
 	data := os.read_file('add.stas') or { panic(err) }
 	std := os.read_file('std.stas') or { panic(err) }
@@ -10,6 +12,7 @@ fn main() {
 
 	scan_file(std)
 	scan_file(data)
+	preprocess()
 	inspect()
 	get_asm()
 

@@ -239,7 +239,7 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			stackdepth--
 		}
 		.number_lit {
-			writeln('push 0x${tokens[ipos].usr1.hex()}')
+			writeln('push qword ${tokens[ipos].usr1}')
 			stackdepth++
 		}
 //		.deref8, .deref16, .deref32, .deref64, .write8, .write16, .write32, .write64 {panic("")}
