@@ -1,3 +1,5 @@
+import os
+
 enum Tok {
 	name
 	string_lit
@@ -171,7 +173,12 @@ fn (t Token) str() string {
     usr1: ${t.usr1}
 }'
 }
-
+/* for pos := 0 ; pos < initial_tokens.len {
+		pos++
+		if pos >= initial_tokens.len {
+			break
+		}
+	} */
 // for file inclusions, since it's a global variable
 // the entire process can just be recursed. just call
 // scan_file('std.stas') when recursing.
@@ -186,6 +193,7 @@ fn (t Token) str() string {
 fn scan_file(data string){
 	mut pos := 0
 	mut start := 0
+	mut next_str_include := false
 
 	for {
 		mut is_number := true
@@ -214,17 +222,27 @@ fn scan_file(data string){
 					}
 				}
 
-				nsl := u64(name_strings.len)
-				name_strings << data[str_start..pos]
+				string_data := data[str_start..pos]
 
-				initial_tokens << Token {
-					pos: str_start
-					tok: .string_lit
-					usr1: nsl
+				if next_str_include {
+					file := os.read_file(string_data) or {
+						panic('file to include could not be found!')
+					}
+					
+					scan_file(file)
+
+					next_str_include = false
+				} else {
+					nsl := u64(name_strings.len)
+					name_strings << string_data
+
+					initial_tokens << Token {
+						pos: str_start
+						tok: .string_lit
+						usr1: nsl
+					}
 				}
-
 				pos++
-
 				continue
 			}
 			`;` {
@@ -254,7 +272,12 @@ fn scan_file(data string){
 		ret := data[start..pos]
 
 		if !is_number {
-			initial_tokens << match_token(ret, start)
+			token := match_token(ret, start)
+			if token.tok == .d_include {
+				next_str_include = true
+			} else {
+				initial_tokens << token
+			}
 		} else {
 			initial_tokens << Token {
 			//	lit: ret
@@ -265,6 +288,7 @@ fn scan_file(data string){
 			}
 		}
 	}
+	assert !next_str_include, "unexpected EOF when handling file inclusion"
 }
 
 fn stub__(){

@@ -1,0 +1,74 @@
+fn syscall3 4 1 do
+	asm 4 1
+"	pop rdx
+	pop rsi
+	pop rdi
+	pop rax
+	syscall
+	push rax"
+endfn
+
+fn write 2 0 do
+	1 rot 1 rot syscall3
+	drop
+endfn
+
+fn endl 0 0 do
+	reserve 1 newline
+	newline 10 write8
+	newline 1 write
+endfn
+
+fn print 1 0 do
+	double strlen write
+endfn
+
+fn println 1 0 do
+	print
+	endl
+endfn
+
+fn uput 1 0 do
+	reserve 20 buf
+	reserve Var pos
+	reserve Var len
+
+	double
+
+	0 = if
+		buf 48 write8
+		buf 1 write
+		ret           ; ret doesn't worry about unhandled
+	endif             ; values on the stack
+
+	len 0 write64
+	pos buf 20 + write64
+
+	while double 0 > do
+		pos ptr--
+
+		10 %%
+		48 +
+
+		pos deref64 swap write8
+
+		len ptr++
+	endwhile
+	drop
+
+	pos deref64 len deref64 write
+endfn
+
+fn uputln 1 0 do
+	uput
+	endl
+endfn
+
+fn getch 0 1 do
+	reserve 1 ch
+	
+	0 0 ch 1 syscall3
+	drop
+
+	ch deref8 
+endfn

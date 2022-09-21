@@ -1,0 +1,77 @@
+define Var 8 enddef
+
+define double
+	asm 1 2
+"	mov rdi, [rsp]
+	push rdi"
+enddef
+
+define drop
+	asm 1 0
+"	add rsp, 8"
+enddef
+
+define ptr++
+	double deref64 ++ write64
+enddef
+
+define ptr--
+	double deref64 -- write64
+enddef
+
+define swap
+	asm 2 2
+"	pop rdi
+	pop rsi
+	push rdi
+	push rsi"
+enddef
+
+define deref8
+	asm 1 1
+"	pop rdi
+	movsx rdi, byte [rdi]
+	push qword rdi"
+enddef
+
+define write8
+	asm 2 0
+"	pop rax
+	pop rdi
+	mov byte [rdi], al"
+enddef
+
+define deref64
+	asm 1 1
+"	pop rdi
+	push qword [rdi]"
+enddef
+
+define write64
+	asm 2 0
+"	pop rax
+	pop rdi
+	mov qword [rdi], rax"
+enddef
+
+fn rot 3 3 do
+	reserve Var rot1
+	reserve Var rot2
+	reserve Var rot3
+
+	rot1 swap write64
+	rot2 swap write64
+	rot3 swap write64
+
+	rot1 deref64
+	rot3 deref64
+	rot2 deref64
+endfn
+
+fn strlen 1 1 do
+	double
+	while double deref8 0 != do
+		++
+	endwhile
+	swap -
+endfn

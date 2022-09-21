@@ -6,6 +6,7 @@ fn inspect() {
 				idx = inspect_function(idx)
 			}
 			else {
+				eprintln(name_strings[tokens[idx].usr1])
 				assert false, "unexpected toplevel token"
 			}
 		}

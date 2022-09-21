@@ -4,13 +4,13 @@ __global initial_tokens = []Token{}
 
 fn main() {
 	data := os.read_file('add.stas') or { panic(err) }
-	std := os.read_file('std.stas') or { panic(err) }
+//	std := os.read_file('std.stas') or { panic(err) }
 
 	if os.args.len == 2 && os.args[1] == 'obj' {
 		create_debug_object = true
 	}
 
-	scan_file(std)
+//	scan_file(std)
 	scan_file(data)
 	preprocess()
 	inspect()
