@@ -18,8 +18,21 @@ const fn_arg_regs = [
 
 __global create_debug_object = false
 
+const escape_ch = {
+	`a` : u8(0x07)
+	`b` : 0x08
+	`e` : 0x1B
+	`f` : 0x0C
+	`n` : 0x0A
+	`r` : 0x0D
+	`t` : 0x09
+	`v` : 0x0B
+}
+
 fn get_asm() {
-	assert has_main, "no main function"
+	if !has_main {
+		compile_error_f("no main function", 0)
+	}
 
 	if create_debug_object {
 		writeln('format ELF64')
@@ -37,8 +50,25 @@ fn get_asm() {
 				writeln('public $label')
 			}
 			write('$label: db ')
+			mut ndelim := false
 			for c in name_strings[tokens[i].usr1] {
-				write('${u8(c).hex()}h, ')
+				mut cw := c
+				if ndelim {
+					if c != `\\` {
+						escape := escape_ch[c] or {
+							compile_error_t("escape character '${c.ascii_str()}' does not exist", i)
+						}
+						cw = escape
+					}
+					ndelim = false
+				} else if c == `\\` {
+					ndelim = true
+					continue
+				}
+				write('${u8(cw).hex()}h, ')
+			}
+			if ndelim {
+				compile_error_t("unhandled escape character", i)
 			}
 			writeln('0')
 		}
@@ -78,9 +108,6 @@ fn gen() {
 			.func {
 				f := function_list[tokens[pos].usr1]
 
-				assert f.idx_start > pos, "something bad has happened"
-				assert f.idx_end > pos, "something bad has happened part two"
-
 				if create_debug_object {
 					writeln('public ${name_strings[f.name]}')
 				}
@@ -88,9 +115,6 @@ fn gen() {
 				writeln('push rbp')
 				writeln('mov rbp, rsp')
 				writeln('sub rsp, ${f.stackframe}')
-				
-				// writeln('lea rdi, [rbp-32]')
-				// lea rax, [rbp-16]
 
 				for i := 0 ; i < f.argc ; i++ {
 					writeln('push ${fn_arg_regs[i]}')
@@ -101,14 +125,12 @@ fn gen() {
 				mut ipos := f.idx_start
 				for ; ipos <= f.idx_end ; ipos++ {
 					stackdepth, ipos = genone(stackdepth, ipos, f)
-					assert stackdepth >= 0, "-----------------" // shouldn't reach here
+					assert stackdepth >= 0 // shouldn't reach here
 				}
 				pos = f.idx_end
 			}
 			else {
-				eprintln(tokens[pos])
-				eprintln(pos)
-				assert false, "unexpected toplevel keyword"
+				compile_error_t("unexpected toplevel keyword", pos)
 			}
 		}
 	}
@@ -120,7 +142,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 
 	match tokens[ipos].tok {
 		.add {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			if stackdepth < 2 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rdi')
 			writeln('pop rsi')
 			writeln('add rsi, rdi')
@@ -128,7 +152,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			stackdepth--
 		}
 		.sub {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			if stackdepth < 2 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rdi')
 			writeln('pop rsi')
 			writeln('sub rsi, rdi')
@@ -136,7 +162,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			stackdepth--
 		}
 		.mul {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			if stackdepth < 2 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rdi')
 			writeln('pop rsi')
 			writeln('imul rsi, rdi')
@@ -144,7 +172,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			stackdepth--
 		}
 		.div {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			if stackdepth < 2 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rdi')
 			writeln('pop rax')
 			writeln('xor edx, edx')
@@ -153,7 +183,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			stackdepth--
 		}
 		.mod {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			if stackdepth < 2 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rdi')
 			writeln('pop rax')
 			writeln('xor edx, edx')
@@ -162,7 +194,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			stackdepth--
 		}
 		.divmod {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			if stackdepth < 2 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rdi')
 			writeln('pop rax')
 			writeln('xor rdx, rdx')
@@ -171,19 +205,25 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			writeln('push rdx')
 		}
 		.inc {
-			assert stackdepth >= 1, "not enough values on the stack to consume"
+			if stackdepth < 1 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rdi')
 			writeln('inc rdi')
 			writeln('push rdi')
 		}
 		.dec {
-			assert stackdepth >= 1, "not enough values on the stack to consume"
+			if stackdepth < 1 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rdi')
 			writeln('dec rdi')
 			writeln('push rdi')
 		}
 		.equal {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			if stackdepth < 2 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rsi')
 			writeln('pop rdi')
 			writeln('xor rax, rax')
@@ -193,7 +233,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			stackdepth--
 		}
 		.notequal {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			if stackdepth < 2 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rsi')
 			writeln('pop rdi')
 			writeln('xor rax, rax')
@@ -203,7 +245,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			stackdepth--
 		}
 		.greater {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			if stackdepth < 2 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rsi')
 			writeln('pop rdi')
 			writeln('xor rax, rax')
@@ -213,7 +257,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			stackdepth--
 		}
 		.less {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			if stackdepth < 2 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rsi')
 			writeln('pop rdi')
 			writeln('xor rax, rax')
@@ -223,7 +269,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			stackdepth--
 		}
 		.shr {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			if stackdepth < 2 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rcx')
 			writeln('pop rdi')
 			writeln('shr rdi, cl')
@@ -231,7 +279,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			stackdepth--
 		}
 		.shl {
-			assert stackdepth >= 2, "not enough values on the stack to consume"
+			if stackdepth < 2 {
+				compile_error_t("not enough values on the stack to consume", ipos)
+			}
 			writeln('pop rcx')
 			writeln('pop rdi')
 			writeln('shl rdi, cl')
@@ -245,7 +295,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 //		.deref8, .deref16, .deref32, .deref64, .write8, .write16, .write32, .write64 {panic("")}
 //		.string_lit, .d_define, .d_enddef, .d_include, .reserve {panic("")}
 		._breakpoint_inspect_ {
-			assert stackdepth > 0, "must contain at least one value on the stack to inspect"
+			if stackdepth <= 0 {
+				compile_error_t("must contain at least one value on the stack to inspect", ipos)
+			}
 			writeln('mov rax, [rsp]')
 			writeln('db 0xcc') // int 3
 		}
@@ -260,9 +312,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 				stackdepth, whilepos = genone(stackdepth, whilepos, f)
 			}
 
-			assert tokens[whilepos].tok == .do_block, "oopsies"
-
-			assert stackdepth > 0, "no boolean on stack to consume for while statement"
+			if stackdepth <= 0 {
+				compile_error_t("no boolean on stack to consume for while statement", ipos)
+			}
 			stackdepth--
 
 			writeln('pop rax')
@@ -282,7 +334,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			ipos = whilepos
 		}
 		.if_block {
-			assert stackdepth > 0, "no boolean on stack to consume for if statement"
+			if stackdepth <= 0 {
+				compile_error_t("no boolean on stack to consume for if statement", ipos)
+			}
 			stackdepth--
 
 			if_tok := ipos
@@ -311,13 +365,15 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 				ifend = tokens[ifend].usr1
 				writeln('jmp .${if_tok}_if_end')
 				writeln('.${if_tok}_if_else:')
-				assert tokens[ifpos].tok == .else_block, "oops" 
 				ifpos++
 
 				for ; ifpos < ifend ; ifpos++ {
 					stackdepth, ifpos = genone(stackdepth, ifpos, f)
 				}
-				assert branchdepth == stackdepth, "unbalaced stack on both if and else branches"
+				if branchdepth != stackdepth {
+					// compile_error_t("unbalaced stack on both if ($branchdepth) and else ($stackdepth) branches (from $startdepth)", ipos)
+					compile_error_t("unbalaced stack on both if and else branches", ipos)
+				}
 			}
 			writeln('.${if_tok}_if_end:')
 			ipos = ifend
@@ -332,7 +388,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			}
 			if fn_call.idx_start != 0 {
 				stackdepth -= int(fn_call.argc)
-				assert stackdepth >= 0, "not enough arguments to consume from stack for function call"
+				if stackdepth < 0 {
+					compile_error_t("not enough arguments to consume from stack for function call", ipos)
+				}
 				
 				for argc := fn_call.argc ; argc > 0 ; {
 					argc--
@@ -353,7 +411,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 					}
 				}
 
-				assert svar.tok != 0, "unknown function or value name"
+				if svar.tok == 0 {
+					compile_error_t("unknown function or stack value name", ipos)
+				}
 
 				writeln('lea rdi, [rbp-$svar.loc]')
 				writeln('push rdi')
@@ -362,9 +422,11 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 		}
 		.endfunc, .ret {
 			stackdepth -= int(f.retc)
-			assert stackdepth >= 0, "not enough values on stack to consume for returning"
-			if tokens[ipos].tok == .endfunc {
-				assert stackdepth == 0, "unhandled elements on the stack"
+			if stackdepth < 0 {
+				compile_error_t("not enough values on stack to consume for returning", ipos)
+			}
+			if tokens[ipos].tok == .endfunc && stackdepth != 0 {
+				compile_error_t("unhandled elements on the stack on function return", f.idx_start)
 			}
 
 			for retc := f.retc ; retc > 0 ; {
@@ -377,7 +439,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 		._asm {
 			ipos++
 			stackdepth -= int(tokens[ipos].usr1)
-			assert stackdepth >= 0, "not enough values on stack to consume for inline assembly"
+			if stackdepth < 0 {
+				compile_error_t("not enough values on stack to consume for assembly invocation", ipos)
+			}
 			ipos++
 			stackdepth += int(tokens[ipos].usr1)
 			ipos++							

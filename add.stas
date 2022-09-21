@@ -1,5 +1,5 @@
 include "lib/std.stas"
 
 fn main do
-	423663311 uputln
+	
 endfn

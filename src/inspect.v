@@ -6,8 +6,7 @@ fn inspect() {
 				idx = inspect_function(idx)
 			}
 			else {
-				eprintln(name_strings[tokens[idx].usr1])
-				assert false, "unexpected toplevel token"
+				compile_error_t("unexpected toplevel token", idx) 
 			}
 		}
 	}
@@ -73,43 +72,56 @@ fn inspect_function(_idx u64) u64 {
 	mut func := Function{}
 	tokens[idx].usr1 = u64(function_list.len)
 
-	idx++
-	assert idx < tokens.len, "unexpected EOF when parsing function"
-	assert tokens[idx].tok == .name, "function name must not be an intrinsic"
-	// assert name_strings[tokens[idx].usr1][0] != `_`, "function name must not contain a leading underscore"
-	if name_strings[tokens[idx].usr1] == 'main' {
+	idx += 2
+	if idx >= tokens.len {
+		compile_error_t("unexpected EOF when parsing function", _idx)
+	}
+	
+	name_tok := _idx + 1
+	if tokens[name_tok].tok != .name {
+		compile_error_t("function name must not be an intrinsic", _idx)
+	}
+	// assert name_strings[tokens[name_tok].usr1][0] != `_`, "function name must not contain a leading underscore"
+	if name_strings[tokens[name_tok].usr1] == 'main' {
 		has_main = true
 	}
 	for f in function_list {
-		assert name_strings[f.name] != name_strings[tokens[idx].usr1], "duplicate function name"
+		if name_strings[f.name] == name_strings[tokens[name_tok].usr1] {
+			compile_error_t("duplicate function name", name_tok)
+		}
 	}
-	func.name = tokens[idx].usr1
+	func.name = tokens[name_tok].usr1
 
-	idx++
-	assert idx < tokens.len, "unexpected EOF when parsing function"
-
-	if tokens[idx].tok == .number_lit {
+	if tokens[idx].tok != .do_block {
 		argc_tok := idx
 		idx += 2
-		assert idx < tokens.len, "unexpected EOF when parsing function argument and return counts"
-		assert tokens[argc_tok].tok == .number_lit && tokens[argc_tok+1].tok == .number_lit, "argument and return counts must be numbers"
+		if idx >= tokens.len {
+			compile_error_t("unexpected EOF when parsing function argument and return counts", argc_tok)
+		}
+		if tokens[argc_tok].tok != .number_lit {
+			compile_error_t("function argument count must be a number", argc_tok)
+		}
+		if tokens[argc_tok+1].tok != .number_lit {
+			compile_error_t("function return count must be a number", argc_tok + 1)
+		}
 		func.argc = tokens[argc_tok    ].usr1
 		func.retc = tokens[argc_tok + 1].usr1
-
-		assert func.argc <= 6, "function must not accept more that 6 arguments"
-		assert func.retc <= 6, "function must not return more that 6 arguments"
+		
+		if func.argc > 6 {
+			compile_error_t("function must not accept more that 6 arguments", argc_tok)
+		}
+		if func.retc > 6 {
+			compile_error_t("function must not return more that 6 arguments", argc_tok + 1)
+		}
 	}
-	assert tokens[idx].tok == .do_block, "no do block keyword located"
-	
-	/* func.idx_start = idx
-		// idx must point to do block because it will be incremented
-		// just like idx end pointing to .endfunc
-	*/
+
+	if tokens[idx].tok != .do_block {
+		compile_error_t("do block keyword not found after function definition", _idx)
+	}
 
 	idx++
-	assert idx < tokens.len, "unexpected EOF when parsing function"
-
-	func.idx_start = idx
+	func.idx_start = idx // skip over do block
+	                     // for f.idx_start ; <= f.idx_end ; ipos++
 
 	for ; idx < tokens.len ; idx++ {
 		match tokens[idx].tok {
@@ -121,6 +133,10 @@ fn inspect_function(_idx u64) u64 {
 				idx = inspect_one(idx, mut func)
 			}
 		}
+	}
+
+	if func.idx_end == 0 {
+		compile_error_t("function never ended with an 'endfn'", _idx)
 	}
 
 	function_list << func
@@ -139,7 +155,9 @@ fn inspect_one(_idx u64, mut func Function) u64 {
 			for ; idx < tokens.len ; idx++ {
 				match tokens[idx].tok {
 					.else_block {
-						assert elsep == 0, "if statement cannot contain multiple else blocks"
+						if elsep != 0 {
+							compile_error_t("if statement cannot contain multiple else blocks", idx)
+						}
 						elsep = idx
 					}
 					.endif_block {
@@ -152,7 +170,9 @@ fn inspect_one(_idx u64, mut func Function) u64 {
 				}
 			}
 
-			assert broken, "EOF when parsing if statement"
+			if !broken {
+				compile_error_t("unexpected EOF, if statement not ended", _idx)
+			}
 
 			if elsep != 0 {
 				tokens[_idx].usr1 = elsep
@@ -173,8 +193,10 @@ fn inspect_one(_idx u64, mut func Function) u64 {
 
 			for ; idx < tokens.len ; idx++ {
 				match tokens[idx].tok {
-					.do_block {
-						assert dop == 0, "while statement cannot contain multiple do blocks"
+					.do_block { 
+						if dop != 0 {
+							compile_error_t("while statement cannot contain multiple do blocks", idx)
+						}
 						dop = idx
 					}
 					.endwhile_block {
@@ -187,8 +209,12 @@ fn inspect_one(_idx u64, mut func Function) u64 {
 				}
 			}
 
-			assert broken, "EOF when parsing while statement"
-			assert dop != 0, "while statement does not contain a body (do block)"
+			if !broken {
+				compile_error_t("unexpected EOF, while statement not ended", _idx)
+			}
+			if dop == 0 {
+				compile_error_t("while statement header is not terminated with a do block", _idx)
+			}
 
 			tokens[_idx].usr1 = dop
 			tokens[dop].usr1 = idx
@@ -197,20 +223,33 @@ fn inspect_one(_idx u64, mut func Function) u64 {
 			// while  -> do -> endwhile -> 0
 		}
 		._asm {
-			assert idx + 3 <= tokens.len &&
+			is_valid := idx + 3 <= tokens.len &&
 				tokens[idx+1].tok == .number_lit && 
 				tokens[idx+2].tok == .number_lit &&
-				tokens[idx+3].tok == .string_lit, "asm expects numbers being inputs and outputs with a string literal as the 3 next tokens"
+				tokens[idx+3].tok == .string_lit
 			
+			if !is_valid {
+				compile_error_t("asm expects numbers being inputs and outputs with a string literal as the 3 next tokens", idx)
+			}
+
 			idx += 3 // skip over
 		}
 		.reserve {
-			assert idx + 2 <= tokens.len &&
+			is_valid := idx + 2 <= tokens.len &&
 				tokens[idx+1].tok == .number_lit && 
-				tokens[idx+2].tok == .name, "reserve keyword must contain a number and a buf name"
+				tokens[idx+2].tok == .name
+
+			if !is_valid {
+				compile_error_t("reserve keyword must contain a number and a name", idx)
+			}
 
 			for f in func.stackvars {
-				assert name_strings[tokens[f.tok].usr1] != name_strings[tokens[idx+2].usr1], "duplicate function name"
+				if name_strings[tokens[f.tok].usr1] == name_strings[tokens[idx+2].usr1] {
+					compile_error_t("duplicate stack variable name", idx+2)
+				}
+			}
+			if name_strings[func.name] == name_strings[tokens[idx+2].usr1] {
+				compile_error_t("reserved stack variable cannot be parent function name", idx+2)
 			}
 
 			// don't want UB because unaligned stack
@@ -232,7 +271,7 @@ fn inspect_one(_idx u64, mut func Function) u64 {
 			func.string_lits << idx
 		}
 		.func {
-			assert false, "cannot define a function inside a function"
+			compile_error_t("cannot define a function inside a function, function above may have not been terminated", idx)
 		}
 		else {}
 	}

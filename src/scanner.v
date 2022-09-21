@@ -82,9 +82,9 @@ asm 2 3
 
 __global name_strings = []string{}
 
-fn match_token(data string, pos int) Token {
-	new := fn [pos] (a Tok) Token {
-		return Token {pos: pos, tok: a}
+fn match_token(data string, pos int, rowe int, col int, file_idx int) Token {
+	new := fn [pos, rowe, col, file_idx] (a Tok) Token {
+		return Token {pos: pos, tok: a, row: rowe, col: col, file_idx: file_idx}
 	}
 
 	return match data {
@@ -136,7 +136,7 @@ fn match_token(data string, pos int) Token {
 				nsl := u64(name_strings.len)
 				name_strings << data
 
-				Token {pos: pos, tok: .name, usr1: nsl}
+				Token {pos: pos, tok: .name, usr1: nsl, row: rowe, col: col, file_idx: file_idx}
 			}
 		}
 	}
@@ -145,11 +145,9 @@ fn match_token(data string, pos int) Token {
 struct Token {
 	pos int
 
-//	row int
-//	col int
-
-//	len int
-//	file_idx int
+	row int
+	col int
+	file_idx int
 	
 	tok  Tok
 //	lit string
@@ -183,6 +181,8 @@ fn (t Token) str() string {
 // the entire process can just be recursed. just call
 // scan_file('std.stas') when recursing.
 
+__global filenames = []string{}
+
 // token scanner is incredibly simpler now
 // 
 // splits every token on whitespace, except
@@ -190,20 +190,29 @@ fn (t Token) str() string {
 // would take place
 // 
 // whole line comments are denoted with `;`
-fn scan_file(data string){
+fn scan_file(data string, file_idx int){
 	mut pos := 0
 	mut start := 0
 	mut next_str_include := false
 
-	for {
+	mut row := 0
+	mut col := 0
+
+	outer: for {
 		mut is_number := true
 		if pos >= data.len {
-			return
+			break outer
 		}
 		for data[pos] in [`\r`, `\n`, `\t`, ` `] {
+			if data[pos] == `\n` {
+				row++
+				col = 0	
+			} else {
+				col++
+			}
 			pos++
 			if pos >= data.len {
-				return
+				break outer
 			}
 		}
 
@@ -211,14 +220,22 @@ fn scan_file(data string){
 			`'`, `"` {
 				str_quote := data[pos]
 				str_start := pos + 1 
+				str_f_row := row
+				str_f_col := col
 				// skip quotes, .lit will be the actual string data
 
 				for {
 					pos++
-					assert pos < data.len, 'unfinished string literal'
+					col++
+					if pos >= data.len {
+						compile_error_('unterminated string literal', str_f_row, str_f_col, file_idx)
+					}
 
 					if data[pos] == str_quote {
 						break
+					} else if data[pos] == `\n` {
+						row++
+						col = 0	
 					}
 				}
 
@@ -226,10 +243,11 @@ fn scan_file(data string){
 
 				if next_str_include {
 					file := os.read_file(string_data) or {
-						panic('file to include could not be found!')
+						compile_error_('file to include could not be found', str_f_row, str_f_col, file_idx)
 					}
-					
-					scan_file(file)
+					fidx := filenames.len
+					filenames << string_data
+					scan_file(file, fidx)
 
 					next_str_include = false
 				} else {
@@ -240,16 +258,20 @@ fn scan_file(data string){
 						pos: str_start
 						tok: .string_lit
 						usr1: nsl
+						row: row
+						col: col
+						file_idx: file_idx
 					}
 				}
+				col++
 				pos++
 				continue
 			}
 			`;` {
 				for data[pos] != `\n` {
-					pos++ 
+					pos++
 					if pos >= data.len {
-						return
+						break outer
 					}
 				}
 				continue
@@ -258,21 +280,23 @@ fn scan_file(data string){
 		}
 
 		start = pos
+		start_col := col
 
 		for data[pos] !in [`\r`, `\n`, `\t`, ` `] {
 			if is_number && !(data[pos] >= `0` && data[pos] <= `9`) {
 				is_number = false
 			}
+			col++
 			pos++ 
 			if pos >= data.len {
-				break
+				break // do not break outer
 			}
 		}
 
 		ret := data[start..pos]
 
 		if !is_number {
-			token := match_token(ret, start)
+			token := match_token(ret, start, row, start_col, file_idx)
 			if token.tok == .d_include {
 				next_str_include = true
 			} else {
@@ -283,16 +307,22 @@ fn scan_file(data string){
 			//	lit: ret
 				pos: start
 				tok: .number_lit
+				row: row
+				col: start_col
+				file_idx: file_idx
 				
 				usr1: ret.u64()
 			}
 		}
 	}
+	
 	assert !next_str_include, "unexpected EOF when handling file inclusion"
 }
 
-fn stub__(){
+// assertations should never call and are not a substitute for compiler errors anymore
+
+/* fn stub__(){
 	$if prod {
 		$compile_error('cannot be compiled with prod, this will remove asserts')
 	}
-}
+} */
