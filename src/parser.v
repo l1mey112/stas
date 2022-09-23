@@ -1,9 +1,51 @@
-fn inspect() {
+__global global_buffers = []u64{}
+
+fn is_existing_global_name(name_tok u64) {
+	for f in global_buffers {
+		if name_strings[tokens[f+2].usr1] == name_strings[tokens[name_tok].usr1] {
+			compile_error_t("name is existing global variable", name_tok)
+		}
+	}
+	for f in function_list {
+		if name_strings[f.name] == name_strings[tokens[name_tok].usr1] {
+			compile_error_t("name cannot be existing function name", name_tok)
+		}
+	}
+}
+
+fn is_global_buffer(name_tok u64) bool {
+	for f in global_buffers {
+		if name_strings[tokens[f+2].usr1] == name_strings[tokens[name_tok].usr1] {
+			return true
+		}
+	}
+	return false
+}
+
+fn parse() {
 	mut idx := u64(0)
 	for ; idx < tokens.len ; idx++ {
+		// eprintln("->> ${tokens[idx]}")
 		match tokens[idx].tok {
 			.func {
-				idx = inspect_function(idx)
+				idx = parse_function(idx)
+			}
+			.reserve {
+				is_valid := idx + 2 <= tokens.len &&
+					tokens[idx+1].tok == .number_lit && 
+					tokens[idx+2].tok == .name
+				
+				if !is_valid {
+					compile_error_t("global reserve keyword must contain a number and a name", idx)
+				}
+				// all of these fors inside this reserve and function locals
+				// should be moved into a function, all the data is global anyway
+				
+				
+
+				global_buffers << idx
+
+				idx += 2
 			}
 			else {
 				compile_error_t("unexpected toplevel token", idx) 
@@ -47,7 +89,7 @@ fn (f StackVar) str() string {
 fn (f Function) str() string {
 	mut slit := '['
 	for i, s in f.string_lits {
-		slit += "'${name_strings[s]}'"
+		slit += "'${name_strings[tokens[s].usr1]}'"
 		if i < f.string_lits.len - 1 {
 			slit += ', '
 		}
@@ -66,7 +108,7 @@ fn (f Function) str() string {
 }'
 }
 
-fn inspect_function(_idx u64) u64 {
+fn parse_function(_idx u64) u64 {
 	mut idx := _idx
 
 	mut func := Function{}
@@ -85,11 +127,7 @@ fn inspect_function(_idx u64) u64 {
 	if name_strings[tokens[name_tok].usr1] == 'main' {
 		has_main = true
 	}
-	for f in function_list {
-		if name_strings[f.name] == name_strings[tokens[name_tok].usr1] {
-			compile_error_t("duplicate function name", name_tok)
-		}
-	}
+	is_existing_global_name(name_tok)
 	func.name = tokens[name_tok].usr1
 
 	if tokens[idx].tok != .do_block {
@@ -130,7 +168,7 @@ fn inspect_function(_idx u64) u64 {
 				break
 			}
 			else {
-				idx = inspect_one(idx, mut func)
+				idx = parse_one(idx, mut func)
 			}
 		}
 	}
@@ -143,7 +181,7 @@ fn inspect_function(_idx u64) u64 {
 	return idx // do not skip over .endfunc, will be incremented anyway
 }
 
-fn inspect_one(_idx u64, mut func Function) u64 {
+fn parse_one(_idx u64, mut func Function) u64 {
 	mut idx := _idx
 	match tokens[idx].tok {
 		.if_block {
@@ -165,7 +203,7 @@ fn inspect_one(_idx u64, mut func Function) u64 {
 						break
 					}
 					else {
-						idx = inspect_one(idx, mut func)
+						idx = parse_one(idx, mut func)
 					}
 				}
 			}
@@ -204,7 +242,7 @@ fn inspect_one(_idx u64, mut func Function) u64 {
 						break
 					}
 					else {
-						idx = inspect_one(idx, mut func)
+						idx = parse_one(idx, mut func)
 					}
 				}
 			}
@@ -242,6 +280,8 @@ fn inspect_one(_idx u64, mut func Function) u64 {
 			if !is_valid {
 				compile_error_t("reserve keyword must contain a number and a name", idx)
 			}
+
+			is_existing_global_name(idx+2)
 
 			for f in func.stackvars {
 				if name_strings[tokens[f.tok].usr1] == name_strings[tokens[idx+2].usr1] {

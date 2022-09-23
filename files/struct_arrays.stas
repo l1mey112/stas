@@ -1,0 +1,49 @@
+define sizeof(mystruct) 12 enddef
+define mystruct.a 0 enddef
+define mystruct.b 4 enddef
+define mystruct.c 8 enddef
+
+; 1: idx
+define read_b_at_idx
+	sizeof(mystruct) *
+	mystruct.b +
+	mystruct[10] +
+	deref32
+enddef
+
+; 1: idx, 2: data
+define write_b_at_idx
+	swap
+	sizeof(mystruct) *
+	mystruct.b +
+	mystruct[10] +
+	swap write32
+enddef
+
+; 1: offset, 2: idx
+define read_at_idx
+	sizeof(mystruct) * +
+	mystruct[10] +
+	deref32
+enddef
+
+; 1: offset, 2: idx, 3: data
+define write_at_idx
+	rotate
+	sizeof(mystruct) * +
+	mystruct[10] +
+	swap write32
+enddef
+
+fn main do
+	reserve 120 mystruct[10]
+
+;	1 888 write_b_at_idx
+;	1     read_b_at_idx uputln
+
+	mystruct.a 1 888 write_at_idx
+	mystruct.b 3 777 write_at_idx
+	
+	mystruct.a 1 read_at_idx uputln
+	mystruct.b 3 read_at_idx uputln
+endfn

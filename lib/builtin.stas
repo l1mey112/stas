@@ -1,6 +1,8 @@
 define Var 8 enddef
 
-define double
+define QWORDMAX 18446744073709551615 enddef
+
+define dup
 	asm 1 2
 "	mov rdi, [rsp]
 	push rdi"
@@ -12,11 +14,11 @@ define drop
 enddef
 
 define ptr++
-	double deref64 ++ write64
+	dup deref64 ++ write64
 enddef
 
 define ptr--
-	double deref64 -- write64
+	dup deref64 -- write64
 enddef
 
 define swap
@@ -31,6 +33,13 @@ define deref8
 	asm 1 1
 "	pop rdi
 	movsx rdi, byte [rdi]
+	push qword rdi"
+enddef
+
+define deref32
+	asm 1 1
+"	pop rdi
+	mov edi, dword [rdi]
 	push qword rdi"
 enddef
 
@@ -54,24 +63,19 @@ define write64
 	mov qword [rdi], rax"
 enddef
 
-fn rot 3 3 do
-	reserve Var rot1
-	reserve Var rot2
-	reserve Var rot3
+define write32
+	asm 2 0
+"	pop rax
+	pop rdi
+	mov dword [rdi], eax"
+enddef
 
-	rot1 swap write64
-	rot2 swap write64
-	rot3 swap write64
-
-	rot1 deref64
-	rot3 deref64
-	rot2 deref64
-endfn
-
-fn strlen 1 1 do
-	double
-	while double deref8 0 != do
-		++
-	endwhile
-	swap -
-endfn
+define rotate
+	asm 3 3
+"	pop rdi
+	pop rsi
+	pop rdx
+	push rdi
+	push rdx
+	push rsi"
+enddef

@@ -40,6 +40,17 @@ fn preprocess() {
 				initial_tokens[start].usr1 = pos
 				macros << start
 			}
+			.d_import {
+				start := pos
+				pos++
+				if pos >= initial_tokens.len {
+					compile_error_i("unexpected EOF when processing file import", start)
+				}
+				if initial_tokens[pos].tok != .string_lit {
+					compile_error_i("file path to import must be a string", pos)
+				}
+				imported_files << name_strings[initial_tokens[pos].usr1]
+			}
 			.d_enddef {
 				compile_error_i("cannot end macro definition while not defining a macro", pos)
 			}

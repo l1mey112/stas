@@ -1,5 +1,5 @@
-include "lib/std.stas"
+import "modules/stdio.stas"
 
 fn main do
-	
+	"Hello\n" print
 endfn

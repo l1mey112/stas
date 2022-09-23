@@ -33,7 +33,7 @@ fn get_asm() {
 	if !has_main {
 		compile_error_f("no main function", 0)
 	}
-
+	writeln('use64')
 	if create_debug_object {
 		writeln('format ELF64')
 		writeln('section \'.rodata\'')
@@ -42,7 +42,6 @@ fn get_asm() {
 		writeln('segment readable')
 	}
 	
-
 	for f in function_list {
 		for i in f.string_lits {
 			label := 'slit_${f.idx_start}_${i}'
@@ -72,6 +71,21 @@ fn get_asm() {
 			}
 			writeln('0')
 		}
+	}
+	
+	if create_debug_object {
+		writeln('section \'.bss\' writable')
+	} else {
+		writeln('segment readable writable')
+	}
+
+	for f in global_buffers {
+		name := name_strings[tokens[f+2].usr1]
+		size := tokens[f+1].usr1
+		if create_debug_object {
+			writeln('public $name')
+		}
+		writeln('$name: rb $size')
 	}
 
 	if create_debug_object {
@@ -114,7 +128,9 @@ fn gen() {
 				writeln('${name_strings[f.name]}:')
 				writeln('push rbp')
 				writeln('mov rbp, rsp')
-				writeln('sub rsp, ${f.stackframe}')
+				if f.stackframe > 0 {
+					writeln('sub rsp, ${f.stackframe}')
+				}
 
 				for i := 0 ; i < f.argc ; i++ {
 					writeln('push ${fn_arg_regs[i]}')
@@ -129,6 +145,9 @@ fn gen() {
 				}
 				pos = f.idx_end
 			}
+			.reserve {
+				pos += 2
+			}
 			else {
 				compile_error_t("unexpected toplevel keyword", pos)
 			}
@@ -141,155 +160,14 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 	mut ipos := _ipos
 
 	match tokens[ipos].tok {
-		.add {
-			if stackdepth < 2 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rdi')
-			writeln('pop rsi')
-			writeln('add rsi, rdi')
-			writeln('push rsi')
-			stackdepth--
-		}
-		.sub {
-			if stackdepth < 2 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rdi')
-			writeln('pop rsi')
-			writeln('sub rsi, rdi')
-			writeln('push rsi')
-			stackdepth--
-		}
-		.mul {
-			if stackdepth < 2 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rdi')
-			writeln('pop rsi')
-			writeln('imul rsi, rdi')
-			writeln('push rsi')
-			stackdepth--
-		}
-		.div {
-			if stackdepth < 2 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rdi')
-			writeln('pop rax')
-			writeln('xor edx, edx')
-			writeln('div rdi')
-			writeln('push rax')
-			stackdepth--
-		}
-		.mod {
-			if stackdepth < 2 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rdi')
-			writeln('pop rax')
-			writeln('xor edx, edx')
-			writeln('div rdi')
-			writeln('push rdx')
-			stackdepth--
-		}
-		.divmod {
-			if stackdepth < 2 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rdi')
-			writeln('pop rax')
-			writeln('xor rdx, rdx')
-			writeln('div rdi')
-			writeln('push rax')
-			writeln('push rdx')
-		}
-		.inc {
-			if stackdepth < 1 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rdi')
-			writeln('inc rdi')
-			writeln('push rdi')
-		}
-		.dec {
-			if stackdepth < 1 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rdi')
-			writeln('dec rdi')
-			writeln('push rdi')
-		}
-		.equal {
-			if stackdepth < 2 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rsi')
-			writeln('pop rdi')
-			writeln('xor rax, rax')
-			writeln('cmp rdi, rsi')
-			writeln('sete al')
-			writeln('push rax')
-			stackdepth--
-		}
-		.notequal {
-			if stackdepth < 2 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rsi')
-			writeln('pop rdi')
-			writeln('xor rax, rax')
-			writeln('cmp rdi, rsi')
-			writeln('setne al')
-			writeln('push rax')
-			stackdepth--
-		}
-		.greater {
-			if stackdepth < 2 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rsi')
-			writeln('pop rdi')
-			writeln('xor rax, rax')
-			writeln('cmp rdi, rsi')
-			writeln('seta al')
-			writeln('push rax')
-			stackdepth--
-		}
-		.less {
-			if stackdepth < 2 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rsi')
-			writeln('pop rdi')
-			writeln('xor rax, rax')
-			writeln('cmp rdi, rsi')
-			writeln('setb al')
-			writeln('push rax')
-			stackdepth--
-		}
-		.shr {
-			if stackdepth < 2 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rcx')
-			writeln('pop rdi')
-			writeln('shr rdi, cl')
-			writeln('push rdi')
-			stackdepth--
-		}
-		.shl {
-			if stackdepth < 2 {
-				compile_error_t("not enough values on the stack to consume", ipos)
-			}
-			writeln('pop rcx')
-			writeln('pop rdi')
-			writeln('shl rdi, cl')
-			writeln('push rdi')
-			stackdepth--
-		}
 		.number_lit {
-			writeln('push qword ${tokens[ipos].usr1}')
+			// stupid hack because of fasm......
+			if tokens[ipos].usr1 >= 0xFFFFFFF {
+				writeln('mov rax, ${tokens[ipos].usr1}')
+				writeln('push rax')
+			} else {
+				writeln('push qword ${tokens[ipos].usr1}')
+			}
 			stackdepth++
 		}
 //		.deref8, .deref16, .deref32, .deref64, .write8, .write16, .write32, .write64 {panic("")}
@@ -402,6 +280,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 					writeln('push ${fn_arg_regs[i]}')
 				}
 				stackdepth += int(fn_call.retc)
+			} else if is_global_buffer(ipos) {
+				writeln('push ${name_strings[tokens[ipos].usr1]}')
+				stackdepth++
 			} else {
 				mut svar := StackVar{}
 				for fer in f.stackvars {
@@ -410,9 +291,9 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 						break
 					}
 				}
-
+				
 				if svar.tok == 0 {
-					compile_error_t("unknown function or stack value name", ipos)
+					compile_error_t("unknown function or value name", ipos)
 				}
 
 				writeln('lea rdi, [rbp-$svar.loc]')

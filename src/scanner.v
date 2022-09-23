@@ -6,6 +6,7 @@ enum Tok {
 	number_lit
 
 	d_include
+	d_import
 	d_define
 	d_enddef
 
@@ -34,30 +35,6 @@ enum Tok {
 	// 
 	// l_cb     // {
 	// r_cb     // }
-
-	inc      // ++
-	dec      // --
-	add      // +
-	sub      // -
-	mul      // *
-	div      // /
-	mod      // %
-	divmod   // %%
-	equal    // =
-	notequal // !=
-	greater  // >
-	less     // <
-	shr      // >>
-	shl      // <<
-
-//	deref8   
-//	deref16  
-//	deref32  
-//	deref64  
-//	write8   
-//	write16  
-//	write32  
-//	write64  
 
 //	drop
 	ret
@@ -88,21 +65,6 @@ fn match_token(data string, pos int, rowe int, col int, file_idx int) Token {
 	}
 
 	return match data {
-		"++" { new(.inc)      }
-		"--" { new(.dec)      }
-		"+"  { new(.add)      }
-		"-"  { new(.sub)      }
-		"*"  { new(.mul)      }
-		"/"  { new(.div)      }
-		"%"  { new(.mod)      }
-		"%%" { new(.divmod)   }
-		"="  { new(.equal)    }
-		"!=" { new(.notequal) }
-		">"  { new(.greater)  }
-		"<"  { new(.less)     }
-		">>" { new(.shr)      }
-		"<<" { new(.shl)      }
-
 		"ret" { new(.ret) }
 		"reserve" { new(.reserve) }
 		"endfn" { new(.endfunc) }
@@ -115,17 +77,9 @@ fn match_token(data string, pos int, rowe int, col int, file_idx int) Token {
 		"while" { new(.while_block) }
 		"endwhile" { new(.endwhile_block) }
 
-//		"*8"  { new(.deref8)  }
-//		"*16" { new(.deref16) }
-//		"*32" { new(.deref32) }
-//		"*64" { new(.deref64) }
-//		"&8"  { new(.write8)  }
-//		"&16" { new(.write16) }
-//		"&32" { new(.write32) }
-//		"&64" { new(.write64) }
-
 		"enddef" { new(.d_enddef) }
 		"include" { new(.d_include) }
+		"import" { new(.d_import) }
 		"define" { new(.d_define) }
 
 		"asm" { new(._asm) }

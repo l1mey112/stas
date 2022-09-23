@@ -1,0 +1,16 @@
+reserve 8 _rand_state
+
+fn srand 1 0 do
+	_rand_state swap write64
+endfn
+
+; glibc/stdlib/random_r.c:364:7
+; https://en.wikipedia.org/wiki/Linear_congruential_generator
+
+fn rand 0 1 do
+	_rand_state deref64
+	1103515245 * 12345 +
+	dup _rand_state swap write64
+
+	4294967295 / QWORDMAX %
+endfn

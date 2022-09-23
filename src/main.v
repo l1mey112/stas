@@ -2,49 +2,60 @@ import os
 
 __global initial_tokens = []Token{}
 
-[noreturn]
-fn compile_error_i(msg string, token u64) {
-	compile_error_(msg, initial_tokens[token].row, initial_tokens[token].col, initial_tokens[token].file_idx)
-}
+const alwaysinc = 'include "lib/arith.stas" include "lib/builtin.stas"'
 
-[noreturn]
-fn compile_error_t(msg string, token u64) {
-	compile_error_(msg, tokens[token].row, tokens[token].col, tokens[token].file_idx)
-}
+// modules can only be imported and they can export functions
+// modules can define macros, but they will be local to the file only
+// importing a file is exactly like adding them to the command line arguments
+// files can be imported, it is best practice for those files to contain macros only
+// like the std arith and builtin files
 
-/* [noreturn]
-fn compile_error(msg string, token Token) {
-	compile_error_(msg, token.row, token.col, token.file_idx)
-} */
+__global imported_files = []string{}
 
-// <bold><red>filename:row:col: </bold></red>msg
-[noreturn]
-fn compile_error_(msg string, row int, col int, file_idx int) {
-	eprintln('\x1b[1m' + '\x1b[31m'+'${filenames[file_idx]}:${row + 1}:${col + 1}: ' + '\x1b[39m' + '\x1b[22m' + msg)
-	exit(1)
-}
+fn stas_file(filename string){
+	idx := filenames.len
+	filenames << filename
 
-[noreturn]
-fn compile_error_f(msg string, file_idx int) {
-	eprintln('\x1b[1m' + '\x1b[31m'+'${filenames[file_idx]}: ' + '\x1b[39m' + '\x1b[22m' + msg)
-	exit(1)
+	data := os.read_file(filename) or {
+		compile_error_f("file not found", idx)
+	}
+
+	scan_file(alwaysinc, idx)
+	scan_file(data, idx)
+	preprocess()
+
+	unsafe { initial_tokens.len = 0 }
+	unsafe { macros.len = 0 }
 }
 
 fn main() {
-	data := os.read_file('add.stas') or { panic(err) }
-	filenames << 'add.stas'
 
-	if os.args.len == 2 && os.args[1] == 'obj' {
-		create_debug_object = true
+//	if os.args.len == 2 && os.args[1] == 'obj' {
+//		create_debug_object = true
+//	}
+
+	if os.args.len == 1 {
+		eprintln("no args")
+		exit(1)
 	}
 
-	scan_file(data, 0)
-	preprocess()
-	inspect()
+	if os.args.len > 1 {
+		for filename in os.args[1..] {
+			stas_file(filename)
+		}
+	}
+	for a in imported_files {
+		stas_file(a)
+	}
+
+	parse()
 	get_asm()
 
 	/* for idx, a in tokens {
-		eprintln('${'$a.tok':14}${a.pos:5}${idx:5} ${a.usr1:5}')
-	} */
-	//eprintln(function_list)
+		eprintln('${'$a.tok':14}${a.row:5}${idx:5} ${a.usr1:5}')
+	}
+	for n in name_strings {
+		eprintln("'$n'")
+	}
+	eprintln(function_list) */
 }

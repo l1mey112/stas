@@ -1,0 +1,37 @@
+define Tok.name                 0  enddef
+define Tok.name                 1  enddef
+define Tok.string_lit           2  enddef
+define Tok.number_lit           3  enddef
+define Tok.d_include            4  enddef
+define Tok.d_define             5  enddef
+define Tok.d_enddef             6  enddef
+define Tok.reserve              7  enddef
+define Tok.func                 8  enddef
+define Tok.endfunc              9  enddef
+define Tok.do_block             10 enddef
+define Tok.if_block             11 enddef
+define Tok.else_block           12 enddef
+define Tok.endif_block          13 enddef
+define Tok.while_block          14 enddef
+define Tok.endwhile_block       15 enddef
+define Tok.inc                  16 enddef
+define Tok.dec                  17 enddef
+define Tok.add                  18 enddef
+define Tok.sub                  19 enddef
+define Tok.mul                  20 enddef
+define Tok.div                  21 enddef
+define Tok.mod                  22 enddef
+define Tok.divmod               23 enddef
+define Tok.equal                24 enddef
+define Tok.notequal             25 enddef
+define Tok.greater              26 enddef
+define Tok.less                 27 enddef
+define Tok.shr                  28 enddef
+define Tok.shl                  29 enddef
+define Tok.ret                  30 enddef
+define Tok._asm                 31 enddef
+define Tok._breakpoint_inspect_ 32 enddef
+
+fn main do
+	
+endfn

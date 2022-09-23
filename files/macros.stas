@@ -8,8 +8,6 @@ enddef
 
 fn main do
 	2 3 addtwo
-
-	_breakpoint_inspect_
-
+	
 	asm 1 0 "add rsp, 8"
 endfn

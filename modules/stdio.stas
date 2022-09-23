@@ -8,8 +8,16 @@ fn syscall3 4 1 do
 	push rax"
 endfn
 
+fn strlen 1 1 do
+	dup
+	while dup deref8 0 != do
+		++
+	endwhile
+	swap -
+endfn
+
 fn write 2 0 do
-	1 rot 1 rot syscall3
+	1 rotate 1 rotate syscall3
 	drop
 endfn
 
@@ -20,7 +28,7 @@ fn endl 0 0 do
 endfn
 
 fn print 1 0 do
-	double strlen write
+	dup strlen write
 endfn
 
 fn println 1 0 do
@@ -33,7 +41,7 @@ fn uput 1 0 do
 	reserve Var pos
 	reserve Var len
 
-	double
+	dup
 
 	0 = if
 		buf 48 write8
@@ -44,7 +52,7 @@ fn uput 1 0 do
 	len 0 write64
 	pos buf 20 + write64
 
-	while double 0 > do
+	while dup 0 > do
 		pos ptr--
 
 		10 %%

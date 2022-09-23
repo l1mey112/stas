@@ -1,0 +1,123 @@
+define ++
+	asm 1 1
+"	inc qword [rsp]"
+enddef
+define --
+	asm 1 1
+"	dec qword [rsp]"
+enddef
+
+define +
+	asm 2 1
+"	pop rdi
+	pop rsi
+	add rsi, rdi
+	push rsi"
+enddef
+define -
+	asm 2 1
+"	pop rdi
+	pop rsi
+	sub rsi, rdi
+	push rsi"
+enddef
+define *
+	asm 2 1
+"	pop rdi
+	pop rsi
+	imul rsi, rdi
+	push rsi"
+enddef
+define /
+	asm 2 1
+"	pop rdi
+	pop rax
+	xor edx, edx
+	div rdi
+	push rax"
+enddef
+
+define %
+	asm 2 1
+"	pop rdi
+	pop rax
+	xor edx, edx
+	div rdi
+	push rdx"
+enddef
+define %%
+	asm 2 2
+"	pop rdi
+	pop rax
+	xor rdx, rdx
+	div rdi
+	push rax
+	push rdx"
+enddef
+
+define =
+	asm 2 1
+"	pop rsi
+	pop rdi
+	xor rax, rax
+	cmp rdi, rsi
+	sete al
+	push rax"
+enddef
+define !=
+	asm 2 1
+"	pop rsi
+	pop rdi
+	xor rax, rax
+	cmp rdi, rsi
+	setne al
+	push rax"
+enddef
+define >
+	asm 2 1
+"	pop rsi
+	pop rdi
+	xor rax, rax
+	cmp rdi, rsi
+	seta al
+	push rax"
+enddef
+define <
+	asm 2 1
+"	pop rsi
+	pop rdi
+	xor rax, rax
+	cmp rdi, rsi
+	setb al
+	push rax"
+enddef
+define |
+	asm 2 1
+"	pop rsi
+	pop rdi
+	or rdi, rsi 
+	push rdi"
+enddef
+
+define &
+	asm 2 1
+"	pop rsi
+	pop rdi
+	and rdi, rsi 
+	push rdi"
+enddef
+
+define >>
+	asm 2 1
+"	pop rcx
+	pop rdi
+	shr rdi, cl
+	push rdi"
+enddef
+define <<
+	asm 2 1
+"	pop rcx
+	pop rdi
+	shl rdi, cl
+	push rdi"
+enddef
