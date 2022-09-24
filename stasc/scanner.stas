@@ -1,0 +1,152 @@
+include "lib/syscalls.stas"
+import "modules/stdio.stas"
+
+; grep O_RDONLY /usr/include/bits/fcntl-linux.h
+define O_RDONLY	00 enddef
+define O_WRONLY	01 enddef
+define O_RDWR   02 enddef
+
+define sizeof(buffer) 1024 enddef
+reserve sizeof(buffer) buffer
+reserve Var buffer_len
+
+fn open_file_into_buf 1 0 do
+	sys_open swap O_RDONLY syscall2
+
+	dup
+	NULL = if
+		"failed to open file!" println
+		ret
+	endif
+
+	sys_read swap buffer sizeof(buffer) syscall3
+
+	dup
+	NULL = if
+		"failed to read file!" println
+		ret
+	endif
+
+	dup
+	buffer + 0 write8 ; null terminator
+
+	buffer_len swap write64
+endfn
+
+define Tok.name                 0  enddef
+define Tok.name                 1  enddef
+define Tok.string_lit           2  enddef
+define Tok.number_lit           3  enddef
+define Tok.d_include            4  enddef
+define Tok.d_define             5  enddef
+define Tok.d_enddef             6  enddef
+define Tok.reserve              7  enddef
+define Tok.func                 8  enddef
+define Tok.endfunc              9  enddef
+define Tok.do_block             10 enddef
+define Tok.if_block             11 enddef
+define Tok.else_block           12 enddef
+define Tok.endif_block          13 enddef
+define Tok.while_block          14 enddef
+define Tok.endwhile_block       15 enddef
+define Tok.inc                  16 enddef
+define Tok.dec                  17 enddef
+define Tok.add                  18 enddef
+define Tok.sub                  19 enddef
+define Tok.mul                  20 enddef
+define Tok.div                  21 enddef
+define Tok.mod                  22 enddef
+define Tok.divmod               23 enddef
+define Tok.equal                24 enddef
+define Tok.notequal             25 enddef
+define Tok.greater              26 enddef
+define Tok.less                 27 enddef
+define Tok.shr                  28 enddef
+define Tok.shl                  29 enddef
+define Tok.ret                  30 enddef
+define Tok._asm                 31 enddef
+define Tok._breakpoint_inspect_ 32 enddef
+
+define CARRIAGE_RETURN 13 enddef
+define LINE_FEED       10 enddef
+define TAB             9 enddef
+define SPACE           32 enddef
+
+fn is_whitespace 1 1 do
+	dup dup dup
+
+	CARRIAGE_RETURN = rotate4
+	LINE_FEED = rotate4
+	TAB = rotate4
+	SPACE = rotate4
+
+	+ + +
+	0 !=
+endfn
+
+fn ptridx 2 1 do
+	+ deref64
+endfn
+
+
+fn scan do
+	reserve Var pos
+	reserve Var start
+	reserve Var row
+	reserve Var col
+
+	pos   ptr0
+	start ptr0
+	row   ptr0
+	col   ptr0
+
+	define idxbuf
+		buffer pos deref64 ptridx
+	enddef
+
+	while 1 do
+		pos deref64 buffer_len deref64 >= if
+			break
+		endif
+
+		while idxbuf is_whitespace do
+			idxbuf LINE_FEED = if
+				row ptr++
+				col ptr0
+			else
+				col ptr++
+			endif
+
+			pos ptr++
+			
+			pos deref64 buffer_len deref64 >= if
+				asm 0 0 "jmp outer"
+			endif
+		endwhile
+
+
+		while idxbuf is_whitespace 0 != do
+			col ptr++
+			pos ptr++
+
+			pos deref64 buffer_len deref64 >= if
+				break
+			endif
+		endwhile
+	endwhile
+	asm 0 0 "outer: "
+
+	pos   deref64 uputln
+	start deref64 uputln
+	row   deref64 uputln
+	col   deref64 uputln
+endfn
+
+fn main do
+	"add.stas" open_file_into_buf
+
+;	buffer println
+;	buffer_len deref64 uputln
+
+	scan
+endfn

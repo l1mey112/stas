@@ -25,6 +25,8 @@ enum Tok {
 
 	while_block
 	endwhile_block
+	break_block
+	continue_block
 
 	// as much as i love braces, using them
 	// for function definitions only when
@@ -76,6 +78,8 @@ fn match_token(data string, pos int, rowe int, col int, file_idx int) Token {
 
 		"while" { new(.while_block) }
 		"endwhile" { new(.endwhile_block) }
+		"continue" { new(.continue_block) }
+		"break" { new(.break_block) }
 
 		"enddef" { new(.d_enddef) }
 		"include" { new(.d_include) }

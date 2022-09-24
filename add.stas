@@ -2,4 +2,4 @@ import "modules/stdio.stas"
 
 fn main do
 	"Hello\n" print
-endfn
+endfn 

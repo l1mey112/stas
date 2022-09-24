@@ -29,19 +29,23 @@ fn stas_file(filename string){
 }
 
 fn main() {
-
-//	if os.args.len == 2 && os.args[1] == 'obj' {
-//		create_debug_object = true
-//	}
-
 	if os.args.len == 1 {
 		eprintln("no args")
 		exit(1)
 	}
 
 	if os.args.len > 1 {
+		if os.args.len == 2 && os.args[1] == '-elf' {
+			eprintln("supply file")
+			exit(1)
+		}
+
 		for filename in os.args[1..] {
-			stas_file(filename)
+			if filename == '-elf' {
+				create_debug_object = true
+			} else {
+				stas_file(filename)
+			}
 		}
 	}
 	for a in imported_files {

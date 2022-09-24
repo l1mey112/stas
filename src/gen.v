@@ -155,6 +155,9 @@ fn gen() {
 	}
 }
 
+__global in_while_loop = false
+__global while_loop_stack = 0
+
 fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 	mut stackdepth := _stackdepth
 	mut ipos := _ipos
@@ -179,6 +182,13 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 			writeln('mov rax, [rsp]')
 			writeln('db 0xcc') // int 3
 		}
+		.break_block {
+			assert in_while_loop
+			if while_loop_stack != stackdepth {
+				compile_error_t("unbalaced stack when breaking from while loop", ipos)
+			}
+			writeln('jmp .${tokens[ipos].usr1}_while_end')
+		}
 		.while_block {
 			while_tok := ipos
 			mut whilepos := ipos + 1
@@ -186,6 +196,8 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 
 			writeln('.${while_tok}_while:')
 
+			in_while_loop = true
+			while_loop_stack = stackdepth
 			for ; whilepos < doend ; whilepos++ {
 				stackdepth, whilepos = genone(stackdepth, whilepos, f)
 			}
@@ -203,12 +215,23 @@ fn genone(_stackdepth int, _ipos u64, f Function) (int, u64) {
 
 			whilepos++
 			for ; whilepos < whileend ; whilepos++ {
-				stackdepth, whilepos = genone(stackdepth, whilepos, f)
+				/* if tokens[whilepos].tok == .break_block {
+					if startdepth != stackdepth {
+						compile_error_t("unbalaced stack when breaking from while loop", ipos)
+					}
+					writeln('jmp .${while_tok}_while_end')
+				} else if tokens[whilepos].tok == .continue_block {
+					panic("continue is a conflicting keyword because it requires some kind of stack data for the loop to function")
+				} else { */
+					stackdepth, whilepos = genone(stackdepth, whilepos, f)
+				/* } */
 			}
 
 			writeln('jmp .${while_tok}_while')
 			writeln('.${while_tok}_while_end:')
 
+			while_loop_stack = 0
+			in_while_loop = false
 			ipos = whilepos
 		}
 		.if_block {

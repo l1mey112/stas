@@ -1,3 +1,14 @@
+include "lib/syscalls.stas"
+
+fn syscall2 3 1 do
+	asm 3 1
+"	pop rsi
+	pop rdi
+	pop rax
+	syscall
+	push rax"
+endfn
+
 fn syscall3 4 1 do
 	asm 4 1
 "	pop rdx
@@ -17,7 +28,7 @@ fn strlen 1 1 do
 endfn
 
 fn write 2 0 do
-	1 rotate 1 rotate syscall3
+	sys_write rotate stdout rotate syscall3
 	drop
 endfn
 
@@ -37,34 +48,34 @@ fn println 1 0 do
 endfn
 
 fn uput 1 0 do
-	reserve 20 buf
-	reserve Var pos
-	reserve Var len
+	reserve 20 _buf
+	reserve Var _pos
+	reserve Var _len
 
 	dup
 
 	0 = if
-		buf 48 write8
-		buf 1 write
+		_buf 48 write8
+		_buf 1 write
 		ret           ; ret doesn't worry about unhandled
 	endif             ; values on the stack
 
-	len 0 write64
-	pos buf 20 + write64
+	_len 0 write64
+	_pos _buf 20 + write64
 
 	while dup 0 > do
-		pos ptr--
+		_pos ptr--
 
 		10 %%
 		48 +
 
-		pos deref64 swap write8
+		_pos deref64 swap write8
 
-		len ptr++
+		_len ptr++
 	endwhile
 	drop
 
-	pos deref64 len deref64 write
+	_pos deref64 _len deref64 write
 endfn
 
 fn uputln 1 0 do

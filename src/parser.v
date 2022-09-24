@@ -181,6 +181,8 @@ fn parse_function(_idx u64) u64 {
 	return idx // do not skip over .endfunc, will be incremented anyway
 }
 
+__global latest_while_tok = u64(0)
+
 fn parse_one(_idx u64, mut func Function) u64 {
 	mut idx := _idx
 	match tokens[idx].tok {
@@ -229,6 +231,7 @@ fn parse_one(_idx u64, mut func Function) u64 {
 
 			idx++
 
+			latest_while_tok = _idx
 			for ; idx < tokens.len ; idx++ {
 				match tokens[idx].tok {
 					.do_block { 
@@ -258,6 +261,7 @@ fn parse_one(_idx u64, mut func Function) u64 {
 			tokens[dop].usr1 = idx
 			tokens[idx].usr1 = 0
 
+			latest_while_tok = 0
 			// while  -> do -> endwhile -> 0
 		}
 		._asm {
@@ -271,6 +275,12 @@ fn parse_one(_idx u64, mut func Function) u64 {
 			}
 
 			idx += 3 // skip over
+		}
+		.break_block {
+			if latest_while_tok == 0 {
+				compile_error_t("using the break keyword whilst not inside a while block", idx)
+			}
+			tokens[idx].usr1 = latest_while_tok
 		}
 		.reserve {
 			is_valid := idx + 2 <= tokens.len &&

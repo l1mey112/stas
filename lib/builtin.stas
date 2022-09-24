@@ -2,6 +2,11 @@ define Var 8 enddef
 
 define QWORDMAX 18446744073709551615 enddef
 
+define stdin 0 enddef
+define stdout 1 enddef
+define stderr 2 enddef
+define NULL 0 enddef
+
 define dup
 	asm 1 2
 "	mov rdi, [rsp]
@@ -19,6 +24,10 @@ enddef
 
 define ptr--
 	dup deref64 -- write64
+enddef
+
+define ptr0
+	0 write64
 enddef
 
 define swap
@@ -76,6 +85,18 @@ define rotate
 	pop rsi
 	pop rdx
 	push rdi
+	push rdx
+	push rsi"
+enddef
+
+define rotate4
+	asm 4 4
+"	pop rdi
+	pop rsi
+	pop rdx
+	pop rcx
+	push rdi
+	push rcx
 	push rdx
 	push rsi"
 enddef
