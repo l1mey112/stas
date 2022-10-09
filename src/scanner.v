@@ -111,6 +111,7 @@ struct Token {
 //	lit string
 mut:
 	usr1 u64
+	expanded_from u64 // when expanded from macro
 }
 
 fn (t Token) str() string {
@@ -201,7 +202,7 @@ fn scan_file(data string, file_idx int){
 
 				if next_str_include {
 					file := os.read_file(string_data) or {
-						compile_error_('file to include could not be found', str_f_row, str_f_col, file_idx)
+						compile_error_e('file to include could not be found', str_f_row, str_f_col, file_idx)
 					}
 					fidx := filenames.len
 					filenames << string_data

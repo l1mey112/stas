@@ -1,4 +1,5 @@
-__global macros = []u64{}
+struct MacroEntry {init_pos u64 t Token}
+__global macros = []MacroEntry{}
 
 fn preprocess() {
 	// d_define > d_enddef
@@ -38,7 +39,7 @@ fn preprocess() {
 					compile_error_i("unexpected EOF, macro definition never ended", start)
 				}
 				initial_tokens[start].usr1 = pos
-				macros << start
+				macros << MacroEntry { start, initial_tokens[start] }
 			}
 			.d_import {
 				start := pos
@@ -55,7 +56,7 @@ fn preprocess() {
 				compile_error_i("cannot end macro definition while not defining a macro", pos)
 			}
 			else {
-				match_name_to_macro(pos)
+				match_name_to_macro(pos, -1)
 			}	
 		}
 		pos++
@@ -65,25 +66,27 @@ fn preprocess() {
 	}
 }
 
-fn match_name_to_macro(pos u64){
+fn match_name_to_macro(pos u64, macro_pos u64){
 	if initial_tokens[pos].tok != .name {
+		initial_tokens[pos].expanded_from = macro_pos
 		tokens << initial_tokens[pos]
 		return
 	}
 	mut found := false
-	for i_ in macros {
-		i := name_strings[initial_tokens[i_ + 1].usr1]
-		j := name_strings[initial_tokens[pos].usr1]
+	j := name_strings[initial_tokens[pos].usr1]
+	for idx, i_ in macros {
+		i := name_strings[initial_tokens[i_.init_pos + 1].usr1]
 		if j == i {
-			dend := initial_tokens[i_].usr1
-			for dpos := i_ + 2 ; dpos < dend ; dpos++ {
-				match_name_to_macro(dpos)
+			dend := initial_tokens[i_.init_pos].usr1
+			for dpos := i_.init_pos + 2 ; dpos < dend ; dpos++ {
+				match_name_to_macro(dpos, u64(idx))
 			}
 			found = true
 			break
 		}
 	}
 	if !found {
+		initial_tokens[pos].expanded_from = macro_pos
 		tokens << initial_tokens[pos]
 	}
 }

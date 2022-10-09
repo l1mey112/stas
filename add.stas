@@ -1,5 +1,9 @@
 import "modules/stdio.stas"
 
+define tester
+	drop drop 
+enddef
+
 fn main do
-	"Hello\n" print
+	5 tester
 endfn 

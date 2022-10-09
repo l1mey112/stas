@@ -1,3 +1,6 @@
+import "modules/rand.stas"
+import "modules/stdio.stas"
+
 define ROWS 50 enddef
 define sizeof(scanline) 100 enddef
 
