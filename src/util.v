@@ -1,21 +1,8 @@
-/* [noreturn]
-fn compile_error_i(msg string, token u64) {
-	compile_error_(msg, initial_tokens[token].row, initial_tokens[token].col, initial_tokens[token].file_idx)
+[noreturn]
+fn compile_error_t(msg string, token u32) {
+	compile_error_(msg, token_stream[token].row, token_stream[token].col, token_stream[token].file)
 	exit(1)
 }
-
-[noreturn]
-fn compile_error_t(msg string, token u64) {
-	compile_error_(msg, tokens[token].row, tokens[token].col, tokens[token].file_idx)
-	
-	if tokens[token].expanded_from != -1 {
-		eprintln(macros)
-		eprintln(macros[tokens[token].expanded_from])
-		//compile_error_("expanded", initial_tokens[tokens[token].expanded_from].row, initial_tokens[tokens[token].expanded_from].col, initial_tokens[tokens[token].expanded_from].file_idx)
-	}
-
-	exit(1)
-} */
 
 [noreturn]
 fn compile_error_e(msg string, row u32, col u32, file_idx StringPointer) {

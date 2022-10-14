@@ -4,8 +4,12 @@ enum Inst {
 	// push_cstr
 	
 	do_cond_jmp // do_block
+	do_jmp      // jmp
 
-	assert_stack_size // Scope + Arrw
+	fn_prelude
+	fn_ret_cleanup
+	stack_size_start
+	stack_size_end
 
 	// Arithmetic
 		plus
@@ -25,7 +29,8 @@ enum Inst {
 }
 
 struct IR {
+	idx u32
+mut:
 	inst Inst
 	data u64
-	tok u32
 }

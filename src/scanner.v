@@ -9,7 +9,7 @@ enum Tok {
 
 	// Misc
 		fn_decl
-		d_import
+	//	d_import
 	// Control flow
 		do_block
 		if_block
@@ -34,9 +34,9 @@ enum Tok {
 		rot
 		drop
 	// Memory
-		reserve
-		auto
-		pop
+	//	reserve
+	//	auto
+	//	pop
 }
 
 struct Token {
@@ -231,7 +231,7 @@ fn scan_file(data string, file_str StringPointer){
 fn parse_token(str StringPointer) Tok {
 	return match unsafe {get_v_string(str)} {
 		"fn" {.fn_decl}
-		"import" {.d_import}
+	//	"import" {.d_import}
 		"do" {.do_block}
 		"if" {.if_block}
 		"else" {.else_block}
@@ -250,9 +250,9 @@ fn parse_token(str StringPointer) Tok {
 		"over" {.over}
 		"rot" {.rot}
 		"drop" {.drop}
-		"reserve" {.reserve}
-		"auto" {.auto}
-		"pop" {.pop}
+	//	"reserve" {.reserve}
+	//	"auto" {.auto}
+	//	"pop" {.pop}
 		else {.name}
 	}
 }
