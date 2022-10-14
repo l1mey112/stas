@@ -16,7 +16,7 @@ fn push_string_view(str &u8, len int) &u8 {
 	sizeof_entry := sizeof(u64) + u32(len)
 
 	if string_buffer_len + sizeof_entry >= 4096 {
-		panic("used up all the memory")
+		panic("used up all memory")
 	}
 
 	unsafe {
@@ -33,20 +33,15 @@ fn push_string_view(str &u8, len int) &u8 {
 }
 
 fn main() {
-	a := "hello!!!aaaaaaaaaaaaaaaaaaaaaaaa"
+	t := fn (a string) {
+		ptr := push_string_view(a.str, a.len)
+		unsafe {
+			println(get_v_string(ptr))
+		}
+	}
 
-	println(a.len)
-
-	println(sizeof(u64) + u32(a.len) + 1)
-	println(u64(string_buffer_len))
-	b := push_string_view(a.str, a.len)
-
-	println('${u64(b)}')
-	println(u64(string_buffer_len))
-
-	c := unsafe { get_v_string(b) }
-
-	println(c)
-
-	println(unsafe { vstrlen(c.str) })
+	t('weeeeeee')
+	t('hell!!!')
+	t('hello!!!!1')
+	t('hello!!!!1ee')
 }
