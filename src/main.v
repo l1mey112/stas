@@ -3,6 +3,9 @@ import os
 __global is_object_file   = false
 __global global_filenames = []string{}
 __global token_stream     = []Token{}
+__global ir_stream        = []IR{}
+__global main_fn          = u32(-1)
+__global slits            = []u32{}
 
 fn main() {
 	if os.args.len == 1 {
@@ -32,4 +35,5 @@ fn main() {
 	}
 
 	parse()
+	gen()
 }

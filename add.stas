@@ -1,7 +1,9 @@
 fn main 0 0 {
-    if {
-        999999999999999
+    1 if {
+        "hello"
     } else {
-        888888888888888
+        "hello_two!"
     }
+
+    drop
 }

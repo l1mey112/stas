@@ -1,5 +1,3 @@
-__global ir_stream = []IR{}
-
 struct Function { argc u32 retc u32 idx u32 name StringPointer }
 __global functions = []Function{}
 
@@ -49,12 +47,15 @@ fn parse() {
 				if token_stream[fn_c + 4].tok != .l_cb {
 					compile_error_t("new scope must proceed after function header", fn_c)
 				}
+				str := StringPointer(&u8(token_stream[fn_c + 1].data))
 				functions << Function {
 					argc: u32(token_stream[fn_c + 2].data)
 					retc: u32(token_stream[fn_c + 3].data)
-					idx: fn_c
-					name: StringPointer(&u8(token_stream[fn_c + 1].data))
+					idx: u32(ir_stream.len)
+					name: str
 				}
+				if str.str() == 'main' { main_fn = u32(ir_stream.len) }
+				
 				function_context = &functions[functions.len - 1]
 				ir_p(.fn_prelude, 0, fn_c)
 			}
@@ -156,7 +157,11 @@ fn parse() {
 				next_scope_is = .checked_scope
 				continue
 			}
-			.string_lit { ir(.push_str, token_stream[pos].data) }
+			.string_lit {
+				slits << u32(ir_stream.len)
+				ir(.push_str, token_stream[pos].data)
+				// _slit_322:
+			}
 			.number_lit { ir(.push_num, token_stream[pos].data) }
 			.plus   { ir(.plus, 0)   }
 			.sub    { ir(.sub, 0)    }
@@ -184,6 +189,4 @@ fn parse() {
 	if !isnil(function_context) {
 		compile_error_t("unexpected EOF when parsing function, scopes may be unclosed", u32(token_stream.len) - 1)
 	}
-
-	eprintln(ir_stream)
 }

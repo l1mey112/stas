@@ -244,7 +244,7 @@ fn parse_token(str StringPointer) Tok {
 		"*" {.mul}
 		"/" {.div}
 		"%" {.mod}
-		"/%" {.divmod}
+		"%%" {.divmod}
 		"swap" {.swap}
 		"dup" {.dup}
 		"over" {.over}
