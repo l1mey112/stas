@@ -56,16 +56,6 @@ fn (t Token) str() string {
 		t.data.str()
 	}
 
-/* 	return
-'Token{
-    row: $t.row
-    col: $t.col
-    file: $t.file
-    tok: $t.tok
-    data: $data_str
-    ${compile_error_to_s('fp', t.row, t.col, t.file)}
-}' */
-
 	return compile_error_to_s('	${t.tok:12}${data_str:10}', t.row, t.col, t.file)
 }
 

@@ -31,7 +31,5 @@ fn main() {
 		}
 	}
 
-	for a in token_stream {
-		eprintln(a)
-	}
+	parse()
 }
