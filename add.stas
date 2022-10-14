@@ -1,9 +1,11 @@
-import "modules/stdio.stas"
+fn main 0 0 {
+	{
+		3
+	} -> 1
 
-define tester
-	drop drop 
-enddef
+	{
+		1 2
+	} -> 2
 
-fn main do
-	5 tester
-endfn 
+	+ drop
+}

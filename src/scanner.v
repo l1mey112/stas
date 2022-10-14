@@ -5,150 +5,50 @@ enum Tok {
 	string_lit
 	number_lit
 
-	d_include
+	fn_decl
 	d_import
-	d_define
-	d_enddef
 
-	reserve // define Wordsize 8 enddef
-	        // reserve Wordsize quadword_var
+	l_cb // {
+	r_cb // }
+	arrw // ->
 
-	//retarrw  // ->
-	
-	func
-	endfunc
-	do_block
-
-	if_block
-	else_block
-	endif_block
-
-	while_block
-	endwhile_block
-	break_block
-	continue_block
-
-	// as much as i love braces, using them
-	// for function definitions only when
-	// if, while and for loops will exist
-	// will just make it inconsistent
-	//
-	// gotta keep parsing simple everybody.
-	// 
-	// l_cb     // {
-	// r_cb     // }
-
-//	drop
-	ret
-
-//	dup      // dup
-//	swap     // swap
-//	drop     // drop
-//	rot      // rot
-//	pop      // pop
-
-	_asm
-	_breakpoint_inspect_
-}
-
-/* 
-
-asm 2 3
-"
-"
-
-*/
-
-__global name_strings = []string{}
-
-fn match_token(data string, pos int, rowe int, col int, file_idx int) Token {
-	new := fn [pos, rowe, col, file_idx] (a Tok) Token {
-		return Token {pos: pos, tok: a, row: rowe, col: col, file_idx: file_idx}
-	}
-
-	return match data {
-		"ret" { new(.ret) }
-		"reserve" { new(.reserve) }
-		"endfn" { new(.endfunc) }
-		"do" { new(.do_block) }
-
-		"if" { new(.if_block) }
-		"endif" { new(.endif_block) }
-		"else" { new(.else_block) }
-
-		"while" { new(.while_block) }
-		"endwhile" { new(.endwhile_block) }
-		"continue" { new(.continue_block) }
-		"break" { new(.break_block) }
-
-		"enddef" { new(.d_enddef) }
-		"include" { new(.d_include) }
-		"import" { new(.d_import) }
-		"define" { new(.d_define) }
-
-		"asm" { new(._asm) }
-		"_breakpoint_inspect_" { new(._breakpoint_inspect_) }
-		else {
-			if data == "fn" { new(.func) }
-			else {
-				nsl := u64(name_strings.len)
-				name_strings << data
-
-				Token {pos: pos, tok: .name, usr1: nsl, row: rowe, col: col, file_idx: file_idx}
-			}
-		}
-	}
+	// Control flow
+		do_block
+		if_block
+		else_block
+		// elif_block
+		// while_block
+		// break_block
+		// continue_block
+	// Arithmetic
+		plus
+		sub
+		mul
+		div
+		mod
+		inc
+		dec
+		divmod
+	// Stack manipulation
+		swap
+		dup
+		over
+		rot
+		drop
+	// Memory
+		// reserve
+		// auto
+		// pop
 }
 
 struct Token {
-	pos int
-
-	row int
-	col int
-	file_idx int
-	
-	tok  Tok
-//	lit string
-mut:
-	usr1 u64
-	expanded_from u64 // when expanded from macro
+	row u32
+	col u32
+	file u32
+	tok Tok
+	lit &u8
 }
 
-fn (t Token) str() string {
-	if t.tok == .name {
-		return
-'Token(name){
-    pos: ${t.pos}
-    tok: ${t.tok}
-    usr1: ${name_strings[t.usr1]}
-}'
-	}
-	return
-'Token{
-    pos: ${t.pos}
-    tok: ${t.tok}
-    usr1: ${t.usr1}
-}'
-}
-/* for pos := 0 ; pos < initial_tokens.len {
-		pos++
-		if pos >= initial_tokens.len {
-			break
-		}
-	} */
-// for file inclusions, since it's a global variable
-// the entire process can just be recursed. just call
-// scan_file('std.stas') when recursing.
-
-__global filenames = []string{}
-
-// token scanner is incredibly simpler now
-// 
-// splits every token on whitespace, except
-// on strings, where normal string scanning
-// would take place
-// 
-// whole line comments are denoted with `;`
 fn scan_file(data string, file_idx int){
 	mut pos := 0
 	mut start := 0
