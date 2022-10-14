@@ -1,7 +1,8 @@
 import os
 
-__global create_debug_object = false
-__global filenames = []string{}
+__global is_object_file   = false
+__global global_filenames = []string{}
+__global token_stream     = []Token{}
 
 fn main() {
 	if os.args.len == 1 {
@@ -17,19 +18,20 @@ fn main() {
 
 		for filename in os.args[1..] {
 			if filename == '-elf' {
-				create_debug_object = true
+				is_object_file = true
 			} else {
-				idx := filenames.len
-				filenames << filename
+				file_str := push_string_view(filename.str, filename.len)
 
 				data := os.read_file(filename) or {
-					compile_error_f("file not found", idx)
+					compile_error_f("file not found", file_str)
 				}
 
-				scan_file(data)
+				scan_file(data, file_str)
 			}
 		}
 	}
 
-	eprintln('')
+	for a in token_stream {
+		eprintln(a)
+	}
 }
