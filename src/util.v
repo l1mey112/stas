@@ -1,5 +1,6 @@
 [noreturn]
 fn compile_error_t(msg string, token u32) {
+	print_backtrace()
 	compile_error_(msg, token_stream[token].row, token_stream[token].col, token_stream[token].file)
 	exit(1)
 }
@@ -7,12 +8,14 @@ fn compile_error_t(msg string, token u32) {
 [noreturn]
 fn compile_error_i(msg string, inst u32) {
 	tok := token_stream[ir_stream[inst].idx]
+	print_backtrace()
 	compile_error_(msg, tok.row, tok.col, tok.file)
 	exit(1)
 }
 
 [noreturn]
 fn compile_error_e(msg string, row u32, col u32, file_idx StringPointer) {
+	print_backtrace()
 	compile_error_(msg, row, col, file_idx)
 	exit(1)
 }
@@ -29,6 +32,7 @@ fn compile_error_to_s(msg string, row u32, col u32, file_idx StringPointer) stri
 
 [noreturn]
 fn compile_error_f(msg string, file_idx StringPointer) {
+	print_backtrace()
 	eprintln('\x1b[1m' + '\x1b[31m'+'${file_idx}: ' + '\x1b[39m' + '\x1b[22m' + msg)
 	exit(1)
 }

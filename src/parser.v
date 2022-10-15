@@ -60,16 +60,23 @@ fn parse() {
 					if is_function_name(str) != -1 {
 						compile_error_t("duplicate function name", fn_c + 1)
 					}
+					argc := u32(token_stream[fn_c + 2].data)
+					retc := u32(token_stream[fn_c + 3].data)
+					if str.str() == 'main' {
+						if argc != 0 || retc != 0 {
+							compile_error_t("the main function must accept and return zero values", fn_c + 2)
+						}
+						main_fn = u32(ir_stream.len)
+					}
 					functions << Function {
-						argc: u32(token_stream[fn_c + 2].data)
-						retc: u32(token_stream[fn_c + 3].data)
+						argc: argc
+						retc: retc
 						idx: u32(ir_stream.len)
 						name: str
 					}
-					if str.str() == 'main' { main_fn = u32(ir_stream.len) }
 					
 					function_context = &functions[functions.len - 1]
-					ir_p(.fn_prelude, u64(functions.len - 1), fn_c)
+					ir_p(.fn_prelude, u64(function_context), fn_c)
 				}
 				else {
 					compile_error_t("unknown toplevel token", pos)
@@ -80,7 +87,7 @@ fn parse() {
 				.name {
 					fn_n := is_function_name(&u8(token_stream[pos].data))
 					if fn_n != -1 {
-						ir(.fn_call, fn_n)
+						ir(.fn_call, u64(&functions[fn_n]))
 					} else {
 						compile_error_t("unknown function call or variable", pos)
 					}
@@ -92,7 +99,7 @@ fn parse() {
 						inst_begin: inst_b
 					}
 
-					ir(.do_cond_jmp, 0)
+					ir(.cond_if, 0)
 					pos++
 					if pos >= token_stream.len || token_stream[pos].tok != .l_cb {
 						compile_error_t("a scope must come after an if statement", pos - 1)
@@ -144,8 +151,9 @@ fn parse() {
 							}
 						}
 					} else {
+						assert !isnil(function_context)
+						ir(.fn_leave, u64(function_context))
 						function_context = unsafe { nil }
-						ir(.fn_leave, 0)
 					}
 				}
 				.arrw {
@@ -187,6 +195,7 @@ fn parse() {
 				.over   { ir(.over, 0)   }
 				.rot    { ir(.rot, 0)    }
 				.drop   { ir(.drop, 0)   }
+				.trap_breakpoint { ir(.trap_breakpoint, 0)}
 				else {
 					compile_error_t("unknown function local token", pos)
 				}

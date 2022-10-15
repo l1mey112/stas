@@ -9,6 +9,7 @@ enum Tok {
 
 	// Misc
 		fn_decl
+		trap_breakpoint
 	//	d_import
 	// Control flow
 		do_block
@@ -250,6 +251,7 @@ fn parse_token(str StringPointer) Tok {
 		"over" {.over}
 		"rot" {.rot}
 		"drop" {.drop}
+		"_breakpoint" {.trap_breakpoint}
 	//	"reserve" {.reserve}
 	//	"auto" {.auto}
 	//	"pop" {.pop}

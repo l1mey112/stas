@@ -3,14 +3,17 @@ enum Inst {
 	push_num
 	// push_cstr
 	
-	do_cond_jmp // do_block
-	do_jmp      // jmp
+	// If and else statements
+		cond_if
+		do_jmp
 
 	fn_prelude
 	fn_leave
 	fn_call
 	stack_size_start
 	stack_size_end
+
+	trap_breakpoint
 
 	// Arithmetic
 		plus

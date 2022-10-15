@@ -1,13 +1,9 @@
-fn give_me_one 0 1 {
-    1
-}
-
 fn main 0 0 {
-    1 if {
-        give_me_one
-    } else {
-        0
-    }
+	1 if {
+		1
+	} else {
+		1
+	}
 
-    drop
+	drop
 }
