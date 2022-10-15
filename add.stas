@@ -1,13 +1,21 @@
-fn main 0 0 {
-	1 if {
-		1 if {
-			1
-		} else {
-			1
-		}
-		1
-	} else {
-		1 1
-	}
-	drop drop
+fn push_something 0 2 {
+    155 22                        ; returns two, accepts none.
 }
+
+fn main 0 0 {
+	-> 2 {                        ; stack assertation, scope should exit
+		                          ; with 2 more values than on entry.
+		1 if {
+			-> 1 {                ; same here, 1 value.
+				push_something    ; function returns 2.
+				drop              ; value dropped off the stack.
+			}
+			2                     ; another value placed back on.
+		} else {
+			0 1                   ; makes sure that both branches displace
+		}                         ; the stack in equal amounts.
+	}                             ; it would be an error to push 2 values in the
+	                              ; first branch and only one in the second one.
+
+    + drop                        ; add two values together, drop that one off.
+}                                 ; function exits with nothing on the stack

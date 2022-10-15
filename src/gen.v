@@ -143,7 +143,6 @@ fn gen() {
 				writeln('    mov rax, [rsp]')
 				writeln('    db 0xcc')
 			}
-			.stack_size_start, .stack_size_end {}
 			// else { eprintln(ir_stream[pos]) assert false, "unreachable" }
 		}
 	}

@@ -13,7 +13,8 @@ enum ScopeTyp {
 struct Scope {
 	typ ScopeTyp
 	inst_begin u32
-	sp u32 [required]
+	sp u32
+	idx u32
 }
 
 fn is_function_name(str StringPointer) u32 {
@@ -106,7 +107,7 @@ fn parse() {
 						if sp < functions[fn_n].argc {
 							compile_error_t("not enough values to consume for function call", pos)
 						}
-						sp -= functions[fn_n].argc
+						sp = sp - functions[fn_n].argc + functions[fn_n].retc
 					} else {
 						compile_error_t("unknown function call or variable", pos)
 					}
@@ -122,6 +123,7 @@ fn parse() {
 						typ: .if_block
 						inst_begin: inst_b
 						sp: sp
+						idx: pos
 					}
 
 					ir(.cond_if, 0)
@@ -135,6 +137,7 @@ fn parse() {
 						typ: .scope
 						inst_begin: 0
 						sp: sp
+						idx: pos
 					}
 				}
 				.r_cb {
@@ -143,7 +146,11 @@ fn parse() {
 						match scope.typ {
 							.scope {}
 							.checked_scope {
-								ir(.stack_size_end, ir_stream[scope.inst_begin].data)
+								if sp > scope.sp {
+									compile_error_t("scope assertation failed, ${sp - scope.sp} more values on the stack than expected", scope.idx)
+								} else if sp < scope.sp {
+									compile_error_t("scope assertation failed, ${scope.sp - sp} less values on the stack than expected", scope.idx)
+								}
 							}
 							.if_block {
 								skip := ir_stream.len
@@ -159,6 +166,7 @@ fn parse() {
 										typ: .else_block_scope
 										inst_begin: inst_b
 										sp: sp
+										idx: pos
 									}
 									sp = scope.sp
 
@@ -175,8 +183,10 @@ fn parse() {
 							.else_block_scope {
 								// xx more values left on else branch
 								// xx less values left on else branch
-								if scope.sp != sp {
-									compile_error_i("unbalanced stack on both if and else branches", scope.inst_begin)
+								if sp > scope.sp {
+									compile_error_t("unbalanced stack on both if and else branches, else has ${sp - scope.sp} more", scope.idx)
+								} else if sp < scope.sp {
+									compile_error_t("unbalanced stack on both if and else branches, else has ${scope.sp - sp} less", scope.idx)
 								}
 								ir_stream[scope.inst_begin].data = u64(ir_stream.len)
 							}
@@ -189,9 +199,9 @@ fn parse() {
 						ir(.fn_leave, u64(function_context))
 
 						if sp > function_context.retc {
-							compile_error_t("unhandled data on the stack", function_context.idx)
+							compile_error_i("unhandled data on the stack", function_context.idx)
 						} else if sp < function_context.retc {
-							compile_error_t("not enough values on the stack on function return", function_context.idx)
+							compile_error_i("not enough values on the stack on function return", function_context.idx)
 						}
 
 						sp = 0
@@ -210,10 +220,9 @@ fn parse() {
 					scope_context << Scope {
 						typ: .checked_scope
 						inst_begin: u32(ir_stream.len)
-						sp: sp
+						sp: sp + u32(num)
+						idx: pos
 					}
-
-					ir_p(.stack_size_start, num, arrw_c)
 					pos++
 					if pos >= token_stream.len || token_stream[pos].tok != .l_cb {
 						compile_error_t("a scope must come after the arrow assert operator", arrw_c)

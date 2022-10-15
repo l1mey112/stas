@@ -10,8 +10,6 @@ enum Inst {
 	fn_prelude
 	fn_leave
 	fn_call
-	stack_size_start
-	stack_size_end
 
 	trap_breakpoint
 
