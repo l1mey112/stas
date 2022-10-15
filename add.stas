@@ -1,9 +1,13 @@
 fn main 0 0 {
 	1 if {
+		1 if {
+			1
+		} else {
+			1
+		}
 		1
 	} else {
-		1
+		1 1
 	}
-
-	drop
+	drop drop
 }

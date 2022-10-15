@@ -34,17 +34,7 @@ fn gen() {
 	writeln('    mov eax, 60')
 	writeln('    syscall')
 
-	mut sp := u32(0)
 	mut pos := u32(0)
-	
-	pos_r := &pos
-	mut sp_r := &mut sp
-	sp_assert := fn [pos_r, mut sp_r] (argc u32, retc u32) {
-		if *sp_r < argc {
-			compile_error_i("not enough values to consume", *pos_r)
-		}
-		unsafe { *sp_r = *sp_r - argc + retc }
-	}
 
 	for ; pos < ir_stream.len ; pos++ {
 		ir_data := ir_stream[pos].data
@@ -52,32 +42,16 @@ fn gen() {
 		writeln('_addr_${pos}:')
 		match ir_stream[pos].inst {
 			.fn_prelude {
-				assert sp == 0
-				fn_c := &Function(ir_data)
-				sp = fn_c.argc
 				writeln('    mov [_rs_p], rsp')
 				writeln('    mov rsp, rbp')
 			}
 			.fn_leave {
-				fn_c := &Function(ir_data)
-				if sp > fn_c.retc {
-					eprintln("--- $sp $fn_c.argc $fn_c.retc")
-					compile_error_i("unhandled data on the stack", fn_c.idx)
-				} else if sp < fn_c.retc {
-					compile_error_i("not enough values on the stack on function return", fn_c.idx)
-				}
-				// sp == fn_c.retc
-				sp = 0
 				writeln('    mov rbp, rsp')
 				writeln('    mov rsp, [_rs_p]')
 				writeln('    ret')
 			}
 			.fn_call {
 				fn_c := &Function(ir_data)
-				if sp < fn_c.argc {
-					compile_error_i("not enough values to consume for function call", pos)
-				}
-				sp -= fn_c.argc
 				writeln('    mov rbp, rsp')
 				writeln('    mov rsp, [_rs_p]')
 				writeln('    call _addr_${fn_c.idx}')
@@ -85,10 +59,6 @@ fn gen() {
 				writeln('    mov rsp, rbp')
 			}
 			.cond_if {
-				if sp == 0 {
-					compile_error_i("no value on stack to consume for conditional jump", pos)
-				}
-				sp--
 				writeln('    pop rax')
 				writeln('    test al, al')
 				writeln('    jz _addr_${ir_data}')
@@ -97,32 +67,26 @@ fn gen() {
 				writeln('    jmp _addr_${ir_data}')
 			}
 			.push_str {
-				sp += 2
 				len := *&u64(ir_data)
 				writeln('    push ${len}')
 				writeln('    push _slit_${pos}')
 			}
 			.push_num {
-				sp++
 				writeln('    push ${ir_data}')
 			}
 			.plus {
-				sp_assert(2, 1)
 				writeln('    pop rdi')
 				writeln('    add [rsp], rdi')
 			}
 			.sub {
-				sp_assert(2, 1)
 				writeln('    pop rdi')
 				writeln('    sub [rsp], rdi')
 			}
 			.mul {
-				sp_assert(2, 1)
 				writeln('    pop rdi')
 				writeln('    imul [rsp], rdi')
 			}
 			.div {
-				sp_assert(2, 1)
 				writeln('    pop rdi')
 				writeln('    pop rax')
 				writeln('    xor rdx, rdx')
@@ -130,7 +94,6 @@ fn gen() {
 				writeln('    push rax')
 			}
 			.mod {
-				sp_assert(2, 1)
 				writeln('    pop rdi')
 				writeln('    pop rax')
 				writeln('    xor rdx, rdx')
@@ -138,15 +101,12 @@ fn gen() {
 				writeln('    push rdx')
 			}
 			.inc {
-				sp_assert(1, 1)
 				writeln('    inc qword [rsp]')
 			}
 			.dec {
-				sp_assert(1, 1)
 				writeln('    dec qword [rsp]')
 			}
 			.divmod {
-				sp_assert(2, 2)
 				writeln('    pop rdi')
 				writeln('    pop rax')
 				writeln('    xor rdx, rdx')
@@ -155,24 +115,20 @@ fn gen() {
 				writeln('    push rdx')
 			}
 			.swap {
-				sp_assert(2, 2)
 				writeln('    pop rdi')
 				writeln('    pop rsi')
 				writeln('    push rdi')
 				writeln('    push rsi')
 			}
 			.dup {
-				sp_assert(1, 2)
 				writeln('    mov rdi, [rsp]')
 				writeln('    push rdi')
 			}
 			.over {
-				sp_assert(2, 3)
 				writeln('    mov rdi, [rsp - 8]')
 				writeln('    push rdi')
 			}
 			.rot {
-				sp_assert(3, 3)
 				writeln('    pop rdi')
 				writeln('    pop rsi')
 				writeln('    pop rdx')
@@ -181,7 +137,6 @@ fn gen() {
 				writeln('    push rsi')
 			}
 			.drop {
-				sp_assert(1, 0)
 				writeln('    add rsp, 8')
 			}
 			.trap_breakpoint {
@@ -192,7 +147,6 @@ fn gen() {
 			// else { eprintln(ir_stream[pos]) assert false, "unreachable" }
 		}
 	}
-	assert sp == 0
 
 	if is_object_file {
 		writeln('section \'.rodata\'')

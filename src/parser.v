@@ -13,6 +13,7 @@ enum ScopeTyp {
 struct Scope {
 	typ ScopeTyp
 	inst_begin u32
+	sp u32 [required]
 }
 
 fn is_function_name(str StringPointer) u32 {
@@ -37,6 +38,16 @@ fn parse() {
 
 	mut scope_context := []Scope{}
 	mut function_context := &Function(0)
+
+	mut sp := u32(0)
+
+	mut sp_r := &mut sp
+	sp_assert := fn [pos_r, mut sp_r] (argc u32, retc u32) {
+		if *sp_r < argc {
+			compile_error_t("not enough values to consume for operation", *pos_r)
+		}
+		unsafe { *sp_r = *sp_r - argc + retc }
+	}
 
 	for ; pos < token_stream.len ; pos++ {
 		if isnil(function_context) {
@@ -77,6 +88,9 @@ fn parse() {
 					
 					function_context = &functions[functions.len - 1]
 					ir_p(.fn_prelude, u64(function_context), fn_c)
+
+					assert sp == 0
+					sp = argc
 				}
 				else {
 					compile_error_t("unknown toplevel token", pos)
@@ -88,15 +102,26 @@ fn parse() {
 					fn_n := is_function_name(&u8(token_stream[pos].data))
 					if fn_n != -1 {
 						ir(.fn_call, u64(&functions[fn_n]))
+						
+						if sp < functions[fn_n].argc {
+							compile_error_t("not enough values to consume for function call", pos)
+						}
+						sp -= functions[fn_n].argc
 					} else {
 						compile_error_t("unknown function call or variable", pos)
 					}
 				}
 				.if_block {
+					if sp == 0 {
+						compile_error_t("no value on stack to consume for if statement", pos)
+					}
+					sp--
+
 					inst_b := u32(ir_stream.len)
 					scope_context << Scope {
 						typ: .if_block
 						inst_begin: inst_b
+						sp: sp
 					}
 
 					ir(.cond_if, 0)
@@ -109,6 +134,7 @@ fn parse() {
 					scope_context << Scope {
 						typ: .scope
 						inst_begin: 0
+						sp: sp
 					}
 				}
 				.r_cb {
@@ -128,10 +154,13 @@ fn parse() {
 									
 									pos++
 									inst_b := u32(ir_stream.len)
+
 									scope_context << Scope {
 										typ: .else_block_scope
 										inst_begin: inst_b
+										sp: sp
 									}
+									sp = scope.sp
 
 									ir(.do_jmp, 0)
 
@@ -144,6 +173,11 @@ fn parse() {
 								}
 							}
 							.else_block_scope {
+								// xx more values left on else branch
+								// xx less values left on else branch
+								if scope.sp != sp {
+									compile_error_i("unbalanced stack on both if and else branches", scope.inst_begin)
+								}
 								ir_stream[scope.inst_begin].data = u64(ir_stream.len)
 							}
 							else {
@@ -153,6 +187,14 @@ fn parse() {
 					} else {
 						assert !isnil(function_context)
 						ir(.fn_leave, u64(function_context))
+
+						if sp > function_context.retc {
+							compile_error_t("unhandled data on the stack", function_context.idx)
+						} else if sp < function_context.retc {
+							compile_error_t("not enough values on the stack on function return", function_context.idx)
+						}
+
+						sp = 0
 						function_context = unsafe { nil }
 					}
 				}
@@ -168,6 +210,7 @@ fn parse() {
 					scope_context << Scope {
 						typ: .checked_scope
 						inst_begin: u32(ir_stream.len)
+						sp: sp
 					}
 
 					ir_p(.stack_size_start, num, arrw_c)
@@ -180,22 +223,28 @@ fn parse() {
 					slits << u32(ir_stream.len)
 					ir(.push_str, token_stream[pos].data)
 					// _slit_322:
+
+					sp += 2
 				}
-				.number_lit { ir(.push_num, token_stream[pos].data) }
-				.plus   { ir(.plus, 0)   }
-				.sub    { ir(.sub, 0)    }
-				.mul    { ir(.mul, 0)    }
-				.div    { ir(.div, 0)    }
-				.mod    { ir(.mod, 0)    }
-				.inc    { ir(.inc, 0)    }
-				.dec    { ir(.dec, 0)    }
-				.divmod { ir(.divmod, 0) }
-				.swap   { ir(.swap, 0)   }
-				.dup    { ir(.dup, 0)    }
-				.over   { ir(.over, 0)   }
-				.rot    { ir(.rot, 0)    }
-				.drop   { ir(.drop, 0)   }
-				.trap_breakpoint { ir(.trap_breakpoint, 0)}
+				.number_lit {
+					ir(.push_num, token_stream[pos].data)
+
+					sp++
+				}
+				.plus   { ir(.plus,   0) sp_assert(2, 1) }
+				.sub    { ir(.sub,    0) sp_assert(2, 1) }
+				.mul    { ir(.mul,    0) sp_assert(2, 1) }
+				.div    { ir(.div,    0) sp_assert(2, 1) }
+				.mod    { ir(.mod,    0) sp_assert(2, 1) }
+				.inc    { ir(.inc,    0) sp_assert(1, 1) }
+				.dec    { ir(.dec,    0) sp_assert(1, 1) }
+				.divmod { ir(.divmod, 0) sp_assert(2, 2) }
+				.swap   { ir(.swap,   0) sp_assert(2, 2) }
+				.dup    { ir(.dup,    0) sp_assert(1, 2) }
+				.over   { ir(.over,   0) sp_assert(2, 3) }
+				.rot    { ir(.rot,    0) sp_assert(3, 3) }
+				.drop   { ir(.drop,   0) sp_assert(1, 0) }
+				.trap_breakpoint { ir(.trap_breakpoint, 0) }
 				else {
 					compile_error_t("unknown function local token", pos)
 				}

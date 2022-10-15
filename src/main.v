@@ -34,8 +34,8 @@ fn main() {
 	}
 
 	parse()
-	for idx, i in ir_stream {
+	/* for idx, i in ir_stream {
 		eprintln("($idx) $i")
-	}
-	// gen()
+	} */
+	gen()
 }
