@@ -25,11 +25,14 @@ fn gen() {
 	}
 
 	writeln('_start:')
+	writeln('    mov qword [_rs_p], _rs_top')
+	writeln('    mov rbp, rsp')
+	writeln('    mov rsp, [_rs_p]')
 	writeln('    call _addr_${main_fn}')
 	writeln('    xor rdi, rdi')
 	writeln('_exit:')
-	writeln('    mov rax, 60')
-	writeln('    syscall')
+	writeln('    mov eax, 60') // moving immediate to a 32 bit reg zeros the 
+	writeln('    syscall')     // higher 32 bit part in the whole 64 bit reg
 
 	mut pos := u32(0)
 	for ; pos < ir_stream.len ; pos++ {
@@ -38,12 +41,20 @@ fn gen() {
 		writeln('_addr_${pos}:')
 		match ir_stream[pos].inst {
 			.fn_prelude {
-				writeln('    push rbp')
-				writeln('    mov rbp, rsp')
+				writeln('    mov [_rs_p], rsp')
+				writeln('    mov rsp, rbp')
 			}
-			.fn_ret_cleanup {
-				writeln('    leave')
+			.fn_leave {
+				writeln('    mov rbp, rsp')
+				writeln('    mov rsp, [_rs_p]')
 				writeln('    ret')
+			}
+			.fn_call {
+				writeln('    mov rbp, rsp')
+				writeln('    mov rsp, [_rs_p]')
+				writeln('    call _addr_${ir_data}')
+				writeln('    mov [_rs_p], rsp')
+				writeln('    mov rsp, rbp')
 			}
 			.do_cond_jmp {
 				writeln('    pop rax')
@@ -128,7 +139,6 @@ fn gen() {
 			}
 			else { eprintln(ir_stream[pos]) assert false, "unreachable" }
 		}
-
 	}
 
 	if is_object_file {
@@ -136,7 +146,6 @@ fn gen() {
 	} else {
 		writeln('segment readable')
 	}
-
 	for s in slits {
 		len := *&u64(ir_stream[s].data)
 		str := unsafe { &u8(ir_stream[s].data) + sizeof(u64) }
@@ -148,4 +157,12 @@ fn gen() {
 		}
 		writeln("0")
 	}
+	if is_object_file {
+		writeln('section \'.bss\'')
+	} else {
+		writeln('segment readable writable')
+	}
+	writeln('_rs_p: rq 1')
+	writeln('_rs: rb 65536')
+	writeln('_rs_top:')
 }

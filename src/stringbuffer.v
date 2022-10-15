@@ -7,6 +7,14 @@ fn (s StringPointer) str() string {
 	return unsafe{ get_v_string(s) }
 }
 
+fn (a StringPointer) cmp(b StringPointer) bool {
+	if *(&u64(a)) != *(&u64(b)) {
+		return false
+	}
+
+	unsafe { return get_v_string(a) == get_v_string(b) }
+}
+
 [unsafe]
 fn get_v_string(ptr StringPointer) string {
 	unsafe {

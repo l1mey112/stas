@@ -1,8 +1,12 @@
+fn give_me_one 0 1 {
+    1
+}
+
 fn main 0 0 {
     1 if {
-        "hello"
+        give_me_one
     } else {
-        "hello_two!"
+        0
     }
 
     drop

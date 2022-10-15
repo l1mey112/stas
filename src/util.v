@@ -5,6 +5,13 @@ fn compile_error_t(msg string, token u32) {
 }
 
 [noreturn]
+fn compile_error_i(msg string, inst u32) {
+	tok := token_stream[ir_stream[inst].idx]
+	compile_error_(msg, tok.row, tok.col, tok.file)
+	exit(1)
+}
+
+[noreturn]
 fn compile_error_e(msg string, row u32, col u32, file_idx StringPointer) {
 	compile_error_(msg, row, col, file_idx)
 	exit(1)
