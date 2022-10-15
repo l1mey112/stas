@@ -33,9 +33,13 @@ fn main() {
 		}
 	}
 
-	parse()
-	/* for idx, i in ir_stream {
+	/* for idx, i in token_stream {
 		eprintln("($idx) $i")
+	} */
+	parse()
+	/* eprintln(functions)
+	for idx, i in ir_stream {
+		eprintln("($idx) [$i.idx] $i.inst $i.data")
 	} */
 	gen()
 }
