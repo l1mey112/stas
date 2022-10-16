@@ -1,16 +1,9 @@
 fn main 0 0 {
-	0 while 1 {
-		++
-
-		break
-		break
-		break
-		break
-
-		; dup 10 = if {
-		; 	break
-		; 	break
-		; }
+	0 while dup 5 < {
+		-> 0 {
+			_breakpoint
+			++
+		}
 	}
 	drop
 }

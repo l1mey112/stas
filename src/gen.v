@@ -7,10 +7,10 @@ fn write(str string) {
 }
 
 fn gen() {
-	if !is_object_file && main_fn == -1 {
+	/* if !is_object_file && main_fn == -1 {
 		assert false, 'no main function'
 		// compile_error_f("no main function", 0)
-	}
+	} */
 
 	writeln('use64')
 	if is_object_file {
@@ -28,7 +28,7 @@ fn gen() {
 	writeln('    mov qword [_rs_p], _rs_top')
 	writeln('    mov rbp, rsp')
 	writeln('    mov rsp, [_rs_p]')
-	writeln('    call _addr_${main_fn}')
+	writeln('    call __main')
 	writeln('    xor rdi, rdi')
 	writeln('_exit:')
 	writeln('    mov eax, 60')
@@ -39,9 +39,13 @@ fn gen() {
 	for ; pos < ir_stream.len ; pos++ {
 		ir_data := ir_stream[pos].data
 
-		writeln('_addr_${pos}:')
 		match ir_stream[pos].inst {
+			.label {
+				writeln('.${ir_data}:')
+			}
 			.fn_prelude {
+				fn_c := &Function(ir_data)
+				writeln('__${fn_c.name.str()}:')
 				writeln('    mov [_rs_p], rsp')
 				writeln('    mov rsp, rbp')
 			}
@@ -54,17 +58,17 @@ fn gen() {
 				fn_c := &Function(ir_data)
 				writeln('    mov rbp, rsp')
 				writeln('    mov rsp, [_rs_p]')
-				writeln('    call _addr_${fn_c.idx}')
+				writeln('    call .${fn_c.idx}')
 				writeln('    mov [_rs_p], rsp')
 				writeln('    mov rsp, rbp')
 			}
-			.cond_if {
+			.do_cond_jmp {
 				writeln('    pop rax')
 				writeln('    test al, al')
-				writeln('    jz _addr_${ir_data}')
+				writeln('    jz .${ir_data}')
 			}
 			.do_jmp {
-				writeln('    jmp _addr_${ir_data}')
+				writeln('    jmp .${ir_data}')
 			}
 			.push_str {
 				len := *&u64(ir_data)

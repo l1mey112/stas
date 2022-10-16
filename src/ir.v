@@ -3,9 +3,10 @@ enum Inst {
 	push_num
 	// push_cstr
 	
-	// If and else statements
-		cond_if
+	// Control flow
+		do_cond_jmp
 		do_jmp
+		label
 
 	fn_prelude
 	fn_leave

@@ -13,11 +13,9 @@ enum ScopeTyp {
 
 struct Scope {
 	typ ScopeTyp
-	inst_begin u32
 	sp u32
 	idx u32
-mut:
-	data u64 = -1
+	label_id u32 = -1
 }
 
 fn is_function_name(str StringPointer) u32 {
@@ -53,6 +51,15 @@ fn parse() {
 		unsafe { *sp_r = *sp_r - argc + retc }
 	}
 
+	mut label_c := u32(0)
+	_ := label_c
+	mut label_r := &mut label_c
+	label_allocate := fn [mut label_r] () u32 {
+		a := *label_r
+		unsafe { *label_r = *label_r + 1 }
+		return a
+	}
+
 	for ; pos < token_stream.len ; pos++ {
 		if isnil(function_context) {
 			match token_stream[pos].tok {
@@ -77,11 +84,13 @@ fn parse() {
 					}
 					argc := u32(token_stream[fn_c + 2].data)
 					retc := u32(token_stream[fn_c + 3].data)
+					if str.str()[0] == `_` {
+						compile_error_t("function names may not contain a leading underscore", fn_c + 1)
+					} // pointless? maybe
 					if str.str() == 'main' {
 						if argc != 0 || retc != 0 {
 							compile_error_t("the main function must accept and return zero values", fn_c + 2)
 						}
-						main_fn = u32(ir_stream.len)
 					}
 					functions << Function {
 						argc: argc
@@ -121,24 +130,26 @@ fn parse() {
 					}
 					sp--
 
-					inst_b := u32(ir_stream.len)
+					lbl := label_allocate()
 					scope_context << Scope {
 						typ: .if_block
-						inst_begin: inst_b
+						label_id: lbl
 						sp: sp
 						idx: pos
 					}
 
-					ir(.cond_if, -1)
+					ir(.do_cond_jmp, lbl)
 					pos++
 					if pos >= token_stream.len || token_stream[pos].tok != .l_cb {
 						compile_error_t("a scope must come after an if statement", pos - 1)
 					}
 				}
 				.while_block {
+					lbl := label_allocate()
+					ir(.label, lbl)
 					scope_context << Scope {
 						typ: .while_block
-						inst_begin: u32(ir_stream.len)
+						label_id: lbl
 						sp: sp
 						idx: pos
 					}
@@ -154,20 +165,7 @@ fn parse() {
 					if idx == -1 {
 						compile_error_t("not inside while loop body", pos)
 					}
-
-					// create a linked list of breaks
-					
-					if scope_context[idx].data == -1 {
-						scope_context[idx].data = u32(ir_stream.len)
-						ir(.do_jmp, -1)
-					} else {
-						mut nidx := scope_context[idx].data
-						for ir_stream[nidx].data != -1 {
-							nidx = ir_stream[nidx].data
-						}
-						ir_stream[nidx].data = u64(ir_stream.len)
-						ir(.do_jmp, -1)
-					}
+					compile_error_t("does nothing", pos)
 				}
 				.l_cb {
 					if scope_context.last().typ == .while_block {
@@ -175,17 +173,17 @@ fn parse() {
 							compile_error_t("no value on stack to consume for while header", pos)
 						}
 						sp--
+						lbl := label_allocate()
 						scope_context << Scope {
 							typ: .while_block_scope
-							inst_begin: u32(ir_stream.len)
+							label_id: lbl
 							sp: sp
 							idx: pos
 						}
-						ir(.cond_if, -1)
+						ir(.do_cond_jmp, lbl)
 					} else {
 						scope_context << Scope {
 							typ: .scope
-							inst_begin: 0
 							sp: sp
 							idx: pos
 						}
@@ -197,19 +195,8 @@ fn parse() {
 						match scope.typ {
 							.while_block_scope {
 								while_header := scope_context.pop()
-
-								ir(.do_jmp, while_header.inst_begin)
-								ir_stream[scope.inst_begin].data = u64(ir_stream.len)
-
-								// traverse linked list of break keywords
-
-								mut nidx := scope.data
-								for nidx != -1 { // u32(-1) != u64(-1)
-									eprintln(nidx)
-									p := ir_stream[nidx].data
-									ir_stream[nidx].data = u64(ir_stream.len)
-									nidx = p
-								}
+								ir(.do_jmp, while_header.label_id)
+								ir(.label, scope.label_id)
 							}
 							.scope {}
 							.checked_scope {
@@ -220,31 +207,26 @@ fn parse() {
 								}
 							}
 							.if_block {
-								skip := ir_stream.len
-								// not a - 1, do a skip over here
 								if pos + 1 < token_stream.len && token_stream[pos + 1].tok == .else_block {
-									ir_stream[scope.inst_begin].data = u64(skip + 1)
-									// risky, leave space for an instruction
-									
 									pos++
-									inst_b := u32(ir_stream.len)
-
+									lbl := label_allocate()
 									scope_context << Scope {
 										typ: .else_block_scope
-										inst_begin: inst_b
+										label_id: lbl
 										sp: sp
 										idx: pos
 									}
 									sp = scope.sp
 
-									ir(.do_jmp, -1)
+									ir(.do_jmp, lbl)
+									ir(.label, scope.label_id)
 
 									pos++
 									if pos >= token_stream.len || token_stream[pos].tok != .l_cb {
 										compile_error_t("a scope must come after an else statement", pos - 1)
 									}
 								} else {
-									ir_stream[scope.inst_begin].data = u64(skip)
+									ir(.label, scope.label_id)
 								}
 							}
 							.else_block_scope {
@@ -255,7 +237,7 @@ fn parse() {
 								} else if sp < scope.sp {
 									compile_error_t("unbalanced stack on both if and else branches, else has ${scope.sp - sp} less", scope.idx)
 								}
-								ir_stream[scope.inst_begin].data = u64(ir_stream.len)
+								ir(.label, scope.label_id)
 							}
 							else {
 								assert false, "unimplemented"
@@ -286,7 +268,6 @@ fn parse() {
 					
 					scope_context << Scope {
 						typ: .checked_scope
-						inst_begin: u32(ir_stream.len)
 						sp: sp + u32(num)
 						idx: pos
 					}
