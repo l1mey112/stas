@@ -8,6 +8,7 @@ enum ScopeTyp {
 	else_block
 	else_block_scope
 	while_block
+	while_block_scope
 }
 
 struct Scope {
@@ -132,18 +133,46 @@ fn parse() {
 						compile_error_t("a scope must come after an if statement", pos - 1)
 					}
 				}
-				.l_cb {
+				.while_block {
 					scope_context << Scope {
-						typ: .scope
-						inst_begin: 0
+						typ: .while_block
+						inst_begin: u32(ir_stream.len)
 						sp: sp
 						idx: pos
+					}
+				}
+				.l_cb {
+					if scope_context.last().typ == .while_block {
+						if sp == 0 {
+							compile_error_t("no value on stack to consume for while header", pos)
+						}
+						sp--
+						scope_context << Scope {
+							typ: .while_block_scope
+							inst_begin: u32(ir_stream.len)
+							sp: sp
+							idx: pos
+						}
+						ir(.cond_if, 0)
+					} else {
+						scope_context << Scope {
+							typ: .scope
+							inst_begin: 0
+							sp: sp
+							idx: pos
+						}
 					}
 				}
 				.r_cb {
 					if scope_context.len != 0 {
 						scope := scope_context.pop()
 						match scope.typ {
+							.while_block_scope {
+								while_header := scope_context.pop()
+
+								ir(.do_jmp, while_header.inst_begin)
+								ir_stream[scope.inst_begin].data = u64(ir_stream.len)
+							}
 							.scope {}
 							.checked_scope {
 								if sp > scope.sp {

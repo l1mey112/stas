@@ -1,0 +1,80 @@
+fn push_something 0 2 {
+    155 22                        ; returns two, accepts none.
+}
+
+fn main 0 0 {
+	-> 2 {                        ; stack assertation, scope should exit
+		                          ; with 2 more values than on entry.
+		1 if {
+			-> 1 {                ; same here, 1 value.
+				push_something    ; function returns 2.
+				drop              ; value dropped off the stack.
+			}
+			2                     ; another value placed back on.
+		} else {
+			0 1                   ; makes sure that both branches displace
+		}                         ; the stack in equal amounts.
+	}                             ; it would be an error to push 2 values in the
+	                              ; first branch and only one in the second one.
+
+    + drop                        ; add two values together, drop that one off.
+}                                 ; function exits with nothing on the stack
+
+; THE COMPILER
+
+;  (text)     |  (tokens)        (IR)        (assembly) |     (binary)
+;             |                                         |
+;             |             /-- parser  --\             |
+; input.stas ->- scanning - |             | - codegen  ->- fasm - input.exe
+;             |             \-- checker --/             |
+
+; /-----/---- input.stas ----
+; |  1 | 
+; |  2 |   fn main 0 0 {
+; |  3 |       2 3 + drop
+; |  4 |   }
+; |  5 |
+; |  ~ |
+
+; index[] filename   row  col       token type   data
+; 
+;   (0)  input.stas | 2 | 1  |          fn_decl
+;   (1)  input.stas | 2 | 4  |             name -> main
+;   (2)  input.stas | 2 | 9  |       number_lit
+;   (3)  input.stas | 2 | 11 |       number_lit
+;   (4)  input.stas | 2 | 13 |             l_cb
+;   (5)  input.stas | 3 | 5  |       number_lit -> 2
+;   (6)  input.stas | 3 | 7  |       number_lit -> 3
+;   (7)  input.stas | 3 | 9  |             plus
+;   (8)  input.stas | 3 | 11 |             drop
+;   (9)  input.stas | 4 | 1  |             r_cb
+
+; index[] name  argc retc
+; 
+;   (0)   main  | 0 | 0 |
+
+; index[] token[] instruction  data
+; 
+;   (0)    [0]   fn_prelude -> &Function[0]
+;   (1)    [5]   push_num   -> 2
+;   (2)    [6]   push_num   -> 3
+;   (3)    [7]   plus          
+;   (4)    [8]   drop          
+;   (5)    [9]   fn_leave   -> &Function[0]
+
+; (fn_prelude)
+;              mov [_rs_p], rsp
+;              mov rsp, rbp
+; (push_num)
+;              push 2
+; (push_num)
+;              push 3
+; (plus)
+;              pop rdi
+;              add [rsp], rdi
+; (drop)
+;              add rsp, 8
+; (fn_leave)
+;              mov rbp, rsp
+;              mov rsp, [_rs_p]
+;              ret
