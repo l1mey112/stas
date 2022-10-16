@@ -143,6 +143,54 @@ fn gen() {
 				writeln('    mov rax, [rsp]')
 				writeln('    db 0xcc')
 			}
+			.equ {
+				writeln('    pop rsi')
+				writeln('    pop rdi')
+				writeln('    xor rax, rax')
+				writeln('    cmp rdi, rsi')
+				writeln('    sete al')
+				writeln('    push rax')
+			}
+			.nequ {
+				writeln('    pop rsi')
+				writeln('    pop rdi')
+				writeln('    xor rax, rax')
+				writeln('    cmp rdi, rsi')
+				writeln('    setne al')
+				writeln('    push rax')
+			}
+			.gt {
+				writeln('    pop rsi')
+				writeln('    pop rdi')
+				writeln('    xor rax, rax')
+				writeln('    cmp rdi, rsi')
+				writeln('    seta al')
+				writeln('    push rax')
+			}
+			.lt {
+				writeln('    pop rsi')
+				writeln('    pop rdi')
+				writeln('    xor rax, rax')
+				writeln('    cmp rdi, rsi')
+				writeln('    setb al')
+				writeln('    push rax')
+			}
+			.gte {
+				writeln('    pop rsi')
+				writeln('    pop rdi')
+				writeln('    xor rax, rax')
+				writeln('    cmp rdi, rsi')
+				writeln('    setae al')
+				writeln('    push rax')
+			}
+			.lte {
+				writeln('    pop rsi')
+				writeln('    pop rdi')
+				writeln('    xor rax, rax')
+				writeln('    cmp rdi, rsi')
+				writeln('    setbe al')
+				writeln('    push rax')
+			}
 			// else { eprintln(ir_stream[pos]) assert false, "unreachable" }
 		}
 	}

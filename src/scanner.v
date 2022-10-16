@@ -34,6 +34,13 @@ enum Tok {
 		over
 		rot
 		drop
+	// Conditionals
+		equ
+		nequ
+		gt
+		lt
+		gte
+		lte
 	// Memory
 	//	reserve
 	//	auto
@@ -254,6 +261,12 @@ fn parse_token(str StringPointer) Tok {
 		"rot" {.rot}
 		"drop" {.drop}
 		"_breakpoint" {.trap_breakpoint}
+		"=" {.equ}
+		"!=" {.nequ}
+		">" {.gt}
+		"<" {.lt}
+		">=" {.gte}
+		"<=" {.lte}
 	//	"reserve" {.reserve}
 	//	"auto" {.auto}
 	//	"pop" {.pop}

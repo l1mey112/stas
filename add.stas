@@ -1,6 +1,16 @@
 fn main 0 0 {
-	0 while 1222 {
-		--
+	0 while 1 {
+		++
+
+		break
+		break
+		break
+		break
+
+		; dup 10 = if {
+		; 	break
+		; 	break
+		; }
 	}
 	drop
 }

@@ -16,6 +16,8 @@ struct Scope {
 	inst_begin u32
 	sp u32
 	idx u32
+mut:
+	data u64 = -1
 }
 
 fn is_function_name(str StringPointer) u32 {
@@ -127,7 +129,7 @@ fn parse() {
 						idx: pos
 					}
 
-					ir(.cond_if, 0)
+					ir(.cond_if, -1)
 					pos++
 					if pos >= token_stream.len || token_stream[pos].tok != .l_cb {
 						compile_error_t("a scope must come after an if statement", pos - 1)
@@ -139,6 +141,32 @@ fn parse() {
 						inst_begin: u32(ir_stream.len)
 						sp: sp
 						idx: pos
+					}
+				}
+				.break_block {
+					mut idx := u32(-1)
+					for s_id, s in scope_context.reverse() {
+						if s.typ == .while_block_scope {
+							idx = u32(s_id)
+							break
+						}
+					}
+					if idx == -1 {
+						compile_error_t("not inside while loop body", pos)
+					}
+
+					// create a linked list of breaks
+					
+					if scope_context[idx].data == -1 {
+						scope_context[idx].data = u32(ir_stream.len)
+						ir(.do_jmp, -1)
+					} else {
+						mut nidx := scope_context[idx].data
+						for ir_stream[nidx].data != -1 {
+							nidx = ir_stream[nidx].data
+						}
+						ir_stream[nidx].data = u64(ir_stream.len)
+						ir(.do_jmp, -1)
 					}
 				}
 				.l_cb {
@@ -153,7 +181,7 @@ fn parse() {
 							sp: sp
 							idx: pos
 						}
-						ir(.cond_if, 0)
+						ir(.cond_if, -1)
 					} else {
 						scope_context << Scope {
 							typ: .scope
@@ -172,6 +200,16 @@ fn parse() {
 
 								ir(.do_jmp, while_header.inst_begin)
 								ir_stream[scope.inst_begin].data = u64(ir_stream.len)
+
+								// traverse linked list of break keywords
+
+								mut nidx := scope.data
+								for nidx != -1 { // u32(-1) != u64(-1)
+									eprintln(nidx)
+									p := ir_stream[nidx].data
+									ir_stream[nidx].data = u64(ir_stream.len)
+									nidx = p
+								}
 							}
 							.scope {}
 							.checked_scope {
@@ -199,7 +237,7 @@ fn parse() {
 									}
 									sp = scope.sp
 
-									ir(.do_jmp, 0)
+									ir(.do_jmp, -1)
 
 									pos++
 									if pos >= token_stream.len || token_stream[pos].tok != .l_cb {
@@ -282,6 +320,12 @@ fn parse() {
 				.over   { ir(.over,   0) sp_assert(2, 3) }
 				.rot    { ir(.rot,    0) sp_assert(3, 3) }
 				.drop   { ir(.drop,   0) sp_assert(1, 0) }
+				.equ    { ir(.equ,    0) sp_assert(2, 1) }
+				.nequ   { ir(.nequ,   0) sp_assert(2, 1) }
+				.gt     { ir(.gt,     0) sp_assert(2, 1) }
+				.lt     { ir(.lt,     0) sp_assert(2, 1) }
+				.gte    { ir(.gte,    0) sp_assert(2, 1) }
+				.lte    { ir(.lte,    0) sp_assert(2, 1) }
 				.trap_breakpoint { ir(.trap_breakpoint, 0) }
 				else {
 					compile_error_t("unknown function local token", pos)

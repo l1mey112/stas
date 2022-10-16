@@ -28,6 +28,13 @@ enum Inst {
 		over
 		rot
 		drop
+	// Conditionals
+		equ
+		nequ
+		gt
+		lt
+		gte
+		lte
 }
 
 struct IR {
