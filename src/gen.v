@@ -45,6 +45,9 @@ fn gen() {
 			}
 			.fn_prelude {
 				fn_c := &Function(ir_data)
+				if is_object_file {
+					writeln('public __${fn_c.name.str()}')
+				}
 				writeln('__${fn_c.name.str()}:')
 				writeln('    mov [_rs_p], rsp')
 				writeln('    mov rsp, rbp')

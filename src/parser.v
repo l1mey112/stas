@@ -226,6 +226,9 @@ fn parse() {
 										compile_error_t("a scope must come after an else statement", pos - 1)
 									}
 								} else {
+									if scope.sp != sp {
+										compile_error_t("the stack must remain the same with single branches", pos)
+									}
 									ir(.label, scope.label_id)
 								}
 							}

@@ -1,9 +1,8 @@
 fn main 0 0 {
-	0 while dup 5 < {
-		-> 0 {
-			_breakpoint
-			++
-		}
+    1 if {
+        999
+    } else {
+		888
 	}
-	drop
+    drop
 }
