@@ -1,4 +1,4 @@
-struct Function { argc u32 retc u32 idx u32 name StringPointer a_sp u32 }
+struct Function { argc u32 retc u32 idx u32 name StringPointer mut: a_sp u32 }
 __global functions = []Function{}
 
 enum ScopeTyp {
@@ -26,7 +26,9 @@ enum VarTyp {
 
 struct Variable {
 	typ VarTyp [required]
-	size u32
+	size u32   [required]
+	a_sp u32   [required]
+	idx u32
 	name StringPointer
 }
 
@@ -111,7 +113,6 @@ fn parse() {
 		sp_backtrace_t()
 		exit(1)
 	}
-	_ := sp_error
 	sp_error_dep := fn [sp_backtrace_depth_t] (msg string, token u32, dep u32) {
 		print_backtrace()
 		compile_error_(msg, token_stream[token].row, token_stream[token].col, token_stream[token].file)
@@ -143,9 +144,6 @@ fn parse() {
 					}
 					argc := u32(token_stream[fn_c + 2].data)
 					retc := u32(token_stream[fn_c + 3].data)
-					if str.str()[0] == `_` {
-						compile_error_t("function names may not contain a leading underscore", fn_c + 1)
-					} // pointless? maybe
 					if str.str() == 'main' {
 						if argc != 0 || retc != 0 {
 							compile_error_t("the main function must accept and return zero values", fn_c + 2)
@@ -183,16 +181,31 @@ fn parse() {
 					if token_stream[rs_c + 2].tok != .number_lit {
 						compile_error_t("buffer decl must specify size in bytes", rs_c + 2)
 					}
-					var_context << Variable {
-						typ: .buffer
-						size: u32(token_stream[rs_c + 2].data)
-						name: &u8(token_stream[rs_c + 1].data)
-					}
+					name := StringPointer(&u8(token_stream[rs_c + 1].data))
+					mut search_p := u32(0)
 					if scope_context.len > 0 {
+						search_p = scope_context.last().var_scope
 						if scope_context.last().typ == .while_block {
 							compile_error_t("cannot define variables inside of while headers", rs_c)
 						}
 					}
+					for idx in search_p .. var_context.len {
+					if var_context[idx].name.str() == name.str() {
+							print_backtrace()
+							compile_error_("duplicate variable name", token_stream[rs_c + 1].row, token_stream[rs_c + 1].col, token_stream[rs_c + 1].file)
+							compile_info_("orginal variable declared here", token_stream[var_context[idx].idx].row, token_stream[var_context[idx].idx].col, token_stream[var_context[idx].idx].file)
+							exit(1)
+						} 
+					}
+					size := u32(token_stream[rs_c + 2].data)
+					var_context << Variable {
+						typ: .buffer
+						size: size
+						a_sp: function_context.a_sp
+						name: name
+						idx: rs_c + 1
+					}
+					function_context.a_sp += size
 				}
 				.name {
 					fn_n := is_function_name(&u8(token_stream[pos].data))
@@ -204,7 +217,19 @@ fn parse() {
 						}
 						sp_assert(functions[fn_n].argc, functions[fn_n].retc)
 					} else {
-						compile_error_t("unknown function call or variable", pos)
+						mut f := false
+						for v in var_context.reverse() {
+							if v.name.str() == StringPointer(&u8(token_stream[pos].data)).str() {
+								ir(.push_local_addr, v.a_sp)
+								sp_push(1)
+
+								f = true
+								break
+							}
+						}
+						if !f {
+							compile_error_t("unknown function call or variable", pos)
+						}
 					}
 				}
 				.if_block {
@@ -281,8 +306,6 @@ fn parse() {
 						scope := scope_context.pop()
 
 						// unwind scope, release scoped variables
-						eprintln(token_stream[pos])
-						eprintln(var_context)
 						unsafe { var_context.len = int(scope.var_scope) }
 						
 						match scope.typ {
@@ -345,9 +368,9 @@ fn parse() {
 						ir(.fn_leave, u64(function_context))
 
 						if u32(sp.len) > function_context.retc {
-							compile_error_t("unhandled data on the stack", function_context.idx)
+							sp_error("unhandled data on the stack", function_context.idx)
 						} else if u32(sp.len) < function_context.retc {
-							compile_error_t("not enough values on the stack on function return", function_context.idx)
+							sp_error("not enough values on the stack on function return", function_context.idx)
 						}
 
 						unsafe {
@@ -408,6 +431,14 @@ fn parse() {
 				.lt     { ir(.lt,     0) sp_assert(2, 1) }
 				.gte    { ir(.gte,    0) sp_assert(2, 1) }
 				.lte    { ir(.lte,    0) sp_assert(2, 1) }
+				.w8     { ir(.w8,     0) sp_assert(2, 0) }
+				.w16    { ir(.w16,    0) sp_assert(2, 0) }
+				.w32    { ir(.w32,    0) sp_assert(2, 0) }
+				.w64    { ir(.w64,    0) sp_assert(2, 0) }
+				.r8     { ir(.r8,     0) sp_assert(1, 1) }
+				.r16    { ir(.r16,    0) sp_assert(1, 1) }
+				.r32    { ir(.r32,    0) sp_assert(1, 1) }
+				.r64    { ir(.r64,    0) sp_assert(1, 1) }
 				.trap_breakpoint { ir(.trap_breakpoint, 0) }
 				else {
 					compile_error_t("unknown function local token", pos)

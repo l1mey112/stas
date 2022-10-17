@@ -1,6 +1,7 @@
 enum Inst {
 	push_str
 	push_num
+	push_local_addr
 	// push_cstr
 	
 	// Control flow
@@ -36,6 +37,15 @@ enum Inst {
 		lt
 		gte
 		lte
+	// Pointers
+		w8
+		w16
+		w32
+		w64
+		r8
+		r16
+		r32
+		r64
 }
 
 struct IR {

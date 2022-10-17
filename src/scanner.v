@@ -41,6 +41,15 @@ enum Tok {
 		lt
 		gte
 		lte
+	// Pointers
+		w8
+		w16
+		w32
+		w64
+		r8
+		r16
+		r32
+		r64
 	// Memory
 		reserve
 		auto
@@ -267,6 +276,14 @@ fn parse_token(str StringPointer) Tok {
 		"<" {.lt}
 		">=" {.gte}
 		"<=" {.lte}
+		"w8" {.w8}
+		"w16" {.w16}
+		"w32" {.w32}
+		"w64" {.w64}
+		"r8" {.r8}
+		"r16" {.r16}
+		"r32" {.r32}
+		"r64" {.r64}
 		"reserve" {.reserve}
 		"auto" {.auto}
 		"pop" {.pop}

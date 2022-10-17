@@ -28,7 +28,7 @@ fn gen() {
 	writeln('    mov qword [_rs_p], _rs_top')
 	writeln('    mov rbp, rsp')
 	writeln('    mov rsp, [_rs_p]')
-	writeln('    call __main')
+	writeln('    call main')
 	writeln('    xor rdi, rdi')
 	writeln('_exit:')
 	writeln('    mov eax, 60')
@@ -46,24 +46,40 @@ fn gen() {
 			.fn_prelude {
 				fn_c := &Function(ir_data)
 				if is_object_file {
-					writeln('public __${fn_c.name.str()}')
+					writeln('public ${fn_c.name.str()}')
 				}
-				writeln('__${fn_c.name.str()}:')
+				writeln('${fn_c.name.str()}:')
+				if fn_c.a_sp > 0 {
+					writeln('    sub rsp, ${fn_c.a_sp}')
+				}
 				writeln('    mov [_rs_p], rsp')
 				writeln('    mov rsp, rbp')
 			}
 			.fn_leave {
+				fn_c := &Function(ir_data)
 				writeln('    mov rbp, rsp')
 				writeln('    mov rsp, [_rs_p]')
+				if fn_c.a_sp > 0 {
+					writeln('    add rsp, ${fn_c.a_sp}')
+				}
 				writeln('    ret')
 			}
 			.fn_call {
 				fn_c := &Function(ir_data)
 				writeln('    mov rbp, rsp')
 				writeln('    mov rsp, [_rs_p]')
-				writeln('    call .${fn_c.idx}')
+				writeln('    call ${fn_c.name.str()}')
 				writeln('    mov [_rs_p], rsp')
 				writeln('    mov rsp, rbp')
+			}
+			.push_local_addr {
+				if ir_data == 0 {
+					writeln('    push qword [_rs_p]')
+				} else {
+					writeln('    mov rdi, [_rs_p]')
+					writeln('    add rdi, ${ir_data}')
+					writeln('    push rdi')	
+				}
 			}
 			.do_cond_jmp {
 				writeln('    pop rax')
@@ -197,6 +213,45 @@ fn gen() {
 				writeln('    cmp rdi, rsi')
 				writeln('    setbe al')
 				writeln('    push rax')
+			}
+			.w8 {
+				writeln('    pop rax')
+				writeln('    pop rdi')
+				writeln('    mov byte [rdi], al')
+			}
+			.w16 {
+				writeln('    pop rax')
+				writeln('    pop rdi')
+				writeln('    mov word [rdi], ax')
+			}
+			.w32 {
+				writeln('    pop rax')
+				writeln('    pop rdi')
+				writeln('    mov dword [rdi], eax')
+			}
+			.w64 {
+				writeln('    pop rax')
+				writeln('    pop rdi')
+				writeln('    mov qword [rdi], rax')
+			}
+			.r8 {
+				writeln('    pop rdi')
+				writeln('    movsx rdi, byte [rdi]')
+				writeln('    push rdi')
+			}
+			.r16 {
+				writeln('    pop rdi')
+				writeln('    movsx rdi, word [rdi]')
+				writeln('    push rdi')
+			}
+			.r32 {
+				writeln('    pop rdi')
+				writeln('    mov edi, [rdi]')
+				writeln('    push rdi')
+			}
+			.r64 {
+				writeln('    pop rdi')
+				writeln('    push qword [rdi]')
 			}
 			// else { eprintln(ir_stream[pos]) assert false, "unreachable" }
 		}
