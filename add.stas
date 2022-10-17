@@ -1,20 +1,13 @@
-fn main 0 0 {
-	reserve buffer_variable 8       ; 8, size of a stas word in bytes (64 bits)
-
-	buffer_variable 999 w64         ; get ptr and value, write value to ptr
-
-	{
-		reserve buffer_variable 8   ; not an error, this variable takes precedence
-		                            ; over variable in lower scopes. 'shadowing'
-
-		buffer_variable 888 w64     ; write 999 to the ptr of the second variable
-	}
-
-	buffer_variable r64             ; read a 64 bit value from the pointer
-	_breakpoint                     ; set a breakpoint so you can read it in gdb
-	
-	drop                            ; drop it off the stack
+; fd ptr len
+fn write 3 0 {
+	1 rot4 syscall3 drop
 }
 
-; Catchpoint 1 (signal SIGTRAP), 0x000000000040014d in ?? ()
-; $1 = 999
+; str
+fn puts 2 0 {
+	1 rot swap write
+}
+
+fn main 0 0 {
+	"hello!\n" puts
+}

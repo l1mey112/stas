@@ -29,6 +29,7 @@ enum Inst {
 		dup
 		over
 		rot
+		rot4
 		drop
 	// Conditionals
 		equ
@@ -46,6 +47,14 @@ enum Inst {
 		r16
 		r32
 		r64
+	// Syscalls
+		syscall0
+		syscall1
+		syscall2
+		syscall3
+		syscall4
+		syscall5
+		syscall6
 }
 
 struct IR {

@@ -424,6 +424,7 @@ fn parse() {
 				.dup    { ir(.dup,    0) sp_assert(1, 2) }
 				.over   { ir(.over,   0) sp_assert(2, 3) }
 				.rot    { ir(.rot,    0) sp_assert(3, 3) }
+				.rot4   { ir(.rot4,   0) sp_assert(4, 4) }
 				.drop   { ir(.drop,   0) sp_assert(1, 0) }
 				.equ    { ir(.equ,    0) sp_assert(2, 1) }
 				.nequ   { ir(.nequ,   0) sp_assert(2, 1) }
@@ -440,6 +441,13 @@ fn parse() {
 				.r32    { ir(.r32,    0) sp_assert(1, 1) }
 				.r64    { ir(.r64,    0) sp_assert(1, 1) }
 				.trap_breakpoint { ir(.trap_breakpoint, 0) }
+				.syscall0 { ir(.syscall0, 0) sp_assert(1, 1) }
+				.syscall1 { ir(.syscall1, 0) sp_assert(2, 1) }
+				.syscall2 { ir(.syscall2, 0) sp_assert(3, 1) }
+				.syscall3 { ir(.syscall3, 0) sp_assert(4, 1) }
+				.syscall4 { ir(.syscall4, 0) sp_assert(5, 1) }
+				.syscall5 { ir(.syscall5, 0) sp_assert(6, 1) }
+				.syscall6 { ir(.syscall6, 0) sp_assert(7, 1) }
 				else {
 					compile_error_t("unknown function local token", pos)
 				}

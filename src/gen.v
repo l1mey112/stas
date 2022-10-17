@@ -159,6 +159,16 @@ fn gen() {
 				writeln('    push rdx')
 				writeln('    push rsi')
 			}
+			.rot4 {
+				writeln('    pop rdi')
+				writeln('    pop rsi')
+				writeln('    pop rdx')
+				writeln('    pop rbx')
+				writeln('    push rdi')
+				writeln('    push rbx')
+				writeln('    push rdx')
+				writeln('    push rsi')
+			}
 			.drop {
 				writeln('    add rsp, 8')
 			}
@@ -252,6 +262,62 @@ fn gen() {
 			.r64 {
 				writeln('    pop rdi')
 				writeln('    push qword [rdi]')
+			}
+			.syscall0 {
+				writeln('    pop rax')
+				writeln('    syscall')
+				writeln('    push rax')
+			}
+			.syscall1 {
+				writeln('    pop rsi')
+				writeln('    pop rax')
+				writeln('    syscall')
+				writeln('    push rax')
+			}
+			.syscall2 {
+				writeln('    pop rsi')
+				writeln('    pop rdi')
+				writeln('    pop rax')
+				writeln('    syscall')
+				writeln('    push rax')
+			}
+			.syscall3 {
+				writeln('    pop rdx')
+				writeln('    pop rsi')
+				writeln('    pop rdi')
+				writeln('    pop rax')
+				writeln('    syscall')
+				writeln('    push rax')
+			}
+			.syscall4 {
+				writeln('    pop r10')
+				writeln('    pop rdx')
+				writeln('    pop rsi')
+				writeln('    pop rdi')
+				writeln('    pop rax')
+				writeln('    syscall')
+				writeln('    push rax')
+			}
+			.syscall5 {
+				writeln('    pop r8')
+				writeln('    pop r10')
+				writeln('    pop rdx')
+				writeln('    pop rsi')
+				writeln('    pop rdi')
+				writeln('    pop rax')
+				writeln('    syscall')
+				writeln('    push rax')
+			}
+			.syscall6 {
+				writeln('    pop r9')
+				writeln('    pop r8')
+				writeln('    pop r10')
+				writeln('    pop rdx')
+				writeln('    pop rsi')
+				writeln('    pop rdi')
+				writeln('    pop rax')
+				writeln('    syscall')
+				writeln('    push rax')
 			}
 			// else { eprintln(ir_stream[pos]) assert false, "unreachable" }
 		}

@@ -26,6 +26,39 @@ fn get_v_string(ptr StringPointer) string {
 	}
 }
 
+// MY GOD these are so fucking unsafe
+// just don't push another string view in the middle of appending to a string
+
+[unsafe]
+fn push_empty_string() StringPointer {
+	ptr := &string_buffer[string_buffer_len]
+	unsafe { *(&u64(ptr)) = 0 }
+	string_buffer_len += sizeof(u64)
+	return StringPointer(ptr)
+}
+
+[unsafe]
+fn push_char(ptr StringPointer, ch u8) {
+	len := unsafe { *(&u64(ptr)) }
+	mut ch_p := unsafe { &u8(ptr) + sizeof(u64) + len }
+
+	(*ch_p) = ch
+
+	unsafe {
+		*(&u64(ptr)) = len + 1
+		string_buffer_len++
+	}
+}
+
+[unsafe]
+fn push_nul(ptr StringPointer) {
+	len := unsafe { *(&u64(ptr)) }
+	mut ch_p := unsafe { &u8(ptr) + sizeof(u64) + len }
+
+	(*ch_p) = 0
+	string_buffer_len++
+}
+
 fn push_string_view(str &u8, len int) StringPointer {
 	assert len > 0
 	sizeof_entry := sizeof(u64) + u32(len)

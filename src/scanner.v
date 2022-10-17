@@ -33,6 +33,7 @@ enum Tok {
 		dup
 		over
 		rot
+		rot4
 		drop
 	// Conditionals
 		equ
@@ -50,6 +51,14 @@ enum Tok {
 		r16
 		r32
 		r64
+	// Syscalls
+		syscall0
+		syscall1
+		syscall2
+		syscall3
+		syscall4
+		syscall5
+		syscall6
 	// Memory
 		reserve
 		auto
@@ -137,11 +146,13 @@ fn scan_file(data string, file_str StringPointer){
 				match data[pos] {
 					`'`, `"` {
 						str_quote := data[pos]
-						str_start := pos + 1 
 						str_f_row := row
 						str_f_col := col
 						// skip quotes, .lit will be the actual string data
+						
+						mut str_buf := unsafe { push_empty_string() }
 
+						mut delim := false
 						for {
 							pos++
 							col++
@@ -151,20 +162,53 @@ fn scan_file(data string, file_str StringPointer){
 
 							if data[pos] == str_quote {
 								break
+							}
+
+							if delim {
+								unsafe {
+									match data[pos] {
+										`\\`{ push_char(str_buf, `\\`) }
+										`a` { push_char(str_buf, 0x07) }
+										`b` { push_char(str_buf, 0x08) }
+										`e` { push_char(str_buf, 0x1B) }
+										`f` { push_char(str_buf, 0x0C) }
+										`n` { push_char(str_buf, 0x0A) }
+										`r` { push_char(str_buf, 0x0D) }
+										`t` { push_char(str_buf, 0x09) }
+										`v` { push_char(str_buf, 0x0B) }
+										else {
+											compile_error_e("escape character does not exist", row, col, file_str)
+										}
+									}
+								}
+
+								delim = false
+								continue
+							}
+
+							if data[pos] == `\\` {
+								delim = true
+								continue
 							} else if data[pos] == `\n` {
 								row++
 								col = 0	
 							}
+
+							unsafe { push_char(str_buf, data[pos]) }
 						}
 
-						str_len := pos - str_start - 1
+						unsafe { push_nul(str_buf) }
+
+						if delim {
+							compile_error_e("unhandled escape character", row, col, file_str)
+						}
 
 						token_stream << Token {
 							row: str_f_row
 							col: str_f_col
 							file: file_str
 							tok: .string_lit
-							data: u64(push_string_view(unsafe{data.str + str_start}, str_len))
+							data: u64(str_buf)
 						}
 
 						col++
@@ -268,6 +312,7 @@ fn parse_token(str StringPointer) Tok {
 		"dup" {.dup}
 		"over" {.over}
 		"rot" {.rot}
+		"rot4" {.rot4}
 		"drop" {.drop}
 		"_breakpoint" {.trap_breakpoint}
 		"=" {.equ}
@@ -287,6 +332,13 @@ fn parse_token(str StringPointer) Tok {
 		"reserve" {.reserve}
 		"auto" {.auto}
 		"pop" {.pop}
+		"syscall0" {.syscall0}
+		"syscall1" {.syscall1}
+		"syscall2" {.syscall2}
+		"syscall3" {.syscall3}
+		"syscall4" {.syscall4}
+		"syscall5" {.syscall5}
+		"syscall6" {.syscall6}
 		else {.name}
 	}
 }
