@@ -12,6 +12,7 @@ enum Tok {
 		trap_breakpoint
 	//	d_import
 	// Control flow
+		ret
 		do_block
 		if_block
 		else_block
@@ -293,7 +294,7 @@ fn parse_token(str StringPointer) Tok {
 	return match unsafe {get_v_string(str)} {
 		"fn" {.fn_decl}
 	//	"import" {.d_import}
-		"do" {.do_block}
+		"ret" {.ret}
 		"if" {.if_block}
 		"else" {.else_block}
 		"elif" {.elif_block}

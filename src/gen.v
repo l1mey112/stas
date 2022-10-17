@@ -114,11 +114,11 @@ fn gen() {
 					writeln('    sub rsp, ${fn_c.a_sp}')
 				}
 				writeln('    mov [_rs_p], rsp')
-				writeln('    mov rsp, rbp\n')
+				writeln('    mov rsp, rbp')
 			}
 			.fn_leave {
 				fn_c := &Function(ir_data)
-				writeln('\n    mov rbp, rsp')
+				writeln('    mov rbp, rsp')
 				writeln('    mov rsp, [_rs_p]')
 				if fn_c.a_sp > 0 {
 					writeln('    add rsp, ${fn_c.a_sp}')

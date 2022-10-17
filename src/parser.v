@@ -380,6 +380,29 @@ fn parse() {
 						function_context = unsafe { nil }
 					}
 				}
+				.ret {
+					// duplicate code above, and below...
+					// move of a reason to extract them into global variables
+
+					assert !isnil(function_context)
+					ir(.fn_leave, u64(function_context))
+
+					if u32(sp.len) > function_context.retc {
+						sp_error("unhandled data when returning early from function", function_context.idx)
+					} else if u32(sp.len) < function_context.retc {
+						sp_error("not enough values on the stack on function return", function_context.idx)
+					}
+
+					// (except ones that end in a return)
+					// not the best solution...
+
+					scope := scope_context.last()
+					if scope.typ == .if_block {
+						unsafe { sp.len = int(scope.sp) }
+					}
+
+					// unsafe { sp.len -= int(function_context.retc) }
+				}
 				.arrw {
 					arrw_c := pos
 					pos++

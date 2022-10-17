@@ -1,5 +1,50 @@
-fn main 0 0 {
-	10 100 * 1000 * 10 / 80 -
+fn write 3 0 {
+	1 rot4 syscall3 drop
+}
 
+fn endl 0 0 do {
+	reserve 1 LF
+	LF 10 w8
+	1 LF 1 write
+}
+
+fn uput 1 0 {
+	reserve buf 20
+	reserve pos 8
+	reserve len 8
+
+	dup 0 = if {
+		drop
+
+		buf 48 w8
+		1 buf 1 write
+		
+		ret
+	}
+	
+	len 0 w64
+	pos buf 20 + w64
+
+	while dup 0 > {
+		pos pos r64 -- w64
+
+		10 %%
+		48 +
+
+		pos r64 swap w8
+
+		len len r64 ++ w64
+	}
 	drop
+
+	1 pos r64 len r64 write
+}
+
+fn uputln 1 0 {
+	uput
+	endl
+}
+
+fn main 0 0 {
+	1234522 uputln
 }
