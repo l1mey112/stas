@@ -34,12 +34,73 @@ fn gen() {
 	writeln('    mov eax, 60')
 	writeln('    syscall')
 
+	mut eval_stack := []u64{}
+	mut eval_stack_r := &mut eval_stack
 	mut pos := u32(0)
 
+	flush_eval_stack := fn [mut eval_stack_r] () {
+		for n in *eval_stack_r {
+			writeln('    push ${n}')
+		}
+		unsafe { (*eval_stack_r).len = 0 }
+	}
+// eval_stack.len >= 1
 	for ; pos < ir_stream.len ; pos++ {
 		ir_data := ir_stream[pos].data
 
+		ins := ir_stream[pos].inst
+		match true {
+			ins == .push_num {
+				eval_stack << ir_data
+				continue
+			}
+			ins == .plus && eval_stack.len >= 2 {
+				b := eval_stack.pop()
+				a := eval_stack.pop()
+				eval_stack << a + b
+				continue
+			}
+			ins == .sub && eval_stack.len >= 2 {
+				b := eval_stack.pop()
+				a := eval_stack.pop()
+				eval_stack << a - b
+				continue
+			}
+			ins == .mul && eval_stack.len >= 2 {
+				b := eval_stack.pop()
+				a := eval_stack.pop()
+				eval_stack << a * b
+				continue
+			}
+			ins == .div && eval_stack.len >= 2 {
+				b := eval_stack.pop()
+				a := eval_stack.pop()
+				eval_stack << a / b
+				continue
+			}
+			ins == .mod && eval_stack.len >= 2 {
+				b := eval_stack.pop()
+				a := eval_stack.pop()
+				eval_stack << a % b
+				continue
+			}
+			ins == .inc && eval_stack.len >= 1 {
+				eval_stack[eval_stack.len - 1]++
+				continue
+			}
+			ins == .dec && eval_stack.len >= 1 {
+				eval_stack[eval_stack.len - 1]--
+				continue
+			}
+			else {
+				flush_eval_stack()
+			}
+		}
+
 		match ir_stream[pos].inst {
+			.push_num {
+				assert false, "unreachable"
+			}
 			.label {
 				writeln('.${ir_data}:')
 			}
@@ -53,11 +114,11 @@ fn gen() {
 					writeln('    sub rsp, ${fn_c.a_sp}')
 				}
 				writeln('    mov [_rs_p], rsp')
-				writeln('    mov rsp, rbp')
+				writeln('    mov rsp, rbp\n')
 			}
 			.fn_leave {
 				fn_c := &Function(ir_data)
-				writeln('    mov rbp, rsp')
+				writeln('\n    mov rbp, rsp')
 				writeln('    mov rsp, [_rs_p]')
 				if fn_c.a_sp > 0 {
 					writeln('    add rsp, ${fn_c.a_sp}')
@@ -93,9 +154,6 @@ fn gen() {
 				len := *&u64(ir_data)
 				writeln('    push ${len}')
 				writeln('    push _slit_${pos}')
-			}
-			.push_num {
-				writeln('    push ${ir_data}')
 			}
 			.plus {
 				writeln('    pop rdi')
