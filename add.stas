@@ -1,8 +1,12 @@
 fn main 0 0 {
-    1 if {
-        999
-    } else {
-		888
+	reserve buf_1 2
+	{
+		reserve buf_2 4
+		{
+			reserve buf_3 6
+			{
+				reserve buf_4 8
+			}
+		}
 	}
-    drop
 }

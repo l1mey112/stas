@@ -42,9 +42,9 @@ enum Tok {
 		gte
 		lte
 	// Memory
-	//	reserve
-	//	auto
-	//	pop
+		reserve
+		auto
+		pop
 }
 
 struct Token {
@@ -267,9 +267,9 @@ fn parse_token(str StringPointer) Tok {
 		"<" {.lt}
 		">=" {.gte}
 		"<=" {.lte}
-	//	"reserve" {.reserve}
-	//	"auto" {.auto}
-	//	"pop" {.pop}
+		"reserve" {.reserve}
+		"auto" {.auto}
+		"pop" {.pop}
 		else {.name}
 	}
 }

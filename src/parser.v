@@ -1,4 +1,4 @@
-struct Function { argc u32 retc u32 idx u32 name StringPointer }
+struct Function { argc u32 retc u32 idx u32 name StringPointer a_sp u32 }
 __global functions = []Function{}
 
 enum ScopeTyp {
@@ -12,10 +12,22 @@ enum ScopeTyp {
 }
 
 struct Scope {
-	typ ScopeTyp
+	typ ScopeTyp [required]
 	sp u32
 	idx u32
 	label_id u32 = -1
+	var_scope u32 [required]
+}
+
+enum VarTyp {
+	buffer // reserve
+	stack  // auto
+}
+
+struct Variable {
+	typ VarTyp [required]
+	size u32
+	name StringPointer
 }
 
 fn is_function_name(str StringPointer) u32 {
@@ -39,16 +51,49 @@ fn parse() {
 	}
 
 	mut scope_context := []Scope{}
+	mut var_context := []Variable{}
 	mut function_context := &Function(0)
 
-	mut sp := u32(0)
-
+	mut sp := []u32{}
 	mut sp_r := &mut sp
+
 	sp_assert := fn [pos_r, mut sp_r] (argc u32, retc u32) {
-		if *sp_r < argc {
+		if sp_r.len < argc {
 			compile_error_t("not enough values to consume for operation", *pos_r)
 		}
-		unsafe { *sp_r = *sp_r - argc + retc }
+		unsafe { sp_r.len = int(u32(sp_r.len) - argc) }
+		for _ in 0 .. retc {
+			sp_r << *pos_r
+		}
+	}
+
+	// TODO: clean this shit up...
+
+	sp_push := fn [pos_r, mut sp_r] (c u32) {
+		for _ in 0 .. c {
+			sp_r << *pos_r
+		}
+	}
+	sp_push_p := fn [mut sp_r] (c u32, pos_r u32) {
+		for _ in 0 .. c {
+			sp_r << pos_r
+		}
+	}
+	sp_backtrace_t := fn [mut sp_r] () {
+		for token in (*sp_r).reverse() {
+			compile_info_("backtrace", token_stream[token].row, token_stream[token].col, token_stream[token].file)
+		}
+	}
+	sp_backtrace_depth_t := fn [mut sp_r] (dep u32) {
+		if dep == 0 {
+			return
+		}
+		for idx, token in (*sp_r).reverse() {
+			if idx + 1 > dep {
+				break
+			}
+			compile_info_("backtrace", token_stream[token].row, token_stream[token].col, token_stream[token].file)
+		}
 	}
 
 	mut label_c := u32(0)
@@ -58,6 +103,20 @@ fn parse() {
 		a := *label_r
 		unsafe { *label_r = *label_r + 1 }
 		return a
+	}
+
+	sp_error := fn [sp_backtrace_t] (msg string, token u32) {
+		print_backtrace()
+		compile_error_(msg, token_stream[token].row, token_stream[token].col, token_stream[token].file)
+		sp_backtrace_t()
+		exit(1)
+	}
+	_ := sp_error
+	sp_error_dep := fn [sp_backtrace_depth_t] (msg string, token u32, dep u32) {
+		print_backtrace()
+		compile_error_(msg, token_stream[token].row, token_stream[token].col, token_stream[token].file)
+		sp_backtrace_depth_t(dep)
+		exit(1)
 	}
 
 	for ; pos < token_stream.len ; pos++ {
@@ -95,15 +154,16 @@ fn parse() {
 					functions << Function {
 						argc: argc
 						retc: retc
-						idx: u32(ir_stream.len)
+						idx: fn_c
 						name: str
 					}
 					
 					function_context = &functions[functions.len - 1]
 					ir_p(.fn_prelude, u64(function_context), fn_c)
 
-					assert sp == 0
-					sp = argc
+					assert sp.len == 0
+					assert var_context.len == 0
+					sp_push_p(argc, fn_c)
 				}
 				else {
 					compile_error_t("unknown toplevel token", pos)
@@ -111,30 +171,54 @@ fn parse() {
 			}
 		} else {
 			match token_stream[pos].tok {
+				.reserve {
+					rs_c := pos
+					pos += 2
+					if pos >= token_stream.len {
+						compile_error_t("unexpected EOF when parsing buffer decl", rs_c)
+					}
+					if token_stream[rs_c + 1].tok != .name {
+						compile_error_t("buffer name must not be an intrinsic", rs_c + 1)
+					}
+					if token_stream[rs_c + 2].tok != .number_lit {
+						compile_error_t("buffer decl must specify size in bytes", rs_c + 2)
+					}
+					var_context << Variable {
+						typ: .buffer
+						size: u32(token_stream[rs_c + 2].data)
+						name: &u8(token_stream[rs_c + 1].data)
+					}
+					if scope_context.len > 0 {
+						if scope_context.last().typ == .while_block {
+							compile_error_t("cannot define variables inside of while headers", rs_c)
+						}
+					}
+				}
 				.name {
 					fn_n := is_function_name(&u8(token_stream[pos].data))
 					if fn_n != -1 {
 						ir(.fn_call, u64(&functions[fn_n]))
 						
-						if sp < functions[fn_n].argc {
+						if sp.len < functions[fn_n].argc {
 							compile_error_t("not enough values to consume for function call", pos)
 						}
-						sp = sp - functions[fn_n].argc + functions[fn_n].retc
+						sp_assert(functions[fn_n].argc, functions[fn_n].retc)
 					} else {
 						compile_error_t("unknown function call or variable", pos)
 					}
 				}
 				.if_block {
-					if sp == 0 {
+					if sp.len == 0 {
 						compile_error_t("no value on stack to consume for if statement", pos)
 					}
-					sp--
+					unsafe { sp.len-- }
 
 					lbl := label_allocate()
 					scope_context << Scope {
 						typ: .if_block
 						label_id: lbl
-						sp: sp
+						sp: u32(sp.len)
+						var_scope: u32(var_context.len)
 						idx: pos
 					}
 
@@ -150,7 +234,8 @@ fn parse() {
 					scope_context << Scope {
 						typ: .while_block
 						label_id: lbl
-						sp: sp
+						sp: u32(sp.len)
+						var_scope: u32(var_context.len)
 						idx: pos
 					}
 				}
@@ -168,23 +253,25 @@ fn parse() {
 					compile_error_t("does nothing", pos)
 				}
 				.l_cb {
-					if scope_context.last().typ == .while_block {
-						if sp == 0 {
+					if scope_context.len > 0 && scope_context.last().typ == .while_block {
+						if sp.len == 0 {
 							compile_error_t("no value on stack to consume for while header", pos)
 						}
-						sp--
+						unsafe { sp.len-- }
 						lbl := label_allocate()
 						scope_context << Scope {
 							typ: .while_block_scope
 							label_id: lbl
-							sp: sp
+							sp: u32(sp.len)
+							var_scope: u32(var_context.len)
 							idx: pos
 						}
 						ir(.do_cond_jmp, lbl)
 					} else {
 						scope_context << Scope {
 							typ: .scope
-							sp: sp
+							sp: u32(sp.len)
+							var_scope: u32(var_context.len)
 							idx: pos
 						}
 					}
@@ -192,6 +279,12 @@ fn parse() {
 				.r_cb {
 					if scope_context.len != 0 {
 						scope := scope_context.pop()
+
+						// unwind scope, release scoped variables
+						eprintln(token_stream[pos])
+						eprintln(var_context)
+						unsafe { var_context.len = int(scope.var_scope) }
+						
 						match scope.typ {
 							.while_block_scope {
 								while_header := scope_context.pop()
@@ -200,10 +293,10 @@ fn parse() {
 							}
 							.scope {}
 							.checked_scope {
-								if sp > scope.sp {
-									compile_error_t("scope assertation failed, ${sp - scope.sp} more values on the stack than expected", scope.idx)
-								} else if sp < scope.sp {
-									compile_error_t("scope assertation failed, ${scope.sp - sp} less values on the stack than expected", scope.idx)
+								if sp.len > scope.sp {
+									sp_error_dep("scope assertation failed, ${u32(sp.len) - scope.sp} more values on the stack than expected", scope.idx, u32(sp.len) - scope.sp)
+								} else if sp.len < scope.sp {
+									sp_error_dep("scope assertation failed, ${scope.sp - u32(sp.len)} less values on the stack than expected", scope.idx, scope.sp - u32(sp.len))
 								}
 							}
 							.if_block {
@@ -213,10 +306,11 @@ fn parse() {
 									scope_context << Scope {
 										typ: .else_block_scope
 										label_id: lbl
-										sp: sp
+										sp: u32(sp.len)
+										var_scope: u32(var_context.len)
 										idx: pos
 									}
-									sp = scope.sp
+									unsafe { sp.len = int(scope.sp) }
 
 									ir(.do_jmp, lbl)
 									ir(.label, scope.label_id)
@@ -226,7 +320,7 @@ fn parse() {
 										compile_error_t("a scope must come after an else statement", pos - 1)
 									}
 								} else {
-									if scope.sp != sp {
+									if scope.sp != u32(sp.len) {
 										compile_error_t("the stack must remain the same with single branches", pos)
 									}
 									ir(.label, scope.label_id)
@@ -235,10 +329,10 @@ fn parse() {
 							.else_block_scope {
 								// xx more values left on else branch
 								// xx less values left on else branch
-								if sp > scope.sp {
-									compile_error_t("unbalanced stack on both if and else branches, else has ${sp - scope.sp} more", scope.idx)
-								} else if sp < scope.sp {
-									compile_error_t("unbalanced stack on both if and else branches, else has ${scope.sp - sp} less", scope.idx)
+								if u32(sp.len) > scope.sp {
+									compile_error_t("unbalanced stack on both if and else branches, else has ${u32(sp.len) - scope.sp} more", scope.idx)
+								} else if u32(sp.len) < scope.sp {
+									compile_error_t("unbalanced stack on both if and else branches, else has ${scope.sp - u32(sp.len)} less", scope.idx)
 								}
 								ir(.label, scope.label_id)
 							}
@@ -250,13 +344,16 @@ fn parse() {
 						assert !isnil(function_context)
 						ir(.fn_leave, u64(function_context))
 
-						if sp > function_context.retc {
-							compile_error_i("unhandled data on the stack", function_context.idx)
-						} else if sp < function_context.retc {
-							compile_error_i("not enough values on the stack on function return", function_context.idx)
+						if u32(sp.len) > function_context.retc {
+							compile_error_t("unhandled data on the stack", function_context.idx)
+						} else if u32(sp.len) < function_context.retc {
+							compile_error_t("not enough values on the stack on function return", function_context.idx)
 						}
 
-						sp = 0
+						unsafe {
+							sp.len = 0
+							var_context.len = 0
+						}
 						function_context = unsafe { nil }
 					}
 				}
@@ -271,7 +368,8 @@ fn parse() {
 					
 					scope_context << Scope {
 						typ: .checked_scope
-						sp: sp + u32(num)
+						sp: u32(sp.len) + u32(num)
+						var_scope: u32(var_context.len)
 						idx: pos
 					}
 					pos++
@@ -284,12 +382,12 @@ fn parse() {
 					ir(.push_str, token_stream[pos].data)
 					// _slit_322:
 
-					sp += 2
+					sp_push(2)
 				}
 				.number_lit {
 					ir(.push_num, token_stream[pos].data)
 
-					sp++
+					sp_push(1)
 				}
 				.plus   { ir(.plus,   0) sp_assert(2, 1) }
 				.sub    { ir(.sub,    0) sp_assert(2, 1) }
@@ -318,6 +416,7 @@ fn parse() {
 		}
 	}
 
+	assert var_context.len == 0 && sp.len == 0
 	if scope_context.len != 0 {
 		compile_error_t("unclosed scopes on parser finish", u32(token_stream.len) - 1)
 	}
