@@ -1,4 +1,13 @@
-struct Function { argc u32 retc u32 idx u32 name StringPointer mut: a_sp u32 }
+struct Function {
+	argc u32
+	retc u32
+	idx u32
+	name StringPointer
+	start_inst u32     // TODO: start_inst contains the position of idx, remove idx
+mut:
+	a_sp u32
+	forbid_inline bool
+}
 __global functions = []Function{}
 
 enum ScopeTyp {
@@ -154,6 +163,7 @@ fn parse() {
 						retc: retc
 						idx: fn_c
 						name: str
+						start_inst: u32(ir_stream.len)
 					}
 					
 					function_context = &functions[functions.len - 1]
@@ -213,6 +223,8 @@ fn parse() {
 						idx: rs_c + 1
 					}
 					function_context.a_sp += size
+
+					function_context.forbid_inline = true
 				}
 				.pop {
 					pos++
@@ -466,6 +478,8 @@ fn parse() {
 					if scope.typ == .if_block {
 						unsafe { sp.len = int(scope.sp) }
 					}
+
+					function_context.forbid_inline = true
 
 					// unsafe { sp.len -= int(function_context.retc) }
 				}
