@@ -142,6 +142,24 @@ fn gen() {
 					writeln('    push rdi')	
 				}
 			}
+			.push_local_stack_var {
+				a     := unsafe { &u32(&ir_data) }
+				addr  := unsafe { a[0] }
+				count := unsafe { a[1] }
+				writeln('    mov rdi, [_rs_p]')
+				for i in 0 .. count {
+					writeln('    push qword [rdi + ${addr + (count - i - 1) * 8}]')
+				}
+			}
+			.pop_local_stack_var {
+				a     := unsafe { &u32(&ir_data) }
+				addr  := unsafe { a[0] }
+				count := unsafe { a[1] }
+				writeln('    mov rdi, [_rs_p]')
+				for i in 0 .. count {
+					writeln('    pop qword [rdi + ${addr + i * 8}]')
+				}
+			}
 			.do_cond_jmp {
 				writeln('    pop rax')
 				writeln('    test al, al')

@@ -169,7 +169,7 @@ fn parse() {
 			}
 		} else {
 			match token_stream[pos].tok {
-				.reserve {
+				.reserve , .auto {
 					rs_c := pos
 					pos += 2
 					if pos >= token_stream.len {
@@ -190,22 +190,66 @@ fn parse() {
 						}
 					}
 					for idx in search_p .. var_context.len {
-					if var_context[idx].name.str() == name.str() {
+						if var_context[idx].name.str() == name.str() {
 							print_backtrace()
 							compile_error_("duplicate variable name", token_stream[rs_c + 1].row, token_stream[rs_c + 1].col, token_stream[rs_c + 1].file)
 							compile_info_("orginal variable declared here", token_stream[var_context[idx].idx].row, token_stream[var_context[idx].idx].col, token_stream[var_context[idx].idx].file)
 							exit(1)
 						} 
 					}
-					size := u32(token_stream[rs_c + 2].data)
+					mut size := u32(token_stream[rs_c + 2].data)
+					mut typ := if token_stream[rs_c].tok == .reserve {
+						VarTyp.buffer
+					} else {
+						size *= 8
+						VarTyp.stack
+					}
+					
 					var_context << Variable {
-						typ: .buffer
+						typ: typ
 						size: size
 						a_sp: function_context.a_sp
 						name: name
 						idx: rs_c + 1
 					}
 					function_context.a_sp += size
+				}
+				.pop {
+					pos++
+					if pos >= token_stream.len || token_stream[pos].tok != .name {
+						compile_error_t("unexpected a name after a pop", pos)
+					}
+					mut f := false
+					for v in var_context.reverse() {
+						if v.name.str() == StringPointer(&u8(token_stream[pos].data)).str() {
+							match v.typ {
+								.buffer {
+									ir(.push_local_addr, v.a_sp)
+									sp_push(1)
+								}
+								.stack {
+									to_pop := v.size / 8
+									if sp.len < to_pop {
+										print_backtrace()
+										compile_error_("not enought values on the stack to pop into an automatic variable", token_stream[pos - 1].row, token_stream[pos - 1].col, token_stream[pos - 1].file)
+										compile_info_("variable size in words located here", token_stream[v.idx + 1].row, token_stream[v.idx + 1].col, token_stream[v.idx + 1].file)
+										exit(1)
+									}
+
+									unsafe { sp.len -= int(to_pop) }
+
+									a := u64(to_pop) << 32 | u64(v.a_sp)
+									ir(.pop_local_stack_var, a)
+								}
+							}
+
+							f = true
+							break
+						}
+					}
+					if !f {
+						compile_error_t("unknown auto variable", pos)
+					}
 				}
 				.name {
 					fn_n := is_function_name(&u8(token_stream[pos].data))
@@ -220,8 +264,30 @@ fn parse() {
 						mut f := false
 						for v in var_context.reverse() {
 							if v.name.str() == StringPointer(&u8(token_stream[pos].data)).str() {
-								ir(.push_local_addr, v.a_sp)
-								sp_push(1)
+								match v.typ {
+									.buffer {
+										ir(.push_local_addr, v.a_sp)
+										sp_push(1)
+									}
+									.stack {
+									//	to_pop := v.size / 8
+									//	if sp.len < to_pop {
+									//		compile_error_t("reeer", pos)
+									//	}
+
+										to_push := v.size / 8
+										/* mut p := v.a_sp
+										for _ in 0 .. to_push {
+											
+											p += 8
+										} */
+
+										a := u64(to_push) << 32 | u64(v.a_sp)
+										ir(.push_local_stack_var, a)
+
+										sp_push(to_push)
+									}
+								}
 
 								f = true
 								break

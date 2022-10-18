@@ -2,6 +2,8 @@ enum Inst {
 	push_str
 	push_num
 	push_local_addr
+	pop_local_stack_var
+	push_local_stack_var
 	// push_cstr
 	
 	// Control flow

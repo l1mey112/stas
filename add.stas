@@ -2,16 +2,16 @@ fn write 3 0 {
 	1 rot4 syscall3 drop
 }
 
-fn endl 0 0 do {
-	reserve 1 LF
+fn endl 0 0 {
+	reserve LF 1
 	LF 10 w8
 	1 LF 1 write
 }
 
 fn uput 1 0 {
 	reserve buf 20
-	reserve pos 8
-	reserve len 8
+	auto pos 1
+	auto len 1
 
 	dup 0 = if {
 		drop
@@ -22,22 +22,22 @@ fn uput 1 0 {
 		ret
 	}
 	
-	len 0 w64
-	pos buf 20 + w64
+	0 pop len
+	buf 20 + pop pos
 
 	while dup 0 > {
-		pos pos r64 -- w64
+		pos -- pop pos
 
 		10 %%
 		48 +
 
-		pos r64 swap w8
+		pos swap w8
 
-		len len r64 ++ w64
+		len ++ pop len
 	}
 	drop
 
-	1 pos r64 len r64 write
+	1 pos len write
 }
 
 fn uputln 1 0 {
@@ -46,5 +46,5 @@ fn uputln 1 0 {
 }
 
 fn main 0 0 {
-	1234522 uputln
+	2233388 uputln
 }
