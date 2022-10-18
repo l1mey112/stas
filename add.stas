@@ -1,8 +1,63 @@
-fn ptr_plus_plus 1 0 {
-	dup r64 ++ w64
+fn write 3 0 {
+	1 rot4 syscall3 drop
+}
+
+fn endl 0 0 {
+	reserve LF 1
+	LF 10 w8
+	1 LF 1 write
+}
+
+fn uput 1 0 {
+	reserve buf 20
+	auto pos 1
+	auto len 1
+
+	dup 0 = if {
+		drop
+
+		buf 48 w8
+		1 buf 1 write
+		
+		ret
+	}
+	
+	0 pop len
+	buf 20 + pop pos
+
+	while dup 0 > {
+		pos -- pop pos
+
+		10 %%
+		48 +
+
+		pos swap w8
+
+		len ++ pop len
+	}
+	drop
+
+	1 pos len write
+}
+
+fn uputln 1 0 {
+	uput
+	endl
+}
+
+fn puts 2 0 {
+	1 rot write	
+}
+
+fn gimmie_number 1 1 {
+	10 > if {
+		999
+	} else {
+		888
+	}
 }
 
 fn main 0 0 {
-	reserve a 8
-	a ptr_plus_plus
+	"19950 + 50 = " puts
+	19950 50 +      uputln
 }

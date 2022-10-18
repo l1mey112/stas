@@ -166,7 +166,7 @@ fn gen_range(start u32, end u32) u32 {
 							fn_c.forbid_inline = true
 						}
 
-						eprintln("function ${fn_c.name.str()}, inlinable: ${!fn_c.forbid_inline}")
+						// eprintln("function ${fn_c.name.str()}, inlinable: ${!fn_c.forbid_inline}")
 
 						overhead, body_size = 0, 0
 					}
@@ -233,8 +233,8 @@ fn gen_range(start u32, end u32) u32 {
 					}
 					.push_str {
 						len := *&u64(ir_data)
-						writeln('    push ${len}')
 						writeln('    push _slit_${pos}')
+						writeln('    push ${len}')
 						body_size += 2
 					}
 					.plus {
