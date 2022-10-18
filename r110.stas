@@ -3,22 +3,22 @@ fn write 3 0 {
 }
 
 fn main 0 0 {
-	reserve scanline 80
+	reserve scanline 40
 
-	scanline 79 + 1 w8
+	scanline 39 + 1 w8
 
 	0
 	while dup 40 < {
 		-> 0 {
 			0
-			while dup 80 < {
+			while dup 40 < {
 				dup
 				scanline + r8
 
 				if {
-					1 "*" write
+					1 "\\\\" write
 				} else {
-					1 " " write
+					1 "  " write
 				}
 
 				++
@@ -39,7 +39,7 @@ fn main 0 0 {
 
 		-> 0 {
 			1
-			while dup 79 < {
+			while dup 39 < {
 				dup
 				
 				-> 0 {
