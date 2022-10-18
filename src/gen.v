@@ -285,6 +285,42 @@ fn gen_range(start u32, end u32) u32 {
 						writeln('    push rdx')
 						body_size += 6
 					}
+					.shr {
+						writeln('    pop rcx')
+						writeln('    pop rdi')
+						writeln('    shr rdi, cl')
+						writeln('    push rdi')
+					}
+					.shl {
+						writeln('    pop rcx')
+						writeln('    pop rdi')
+						writeln('    shl rdi, cl')
+						writeln('    push rdi')
+					}
+					.b_and {
+						writeln('pop rsi')
+						writeln('pop rdi')
+						writeln('and rdi, rsi') 
+						writeln('push rdi')
+					}
+					.b_or {
+						writeln('pop rsi')
+						writeln('pop rdi')
+						writeln('or rdi, rsi') 
+						writeln('push rdi')
+					}
+					.b_not {
+						writeln('pop rsi')
+						writeln('pop rdi')
+						writeln('not rdi, rsi') 
+						writeln('push rdi')
+					}
+					.b_xor {
+						writeln('pop rsi')
+						writeln('pop rdi')
+						writeln('xor rdi, rsi') 
+						writeln('push rdi')
+					}
 					.swap {
 						writeln('    pop rdi')
 						writeln('    pop rsi')

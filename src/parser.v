@@ -523,6 +523,12 @@ fn parse() {
 				.inc    { ir(.inc,    0) sp_assert(1, 1) }
 				.dec    { ir(.dec,    0) sp_assert(1, 1) }
 				.divmod { ir(.divmod, 0) sp_assert(2, 2) }
+				.shr    { ir(.shr,    0) sp_assert(2, 1) }
+				.shl    { ir(.shl,    0) sp_assert(2, 1) }
+				.b_and  { ir(.b_and,  0) sp_assert(2, 1) }
+				.b_or   { ir(.b_or,   0) sp_assert(2, 1) }
+				.b_not  { ir(.b_not,  0) sp_assert(2, 1) }
+				.b_xor  { ir(.b_xor,  0) sp_assert(2, 1) }
 				.swap   { ir(.swap,   0) sp_assert(2, 2) }
 				.dup    { ir(.dup,    0) sp_assert(1, 2) }
 				.over   { ir(.over,   0) sp_assert(2, 3) }

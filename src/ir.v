@@ -26,6 +26,12 @@ enum Inst {
 		inc
 		dec
 		divmod
+		shr
+		shl
+		b_and
+		b_or
+		b_not
+		b_xor
 	// Stack manipulation
 		swap
 		dup

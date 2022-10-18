@@ -1,0 +1,67 @@
+fn write 3 0 {
+	1 rot4 syscall3 drop
+}
+
+fn main 0 0 {
+	reserve scanline 80
+
+	scanline 79 + 1 w8
+
+	0
+	while dup 40 < {
+		-> 0 {
+			0
+			while dup 80 < {
+				dup
+				scanline + r8
+
+				if {
+					1 "*" write
+				} else {
+					1 " " write
+				}
+
+				++
+			}
+			drop
+		}
+		
+	
+		1 "\n" write
+				
+		auto pattern 1
+
+		-> 1 {
+			scanline r8 1 <<
+			scanline 1 + r8 |
+		}
+		pop pattern
+
+		-> 0 {
+			1
+			while dup 79 < {
+				dup
+				
+				-> 0 {
+					dup
+					pattern 1 << 7 &
+					swap 1 scanline + + r8 |
+					pop pattern
+				}
+
+				scanline +
+
+				110 pattern >> 1 &
+				w8
+
+				++
+			}
+			drop
+		}
+		
+		++
+	}
+	drop
+
+	1 "\n" write
+}

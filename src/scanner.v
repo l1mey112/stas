@@ -29,6 +29,12 @@ enum Tok {
 		inc
 		dec
 		divmod
+		shr
+		shl
+		b_and
+		b_or
+		b_not
+		b_xor
 	// Stack manipulation
 		swap
 		dup
@@ -309,6 +315,12 @@ fn parse_token(str StringPointer) Tok {
 		"--" {.dec}
 		"++" {.inc}
 		"%%" {.divmod}
+		"&" {.b_and}
+		"|" {.b_or}
+		"~" {.b_not}
+		"^" {.b_xor}
+		"<<" {.shl}
+		">>" {.shr}
 		"swap" {.swap}
 		"dup" {.dup}
 		"over" {.over}
