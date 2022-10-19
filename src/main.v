@@ -1,19 +1,40 @@
 import os
 
-__global is_object_file   = false
-__global token_stream     = []Token{}
-__global ir_stream        = []IR{}
-__global slits            = []u32{}
+__global is_object_file = false
+__global token_stream = []Token{}
+__global ir_stream = []IR{}
+__global slits = []StringPointer{}
 
 fn main() {
+
+	a_ := "Hello"
+	mut a := new_string_view(a_.str, a_.len)
+	println("len = ${*&u64(a)}")
+	println((&u8(a) + sizeof(u64)).vbytes(int(*&u64(a)) + 1))
+	b_ := " world!"
+	push_string_view(a, b_.str, b_.len)
+	println("len = ${*&u64(a)}")
+	println(a)
+	println((&u8(a) + sizeof(u64)).vbytes(int(*&u64(a)) + 1))
+
+	c_ := "!aaaaaaarrghh!"
+	mut c := new_string_view(c_.str, c_.len)
+	println(c)
+	println(a)
+	println((&u8(a) + sizeof(u64)).vbytes(int(*&u64(a)) + 1))
+
+	if true {
+		exit(0)
+	}
+
 	if os.args.len == 1 {
-		eprintln("no args")
+		eprintln('no args')
 		exit(1)
 	}
 
 	if os.args.len > 1 {
 		if os.args.len == 2 && os.args[1] == '-elf' {
-			eprintln("supply file")
+			eprintln('supply file')
 			exit(1)
 		}
 
@@ -21,24 +42,24 @@ fn main() {
 			if filename == '-elf' {
 				is_object_file = true
 			} else {
-				file_str := push_string_view(filename.str, filename.len)
+				file_str := new_string_view(filename.str, filename.len)
 
-				data := os.read_file(filename) or {
-					compile_error_f("file not found", file_str)
-				}
+				data := os.read_file(filename) or { compile_error_f('file not found', file_str) }
 
 				scan_file(data, file_str)
 			}
 		}
 	}
 
-	/* for idx, i in token_stream {
+	/*
+	for idx, i in token_stream {
 		eprintln("($idx) $i")
-	} */
+	}*/
 	parse()
-	/* eprintln(functions)
+	/*
+	eprintln(functions)
 	for idx, i in ir_stream {
 		eprintln("($idx) [$i.idx] $i.inst $i.data")
-	} */
+	}*/
 	gen()
 }

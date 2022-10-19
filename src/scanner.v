@@ -2,81 +2,80 @@ enum Tok {
 	name
 	string_lit
 	number_lit
-
 	l_cb // {
 	r_cb // }
 	arrw // ->
-
 	// Misc
-		fn_decl
-		trap_breakpoint
+	fn_decl
+	trap_breakpoint
+	_assert
 	//	d_import
 	// Control flow
-		ret
-		do_block
-		if_block
-		else_block
-		elif_block
-		while_block
-		break_block
-		continue_block
+	ret
+	do_block
+	if_block
+	else_block
+	elif_block
+	while_block
+	break_block
+	continue_block
 	// Arithmetic
-		plus
-		sub
-		mul
-		div
-		mod
-		inc
-		dec
-		divmod
-		shr
-		shl
-		b_and
-		b_or
-		b_not
-		b_xor
+	plus
+	sub
+	mul
+	div
+	mod
+	inc
+	dec
+	divmod
+	shr
+	shl
+	b_and
+	b_or
+	b_not
+	b_xor
 	// Stack manipulation
-		swap
-		dup
-		over
-		rot
-		rot4
-		drop
+	swap
+	dup
+	over
+	rot
+	rot4
+	drop
 	// Conditionals
-		equ
-		nequ
-		gt
-		lt
-		gte
-		lte
+	equ
+	nequ
+	gt
+	lt
+	gte
+	lte
 	// Pointers
-		w8
-		w16
-		w32
-		w64
-		r8
-		r16
-		r32
-		r64
+	w8
+	w16
+	w32
+	w64
+	r8
+	r16
+	r32
+	r64
 	// Syscalls
-		syscall0
-		syscall1
-		syscall2
-		syscall3
-		syscall4
-		syscall5
-		syscall6
+	syscall0
+	syscall1
+	syscall2
+	syscall3
+	syscall4
+	syscall5
+	syscall6
 	// Memory
-		reserve
-		auto
-		pop
+	reserve
+	auto
+	pop
 }
 
 struct Token {
-	row u32
-	col u32
+	row  u32
+	col  u32
 	file StringPointer
-	tok Tok
+	tok  Tok
 	data u64
 }
 
@@ -92,7 +91,7 @@ fn (t Token) str() string {
 	return compile_error_to_s('	${t.tok:12}${data_str:10}', t.row, t.col, t.file)
 }
 
-fn scan_file(data string, file_str StringPointer){
+fn scan_file(data string, file_str StringPointer) {
 	mut pos := 0
 	mut row := u32(0)
 	mut col := u32(0)
@@ -105,7 +104,7 @@ fn scan_file(data string, file_str StringPointer){
 		for data[pos] in [`\r`, `\n`, `\t`, ` `] {
 			if data[pos] == `\n` {
 				row++
-				col = 0	
+				col = 0
 			} else {
 				col++
 			}
@@ -123,24 +122,22 @@ fn scan_file(data string, file_str StringPointer){
 				is_number = false
 			}
 
-			if !is_number && (
-					data[pos] in [`'`, `"`, `;`, `{`, `}`] ||
-					(pos + 1 <= data.len && data[pos] == `-` && data[pos + 1] == `>`)
-				) {
+			if !is_number && (data[pos] in [`'`, `"`, `;`, `{`, `}`]
+				|| (pos + 1 <= data.len && data[pos] == `-` && data[pos + 1] == `>`)) {
 				ret_len := pos - start
 
 				// flush last token, start parsing new one
 				if ret_len != 0 {
 					if !is_number {
-						token_stream << Token {
+						token_stream << Token{
 							row: row
 							col: start_col
 							file: file_str
 							tok: .name
-							data: u64(push_string_view(unsafe{data.str + start}, ret_len))
+							data: u64(new_string_view(unsafe { data.str + start }, ret_len))
 						}
 					} else {
-						token_stream << Token {
+						token_stream << Token{
 							row: row
 							col: start_col
 							file: file_str
@@ -156,15 +153,16 @@ fn scan_file(data string, file_str StringPointer){
 						str_f_row := row
 						str_f_col := col
 						// skip quotes, .lit will be the actual string data
-						
-						mut str_buf := unsafe { push_empty_string() }
+
+						mut str_buf := unsafe { new_empty_string() }
 
 						mut delim := false
 						for {
 							pos++
 							col++
 							if pos >= data.len {
-								compile_error_e('unterminated string literal', str_f_row, str_f_col, file_str)
+								compile_error_e('unterminated string literal', str_f_row,
+									str_f_col, file_str)
 							}
 
 							if data[pos] == str_quote {
@@ -174,21 +172,39 @@ fn scan_file(data string, file_str StringPointer){
 							if delim {
 								unsafe {
 									match data[pos] {
-										`\\`{ push_char(str_buf, `\\`) }
-										`a` { push_char(str_buf, 0x07) }
-										`b` { push_char(str_buf, 0x08) }
-										`e` { push_char(str_buf, 0x1B) }
-										`f` { push_char(str_buf, 0x0C) }
-										`n` { push_char(str_buf, 0x0A) }
-										`r` { push_char(str_buf, 0x0D) }
-										`t` { push_char(str_buf, 0x09) }
-										`v` { push_char(str_buf, 0x0B) }
+										`\\` {
+											push_char(str_buf, `\\`)
+										}
+										`a` {
+											push_char(str_buf, 0x07)
+										}
+										`b` {
+											push_char(str_buf, 0x08)
+										}
+										`e` {
+											push_char(str_buf, 0x1B)
+										}
+										`f` {
+											push_char(str_buf, 0x0C)
+										}
+										`n` {
+											push_char(str_buf, 0x0A)
+										}
+										`r` {
+											push_char(str_buf, 0x0D)
+										}
+										`t` {
+											push_char(str_buf, 0x09)
+										}
+										`v` {
+											push_char(str_buf, 0x0B)
+										}
 										else {
-											compile_error_e("escape character does not exist", row, col, file_str)
+											compile_error_e('escape character does not exist',
+												row, col, file_str)
 										}
 									}
 								}
-
 								delim = false
 								continue
 							}
@@ -198,7 +214,7 @@ fn scan_file(data string, file_str StringPointer){
 								continue
 							} else if data[pos] == `\n` {
 								row++
-								col = 0	
+								col = 0
 							}
 
 							unsafe { push_char(str_buf, data[pos]) }
@@ -207,10 +223,10 @@ fn scan_file(data string, file_str StringPointer){
 						unsafe { push_nul(str_buf) }
 
 						if delim {
-							compile_error_e("unhandled escape character", row, col, file_str)
+							compile_error_e('unhandled escape character', row, col, file_str)
 						}
 
-						token_stream << Token {
+						token_stream << Token{
 							row: str_f_row
 							col: str_f_col
 							file: file_str
@@ -230,7 +246,7 @@ fn scan_file(data string, file_str StringPointer){
 						}
 					}
 					`{` {
-						token_stream << Token {
+						token_stream << Token{
 							row: row
 							col: col
 							file: file_str
@@ -240,7 +256,7 @@ fn scan_file(data string, file_str StringPointer){
 						pos++
 					}
 					`}` {
-						token_stream << Token {
+						token_stream << Token{
 							row: row
 							col: col
 							file: file_str
@@ -250,34 +266,36 @@ fn scan_file(data string, file_str StringPointer){
 						pos++
 					}
 					`-` {
-						token_stream << Token {
+						token_stream << Token{
 							row: row
 							col: col
 							file: file_str
 							tok: .arrw
 						}
-						col+=2
-						pos+=2
+						col += 2
+						pos += 2
 					}
-					else { assert false }
+					else {
+						assert false
+					}
 				}
 
 				continue outer
 			}
 
 			col++
-			pos++ 
+			pos++
 			if pos >= data.len {
 				break // do not break outer
 			}
 		}
 
-		ret_len := pos - start 
+		ret_len := pos - start
 
 		if !is_number {
-			ret_lit := push_string_view(unsafe{data.str + start}, ret_len)
+			ret_lit := new_string_view(unsafe { data.str + start }, ret_len)
 			ret_tok := parse_token(ret_lit)
-			token_stream << Token {
+			token_stream << Token{
 				row: row
 				col: start_col
 				file: file_str
@@ -285,7 +303,7 @@ fn scan_file(data string, file_str StringPointer){
 				data: if ret_tok == .name { u64(ret_lit) } else { 0 }
 			}
 		} else {
-			token_stream << Token {
+			token_stream << Token{
 				row: row
 				col: start_col
 				file: file_str
@@ -297,61 +315,62 @@ fn scan_file(data string, file_str StringPointer){
 }
 
 fn parse_token(str StringPointer) Tok {
-	return match unsafe {get_v_string(str)} {
-		"fn" {.fn_decl}
-	//	"import" {.d_import}
-		"ret" {.ret}
-		"if" {.if_block}
-		"else" {.else_block}
-		"elif" {.elif_block}
-		"while" {.while_block}
-		"break" {.break_block}
-		"continue" {.continue_block}
-		"+" {.plus}
-		"-" {.sub}
-		"*" {.mul}
-		"/" {.div}
-		"%" {.mod}
-		"--" {.dec}
-		"++" {.inc}
-		"%%" {.divmod}
-		"&" {.b_and}
-		"|" {.b_or}
-		"~" {.b_not}
-		"^" {.b_xor}
-		"<<" {.shl}
-		">>" {.shr}
-		"swap" {.swap}
-		"dup" {.dup}
-		"over" {.over}
-		"rot" {.rot}
-		"rot4" {.rot4}
-		"drop" {.drop}
-		"_breakpoint" {.trap_breakpoint}
-		"=" {.equ}
-		"!=" {.nequ}
-		">" {.gt}
-		"<" {.lt}
-		">=" {.gte}
-		"<=" {.lte}
-		"w8" {.w8}
-		"w16" {.w16}
-		"w32" {.w32}
-		"w64" {.w64}
-		"r8" {.r8}
-		"r16" {.r16}
-		"r32" {.r32}
-		"r64" {.r64}
-		"reserve" {.reserve}
-		"auto" {.auto}
-		"pop" {.pop}
-		"syscall0" {.syscall0}
-		"syscall1" {.syscall1}
-		"syscall2" {.syscall2}
-		"syscall3" {.syscall3}
-		"syscall4" {.syscall4}
-		"syscall5" {.syscall5}
-		"syscall6" {.syscall6}
-		else {.name}
+	return match unsafe { get_v_string(str) } {
+		'fn' { .fn_decl }
+		//	"import" {.d_import}
+		'ret' { .ret }
+		'if' { .if_block }
+		'else' { .else_block }
+		'elif' { .elif_block }
+		'while' { .while_block }
+		'break' { .break_block }
+		'continue' { .continue_block }
+		'assert' { ._assert }
+		'+' { .plus }
+		'-' { .sub }
+		'*' { .mul }
+		'/' { .div }
+		'%' { .mod }
+		'--' { .dec }
+		'++' { .inc }
+		'%%' { .divmod }
+		'&' { .b_and }
+		'|' { .b_or }
+		'~' { .b_not }
+		'^' { .b_xor }
+		'<<' { .shl }
+		'>>' { .shr }
+		'swap' { .swap }
+		'dup' { .dup }
+		'over' { .over }
+		'rot' { .rot }
+		'rot4' { .rot4 }
+		'drop' { .drop }
+		'_breakpoint' { .trap_breakpoint }
+		'=' { .equ }
+		'!=' { .nequ }
+		'>' { .gt }
+		'<' { .lt }
+		'>=' { .gte }
+		'<=' { .lte }
+		'w8' { .w8 }
+		'w16' { .w16 }
+		'w32' { .w32 }
+		'w64' { .w64 }
+		'r8' { .r8 }
+		'r16' { .r16 }
+		'r32' { .r32 }
+		'r64' { .r64 }
+		'reserve' { .reserve }
+		'auto' { .auto }
+		'pop' { .pop }
+		'syscall0' { .syscall0 }
+		'syscall1' { .syscall1 }
+		'syscall2' { .syscall2 }
+		'syscall3' { .syscall3 }
+		'syscall4' { .syscall4 }
+		'syscall5' { .syscall5 }
+		'syscall6' { .syscall6 }
+		else { .name }
 	}
 }

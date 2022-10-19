@@ -1,6 +1,5 @@
 fn main 0 0 {
-	1 if {
-		2
-		drop
-	}
+	
+
+	; 0 assert -> "Hello!"
 }

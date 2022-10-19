@@ -22,17 +22,19 @@ fn compile_info_(msg string, row u32, col u32, file_idx StringPointer) {
 
 // <bold><red>filename:row:col: </bold></red>msg
 fn compile_error_to_s(msg string, row u32, col u32, file_idx StringPointer) string {
-	return '\x1b[1m' + '\x1b[31m'+'${file_idx}:${row + 1}:${col + 1}: ' + '\x1b[39m' + '\x1b[22m' + msg
+	return '\x1b[1m' + '\x1b[31m' + '$file_idx:${row + 1}:${col + 1}: ' + '\x1b[39m' + '\x1b[22m' +
+		msg
 }
 
 // <bold><yellow>filename:row:col: </bold></yellow>msg
 fn compile_info_to_s(msg string, row u32, col u32, file_idx StringPointer) string {
-	return '\x1b[1m' + '\x1b[33m'+'${file_idx}:${row + 1}:${col + 1}: ' + '\x1b[39m' + '\x1b[22m' + msg
+	return '\x1b[1m' + '\x1b[33m' + '$file_idx:${row + 1}:${col + 1}: ' + '\x1b[39m' + '\x1b[22m' +
+		msg
 }
 
 [noreturn]
 fn compile_error_f(msg string, file_idx StringPointer) {
 	print_backtrace()
-	eprintln('\x1b[1m' + '\x1b[31m'+'${file_idx}: ' + '\x1b[39m' + '\x1b[22m' + msg)
+	eprintln('\x1b[1m' + '\x1b[31m' + '$file_idx: ' + '\x1b[39m' + '\x1b[22m' + msg)
 	exit(1)
 }

@@ -7,15 +7,16 @@ fn write(str string) {
 }
 
 fn gen() {
-	/* if !is_object_file && main_fn == -1 {
+	/*
+	if !is_object_file && main_fn == -1 {
 		assert false, 'no main function'
 		// compile_error_f("no main function", 0)
-	} */
+	}*/
 
 	writeln('use64')
 	if is_object_file {
 		writeln('format ELF64')
-		writeln('section \'.text\' executable')
+		writeln("section '.text' executable")
 		writeln('public _start')
 		writeln('public _exit')
 	} else {
@@ -37,23 +38,23 @@ fn gen() {
 	gen_range(0, u32(ir_stream.len))
 
 	if is_object_file {
-		writeln('section \'.rodata\'')
+		writeln("section '.rodata'")
 	} else {
 		writeln('segment readable')
 	}
-	for s in slits {
-		len := *&u64(ir_stream[s].data)
-		str := unsafe { &u8(ir_stream[s].data) + sizeof(u64) }
-		write('_slit_${s}: db ')
+	for idx, s in slits {
+		len := *&u64(s)
+		str := unsafe { &u8(s) + sizeof(u64) }
+		write('_slit_$idx: db ')
 		unsafe {
-			for i := 0 ; i < len ; i++ {
-				write("${str[i]}, ")
+			for i := 0; i < len; i++ {
+				write('${str[i]}, ')
 			}
 		}
-		writeln("0")
+		writeln('0')
 	}
 	if is_object_file {
-		writeln('section \'.bss\'')
+		writeln("section '.bss'")
 	} else {
 		writeln('segment readable writable')
 	}
@@ -77,16 +78,18 @@ fn gen_range(start u32, end u32) u32 {
 	flush_const_stack := fn [mut const_stack_r] () {
 		for n in *const_stack_r {
 			if n >= 0xFFFFFFF {
-				writeln('mov rax, ${n}')
+				writeln('mov rax, $n')
 				writeln('push rax')
 			} else {
-				writeln('    push ${n}')
+				writeln('    push $n')
 			}
 		}
-		unsafe { (*const_stack_r).len = 0 }
+		unsafe {
+			(*const_stack_r).len = 0
+		}
 	}
 
-	for ; pos < end ; pos++ {
+	for ; pos < end; pos++ {
 		ir_data := ir_stream[pos].data
 		ins := ir_stream[pos].inst
 
@@ -143,42 +146,64 @@ fn gen_range(start u32, end u32) u32 {
 			}
 			ins == .do_cond_jmp && const_stack.len >= 1 {
 				c := const_stack.pop()
-				
+
 				if c == 0 {
 					mut d := false
-					for mpos := pos ; mpos < end ; mpos++ {
+					for mpos := pos; mpos < end; mpos++ {
 						if ir_stream[mpos].inst == .label && ir_stream[mpos].data == ir_data {
 							pos = mpos
 							d = true
 							break
 						}
 					}
-					assert d, "unreachable"
+					assert d, 'unreachable'
 				}
 			}
 			else {
 				flush_const_stack()
 
 				match ir_stream[pos].inst {
+					._assert {
+						lbl := label_allocate()
+						writeln('    pop rax')
+						writeln('    test al, al')
+						writeln('    jnz .${lbl}')
+						writeln('    mov eax, 1')
+						writeln('    mov edi, 2')
+						writeln('    mov rsi, _slit_${ir_data}')
+						writeln('    mov rdx, ${*(&u64(slits[ir_data]))}')
+						writeln('    syscall')
+						writeln('    mov rdi, 1')
+						writeln('    jmp _exit')
+						writeln('.${lbl}:')
+						body_size += 10
+					}
 					.push_num {
-						assert false, "unreachable"
+						assert false, 'unreachable'
+					}
+					.push_str {
+						len := *&u64(slits[ir_data])
+						writeln('    push _slit_$ir_data')
+						writeln('    push $len')
+						body_size += 2
 					}
 					.label {
-						writeln('.${ir_data}:')
+						writeln('.$ir_data:')
 					}
 					.fn_prelude {
 						fn_c := &Function(ir_data)
-						
+
 						// assert isnil(function_context)
 						// function_context = fn_c
 						assert overhead == 0 && body_size == 0
 
 						if is_object_file {
-							writeln('public ${fn_c.name.str()}')
+							writeln('public $fn_c.name.str()')
 						}
-						writeln('${fn_c.name.str()}:')
+						writeln('$fn_c.name.str():')
 						if fn_c.a_sp > 0 {
-							writeln('    sub rsp, ${fn_c.a_sp}') overhead += 1
+							writeln('    sub rsp, $fn_c.a_sp')
+							overhead += 1
 						}
 						writeln('    mov [_rs_p], rsp')
 						writeln('    mov rsp, rbp')
@@ -189,7 +214,7 @@ fn gen_range(start u32, end u32) u32 {
 						writeln('    mov rbp, rsp')
 						writeln('    mov rsp, [_rs_p]')
 						if fn_c.a_sp > 0 {
-							writeln('    add rsp, ${fn_c.a_sp}')
+							writeln('    add rsp, $fn_c.a_sp')
 							overhead += 1
 						}
 						writeln('    ret')
@@ -211,14 +236,14 @@ fn gen_range(start u32, end u32) u32 {
 						if !fn_c.forbid_inline {
 							body_start := fn_c.start_inst + 1
 							mut body_end := body_start
-							for ; ir_stream[body_end].inst != .fn_leave ; body_end++ {
+							for ; ir_stream[body_end].inst != .fn_leave; body_end++ {
 								assert body_end < end
 							}
 							body_size += gen_range(body_start, body_end)
 						} else {
 							writeln('    mov rbp, rsp')
 							writeln('    mov rsp, [_rs_p]')
-							writeln('    call ${fn_c.name.str()}')
+							writeln('    call $fn_c.name.str()')
 							writeln('    mov [_rs_p], rsp')
 							writeln('    mov rsp, rbp')
 							body_size += 5
@@ -230,14 +255,14 @@ fn gen_range(start u32, end u32) u32 {
 							body_size += 1
 						} else {
 							writeln('    mov rdi, [_rs_p]')
-							writeln('    add rdi, ${ir_data}')
+							writeln('    add rdi, $ir_data')
 							writeln('    push rdi')
 							body_size += 3
 						}
 					}
 					.push_local_stack_var {
-						a     := unsafe { &u32(&ir_data) }
-						addr  := unsafe { a[0] }
+						a := unsafe { &u32(&ir_data) }
+						addr := unsafe { a[0] }
 						count := unsafe { a[1] }
 						writeln('    mov rdi, [_rs_p]')
 						for i in 0 .. count {
@@ -247,8 +272,8 @@ fn gen_range(start u32, end u32) u32 {
 						body_size += 1
 					}
 					.pop_local_stack_var {
-						a     := unsafe { &u32(&ir_data) }
-						addr  := unsafe { a[0] }
+						a := unsafe { &u32(&ir_data) }
+						addr := unsafe { a[0] }
 						count := unsafe { a[1] }
 						writeln('    mov rdi, [_rs_p]')
 						for i in 0 .. count {
@@ -260,18 +285,12 @@ fn gen_range(start u32, end u32) u32 {
 					.do_cond_jmp {
 						writeln('    pop rax')
 						writeln('    test al, al')
-						writeln('    jz .${ir_data}')
+						writeln('    jz .$ir_data')
 						body_size += 3
 					}
 					.do_jmp {
-						writeln('    jmp .${ir_data}')
+						writeln('    jmp .$ir_data')
 						body_size += 1
-					}
-					.push_str {
-						len := *&u64(ir_data)
-						writeln('    push _slit_${pos}')
-						writeln('    push ${len}')
-						body_size += 2
 					}
 					.plus {
 						writeln('    pop rdi')
@@ -336,25 +355,25 @@ fn gen_range(start u32, end u32) u32 {
 					.b_and {
 						writeln('pop rsi')
 						writeln('pop rdi')
-						writeln('and rdi, rsi') 
+						writeln('and rdi, rsi')
 						writeln('push rdi')
 					}
 					.b_or {
 						writeln('pop rsi')
 						writeln('pop rdi')
-						writeln('or rdi, rsi') 
+						writeln('or rdi, rsi')
 						writeln('push rdi')
 					}
 					.b_not {
 						writeln('pop rsi')
 						writeln('pop rdi')
-						writeln('not rdi, rsi') 
+						writeln('not rdi, rsi')
 						writeln('push rdi')
 					}
 					.b_xor {
 						writeln('pop rsi')
 						writeln('pop rdi')
-						writeln('xor rdi, rsi') 
+						writeln('xor rdi, rsi')
 						writeln('push rdi')
 					}
 					.swap {
