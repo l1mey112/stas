@@ -1,0 +1,38 @@
+fn write 3 0 {
+	1 rot4 syscall3 drop
+}
+
+fn main 0 0 {
+	auto state 1
+
+	1 31 << pop state
+	
+	0
+	while dup 32 < {
+		64
+		while dup 0 > {
+			dup state swap >>
+
+			1 & if {
+				1 "/" write
+			} else {
+				1 " " write
+			}
+
+			--
+		}
+		drop
+
+		1 "\n" write
+		
+		-> 0 {
+			state 1 >>
+			state 1 << 
+			^
+			pop state
+		}
+
+		++
+	}
+	drop
+}
