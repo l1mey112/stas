@@ -63,8 +63,8 @@ fn gen() {
 }
 
 fn gen_range(start u32, end u32) u32 {
-	mut eval_stack := []u64{}
-	mut eval_stack_r := &mut eval_stack
+	mut const_stack := []u64{}
+	mut const_stack_r := &mut const_stack
 	mut pos := start
 
 	// mut function_context := &Function(0)
@@ -74,11 +74,16 @@ fn gen_range(start u32, end u32) u32 {
 
 	// TODO: this should increment the overhead variable, but it isn't global...
 
-	flush_eval_stack := fn [mut eval_stack_r] () {
-		for n in *eval_stack_r {
-			writeln('    push ${n}')
+	flush_const_stack := fn [mut const_stack_r] () {
+		for n in *const_stack_r {
+			if n >= 0xFFFFFFF {
+				writeln('mov rax, ${n}')
+				writeln('push rax')
+			} else {
+				writeln('    push ${n}')
+			}
 		}
-		unsafe { (*eval_stack_r).len = 0 }
+		unsafe { (*const_stack_r).len = 0 }
 	}
 
 	for ; pos < end ; pos++ {
@@ -87,57 +92,57 @@ fn gen_range(start u32, end u32) u32 {
 
 		match true {
 			ins == .push_num {
-				eval_stack << ir_data
+				const_stack << ir_data
 			}
-			ins == .plus && eval_stack.len >= 2 {
-				b := eval_stack.pop()
-				a := eval_stack.pop()
-				eval_stack << a + b
+			ins == .plus && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a + b
 			}
-			ins == .sub && eval_stack.len >= 2 {
-				b := eval_stack.pop()
-				a := eval_stack.pop()
-				eval_stack << a - b
+			ins == .sub && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a - b
 			}
-			ins == .mul && eval_stack.len >= 2 {
-				b := eval_stack.pop()
-				a := eval_stack.pop()
-				eval_stack << a * b
+			ins == .mul && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a * b
 			}
-			ins == .div && eval_stack.len >= 2 {
-				b := eval_stack.pop()
-				a := eval_stack.pop()
-				eval_stack << a / b
+			ins == .div && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a / b
 			}
-			ins == .mod && eval_stack.len >= 2 {
-				b := eval_stack.pop()
-				a := eval_stack.pop()
-				eval_stack << a % b
+			ins == .mod && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a % b
 			}
-			ins == .inc && eval_stack.len >= 1 {
-				eval_stack[eval_stack.len - 1]++
+			ins == .inc && const_stack.len >= 1 {
+				const_stack[const_stack.len - 1]++
 			}
-			ins == .dec && eval_stack.len >= 1 {
-				eval_stack[eval_stack.len - 1]--
+			ins == .dec && const_stack.len >= 1 {
+				const_stack[const_stack.len - 1]--
 			}
-			ins == .divmod && eval_stack.len >= 2 {
-				b := eval_stack.pop()
-				a := eval_stack.pop()
-				eval_stack << a % b
-				eval_stack << a / b
+			ins == .divmod && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a % b
+				const_stack << a / b
 			}
-			/* ins == .shr && eval_stack.len >= 2 {
-				b := eval_stack.pop()
-				a := eval_stack.pop()
-				eval_stack << a >> b
+			ins == .shr && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a >> b
 			}
-			ins == .shl && eval_stack.len >= 2 {
-				b := eval_stack.pop()
-				a := eval_stack.pop()
-				eval_stack << a << b
-			} */
-			ins == .do_cond_jmp && eval_stack.len >= 1 {
-				c := eval_stack.pop()
+			ins == .shl && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a << b
+			}
+			ins == .do_cond_jmp && const_stack.len >= 1 {
+				c := const_stack.pop()
 				
 				if c == 0 {
 					mut d := false
@@ -152,7 +157,7 @@ fn gen_range(start u32, end u32) u32 {
 				}
 			}
 			else {
-				flush_eval_stack()
+				flush_const_stack()
 
 				match ir_stream[pos].inst {
 					.push_num {
