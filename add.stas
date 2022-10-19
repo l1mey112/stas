@@ -1,11 +1,6 @@
 fn main 0 0 {
 	1 if {
 		2
-	} elif 1 {
-		3
-	} else {
-		1
+		drop
 	}
-
-	drop
 }

@@ -83,8 +83,8 @@ fn gen_range(start u32, end u32) u32 {
 
 	for ; pos < end ; pos++ {
 		ir_data := ir_stream[pos].data
-
 		ins := ir_stream[pos].inst
+
 		match true {
 			ins == .push_num {
 				eval_stack << ir_data
@@ -136,6 +136,21 @@ fn gen_range(start u32, end u32) u32 {
 				a := eval_stack.pop()
 				eval_stack << a << b
 			} */
+			ins == .do_cond_jmp && eval_stack.len >= 1 {
+				c := eval_stack.pop()
+				
+				if c == 0 {
+					mut d := false
+					for mpos := pos ; mpos < end ; mpos++ {
+						if ir_stream[mpos].inst == .label && ir_stream[mpos].data == ir_data {
+							pos = mpos
+							d = true
+							break
+						}
+					}
+					assert d, "unreachable"
+				}
+			}
 			else {
 				flush_eval_stack()
 
