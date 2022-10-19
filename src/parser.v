@@ -16,6 +16,7 @@ enum ScopeTyp {
 	if_block
 	else_block
 	else_block_scope
+	elif_block_scope
 	while_block
 	while_block_scope
 }
@@ -282,17 +283,7 @@ fn parse() {
 										sp_push(1)
 									}
 									.stack {
-									//	to_pop := v.size / 8
-									//	if sp.len < to_pop {
-									//		compile_error_t("reeer", pos)
-									//	}
-
 										to_push := v.size / 8
-										/* mut p := v.a_sp
-										for _ in 0 .. to_push {
-											
-											p += 8
-										} */
 
 										a := u64(to_push) << 32 | u64(v.a_sp)
 										ir(.push_local_stack_var, a)
@@ -356,20 +347,47 @@ fn parse() {
 					compile_error_t("does nothing", pos)
 				}
 				.l_cb {
-					if scope_context.len > 0 && scope_context.last().typ == .while_block {
-						if sp.len == 0 {
-							compile_error_t("no value on stack to consume for while header", pos)
+					if scope_context.len > 0 {
+						match scope_context.last().typ {
+							.while_block {
+								if sp.len == 0 {
+									compile_error_t("no value on stack to consume for while header", pos)
+								}
+								unsafe { sp.len-- }
+								lbl := label_allocate()
+								scope_context << Scope {
+									typ: .while_block_scope
+									label_id: lbl
+									sp: u32(sp.len)
+									var_scope: u32(var_context.len)
+									idx: pos
+								}
+								ir(.do_cond_jmp, lbl)
+							}
+							.elif_block_scope {
+								scope := scope_context.pop()
+
+								if sp.len == 0 {
+									compile_error_t("no value on stack to consume for else if statement", pos)
+								}
+								unsafe { sp.len-- }
+
+								lbl := label_allocate()
+								scope_context << Scope {
+									typ: .if_block
+									label_id: lbl
+									sp: u32(scope.sp)
+									var_scope: u32(var_context.len)
+									idx: pos
+								}
+
+								ir(.do_cond_jmp, lbl)
+								ir(.do_jmp, scope.label_id)
+							}
+							else {
+								assert false, "unreachable"
+							}
 						}
-						unsafe { sp.len-- }
-						lbl := label_allocate()
-						scope_context << Scope {
-							typ: .while_block_scope
-							label_id: lbl
-							sp: u32(sp.len)
-							var_scope: u32(var_context.len)
-							idx: pos
-						}
-						ir(.do_cond_jmp, lbl)
 					} else {
 						scope_context << Scope {
 							typ: .scope
@@ -420,6 +438,20 @@ fn parse() {
 									if pos >= token_stream.len || token_stream[pos].tok != .l_cb {
 										compile_error_t("a scope must come after an else statement", pos - 1)
 									}
+								} else if pos + 1 < token_stream.len && token_stream[pos + 1].tok == .elif_block {
+									pos++
+									end_lbl := label_allocate()
+									scope_context << Scope {
+										typ: .elif_block_scope
+										label_id: end_lbl
+										sp: u32(sp.len)
+										var_scope: u32(var_context.len)
+										idx: pos
+									}
+									unsafe { sp.len = int(scope.sp) }
+
+									ir(.do_cond_jmp, end_lbl)
+									ir(.label, scope.label_id)
 								} else {
 									if scope.sp != u32(sp.len) {
 										compile_error_t("the stack must remain the same with single branches", pos)

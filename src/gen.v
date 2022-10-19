@@ -120,6 +120,22 @@ fn gen_range(start u32, end u32) u32 {
 			ins == .dec && eval_stack.len >= 1 {
 				eval_stack[eval_stack.len - 1]--
 			}
+			ins == .divmod && eval_stack.len >= 2 {
+				b := eval_stack.pop()
+				a := eval_stack.pop()
+				eval_stack << a % b
+				eval_stack << a / b
+			}
+			/* ins == .shr && eval_stack.len >= 2 {
+				b := eval_stack.pop()
+				a := eval_stack.pop()
+				eval_stack << a >> b
+			}
+			ins == .shl && eval_stack.len >= 2 {
+				b := eval_stack.pop()
+				a := eval_stack.pop()
+				eval_stack << a << b
+			} */
 			else {
 				flush_eval_stack()
 
