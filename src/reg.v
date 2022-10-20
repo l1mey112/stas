@@ -18,7 +18,7 @@ enum Reg {
 }
 
 __global rallocator_stack = []Reg{}
-__global rallocator_mask = u32(0xFFFFFFFF)
+__global rallocator_mask = u32(-1)
 
 fn r_b_clear(r Reg) {
 	rallocator_mask &= ~(1 << int(r))
@@ -111,7 +111,7 @@ fn r_pop_r(r Reg) {
 		}
 		writeln('    mov $r, $a')
 	} else {
-		assert r_is_used(r)
+		assert !r_is_used(r)
 		writeln('    pop $r')
 	}
 }
@@ -122,7 +122,7 @@ fn r_flush() {
 	}
 	
 	unsafe { rallocator_stack.len = 0 }
-	rallocator_mask = u32(0xFFFFFFFF)
+	rallocator_mask = u32(-1)
 }
 
 fn r_drop() {

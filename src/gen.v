@@ -191,6 +191,7 @@ fn gen_range(start u32, end u32) u32 {
 						r_push_const(len)
 					}
 					.label {
+						r_flush()
 						writeln('.$ir_data:')
 					}
 					.fn_prelude {
@@ -295,6 +296,7 @@ fn gen_range(start u32, end u32) u32 {
 						r_free(.rax)
 					}
 					.do_jmp {
+						r_flush()
 						writeln('    jmp .$ir_data')
 					}
 					.plus {
@@ -340,11 +342,11 @@ fn gen_range(start u32, end u32) u32 {
 					}
 					.inc {
 						b := r_top()
-						writeln('    inc qword [$b]')
+						writeln('    inc $b')
 					}
 					.dec {
 						b := r_top()
-						writeln('    dec qword [$b]')
+						writeln('    dec $b')
 					}
 					.divmod {
 						b := r_pop()
@@ -405,9 +407,8 @@ fn gen_range(start u32, end u32) u32 {
 						r_push(a)
 					}
 					.dup {
-						a := r_pop()
-						r_push(a)
-						r_push(a)
+						a := r_top()
+						r_dup(a)
 					}
 					/* .over {
 						writeln('    mov rdi, [rsp - 8]')
