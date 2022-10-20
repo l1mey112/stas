@@ -202,7 +202,7 @@ fn parse() {
 					}
 					unsafe { sp.len-- }
 
-					mut assert_string := u64(0)
+					assert_string := u64(slits.len)
 					ap := pos
 
 					// add.stas:2:2: Assertion Failed, 
@@ -211,13 +211,21 @@ fn parse() {
 						&& token_stream[pos + 2].tok == .string_lit {
 						pos += 2
 
-						// compile_info_to_s()
-
-						assert_string = u64(slits.len)
-						slits << &u8(token_stream[pos].data)
+						a := compile_error_to_s('Assertion Failed, ', token_stream[pos - 2].row, token_stream[pos - 2].col, token_stream[pos - 2].file)
+						mut assert_str := new_string_view(a.str, a.len)
+						c := &u8(token_stream[pos].data)
+						unsafe {
+							push_string_view(assert_str, c + sizeof(u64), int(*(&u64(c))))
+							push_char(assert_str, `\n`)
+							push_nul(assert_str)
+						}
+						
+						slits << &u8(assert_str)
+					} else {
+						a := compile_error_to_s('Assertion Failed\n', token_stream[pos].row, token_stream[pos].col, token_stream[pos].file)
+						slits << new_string_view(a.str, a.len)
 					}
 
-					assert false, "unimplemented"
 
 					ir_p(._assert, assert_string, ap)
 				}

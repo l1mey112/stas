@@ -33,15 +33,16 @@ fn get_v_string(ptr StringPointer) string {
 
 [unsafe]
 fn new_empty_string() StringPointer {
-	if string_buffer_len + sizeof(u64) >= 4096 {
+	if string_buffer_len + sizeof(u64) + 1 >= 4096 {
 		panic('used up all memory')
 	}
 
 	ptr := &string_buffer[string_buffer_len]
 	unsafe {
 		*(&u64(ptr)) = 0
+		*(&u8(ptr)  + sizeof(u64)) = 0
 	}
-	string_buffer_len += sizeof(u64)
+	string_buffer_len += sizeof(u64) + 1
 	return StringPointer(ptr)
 }
 

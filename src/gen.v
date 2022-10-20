@@ -159,6 +159,15 @@ fn gen_range(start u32, end u32) u32 {
 					assert d, 'unreachable'
 				}
 			}
+			ins == ._assert && const_stack.len >= 1 {
+				c := const_stack.pop()
+
+				if c == 0 {
+					eprint("(comptime) ")
+					eprint(slits[ir_data])
+					exit(1)
+				}
+			}
 			else {
 				flush_const_stack()
 

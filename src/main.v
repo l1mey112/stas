@@ -6,27 +6,6 @@ __global ir_stream = []IR{}
 __global slits = []StringPointer{}
 
 fn main() {
-
-	a_ := "Hello"
-	mut a := new_string_view(a_.str, a_.len)
-	println("len = ${*&u64(a)}")
-	println((&u8(a) + sizeof(u64)).vbytes(int(*&u64(a)) + 1))
-	b_ := " world!"
-	push_string_view(a, b_.str, b_.len)
-	println("len = ${*&u64(a)}")
-	println(a)
-	println((&u8(a) + sizeof(u64)).vbytes(int(*&u64(a)) + 1))
-
-	c_ := "!aaaaaaarrghh!"
-	mut c := new_string_view(c_.str, c_.len)
-	println(c)
-	println(a)
-	println((&u8(a) + sizeof(u64)).vbytes(int(*&u64(a)) + 1))
-
-	if true {
-		exit(0)
-	}
-
 	if os.args.len == 1 {
 		eprintln('no args')
 		exit(1)
