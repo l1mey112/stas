@@ -16,4 +16,4 @@ commands
 	exit
 end
 
-run
+#run
