@@ -44,6 +44,11 @@ fn r_push_const_word(s string) {
 	writeln('    mov $a, $s')
 }
 
+fn r_pop_const_word(s string) {
+	a := r_pop()
+	writeln('    mov $s, $a')
+}
+
 fn r_push(r Reg) {
 	rallocator_stack << r
 	r_b_clear(r)
@@ -60,7 +65,7 @@ fn C.ffs (int) int
 
 fn r_alloc() Reg {
 	mut r_idx := C.ffs(rallocator_mask)
-	if r_idx == 0 || r_idx >= int(Reg._size_) {
+	if r_idx == 0 || r_idx >= int(Reg._size_) - 1 {
 		panic("no more regs")
 	}
 	r_idx -= 1
@@ -87,12 +92,24 @@ fn r_free(r Reg) {
 	r_b_set(r)
 }
 
+fn r_new() Reg {
+	a := r_alloc()
+	r_b_clear(a)
+	return a
+}
+
+fn r_new_r(r Reg) {
+	r_release(r)
+	r_b_clear(r)
+}
+
 fn r_top() Reg {
 	if rallocator_stack.len > 0 {
 		return rallocator_stack.last()
 	} else {
 		a := r_alloc()
 		rallocator_stack << a
+		r_b_clear(a)
 		writeln('    pop $a')
 		return a
 	}
@@ -147,12 +164,14 @@ fn r_drop() {
 fn r_release(r Reg) {
 	if r_is_used(r) {
 		idx := rallocator_stack.index(r)
-		assert idx != -1, "a"
 
 		a := r_alloc()
 		writeln('    mov $a, $r')
-		
+
+		r_b_clear(a)
 		r_b_set(r) // r is not used anymore
-		rallocator_stack[idx] = a
+		if idx != -1 {
+			rallocator_stack[idx] = a
+		}
 	}
 }

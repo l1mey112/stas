@@ -271,8 +271,10 @@ fn gen_range(start u32, end u32) u32 {
 						a := unsafe { &u32(&ir_data) }
 						addr := unsafe { a[0] }
 						count := unsafe { a[1] }
-						r_push_const_word('qword [_rs_p]')
-						r := r_pop()
+
+						r := r_new()
+						writeln('    mov $r, qword [_rs_p]')
+
 						for i in 0 .. count {
 							r_push_const_word('qword [$r + ${addr + (count - i - 1) * 8}]')
 						}
@@ -282,15 +284,19 @@ fn gen_range(start u32, end u32) u32 {
 						a := unsafe { &u32(&ir_data) }
 						addr := unsafe { a[0] }
 						count := unsafe { a[1] }
-						r_push_const_word('qword [_rs_p]')
-						r := r_pop()
+						
+						r := r_new()
+						writeln('    mov $r, qword [_rs_p]')
+
 						for i in 0 .. count {
-							r_push_const_word('qword [$r + ${addr + i * 8}]')
+							r_pop_const_word('qword [$r + ${addr + i * 8}]')
 						}
+
 						r_free(r)
 					}
 					.do_cond_jmp {
 						r_pop_r(.rax)
+						r_flush()
 						writeln('    test al, al')
 						writeln('    jz .$ir_data')
 						r_free(.rax)
@@ -349,14 +355,14 @@ fn gen_range(start u32, end u32) u32 {
 						writeln('    dec $b')
 					}
 					.divmod {
+						r_new_r(.rdx)
 						b := r_pop()
 						r_pop_r(.rax)
-						r_release(.rdx)
 						writeln('    xor rdx, rdx')
 						writeln('    div $b')
+						r_free(b)
 						r_push(.rax)
 						r_push(.rdx)
-						r_free(b)
 					}
 					.shr {
 						r_pop_r(.rcx)
@@ -512,43 +518,47 @@ fn gen_range(start u32, end u32) u32 {
 						a := r_pop()
 						writeln('    mov byte [$a], al')
 						r_free(.rax)
+						r_free(a)
 					}
 					.w16 {
 						r_pop_r(.rax)
 						a := r_pop()
 						writeln('    mov word [$a], ax')
 						r_free(.rax)
+						r_free(a)
 					}
 					.w32 {
 						r_pop_r(.rax)
 						a := r_pop()
 						writeln('    mov dword [$a], eax')
 						r_free(.rax)
+						r_free(a)
 					}
 					.w64 {
 						r_pop_r(.rax)
 						a := r_pop()
 						writeln('    mov dword [$a], eax')
 						r_free(.rax)
+						r_free(a)
 					}
 					.r8 {
 						a := r_pop()
-						writeln('    movsx rdi, byte [rdi]')
+						writeln('    movsx $a, byte [$a]')
 						r_push(a)
 					}
 					.r16 {
 						a := r_pop()
-						writeln('    movsx rdi, word [rdi]')
+						writeln('    movsx $a, word [$a]')
 						r_push(a)
 					}
 					.r32 {
-						a := r_pop()
-						writeln('    mov edi, [rdi]')
-						r_push(a)
+						r_pop_r(.rax)
+						writeln('    mov eax, [rax]')
+						r_push(.rax)
 					}
 					.r64 {
 						a := r_pop()
-						writeln('    mov rdi, [rdi]')
+						writeln('    mov $a, [$a]')
 						r_push(a)
 					}
 					.syscall0 {

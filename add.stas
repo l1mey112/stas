@@ -49,15 +49,6 @@ fn puts 2 0 {
 	1 rot write	
 }
 
-;fn gimmie_number 1 1 {
-;	10 > if {
-;		999
-;	} else {
-;		888
-;	}
-;}
-
 fn main 0 0 {
-	"19950 + 50 = " puts
-	19950 50 + uputln
+	123999999992 uputln
 }
