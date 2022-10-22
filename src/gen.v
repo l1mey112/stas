@@ -34,6 +34,7 @@ fn gen() {
 	writeln('_exit:')
 	writeln('    mov eax, 60')
 	writeln('    syscall')
+	writeln('    nop') // gdb will report that the exit syscall happens in a different function
 
 	gen_range(0, u32(ir_stream.len))
 
@@ -54,7 +55,7 @@ fn gen() {
 		writeln('0')
 	}
 	if is_object_file {
-		writeln("section '.bss'")
+		writeln("section '.bss' writable")
 	} else {
 		writeln('segment readable writable')
 	}

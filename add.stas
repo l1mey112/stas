@@ -50,6 +50,6 @@ fn puts 2 0 {
 }
 
 fn main 0 0 {
-	"hello! " drop drop
-	123999999992 uputln
+	"123999999912\n" puts
+	123999999912 uputln
 }

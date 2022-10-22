@@ -7,4 +7,4 @@ fasm a.o.fasm a.o -m 1048576
 ld a.o -o a.out
 chmod +x a.out
 
-gdb ./a.out -ex 'set logging enabled off' -ex 'source .gdbinit' --silent
+gdb ./a.out --silent
