@@ -64,17 +64,23 @@ fn gen() {
 	writeln('_rs_top:')
 }
 
+__global overhead = u32(0)
+__global body_size = u32(0)
+
+fn fn_body_writeln(str string) {
+	println(str)
+	body_size++
+}
+
+fn fn_overhead_writeln(str string) {
+	println(str)
+	overhead++
+}
+
 fn gen_range(start u32, end u32) u32 {
 	mut const_stack := []u64{}
 	mut const_stack_r := &mut const_stack
 	mut pos := start
-
-	// mut function_context := &Function(0)
-
-	mut overhead := u32(0)
-	mut body_size := u32(0)
-
-	// TODO: this should increment the overhead variable, but it isn't global...
 
 	flush_const_stack := fn [mut const_stack_r] () {
 		for n in *const_stack_r {
@@ -155,7 +161,7 @@ fn gen_range(start u32, end u32) u32 {
 					assert d, 'unreachable'
 				}
 			}
-			ins == ._assert && const_stack.len >= 1 {
+			/* ins == ._assert && const_stack.len >= 1 {
 				c := const_stack.pop()
 
 				if c == 0 {
@@ -163,14 +169,14 @@ fn gen_range(start u32, end u32) u32 {
 					eprint(slits[ir_data])
 					exit(1)
 				}
-			}
+			} */
 			else {
 				flush_const_stack()
 
 				match ir_stream[pos].inst {
-					/* ._assert {
+					._assert {
 						lbl := label_allocate()
-						writeln('    pop rax')
+						r_pop_r(.rax)
 						writeln('    test al, al')
 						writeln('    jnz .${lbl}')
 						writeln('    mov eax, 1')
@@ -181,8 +187,9 @@ fn gen_range(start u32, end u32) u32 {
 						writeln('    mov rdi, 1')
 						writeln('    jmp _exit')
 						writeln('.${lbl}:')
+						r_free(.rax)
 						body_size += 10
-					} */
+					}
 					.push_num {
 						assert false, 'unreachable'
 					}
@@ -208,35 +215,30 @@ fn gen_range(start u32, end u32) u32 {
 						}
 						writeln('$fn_c.name.str():')
 						if fn_c.a_sp > 0 {
-							writeln('    sub rsp, $fn_c.a_sp')
-							overhead += 1
+							fn_overhead_writeln('    sub rsp, $fn_c.a_sp')
 						}
-						writeln('    mov [_rs_p], rsp')
-						writeln('    mov rsp, rbp')
-						overhead += 2
+						fn_overhead_writeln('    mov [_rs_p], rsp')
+						fn_overhead_writeln('    mov rsp, rbp')
 					}
 					.fn_leave {
 						r_flush()
 
 						mut fn_c := &Function(ir_data)
-						writeln('    mov rbp, rsp')
-						writeln('    mov rsp, [_rs_p]')
+						fn_overhead_writeln('    mov rbp, rsp')
+						fn_overhead_writeln('    mov rsp, [_rs_p]')
 						if fn_c.a_sp > 0 {
-							writeln('    add rsp, $fn_c.a_sp')
-							overhead += 1
+							fn_overhead_writeln('    add rsp, $fn_c.a_sp')
 						}
-						writeln('    ret')
-						overhead += 3
+						fn_overhead_writeln('    ret')
 
 						// plus the overhead for actually calling the function
 						overhead += 5
 
-						/* if !fn_c.forbid_inline && overhead < body_size {
+						if !fn_c.forbid_inline && overhead < body_size {
 							fn_c.forbid_inline = true
-						} */
-						fn_c.forbid_inline = true
+						}
 
-						// eprintln("function ${fn_c.name.str()}, inlinable: ${!fn_c.forbid_inline}")
+						eprintln("function ${fn_c.name.str()}, overhead $overhead, body size $body_size, inlinable: ${!fn_c.forbid_inline}")
 
 						overhead, body_size = 0, 0
 					}
@@ -244,27 +246,30 @@ fn gen_range(start u32, end u32) u32 {
 						r_flush()
 
 						fn_c := &Function(ir_data)
-						/* if !fn_c.forbid_inline {
+						if !fn_c.forbid_inline {
+							eprintln("inlining function ${fn_c.name.str()}")
 							body_start := fn_c.start_inst + 1
 							mut body_end := body_start
 							for ; ir_stream[body_end].inst != .fn_leave; body_end++ {
 								assert body_end < end
 							}
-							body_size += gen_range(body_start, body_end)
-						} else { */
-							writeln('    mov rbp, rsp')
-							writeln('    mov rsp, [_rs_p]')
-							writeln('    call $fn_c.name.str()')
-							writeln('    mov [_rs_p], rsp')
-							writeln('    mov rsp, rbp')
-							body_size += 5
-						/* } */
+							mut body_size_old := body_size
+							body_size = 0
+							body_size_old += gen_range(body_start, body_end)
+							body_size = body_size_old
+						} else {
+							fn_body_writeln('    mov rbp, rsp')
+							fn_body_writeln('    mov rsp, [_rs_p]')
+							fn_body_writeln('    call $fn_c.name.str()')
+							fn_body_writeln('    mov [_rs_p], rsp')
+							fn_body_writeln('    mov rsp, rbp')
+						}
 					}
 					.push_local_addr {
 						r_push_const_word('qword [_rs_p]')
 						if ir_data != 0 {
 							a := r_pop()
-							writeln('    add $a, $ir_data')
+							fn_body_writeln('    add $a, $ir_data')
 							r_push(a)
 						}
 					}
@@ -274,7 +279,7 @@ fn gen_range(start u32, end u32) u32 {
 						count := unsafe { a[1] }
 
 						r := r_new()
-						writeln('    mov $r, qword [_rs_p]')
+						fn_body_writeln('    mov $r, qword [_rs_p]')
 
 						for i in 0 .. count {
 							r_push_const_word('qword [$r + ${addr + (count - i - 1) * 8}]')
@@ -287,7 +292,7 @@ fn gen_range(start u32, end u32) u32 {
 						count := unsafe { a[1] }
 						
 						r := r_new()
-						writeln('    mov $r, qword [_rs_p]')
+						fn_body_writeln('    mov $r, qword [_rs_p]')
 
 						for i in 0 .. count {
 							r_pop_const_word('qword [$r + ${addr + i * 8}]')
@@ -298,32 +303,32 @@ fn gen_range(start u32, end u32) u32 {
 					.do_cond_jmp {
 						r_pop_r(.rax)
 						r_flush()
-						writeln('    test al, al')
-						writeln('    jz .$ir_data')
+						fn_body_writeln('    test al, al')
+						fn_body_writeln('    jz .$ir_data')
 						r_free(.rax)
 					}
 					.do_jmp {
 						r_flush()
-						writeln('    jmp .$ir_data')
+						fn_body_writeln('    jmp .$ir_data')
 					}
 					.plus {
 						b := r_pop()
 						a := r_pop()
-						writeln('    add $a, $b')
+						fn_body_writeln('    add $a, $b')
 						r_push(a)
 						r_free(b)
 					}
 					.sub {
 						b := r_pop()
 						a := r_pop()
-						writeln('    sub $a, $b')
+						fn_body_writeln('    sub $a, $b')
 						r_push(a)
 						r_free(b)
 					}
 					.mul {
 						b := r_pop()
 						a := r_pop()
-						writeln('    imul $a, $b')
+						fn_body_writeln('    imul $a, $b')
 						r_push(a)
 						r_free(b)
 					}
@@ -331,8 +336,8 @@ fn gen_range(start u32, end u32) u32 {
 						b := r_pop()
 						r_pop_r(.rax)
 						r_release(.rdx)
-						writeln('    xor rdx, rdx')
-						writeln('    div $b')
+						fn_body_writeln('    xor rdx, rdx')
+						fn_body_writeln('    div $b')
 						r_push(.rax)
 						r_free(.rdx)
 						r_free(b)
@@ -341,26 +346,26 @@ fn gen_range(start u32, end u32) u32 {
 						b := r_pop()
 						r_pop_r(.rax)
 						r_release(.rdx)
-						writeln('    xor rdx, rdx')
-						writeln('    div $b')
+						fn_body_writeln('    xor rdx, rdx')
+						fn_body_writeln('    div $b')
 						r_push(.rdx)
 						r_free(.rax)
 						r_free(b)
 					}
 					.inc {
 						b := r_top()
-						writeln('    inc $b')
+						fn_body_writeln('    inc $b')
 					}
 					.dec {
 						b := r_top()
-						writeln('    dec $b')
+						fn_body_writeln('    dec $b')
 					}
 					.divmod {
 						r_new_r(.rdx)
 						b := r_pop()
 						r_pop_r(.rax)
-						writeln('    xor rdx, rdx')
-						writeln('    div $b')
+						fn_body_writeln('    xor rdx, rdx')
+						fn_body_writeln('    div $b')
 						r_free(b)
 						r_push(.rax)
 						r_push(.rdx)
@@ -368,42 +373,42 @@ fn gen_range(start u32, end u32) u32 {
 					.shr {
 						r_pop_r(.rcx)
 						a := r_pop()
-						writeln('    shr $a, cl')
+						fn_body_writeln('    shr $a, cl')
 						r_push(a)
 						r_free(.rcx)
 					}
 					.shl {
 						r_pop_r(.rcx)
 						a := r_pop()
-						writeln('    shl $a, cl')
+						fn_body_writeln('    shl $a, cl')
 						r_push(a)
 						r_free(.rcx)
 					}
 					.b_and {
 						b := r_pop()
 						a := r_pop()
-						writeln('    and $a, $b')
+						fn_body_writeln('    and $a, $b')
 						r_push(a)
 						r_free(b)
 					}
 					.b_or {
 						b := r_pop()
 						a := r_pop()
-						writeln('    or $a, $b')
+						fn_body_writeln('    or $a, $b')
 						r_push(a)
 						r_free(b)
 					}
 					.b_not {
 						b := r_pop()
 						a := r_pop()
-						writeln('    not $a, $b')
+						fn_body_writeln('    not $a, $b')
 						r_push(a)
 						r_free(b)
 					}
 					.b_xor {
 						b := r_pop()
 						a := r_pop()
-						writeln('    xor $a, $b')
+						fn_body_writeln('    xor $a, $b')
 						r_push(a)
 						r_free(b)
 					}
@@ -418,9 +423,8 @@ fn gen_range(start u32, end u32) u32 {
 						r_dup(a)
 					}
 					/* .over {
-						writeln('    mov rdi, [rsp - 8]')
-						writeln('    push rdi')
-						body_size += 2
+						fn_body_writeln('    mov rdi, [rsp - 8]')
+						fn_body_writeln('    push rdi')
 					} */
 					.rot {
 						c := r_pop()
@@ -445,16 +449,16 @@ fn gen_range(start u32, end u32) u32 {
 					}
 					.trap_breakpoint {
 						r_pop_r(.rax)
-						writeln('    db 0xcc')
+						fn_body_writeln('    db 0xcc')
 						r_push(.rax)
 					}
 					.equ {
 						b := r_pop()
 						a := r_pop()
 						r_release(.rax)
-						writeln('    xor rax, rax')
-						writeln('    cmp $a, $b')
-						writeln('    sete al')
+						fn_body_writeln('    xor rax, rax')
+						fn_body_writeln('    cmp $a, $b')
+						fn_body_writeln('    sete al')
 						r_push(.rax)
 						r_free(a)
 						r_free(b)
@@ -463,9 +467,9 @@ fn gen_range(start u32, end u32) u32 {
 						b := r_pop()
 						a := r_pop()
 						r_release(.rax)
-						writeln('    xor rax, rax')
-						writeln('    cmp $a, $b')
-						writeln('    sete al')
+						fn_body_writeln('    xor rax, rax')
+						fn_body_writeln('    cmp $a, $b')
+						fn_body_writeln('    sete al')
 						r_push(.rax)
 						r_free(a)
 						r_free(b)
@@ -474,9 +478,9 @@ fn gen_range(start u32, end u32) u32 {
 						b := r_pop()
 						a := r_pop()
 						r_release(.rax)
-						writeln('    xor rax, rax')
-						writeln('    cmp $a, $b')
-						writeln('    seta al')
+						fn_body_writeln('    xor rax, rax')
+						fn_body_writeln('    cmp $a, $b')
+						fn_body_writeln('    seta al')
 						r_push(.rax)
 						r_free(a)
 						r_free(b)
@@ -485,9 +489,9 @@ fn gen_range(start u32, end u32) u32 {
 						b := r_pop()
 						a := r_pop()
 						r_release(.rax)
-						writeln('    xor rax, rax')
-						writeln('    cmp $a, $b')
-						writeln('    setb al')
+						fn_body_writeln('    xor rax, rax')
+						fn_body_writeln('    cmp $a, $b')
+						fn_body_writeln('    setb al')
 						r_push(.rax)
 						r_free(a)
 						r_free(b)
@@ -496,9 +500,9 @@ fn gen_range(start u32, end u32) u32 {
 						b := r_pop()
 						a := r_pop()
 						r_release(.rax)
-						writeln('    xor rax, rax')
-						writeln('    cmp $a, $b')
-						writeln('    setae al')
+						fn_body_writeln('    xor rax, rax')
+						fn_body_writeln('    cmp $a, $b')
+						fn_body_writeln('    setae al')
 						r_push(.rax)
 						r_free(a)
 						r_free(b)
@@ -507,9 +511,9 @@ fn gen_range(start u32, end u32) u32 {
 						b := r_pop()
 						a := r_pop()
 						r_release(.rax)
-						writeln('    xor rax, rax')
-						writeln('    cmp $a, $b')
-						writeln('    setbe al')
+						fn_body_writeln('    xor rax, rax')
+						fn_body_writeln('    cmp $a, $b')
+						fn_body_writeln('    setbe al')
 						r_push(.rax)
 						r_free(a)
 						r_free(b)
@@ -517,60 +521,60 @@ fn gen_range(start u32, end u32) u32 {
 					.w8 {
 						r_pop_r(.rax)
 						a := r_pop()
-						writeln('    mov byte [$a], al')
+						fn_body_writeln('    mov byte [$a], al')
 						r_free(.rax)
 						r_free(a)
 					}
 					.w16 {
 						r_pop_r(.rax)
 						a := r_pop()
-						writeln('    mov word [$a], ax')
+						fn_body_writeln('    mov word [$a], ax')
 						r_free(.rax)
 						r_free(a)
 					}
 					.w32 {
 						r_pop_r(.rax)
 						a := r_pop()
-						writeln('    mov dword [$a], eax')
+						fn_body_writeln('    mov dword [$a], eax')
 						r_free(.rax)
 						r_free(a)
 					}
 					.w64 {
 						r_pop_r(.rax)
 						a := r_pop()
-						writeln('    mov dword [$a], eax')
+						fn_body_writeln('    mov dword [$a], eax')
 						r_free(.rax)
 						r_free(a)
 					}
 					.r8 {
 						a := r_pop()
-						writeln('    movsx $a, byte [$a]')
+						fn_body_writeln('    movsx $a, byte [$a]')
 						r_push(a)
 					}
 					.r16 {
 						a := r_pop()
-						writeln('    movsx $a, word [$a]')
+						fn_body_writeln('    movsx $a, word [$a]')
 						r_push(a)
 					}
 					.r32 {
 						r_pop_r(.rax)
-						writeln('    mov eax, [rax]')
+						fn_body_writeln('    mov eax, [rax]')
 						r_push(.rax)
 					}
 					.r64 {
 						a := r_pop()
-						writeln('    mov $a, [$a]')
+						fn_body_writeln('    mov $a, [$a]')
 						r_push(a)
 					}
 					.syscall0 {
 						r_pop_r(.rax)
-						writeln('    syscall')
+						fn_body_writeln('    syscall')
 						r_push(.rax)
 					}
 					.syscall1 {
 						r_pop_r(.rsi)
 						r_pop_r(.rax)
-						writeln('    syscall')
+						fn_body_writeln('    syscall')
 						r_push(.rax)
 						r_free(.rsi)
 					}
@@ -578,7 +582,7 @@ fn gen_range(start u32, end u32) u32 {
 						r_pop_r(.rsi)
 						r_pop_r(.rdi)
 						r_pop_r(.rax)
-						writeln('    syscall')
+						fn_body_writeln('    syscall')
 						r_push(.rax)
 						r_free(.rdi)
 						r_free(.rsi)
@@ -588,7 +592,7 @@ fn gen_range(start u32, end u32) u32 {
 						r_pop_r(.rsi)
 						r_pop_r(.rdi)
 						r_pop_r(.rax)
-						writeln('    syscall')
+						fn_body_writeln('    syscall')
 						r_push(.rax)
 						r_free(.rdi)
 						r_free(.rsi)
@@ -600,7 +604,7 @@ fn gen_range(start u32, end u32) u32 {
 						r_pop_r(.rsi)
 						r_pop_r(.rdi)
 						r_pop_r(.rax)
-						writeln('    syscall')
+						fn_body_writeln('    syscall')
 						r_push(.rax)
 						r_free(.rdi)
 						r_free(.rsi)
@@ -614,7 +618,7 @@ fn gen_range(start u32, end u32) u32 {
 						r_pop_r(.rsi)
 						r_pop_r(.rdi)
 						r_pop_r(.rax)
-						writeln('    syscall')
+						fn_body_writeln('    syscall')
 						r_push(.rax)
 						r_free(.rdi)
 						r_free(.rsi)
@@ -630,7 +634,7 @@ fn gen_range(start u32, end u32) u32 {
 						r_pop_r(.rsi)
 						r_pop_r(.rdi)
 						r_pop_r(.rax)
-						writeln('    syscall')
+						fn_body_writeln('    syscall')
 						r_push(.rax)
 						r_free(.rdi)
 						r_free(.rsi)

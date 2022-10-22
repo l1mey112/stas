@@ -34,19 +34,19 @@ fn r_push_const(n u64) {
 	a := r_alloc()
 	rallocator_stack << a
 	r_b_clear(a)
-	writeln('    mov $a, $n')
+	fn_body_writeln('    mov $a, $n')
 }
 
 fn r_push_const_word(s string) {
 	a := r_alloc()
 	rallocator_stack << a
 	r_b_clear(a)
-	writeln('    mov $a, $s')
+	fn_body_writeln('    mov $a, $s')
 }
 
 fn r_pop_const_word(s string) {
 	a := r_pop()
-	writeln('    mov $s, $a')
+	fn_body_writeln('    mov $s, $a')
 }
 
 fn r_push(r Reg) {
@@ -58,7 +58,7 @@ fn r_dup(r Reg) {
 	a := r_alloc()
 	rallocator_stack << a
 	r_b_clear(a)
-	writeln('    mov $a, $r')
+	fn_body_writeln('    mov $a, $r')
 }
 
 fn C.ffs (int) int
@@ -83,7 +83,7 @@ fn r_pop() Reg {
 	} else {
 		a := r_alloc()
 		r_b_clear(a)
-		writeln('    pop $a')
+		fn_body_writeln('    pop $a')
 		return a
 	}
 }
@@ -110,7 +110,7 @@ fn r_top() Reg {
 		a := r_alloc()
 		rallocator_stack << a
 		r_b_clear(a)
-		writeln('    pop $a')
+		fn_body_writeln('    pop $a')
 		return a
 	}
 }
@@ -126,16 +126,16 @@ fn r_pop_r(r Reg) {
 		if r_is_used(r) {
 			r_release(r)
 		}
-		writeln('    mov $r, $a')
+		fn_body_writeln('    mov $r, $a')
 	} else {
 		assert !r_is_used(r)
-		writeln('    pop $r')
+		fn_body_writeln('    pop $r')
 	}
 }
 
 fn r_flush() {
 	for n in rallocator_stack {
-		writeln('    push $n')
+		fn_body_writeln('    push $n')
 	}
 	
 	unsafe { rallocator_stack.len = 0 }
@@ -147,17 +147,17 @@ fn r_drop() {
 		a := rallocator_stack.pop()
 		r_b_set(a)
 	} else {
-		writeln('    add rsp, 8')
+		fn_body_writeln('    add rsp, 8')
 	}
 }
 
 /* fn r_get_top_tmp(r Reg) {
 	if !r_is_used(r) {
 		a := r_alloc()
-		writeln('    mov $a, $r')
+		fn_body_writeln('    mov $a, $r')
 	} else {
 		a := r_top()
-		writeln('    mov $r, $a')
+		fn_body_writeln('    mov $r, $a')
 	}
 } */
 
@@ -166,7 +166,7 @@ fn r_release(r Reg) {
 		idx := rallocator_stack.index(r)
 
 		a := r_alloc()
-		writeln('    mov $a, $r')
+		fn_body_writeln('    mov $a, $r')
 
 		r_b_clear(a)
 		r_b_set(r) // r is not used anymore

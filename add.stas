@@ -3,9 +3,7 @@ fn write 3 0 {
 }
 
 fn endl 0 0 {
-	reserve LF 1
-	LF 10 w8
-	1 LF 1 write
+	1 "\n" write
 }
 
 fn uput 1 0 {
@@ -49,7 +47,12 @@ fn puts 2 0 {
 	1 rot write	
 }
 
+fn inc_this 1 1 {
+	++
+}
+
 fn main 0 0 {
+	1 assert
 	"123999999912\n" puts
 	123999999912 uputln
 }
