@@ -56,6 +56,9 @@ fn r_push(r Reg) {
 
 fn r_dup(r Reg) {
 	a := r_alloc()
+	/* if a == ._nil_ {
+		fn_body_writeln('    push $r')	
+	} */
 	rallocator_stack << a
 	r_b_clear(a)
 	fn_body_writeln('    mov $a, $r')
@@ -66,7 +69,8 @@ fn C.ffs (int) int
 fn r_alloc() Reg {
 	mut r_idx := C.ffs(rallocator_mask)
 	if r_idx == 0 || r_idx >= int(Reg._size_) - 1 {
-		panic("no more regs")
+		panic("TODO: no more regs, fix this")
+		return ._nil_
 	}
 	r_idx -= 1
 

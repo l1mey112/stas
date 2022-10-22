@@ -52,7 +52,5 @@ fn inc_this 1 1 {
 }
 
 fn main 0 0 {
-	1 assert
-	"123999999912\n" puts
-	123999999912 uputln
+	
 }

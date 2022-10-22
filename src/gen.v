@@ -59,6 +59,9 @@ fn gen() {
 	} else {
 		writeln('segment readable writable')
 	}
+	for v in global_var_context {
+		writeln('_global_$v.name: rb $v.size')
+	}
 	writeln('_rs_p: rq 1')
 	writeln('_rs: rb 65536')
 	writeln('_rs_top:')
@@ -99,26 +102,26 @@ fn gen_range(start u32, end u32) u32 {
 			ins == .push_num {
 				const_stack << ir_data
 			}
-			/* ins == .plus && const_stack.len >= 2 {
+			ins == .plus && const_stack.len >= 2 {
 				b := const_stack.pop()
 				a := const_stack.pop()
 				const_stack << a + b
-			} */
+			}
 			ins == .sub && const_stack.len >= 2 {
 				b := const_stack.pop()
 				a := const_stack.pop()
 				const_stack << a - b
 			}
-			/* ins == .mul && const_stack.len >= 2 {
+			ins == .mul && const_stack.len >= 2 {
 				b := const_stack.pop()
 				a := const_stack.pop()
 				const_stack << a * b
-			} */
-			/* ins == .div && const_stack.len >= 2 {
+			}
+			ins == .div && const_stack.len >= 2 {
 				b := const_stack.pop()
 				a := const_stack.pop()
 				const_stack << a / b
-			} */
+			}
 			ins == .mod && const_stack.len >= 2 {
 				b := const_stack.pop()
 				a := const_stack.pop()
@@ -130,12 +133,12 @@ fn gen_range(start u32, end u32) u32 {
 			ins == .dec && const_stack.len >= 1 {
 				const_stack[const_stack.len - 1]--
 			}
-			/* ins == .divmod && const_stack.len >= 2 {
+			ins == .divmod && const_stack.len >= 2 {
 				b := const_stack.pop()
 				a := const_stack.pop()
 				const_stack << a / b
 				const_stack << a % b
-			} */
+			}
 			ins == .shr && const_stack.len >= 2 {
 				b := const_stack.pop()
 				a := const_stack.pop()
@@ -145,6 +148,84 @@ fn gen_range(start u32, end u32) u32 {
 				b := const_stack.pop()
 				a := const_stack.pop()
 				const_stack << a << b
+			}
+			ins == .b_and && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a & b
+			}
+			ins == .b_or && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a | b
+			}
+			ins == .b_not && const_stack.len >= 1 {
+				b := const_stack.pop()
+				const_stack << ~b
+			}
+			ins == .b_xor && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a ^ b
+			}
+			ins == .swap && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << b
+				const_stack << a
+			}
+			ins == .dup && const_stack.len >= 1 {
+				b := const_stack.pop()
+				const_stack << b
+				const_stack << b
+			}
+			/* ins == .over && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a b
+			} */
+			/* ins == .rot && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a b
+			}
+			ins == .rot4 && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << a b
+			} */
+			ins == .drop && const_stack.len >= 1 {
+				const_stack.pop()
+			}
+			ins == .equ && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << u64(a == b)
+			}
+			ins == .nequ && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << u64(a != b)
+			}
+			ins == .gt && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << u64(a > b)
+			}
+			ins == .lt && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << u64(a < b)
+			}
+			ins == .gte && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << u64(a >= b)
+			}
+			ins == .lte && const_stack.len >= 2 {
+				b := const_stack.pop()
+				a := const_stack.pop()
+				const_stack << u64(a <= b)
 			}
 			ins == .do_cond_jmp && const_stack.len >= 1 {
 				c := const_stack.pop()
@@ -161,7 +242,7 @@ fn gen_range(start u32, end u32) u32 {
 					assert d, 'unreachable'
 				}
 			}
-			/* ins == ._assert && const_stack.len >= 1 {
+			ins == ._assert && const_stack.len >= 1 {
 				c := const_stack.pop()
 
 				if c == 0 {
@@ -169,7 +250,7 @@ fn gen_range(start u32, end u32) u32 {
 					eprint(slits[ir_data])
 					exit(1)
 				}
-			} */
+			}
 			else {
 				flush_const_stack()
 
@@ -297,7 +378,36 @@ fn gen_range(start u32, end u32) u32 {
 						for i in 0 .. count {
 							r_pop_const_word('qword [$r + ${addr + i * 8}]')
 						}
+						r_free(r)
+					}
+					.push_global_var_name {
+						var := global_var_context[ir_data]
+						r_push_const_word('qword _global_$var.name')
+					}
+					.push_global_stack_var {
+						var := global_var_context[ir_data]
 
+						r := r_new()
+						fn_body_writeln('    mov $r, qword _global_$var.name')
+
+						count := var.size / 8
+
+						for i in 0 .. count {
+							r_push_const_word('qword [$r + ${(count - i - 1) * 8}]')
+						}
+						r_free(r)
+					}
+					.pop_global_stack_var {
+						var := global_var_context[ir_data]
+
+						r := r_new()
+						fn_body_writeln('    mov $r, qword _global_$var.name')
+
+						count := var.size / 8
+
+						for i in 0 .. count {
+							r_pop_const_word('qword [$r + ${i * 8}]')
+						}
 						r_free(r)
 					}
 					.do_cond_jmp {
@@ -643,8 +753,7 @@ fn gen_range(start u32, end u32) u32 {
 						r_free(.r8)
 						r_free(.r9)
 					}
-					else {assert false, "oops"}
-					// else { eprintln(ir_stream[pos]) assert false, "unreachable" }
+					else { eprintln(ir_stream[pos]) assert false, "unreachable" }
 				}
 			}
 		}

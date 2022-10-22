@@ -35,9 +35,9 @@ enum VarTyp {
 }
 
 struct Variable {
-	typ  VarTyp        [required]
-	size u32           [required]
-	a_sp u32           [required]
+	typ  VarTyp
+	size u32
+	a_sp u32
 	idx  u32
 	name StringPointer
 }
@@ -57,6 +57,17 @@ fn label_allocate() u32 {
 	a := label_c
 	label_c++
 	return a
+}
+
+__global global_var_context = []Variable{}
+
+fn is_global_var_name(str StringPointer) u32 {
+	for idx, f in global_var_context {
+		if f.name.cmp(str) {
+			return u32(idx)
+		}
+	}
+	return u32(-1)
 }
 
 fn parse() {
@@ -166,14 +177,11 @@ fn parse() {
 					if is_function_name(str) != -1 {
 						compile_error_t('duplicate function name', fn_c + 1)
 					}
+					if is_global_var_name(str) != -1 {
+						compile_error_t('fn name already duplicate variable name', fn_c + 1)
+					}
 					argc := u32(token_stream[fn_c + 2].data)
 					retc := u32(token_stream[fn_c + 3].data)
-					if str.str() == 'main' {
-						if argc != 0 || retc != 0 {
-							compile_error_t('the main function must accept and return zero values',
-								fn_c + 2)
-						}
-					}
 					functions << Function{
 						argc: argc
 						retc: retc
@@ -181,6 +189,14 @@ fn parse() {
 						name: str
 						start_inst: u32(ir_stream.len)
 					}
+					if str.str() == 'main' {
+						if argc != 0 || retc != 0 {
+							compile_error_t('the main function must accept and return zero values',
+								fn_c + 2)
+						}
+						functions[functions.len - 1].forbid_inline = true
+					}
+
 
 					function_context = &functions[functions.len - 1]
 					ir_p(.fn_prelude, u64(function_context), fn_c)
@@ -188,6 +204,48 @@ fn parse() {
 					assert sp.len == 0
 					assert var_context.len == 0
 					sp_push_p(argc, fn_c)
+				}
+				.reserve, .auto {
+					rs_c := pos
+					pos += 2
+					if pos >= token_stream.len {
+						compile_error_t('unexpected EOF when parsing buffer decl', rs_c)
+					}
+					if token_stream[rs_c + 1].tok != .name {
+						compile_error_t('buffer name must not be an intrinsic', rs_c + 1)
+					}
+					if token_stream[rs_c + 2].tok != .number_lit {
+						compile_error_t('buffer decl must specify size in bytes', rs_c + 2)
+					}
+					name := StringPointer(&u8(token_stream[rs_c + 1].data))
+					if is_function_name(name) != -1 {
+						compile_error_t('variable decl must not be a function', rs_c + 1)
+					}
+					for idx, v in var_context {
+						if v.name.str() == name.str() {
+							print_backtrace()
+							compile_error_('duplicate variable name', token_stream[rs_c + 1].row,
+								token_stream[rs_c + 1].col, token_stream[rs_c + 1].file)
+							compile_info_('orginal variable declared here', token_stream[var_context[idx].idx].row,
+								token_stream[var_context[idx].idx].col, token_stream[var_context[idx].idx].file)
+							exit(1)
+						}
+					}
+					mut size := u32(token_stream[rs_c + 2].data)
+					mut typ := if token_stream[rs_c].tok == .reserve {
+						VarTyp.buffer
+					} else {
+						size *= 8
+						VarTyp.stack
+					}
+
+					global_var_context << Variable{
+						typ: typ
+						size: size
+						a_sp: -1
+						name: name
+						idx: rs_c + 1
+					}
 				}
 				else {
 					compile_error_t('unknown toplevel token', pos)
@@ -233,15 +291,18 @@ fn parse() {
 					rs_c := pos
 					pos += 2
 					if pos >= token_stream.len {
-						compile_error_t('unexpected EOF when parsing buffer decl', rs_c)
+						compile_error_t('unexpected EOF when parsing variable decl', rs_c)
 					}
 					if token_stream[rs_c + 1].tok != .name {
-						compile_error_t('buffer name must not be an intrinsic', rs_c + 1)
+						compile_error_t('variable name must not be an intrinsic', rs_c + 1)
 					}
 					if token_stream[rs_c + 2].tok != .number_lit {
-						compile_error_t('buffer decl must specify size in bytes', rs_c + 2)
+						compile_error_t('variable decl must specify size in bytes', rs_c + 2)
 					}
 					name := StringPointer(&u8(token_stream[rs_c + 1].data))
+					if is_function_name(name) != -1 {
+						compile_error_t('variable decl must not be a function', rs_c + 1)
+					}
 					mut search_p := u32(0)
 					if scope_context.len > 0 {
 						search_p = scope_context.last().var_scope
@@ -285,12 +346,12 @@ fn parse() {
 						compile_error_t('unexpected a name after a pop', pos)
 					}
 					mut f := false
+					name := StringPointer(&u8(token_stream[pos].data))
 					for v in var_context.reverse() {
-						if v.name.str() == StringPointer(&u8(token_stream[pos].data)).str() {
+						if v.name.str() == name.str() {
 							match v.typ {
 								.buffer {
-									ir(.push_local_addr, v.a_sp)
-									sp_push(1)
+									compile_error_t('cannot pop into a buffer', pos)
 								}
 								.stack {
 									to_pop := v.size / 8
@@ -317,12 +378,49 @@ fn parse() {
 							break
 						}
 					}
+					if f == false {
+						for idx, v in global_var_context {
+							if v.name.str() == name.str() {
+								match v.typ {
+									.buffer {
+										compile_error_t('cannot pop into a buffer', pos)
+									}
+									.stack {
+										to_pop := v.size / 8
+										if sp.len < to_pop {
+											print_backtrace()
+											compile_error_('not enought values on the stack to pop into an automatic variable',
+												token_stream[pos - 1].row, token_stream[pos - 1].col,
+												token_stream[pos - 1].file)
+											compile_info_('variable size in words located here',
+												token_stream[v.idx + 1].row, token_stream[v.idx + 1].col,
+												token_stream[v.idx + 1].file)
+											exit(1)
+										}
+
+										unsafe {
+											sp.len -= int(to_pop)
+										}
+
+										ir(.pop_global_stack_var, u64(idx))
+									}
+								}
+
+								f = true
+								break
+							}
+						}
+					}
 					if !f {
 						compile_error_t('unknown auto variable', pos)
 					}
 				}
+				.amps {
+					assert false, "unimplemented"
+				}
 				.name {
-					fn_n := is_function_name(&u8(token_stream[pos].data))
+					name := StringPointer(&u8(token_stream[pos].data))
+					fn_n := is_function_name(name)
 					if fn_n != -1 {
 						ir(.fn_call, u64(&functions[fn_n]))
 
@@ -334,7 +432,7 @@ fn parse() {
 					} else {
 						mut f := false
 						for v in var_context.reverse() {
-							if v.name.str() == StringPointer(&u8(token_stream[pos].data)).str() {
+							if v.name.str() == name.str() {
 								match v.typ {
 									.buffer {
 										ir(.push_local_addr, v.a_sp)
@@ -352,6 +450,28 @@ fn parse() {
 
 								f = true
 								break
+							}
+						}
+						if f == false {
+							for idx, v in global_var_context {
+								if v.name.str() == name.str() {
+									match v.typ {
+										.buffer {
+											ir(.push_global_var_name, u64(idx))
+											sp_push(1)
+										}
+										.stack {
+											to_push := v.size / 8
+
+											ir(.push_global_stack_var, u64(idx))
+
+											sp_push(to_push)
+										}
+									}
+
+									f = true
+									break
+								}
 							}
 						}
 						if !f {
