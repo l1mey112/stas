@@ -305,6 +305,7 @@ fn parse_token(str StringPointer) Tok {
 		'swap' { .swap }
 		'dup' { .dup }
 		'over' { .over }
+		'over2' {.over2}
 		'rot' { .rot }
 		'rot4' { .rot4 }
 		'drop' { .drop }

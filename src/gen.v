@@ -532,10 +532,22 @@ fn gen_range(start u32, end u32) u32 {
 						a := r_top()
 						r_dup(a)
 					}
-					/* .over {
-						fn_body_writeln('    mov rdi, [rsp - 8]')
-						fn_body_writeln('    push rdi')
-					} */
+					.over {
+						if rallocator_stack.len < 2 {
+							r_push_const_word('qword [rsp - ${(1 - rallocator_stack.len) * 8}]')
+						} else {
+							a := rallocator_stack[rallocator_stack.len - 2]
+							r_dup(a)
+						}
+					}
+					.over2 {
+						if rallocator_stack.len < 3 {
+							r_push_const_word('qword [rsp - ${(1 - rallocator_stack.len) * 8}]')
+						} else {
+							a := rallocator_stack[rallocator_stack.len - 3]
+							r_dup(a)
+						}
+					}
 					.rot {
 						c := r_pop()
 						b := r_pop()
@@ -753,7 +765,7 @@ fn gen_range(start u32, end u32) u32 {
 						r_free(.r8)
 						r_free(.r9)
 					}
-					else { eprintln(ir_stream[pos]) assert false, "unreachable" }
+					//else { eprintln(ir_stream[pos]) assert false, "unreachable" }
 				}
 			}
 		}

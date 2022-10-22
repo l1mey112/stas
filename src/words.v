@@ -39,6 +39,7 @@ enum Tok {
 	swap
 	dup
 	over
+	over2
 	rot
 	rot4
 	drop
@@ -110,6 +111,7 @@ enum Inst {
 	swap
 	dup
 	over
+	over2
 	rot
 	rot4
 	drop

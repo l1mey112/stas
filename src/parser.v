@@ -775,6 +775,10 @@ fn parse() {
 					ir(.over, 0)
 					sp_assert(2, 3)
 				}
+				.over2 {
+					ir(.over2, 0)
+					sp_assert(3, 4)
+				}
 				.rot {
 					ir(.rot, 0)
 					sp_assert(3, 3)
