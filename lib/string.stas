@@ -1,0 +1,76 @@
+; (ptr ptr len -- bool)
+fn memcmp 3 1 {
+	auto len 1
+
+	pop len
+
+	0
+	while dup len < {
+		rot dup r8
+		; (len ptr ptr u8)
+		rot swap dup r8 rot
+		; (len u8 u8 ptr ptr)
+		++ rot4
+		++ rot4
+
+		; (len ptr ptr bool)
+		
+		!= if {
+			drop drop drop 0 ret
+		}
+
+		; (ptr ptr len)
+		rot rot
+		
+		++
+	}
+	drop drop drop
+	1
+}
+
+; (str len str len -- bool)
+fn streq 4 1 {
+	over2 over
+	!= if {
+		drop drop drop drop 0 ret
+	} ; (len len != -> false ret)
+
+	; (str len str len -- bool)
+	; (str str len)
+
+	drop swap ; (str str len)
+	memcmp
+}
+
+; (ptr ptr len)
+fn memcpy 3 0 {
+	while dup 0 > {   ; (ptr1 ptr2 len)
+		rot           ; (len ptr1 ptr2)
+		swap dup r8   ; (len ptr2 ptr1 u8-1)
+		over2 swap w8 ; (len ptr2 ptr1)
+		++ swap ++    ; (len ptr1 ptr2)
+		rot rot --    ; (ptr1 ptr2 len)
+	}
+	drop drop drop
+}
+
+; (ptr int len)
+fn memset 3 0 {
+	while dup 0 > {  ; (ptr int len)
+		rot          ; (len ptr int)
+		over over    ; (len ptr int ptr int)
+		w8           ; (len ptr int)
+		swap ++ swap ; (len ptr int)
+		rot rot --   ; (ptr int len)     
+	}
+	drop drop drop
+}
+
+; (ptr)
+fn strlen 1 1 {
+	dup
+	while dup r8 0 != {
+		++
+	}
+	swap -
+}

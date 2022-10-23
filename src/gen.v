@@ -102,7 +102,7 @@ fn gen_range(start u32, end u32) u32 {
 			ins == .push_num {
 				const_stack << ir_data
 			}
-			ins == .plus && const_stack.len >= 2 {
+			/* ins == .plus && const_stack.len >= 2 {
 				b := const_stack.pop()
 				a := const_stack.pop()
 				const_stack << a + b
@@ -178,7 +178,7 @@ fn gen_range(start u32, end u32) u32 {
 				b := const_stack.pop()
 				const_stack << b
 				const_stack << b
-			}
+			} */
 			/* ins == .over && const_stack.len >= 2 {
 				b := const_stack.pop()
 				a := const_stack.pop()
@@ -194,7 +194,7 @@ fn gen_range(start u32, end u32) u32 {
 				a := const_stack.pop()
 				const_stack << a b
 			} */
-			ins == .drop && const_stack.len >= 1 {
+			/* ins == .drop && const_stack.len >= 1 {
 				const_stack.pop()
 			}
 			ins == .equ && const_stack.len >= 2 {
@@ -226,8 +226,8 @@ fn gen_range(start u32, end u32) u32 {
 				b := const_stack.pop()
 				a := const_stack.pop()
 				const_stack << u64(a <= b)
-			}
-			ins == .do_cond_jmp && const_stack.len >= 1 {
+			} */
+			/* ins == .do_cond_jmp && const_stack.len >= 1 {
 				c := const_stack.pop()
 
 				if c == 0 {
@@ -250,7 +250,7 @@ fn gen_range(start u32, end u32) u32 {
 					eprint(slits[ir_data])
 					exit(1)
 				}
-			}
+			} */
 			else {
 				flush_const_stack()
 
@@ -327,7 +327,7 @@ fn gen_range(start u32, end u32) u32 {
 						r_flush()
 
 						fn_c := &Function(ir_data)
-						if !fn_c.forbid_inline {
+						/* if !fn_c.forbid_inline {
 							eprintln("inlining function ${fn_c.name.str()}")
 							body_start := fn_c.start_inst + 1
 							mut body_end := body_start
@@ -335,16 +335,19 @@ fn gen_range(start u32, end u32) u32 {
 								assert body_end < end
 							}
 							mut body_size_old := body_size
+							mut overhead_old := overhead
 							body_size = 0
+							overhead = 0
 							body_size_old += gen_range(body_start, body_end)
 							body_size = body_size_old
-						} else {
+							overhead = overhead_old
+						} else { */
 							fn_body_writeln('    mov rbp, rsp')
 							fn_body_writeln('    mov rsp, [_rs_p]')
 							fn_body_writeln('    call $fn_c.name.str()')
 							fn_body_writeln('    mov [_rs_p], rsp')
 							fn_body_writeln('    mov rsp, rbp')
-						}
+						/* } */
 					}
 					.push_local_addr {
 						r_push_const_word('qword [_rs_p]')
@@ -534,7 +537,7 @@ fn gen_range(start u32, end u32) u32 {
 					}
 					.over {
 						if rallocator_stack.len < 2 {
-							r_push_const_word('qword [rsp - ${(1 - rallocator_stack.len) * 8}]')
+							r_push_const_word('qword [rsp + ${(1 - rallocator_stack.len) * 8}]')
 						} else {
 							a := rallocator_stack[rallocator_stack.len - 2]
 							r_dup(a)
@@ -542,7 +545,7 @@ fn gen_range(start u32, end u32) u32 {
 					}
 					.over2 {
 						if rallocator_stack.len < 3 {
-							r_push_const_word('qword [rsp - ${(1 - rallocator_stack.len) * 8}]')
+							r_push_const_word('qword [rsp + ${(2 - rallocator_stack.len) * 8}]')
 						} else {
 							a := rallocator_stack[rallocator_stack.len - 3]
 							r_dup(a)
@@ -591,7 +594,7 @@ fn gen_range(start u32, end u32) u32 {
 						r_release(.rax)
 						fn_body_writeln('    xor rax, rax')
 						fn_body_writeln('    cmp $a, $b')
-						fn_body_writeln('    sete al')
+						fn_body_writeln('    setne al')
 						r_push(.rax)
 						r_free(a)
 						r_free(b)
@@ -670,13 +673,19 @@ fn gen_range(start u32, end u32) u32 {
 					}
 					.r8 {
 						a := r_pop()
-						fn_body_writeln('    movsx $a, byte [$a]')
-						r_push(a)
+						r_new_r(.rax)
+						fn_body_writeln('    xor rax, rax')
+						fn_body_writeln('    mov al, [$a]')
+						r_push(.rax)
+						r_free(a)
 					}
 					.r16 {
 						a := r_pop()
-						fn_body_writeln('    movsx $a, word [$a]')
-						r_push(a)
+						r_new_r(.rax)
+						fn_body_writeln('    xor rax, rax')
+						fn_body_writeln('    mov ax, [$a]')
+						r_push(.rax)
+						r_free(a)
 					}
 					.r32 {
 						r_pop_r(.rax)
