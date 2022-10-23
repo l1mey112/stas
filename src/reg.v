@@ -23,9 +23,11 @@ __global rallocator_mask = u32(-1)
 fn r_b_clear(r Reg) {
 	rallocator_mask &= ~(1 << int(r))
 }
+
 fn r_b_set(r Reg) {
 	rallocator_mask |= 1 << int(r)
 }
+
 fn r_is_used(r Reg) bool {
 	return (rallocator_mask & (1 << int(r))) == 0
 }
@@ -56,27 +58,28 @@ fn r_push(r Reg) {
 
 fn r_dup(r Reg) {
 	a := r_alloc()
-	/* if a == ._nil_ {
+	/*
+	if a == ._nil_ {
 		fn_body_writeln('    push $r')	
-	} */
+	}*/
 	rallocator_stack << a
 	r_b_clear(a)
 	fn_body_writeln('    mov $a, $r')
 }
 
-fn C.ffs (int) int
+fn C.ffs(int) int
 
 fn r_alloc() Reg {
 	mut r_idx := C.ffs(rallocator_mask)
 	if r_idx == 0 || r_idx >= int(Reg._size_) - 1 {
-		panic("TODO: no more regs, fix this")
+		panic('TODO: no more regs, fix this')
 		// IF OUT OF REGS -> r_flush() ALL OF THEM AND return r_alloc()
 		return ._nil_
 	}
 	r_idx -= 1
 
 	a := unsafe { Reg(r_idx) }
-	
+
 	return a
 }
 
@@ -126,7 +129,7 @@ fn r_pop_r(r Reg) {
 		if a == r {
 			return
 		}
-		
+
 		r_b_set(a)
 		if r_is_used(r) {
 			r_release(r)
@@ -142,8 +145,10 @@ fn r_flush() {
 	for n in rallocator_stack {
 		fn_body_writeln('    push $n')
 	}
-	
-	unsafe { rallocator_stack.len = 0 }
+
+	unsafe {
+		rallocator_stack.len = 0
+	}
 	rallocator_mask = u32(-1)
 }
 
@@ -156,7 +161,8 @@ fn r_drop() {
 	}
 }
 
-/* fn r_get_top_tmp(r Reg) {
+/*
+fn r_get_top_tmp(r Reg) {
 	if !r_is_used(r) {
 		a := r_alloc()
 		fn_body_writeln('    mov $a, $r')
@@ -164,7 +170,7 @@ fn r_drop() {
 		a := r_top()
 		fn_body_writeln('    mov $r, $a')
 	}
-} */
+}*/
 
 fn r_release(r Reg) {
 	if r_is_used(r) {

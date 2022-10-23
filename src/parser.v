@@ -71,9 +71,9 @@ fn is_global_var_name(str StringPointer) u32 {
 }
 
 struct Constant {
-	name StringPointer
+	name       StringPointer
 	inst_start u32
-	tok u32
+	tok        u32
 mut:
 	value u64
 }
@@ -86,7 +86,8 @@ fn replace_as_constant(c u32, pos u32) {
 
 __global toplevel_constants = []Constant{}
 
-/* TODO:
+/*
+TODO:
 
 fn is_already_constant_name_and_error_if_it_is(pos u32)
 
@@ -95,7 +96,6 @@ fn is_already_constant_name_and_error_if_it_is(pos u32)
 	is_already_global_name_and_error_if_it_is(pos)
 	is_already_local_name_and_error_if_it_is(pos)
 }
-
 */
 
 fn is_constant_name(str StringPointer) u32 {
@@ -203,7 +203,7 @@ fn parse() {
 			everything else
 	*/
 	for ; pos < token_stream.len; pos++ {
-		if !(is_still_evaluating_constant) && isnil(function_context) {
+		if !is_still_evaluating_constant && isnil(function_context) {
 			match token_stream[pos].tok {
 				.const_expression {
 					if pos + 2 >= token_stream.len {
@@ -227,7 +227,7 @@ fn parse() {
 						compile_error_t('a scope must follow a const expression decl',
 							pos)
 					}
-					toplevel_constants << Constant {
+					toplevel_constants << Constant{
 						tok: pos - 1
 						name: str
 						inst_start: u32(ir_stream.len)
@@ -266,7 +266,8 @@ fn parse() {
 						compile_error_t('duplicate function name', fn_c + 1)
 					}
 					if is_toplevel_name(str) {
-						compile_error_t('fn name already duplicate top level variable name', fn_c + 1)
+						compile_error_t('fn name already duplicate top level variable name',
+							fn_c + 1)
 					}
 					argc := u32(token_stream[fn_c + 2].data)
 					retc := u32(token_stream[fn_c + 3].data)
@@ -335,27 +336,30 @@ fn parse() {
 			if isnil(function_context) && token_stream[pos].tok == .r_cb {
 				mut const_stack := []u64{}
 				// eval expr
-				for i :=  toplevel_constants.last().inst_start ; i < ir_stream.len ; i++ {
+				for i := toplevel_constants.last().inst_start; i < ir_stream.len; i++ {
 					if !eval_one_inst(mut const_stack, i) {
 						eprintln(ir_stream)
 						eprintln(ir_stream[i].str())
-						assert false, "unreachable"	
+						assert false, 'unreachable'
 					}
 					// should always be able to evaluate
 				}
 
 				if const_stack.len == 0 {
-					compile_error_t('constant expression must contain a value',
-							pos)
+					compile_error_t('constant expression must contain a value', pos)
 				}
 
 				if const_stack.len > 1 {
 					sp_error_dep('more than one unhandled values on left on the constant expression',
-							pos, 1)
+						pos, 1)
 				}
 
-				unsafe { sp.len = 0 }
-				unsafe { ir_stream.len = int(toplevel_constants.last().inst_start) }
+				unsafe {
+					sp.len = 0
+				}
+				unsafe {
+					ir_stream.len = int(toplevel_constants.last().inst_start)
+				}
 				// do not generate asm for constant expressions
 
 				v := const_stack.pop()
@@ -1029,7 +1033,8 @@ fn parse() {
 						}
 					} else {
 						if token_stream[pos].tok == .const_expression {
-							compile_error_t('cannot define constant expression inside a constant expression', pos)
+							compile_error_t('cannot define constant expression inside a constant expression',
+								pos)
 						}
 						compile_error_t('unknown constant expression token', pos)
 					}

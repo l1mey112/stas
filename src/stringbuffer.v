@@ -40,7 +40,7 @@ fn new_empty_string() StringPointer {
 	ptr := &string_buffer[string_buffer_len]
 	unsafe {
 		*(&u64(ptr)) = 0
-		*(&u8(ptr)  + sizeof(u64)) = 0
+		*(&u8(ptr) + sizeof(u64)) = 0
 	}
 	string_buffer_len += sizeof(u64) + 1
 	return StringPointer(ptr)

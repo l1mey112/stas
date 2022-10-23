@@ -105,15 +105,15 @@ fn gen_range(start u32, end u32) u32 {
 					lbl := label_allocate()
 					r_pop_r(.rax)
 					writeln('    test al, al')
-					writeln('    jnz .${lbl}')
+					writeln('    jnz .$lbl')
 					writeln('    mov eax, 1')
 					writeln('    mov edi, 2')
-					writeln('    mov rsi, _slit_${ir_data}')
+					writeln('    mov rsi, _slit_$ir_data')
 					writeln('    mov rdx, ${*(&u64(slits[ir_data]))}')
 					writeln('    syscall')
 					writeln('    mov rdi, 1')
 					writeln('    jmp _exit')
-					writeln('.${lbl}:')
+					writeln('.$lbl:')
 					r_free(.rax)
 					body_size += 10
 				}
@@ -165,7 +165,7 @@ fn gen_range(start u32, end u32) u32 {
 						fn_c.forbid_inline = true
 					}
 
-					eprintln("function ${fn_c.name.str()}, overhead $overhead, body size $body_size, inlinable: ${!fn_c.forbid_inline}")
+					eprintln('function $fn_c.name.str(), overhead $overhead, body size $body_size, inlinable: ${!fn_c.forbid_inline}')
 
 					overhead, body_size = 0, 0
 				}
@@ -173,7 +173,8 @@ fn gen_range(start u32, end u32) u32 {
 					r_flush()
 
 					fn_c := &Function(ir_data)
-					/* if !fn_c.forbid_inline {
+					/*
+					if !fn_c.forbid_inline {
 						eprintln("inlining function ${fn_c.name.str()}")
 						body_start := fn_c.start_inst + 1
 						mut body_end := body_start
@@ -187,13 +188,13 @@ fn gen_range(start u32, end u32) u32 {
 						body_size_old += gen_range(body_start, body_end)
 						body_size = body_size_old
 						overhead = overhead_old
-					} else { */
-						fn_body_writeln('    mov rbp, rsp')
-						fn_body_writeln('    mov rsp, [_rs_p]')
-						fn_body_writeln('    call $fn_c.name.str()')
-						fn_body_writeln('    mov [_rs_p], rsp')
-						fn_body_writeln('    mov rsp, rbp')
-					/* } */
+					} else {*/
+					fn_body_writeln('    mov rbp, rsp')
+					fn_body_writeln('    mov rsp, [_rs_p]')
+					fn_body_writeln('    call $fn_c.name.str()')
+					fn_body_writeln('    mov [_rs_p], rsp')
+					fn_body_writeln('    mov rsp, rbp')
+					//}
 				}
 				.push_local_addr {
 					r_push_const_word('qword [_rs_p]')
@@ -220,7 +221,7 @@ fn gen_range(start u32, end u32) u32 {
 					a := unsafe { &u32(&ir_data) }
 					addr := unsafe { a[0] }
 					count := unsafe { a[1] }
-					
+
 					r := r_new()
 					fn_body_writeln('    mov $r, qword [_rs_p]')
 
@@ -620,7 +621,7 @@ fn gen_range(start u32, end u32) u32 {
 					r_free(.r8)
 					r_free(.r9)
 				}
-				//else { eprintln(ir_stream[pos]) assert false, "unreachable" }
+				// else { eprintln(ir_stream[pos]) assert false, "unreachable" }
 			}
 		}
 	}

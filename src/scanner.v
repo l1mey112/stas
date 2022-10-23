@@ -160,7 +160,8 @@ fn scan_file(data string, file_str StringPointer) {
 
 						if is_next_inc {
 							a := os.read_file(str_buf.str()) or {
-								compile_error_e('file to include cannot be read', str_f_row, str_f_col, file_str)
+								compile_error_e('file to include cannot be read', str_f_row,
+									str_f_col, file_str)
 							}
 
 							scan_file(a, str_buf)
@@ -306,7 +307,7 @@ fn parse_token(str StringPointer) Tok {
 		'swap' { .swap }
 		'dup' { .dup }
 		'over' { .over }
-		'over2' {.over2}
+		'over2' { .over2 }
 		'rot' { .rot }
 		'rot4' { .rot4 }
 		'drop' { .drop }
