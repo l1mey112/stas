@@ -1,10 +1,9 @@
-; (stream str len)
-fn write 3 0 {
-	1 rot4 syscall3 drop
-}
+const stdin  { 0 }
+const stdout { 1 }
+const stderr { 2 }
 
 fn endl 0 0 {
-	1 "\n" write
+	stdout "\n" write drop
 }
 
 ; (stream num)
@@ -20,7 +19,7 @@ fn fputu 2 0 {
 		drop
 
 		buf 48 w8
-		stream buf 1 write
+		stream buf 1 write drop
 		
 		ret
 	}
@@ -40,51 +39,51 @@ fn fputu 2 0 {
 	}
 	drop
 
-	stream pos len write
+	stream pos len write drop
 }
 
 ; (num)
 fn putu 1 0 {
-	1 swap fputu
+	stdout swap fputu
 }
 
 ; (num)
 fn eputu 1 0 {
-	2 swap fputu
+	stderr swap fputu
 }
 
 ; (num)
 fn putuln 1 0 {
-	1 swap fputu
+	stdout swap fputu
 	endl
 }
 
 ; (num)
 fn eputuln 1 0 {
-	2 swap fputu
+	stderr swap fputu
 	endl
 }
 
 ; (str len)
 fn puts 2 0 {
-	1 rot write	
+	stdout rot write drop
 }
 
 ; (str len)
 fn eputs 2 0 {
-	2 rot write	
+	stderr rot write drop
 }
 
 ; (ch)
 fn putc 1 0 {
 	reserve ch 1
 	ch swap w8
-	1 ch 1 write
+	stdout ch 1 write drop
 }
 
 ; (ch)
 fn eputc 1 0 {
 	reserve ch 1
 	ch swap w8
-	2 ch 1 write
+	stderr ch 1 write drop
 }

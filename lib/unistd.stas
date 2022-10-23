@@ -1,0 +1,76 @@
+; int          execl(const char *, const char *, ...);
+; int          execle(const char *, const char *, ...);
+; int          execlp(const char *, const char *, ...);
+; int          execv(const char *, char *const []);
+; int          execve(const char *, char *const [], char *const []);
+; int          execvp(const char *, char *const []);
+
+; (cstr -- ret)
+fn chdir 1 1 {
+	sys_chdir swap syscall1
+}
+
+; (fd -- ret)
+fn close 1 1 {
+	sys_chdir swap syscall1
+}
+
+; (code)
+fn exit 1 0 {
+	sys_exit swap syscall1 drop
+}
+
+; ()
+fn fork 0 1 {
+	stub_fork syscall0
+}
+
+; (stream str len -- count)
+fn read 3 1 {
+	sys_read rot4 syscall3
+}
+
+; (stream str len -- count)
+fn write 3 1 {
+	sys_write rot4 syscall3
+}
+
+auto __curbrk 1
+
+; DOES NOT WORK FOR SOME REASON
+;     brk does not grow....
+
+; (-1 = ENOMEM: Out of memory)
+; (ptr -- int)
+fn brk 1 1 {
+	dup
+	sys_brk swap syscall1 pop __curbrk
+
+	__curbrk swap < if {
+		UINT64_MAX
+	} else {
+		0
+	}
+}
+
+; (ptr -- ptr)
+fn sbrk 1 1 {
+	__curbrk 0 = if {
+		0 brk 0 != if {
+			drop UINT64_MAX ret
+		}
+	}
+
+	dup 0 = if {
+		drop __curbrk ret
+	}
+
+	dup
+
+	__curbrk + 0 != if {
+		drop UINT64_MAX ret
+	}
+}
+
+; int brk(void *addr);
+; void *sbrk(intptr_t increment);

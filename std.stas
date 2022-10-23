@@ -1,2 +1,7 @@
+const UINT64_MAX { 18446744073709551615 }
+
+include 'lib/sycalls.stas'
+include 'lib/unistd.stas'
+include 'lib/mmap.stas'
 include 'lib/io.stas'
 include 'lib/string.stas'
