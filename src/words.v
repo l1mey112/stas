@@ -9,6 +9,7 @@ enum Tok {
 	// Misc
 	fn_decl
 	trap_breakpoint
+	const_expression
 	_assert
 	//	d_import
 	// Control flow

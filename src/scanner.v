@@ -4,6 +4,7 @@ struct Token {
 	row  u32
 	col  u32
 	file StringPointer
+mut:
 	tok  Tok
 	data u64
 }
@@ -310,6 +311,7 @@ fn parse_token(str StringPointer) Tok {
 		'rot4' { .rot4 }
 		'drop' { .drop }
 		'_breakpoint' { .trap_breakpoint }
+		'const' { .const_expression }
 		'=' { .equ }
 		'!=' { .nequ }
 		'>' { .gt }

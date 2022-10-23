@@ -1,5 +1,14 @@
 include 'std.stas'
 
+const fib_1 { 0 }
+const fib_2 { 1 }
+const fib_3 { fib_1 fib_2 + }
+const fib_4 { fib_2 fib_3 + }
+const fib_5 { fib_3 fib_4 + }
+const fib_6 { fib_4 fib_5 + }
+const fib_7 { fib_5 fib_6 + }
+const fib_8 { fib_6 fib_7 + }
+
 fn main 0 0 {
-	221 putu
+	fib_8
 }

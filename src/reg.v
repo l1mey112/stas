@@ -70,6 +70,7 @@ fn r_alloc() Reg {
 	mut r_idx := C.ffs(rallocator_mask)
 	if r_idx == 0 || r_idx >= int(Reg._size_) - 1 {
 		panic("TODO: no more regs, fix this")
+		// IF OUT OF REGS -> r_flush() ALL OF THEM AND return r_alloc()
 		return ._nil_
 	}
 	r_idx -= 1

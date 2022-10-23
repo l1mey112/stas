@@ -1,27 +1,21 @@
 ; (ptr ptr len -- bool)
-fn memcmp 3 1 {
+fn memeq 3 1 {
 	auto len 1
 
-	pop len
+	pop len ; (ptr ptr)
 
-	0
-	while dup len < {
-		rot dup r8
-		; (len ptr ptr u8)
-		rot swap dup r8 rot
-		; (len u8 u8 ptr ptr)
-		++ rot4
-		++ rot4
+	0                 
+	while dup len < {       ; (ptr_1 ptr_2 idx)
+		rot dup r8          ; (idx ptr_1 ptr_2 u8_2)
+		rot swap dup r8     ; (idx u8_2 ptr_2 ptr_1 u8_1)
+		rot                 ; (idx u8_2 u8_1 ptr_2 ptr_1)
+		++ rot4 ++ rot4     ; (idx ptr_2 ptr_1 u8_2 u8_1)
 
-		; (len ptr ptr bool)
-		
-		!= if {
+		!= if {             ; (idx ptr_2 ptr_1 bool)
 			drop drop drop 0 ret
 		}
 
-		; (ptr ptr len)
-		rot rot
-		
+		rot swap            ; (ptr_1 ptr_2 idx)
 		++
 	}
 	drop drop drop
@@ -30,16 +24,15 @@ fn memcmp 3 1 {
 
 ; (str len str len -- bool)
 fn streq 4 1 {
-	over2 over
+	over2 over ; (len len)
 	!= if {
 		drop drop drop drop 0 ret
-	} ; (len len != -> false ret)
-
-	; (str len str len -- bool)
-	; (str str len)
-
+	}
+	
+	; (str len str len)
+	
 	drop swap ; (str str len)
-	memcmp
+	memeq
 }
 
 ; (ptr ptr len)
@@ -66,7 +59,7 @@ fn memset 3 0 {
 	drop drop drop
 }
 
-; (ptr)
+; (str -- len)
 fn strlen 1 1 {
 	dup
 	while dup r8 0 != {
