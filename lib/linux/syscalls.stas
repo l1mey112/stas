@@ -5,8 +5,8 @@ const                  sys_write { 1 }
 const                   sys_open { 2 }
 const                  sys_close { 3 }
 const                sys_newstat { 4 }
-const               sys_newfstat { 5 }
-const               sys_newlstat { 6 }
+const                  sys_fstat { 5 }
+const                  sys_lstat { 6 }
 const                   sys_poll { 7 }
 const                  sys_lseek { 8 }
 const                   sys_mmap { 9 }

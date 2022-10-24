@@ -302,6 +302,12 @@ fn parse() {
 					if token_stream[rs_c + 1].tok != .name {
 						compile_error_t('buffer name must not be an intrinsic', rs_c + 1)
 					}
+					if token_stream[rs_c + 2].tok == .name {
+						c := is_constant_name(&u8(token_stream[pos].data))
+						if c != -1 {
+							replace_as_constant(c, rs_c + 2)
+						}
+					}
 					if token_stream[rs_c + 2].tok != .number_lit {
 						compile_error_t('buffer decl must specify size in bytes', rs_c + 2)
 					}
@@ -556,10 +562,18 @@ fn parse() {
 									compile_error_t('variable name must not be an intrinsic',
 										rs_c + 1)
 								}
+								if token_stream[rs_c + 2].tok == .name {
+									c := is_constant_name(&u8(token_stream[pos].data))
+									if c != -1 {
+										replace_as_constant(c, rs_c + 2)
+									}
+								}
 								if token_stream[rs_c + 2].tok != .number_lit {
+									
 									compile_error_t('variable decl must specify size in bytes',
 										rs_c + 2)
 								}
+								
 								name := StringPointer(&u8(token_stream[rs_c + 1].data))
 								if is_function_name(name) != -1 {
 									compile_error_t('variable decl must not be a function',

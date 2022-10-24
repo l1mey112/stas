@@ -1,15 +1,11 @@
 include 'std.stas'
 
+
+
 fn main 0 0 {
-	"add.stas" drop O_RDONLY 0 open
+	auto str 2
 
-	dup 0 <s if {
-		"Failed to open file!\n" eputs
-		1 exit
-	}
+	"src/eval.v" open_and_mmap_fp pop str
 
-	close 0 <s if {
-		"Failed to close file descriptor!\n" eputs
-		1 exit
-	}
+	str puts
 }

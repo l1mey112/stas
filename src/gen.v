@@ -165,7 +165,7 @@ fn gen_range(start u32, end u32) u32 {
 						fn_c.forbid_inline = true
 					}
 
-					eprintln('function $fn_c.name.str(), overhead $overhead, body size $body_size, inlinable: ${!fn_c.forbid_inline}')
+					// eprintln('function $fn_c.name.str(), overhead $overhead, body size $body_size, inlinable: ${!fn_c.forbid_inline}')
 
 					overhead, body_size = 0, 0
 				}

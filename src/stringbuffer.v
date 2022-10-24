@@ -1,4 +1,4 @@
-__global string_buffer = [16384]u8{}
+__global string_buffer = [65536]u8{}
 __global string_buffer_len = u32(0)
 
 type StringPointer = &u8
@@ -33,7 +33,7 @@ fn get_v_string(ptr StringPointer) string {
 
 [unsafe]
 fn new_empty_string() StringPointer {
-	if string_buffer_len + sizeof(u64) + 1 >= 16384 {
+	if string_buffer_len + sizeof(u64) + 1 >= 65536 {
 		panic('used up all memory')
 	}
 
@@ -48,7 +48,7 @@ fn new_empty_string() StringPointer {
 
 [unsafe]
 fn push_char(ptr StringPointer, ch u8) {
-	if string_buffer_len + 1 >= 16384 {
+	if string_buffer_len + 1 >= 65536 {
 		panic('used up all memory')
 	}
 
@@ -65,7 +65,7 @@ fn push_char(ptr StringPointer, ch u8) {
 
 [unsafe]
 fn push_nul(ptr StringPointer) {
-	if string_buffer_len + 1 >= 16384 {
+	if string_buffer_len + 1 >= 65536 {
 		panic('used up all memory')
 	}
 
@@ -81,7 +81,7 @@ fn push_string_view(ptr StringPointer, str &u8, len int) {
 	assert *(&u64(ptr)) != 0
 	assert len > 0
 
-	if string_buffer_len + u32(len) >= 16384 {
+	if string_buffer_len + u32(len) >= 65536 {
 		panic('used up all memory')
 	}
 
@@ -100,7 +100,7 @@ fn new_string_view(str &u8, len int) StringPointer {
 	assert len > 0
 	sizeof_entry := sizeof(u64) + u32(len)
 
-	if string_buffer_len + sizeof_entry + 1 >= 16384 {
+	if string_buffer_len + sizeof_entry + 1 >= 65536 {
 		panic('used up all memory')
 	}
 
