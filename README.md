@@ -1,3 +1,7 @@
+# notice
+
+A complete redesign of the compiler it is taking place in the branch `tiny-stas`. This work is taking place to simplify it and allow stas to be selfhosted (written in itself).
+
 # stas
 A werid little stack based programming language and compiler written in V, created to learn the ins and outs of compilers.
 
