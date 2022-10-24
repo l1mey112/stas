@@ -7,11 +7,16 @@ fn write(str string) {
 }
 
 fn gen() {
-	/*
-	if !is_object_file && main_fn == -1 {
-		assert false, 'no main function'
-		// compile_error_f("no main function", 0)
-	}*/
+	mut main_fn := u32(-1)
+	for f in functions {
+		if f.name.str() == 'main' {
+			main_fn = f.idx 
+		}
+	}
+
+	if main_fn == -1 {
+		assert false, "no main function"
+	}
 
 	writeln('use64')
 	if is_object_file {
@@ -30,7 +35,7 @@ fn gen() {
 	writeln('    mov qword [_rs_p], _rs_top')
 	writeln('    mov rbp, rsp')
 	writeln('    mov rsp, [_rs_p]')
-	writeln('    call main')
+	writeln('    call __fn_$main_fn')
 	writeln('    xor rdi, rdi')
 	writeln('_exit:')
 	writeln('    mov eax, 60')
@@ -133,16 +138,16 @@ fn gen_range(start u32, end u32) u32 {
 				}
 				.fn_prelude {
 					assert rallocator_stack.len == 0
-					fn_c := &Function(ir_data)
+					fn_c := functions[ir_data]
 
 					// assert isnil(function_context)
 					// function_context = fn_c
 					assert overhead == 0 && body_size == 0
 
 					if is_object_file {
-						writeln('public $fn_c.name.str()')
+						writeln('public __fn_$fn_c.idx')
 					}
-					writeln('$fn_c.name.str():')
+					writeln('__fn_$fn_c.idx:')
 					if fn_c.a_sp > 0 {
 						fn_overhead_writeln('    sub rsp, $fn_c.a_sp')
 					}
@@ -152,7 +157,7 @@ fn gen_range(start u32, end u32) u32 {
 				.fn_leave {
 					r_flush()
 
-					mut fn_c := &Function(ir_data)
+					fn_c := functions[ir_data]
 					fn_overhead_writeln('    mov rbp, rsp')
 					fn_overhead_writeln('    mov rsp, [_rs_p]')
 					if fn_c.a_sp > 0 {
@@ -164,7 +169,7 @@ fn gen_range(start u32, end u32) u32 {
 					overhead += 5
 
 					if !fn_c.forbid_inline && overhead < body_size {
-						fn_c.forbid_inline = true
+						functions[ir_data].forbid_inline = true
 					}
 
 					// eprintln('function $fn_c.name.str(), overhead $overhead, body size $body_size, inlinable: ${!fn_c.forbid_inline}')
@@ -174,7 +179,7 @@ fn gen_range(start u32, end u32) u32 {
 				.fn_call {
 					r_flush()
 
-					fn_c := &Function(ir_data)
+					fn_c := functions[ir_data]
 					/*
 					if !fn_c.forbid_inline {
 						eprintln("inlining function ${fn_c.name.str()}")
@@ -193,7 +198,7 @@ fn gen_range(start u32, end u32) u32 {
 					} else {*/
 					fn_body_writeln('    mov rbp, rsp')
 					fn_body_writeln('    mov rsp, [_rs_p]')
-					fn_body_writeln('    call $fn_c.name.str()')
+					fn_body_writeln('    call __fn_$fn_c.idx')
 					fn_body_writeln('    mov [_rs_p], rsp')
 					fn_body_writeln('    mov rsp, rbp')
 					//}

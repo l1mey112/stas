@@ -1,0 +1,21 @@
+; (str len)
+fn scan_file 2 0 {
+	auto file_path 2
+	pop file_path
+
+	auto data     1
+	auto data.len 1
+
+	-> 0 {
+		file_path open_and_mmap_fp
+		pop data.len pop data
+	}
+	
+	auto pos 1 0 pop pos
+	auto row 1 0 pop row
+	auto col 1 0 pop col
+
+	
+
+	; TODO: complex for break and continue
+}

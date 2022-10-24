@@ -1,5 +1,50 @@
+include 'std.stas'
 
+reserve is_object_file 1
+
+include 'libstasc/scanner.stas'
+
+; (idx -- str len)
+fn args[] 1 2 {
+	dup argc >= if {
+		drop NULL 0 ret
+	}
+
+	8 * argv + r64 ; (cstr)
+	dup strlen     ; (str len)
+}
 
 fn main 0 0 {
-	
+	argc 1 = if {
+		'FATAL: Must supply files to compile\n' eputs
+		1 exit
+	}
+
+	argc 2 = if {
+		1 args[] "-elf" streq if {
+			'FATAL: Must supply files to compile\n' eputs
+			1 exit
+		}
+	}
+
+	is_object_file 0 w8
+
+	1
+	while dup argc < {
+		dup args[]
+
+		over over '-elf' streq if {
+			drop drop
+			is_object_file r8 if {
+				'TODO: put usage here and in all the other places\n' eputs
+				1 exit
+			}
+			is_object_file 1 w8
+		} else {
+			scan_file
+		}
+
+		++
+	}
+	drop
 }

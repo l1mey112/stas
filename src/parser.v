@@ -3,7 +3,7 @@ struct Function {
 	retc       u32
 	idx        u32
 	name       StringPointer
-	start_inst u32 // TODO: start_inst contains the position of idx, remove idx
+	start_inst u32 // TODO: start_inst contains the position of idx anyway in the inst token field, remove idx
 mut:
 	a_sp          u32
 	forbid_inline bool
@@ -25,7 +25,8 @@ struct Scope {
 	typ       ScopeTyp [required]
 	sp        u32
 	idx       u32
-	label_id  u32 = -1
+	label_id  u32 = -1 // while loop continue
+	label_id2 u32 = -1 // while loop break
 	var_scope u32
 }
 
@@ -133,6 +134,7 @@ fn parse() {
 	mut scope_context := []Scope{}
 	mut var_context := []Variable{}
 	mut function_context := &Function(0)
+	mut function_context_idx := u64(-1)
 
 	mut sp := []u32{}
 	mut sp_r := &mut sp
@@ -287,7 +289,8 @@ fn parse() {
 					}
 
 					function_context = &functions[functions.len - 1]
-					ir_p(.fn_prelude, u64(function_context), fn_c)
+					function_context_idx = u64(functions.len - 1)
+					ir_p(.fn_prelude, function_context_idx, fn_c)
 
 					assert sp.len == 0
 					assert var_context.len == 0
@@ -703,7 +706,7 @@ fn parse() {
 								name := StringPointer(&u8(token_stream[pos].data))
 								fn_n := is_function_name(name)
 								if fn_n != -1 {
-									ir(.fn_call, u64(&functions[fn_n]))
+									ir(.fn_call, u64(fn_n))
 
 									if sp.len < functions[fn_n].argc {
 										compile_error_t('not enough values to consume for function call',
@@ -793,7 +796,7 @@ fn parse() {
 								}
 							}
 							.while_block {
-								lbl := label_allocate()
+								lbl  := label_allocate()
 								ir(.label, lbl)
 								scope_context << Scope{
 									typ: .while_block
@@ -814,31 +817,38 @@ fn parse() {
 								if idx == -1 {
 									compile_error_t('not inside while loop body', pos)
 								}
-								compile_error_t('does nothing', pos)
+								ir(.do_jmp, scope_context[idx].label_id)
+							}
+							.continue_block {
+								mut idx := u32(-1)
+								for s_id, s in scope_context.reverse() {
+									if s.typ == .while_block_scope {
+										idx = u32(s_id)
+										break
+									}
+								}
+								if idx == -1 {
+									compile_error_t('not inside while loop body', pos)
+								}
+								assert scope_context[idx - 1].typ == .while_block
+								ir(.do_jmp, scope_context[idx - 1].label_id)
 							}
 							.l_cb {
-								if scope_context.len > 0 {
-									match scope_context.last().typ {
-										.while_block {
-											if sp.len == 0 {
-												compile_error_t('no value on stack to consume for while header',
-													pos)
-											}
-											unsafe { sp.len-- }
-											lbl := label_allocate()
-											scope_context << Scope{
-												typ: .while_block_scope
-												label_id: lbl
-												sp: u32(sp.len)
-												var_scope: u32(var_context.len)
-												idx: pos
-											}
-											ir(.do_cond_jmp, lbl)
+								if scope_context.len > 0 && scope_context.last().typ == .while_block {
+										if sp.len == 0 {
+											compile_error_t('no value on stack to consume for while header',
+												pos)
 										}
-										else {
-											assert false, 'unreachable'
+										unsafe { sp.len-- }
+										lbl := label_allocate()
+										scope_context << Scope{
+											typ: .while_block_scope
+											label_id: lbl
+											sp: u32(sp.len)
+											var_scope: u32(var_context.len)
+											idx: pos
 										}
-									}
+										ir(.do_cond_jmp, lbl)
 								} else {
 									scope_context << Scope{
 										typ: .scope
@@ -922,7 +932,7 @@ fn parse() {
 									}
 								} else {
 									assert !isnil(function_context)
-									ir(.fn_leave, u64(function_context))
+									ir(.fn_leave, function_context_idx)
 
 									if u32(sp.len) > function_context.retc {
 										sp_error('unhandled data on the stack', function_context.idx)
@@ -936,6 +946,7 @@ fn parse() {
 										var_context.len = 0
 									}
 									function_context = unsafe { nil }
+									function_context_idx = u64(-1)
 								}
 							}
 							.ret {
@@ -943,7 +954,7 @@ fn parse() {
 								// move of a reason to extract them into global variables
 
 								assert !isnil(function_context)
-								ir(.fn_leave, u64(function_context))
+								ir(.fn_leave, function_context_idx)
 
 								if u32(sp.len) > function_context.retc {
 									sp_error('unhandled data when returning early from function',

@@ -2,11 +2,11 @@ include 'std.stas'
 
 fn main 0 0 {
 	0
-	while dup argc < {
-		dup 8 * argv +
-
-		r64 dup strlen puts endl
-
+	while 1 {
+		dup 100 >= if {
+			continue
+		}
+		dup putuln
 		++
 	}
 	drop

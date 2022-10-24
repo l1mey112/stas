@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+v -g -enable-globals crun . -elf stas.stas > a.o.fasm
+fasm a.o.fasm a.o -m 1048576
+ld a.o -o a.out
+chmod +x a.out
+
+gdb --silent --args ./a.out $@
