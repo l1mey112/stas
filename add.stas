@@ -1,13 +1,5 @@
 include 'std.stas'
 
 fn main 0 0 {
-	0
-	while 1 {
-		dup 100 >= if {
-			continue
-		}
-		dup putuln
-		++
-	}
-	drop
+	32 drop
 }

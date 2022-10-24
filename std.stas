@@ -1,3 +1,6 @@
+const false { 0 }
+const true  { 1 }
+
 const UINT32_MAX { 4294967295 }
 const UINT64_MAX { 18446744073709551615 }
 const       NULL { 0 }
