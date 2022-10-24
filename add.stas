@@ -1,11 +1,13 @@
 include 'std.stas'
 
-
-
 fn main 0 0 {
-	auto str 2
+	0
+	while dup argc < {
+		dup 8 * argv +
 
-	"src/eval.v" open_and_mmap_fp pop str
+		r64 dup strlen puts endl
 
-	str puts
+		++
+	}
+	drop
 }

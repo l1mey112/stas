@@ -290,6 +290,8 @@ fn parse_token(str StringPointer) Tok {
 		'break' { .break_block }
 		'continue' { .continue_block }
 		'assert' { ._assert }
+		'argc' { .argc }
+		'argv' { .argv }
 		'+' { .plus }
 		'-' { .sub }
 		'*' { .mul }

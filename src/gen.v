@@ -26,6 +26,7 @@ fn gen() {
 	}
 
 	writeln('_start:')
+	writeln('    mov [_arg_p], rsp')
 	writeln('    mov qword [_rs_p], _rs_top')
 	writeln('    mov rbp, rsp')
 	writeln('    mov rsp, [_rs_p]')
@@ -62,6 +63,7 @@ fn gen() {
 	for v in global_var_context {
 		writeln('_global_$v.name: rb $v.size')
 	}
+	writeln('_arg_p: rq 1')
 	writeln('_rs_p: rq 1')
 	writeln('_rs: rb 65536')
 	writeln('_rs_top:')
@@ -664,6 +666,18 @@ fn gen_range(start u32, end u32) u32 {
 					r_free(.r10)
 					r_free(.r8)
 					r_free(.r9)
+				}
+				.push_argc {
+					a := r_alloc()
+					fn_body_writeln('    mov $a, qword [_arg_p]')
+					fn_body_writeln('    mov $a, [$a]')
+					r_push(a)
+				}
+				.push_argv {
+					a := r_alloc()
+					fn_body_writeln('    mov $a, qword [_arg_p]')
+					fn_body_writeln('    add $a, 8')
+					r_push(a)
 				}
 				// else { eprintln(ir_stream[pos]) assert false, "unreachable" }
 			}

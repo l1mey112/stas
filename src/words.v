@@ -11,6 +11,8 @@ enum Tok {
 	trap_breakpoint
 	const_expression
 	_assert
+	argc
+	argv
 	//	d_import
 	// Control flow
 	ret
@@ -87,6 +89,8 @@ enum Inst {
 	push_global_var_name
 	pop_global_stack_var
 	push_global_stack_var
+	push_argc
+	push_argv
 	// push_cstr
 	// Control flow
 	do_cond_jmp

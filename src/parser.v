@@ -1057,6 +1057,14 @@ fn parse() {
 								ir(.syscall6, 0)
 								sp_assert(7, 1)
 							}
+							.argc {
+								ir(.push_argc, 0)
+								sp_assert(0, 1)
+							}
+							.argv {
+								ir(.push_argv, 0)
+								sp_assert(0, 1)
+							}
 							else {
 								compile_error_t('unknown function local token', pos)
 							}
