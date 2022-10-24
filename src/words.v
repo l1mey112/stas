@@ -51,6 +51,10 @@ enum Tok {
 	lt
 	gte
 	lte
+	s_gt  // s_ signed comparison
+	s_lt
+	s_gte
+	s_lte
 	// Pointers
 	w8
 	w16
@@ -123,6 +127,10 @@ enum Inst {
 	lt
 	gte
 	lte
+	s_gt
+	s_lt
+	s_gte
+	s_lte
 	// Pointers
 	w8
 	w16

@@ -319,6 +319,10 @@ fn parse_token(str StringPointer) Tok {
 		'<' { .lt }
 		'>=' { .gte }
 		'<=' { .lte }
+		'>s' { .s_gt }
+		'<s' { .s_lt }
+		'>=s' { .s_gte }
+		'<=s' { .s_lte }
 		'w8' { .w8 }
 		'w16' { .w16 }
 		'w32' { .w32 }

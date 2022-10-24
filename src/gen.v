@@ -490,6 +490,50 @@ fn gen_range(start u32, end u32) u32 {
 					r_free(a)
 					r_free(b)
 				}
+				.s_gt {
+					b := r_pop()
+					a := r_pop()
+					r_release(.rax)
+					fn_body_writeln('    xor rax, rax')
+					fn_body_writeln('    cmp $a, $b')
+					fn_body_writeln('    setg al')
+					r_push(.rax)
+					r_free(a)
+					r_free(b)
+				}
+				.s_lt {
+					b := r_pop()
+					a := r_pop()
+					r_release(.rax)
+					fn_body_writeln('    xor rax, rax')
+					fn_body_writeln('    cmp $a, $b')
+					fn_body_writeln('    setl al')
+					r_push(.rax)
+					r_free(a)
+					r_free(b)
+				}
+				.s_gte {
+					b := r_pop()
+					a := r_pop()
+					r_release(.rax)
+					fn_body_writeln('    xor rax, rax')
+					fn_body_writeln('    cmp $a, $b')
+					fn_body_writeln('    setge al')
+					r_push(.rax)
+					r_free(a)
+					r_free(b)
+				}
+				.s_lte {
+					b := r_pop()
+					a := r_pop()
+					r_release(.rax)
+					fn_body_writeln('    xor rax, rax')
+					fn_body_writeln('    cmp $a, $b')
+					fn_body_writeln('    setle al')
+					r_push(.rax)
+					r_free(a)
+					r_free(b)
+				}
 				.w8 {
 					r_pop_r(.rax)
 					a := r_pop()
@@ -550,26 +594,26 @@ fn gen_range(start u32, end u32) u32 {
 					r_push(.rax)
 				}
 				.syscall1 {
-					r_pop_r(.rsi)
 					r_pop_r(.rax)
+					r_pop_r(.rdi)
 					fn_body_writeln('    syscall')
 					r_push(.rax)
 					r_free(.rsi)
 				}
 				.syscall2 {
+					r_pop_r(.rax)
 					r_pop_r(.rsi)
 					r_pop_r(.rdi)
-					r_pop_r(.rax)
 					fn_body_writeln('    syscall')
 					r_push(.rax)
 					r_free(.rdi)
 					r_free(.rsi)
 				}
 				.syscall3 {
+					r_pop_r(.rax)
 					r_pop_r(.rdx)
 					r_pop_r(.rsi)
 					r_pop_r(.rdi)
-					r_pop_r(.rax)
 					fn_body_writeln('    syscall')
 					r_push(.rax)
 					r_free(.rdi)
@@ -577,11 +621,11 @@ fn gen_range(start u32, end u32) u32 {
 					r_free(.rdx)
 				}
 				.syscall4 {
+					r_pop_r(.rax)
 					r_pop_r(.r10)
 					r_pop_r(.rdx)
 					r_pop_r(.rsi)
 					r_pop_r(.rdi)
-					r_pop_r(.rax)
 					fn_body_writeln('    syscall')
 					r_push(.rax)
 					r_free(.rdi)
@@ -590,12 +634,12 @@ fn gen_range(start u32, end u32) u32 {
 					r_free(.r10)
 				}
 				.syscall5 {
+					r_pop_r(.rax)
 					r_pop_r(.r8)
 					r_pop_r(.r10)
 					r_pop_r(.rdx)
 					r_pop_r(.rsi)
 					r_pop_r(.rdi)
-					r_pop_r(.rax)
 					fn_body_writeln('    syscall')
 					r_push(.rax)
 					r_free(.rdi)
@@ -605,13 +649,13 @@ fn gen_range(start u32, end u32) u32 {
 					r_free(.r8)
 				}
 				.syscall6 {
+					r_pop_r(.rax)
 					r_pop_r(.r9)
 					r_pop_r(.r8)
 					r_pop_r(.r10)
 					r_pop_r(.rdx)
 					r_pop_r(.rsi)
 					r_pop_r(.rdi)
-					r_pop_r(.rax)
 					fn_body_writeln('    syscall')
 					r_push(.rax)
 					r_free(.rdi)

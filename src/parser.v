@@ -526,6 +526,22 @@ fn parse() {
 					ir(.lte, 0)
 					sp_assert(2, 1)
 				}
+				.s_gt {
+					ir(.s_gt, 0)
+					sp_assert(2, 1)
+				}
+				.s_lt {
+					ir(.s_lt, 0)
+					sp_assert(2, 1)
+				}
+				.s_gte {
+					ir(.s_gte, 0)
+					sp_assert(2, 1)
+				}
+				.s_lte {
+					ir(.s_lte, 0)
+					sp_assert(2, 1)
+				}
 				else {
 					if !isnil(function_context) {
 						match token_stream[pos].tok {

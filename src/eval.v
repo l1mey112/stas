@@ -134,6 +134,26 @@ fn eval_one_inst(mut const_stack []u64, pos u32) bool {
 			a := const_stack.pop()
 			const_stack << u64(a <= b)
 		}
+		ins == .s_gt && const_stack.len >= 2 {
+			b := const_stack.pop()
+			a := const_stack.pop()
+			const_stack << u64(i64(a) > i64(b))
+		}
+		ins == .s_lt && const_stack.len >= 2 {
+			b := const_stack.pop()
+			a := const_stack.pop()
+			const_stack << u64(i64(a) < i64(b))
+		}
+		ins == .s_gte && const_stack.len >= 2 {
+			b := const_stack.pop()
+			a := const_stack.pop()
+			const_stack << u64(i64(a) >= i64(b))
+		}
+		ins == .s_lte && const_stack.len >= 2 {
+			b := const_stack.pop()
+			a := const_stack.pop()
+			const_stack << u64(i64(a) <= i64(b))
+		}
 		ins == ._assert && const_stack.len >= 1 {
 			c := const_stack.pop()
 
