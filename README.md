@@ -1,76 +1,111 @@
-# notice
+# `stas - st(ack) as(sembler)` 
 
-A complete redesign of the compiler it is taking place in the branch `tiny-stas`. This work is taking place to simplify it and allow stas to be selfhosted (written in itself).
-
-# stas
-A werid little stack based programming language and compiler written in V, created to learn the ins and outs of compilers.
-
-stas - st(ack) as(sembly)
-
-### blog.l-m.dev
-[Part 1](https://blog.l-m.dev/posts/compiler-part-1/)
-
-[Part 2](https://blog.l-m.dev/posts/compiler-part-2/)
-
-[Part 3](https://blog.l-m.dev/posts/compiler-part-3/)
-
-[Part 4](https://blog.l-m.dev/posts/compiler-part-4/)
-
-[Part 5](https://blog.l-m.dev/posts/compiler-part-5/)
-
-[https://blog.l-m.dev/tags/stas/](https://blog.l-m.dev/tags/stas/)
-
-### Hello world!
+A stack based compiled programming language.
 
 ```
-#include "std.stas"
+include 'std.stas'
 
-main ! in do
-  "Hello World!" println
-end
+fn main 0 0 {
+    'Hello world!\n' puts
+}
 ```
 
-Checkout the `files/` directory for more examples, the language is in heavy development and evolving over time!
+It has evolved and evolved over time as I learnt compiler theory from the ground up. About 3 complete rewrites have taken place. The syntax and structure is settled and work is being done to write the compiler in itself. The current compiler is written in the V programming language.
 
-### How to compile and run stas
-*In this state? Really?*
+This is my first serious programming langauge, and it's gotta be good.
 
-- Install V [vlang/v](https://github.com/vlang/v)
-- Install [NASM](https://nasm.us/)
-- (Optional) Install [bat](https://github.com/sharkdp/bat)
+Follow the initial journey with all of the guesswork on my blog [`tags/stas`](https://blog.l-m.dev/tags/stas/), all of that figuring out got to the compiler I have now.
 
-I use `stas.sh` for quick compiler development. It compiles and runs the entire project and passes the correct arguments to the compiler.
+## programming in stas
 
-### Disclaimer
+As you know, concatenative stack based programming. Think forth. Programmed in python all your life? Don't know forth? Gloss over these sources.
 
-Due to the nature of the language, my goals are to emit only statically linked binaries (no libc). It is my intention to communicate with the Linux Kernel using system calls. Make of that what you will. This means limited portability among other operating systems and archutectures.
+- [Starting FORTH Part 1 - Forth Inc](https://www.forth.com/starting-forth/1-forth-stacks-dictionary/)
+- [Stack-oriented programming - Wikipedia](https://en.wikipedia.org/wiki/Stack-oriented_programming)
+- [Concatenative language wiki](https://concatenative.org/wiki/view/Front%20Page)
+- [Concatenative programming language - Wikipedia](https://en.wikipedia.org/wiki/Concatenative_programming_language)
+- [Reverse Polish notation - Wikipedia](https://en.wikipedia.org/wiki/Reverse_Polish_notation)
 
-The language supports the amd64 / x86-64 chipset and operating systems using the Linux Kernel.
+Comments are denoted with semicolons. Checkout the `files/` directory for examples, it contains implementations of rule 110, rule 90 and rule 30, among others and growing.
+
+TODO: Guide?
+
+## spec
+
+It generates optimised x86_64 assembly for systems using the Linux kernel. It interfaces with the operating system kernel through syscalls and not through libc. The compiler only emits statically linked binaries for now. This means limited portability among other operating systems and architectures.
 
 ```
-$ ./stas.sh -h                                     
-stas 0.0.2 2d120cf
------------------------------------------------
-Usage: stas [options] [ARGS]
-
-Description: Compiler for a stack based programming language
-
-Options:
-  -r, --run                 run program after compiling, then deletes
-  -s, --show                open nasm assembly output in a bat process
-  -o                        output to file (accepts *.asm, *.S, *.o, *)
-  -g                        compile with debug symbols
-  -v, --version             output version information and exit
-  -h, --help                display this help and exit
+  (text)     |  (tokens)         (IR)            (assembly)      |  (ELF)
+             |                                                   |
+             |             /-- parser  --\   /--- codegen ----\  |
+ input.stas ->- scanning - |             | - |                | ->- fasm
+             |             \-- checker --/   \- optimisation -/  |
 ```
 
-```sh
-./stas.sh files/memset.stas -g -r
+The assembly dialect is Intel, made to be compiled with the fasm, the flat assembler.
+
+## debugging
+
+Besides the compile time checks, it supports breakpoints with the `_breakpoint` keyword, coupled with some scripts inside GDB it allows you to easily inspect the program at runtime.
+
 ```
-```sh
-./stas.sh files/arrays.stas -o assembly.asm
+fn main 0 0 {
+    0 while dup 10 < {
+        _breakpoint
+        ++
+    }
+    drop
+}
 ```
-```sh
-./stas.sh files/main.stas -g
-gdb a.out
+
 ```
+./stasgdb while.stas
+flat assembler  version 1.73.30  (1048576 kilobytes memory, x64)
+3 passes, 1000 bytes.
+Reading symbols from ./a.out...
+(No debugging symbols found in ./a.out)
+Catchpoint 1 (signal SIGTRAP)
+
+$1 = 0
+$2 = 1
+$3 = 2
+$4 = 3
+$5 = 4
+$6 = 5
+$7 = 6
+$8 = 7
+$9 = 8
+$10 = 9
+```
+
+It also supports scope guards.
+
+```
+const value { 88 77 + }
+
+fn function_a 0 1 {
+    value
+}
+
+fn main 0 0 {
+    -> 2 {
+        3 3
+    }
+
+    drop drop
+
+    -> 0 {
+        function_a ; <- main.stas:13:9: backtrace
+    }
+
+    function_a 165 = assert
+    function_a 166 = assert -> "assert message"
+}
+```
+
+```
+main.stas:12:8: scope assertation failed, 1 more value on the stack than expected
+main.stas:13:9: backtrace
+```
+
+Scope guards assist in debugging, just by skimming a program you know what scopes are self contained and what ones arent. Runtime assertations are also supported and an additional message can be attached. Assertations can also be evaluated at compile time statically.
