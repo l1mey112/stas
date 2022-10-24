@@ -26,7 +26,6 @@ struct Scope {
 	sp        u32
 	idx       u32
 	label_id  u32 = -1 // while loop continue
-	label_id2 u32 = -1 // while loop break
 	var_scope u32
 }
 
