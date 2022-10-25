@@ -54,7 +54,7 @@ fn scan_file(data string, file_str StringPointer) {
 				is_number = false
 			}
 
-			if !is_number && (data[pos] in [`'`, `"`, `;`, `{`, `}`, `&`]
+			if !is_number && (data[pos] in [`'`, `"`, `;`, `{`, `}`, /* `&` */]
 				|| (pos + 1 <= data.len && data[pos] == `-` && data[pos + 1] == `>`)) {
 				ret_len := pos - start
 
@@ -198,7 +198,7 @@ fn scan_file(data string, file_str StringPointer) {
 						col++
 						pos++
 					}
-					`&` {
+					/* `&` {
 						token_stream << Token{
 							row: row
 							col: col
@@ -207,7 +207,7 @@ fn scan_file(data string, file_str StringPointer) {
 						}
 						col++
 						pos++
-					}
+					} */
 					`}` {
 						token_stream << Token{
 							row: row

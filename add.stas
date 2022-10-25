@@ -1,9 +1,14 @@
 ; include 'std.stas'
 
 fn main 0 0 {
-	1
-	
-	if {
-		
+	1 if {
+		333
+	} elif 1 {
+		666
+	} elif 1 {
+		777
+	} else {
+		999
 	}
+	drop
 }

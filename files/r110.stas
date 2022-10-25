@@ -1,5 +1,5 @@
 fn write 3 0 {
-	1 rot4 syscall3 drop
+	1 syscall3 drop
 }
 
 fn main 0 0 {

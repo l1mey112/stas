@@ -1,0 +1,5 @@
+include 'std.stas'
+
+fn main 0 0 {
+    'Hello world!\n' puts
+}

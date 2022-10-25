@@ -1,0 +1,34 @@
+auto var 1
+
+fn side_effect 0 1 {
+    var 10 <
+}
+
+fn main 0 0 {
+    0 pop var
+    
+    -> 0 {
+        0
+        while dup 10 < {
+            _breakpoint
+            ++
+        }
+        drop
+    }
+
+    -> 0 {
+        10
+        while dup 0 > {
+            _breakpoint
+            --
+        }
+        drop
+    }
+
+    -> 0 {
+        while side_effect {
+            var _breakpoint
+            ++ pop var
+        }
+    }
+}
