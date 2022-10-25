@@ -4,4 +4,4 @@ set -e
 
 v -g -enable-globals crun . -elf $@ > a.o.fasm
 fasm a.o.fasm a.o -m 1048576
-objdump -d a.o --visualize-jumps=extended-color
+objdump -Mintel -d a.o --visualize-jumps=extended-color

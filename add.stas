@@ -3,12 +3,12 @@
 fn main 0 0 {
 	1 if {
 		333
-	} elif 1 {
+	} elif 0 {
 		666
-	} elif 1 {
+	} elif 0 {
 		777
 	} else {
-		999
+		2
 	}
 	drop
 }

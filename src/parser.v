@@ -18,6 +18,7 @@ enum ScopeTyp {
 	else_block
 	else_block_scope
 	elif_block
+	elif_block_scope
 	while_block
 	while_block_scope
 }
@@ -296,6 +297,7 @@ fn parse() {
 					assert sp.len == 0
 					assert var_context.len == 0
 					sp_push_p(argc, fn_c)
+					label_c = 0
 				}
 				.reserve, .auto {
 					rs_c := pos
@@ -782,9 +784,11 @@ fn parse() {
 								unsafe { sp.len-- }
 
 								lbl := label_allocate()
+								lbl2 := label_allocate()
 								scope_context << Scope{
 									typ: .if_block
 									label_id: lbl
+									label_id2: lbl2
 									sp: u32(sp.len)
 									var_scope: u32(var_context.len)
 									idx: pos
@@ -861,21 +865,23 @@ fn parse() {
 													compile_error_t("no value on stack to consume for else if statement", pos)
 												}
 												unsafe { sp.len-- }
+												
+												if scope.sp != u32(sp.len) {
+													compile_error_t('the stack must remain the same each with else if branch',
+														pos)
+												}
 
 												lbl := label_allocate()
 												scope_context << Scope {
-													typ: .if_block
+													typ: .elif_block_scope
 													label_id: lbl
 													label_id2: scope.label_id2
-													sp: u32(scope.sp - 1)
+													sp: u32(scope.sp)
 													var_scope: u32(var_context.len)
 													idx: pos
 												}
-												unsafe {
-													sp.len = int(scope.sp - 1)
-												}
 
-												ir(.do_cond_jmp, scope.label_id2)
+												ir(.do_cond_jmp, lbl)
 											}
 											else {
 												assert false, 'unreachable'
@@ -922,7 +928,6 @@ fn parse() {
 												scope_context << Scope{
 													typ: .else_block_scope
 													label_id: lbl
-													label_id2: scope.label_id2
 													sp: u32(sp.len)
 													var_scope: u32(var_context.len)
 													idx: pos
@@ -931,7 +936,6 @@ fn parse() {
 													sp.len = int(scope.sp)
 												}
 												ir(.do_jmp, lbl)
-												//ir(.label, scope.label_id)
 
 												pos++
 												if pos >= token_stream.len
@@ -947,14 +951,14 @@ fn parse() {
 													typ: .elif_block
 													label_id: lbl
 													label_id2: scope.label_id2
-													sp: u32(sp.len)
+													sp: scope.sp
 													var_scope: u32(var_context.len)
 													idx: pos
 												}
 												unsafe {
 													sp.len = int(scope.sp)
 												}
-												ir(.do_jmp, lbl)
+												ir(.do_jmp, scope.label_id2)
 												ir(.label, scope.label_id)
 											} else {
 												if scope.sp != u32(sp.len) {
@@ -962,6 +966,59 @@ fn parse() {
 														pos)
 												}
 												ir(.label, scope.label_id)
+											}
+										}
+										.elif_block_scope {
+											if pos + 1 < token_stream.len
+												&& token_stream[pos + 1].tok == .elif_block {
+												pos++
+												lbl := label_allocate()
+												scope_context << Scope{
+													typ: .elif_block
+													label_id: lbl
+													label_id2: scope.label_id2
+													sp: scope.sp
+													var_scope: u32(var_context.len)
+													idx: pos
+												}
+												unsafe {
+													sp.len = int(scope.sp)
+												}
+												ir(.do_jmp, scope.label_id2)
+												ir(.label, scope.label_id)
+											} else if pos + 1 < token_stream.len
+												&& token_stream[pos + 1].tok == .else_block {
+												pos++
+												lbl := label_allocate()
+												scope_context << Scope{
+													typ: .else_block_scope
+													label_id: lbl
+													label_id2: scope.label_id2
+													sp: u32(sp.len)
+													var_scope: u32(var_context.len)
+													idx: pos
+												}
+												unsafe {
+													sp.len = int(scope.sp)
+												}
+												ir(.do_jmp, scope.label_id2)
+												ir(.label, scope.label_id)
+
+												pos++
+												if pos >= token_stream.len
+													|| token_stream[pos].tok != .l_cb {
+													compile_error_t('a scope must come after an else statement',
+														pos - 1)
+												}
+											} else {
+												eprintln(token_stream[pos])
+												eprintln('$scope.sp -- $sp.len')
+												/* if scope.sp != u32(sp.len) {
+													compile_error_t('the stack must remain the same with single branches',
+														pos)
+												} */
+												ir(.label, scope.label_id)
+												ir(.label, scope.label_id2)
 											}
 										}
 										.else_block_scope {
@@ -1018,12 +1075,12 @@ fn parse() {
 								// (except ones that end in a return)
 								// not the best solution...
 
-								/* scope := scope_context.last()
+								scope := scope_context.last()
 								if scope.typ == .if_block {
 									unsafe {
 										sp.len = int(scope.sp)
 									}
-								} */
+								}
 
 								function_context.forbid_inline = true
 
