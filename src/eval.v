@@ -154,7 +154,7 @@ fn eval_one_inst(mut const_stack []u64, pos u32) bool {
 			a := const_stack.pop()
 			const_stack << u64(i64(a) <= i64(b))
 		}
-		ins == ._assert && const_stack.len >= 1 {
+		/* ins == ._assert && const_stack.len >= 1 {
 			c := const_stack.pop()
 
 			if c == 0 {
@@ -162,7 +162,7 @@ fn eval_one_inst(mut const_stack []u64, pos u32) bool {
 				eprint(slits[ir_data])
 				exit(1)
 			}
-		}
+		} */
 		else {
 			return false
 		}

@@ -10,12 +10,12 @@ fn gen() {
 	mut main_fn := u32(-1)
 	for f in functions {
 		if f.name.str() == 'main' {
-			main_fn = f.idx 
+			main_fn = f.idx
 		}
 	}
 
 	if main_fn == -1 {
-		assert false, "no main function"
+		assert false, 'no main function'
 	}
 
 	writeln('use64')

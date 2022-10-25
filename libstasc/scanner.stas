@@ -1,27 +1,15 @@
-; (ptr pos -- u8)
-fn u8[] 2 1 {
-	+ r8
-}
-
-; TODO: support for elif please
 ; (u8 -- bool)
 fn is_whitespace 1 1 {
 	dup 13 = if {
 		1
+	} elif dup 10 = {
+		1
+	} elif dup 9 = {
+		1
+	} elif dup 32 = {
+		1
 	} else {
-		dup 10 = if {
-			1
-		} else {
-			dup 9 = if {
-				1
-			} else {
-				dup 32 = if {
-					1
-				} else {
-					0
-				}
-			}
-		}
+		0
 	}
 	swap drop
 }

@@ -53,7 +53,7 @@ enum Tok {
 	lt
 	gte
 	lte
-	s_gt  // s_ signed comparison
+	s_gt // s_ signed comparison
 	s_lt
 	s_gte
 	s_lte

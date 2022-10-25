@@ -267,8 +267,16 @@ fn parse() {
 							fn_c)
 					}
 					str := StringPointer(&u8(token_stream[fn_c + 1].data))
-					if is_function_name(str) != -1 {
-						compile_error_t('duplicate function name', fn_c + 1)
+					fnner := is_function_name(str)
+					if fnner != -1 {
+						print_backtrace()
+						compile_error_('duplicate function name', token_stream[
+							fn_c + 1].row, token_stream[fn_c + 1].col,
+							token_stream[fn_c + 1].file)
+						compile_info_('orginal function declared here',
+							token_stream[functions[fnner].idx].row, token_stream[functions[fnner].idx].col,
+							token_stream[functions[fnner].idx].file)
+						exit(1)
 					}
 					if is_toplevel_name(str) {
 						compile_error_t('fn name already duplicate top level variable name',
@@ -576,11 +584,10 @@ fn parse() {
 									}
 								}
 								if token_stream[rs_c + 2].tok != .number_lit {
-									
 									compile_error_t('variable decl must specify size in bytes',
 										rs_c + 2)
 								}
-								
+
 								name := StringPointer(&u8(token_stream[rs_c + 1].data))
 								if is_function_name(name) != -1 {
 									compile_error_t('variable decl must not be a function',
@@ -703,10 +710,10 @@ fn parse() {
 									compile_error_t('unknown auto variable', pos)
 								}
 							}
-							/* .amps {
+							/*.amps {
 								// BRUH AMPERSAND IS RESERVED FOR BITWISE AND
 								assert false, 'unimplemented'
-							} */
+							}*/
 							.name {
 								name := StringPointer(&u8(token_stream[pos].data))
 								fn_n := is_function_name(name)
@@ -803,7 +810,7 @@ fn parse() {
 								}
 							}
 							.while_block {
-								lbl  := label_allocate()
+								lbl := label_allocate()
 								ir(.label, lbl)
 								scope_context << Scope{
 									typ: .while_block
@@ -842,48 +849,49 @@ fn parse() {
 							}
 							.l_cb {
 								if scope_context.len > 0 {
-										match scope_context.last().typ {
-											.while_block {
-												if sp.len == 0 {
-													compile_error_t('no value on stack to consume for while header',
-														pos)
-												}
-												unsafe { sp.len-- }
-												lbl := label_allocate()
-												scope_context << Scope{
-													typ: .while_block_scope
-													label_id: lbl
-													sp: u32(sp.len)
-													var_scope: u32(var_context.len)
-													idx: pos
-												}
-												ir(.do_cond_jmp, lbl)
+									match scope_context.last().typ {
+										.while_block {
+											if sp.len == 0 {
+												compile_error_t('no value on stack to consume for while header',
+													pos)
 											}
-											.elif_block {
-												scope := scope_context.pop()
-
-												if sp.len == 0 {
-													compile_error_t("no value on stack to consume for else if statement", pos)
-												}
-												unsafe { sp.len-- }
-
-												lbl := label_allocate()
-												scope_context << Scope {
-													typ: .elif_block_scope
-													label_id: lbl
-													label_id2: scope.label_id2
-													sp: u32(scope.sp)
-													sp2: u32(scope.sp2)
-													var_scope: u32(var_context.len)
-													idx: pos
-												}
-
-												ir(.do_cond_jmp, lbl)
+											unsafe { sp.len-- }
+											lbl := label_allocate()
+											scope_context << Scope{
+												typ: .while_block_scope
+												label_id: lbl
+												sp: u32(sp.len)
+												var_scope: u32(var_context.len)
+												idx: pos
 											}
-											else {
-												assert false, 'unreachable'
-											}
+											ir(.do_cond_jmp, lbl)
 										}
+										.elif_block {
+											scope := scope_context.pop()
+
+											if sp.len == 0 {
+												compile_error_t('no value on stack to consume for else if statement',
+													pos)
+											}
+											unsafe { sp.len-- }
+
+											lbl := label_allocate()
+											scope_context << Scope{
+												typ: .elif_block_scope
+												label_id: lbl
+												label_id2: scope.label_id2
+												sp: u32(scope.sp)
+												sp2: u32(scope.sp2)
+												var_scope: u32(var_context.len)
+												idx: pos
+											}
+
+											ir(.do_cond_jmp, lbl)
+										}
+										else {
+											assert false, 'unreachable'
+										}
+									}
 								} else {
 									scope_context << Scope{
 										typ: .scope
@@ -926,6 +934,7 @@ fn parse() {
 													typ: .else_block_scope
 													label_id: lbl
 													sp: u32(sp.len)
+													sp2: u32(sp.len)
 													var_scope: u32(var_context.len)
 													idx: pos
 												}
@@ -940,7 +949,8 @@ fn parse() {
 													compile_error_t('a scope must come after an else statement',
 														pos - 1)
 												}
-											} if pos + 1 < token_stream.len
+											}
+											if pos + 1 < token_stream.len
 												&& token_stream[pos + 1].tok == .elif_block {
 												pos++
 												lbl := label_allocate()
@@ -948,7 +958,7 @@ fn parse() {
 													typ: .elif_block
 													label_id: lbl
 													label_id2: scope.label_id2
-													sp:  scope.sp    // bottom
+													sp: scope.sp // bottom
 													sp2: u32(sp.len) // top
 													var_scope: u32(var_context.len)
 													idx: pos

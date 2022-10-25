@@ -1,0 +1,16 @@
+include 'std.stas'
+
+; argc -> int argc
+; argv -> char **argv
+
+fn main 0 0 {
+	0
+	while dup argc < {
+		"Argument " puts dup putu ": " puts
+
+		dup args[]
+		puts endl
+		++
+	}
+	drop
+}

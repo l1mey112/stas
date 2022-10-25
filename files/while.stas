@@ -1,34 +1,45 @@
+include 'std.stas'
+
 auto var 1
 
 fn side_effect 0 1 {
-    var 10 <
+	var 10 <
 }
 
 fn main 0 0 {
-    0 pop var
-    
-    -> 0 {
-        0
-        while dup 10 < {
-            _breakpoint
-            ++
-        }
-        drop
-    }
+	0 pop var
 
-    -> 0 {
-        10
-        while dup 0 > {
-            _breakpoint
-            --
-        }
-        drop
-    }
+	"for i = 0 ; i < 10 ; i++\n\n    " puts
+	-> 0 {
+		0
+		while dup 10 < {
+			dup putu " " puts
+			++
+		}
+		drop
+	}
 
-    -> 0 {
-        while side_effect {
-            var _breakpoint
-            ++ pop var
-        }
-    }
+	endl endl
+
+	"for i = 10 ; i > 0 ; i--\n\n    " puts
+	-> 0 {
+		10
+		while dup 0 > {
+			dup putu " " puts
+			--
+		}
+		drop
+	}
+
+	endl endl
+
+	"while var = 0 ; side_effect() ; var++\n\n    " puts
+	-> 0 {
+		while side_effect {
+			var dup putu " " puts
+			++ pop var
+		}
+	}
+
+	endl endl
 }

@@ -198,7 +198,7 @@ fn scan_file(data string, file_str StringPointer) {
 						col++
 						pos++
 					}
-					/* `&` {
+					/*`&` {
 						token_stream << Token{
 							row: row
 							col: col
@@ -207,7 +207,7 @@ fn scan_file(data string, file_str StringPointer) {
 						}
 						col++
 						pos++
-					} */
+					}*/
 					`}` {
 						token_stream << Token{
 							row: row

@@ -8,3 +8,4 @@ const       NULL { 0 }
 include 'lib/linux.stas'
 include 'lib/io.stas'
 include 'lib/string.stas'
+include 'lib/conv.stas'

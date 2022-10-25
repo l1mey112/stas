@@ -1,0 +1,23 @@
+; (bool -- str len)
+fn bool_to_str 1 2 {
+	if {
+		"true"
+	} else {
+		"false"
+	}
+}
+
+; (idx -- str len)
+fn args[] 1 2 {
+	dup argc >= if {
+		drop NULL 0 ret
+	}
+
+	8 * argv + r64 ; (cstr)
+	dup strlen     ; (str len)
+}
+
+; (ptr pos -- u8)
+fn u8[] 2 1 {
+	+ r8
+}

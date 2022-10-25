@@ -4,16 +4,6 @@ reserve is_object_file 1
 
 include 'libstasc/scanner.stas'
 
-; (idx -- str len)
-fn args[] 1 2 {
-	dup argc >= if {
-		drop NULL 0 ret
-	}
-
-	8 * argv + r64 ; (cstr)
-	dup strlen     ; (str len)
-}
-
 fn main 0 0 {
 	argc 1 = if {
 		'FATAL: Must supply files to compile\n' eputs

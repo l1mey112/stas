@@ -1,0 +1,19 @@
+include 'std.stas'
+
+; sum all numbers starting from 1 to 10
+
+fn main 0 0 {
+	0 1 ; (sum idx)
+	while dup 10 <= {
+		; (sum idx)
+		dup rot
+		; (idx sum idx)
+		+
+		; (idx sum) 
+		swap
+		; (sum idx)
+		++
+	}
+	drop
+	"n = n + 1 ... n = 10 ----> " puts putuln
+}

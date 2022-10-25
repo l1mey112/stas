@@ -1,0 +1,64 @@
+include 'std.stas'
+
+; (ptr)
+fn inc8 1 0 {
+	dup r8 ++ w8
+}
+
+; (ptr)
+fn dec8 1 0 {
+	dup r8 -- w8
+}
+
+fn main 0 0 {
+	argc 2 != if {
+		"USAGE: " puts 0 args[] puts " <file.bf>\n" puts
+		1 exit
+	}
+
+	auto data 1
+	auto data.len 1
+	
+	1 args[] open_and_mmap_fp
+		pop data.len
+		pop data
+
+	reserve brainfuck_tape 20000
+	auto tape_pointer 1
+
+	brainfuck_tape 0 20000 memset
+	0 pop tape_pointer
+
+	0
+	while dup data.len < {
+		-> 1 {
+			dup data + r8
+			
+			dup 62 = if {     ; >
+				tape_pointer ++ pop tape_pointer
+			} elif dup 60 = { ; <
+				tape_pointer -- pop tape_pointer
+			} elif dup 43 = { ; +
+				brainfuck_tape tape_pointer +
+				inc8
+			} elif dup 45 = { ; -
+				brainfuck_tape tape_pointer +
+				dec8
+			} elif dup 46 = { ; .
+				brainfuck_tape tape_pointer +
+				r8 putc
+			} elif dup 44 = { ; ,
+				0 assert -> 'unimplemented'
+			} elif dup 91 = { ; [
+				0 assert -> 'unimplemented'
+			} elif dup 93 = { ; ]
+				0 assert -> 'unimplemented'
+			}
+		}
+		drop
+
+		++
+	}
+	drop
+	endl
+}
