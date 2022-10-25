@@ -12,7 +12,7 @@ fn main 0 0 {
 
 It has evolved and evolved over time as I learnt compiler theory from the ground up. About 3 complete rewrites have taken place. The syntax and structure is settled and work is being done to write the compiler in itself. The current compiler is written in the V programming language.
 
-This is my first serious programming langauge, and it's gotta be good.
+This is my first serious programming language, and it's gotta be good.
 
 Follow the initial journey with all of the guesswork on my blog [`tags/stas`](https://blog.l-m.dev/tags/stas/), all of that figuring out got to the compiler I have now.
 
