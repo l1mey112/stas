@@ -1048,7 +1048,9 @@ fn parse() {
 													scope.idx)
 											}
 											ir(.label, scope.label_id)
-											ir(.label, scope.label_id2)
+											if scope.label_id2 != -1 {
+												ir(.label, scope.label_id2)
+											}
 										}
 										else {
 											assert false, 'unimplemented'

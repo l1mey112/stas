@@ -10,6 +10,35 @@ fn dec8 1 0 {
 	dup r8 -- w8
 }
 
+const loop_stack.cap { 8 }
+auto loop_stack.len 1
+const sizeof(loop_stack) { 8 loop_stack.cap * }
+reserve loop_stack sizeof(loop_stack)
+
+fn loop_stack_push 1 0 {
+	loop_stack.len loop_stack.cap < assert -> "too many nested loops"
+
+	loop_stack loop_stack.len 8 * +
+	swap w64
+
+	loop_stack.len ++ pop loop_stack.len 
+}
+
+fn loop_stack_pop 0 1 {
+	loop_stack.len 0 != assert -> "stack underflow"
+
+	loop_stack.len -- pop loop_stack.len
+
+	loop_stack loop_stack.len 8 * + r64
+}
+
+fn loop_stack_top 0 1 {
+	loop_stack.len 0 != assert -> "nothing in stack"
+	loop_stack loop_stack.len 1 - 8 * + r64
+}
+
+const sizeof(brainfuck_tape) { 30000 }
+
 fn main 0 0 {
 	argc 2 != if {
 		"USAGE: " puts 0 args[] puts " <file.bf>\n" puts
@@ -18,21 +47,22 @@ fn main 0 0 {
 
 	auto data 1
 	auto data.len 1
+	auto pos 1
 	
 	1 args[] open_and_mmap_fp
 		pop data.len
 		pop data
+		0 pop pos
 
-	reserve brainfuck_tape 20000
+	reserve brainfuck_tape sizeof(brainfuck_tape)
+	brainfuck_tape 0 sizeof(brainfuck_tape) memset
+	
 	auto tape_pointer 1
-
-	brainfuck_tape 0 20000 memset
 	0 pop tape_pointer
 
-	0
-	while dup data.len < {
+	while pos data.len < {
 		-> 1 {
-			dup data + r8
+			pos data + r8
 			
 			dup 62 = if {     ; >
 				tape_pointer ++ pop tape_pointer
@@ -50,15 +80,38 @@ fn main 0 0 {
 			} elif dup 44 = { ; ,
 				0 assert -> 'unimplemented'
 			} elif dup 91 = { ; [
-				0 assert -> 'unimplemented'
+				brainfuck_tape tape_pointer + r8 0 != if {
+					pos loop_stack_push
+				} else {
+					auto brace_count 1
+					1 pop brace_count
+
+					pos ++
+					while brace_count 0 > {
+						dup data.len < assert -> "unclosed square brace"
+						dup data + r8
+						
+						dup 91 = if {
+							brace_count ++ pop brace_count
+						} elif dup 93 = {
+							brace_count -- pop brace_count
+						}
+						drop
+						++
+					}
+					pop pos
+				}
 			} elif dup 93 = { ; ]
-				0 assert -> 'unimplemented'
+				brainfuck_tape tape_pointer + r8 0 != if {
+					loop_stack_top pop pos
+				} else {
+					loop_stack_pop drop
+				}
 			}
 		}
 		drop
 
-		++
+		pos ++ pop pos
 	}
-	drop
 	endl
 }
