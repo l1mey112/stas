@@ -2,13 +2,13 @@
 
 fn main 0 0 {
 	1 if {
-		333
+		3332 2
 	} elif 0 {
-		666
-	} elif 0 {
+		666 2
+	} elif 0 2 {
 		777
 	} else {
-		2
+		2 2
 	}
-	drop
+	drop drop
 }
