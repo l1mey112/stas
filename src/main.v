@@ -40,5 +40,6 @@ fn main() {
 	for idx, i in ir_stream {
 		eprintln("($idx) [$i.idx] $i.inst $i.data")
 	}*/
+	markused()
 	gen()
 }

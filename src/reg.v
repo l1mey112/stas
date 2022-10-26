@@ -36,19 +36,19 @@ fn r_push_const(n u64) {
 	a := r_alloc()
 	rallocator_stack << a
 	r_b_clear(a)
-	fn_body_writeln('    mov $a, $n')
+	writeln('    mov $a, $n')
 }
 
 fn r_push_const_word(s string) {
 	a := r_alloc()
 	rallocator_stack << a
 	r_b_clear(a)
-	fn_body_writeln('    mov $a, $s')
+	writeln('    mov $a, $s')
 }
 
 fn r_pop_const_word(s string) {
 	a := r_pop()
-	fn_body_writeln('    mov $s, $a')
+	writeln('    mov $s, $a')
 }
 
 fn r_push(r Reg) {
@@ -60,11 +60,11 @@ fn r_dup(r Reg) {
 	a := r_alloc()
 	/*
 	if a == ._nil_ {
-		fn_body_writeln('    push $r')	
+		writeln('    push $r')	
 	}*/
 	rallocator_stack << a
 	r_b_clear(a)
-	fn_body_writeln('    mov $a, $r')
+	writeln('    mov $a, $r')
 }
 
 fn C.ffs(int) int
@@ -92,7 +92,7 @@ fn r_pop() Reg {
 	} else {
 		a := r_alloc()
 		r_b_clear(a)
-		fn_body_writeln('    pop $a')
+		writeln('    pop $a')
 		return a
 	}
 }
@@ -119,7 +119,7 @@ fn r_top() Reg {
 		a := r_alloc()
 		rallocator_stack << a
 		r_b_clear(a)
-		fn_body_writeln('    pop $a')
+		writeln('    pop $a')
 		return a
 	}
 }
@@ -135,16 +135,16 @@ fn r_pop_r(r Reg) {
 		if r_is_used(r) {
 			r_release(r)
 		}
-		fn_body_writeln('    mov $r, $a')
+		writeln('    mov $r, $a')
 	} else {
 		assert !r_is_used(r)
-		fn_body_writeln('    pop $r')
+		writeln('    pop $r')
 	}
 }
 
 fn r_flush() {
 	for n in rallocator_stack {
-		fn_body_writeln('    push $n')
+		writeln('    push $n')
 	}
 
 	unsafe {
@@ -158,7 +158,7 @@ fn r_drop() {
 		a := rallocator_stack.pop()
 		r_b_set(a)
 	} else {
-		fn_body_writeln('    add rsp, 8')
+		writeln('    add rsp, 8')
 	}
 }
 
@@ -166,10 +166,10 @@ fn r_drop() {
 fn r_get_top_tmp(r Reg) {
 	if !r_is_used(r) {
 		a := r_alloc()
-		fn_body_writeln('    mov $a, $r')
+		writeln('    mov $a, $r')
 	} else {
 		a := r_top()
-		fn_body_writeln('    mov $r, $a')
+		writeln('    mov $r, $a')
 	}
 }*/
 
@@ -178,7 +178,7 @@ fn r_release(r Reg) {
 		idx := rallocator_stack.index(r)
 
 		a := r_alloc()
-		fn_body_writeln('    mov $a, $r')
+		writeln('    mov $a, $r')
 
 		r_b_clear(a)
 		r_b_set(r) // r is not used anymore

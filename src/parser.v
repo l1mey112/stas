@@ -5,7 +5,9 @@ struct Function {
 	name       StringPointer
 	start_inst u32 // TODO: start_inst contains the position of idx anyway in the inst token field, remove idx
 mut:
+	end_inst      u32 // the actual idx of the instruction, not end idx + 1 (end excluded range)
 	a_sp          u32
+	is_used       bool // inlined functions will never be used
 	forbid_inline bool
 }
 
@@ -296,6 +298,7 @@ fn parse() {
 							compile_error_t('the main function must accept and return zero values',
 								fn_c + 2)
 						}
+						functions[functions.len - 1].is_used = true
 						functions[functions.len - 1].forbid_inline = true
 					}
 
@@ -306,7 +309,7 @@ fn parse() {
 					assert sp.len == 0
 					assert var_context.len == 0
 					sp_push_p(argc, fn_c)
-					label_c = 0
+					// label_c = 0
 				}
 				.reserve, .auto {
 					rs_c := pos
@@ -1058,6 +1061,7 @@ fn parse() {
 									}
 								} else {
 									assert !isnil(function_context)
+									function_context.end_inst = u32(ir_stream.len)
 									ir(.fn_leave, function_context_idx)
 
 									if u32(sp.len) > function_context.retc {
@@ -1093,12 +1097,15 @@ fn parse() {
 								// (except ones that end in a return)
 								// not the best solution...
 
-								scope := scope_context.last()
-								if scope.typ == .if_block {
-									unsafe {
-										sp.len = int(scope.sp)
+								if scope_context.len > 0 {
+									scope := scope_context.last()
+									if scope.typ == .if_block {
+										unsafe {
+											sp.len = int(scope.sp)
+										}
 									}
 								}
+								
 
 								function_context.forbid_inline = true
 

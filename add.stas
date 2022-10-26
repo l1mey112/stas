@@ -1,89 +1,11 @@
 include 'std.stas'
 
+fn func_a 1 1 {
+	2 swap drop
+}
+
+
 fn main 0 0 {
-	44
-	dup 33 = if {
-		"33\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 44 = {
-		"44\n" puts
-	} elif dup 333 = {
-		"333\n" puts
-	} else {
-		"none\n" puts
-	}
+	44 func_a
 	drop
 }
