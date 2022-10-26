@@ -63,6 +63,17 @@ fn gen() {
 	writeln('_rs_top:')
 }
 
+/* __global const_stack = []u64{}
+
+fn flush_const_stack() {
+	for n in const_stack {
+		r_push_const(n)
+	}
+	unsafe {
+		const_stack.len = 0
+	}
+} */
+
 fn gen_range(start u32, end u32) {
 	mut const_stack := []u64{}
 	mut const_stack_r := &mut const_stack
