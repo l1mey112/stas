@@ -66,8 +66,15 @@ fn main 0 0 {
 			
 			dup 62 = if {     ; >
 				tape_pointer ++ pop tape_pointer
+				tape_pointer sizeof(brainfuck_tape) >= if {
+					0 pop tape_pointer
+				}
 			} elif dup 60 = { ; <
-				tape_pointer -- pop tape_pointer
+				tape_pointer 0 = if {
+					sizeof(brainfuck_tape) 1 - pop tape_pointer
+				} else {
+					tape_pointer -- pop tape_pointer
+				}
 			} elif dup 43 = { ; +
 				brainfuck_tape tape_pointer +
 				inc8
@@ -117,5 +124,4 @@ fn main 0 0 {
 
 		pos ++ pop pos
 	}
-	;endl
 }
