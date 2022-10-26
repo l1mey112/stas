@@ -1,6 +1,7 @@
 const stdin  { 0 }
 const stdout { 1 }
 const stderr { 2 }
+const EOF    { UINT64_MAX }
 
 fn endl 0 0 {
 	stdout "\n" write drop
@@ -87,6 +88,18 @@ fn eputc 1 0 {
 	ch swap w8
 	stderr ch 1 write drop
 }
+
+; (ch)
+fn getc 0 1 {
+	reserve ch 1
+	stdin ch 1 read
+	0 = if {
+		EOF
+	} else {
+		ch r8
+	}
+}
+
 
 ; (fd -- size)
 fn fd_stat_size 1 1 {

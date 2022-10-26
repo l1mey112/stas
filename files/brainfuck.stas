@@ -78,7 +78,11 @@ fn main 0 0 {
 				brainfuck_tape tape_pointer +
 				r8 putc
 			} elif dup 44 = { ; ,
-				0 assert -> 'unimplemented'
+				getc dup EOF = if {
+					drop 0
+				}
+				brainfuck_tape tape_pointer +
+				swap w8
 			} elif dup 91 = { ; [
 				brainfuck_tape tape_pointer + r8 0 != if {
 					pos loop_stack_push
