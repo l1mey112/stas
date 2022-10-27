@@ -1,11 +1,12 @@
-include 'std.stas'
+; include 'std.stas'
 
-fn func_a 1 1 {
-	2 swap drop
+fn puts 2 0 {
+	1 rot 1 syscall3 drop
 }
 
 
 fn main 0 0 {
-	44 func_a
-	drop
+	1 2 3 rot rot rot _breakpoint drop drop drop
+	
+	; "hello\n" 1 rot 1 syscall3 drop
 }
