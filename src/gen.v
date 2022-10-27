@@ -159,10 +159,11 @@ fn gen_range(start u32, end u32) {
 						// a noop function
 						continue
 					}
+					r_flush()
 					if !fn_c.forbid_inline {
 						gen_range(fn_c.start_inst + 1, fn_c.end_inst)
 					} else {
-						r_flush()
+						// r_flush()
 						writeln('    mov rbp, rsp')
 						writeln('    mov rsp, [_rs_p]')
 						writeln('    call __fn_$fn_c.idx')

@@ -131,10 +131,10 @@ fn r_pop_r(r Reg) {
 			return
 		}
 
-		r_b_set(a)
 		if r_is_used(r) {
 			r_release(r)
 		}
+		r_b_set(a)
 		writeln('    mov $r, $a')
 	} else {
 		assert !r_is_used(r)

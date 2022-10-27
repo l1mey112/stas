@@ -4,9 +4,6 @@ fn puts 2 0 {
 	1 rot 1 syscall3 drop
 }
 
-
 fn main 0 0 {
-	1 2 3 rot rot rot _breakpoint drop drop drop
-	
-	; "hello\n" 1 rot 1 syscall3 drop
+	"hello\n" 1 rot 1 syscall3 drop
 }
