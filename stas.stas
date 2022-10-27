@@ -3,6 +3,11 @@ include 'std.stas'
 reserve is_object_file 1
 
 include 'libstasc/scanner.stas'
+include 'libstasc/string_buffer.stas'
+
+fn usage 0 0 {
+	; unimplemented
+}
 
 fn main 0 0 {
 	argc 1 = if {
@@ -26,7 +31,7 @@ fn main 0 0 {
 		over over '-elf' streq if {
 			drop drop
 			is_object_file r8 if {
-				'TODO: put usage here and in all the other places\n' eputs
+				'TODO: put usage here and in all the other places including above\n' eputs
 				1 exit
 			}
 			is_object_file 1 w8

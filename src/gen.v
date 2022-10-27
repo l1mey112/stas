@@ -159,11 +159,14 @@ fn gen_range(start u32, end u32) {
 						// a noop function
 						continue
 					}
-					r_flush()
+
+					// inlined functions get the privilege of not using
+					// the push pop calling convention, just called with
+					// args in registers instead
 					if !fn_c.forbid_inline {
 						gen_range(fn_c.start_inst + 1, fn_c.end_inst)
 					} else {
-						// r_flush()
+						r_flush()						
 						writeln('    mov rbp, rsp')
 						writeln('    mov rsp, [_rs_p]')
 						writeln('    call __fn_$fn_c.idx')
@@ -533,7 +536,7 @@ fn gen_range(start u32, end u32) {
 				.w64 {
 					r_pop_r(.rax)
 					a := r_pop()
-					writeln('    mov dword [$a], eax')
+					writeln('    mov [$a], rax')
 					r_free(.rax)
 					r_free(a)
 				}

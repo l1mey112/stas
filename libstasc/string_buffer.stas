@@ -1,0 +1,29 @@
+const string_buffer.cap { 64 1024 * } ; 64 KiB
+auto string_buffer.len 1
+reserve string_buffer string_buffer.cap
+
+; (str len -- ptr)
+fn new_string_view 2 1 {
+	auto str.len 1 pop str.len
+	auto str.data 1 pop str.data
+
+	; str.len 0 >s assert
+
+	string_buffer.len str.len 8 1 + + +
+		dup string_buffer.cap < assert -> "String memory exceeded limit"
+
+	string_buffer string_buffer.len +
+		dup str.len w64                       ; len
+		dup 8 +	str.data swap str.len memcpy  ; string data
+		dup 8 1 + + str.len + 0 w8            ; nul terminator
+		                                      ; ret ptr
+
+	swap pop string_buffer.len
+}
+
+; (ptr -- str len)
+fn get_string_view 1 2 {
+	; assert if ptr is inside bounds of string buffer
+
+	dup 8 + swap r64
+}

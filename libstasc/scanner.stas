@@ -1,3 +1,7 @@
+const LF_CH { 10 }
+const 0_CH  { 48 }
+const 9_CH  { 57 }
+
 ; (u8 -- bool)
 fn is_whitespace 1 1 {
 	dup 13 = if {
@@ -38,10 +42,35 @@ fn scan_file 2 0 {
 		pos data.len >= if {
 			break
 		}
+		while data pos u8[] dup is_whitespace {
+			LF_CH = if {
+				row ++ pop row
+				0      pop col
+			} else {
+				col ++ pop col
+			}
+			pos ++ pop pos
+			pos data.len >= if {
+				break
+			}	
+		}
+		pos data.len >= if {
+			break
+		}
 
-	;	while data pos u8[] is_whitespace true != {
-	;		
-	;	} 
+		auto start 1     pos pop start
+		auto start_col 1 col pop start_col
+
+		while data pos u8[] is_whitespace ~ {
+			is_number r8 if {
+				data pos u8[] dup 0_CH >= swap 9_CH <= & ~ if {
+					is_number 0 w8
+				}
+			}
+
+			is_number r8 ~ 
+			
+		}
 	}
 
 	; TODO: complex for break and continue

@@ -58,10 +58,6 @@ fn r_push(r Reg) {
 
 fn r_dup(r Reg) {
 	a := r_alloc()
-	/*
-	if a == ._nil_ {
-		writeln('    push $r')	
-	}*/
 	rallocator_stack << a
 	r_b_clear(a)
 	writeln('    mov $a, $r')
@@ -125,15 +121,15 @@ fn r_top() Reg {
 }
 
 fn r_pop_r(r Reg) {
+	if r_is_used(r) {
+		r_release(r)
+	}
 	if rallocator_stack.len > 0 {
 		a := rallocator_stack.pop()
 		if a == r {
 			return
 		}
 
-		if r_is_used(r) {
-			r_release(r)
-		}
 		r_b_set(a)
 		writeln('    mov $r, $a')
 	} else {
