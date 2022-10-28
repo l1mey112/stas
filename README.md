@@ -14,7 +14,7 @@ It has evolved and evolved over time as I learnt compiler theory from the ground
 
 This is my first serious programming langauge, and it's gotta be good.
 
-Follow the initial journey with all of the guesswork on my blog [`tags/stas`](https://blog.l-m.dev/tags/stas/), all of that figuring out got to the compiler I have now.
+Follow the initial journey with all of the guesswork on my blog [`tags/stas`](https://blog.l-m.dev/tags/stas/), all of that figuring out got to the initial V version of the compiler.
 
 ## programming in stas
 
