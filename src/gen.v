@@ -337,11 +337,9 @@ fn gen_range(start u32, end u32) {
 					r_free(b)
 				}
 				.b_not {
-					b := r_pop()
 					a := r_pop()
-					writeln('    not $a, $b')
+					writeln('    not $a')
 					r_push(a)
-					r_free(b)
 				}
 				.b_xor {
 					b := r_pop()

@@ -1,70 +1,111 @@
-tok_name
-tok_string_lit
-tok_number_lit
-tok_l_cb
-tok_r_cb
-tok_arrw
-tok_amps
-tok_fn_decl
-tok_trap_breakpoint
-tok_const_expression
-tok__assert
-tok_argc
-tok_argv
-tok_ret
-tok_do_block
-tok_if_block
-tok_else_block
-tok_elif_block
-tok_while_block
-tok_break_block
-tok_continue_block
-tok_plus
-tok_sub
-tok_mul
-tok_div
-tok_mod
-tok_inc
-tok_dec
-tok_divmod
-tok_shr
-tok_shl
-tok_b_and
-tok_b_or
-tok_b_not
-tok_b_xor
-tok_swap
-tok_dup
-tok_over
-tok_over2
-tok_rot
-tok_rot4
-tok_drop
-tok_equ
-tok_nequ
-tok_gt
-tok_lt
-tok_gte
-tok_lte
-tok_s_gt
-tok_s_lt
-tok_s_gte
-tok_s_lte
-tok_w8
-tok_w16
-tok_w32
-tok_w64
-tok_r8
-tok_r16
-tok_r32
-tok_r64
-tok_syscall0
-tok_syscall1
-tok_syscall2
-tok_syscall3
-tok_syscall4
-tok_syscall5
-tok_syscall6
-tok_reserve
-tok_auto
-tok_pop
+const             tok_name { 0  }
+const       tok_string_lit { 1  }
+const       tok_number_lit { 2  }
+const             tok_l_cb { 3  }
+const             tok_r_cb { 4  }
+const             tok_arrw { 5  }
+const             tok_amps { 6  }
+const          tok_fn_decl { 7  }
+const  tok_trap_breakpoint { 8  }
+const tok_const_expression { 9  }
+const          tok__assert { 10 }
+const             tok_argc { 11 }
+const             tok_argv { 12 }
+const              tok_ret { 13 }
+const         tok_do_block { 14 }
+const         tok_if_block { 15 }
+const       tok_else_block { 16 }
+const       tok_elif_block { 17 }
+const      tok_while_block { 18 }
+const      tok_break_block { 19 }
+const   tok_continue_block { 20 }
+const             tok_plus { 21 }
+const              tok_sub { 22 }
+const              tok_mul { 23 }
+const              tok_div { 24 }
+const              tok_mod { 25 }
+const              tok_inc { 26 }
+const              tok_dec { 27 }
+const           tok_divmod { 28 }
+const              tok_shr { 29 }
+const              tok_shl { 30 }
+const            tok_b_and { 31 }
+const             tok_b_or { 32 }
+const            tok_b_not { 33 }
+const            tok_b_xor { 34 }
+const             tok_swap { 35 }
+const              tok_dup { 36 }
+const             tok_over { 37 }
+const            tok_over2 { 38 }
+const              tok_rot { 39 }
+const             tok_rot4 { 40 }
+const             tok_drop { 41 }
+const              tok_equ { 42 }
+const             tok_nequ { 43 }
+const               tok_gt { 44 }
+const               tok_lt { 45 }
+const              tok_gte { 46 }
+const              tok_lte { 47 }
+const             tok_s_gt { 48 }
+const             tok_s_lt { 49 }
+const            tok_s_gte { 50 }
+const            tok_s_lte { 51 }
+const               tok_w8 { 52 }
+const              tok_w16 { 53 }
+const              tok_w32 { 54 }
+const              tok_w64 { 55 }
+const               tok_r8 { 56 }
+const              tok_r16 { 57 }
+const              tok_r32 { 58 }
+const              tok_r64 { 59 }
+const         tok_syscall0 { 60 }
+const         tok_syscall1 { 61 }
+const         tok_syscall2 { 62 }
+const         tok_syscall3 { 63 }
+const         tok_syscall4 { 64 }
+const         tok_syscall5 { 65 }
+const         tok_syscall6 { 66 }
+const          tok_reserve { 67 }
+const             tok_auto { 68 }
+const              tok_pop { 69 }
+
+fn Token.row  1 1   {      }
+fn Token.col  1 1   { 4 +  }
+fn Token.file 1 1   { 8 +  }
+fn Token.tok  1 1   { 16 + }
+fn Token.data 1 1   { 20 + }
+const sizeof(Token) { 28   }
+
+const token_stream.cap { 1024 }
+const sizeof(token_stream) { sizeof(Token) token_stream.cap  * }
+reserve token_stream sizeof(token_stream)
+auto token_stream.len 1
+
+; (idx -- *Token)
+fn token_stream[] 1 1 {
+    dup token_stream.len < assert
+    sizeof(Token) * token_stream +
+}
+
+; (row col file tok data)
+fn token_stream<< 5 0 {
+    token_stream.len sizeof(Token) * token_stream +
+        swap over Token.data swap w64
+        swap over Token.tok  swap w32
+        swap over Token.file swap w64
+        swap over Token.col  swap w32
+                  Token.row  swap w32
+
+    token_stream.len ++ pop token_stream.len
+    token_stream.len token_stream.cap < assert
+}
+
+; (ptr)
+fn Token.location_print 1 0 {
+    dup Token.file r64
+        string_view_to_str puts
+        ':' puts
+    dup Token.row r32 1 + putu
+        ':' puts
+        Token.col r32 1 + putu
+}

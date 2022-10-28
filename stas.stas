@@ -2,8 +2,9 @@ include 'std.stas'
 
 reserve is_object_file 1
 
+include 'libstasc/stringbuffer.stas'
+include 'libstasc/tokens.stas'
 include 'libstasc/scanner.stas'
-include 'libstasc/string_buffer.stas'
 
 fn usage 0 0 {
 	; unimplemented
@@ -42,4 +43,10 @@ fn main 0 0 {
 		++
 	}
 	drop
+
+;	0
+;	while dup token_stream.len < {
+;		dup token_stream[] Token.location_print
+;	}
+;	drop
 }

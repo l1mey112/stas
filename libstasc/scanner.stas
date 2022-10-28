@@ -23,6 +23,9 @@ fn scan_file 2 0 {
 	auto file_path 2
 	pop file_path
 
+	auto fp_string_view 1
+	file_path new_string_view pop fp_string_view
+
 	auto data     1
 	auto data.len 1
 
@@ -68,8 +71,28 @@ fn scan_file 2 0 {
 				}
 			}
 
-			is_number r8 ~ 
+			; handle special tokens
+			; '', "", ;, {, }, ->
 			
+			col ++ pop col
+			pos ++ pop pos
+			pos data.len >= if {
+				break
+			}
+		}
+
+		is_number r8 if {
+			row col fp_string_view tok_number_lit
+			999 ; implement string view to number
+			token_stream<<
+		} else {
+			row col fp_string_view tok_name
+
+			data start + 
+			pos start -
+			new_string_view
+
+			token_stream<<
 		}
 	}
 

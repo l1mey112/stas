@@ -492,7 +492,7 @@ fn parse() {
 				}
 				.b_not {
 					ir(.b_not, 0)
-					sp_assert(2, 1)
+					sp_assert(1, 1)
 				}
 				.b_xor {
 					ir(.b_xor, 0)

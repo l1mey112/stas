@@ -22,7 +22,7 @@ fn new_string_view 2 1 {
 }
 
 ; (ptr -- str len)
-fn get_string_view 1 2 {
+fn string_view_to_str 1 2 {
 	; assert if ptr is inside bounds of string buffer
 
 	dup 8 + swap r64
