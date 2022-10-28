@@ -61,19 +61,19 @@ fn scan_file 2 0 {
 			break
 		}
 
-		auto start 1     pos pop start
+		auto start     1 pos pop start
 		auto start_col 1 col pop start_col
 
-		while data pos u8[] is_whitespace ~ {
+		while data pos u8[] is_whitespace true != {
 			is_number r8 if {
-				data pos u8[] dup 0_CH >= swap 9_CH <= & ~ if {
+				data pos u8[] dup 0_CH >= swap 9_CH <= & true != if {
 					is_number 0 w8
 				}
 			}
 
 			; handle special tokens
 			; '', "", ;, {, }, ->
-			
+
 			col ++ pop col
 			pos ++ pop pos
 			pos data.len >= if {
@@ -82,15 +82,27 @@ fn scan_file 2 0 {
 		}
 
 		is_number r8 if {
-			row col fp_string_view tok_number_lit
+			row col fp_string_view Tok.number_lit
 			999 ; implement string view to number
 			token_stream<<
 		} else {
-			row col fp_string_view tok_name
+			; (row col file)
+			row col fp_string_view
 
-			data start + 
-			pos start -
-			new_string_view
+			auto lit 2
+				data start + 
+				pos start -
+			pop lit
+
+			; (row col file tok)
+			lit Tok.from_str
+
+			; (row col file tok data)
+			dup Tok.name = if {
+				lit new_string_view
+			} else {
+				0
+			}
 
 			token_stream<<
 		}

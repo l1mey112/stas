@@ -824,29 +824,38 @@ fn parse() {
 								}
 							}
 							.break_block {
-								mut idx := u32(-1)
-								for s_id, s in scope_context.reverse() {
-									if s.typ == .while_block_scope {
-										idx = u32(s_id)
+								mut f := false
+								mut idx := u32(0)
+								for i := scope_context.len - 1 ; true ; i-- {
+									if scope_context[i].typ == .while_block_scope {
+										idx = u32(i)
+										f = true
 										break
 									}
+									
+									if i == 0 { break }
 								}
-								if idx == -1 {
+								if !f {
 									compile_error_t('not inside while loop body', pos)
 								}
 								ir(.do_jmp, scope_context[idx].label_id)
 							}
 							.continue_block {
-								mut idx := u32(-1)
-								for s_id, s in scope_context.reverse() {
-									if s.typ == .while_block_scope {
-										idx = u32(s_id)
+								mut f := false
+								mut idx := u32(0)
+								for i := scope_context.len - 1 ; true ; i-- {
+									if scope_context[i].typ == .while_block_scope {
+										idx = u32(i)
+										f = true
 										break
 									}
+									
+									if i == 0 { break }
 								}
-								if idx == -1 {
+								if !f {
 									compile_error_t('not inside while loop body', pos)
 								}
+								eprintln(scope_context)
 								assert scope_context[idx - 1].typ == .while_block
 								ir(.do_jmp, scope_context[idx - 1].label_id)
 							}

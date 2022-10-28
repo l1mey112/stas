@@ -44,9 +44,21 @@ fn main 0 0 {
 	}
 	drop
 
-;	0
-;	while dup token_stream.len < {
-;		dup token_stream[] Token.location_print
-;	}
-;	drop
+	token_stream.len putuln
+
+	0
+	while dup token_stream.len < {
+		dup token_stream[]
+			dup Token.location_print
+			dup Token.tok r32 dup Tok.to_str puts
+			Tok.name = if {
+				": " puts
+				Token.data r64 string_view_to_str puts
+				0
+			}
+			drop
+			endl
+		++
+	}
+	drop
 }
