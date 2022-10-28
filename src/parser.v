@@ -855,7 +855,6 @@ fn parse() {
 								if !f {
 									compile_error_t('not inside while loop body', pos)
 								}
-								eprintln(scope_context)
 								assert scope_context[idx - 1].typ == .while_block
 								ir(.do_jmp, scope_context[idx - 1].label_id)
 							}

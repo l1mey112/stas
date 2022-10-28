@@ -1,6 +1,26 @@
-const LF_CH { 10 }
-const 0_CH  { 48 }
-const 9_CH  { 57 }
+const LF_CH           { 10 }
+const 0_CH            { 48 }
+const 9_CH            { 57 }
+const SINGLE_QUOTE_CH { 39 }
+const DOUBLE_QUOTE_CH { 34 }
+const SEMICOLON_CH    { 59 }
+
+const DELIM_\_   { 92  }
+const DELIM_\_CH { 92  }
+const DELIM_a_   { 7   }
+const DELIM_a_CH { 97  }
+const DELIM_b_   { 8   }
+const DELIM_b_CH { 98  }
+const DELIM_f_   { 12  }
+const DELIM_f_CH { 102 }
+const DELIM_n_   { 10  }
+const DELIM_n_CH { 110 }
+const DELIM_r_   { 13  }
+const DELIM_r_CH { 114 }
+const DELIM_t_   { 9   }
+const DELIM_t_CH { 116 }
+const DELIM_v_   { 11  }
+const DELIM_v_CH { 118 } 
 
 ; (u8 -- bool)
 fn is_whitespace 1 1 {
@@ -33,10 +53,15 @@ fn scan_file 2 0 {
 		file_path open_and_mmap_fp
 		pop data.len pop data
 	}
+
+	reserve reset_outer 1 reset_outer 0 w8
 	
 	auto pos 1 0 pop pos
 	auto row 1 0 pop row
 	auto col 1 0 pop col
+
+	reserve is_next_inc 1
+	is_next_inc 0 w8
 
 	while 1 {
 		reserve is_number 1
@@ -72,7 +97,108 @@ fn scan_file 2 0 {
 			}
 
 			; handle special tokens
-			; '', "", ;, {, }, ->
+			data pos u8[]
+				dup SINGLE_QUOTE_CH =
+				swap DOUBLE_QUOTE_CH =
+			| if {
+				auto str_quote 1 data pos u8[] pop str_quote
+				auto str_f_row 1 row           pop str_f_row
+				auto str_f_col 1 col           pop str_f_col
+
+				auto str_buf  1 new_empty_string pop str_buf
+
+				reserve delim 1 delim 0 w8
+				while 1 {
+					col ++ pop col
+					pos ++ pop pos
+
+					pos data.len >= if {
+						0 assert -> 'unterminated string literal'
+					}
+
+					auto ch 1
+					data pos u8[] pop ch
+
+					; handle delimiters
+
+					delim r8 if {
+						data pos u8[]
+
+						dup SINGLE_QUOTE_CH = if {
+							SINGLE_QUOTE_CH
+						} elif dup DOUBLE_QUOTE_CH = {
+							DOUBLE_QUOTE_CH
+						} elif dup DELIM_\_CH = {
+							DELIM_\_
+						} elif dup DELIM_a_CH = {
+							DELIM_a_
+						} elif dup DELIM_b_CH = {
+							DELIM_b_
+						} elif dup DELIM_f_CH = {
+							DELIM_f_
+						} elif dup DELIM_n_CH = {
+							DELIM_n_
+						} elif dup DELIM_r_CH = {
+							DELIM_r_
+						} elif dup DELIM_t_CH = {
+							DELIM_t_
+						} elif dup DELIM_v_CH = {
+							DELIM_v_
+						} else {
+							0 0 assert -> 'escape character does not exist'
+						}
+						swap drop
+						str_buf swap push_char
+
+						delim 0 w8
+						continue
+					}
+
+					ch str_quote = if {
+						break
+					}
+
+					ch DELIM_\_CH = if {
+						delim 1 w8
+						continue
+					} elif ch LF_CH = {
+						0      pop col
+						row ++ pop row
+					}
+
+					str_buf ch push_char 
+				}
+
+				str_buf push_nul
+
+				delim r8 if {
+					0 assert -> 'unhandled escape character'
+				}
+
+				is_next_inc r8 if {
+					str_buf string_view_to_str scan_file
+
+					is_next_inc 0 w8
+				} else {
+					str_f_row str_f_col fp_string_view Tok.string_lit str_buf
+					token_stream<<
+				}
+
+				col ++ pop col
+				pos ++ pop pos
+
+				reset_outer 1 w8
+				break
+			} elif data pos u8[] SEMICOLON_CH = {
+				while data pos u8[] LF_CH != {
+					pos ++ pop pos
+					pos data.len >= if {
+						ret
+					}
+				}
+				reset_outer 1 w8
+				break
+			}
 
 			col ++ pop col
 			pos ++ pop pos
@@ -80,19 +206,34 @@ fn scan_file 2 0 {
 				break
 			}
 		}
+		reset_outer r8 if {
+			reset_outer 0 w8
+			continue
+		}
+
+		auto lit 2
+			data start + 
+			pos start -
+		pop lit
+
+		is_next_inc r8 if {
+			0 assert -> "file to include is not a string"
+		}
 
 		is_number r8 if {
-			row col fp_string_view Tok.number_lit
-			999 ; implement string view to number
+			row start_col fp_string_view Tok.number_lit
+			
+			lit str_to_num_unsafe
+			
 			token_stream<<
 		} else {
-			; (row col file)
-			row col fp_string_view
+			lit "include" streq if {
+				is_next_inc 1 w8
+				continue
+			}
 
-			auto lit 2
-				data start + 
-				pos start -
-			pop lit
+			; (row col file)
+			row start_col fp_string_view
 
 			; (row col file tok)
 			lit Tok.from_str
@@ -108,5 +249,7 @@ fn scan_file 2 0 {
 		}
 	}
 
-	; TODO: complex for break and continue
+	is_next_inc r8 if {
+		0 assert -> "unexpected EOF when parsing file to include"
+	}
 }

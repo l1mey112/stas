@@ -359,7 +359,7 @@ fn Token.tok  1 1   { 16 + }
 fn Token.data 1 1   { 20 + }
 const sizeof(Token) { 28   }
 
-const token_stream.cap { 1024 }
+const token_stream.cap { 8192 }
 const sizeof(token_stream) { sizeof(Token) token_stream.cap  * }
 reserve token_stream sizeof(token_stream)
 auto token_stream.len 1

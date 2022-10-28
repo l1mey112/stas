@@ -245,11 +245,11 @@ fn scan_file(data string, file_str StringPointer) {
 
 		ret_len := pos - start
 
+		if is_next_inc {
+			compile_error_e('file to include is not a string', row, col, file_str)
+		}
 		if !is_number {
 			ret_lit := new_string_view(unsafe { data.str + start }, ret_len)
-			if is_next_inc {
-				compile_error_e('file to include is not a string', row, col, file_str)
-			}
 			if ret_lit.str() == 'include' {
 				is_next_inc = true
 				continue

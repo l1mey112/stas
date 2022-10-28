@@ -21,3 +21,38 @@ fn args[] 1 2 {
 fn u8[] 2 1 {
 	+ r8
 }
+
+; (str len -- number)
+fn str_to_num_unsafe 2 1 {
+	auto str.len 1 pop str.len
+	auto str     1 pop str
+
+	0 0 ; (num idx)
+	while dup str.len < {
+		swap 10 *
+		over str u8[] 48 - ; `0`
+		+ swap
+		++
+	}
+	drop
+}
+
+; (ptr)
+fn p64++ 1 0 {
+	dup r64 ++ w64
+}
+
+; (ptr)
+fn p32++ 1 0 {
+	dup r32 ++ w32
+}
+
+; (ptr)
+fn p16++ 1 0 {
+	dup r16 ++ w16
+}
+
+; (ptr)
+fn p8++ 1 0 {
+	dup r8 ++ w8
+}

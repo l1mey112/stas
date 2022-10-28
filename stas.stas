@@ -44,18 +44,29 @@ fn main 0 0 {
 	}
 	drop
 
-	token_stream.len putuln
-
 	0
 	while dup token_stream.len < {
+		auto tok 1
+		
 		dup token_stream[]
-			dup Token.location_print
-			dup Token.tok r32 dup Tok.to_str puts
-			Tok.name = if {
+		pop tok
+
+			tok Token.location_print
+			tok Token.tok r32
+				dup Tok.to_str puts
+			
+			dup Tok.name = if {
 				": " puts
-				Token.data r64 string_view_to_str puts
-				0
+				tok Token.data r64 string_view_to_str puts
+			} elif dup Tok.number_lit = {
+				": " puts
+				tok Token.data r64 putu
+			} elif dup Tok.string_lit = {
+				": '" puts
+				tok Token.data r64 string_view_to_str puts
+				"'" puts
 			}
+
 			drop
 			endl
 		++
