@@ -1,0 +1,57 @@
+fn Function.argc          1 1 {      }
+fn Function.retc          1 1 { 4  + }
+fn Function.name          1 1 { 8  + }
+fn Function.start_inst    1 1 { 16 + }
+fn Function.end_inst      1 1 { 20 + }
+fn Function.a_sp          1 1 { 24 + }
+fn Function.is_used       1 1 { 28 + }
+fn Function.forbid_inline 1 1 { 29 + }
+const sizeof(Function)        { 30   }
+
+const functions.cap { 512 }
+auto  functions.len 1
+const sizeof(functions) { sizeof(Function) functions.cap * }
+reserve functions sizeof(functions)
+
+const ScopeTyp.scope            { 1 }
+const ScopeTyp.checked_scope    { 2 }
+const ScopeTyp.if_block         { 3 }
+const ScopeTyp.else_block       { 4 }
+const ScopeTyp.else_block_scope { 5 }
+const ScopeTyp.elif_block       { 6 }
+const ScopeTyp.elif_block_scope { 7 }
+
+fn Scope.typ       1 1 {      }
+fn Scope.sp        1 1 { 4  + }
+fn Scope.sp2       1 1 { 8  + }
+fn Scope.idx       1 1 { 12 + }
+fn Scope.label_id  1 1 { 16 + }
+fn Scope.label_id2 1 1 { 20 + }
+fn Scope.var_scope 1 1 { 24 + }
+const sizeof(Scope)    { 30   
+
+const VarTyp.buffer { 1 }
+const VarTyp.stack  { 2 }
+
+fn Variable.typ  1 1   {      }
+fn Variable.size 1 1   { 4  + }
+fn Variable.a_sp 1 1   { 8  + }
+fn Variable.idx  1 1   { 12 + }
+fn Variable.name 1 1   { 16 + }
+const sizeof(Variable) { 24 + }
+
+const global_var_context.cap { 512 } 
+auto global_var_context.len 1
+const sizeof(global_var_context) { sizeof(Variable) global_var_context.cap * }
+reserve global_var_context sizeof(global_var_context)
+
+fn Constant.name       1 1 {      }
+fn Constant.inst_start 1 1 { 8  + }
+fn Constant.tok        1 1 { 12 + }
+fn Constant.value      1 1 { 16 + }
+const sizeof(Constant)     { 24   }
+
+const toplevel_constants.cap { 512 } 
+auto toplevel_constants.len 1
+const sizeof(toplevel_constants) { sizeof(Variable) toplevel_constants.cap * }
+reserve toplevel_constants sizeof(toplevel_constants)
