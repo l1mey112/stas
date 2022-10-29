@@ -260,7 +260,7 @@ fn parse() {
 						compile_error_t('function name must not be an intrinsic', fn_c + 1)
 					}
 					if token_stream[fn_c + 2].tok != .number_lit
-						&& token_stream[fn_c + 3].tok != .number_lit {
+						|| token_stream[fn_c + 3].tok != .number_lit {
 						compile_error_t('function return and argument counts must be numbers',
 							fn_c)
 					}

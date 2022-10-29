@@ -1,7 +1,3 @@
 fn main 0 0 {
-	'\\ellos\''
-	while 1 {
-		239922
-		continue
-	}	
+	2 2 + drop
 }

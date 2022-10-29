@@ -1,57 +1,354 @@
-fn Function.argc          1 1 {      }
-fn Function.retc          1 1 { 4  + }
-fn Function.name          1 1 { 8  + }
-fn Function.start_inst    1 1 { 16 + }
-fn Function.end_inst      1 1 { 20 + }
-fn Function.a_sp          1 1 { 24 + }
-fn Function.is_used       1 1 { 28 + }
-fn Function.forbid_inline 1 1 { 29 + }
-const sizeof(Function)        { 30   }
+auto label_c 1
 
-const functions.cap { 512 }
-auto  functions.len 1
-const sizeof(functions) { sizeof(Function) functions.cap * }
-reserve functions sizeof(functions)
+fn label_allocate 0 1 {
+	label_c dup ++ pop label_c
+}
 
-const ScopeTyp.scope            { 1 }
-const ScopeTyp.checked_scope    { 2 }
-const ScopeTyp.if_block         { 3 }
-const ScopeTyp.else_block       { 4 }
-const ScopeTyp.else_block_scope { 5 }
-const ScopeTyp.elif_block       { 6 }
-const ScopeTyp.elif_block_scope { 7 }
+auto pos                          1
+auto function_context             1
+auto function_context_idx         1
+auto is_still_evaluating_constant 1
 
-fn Scope.typ       1 1 {      }
-fn Scope.sp        1 1 { 4  + }
-fn Scope.sp2       1 1 { 8  + }
-fn Scope.idx       1 1 { 12 + }
-fn Scope.label_id  1 1 { 16 + }
-fn Scope.label_id2 1 1 { 20 + }
-fn Scope.var_scope 1 1 { 24 + }
-const sizeof(Scope)    { 30   
+; (inst data)
+fn ir 2 0 {
+	pos rot ir_stream<<
+}
 
-const VarTyp.buffer { 1 }
-const VarTyp.stack  { 2 }
+; (pos inst data)
+fn ir_p 3 0 {
+	ir_stream<<
+}
 
-fn Variable.typ  1 1   {      }
-fn Variable.size 1 1   { 4  + }
-fn Variable.a_sp 1 1   { 8  + }
-fn Variable.idx  1 1   { 12 + }
-fn Variable.name 1 1   { 16 + }
-const sizeof(Variable) { 24 + }
+const   sp.cap     { 1024       }
+const   sizeof(sp) { 4 sp.cap * }
+auto    sp.len     1
+reserve sp         sizeof(sp)
 
-const global_var_context.cap { 512 } 
-auto global_var_context.len 1
-const sizeof(global_var_context) { sizeof(Variable) global_var_context.cap * }
-reserve global_var_context sizeof(global_var_context)
+fn sp<< 1 0 {
+	sp.len sp.cap < assert
+	sp sp.len 4 * + swap w32
+	sp.len ++ pop sp.len
+}
 
-fn Constant.name       1 1 {      }
-fn Constant.inst_start 1 1 { 8  + }
-fn Constant.tok        1 1 { 12 + }
-fn Constant.value      1 1 { 16 + }
-const sizeof(Constant)     { 24   }
+; (count pos)
+fn sp_push_p 2 0 {
+	auto pos  1 pop pos
+	auto retc 1 pop retc
 
-const toplevel_constants.cap { 512 } 
-auto toplevel_constants.len 1
-const sizeof(toplevel_constants) { sizeof(Variable) toplevel_constants.cap * }
-reserve toplevel_constants sizeof(toplevel_constants)
+	0
+	while dup retc < {
+		pos sp<<
+		++
+	}
+	drop
+}
+
+; (count)
+fn sp_push 1 0 {
+	pos sp_push_p
+}
+
+; (argc retc)
+fn sp_assert 2 0 {
+	auto retc 1 pop retc
+	auto _argc 1 pop _argc
+	
+	sp.len _argc < if {
+		pos "not enough values to consume for operation" error.Tok
+	}
+	
+	sp.len _argc - pop sp.len
+
+	retc pos sp_push_p
+}
+
+; (string_view -- idx)
+fn is_global_var_name 1 1 {
+	auto lit 2
+	string_view_to_str pop lit
+
+	0
+	while dup global_var_context.len < {
+		dup global_var_context[] rVariable.name string_view_to_str
+		lit streq if {
+			ret
+		}
+		++
+	}
+	drop
+	UINT64_MAX
+}
+
+; (string_view -- idx)
+fn is_constant_name 1 1 {
+	auto lit 2
+	string_view_to_str pop lit
+
+	0
+	while dup toplevel_constants.len < {
+		dup toplevel_constants[] rConstant.name string_view_to_str
+		lit streq if {
+			ret
+		}
+		++
+	}
+	drop
+	UINT64_MAX
+}
+
+; (string_view -- idx)
+fn is_function_name 1 1 {
+	auto lit 2
+	string_view_to_str pop lit
+
+	0
+	while dup functions.len < {
+		dup functions[] rFunction.name string_view_to_str
+		lit streq if {
+			ret
+		}
+		++
+	}
+	drop
+	UINT64_MAX
+}
+
+; (string_view -- bool)
+fn is_toplevel_name_bool 1 1 {
+	dup is_constant_name   UINT64_MAX != swap
+	    is_global_var_name UINT64_MAX != |
+}
+
+fn parse.fn_decl 0 0 {
+	scope_context.len 0 > if {
+		scope_context.top Scope.idx r32
+		'unclosed scope for constant expression'
+		error.Tok
+	}
+	auto fn_c 1 pos pop fn_c
+	pos 4 + pop pos
+
+	pos token_stream.len >= if {
+		fn_c 'unexpected EOF when parsing function' error.Tok
+	}
+	fn_c 1 + token_stream[] rToken.tok Tok.name != if {
+		fn_c 1 + 'function name must not be an intrinsic' error.Tok
+	}
+	fn_c 2 + token_stream[] rToken.tok Tok.number_lit !=
+	fn_c 3 + token_stream[] rToken.tok Tok.number_lit !=
+	| if {
+		fn_c 'function return and argument counts must be numbers' error.Tok
+	}
+	fn_c 4 + token_stream[] rToken.tok Tok.l_cb != if {
+		fn_c 'new scope must proceed after function header' error.Tok
+	}
+
+	auto sv 1
+		fn_c 1 + token_stream[] rToken.data
+	pop sv
+
+	sv is_function_name UINT64_MAX != if {
+		fn_c 1 + 'duplicate function name' error.Tok
+	}
+	sv is_toplevel_name_bool if {
+		fn_c 1 + 'function name already exists as variable name' error.Tok
+	}
+
+	auto _argc 1 fn_c 2 + token_stream[] rToken.data pop _argc
+	auto  retc 1 fn_c 3 + token_stream[] rToken.data pop  retc
+	
+	; functions[] body but without assertion
+	functions.len sizeof(Function) * functions + pop function_context
+	functions.len                                pop function_context_idx
+		_argc
+		retc
+		sv
+		ir_stream.len
+		0 ; end_inst
+		0 ; a_sp
+		sv string_view_to_str 'main' streq if {
+			_argc 0 !=
+			retc  0 != | if {
+				fn_c 'the main function must accept and return zero values' error.Tok
+			}
+
+			1 1  ; is_used, forbid_inline
+		} else {
+			0 0  ; is_used, forbid_inline
+		}
+	functions<<
+
+	fn_c Inst.fn_prelude function_context_idx ir_p
+	
+	sp.len          0 = assert
+	var_context.len 0 = assert
+
+	_argc fn_c sp_push_p
+}
+
+fn parse.fn_body_tokens 0 0 {
+	pos token_stream[] rToken.tok
+
+	; fn ir   (inst data)
+	; fn ir_p (pos inst data)
+
+	dup Tok._assert = if {
+		0 assert -> 'unimplemented'
+	} elif dup Tok.number_lit = {
+		Inst.push_num pos token_stream[] rToken.data ir
+		1 sp_push
+	} elif dup Tok.plus = {
+		Inst.plus 0 ir
+		2 1 sp_assert
+	} elif dup Tok.sub = {
+		Inst.sub 0 ir
+		2 1 sp_assert
+	} elif dup Tok.mul = {
+		Inst.mul 0 ir
+		2 1 sp_assert
+	} elif dup Tok.div = {
+		Inst.div 0 ir
+		2 1 sp_assert
+	} elif dup Tok.mod = {
+		Inst.mod 0 ir
+		2 1 sp_assert
+	} elif dup Tok.inc = {
+		Inst.inc 0 ir
+		1 1 sp_assert
+	} elif dup Tok.dec = {
+		Inst.dec 0 ir
+		1 1 sp_assert
+	} elif dup Tok.divmod = {
+		Inst.divmod 0 ir
+		2 2 sp_assert
+	} elif dup Tok.shr = {
+		Inst.shr 0 ir
+		2 1 sp_assert
+	} elif dup Tok.shl = {
+		Inst.shl 0 ir
+		2 1 sp_assert
+	} elif dup Tok.b_and = {
+		Inst.b_and 0 ir
+		2 1 sp_assert
+	} elif dup Tok.b_or = {
+		Inst.b_or 0 ir
+		2 1 sp_assert
+	} elif dup Tok.b_not = {
+		Inst.b_not 0 ir
+		2 1 sp_assert
+	} elif dup Tok.b_xor = {
+		Inst.b_xor 0 ir
+		2 1 sp_assert
+	} elif dup Tok.swap = {
+		Inst.swap 0 ir
+		2 2 sp_assert
+	} elif dup Tok.dup = {
+		Inst.dup 0 ir
+		1 2 sp_assert
+	} elif dup Tok.over = {
+		Inst.over 0 ir
+		2 3 sp_assert
+	} elif dup Tok.over2 = {
+		Inst.over2 0 ir
+		3 4 sp_assert
+	} elif dup Tok.rot = {
+		Inst.rot 0 ir
+		3 3 sp_assert
+	} elif dup Tok.rot4 = {
+		Inst.rot4 0 ir
+		4 4 sp_assert
+	} elif dup Tok.drop = {
+		Inst.drop 0 ir
+		1 0 sp_assert
+	} elif dup Tok.equ = {
+		Inst.equ 0 ir
+		2 1 sp_assert
+	} elif dup Tok.nequ = {
+		Inst.nequ 0 ir
+		2 1 sp_assert
+	} elif dup Tok.gt = {
+		Inst.gt 0 ir
+		2 1 sp_assert
+	} elif dup Tok.lt = {
+		Inst.lt 0 ir
+		2 1 sp_assert
+	} elif dup Tok.gte = {
+		Inst.gte 0 ir
+		2 1 sp_assert
+	} elif dup Tok.lte = {
+		Inst.lte 0 ir
+		2 1 sp_assert
+	} elif dup Tok.s_gt = {
+		Inst.s_gt 0 ir
+		2 1 sp_assert
+	} elif dup Tok.s_lt = {
+		Inst.s_lt 0 ir
+		2 1 sp_assert
+	} elif dup Tok.s_gte = {
+		Inst.s_gte 0 ir
+		2 1 sp_assert
+	} elif dup Tok.s_lte = {
+		Inst.s_lte 0 ir
+		2 1 sp_assert
+	} else {
+		endl
+		sp.len putuln
+
+		0 assert -> 'unimplemented'
+		; implement parse variable in a sep function returning idx
+		; parses reserve and auto variables
+	}
+	drop
+}
+
+fn parse 0 0 {
+	0 pop pos
+
+	while pos token_stream.len < {
+		is_still_evaluating_constant true != 
+		function_context NULL =
+		& if {
+			pos token_stream[] rToken.tok
+
+			dup Tok.const_expression = if {
+				0 assert -> 'unimplemented'
+			} elif dup Tok.fn_decl = {
+				parse.fn_decl
+			} elif dup dup Tok.reserve = swap Tok.auto = | {
+				0 assert -> 'unimplemented'
+			} else {
+				pos "unknown toplevel token" error.Tok
+			}
+			drop
+		} else {
+			function_context NULL = if {
+				pos token_stream[] rToken.tok
+
+				dup Tok.r_cb = if {
+					0 assert -> 'unimplemented'
+					; eval const
+				} elif dup Tok.name = {
+					0 assert -> 'unimplemented'
+					; const replace
+				} else {
+					0 assert -> 'unreachable'
+				}
+				drop
+			} else {
+				parse.fn_body_tokens
+			}
+		}
+
+		pos ++ pop pos
+	}
+
+	var_context.len 0 = assert 
+	sp.len          0 = assert
+
+	scope_context.len 0 != if {
+		token_stream.len 1 - "unclosed scopes on parser finish" error.Tok
+	}
+	function_context NULL != if {
+		token_stream.len 1 - "unexpected EOF when parsing function, scopes may be unclosed" error.Tok	
+	}
+}

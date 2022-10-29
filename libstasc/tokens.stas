@@ -70,286 +70,286 @@ const              Tok.pop { 69 }
 
 ; (Tok -- str len)
 fn Tok.to_str 1 2 {
-    dup Tok.name = if {           ; 
-        "name"                    ; TODO: 
-    } elif dup Tok.string_lit = { ;     implement dereferencing of
-        "string_lit"              ;     actual contained tok data
-    } elif dup Tok.number_lit = { ; 
-        "number_lit"              ;
-    } elif dup Tok.l_cb = {       ;
-        "{"
-    } elif dup Tok.r_cb = {
-        "}"
-    } elif dup Tok.arrw = {
-        "->"
-    } elif dup Tok.fn_decl = {
-        "fn"
-    } elif dup Tok.trap_breakpoint = {
-        "_breakpoint"
-    } elif dup Tok.const_expression = {
-        "const"
-    } elif dup Tok._assert = {
-        "assert"
-    } elif dup Tok.argc = {
-        "argc"
-    } elif dup Tok.argv = {
-        "argv"
-    } elif dup Tok.ret = {
-        "ret"
-    } elif dup Tok.if_block = {
-        "if"
-    } elif dup Tok.else_block = {
-        "else"
-    } elif dup Tok.elif_block = {
-        "elif"
-    } elif dup Tok.while_block = {
-        "while"
-    } elif dup Tok.break_block = {
-        "break"
-    } elif dup Tok.continue_block = {
-        "continue"
-    } elif dup Tok.plus = {
-        "+"
-    } elif dup Tok.sub = {
-        "-"
-    } elif dup Tok.mul = {
-        "*"
-    } elif dup Tok.div = {
-        "/"
-    } elif dup Tok.mod = {
-        "%"
-    } elif dup Tok.inc = {
-        "++"
-    } elif dup Tok.dec = {
-        "--"
-    } elif dup Tok.divmod = {
-        "%%"
-    } elif dup Tok.shr = {
-        ">>"
-    } elif dup Tok.shl = {
-        "<<"
-    } elif dup Tok.b_and = {
-        "&"
-    } elif dup Tok.b_or = {
-        "|"
-    } elif dup Tok.b_not = {
-        "~"
-    } elif dup Tok.b_xor = {
-        "^"
-    } elif dup Tok.swap = {
-        "swap"
-    } elif dup Tok.dup = {
-        "dup"
-    } elif dup Tok.over = {
-        "over"
-    } elif dup Tok.over2 = {
-        "over2"
-    } elif dup Tok.rot = {
-        "rot"
-    } elif dup Tok.rot4 = {
-        "rot4"
-    } elif dup Tok.drop = {
-        "drop"
-    } elif dup Tok.equ = {
-        "="
-    } elif dup Tok.nequ = {
-        "!="
-    } elif dup Tok.gt = {
-        ">"
-    } elif dup Tok.lt = {
-        "<"
-    } elif dup Tok.gte = {
-        ">="
-    } elif dup Tok.lte = {
-        "<="
-    } elif dup Tok.s_gt = {
-        ">s"
-    } elif dup Tok.s_lt = {
-        "<s"
-    } elif dup Tok.s_gte = {
-        ">=s"
-    } elif dup Tok.s_lte = {
-        "<=s"
-    } elif dup Tok.w8 = {
-        "w8"
-    } elif dup Tok.w16 = {
-        "w16"
-    } elif dup Tok.w32 = {
-        "w32"
-    } elif dup Tok.w64 = {
-        "w64"
-    } elif dup Tok.r8 = {
-        "r8"
-    } elif dup Tok.r16 = {
-        "r16"
-    } elif dup Tok.r32 = {
-        "r32"
-    } elif dup Tok.r64 = {
-        "r64"
-    } elif dup Tok.syscall0 = {
-        "syscall0"
-    } elif dup Tok.syscall1 = {
-        "syscall1"
-    } elif dup Tok.syscall2 = {
-        "syscall2"
-    } elif dup Tok.syscall3 = {
-        "syscall3"
-    } elif dup Tok.syscall4 = {
-        "syscall4"
-    } elif dup Tok.syscall5 = {
-        "syscall5"
-    } elif dup Tok.syscall6 = {
-        "syscall6"
-    } elif dup Tok.reserve = {
-        "reserve"
-    } elif dup Tok.auto = {
-        "auto"
-    } elif dup Tok.pop = {
-        "pop"
-    } else {
-        0 0 0 assert -> "unreachable"
-    }
+	dup Tok.name = if {           ; 
+		"name"                    ; TODO: 
+	} elif dup Tok.string_lit = { ;     implement dereferencing of
+		"string_lit"              ;     actual contained tok data
+	} elif dup Tok.number_lit = { ; 
+		"number_lit"              ;
+	} elif dup Tok.l_cb = {       ;
+		"{"
+	} elif dup Tok.r_cb = {
+		"}"
+	} elif dup Tok.arrw = {
+		"->"
+	} elif dup Tok.fn_decl = {
+		"fn"
+	} elif dup Tok.trap_breakpoint = {
+		"_breakpoint"
+	} elif dup Tok.const_expression = {
+		"const"
+	} elif dup Tok._assert = {
+		"assert"
+	} elif dup Tok.argc = {
+		"argc"
+	} elif dup Tok.argv = {
+		"argv"
+	} elif dup Tok.ret = {
+		"ret"
+	} elif dup Tok.if_block = {
+		"if"
+	} elif dup Tok.else_block = {
+		"else"
+	} elif dup Tok.elif_block = {
+		"elif"
+	} elif dup Tok.while_block = {
+		"while"
+	} elif dup Tok.break_block = {
+		"break"
+	} elif dup Tok.continue_block = {
+		"continue"
+	} elif dup Tok.plus = {
+		"+"
+	} elif dup Tok.sub = {
+		"-"
+	} elif dup Tok.mul = {
+		"*"
+	} elif dup Tok.div = {
+		"/"
+	} elif dup Tok.mod = {
+		"%"
+	} elif dup Tok.inc = {
+		"++"
+	} elif dup Tok.dec = {
+		"--"
+	} elif dup Tok.divmod = {
+		"%%"
+	} elif dup Tok.shr = {
+		">>"
+	} elif dup Tok.shl = {
+		"<<"
+	} elif dup Tok.b_and = {
+		"&"
+	} elif dup Tok.b_or = {
+		"|"
+	} elif dup Tok.b_not = {
+		"~"
+	} elif dup Tok.b_xor = {
+		"^"
+	} elif dup Tok.swap = {
+		"swap"
+	} elif dup Tok.dup = {
+		"dup"
+	} elif dup Tok.over = {
+		"over"
+	} elif dup Tok.over2 = {
+		"over2"
+	} elif dup Tok.rot = {
+		"rot"
+	} elif dup Tok.rot4 = {
+		"rot4"
+	} elif dup Tok.drop = {
+		"drop"
+	} elif dup Tok.equ = {
+		"="
+	} elif dup Tok.nequ = {
+		"!="
+	} elif dup Tok.gt = {
+		">"
+	} elif dup Tok.lt = {
+		"<"
+	} elif dup Tok.gte = {
+		">="
+	} elif dup Tok.lte = {
+		"<="
+	} elif dup Tok.s_gt = {
+		">s"
+	} elif dup Tok.s_lt = {
+		"<s"
+	} elif dup Tok.s_gte = {
+		">=s"
+	} elif dup Tok.s_lte = {
+		"<=s"
+	} elif dup Tok.w8 = {
+		"w8"
+	} elif dup Tok.w16 = {
+		"w16"
+	} elif dup Tok.w32 = {
+		"w32"
+	} elif dup Tok.w64 = {
+		"w64"
+	} elif dup Tok.r8 = {
+		"r8"
+	} elif dup Tok.r16 = {
+		"r16"
+	} elif dup Tok.r32 = {
+		"r32"
+	} elif dup Tok.r64 = {
+		"r64"
+	} elif dup Tok.syscall0 = {
+		"syscall0"
+	} elif dup Tok.syscall1 = {
+		"syscall1"
+	} elif dup Tok.syscall2 = {
+		"syscall2"
+	} elif dup Tok.syscall3 = {
+		"syscall3"
+	} elif dup Tok.syscall4 = {
+		"syscall4"
+	} elif dup Tok.syscall5 = {
+		"syscall5"
+	} elif dup Tok.syscall6 = {
+		"syscall6"
+	} elif dup Tok.reserve = {
+		"reserve"
+	} elif dup Tok.auto = {
+		"auto"
+	} elif dup Tok.pop = {
+		"pop"
+	} else {
+		0 0 0 assert -> "unreachable"
+	}
 
-    rot rot drop
+	rot rot drop
 }
 
 ; (str len -- Tok)
 fn Tok.from_str 2 1 {
-    auto str 2 pop str
+	auto str 2 pop str
 
-    str "{" streq if {
-        Tok.l_cb
-    } elif str "}" streq {
-        Tok.r_cb
-    } elif str "->" streq {
-        Tok.arrw
-    } elif str "fn" streq {
-        Tok.fn_decl
-    } elif str "_breakpoint" streq {
-        Tok.trap_breakpoint
-    } elif str "const" streq {
-        Tok.const_expression
-    } elif str "assert" streq {
-        Tok._assert
-    } elif str "argc" streq {
-        Tok.argc
-    } elif str "argv" streq {
-        Tok.argv
-    } elif str "ret" streq {
-        Tok.ret
-    } elif str "if" streq {
-        Tok.if_block
-    } elif str "else" streq {
-        Tok.else_block
-    } elif str "elif" streq {
-        Tok.elif_block
-    } elif str "while" streq {
-        Tok.while_block
-    } elif str "break" streq {
-        Tok.break_block
-    } elif str "continue" streq {
-        Tok.continue_block
-    } elif str "+" streq {
-        Tok.plus
-    } elif str "-" streq {
-        Tok.sub
-    } elif str "*" streq {
-        Tok.mul
-    } elif str "/" streq {
-        Tok.div
-    } elif str "%" streq {
-        Tok.mod
-    } elif str "++" streq {
-        Tok.inc
-    } elif str "--" streq {
-        Tok.dec
-    } elif str "%%" streq {
-        Tok.divmod
-    } elif str ">>" streq {
-        Tok.shr
-    } elif str "<<" streq {
-        Tok.shl
-    } elif str "&" streq {
-        Tok.b_and
-    } elif str "|" streq {
-        Tok.b_or
-    } elif str "~" streq {
-        Tok.b_not
-    } elif str "^" streq {
-        Tok.b_xor
-    } elif str "swap" streq {
-        Tok.swap
-    } elif str "dup" streq {
-        Tok.dup
-    } elif str "over" streq {
-        Tok.over
-    } elif str "over2" streq {
-        Tok.over2
-    } elif str "rot" streq {
-        Tok.rot
-    } elif str "rot4" streq {
-        Tok.rot4
-    } elif str "drop" streq {
-        Tok.drop
-    } elif str "=" streq {
-        Tok.equ
-    } elif str "!=" streq {
-        Tok.nequ
-    } elif str ">" streq {
-        Tok.gt
-    } elif str "<" streq {
-        Tok.lt
-    } elif str ">=" streq {
-        Tok.gte
-    } elif str "<=" streq {
-        Tok.lte
-    } elif str ">s" streq {
-        Tok.s_gt
-    } elif str "<s" streq {
-        Tok.s_lt
-    } elif str ">=s" streq {
-        Tok.s_gte
-    } elif str "<=s" streq {
-        Tok.s_lte
-    } elif str "w8" streq {
-        Tok.w8
-    } elif str "w16" streq {
-        Tok.w16
-    } elif str "w32" streq {
-        Tok.w32
-    } elif str "w64" streq {
-        Tok.w64
-    } elif str "r8" streq {
-        Tok.r8
-    } elif str "r16" streq {
-        Tok.r16
-    } elif str "r32" streq {
-        Tok.r32
-    } elif str "r64" streq {
-        Tok.r64
-    } elif str "syscall0" streq {
-        Tok.syscall0
-    } elif str "syscall1" streq {
-        Tok.syscall1
-    } elif str "syscall2" streq {
-        Tok.syscall2
-    } elif str "syscall3" streq {
-        Tok.syscall3
-    } elif str "syscall4" streq {
-        Tok.syscall4
-    } elif str "syscall5" streq {
-        Tok.syscall5
-    } elif str "syscall6" streq {
-        Tok.syscall6
-    } elif str "reserve" streq {
-        Tok.reserve
-    } elif str "auto" streq {
-        Tok.auto
-    } elif str "pop" streq {
-        Tok.pop
-    } else {
-        Tok.name
-    }
+	str "{" streq if {
+		Tok.l_cb
+	} elif str "}" streq {
+		Tok.r_cb
+	} elif str "->" streq {
+		Tok.arrw
+	} elif str "fn" streq {
+		Tok.fn_decl
+	} elif str "_breakpoint" streq {
+		Tok.trap_breakpoint
+	} elif str "const" streq {
+		Tok.const_expression
+	} elif str "assert" streq {
+		Tok._assert
+	} elif str "argc" streq {
+		Tok.argc
+	} elif str "argv" streq {
+		Tok.argv
+	} elif str "ret" streq {
+		Tok.ret
+	} elif str "if" streq {
+		Tok.if_block
+	} elif str "else" streq {
+		Tok.else_block
+	} elif str "elif" streq {
+		Tok.elif_block
+	} elif str "while" streq {
+		Tok.while_block
+	} elif str "break" streq {
+		Tok.break_block
+	} elif str "continue" streq {
+		Tok.continue_block
+	} elif str "+" streq {
+		Tok.plus
+	} elif str "-" streq {
+		Tok.sub
+	} elif str "*" streq {
+		Tok.mul
+	} elif str "/" streq {
+		Tok.div
+	} elif str "%" streq {
+		Tok.mod
+	} elif str "++" streq {
+		Tok.inc
+	} elif str "--" streq {
+		Tok.dec
+	} elif str "%%" streq {
+		Tok.divmod
+	} elif str ">>" streq {
+		Tok.shr
+	} elif str "<<" streq {
+		Tok.shl
+	} elif str "&" streq {
+		Tok.b_and
+	} elif str "|" streq {
+		Tok.b_or
+	} elif str "~" streq {
+		Tok.b_not
+	} elif str "^" streq {
+		Tok.b_xor
+	} elif str "swap" streq {
+		Tok.swap
+	} elif str "dup" streq {
+		Tok.dup
+	} elif str "over" streq {
+		Tok.over
+	} elif str "over2" streq {
+		Tok.over2
+	} elif str "rot" streq {
+		Tok.rot
+	} elif str "rot4" streq {
+		Tok.rot4
+	} elif str "drop" streq {
+		Tok.drop
+	} elif str "=" streq {
+		Tok.equ
+	} elif str "!=" streq {
+		Tok.nequ
+	} elif str ">" streq {
+		Tok.gt
+	} elif str "<" streq {
+		Tok.lt
+	} elif str ">=" streq {
+		Tok.gte
+	} elif str "<=" streq {
+		Tok.lte
+	} elif str ">s" streq {
+		Tok.s_gt
+	} elif str "<s" streq {
+		Tok.s_lt
+	} elif str ">=s" streq {
+		Tok.s_gte
+	} elif str "<=s" streq {
+		Tok.s_lte
+	} elif str "w8" streq {
+		Tok.w8
+	} elif str "w16" streq {
+		Tok.w16
+	} elif str "w32" streq {
+		Tok.w32
+	} elif str "w64" streq {
+		Tok.w64
+	} elif str "r8" streq {
+		Tok.r8
+	} elif str "r16" streq {
+		Tok.r16
+	} elif str "r32" streq {
+		Tok.r32
+	} elif str "r64" streq {
+		Tok.r64
+	} elif str "syscall0" streq {
+		Tok.syscall0
+	} elif str "syscall1" streq {
+		Tok.syscall1
+	} elif str "syscall2" streq {
+		Tok.syscall2
+	} elif str "syscall3" streq {
+		Tok.syscall3
+	} elif str "syscall4" streq {
+		Tok.syscall4
+	} elif str "syscall5" streq {
+		Tok.syscall5
+	} elif str "syscall6" streq {
+		Tok.syscall6
+	} elif str "reserve" streq {
+		Tok.reserve
+	} elif str "auto" streq {
+		Tok.auto
+	} elif str "pop" streq {
+		Tok.pop
+	} else {
+		Tok.name
+	}
 }
 
 fn Token.row  1 1   {      }
@@ -359,6 +359,9 @@ fn Token.tok  1 1   { 16 + }
 fn Token.data 1 1   { 20 + }
 const sizeof(Token) { 28   }
 
+fn rToken.tok  1 1   { Token.tok  r32 }
+fn rToken.data 1 1   { Token.data r64 }
+
 const token_stream.cap { 8192 }
 const sizeof(token_stream) { sizeof(Token) token_stream.cap  * }
 reserve token_stream sizeof(token_stream)
@@ -366,30 +369,30 @@ auto token_stream.len 1
 
 ; (idx -- *Token)
 fn token_stream[] 1 1 {
-    dup token_stream.len < assert
-    sizeof(Token) * token_stream +
+	dup token_stream.len < assert
+	sizeof(Token) * token_stream +
 }
 
 ; (row col file tok data)
 fn token_stream<< 5 0 {
-    token_stream.len sizeof(Token) * token_stream +
-        swap over Token.data swap w64
-        swap over Token.tok  swap w32
-        swap over Token.file swap w64
-        swap over Token.col  swap w32
-                  Token.row  swap w32
+	token_stream.len sizeof(Token) * token_stream +
+	    swap over Token.data swap w64
+	    swap over Token.tok  swap w32
+	    swap over Token.file swap w64
+	    swap over Token.col  swap w32
+	              Token.row  swap w32
 
-    token_stream.len ++ pop token_stream.len
-    token_stream.len token_stream.cap < assert
+	token_stream.len ++ pop token_stream.len
+	token_stream.len token_stream.cap < assert
 }
 
 ; (ptr)
 fn Token.location_print 1 0 {
-    dup Token.file r64
-        string_view_to_str puts
-        ':' puts
-    dup Token.row r32 1 + putu
-        ':' puts
-        Token.col r32 1 + putu
-        ': ' puts
+	dup Token.file r64
+	    string_view_to_str puts
+	    ':' puts
+	dup Token.row r32 1 + putu
+	    ':' puts
+	    Token.col r32 1 + putu
+	    ': ' puts
 }
