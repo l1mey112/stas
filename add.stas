@@ -1,7 +1,5 @@
 fn main 0 0 {
-	"hello\naaaaaaaaa\naaaaa"
-
-	'hellos'
+	'\\ellos\''
 	while 1 {
 		239922
 		continue

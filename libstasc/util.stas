@@ -1,0 +1,36 @@
+fn error.start_bold_error 0 0 {
+	27 eputc '[1m'  eputs
+	27 eputc '[31m' eputs
+}
+
+fn error.end_bold_error 0 0 {
+	27 eputc '[39m' eputs
+	27 eputc '[22m' eputs
+}
+
+; (row col file str len)
+fn error.Loc 5 0 {
+	auto msg 2 pop msg
+
+	error.start_bold_error
+		string_view_to_str puts ':'  puts
+		swap
+		1 + putu                ':'  puts
+		1 + putu                ': ' puts
+	error.end_bold_error
+	
+	msg eputs endl
+	1 exit
+}
+
+; (idx str len)
+fn error.Tok 3 0 {
+	rot rot
+	
+	error.start_bold_error
+		token_stream[] Token.location_print
+	error.end_bold_error
+	
+	eputs endl
+	1 exit
+}

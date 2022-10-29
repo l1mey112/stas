@@ -113,7 +113,7 @@ fn scan_file 2 0 {
 					pos ++ pop pos
 
 					pos data.len >= if {
-						0 assert -> 'unterminated string literal'
+						str_f_row str_f_col fp_string_view 'unterminated string literal' error.Loc
 					}
 
 					auto ch 1
@@ -145,7 +145,8 @@ fn scan_file 2 0 {
 						} elif dup DELIM_v_CH = {
 							DELIM_v_
 						} else {
-							0 0 assert -> 'escape character does not exist'
+							row col fp_string_view 'escape character does not exist' error.Loc
+							0
 						}
 						swap drop
 						str_buf swap push_char
@@ -172,7 +173,7 @@ fn scan_file 2 0 {
 				str_buf push_nul
 
 				delim r8 if {
-					0 assert -> 'unhandled escape character'
+					row col fp_string_view 'unhandled escape character' error.Loc
 				}
 
 				is_next_inc r8 if {
@@ -217,7 +218,7 @@ fn scan_file 2 0 {
 		pop lit
 
 		is_next_inc r8 if {
-			0 assert -> "file to include is not a string"
+			row start_col fp_string_view 'file to include is not a string' error.Loc
 		}
 
 		is_number r8 if {
@@ -250,6 +251,6 @@ fn scan_file 2 0 {
 	}
 
 	is_next_inc r8 if {
-		0 assert -> "unexpected EOF when parsing file to include"
+		row col fp_string_view 'unexpected EOF when parsing file to include' error.Loc
 	}
 }

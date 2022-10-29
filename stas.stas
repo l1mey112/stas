@@ -4,6 +4,7 @@ reserve is_object_file 1
 
 include 'libstasc/stringbuffer.stas'
 include 'libstasc/tokens.stas'
+include 'libstasc/util.stas'
 include 'libstasc/scanner.stas'
 
 fn usage 0 0 {
