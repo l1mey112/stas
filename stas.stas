@@ -49,6 +49,18 @@ fn main 0 0 {
 
 	parse
 	functions.len putuln
+	0 functions[] rFunction.name string_view_to_str puts endl
 
-	0 functions[] rFunction.name string_view_to_str puts
+	endl
+
+	'tok[]\tdata\tinst\n\n' puts
+	0
+	while dup ir_stream.len < {
+		dup ir_stream[]
+			dup rIR.idx  putu '\t' puts
+			dup rIR.data putu '\t' puts
+			    rIR.inst Inst.to_str puts endl
+		++
+	}
+	drop
 }

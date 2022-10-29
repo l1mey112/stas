@@ -423,9 +423,9 @@ fn gen_range(start u32, end u32) {
 					r_free(b)
 				}
 				.gt {
+					r_new_r(.rax)
 					b := r_pop()
 					a := r_pop()
-					r_release(.rax)
 					writeln('    xor rax, rax')
 					writeln('    cmp $a, $b')
 					writeln('    seta al')
@@ -434,9 +434,9 @@ fn gen_range(start u32, end u32) {
 					r_free(b)
 				}
 				.lt {
+					r_new_r(.rax)
 					b := r_pop()
 					a := r_pop()
-					r_release(.rax)
 					writeln('    xor rax, rax')
 					writeln('    cmp $a, $b')
 					writeln('    setb al')
@@ -445,9 +445,9 @@ fn gen_range(start u32, end u32) {
 					r_free(b)
 				}
 				.gte {
+					r_new_r(.rax)
 					b := r_pop()
 					a := r_pop()
-					r_release(.rax)
 					writeln('    xor rax, rax')
 					writeln('    cmp $a, $b')
 					writeln('    setae al')
@@ -456,9 +456,9 @@ fn gen_range(start u32, end u32) {
 					r_free(b)
 				}
 				.lte {
+					r_new_r(.rax)
 					b := r_pop()
 					a := r_pop()
-					r_release(.rax)
 					writeln('    xor rax, rax')
 					writeln('    cmp $a, $b')
 					writeln('    setbe al')
@@ -467,9 +467,9 @@ fn gen_range(start u32, end u32) {
 					r_free(b)
 				}
 				.s_gt {
+					r_new_r(.rax)
 					b := r_pop()
 					a := r_pop()
-					r_release(.rax)
 					writeln('    xor rax, rax')
 					writeln('    cmp $a, $b')
 					writeln('    setg al')
@@ -478,9 +478,9 @@ fn gen_range(start u32, end u32) {
 					r_free(b)
 				}
 				.s_lt {
+					r_new_r(.rax)
 					b := r_pop()
 					a := r_pop()
-					r_release(.rax)
 					writeln('    xor rax, rax')
 					writeln('    cmp $a, $b')
 					writeln('    setl al')
@@ -489,9 +489,9 @@ fn gen_range(start u32, end u32) {
 					r_free(b)
 				}
 				.s_gte {
+					r_new_r(.rax)
 					b := r_pop()
 					a := r_pop()
-					r_release(.rax)
 					writeln('    xor rax, rax')
 					writeln('    cmp $a, $b')
 					writeln('    setge al')
@@ -500,9 +500,9 @@ fn gen_range(start u32, end u32) {
 					r_free(b)
 				}
 				.s_lte {
+					r_new_r(.rax)
 					b := r_pop()
 					a := r_pop()
-					r_release(.rax)
 					writeln('    xor rax, rax')
 					writeln('    cmp $a, $b')
 					writeln('    setle al')

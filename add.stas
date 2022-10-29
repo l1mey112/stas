@@ -1,5 +1,12 @@
 fn main 0 0 {
 	1 if {
-
+		1 if {
+			88888
+		} else {
+			99999
+		}
+	} else {
+		0
 	}
+	drop
 }

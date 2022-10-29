@@ -263,8 +263,8 @@ fn parse.fn_complex_body_tokens 0 0 {
 					error.Tok
 				}
 			} elif dup ScopeTyp.if_block = {
-					pos 1 + token_stream.len <
-					pos 1 + token_stream[] rToken.tok Tok.else_block =
+				pos 1 + token_stream.len <
+				pos 1 + token_stream[] rToken.tok Tok.else_block =
 				& if {
 					pos ++ pop pos
 
@@ -277,7 +277,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 						sp.len
 						pos
 						lbl
-						0
+						UINT32_MAX
 						var_context.len
 					scope_context<<
 
@@ -318,13 +318,20 @@ fn parse.fn_complex_body_tokens 0 0 {
 					Inst.label scope rScope.label_id ir
 				}
 			} elif dup ScopeTyp.elif_block_scope = {
-				pos 1 + token_stream.len <
-				pos 1 + token_stream[] rToken.tok Tok.elif_block =
-				& if {
+				pos 1 + token_stream.len < if {
 					pos ++ pop pos
 
 					; (typ sp sp2 idx label_id label_id2 var_scope)
-						ScopeTyp.elif_block
+						pos token_stream[] rToken.tok
+						dup Tok.elif_block = if {
+							ScopeTyp.elif_block
+						} elif dup Tok.else_block = {
+							ScopeTyp.else_block_scope
+						} else {
+							0 0 assert -> 'unreachable'
+						}
+						swap drop
+
 						scope rScope.sp
 						scope rScope.sp2
 						pos
@@ -340,44 +347,41 @@ fn parse.fn_complex_body_tokens 0 0 {
 
 					Inst.do_jmp scope rScope.label_id2 ir
 					Inst.label  scope rScope.label_id  ir
-				} elif
-					pos 1 + token_stream.len <
-					pos 1 + token_stream[] rToken.tok Tok.else_block =
-				& {
-					pos ++ pop pos
 
-					; (typ sp sp2 idx label_id label_id2 var_scope)
-						ScopeTyp.else_block_scope
-						scope rScope.sp
-						scope rScope.sp2
-						pos
-						label_allocate
-						scope rScope.label_id2
-						var_context.len
-					scope_context<<
-
-					scope rScope.sp2 sp.len != if {
-						pos 'the stack must remain the same each with else if branch' error.Tok
+					pos token_stream[] rToken.tok Tok.else_block = if {
+						pos ++ pop pos
+						pos token_stream.len >= if {
+							pos 1 - 'unexpected EOF when parsing else statement' error.Tok
+						}
+						pos token_stream[] rToken.tok Tok.l_cb != if {
+							pos 'a scope must come after an else statement' error.Tok
+						}
 					}
-					scope rScope.sp pop sp.len
-
-					Inst.do_jmp scope rScope.label_id2 ir
-					Inst.label  scope rScope.label_id  ir
 				} else {
-					
+					scope rScope.sp2 sp.len != if {
+						pos 'the stack must remain the same with single branches' error.Tok
+					}
+					Inst.label scope rScope.label_id  ir
+					Inst.label scope rScope.label_id2 ir
 				}
-			} elif dup ScopeTyp.elif_block_scope = {
-				
-			} elif dup ScopeTyp.elif_block_scope = {
-				
-			} elif dup ScopeTyp.elif_block_scope = {
-				
+			} elif dup ScopeTyp.else_block_scope = {
+				sp.len scope rScope.sp2 > if {
+					scope rScope.idx
+						'unbalanced stack on both if and else branches, else has more than expected (TODO: write count)'
+					error.Tok
+				} elif sp.len scope rScope.sp2 < {
+					scope rScope.idx
+						'unbalanced stack on both if and else branches, else has less than expected (TODO: write count)'
+					error.Tok
+				}
+				Inst.label scope rScope.label_id ir
+				scope rScope.label_id2 UINT32_MAX != if {
+					Inst.label scope rScope.label_id2 ir
+				}
 			} else {
-
+				0 assert -> 'unreachable' ; unimplemented???
 			}
 			drop
-
-			0 assert -> 'unimplemented'
 		} else {
 			function_context Function.end_inst ir_stream.len w32
 			Inst.fn_leave function_context_idx ir

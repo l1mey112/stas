@@ -139,6 +139,143 @@ const              Inst.syscall4 { 62 }
 const              Inst.syscall5 { 63 }
 const              Inst.syscall6 { 64 }
 
+; (Inst -- str len)
+fn Inst.to_str 1 2 {
+	dup Inst.push_str = if {
+		"push_str"
+	} elif dup Inst.push_num = {
+		"push_num"
+	} elif dup Inst.push_local_addr = {
+		"push_local_addr"
+	} elif dup Inst.pop_local_stack_var = {
+		"pop_local_stack_var"
+	} elif dup Inst.push_local_stack_var = {
+		"push_local_stack_var"
+	} elif dup Inst.push_global_var_name = {
+		"push_global_var_name"
+	} elif dup Inst.pop_global_stack_var = {
+		"pop_global_stack_var"
+	} elif dup Inst.push_global_stack_var = {
+		"push_global_stack_var"
+	} elif dup Inst.push_argc = {
+		"push_argc"
+	} elif dup Inst.push_argv = {
+		"push_argv"
+	} elif dup Inst.do_cond_jmp = {
+		"do_cond_jmp"
+	} elif dup Inst.do_jmp = {
+		"do_jmp"
+	} elif dup Inst.label = {
+		"label"
+	} elif dup Inst.fn_prelude = {
+		"fn_prelude"
+	} elif dup Inst.fn_leave = {
+		"fn_leave"
+	} elif dup Inst.fn_call = {
+		"fn_call"
+	} elif dup Inst._assert = {
+		"assert"
+	} elif dup Inst.trap_breakpoint = {
+		"trap_breakpoint"
+	} elif dup Inst.plus = {
+		"plus"
+	} elif dup Inst.sub = {
+		"sub"
+	} elif dup Inst.mul = {
+		"mul"
+	} elif dup Inst.div = {
+		"div"
+	} elif dup Inst.mod = {
+		"mod"
+	} elif dup Inst.inc = {
+		"inc"
+	} elif dup Inst.dec = {
+		"dec"
+	} elif dup Inst.divmod = {
+		"divmod"
+	} elif dup Inst.shr = {
+		"shr"
+	} elif dup Inst.shl = {
+		"shl"
+	} elif dup Inst.b_and = {
+		"b_and"
+	} elif dup Inst.b_or = {
+		"b_or"
+	} elif dup Inst.b_not = {
+		"b_not"
+	} elif dup Inst.b_xor = {
+		"b_xor"
+	} elif dup Inst.swap = {
+		"swap"
+	} elif dup Inst.dup = {
+		"dup"
+	} elif dup Inst.over = {
+		"over"
+	} elif dup Inst.over2 = {
+		"over2"
+	} elif dup Inst.rot = {
+		"rot"
+	} elif dup Inst.rot4 = {
+		"rot4"
+	} elif dup Inst.drop = {
+		"drop"
+	} elif dup Inst.equ = {
+		"equ"
+	} elif dup Inst.nequ = {
+		"nequ"
+	} elif dup Inst.gt = {
+		"gt"
+	} elif dup Inst.lt = {
+		"lt"
+	} elif dup Inst.gte = {
+		"gte"
+	} elif dup Inst.lte = {
+		"lte"
+	} elif dup Inst.s_gt = {
+		"s_gt"
+	} elif dup Inst.s_lt = {
+		"s_lt"
+	} elif dup Inst.s_gte = {
+		"s_gte"
+	} elif dup Inst.s_lte = {
+		"s_lte"
+	} elif dup Inst.w8 = {
+		"w8"
+	} elif dup Inst.w16 = {
+		"w16"
+	} elif dup Inst.w32 = {
+		"w32"
+	} elif dup Inst.w64 = {
+		"w64"
+	} elif dup Inst.r8 = {
+		"r8"
+	} elif dup Inst.r16 = {
+		"r16"
+	} elif dup Inst.r32 = {
+		"r32"
+	} elif dup Inst.r64 = {
+		"r64"
+	} elif dup Inst.syscall0 = {
+		"syscall0"
+	} elif dup Inst.syscall1 = {
+		"syscall1"
+	} elif dup Inst.syscall2 = {
+		"syscall2"
+	} elif dup Inst.syscall3 = {
+		"syscall3"
+	} elif dup Inst.syscall4 = {
+		"syscall4"
+	} elif dup Inst.syscall5 = {
+		"syscall5"
+	} elif dup Inst.syscall6 = {
+		"syscall6"
+	} else {
+		0 0 0 assert -> 'unreachable'
+	}
+
+	rot rot drop
+}
+
 fn IR.idx  1 1   {     }
 fn IR.inst 1 1   { 4 + }
 fn IR.data 1 1   { 8 + }
