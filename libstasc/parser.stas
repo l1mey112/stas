@@ -186,6 +186,284 @@ fn parse.fn_decl 0 0 {
 	_argc fn_c sp_push_p
 }
 
+; implement parse variable in a sep function returning idx
+; parses reserve and auto variables
+fn parse.fn_complex_body_tokens 0 0 {
+	pos token_stream[] rToken.tok
+
+	; fn ir   (inst data)
+	; fn ir_p (pos inst data)
+
+	dup dup Tok.reserve = swap Tok.auto = | if {
+		0 assert -> 'unimplemented'
+	} elif dup Tok.pop = {
+		0 assert -> 'unimplemented'
+	} elif dup Tok.name = {
+		0 assert -> 'unimplemented'
+	} elif dup Tok.if_block = {
+		sp.len 0 = if {
+			pos 'no value on stack to consume for if statement' error.Tok
+		}
+		sp.len -- pop sp.len
+
+		auto lbl 1
+		label_allocate pop lbl
+
+		; (typ sp sp2 idx label_id label_id2 var_scope)
+			ScopeTyp.if_block
+			sp.len
+			0
+			pos
+			lbl
+			label_allocate
+			var_context.len
+		scope_context<<
+
+		Inst.do_cond_jmp lbl ir
+		
+		pos ++ pop pos
+		pos token_stream.len >= if {
+			pos 1 - 'unexpected EOF when parsing if statement' error.Tok
+		}
+		pos token_stream[] rToken.tok Tok.l_cb != if {
+			pos 'a scope must come after an if statement' error.Tok
+		}
+	} elif dup Tok.while_block = {
+		0 assert -> 'unimplemented'
+	} elif dup Tok.break_block = {
+		0 assert -> 'unimplemented'
+	} elif dup Tok.continue_block = {
+		0 assert -> 'unimplemented'
+	} elif dup Tok.l_cb = {
+		0 assert -> 'unimplemented'
+	} elif dup Tok.r_cb = {
+		scope_context.len 0 != if {
+			reserve scope sizeof(Scope)
+			scope scope_context.pop_into_ptr
+
+			scope rScope.var_scope pop var_context.len
+
+			scope rScope.typ
+			dup ScopeTyp.while_block_scope = if {
+				reserve while_header sizeof(Scope)
+				while_header scope_context.pop_into_ptr
+
+				Inst.do_jmp while_header rScope.label_id ir
+				Inst.label  scope        rScope.label_id ir
+			} elif dup ScopeTyp.scope = {
+				; nop
+			} elif dup ScopeTyp.checked_scope = {
+				sp.len scope rScope.sp > if {
+					scope rScope.idx
+						'scope assertation failed, more values on the stack than expected (TODO: write count)'
+					error.Tok
+				} elif sp.len scope rScope.sp < {
+					scope rScope.idx
+						'scope assertation failed, less values on the stack than expected (TODO: write count)'
+					error.Tok
+				}
+			} elif dup ScopeTyp.if_block = {
+					pos 1 + token_stream.len <
+					pos 1 + token_stream[] rToken.tok Tok.else_block =
+				& if {
+					pos ++ pop pos
+
+					auto lbl 1
+					label_allocate pop lbl
+
+					; (typ sp sp2 idx label_id label_id2 var_scope)
+						ScopeTyp.else_block_scope
+						sp.len
+						sp.len
+						pos
+						lbl
+						0
+						var_context.len
+					scope_context<<
+
+					scope rScope.sp pop sp.len
+					Inst.do_jmp lbl ir
+
+					pos ++ pop pos
+					pos token_stream.len >= if {
+						pos 1 - 'unexpected EOF when parsing else statement' error.Tok
+					}
+					pos token_stream[] rToken.tok Tok.l_cb != if {
+						pos 'a scope must come after an else statement' error.Tok
+					}
+					Inst.label scope rScope.label_id ir
+				} elif
+					pos 1 + token_stream.len <
+					pos 1 + token_stream[] rToken.tok Tok.elif_block =
+				& {
+					pos ++ pop pos
+
+					; (typ sp sp2 idx label_id label_id2 var_scope)
+						ScopeTyp.elif_block
+						scope rScope.sp
+						sp.len
+						pos
+						label_allocate
+						scope rScope.label_id2
+						var_context.len
+					scope_context<<
+
+					scope rScope.sp pop sp.len
+					Inst.do_jmp scope rScope.label_id ir
+					Inst.label scope rScope.label_id2 ir
+				} else {
+					scope rScope.sp sp.len != if {
+						pos 'the stack must remain the same with single branches' error.Tok
+					}
+					Inst.label scope rScope.label_id ir
+				}
+			} elif dup ScopeTyp.elif_block_scope = {
+				pos 1 + token_stream.len <
+				pos 1 + token_stream[] rToken.tok Tok.elif_block =
+				& if {
+					pos ++ pop pos
+
+					; (typ sp sp2 idx label_id label_id2 var_scope)
+						ScopeTyp.elif_block
+						scope rScope.sp
+						scope rScope.sp2
+						pos
+						label_allocate
+						scope rScope.label_id2
+						var_context.len
+					scope_context<<
+
+					scope rScope.sp2 sp.len != if {
+						pos 'the stack must remain the same each with else if branch' error.Tok
+					}
+					scope rScope.sp pop sp.len
+
+					Inst.do_jmp scope rScope.label_id2 ir
+					Inst.label  scope rScope.label_id  ir
+				} elif
+					pos 1 + token_stream.len <
+					pos 1 + token_stream[] rToken.tok Tok.else_block =
+				& {
+					pos ++ pop pos
+
+					; (typ sp sp2 idx label_id label_id2 var_scope)
+						ScopeTyp.else_block_scope
+						scope rScope.sp
+						scope rScope.sp2
+						pos
+						label_allocate
+						scope rScope.label_id2
+						var_context.len
+					scope_context<<
+
+					scope rScope.sp2 sp.len != if {
+						pos 'the stack must remain the same each with else if branch' error.Tok
+					}
+					scope rScope.sp pop sp.len
+
+					Inst.do_jmp scope rScope.label_id2 ir
+					Inst.label  scope rScope.label_id  ir
+				} else {
+					
+				}
+			} elif dup ScopeTyp.elif_block_scope = {
+				
+			} elif dup ScopeTyp.elif_block_scope = {
+				
+			} elif dup ScopeTyp.elif_block_scope = {
+				
+			} else {
+
+			}
+			drop
+
+			0 assert -> 'unimplemented'
+		} else {
+			function_context Function.end_inst ir_stream.len w32
+			Inst.fn_leave function_context_idx ir
+
+			-> 0 {
+				sp.len function_context rFunction.retc > if {
+					function_context rFunction.start_inst.idx
+					'unhandled data on the stack' error.Tok
+				} elif sp.len function_context rFunction.retc < {
+					function_context rFunction.start_inst.idx
+					'not enough values on the stack on function return' error.Tok
+				}
+			}
+
+			0          pop sp.len
+			0          pop var_context.len
+			NULL       pop function_context
+			UINT64_MAX pop function_context_idx
+		}
+	} elif dup Tok.ret = {
+		0 assert -> 'unimplemented'
+	} elif dup Tok.arrw = {
+		0 assert -> 'unimplemented'
+	} elif dup Tok.string_lit = {
+		0 assert -> 'unimplemented'
+	} elif dup Tok.w8 = {
+		Inst.w8 0 ir
+		2 0 sp_assert
+	} elif dup Tok.w16 = {
+		Inst.w16 0 ir
+		2 0 sp_assert
+	} elif dup Tok.w32 = {
+		Inst.w32 0 ir
+		2 0 sp_assert
+	} elif dup Tok.w64 = {
+		Inst.w64 0 ir
+		2 0 sp_assert
+	} elif dup Tok.r8 = {
+		Inst.r8 0 ir
+		1 1 sp_assert
+	} elif dup Tok.r16 = {
+		Inst.r16 0 ir
+		1 1 sp_assert
+	} elif dup Tok.r32 = {
+		Inst.r32 0 ir
+		1 1 sp_assert
+	} elif dup Tok.r64 = {
+		Inst.r64 0 ir
+		1 1 sp_assert
+	} elif dup Tok.trap_breakpoint = {
+		Inst.trap_breakpoint 0 ir
+		1 1 sp_assert
+	} elif dup Tok.syscall0 = {
+		Inst.syscall0 0 ir
+		1 1 sp_assert
+	} elif dup Tok.syscall1 = {
+		Inst.syscall0 0 ir
+		2 1 sp_assert
+	} elif dup Tok.syscall2 = {
+		Inst.syscall0 0 ir
+		3 1 sp_assert
+	} elif dup Tok.syscall3 = {
+		Inst.syscall0 0 ir
+		4 1 sp_assert
+	} elif dup Tok.syscall4 = {
+		Inst.syscall0 0 ir
+		5 1 sp_assert
+	} elif dup Tok.syscall5 = {
+		Inst.syscall0 0 ir
+		6 1 sp_assert
+	} elif dup Tok.syscall6 = {
+		Inst.syscall0 0 ir
+		7 1 sp_assert
+	} elif dup Tok.argc = {
+		Inst.push_argc 0 ir
+		1 sp_push
+	} elif dup Tok.argv = {
+		Inst.push_argv 0 ir
+		1 sp_push
+	} else {
+		pos 'unknown function local token' error.Tok
+	}
+	
+	drop
+}
+
 fn parse.fn_body_tokens 0 0 {
 	pos token_stream[] rToken.tok
 
@@ -291,12 +569,14 @@ fn parse.fn_body_tokens 0 0 {
 		Inst.s_lte 0 ir
 		2 1 sp_assert
 	} else {
-		endl
-		sp.len putuln
-
-		0 assert -> 'unimplemented'
-		; implement parse variable in a sep function returning idx
-		; parses reserve and auto variables
+		function_context NULL != if {
+			parse.fn_complex_body_tokens
+		} else {
+			pos token_stream[] rToken.tok Tok.const_expression = if {
+				pos 'cannot define constant expression inside a constant expression' error.Tok
+			}
+			pos 'unknown constant expression token' error.Tok
+		}
 	}
 	drop
 }

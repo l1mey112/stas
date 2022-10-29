@@ -960,8 +960,8 @@ fn parse() {
 													compile_error_t('a scope must come after an else statement',
 														pos - 1)
 												}
-											}
-											if pos + 1 < token_stream.len
+												ir(.label, scope.label_id)
+											} else if pos + 1 < token_stream.len
 												&& token_stream[pos + 1].tok == .elif_block {
 												pos++
 												lbl := label_allocate()
@@ -1180,6 +1180,7 @@ fn parse() {
 							}
 							.trap_breakpoint {
 								ir(.trap_breakpoint, 0)
+								sp_assert(1, 1)
 							}
 							.syscall0 {
 								ir(.syscall0, 0)

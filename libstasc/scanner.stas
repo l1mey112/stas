@@ -89,6 +89,17 @@ fn scan_file 2 0 {
 		auto start     1 pos pop start
 		auto start_col 1 col pop start_col
 
+		; TODO: instead of a continue keyword in
+		;       matching quotes and semicolons by
+		;       moving it out of the lower loop
+		;       and putting it right here instead
+		; 
+		;       there should not be any flush 
+		;       token and restart anymore
+
+		; TODO: check for overflow inside the 
+		;       number parser
+
 		while data pos u8[] is_whitespace true != {
 			is_number r8 if {
 				data pos u8[] dup 0_CH >= swap 9_CH <= & true != if {

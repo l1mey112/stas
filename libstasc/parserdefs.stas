@@ -8,20 +8,24 @@ fn Function.is_used       1 1 { 28 + }
 fn Function.forbid_inline 1 1 { 29 + }
 const sizeof(Function)        { 30   }
 
-fn rFunction.name 1 1   { Function.name r64 }
+fn rFunction.name 1 1 { Function.name r64 }
+fn rFunction.argc 1 1 { Function.argc r32 }
+fn rFunction.retc 1 1 { Function.retc r32 }
 
 const functions.cap { 512 }
 auto  functions.len 1
 const sizeof(functions) { sizeof(Function) functions.cap * }
 reserve functions sizeof(functions)
 
-const ScopeTyp.scope            { 1 }
-const ScopeTyp.checked_scope    { 2 }
-const ScopeTyp.if_block         { 3 }
-const ScopeTyp.else_block       { 4 }
-const ScopeTyp.else_block_scope { 5 }
-const ScopeTyp.elif_block       { 6 }
-const ScopeTyp.elif_block_scope { 7 }
+const ScopeTyp.scope             { 1 }
+const ScopeTyp.checked_scope     { 2 }
+const ScopeTyp.if_block          { 3 }
+const ScopeTyp.else_block        { 4 }
+const ScopeTyp.else_block_scope  { 5 }
+const ScopeTyp.elif_block        { 6 }
+const ScopeTyp.elif_block_scope  { 7 }
+const ScopeTyp.while_block       { 8 }
+const ScopeTyp.while_block_scope { 9 }
 
 fn Scope.typ       1 1 {      }
 fn Scope.sp        1 1 { 4  + }
@@ -30,7 +34,15 @@ fn Scope.idx       1 1 { 12 + }
 fn Scope.label_id  1 1 { 16 + }
 fn Scope.label_id2 1 1 { 20 + }
 fn Scope.var_scope 1 1 { 24 + }
-const sizeof(Scope)    { 30   }
+const sizeof(Scope)    { 28   }
+
+fn rScope.typ       1 1 { Scope.typ       r32 }
+fn rScope.sp        1 1 { Scope.sp        r32 }
+fn rScope.sp2       1 1 { Scope.sp2       r32 }
+fn rScope.idx       1 1 { Scope.idx       r32 }
+fn rScope.label_id  1 1 { Scope.label_id  r32 }
+fn rScope.label_id2 1 1 { Scope.label_id2 r32 }
+fn rScope.var_scope 1 1 { Scope.var_scope r32 }
 
 const VarTyp.buffer { 1 }
 const VarTyp.stack  { 2 }
@@ -132,6 +144,10 @@ fn IR.inst 1 1   { 4 + }
 fn IR.data 1 1   { 8 + }
 const sizeof(IR) { 16  }
 
+fn rIR.idx  1 1 { IR.idx  r32 }
+fn rIR.inst 1 1 { IR.inst r32 }
+fn rIR.data 1 1 { IR.data r64 }
+
 const ir_stream.cap { 8192 }
 auto  ir_stream.len 1
 const sizeof(ir_stream) { sizeof(IR) ir_stream.cap * }
@@ -142,6 +158,10 @@ fn ir_stream[] 1 1 {
 	dup ir_stream.len < assert
 	sizeof(IR) * ir_stream +
 }
+
+fn rFunction.start_inst     1 1 { Function.start_inst r32 }
+fn rFunction.end_inst       1 1 { Function.end_inst   r32 }
+fn rFunction.start_inst.idx 1 1 { Function.start_inst r32 ir_stream[] rIR.idx }
 
 ; (idx inst data)
 fn ir_stream<< 3 0 {
@@ -183,7 +203,7 @@ const   sizeof(scope_context) { scope_context.cap sizeof(Scope) * }
 auto    scope_context.len 1
 reserve scope_context sizeof(scope_context)
 
-; (idx -- *IR)
+; (idx -- *Scope)
 fn scope_context[] 1 1 {
 	dup scope_context.len < assert
 	sizeof(Scope) * scope_context +
@@ -193,8 +213,8 @@ fn scope_context[] 1 1 {
 fn scope_context<< 7 0 {
 	scope_context.len sizeof(Scope) * scope_context +
 	    swap over Scope.var_scope swap w32
-		swap over Scope.label_id  swap w32
 		swap over Scope.label_id2 swap w32
+		swap over Scope.label_id  swap w32
 		swap over Scope.idx       swap w32
 		swap over Scope.sp2       swap w32
 		swap over Scope.sp        swap w32
@@ -208,6 +228,11 @@ fn scope_context<< 7 0 {
 fn scope_context.top 0 1 {
 	scope_context.len 0 != assert
 	scope_context.len 1 - scope_context[]
+}
+
+fn scope_context.pop_into_ptr 1 0 {
+	scope_context.top swap sizeof(Scope) memcpy
+	scope_context.len -- pop scope_context.len
 }
 
 ; (idx -- *Function)
