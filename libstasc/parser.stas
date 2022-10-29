@@ -119,6 +119,18 @@ fn is_toplevel_name_bool 1 1 {
 	    is_global_var_name UINT64_MAX != |
 }
 
+fn parse.push_empty_scope 0 0 {
+	; (typ sp sp2 idx label_id label_id2 var_scope)
+		ScopeTyp.scope
+		sp.len
+		0
+		pos
+		0
+		0
+		var_context.len
+	scope_context<<
+}
+
 fn parse.fn_decl 0 0 {
 	scope_context.len 0 > if {
 		scope_context.top Scope.idx r32
@@ -229,13 +241,103 @@ fn parse.fn_complex_body_tokens 0 0 {
 			pos 'a scope must come after an if statement' error.Tok
 		}
 	} elif dup Tok.while_block = {
-		0 assert -> 'unimplemented'
+		auto lbl 1
+		label_allocate pop lbl
+
+		Inst.label lbl ir
+
+		; (typ sp sp2 idx label_id label_id2 var_scope)
+			ScopeTyp.while_block
+			sp.len
+			0
+			pos
+			lbl
+			0
+			var_context.len
+		scope_context<<
 	} elif dup Tok.break_block = {
-		0 assert -> 'unimplemented'
+		scope_context.len 0 = if {
+			pos 'not inside while loop body' error.Tok
+		}
+
+		auto f 1
+		false pop f
+
+		scope_context.len 1 -
+		while 1 {
+			auto scope 1
+			dup scope_context[] pop scope
+
+			scope rScope.typ ScopeTyp.while_block_scope = if {
+				Inst.do_jmp scope rScope.label_id ir
+				
+				true pop f
+				break
+			}
+
+			dup 0 = if {
+				break
+			}
+			--
+		}
+		drop
+
+		f false = if {
+			pos 'not inside while loop body' error.Tok
+		}
 	} elif dup Tok.continue_block = {
 		0 assert -> 'unimplemented'
 	} elif dup Tok.l_cb = {
-		0 assert -> 'unimplemented'
+		scope_context.len 0 != if {
+			scope_context.top rScope.typ
+			dup ScopeTyp.while_block = if {
+				sp.len 0 = if {
+					pos 'no value on stack to consume for while header' error.Tok
+				}
+				sp.len -- pop sp.len
+				auto lbl 1
+				label_allocate pop lbl
+
+				; (typ sp sp2 idx label_id label_id2 var_scope)
+					ScopeTyp.while_block_scope
+					sp.len
+					0
+					pos
+					lbl
+					0
+					var_context.len
+				scope_context<<
+
+				Inst.do_cond_jmp lbl ir
+			} elif dup ScopeTyp.elif_block = {
+				reserve scope sizeof(Scope)
+				scope scope_context.pop_into_ptr
+
+				sp.len 0 = if {
+					pos 'no value on stack to consume for else if statement' error.Tok
+				}
+				sp.len -- pop sp.len
+				auto lbl 1
+				label_allocate pop lbl
+
+				; (typ sp sp2 idx label_id label_id2 var_scope)
+					ScopeTyp.elif_block_scope
+					scope rScope.sp
+					scope rScope.sp2
+					pos
+					lbl
+					scope rScope.label_id2
+					var_context.len
+				scope_context<<
+
+				Inst.do_cond_jmp lbl ir
+			} else {
+				parse.push_empty_scope
+			}
+			drop
+		} else {
+			parse.push_empty_scope
+		}
 	} elif dup Tok.r_cb = {
 		scope_context.len 0 != if {
 			reserve scope sizeof(Scope)
@@ -318,7 +420,12 @@ fn parse.fn_complex_body_tokens 0 0 {
 					Inst.label scope rScope.label_id ir
 				}
 			} elif dup ScopeTyp.elif_block_scope = {
-				pos 1 + token_stream.len < if {
+				pos 1 + token_stream.len <
+					pos 1 + token_stream[] rToken.tok
+					dup  Tok.elif_block =
+					swap Tok.else_block =
+				| &
+				if {
 					pos ++ pop pos
 
 					; (typ sp sp2 idx label_id label_id2 var_scope)
@@ -379,7 +486,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 					Inst.label scope rScope.label_id2 ir
 				}
 			} else {
-				0 assert -> 'unreachable' ; unimplemented???
+				0 assert -> 'unreachable'
 			}
 			drop
 		} else {

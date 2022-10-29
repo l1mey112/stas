@@ -824,6 +824,9 @@ fn parse() {
 								}
 							}
 							.break_block {
+								if scope_context.len == 0 {
+									compile_error_t('not inside while loop body', pos)
+								}
 								mut f := false
 								mut idx := u32(0)
 								for i := scope_context.len - 1 ; true ; i-- {
@@ -841,6 +844,9 @@ fn parse() {
 								ir(.do_jmp, scope_context[idx].label_id)
 							}
 							.continue_block {
+								if scope_context.len == 0 {
+									compile_error_t('not inside while loop body', pos)
+								}
 								mut f := false
 								mut idx := u32(0)
 								for i := scope_context.len - 1 ; true ; i-- {
@@ -900,7 +906,12 @@ fn parse() {
 											ir(.do_cond_jmp, lbl)
 										}
 										else {
-											assert false, 'unreachable'
+											scope_context << Scope{
+												typ: .scope
+												sp: u32(sp.len)
+												var_scope: u32(var_context.len)
+												idx: pos
+											}
 										}
 									}
 								} else {
