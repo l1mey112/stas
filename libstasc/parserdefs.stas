@@ -54,7 +54,11 @@ fn Variable.idx  1 1   { 12 + }
 fn Variable.name 1 1   { 16 + }
 const sizeof(Variable) { 24   }
 
-fn rVariable.name 1 1   { Variable.name r64 }
+fn rVariable.typ  1 1  { Variable.typ  r32 }
+fn rVariable.size 1 1  { Variable.size r32 }
+fn rVariable.a_sp 1 1  { Variable.a_sp r32 }
+fn rVariable.idx  1 1  { Variable.idx  r32 }
+fn rVariable.name 1 1  { Variable.name r64 }
 
 const global_var_context.cap { 512 } 
 auto global_var_context.len 1
