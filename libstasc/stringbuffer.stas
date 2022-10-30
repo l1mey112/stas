@@ -1,4 +1,4 @@
-const string_buffer.cap { 64 1024 * } ; 64 KiB
+const string_buffer.cap { 262144 1024 * } ; 256 KiB
 auto string_buffer.len 1
 reserve string_buffer string_buffer.cap
 
@@ -10,19 +10,19 @@ fn string_buffer.assert_size 1 0 {
 
 ; (str len -- ptr)
 fn new_string_view 2 1 {
-	auto str.len 1 pop str.len
+	auto str.len  1 pop str.len
 	auto str.data 1 pop str.data
 
 	; str.len 0 >s assert
 
-	string_buffer.len str.len 8 1 + + +
+	string_buffer.len str.len sizeof(u64) 1 + + +
 		dup string_buffer.assert_size
 
 	string_buffer string_buffer.len +
-		dup str.len w64                       ; len
-		dup 8 +	str.data swap str.len memcpy  ; string data
-		dup 8 1 + + str.len + 0 w8            ; nul terminator
-		                                      ; ret ptr
+		dup str.len w64                               ; len
+		dup sizeof(u64) +	  str.data str.len memcpy ; string data
+		dup sizeof(u64) 1 + + str.len + 0 w8          ; nul terminator
+		                                              ; ret ptr
 
 	swap pop string_buffer.len
 }
@@ -31,20 +31,20 @@ fn new_string_view 2 1 {
 fn string_view_to_str 1 2 {
 	; assert if ptr is inside bounds of string buffer
 
-	dup 8 + swap r64
+	dup sizeof(u64) + swap r64
 }
 
 ; ( -- ptr)
 fn new_empty_string 0 1 {
-	string_buffer.len 8 1 + + 
+	string_buffer.len sizeof(u64) 1 + + 
 		string_buffer.assert_size
 
 	string_buffer string_buffer.len +
 
 	dup 0 w64
-	dup 8 + 0 w8
+	dup sizeof(u64) + 0 w8
 
-	string_buffer.len 8 1 + + pop string_buffer.len
+	string_buffer.len sizeof(u64) 1 + + pop string_buffer.len
 }
 
 ; (ptr u8)
@@ -53,7 +53,7 @@ fn push_char 2 0 {
 
 	auto sv 1 swap pop sv
 
-	sv 8 + sv r64 +
+	sv sizeof(u64) + sv r64 +
 	swap w8 ; write char
 
 	sv p64++
@@ -64,7 +64,33 @@ fn push_char 2 0 {
 fn push_nul 1 0 {
 	string_buffer.len 1 + string_buffer.assert_size
 
-	dup 8 + swap r64 + 0 w8
+	dup sizeof(u64) + swap r64 + 0 w8
 
 	string_buffer.len ++ pop string_buffer.len
 }
+
+; (ptr str len)
+fn push_string_view 3 0 {
+	dup 0 = if {
+		drop drop drop
+		ret
+	}
+	dup string_buffer.len + string_buffer.assert_size
+	dup string_buffer.len + pop string_buffer.len
+
+	auto str.len  1 pop str.len
+	auto str.data 1 pop str.data
+	auto sv       1 pop sv
+
+	sv sizeof(u64) + sv r64 +
+	dup
+		str.data str.len memcpy
+		str.len + 0 w8
+	
+	sv sv r64 str.len + w64
+}
+
+; (number -- string_view)
+; fn num_to_string_view 1 1 {
+; 
+; }

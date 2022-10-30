@@ -35,8 +35,12 @@ fn streq 4 1 {
 	memeq
 }
 
-; (ptr ptr len)
+; (dest src len)
 fn memcpy 3 0 {
+	swap rot
+	; (src dest len)
+	; legacy memcpy impl, rewrite it later
+
 	while dup 0 > {   ; (ptr1 ptr2 len)
 		rot           ; (len ptr1 ptr2)
 		swap dup r8   ; (len ptr2 ptr1 u8-1)

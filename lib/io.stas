@@ -7,6 +7,44 @@ fn endl 0 0 {
 	stdout "\n" write drop
 }
 
+; (buf num -- str len)
+fn itoa 2 2 {
+	auto buf 1
+	swap pop buf
+
+	auto pos 1
+	auto len 1
+
+	dup 0 = if {
+		drop
+
+		buf 48    w8
+		buf 1 + 0 w8
+		buf 1
+		
+		ret
+	}
+	
+	0 pop len
+	buf 20 + pop pos
+
+	while dup 0 > {
+		pos -- pop pos
+
+		10 %%
+		48 +
+
+		pos swap w8
+
+		len ++ pop len
+	}
+	drop
+
+	buf len + 0 w8
+
+	pos len
+}
+
 ; (stream num)
 fn fputu 2 0 {
 	auto stream 1

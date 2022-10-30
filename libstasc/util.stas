@@ -34,3 +34,29 @@ fn error.Tok 3 0 {
 	eputs endl
 	1 exit
 }
+
+; (idx str len -- string_view)
+fn error.Tok.to_string_view 3 1 {
+	reserve num_buf 20
+ 
+	auto sv 1 new_empty_string pop sv
+	rot rot
+	
+	sv 27 push_char sv '[1m'  push_string_view
+	sv 27 push_char sv '[31m' push_string_view
+		token_stream[]
+		dup Token.file r64
+		    string_view_to_str sv rot push_string_view
+		    sv ':'  push_string_view
+		dup Token.row r32 1 + num_buf swap itoa sv rot push_string_view
+		    sv ':'  push_string_view
+		    Token.col r32 1 + num_buf swap itoa sv rot push_string_view
+		    sv ': ' push_string_view
+	sv 27 push_char sv '[39m' push_string_view
+	sv 27 push_char sv '[22m' push_string_view
+	
+	sv rot   push_string_view
+
+	sv push_nul
+	sv
+}

@@ -171,7 +171,8 @@ fn replace_as_constant 2 0 {
 	
 	dup token_stream[]
 	    const_idx toplevel_constants[] rConstant.tok token_stream[]
-	    sizeof(Token)
+	    swap
+		sizeof(Token)
 	    memcpy
 
 	dup token_stream[] Token.tok  Tok.number_lit                                 w32
@@ -322,24 +323,24 @@ fn parse.fn_complex_body_tokens 0 0 {
 		auto search_p 1
 		0 pop search_p
 
-		scope_context.len 0 != if {
-			scope_context.top rScope.var_scope
-			pop search_p
-			
-			scope_context.len 1 -
-			while 1 {
-				dup scope_context[] rScope.typ
-				ScopeTyp.while_block = if {
-					pos 'cannot define variables inside of while headers' error.Tok
-				}
-
-				dup 0 = if {
-					break
-				}
-				--
-			}
-			drop
-		}
+	;	scope_context.len 0 != if {
+	;		scope_context.top rScope.var_scope
+	;		pop search_p
+	;		
+	;		scope_context.len 1 -
+	;		while 1 {
+	;			dup scope_context[] rScope.typ
+	;			ScopeTyp.while_block = if {
+	;				pos 'cannot define variables inside of while headers' error.Tok
+	;			}
+	;	
+	;			dup 0 = if {
+	;				break
+	;			}
+	;			--
+	;		}
+	;		drop
+	;	}
 		; TODO: Maybe above should be removed? I don't see a problem with it.
 		;       Make sure to keep `search_p` though.
 		
@@ -976,6 +977,46 @@ fn parse.fn_complex_body_tokens 0 0 {
 	drop
 }
 
+fn parse.assert 0 0 {
+	sp.len 0 = if {
+		pos 'no value on stack to consume for assertion' error.Tok
+	}
+	sp.len -- pop sp.len
+
+	; Inst._assert
+
+	auto contains_message 1
+	false pop contains_message
+
+	pos 2 + token_stream.len < if {
+		pos 1 + token_stream[] rToken.tok Tok.arrw       = 
+		pos 2 + token_stream[] rToken.tok Tok.string_lit =
+		& if {
+			true pop contains_message
+		}
+	}
+
+	auto sv 1			
+	pos '' error.Tok.to_string_view pop sv
+
+	contains_message if {	
+		sv "assertation failed, '" push_string_view
+		sv
+			pos 2 + token_stream[] rToken.data string_view_to_str
+		push_string_view
+		sv "'\n" push_string_view
+		sv push_nul
+
+		Inst._assert sv ir
+		pos 2 + pop pos
+	} else {
+		sv 'assertation failed\n' push_string_view
+		sv push_nul
+		
+		Inst._assert sv ir
+	}
+}
+
 fn parse.fn_body_tokens 0 0 {
 	pos token_stream[] rToken.tok
 
@@ -983,7 +1024,7 @@ fn parse.fn_body_tokens 0 0 {
 	; fn ir_p (pos inst data)
 
 	dup Tok._assert = if {
-		0 assert -> 'unimplemented'
+		parse.assert
 	} elif dup Tok.number_lit = {
 		Inst.push_num pos token_stream[] rToken.data ir
 		1 sp_push
@@ -1025,7 +1066,7 @@ fn parse.fn_body_tokens 0 0 {
 		2 1 sp_assert
 	} elif dup Tok.b_not = {
 		Inst.b_not 0 ir
-		2 1 sp_assert
+		1 1 sp_assert
 	} elif dup Tok.b_xor = {
 		Inst.b_xor 0 ir
 		2 1 sp_assert

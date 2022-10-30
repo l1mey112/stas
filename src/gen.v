@@ -24,7 +24,7 @@ fn gen() {
 	writeln('    mov qword [_rs_p], _rs_top')
 	writeln('    mov rbp, rsp')
 	writeln('    mov rsp, [_rs_p]')
-	writeln('    call __fn_${functions[main_fn].idx}')
+	writeln('    call ${mangled_name(&functions[main_fn])}')
 	writeln('    xor rdi, rdi')
 	writeln('_exit:')
 	writeln('    mov eax, 60')
@@ -63,22 +63,33 @@ fn gen() {
 	writeln('_rs_top:')
 }
 
-/* __global const_stack = []u64{}
+fn is_alpha(ch u8) bool {
+	return (ch >= `a` && ch <= `z`) || (ch >= `A` && ch <= `Z`)
+}
 
-fn flush_const_stack() {
-	for n in const_stack {
-		r_push_const(n)
-	}
+fn mangled_name(f &Function) StringPointer {
+	mut buf := unsafe { new_empty_string() }
+
 	unsafe {
-		const_stack.len = 0
+		for ch in f.name.str() {
+			if !is_alpha(ch) {
+				push_char(buf, `_`)
+				a := ch.str()
+				push_string_view(buf, a.str, a.len)
+			} else {
+				push_char(buf, ch)
+			}
+		}
+		push_nul(buf)
 	}
-} */
+	
+	return buf
+}
 
 fn gen_range(start u32, end u32) {
 	mut const_stack := []u64{}
 	mut const_stack_r := &mut const_stack
-	mut pos := start
-
+	
 	flush_const_stack := fn [mut const_stack_r] () {
 		for n in *const_stack_r {
 			r_push_const(n)
@@ -88,7 +99,7 @@ fn gen_range(start u32, end u32) {
 		}
 	}
 
-	for ; pos < end; pos++ {
+	for pos := start ; pos < end; pos++ {
 		ir_data := ir_stream[pos].data
 
 		if !eval_one_inst(mut const_stack, pos) {
@@ -126,15 +137,15 @@ fn gen_range(start u32, end u32) {
 					assert rallocator_stack.len == 0
 					fn_c := functions[ir_data]
 
-					if !fn_c.is_used || !fn_c.forbid_inline {
+					if !fn_c.is_used || (!fn_c.forbid_inline && fn_c.is_used) {
 						pos = fn_c.end_inst
 						continue
 					}
 
 					if is_object_file {
-						writeln('public __fn_$fn_c.idx')
+						writeln('public ${mangled_name(fn_c)}')
 					}
-					writeln('__fn_$fn_c.idx:')
+					writeln('${mangled_name(fn_c)}:')
 					if fn_c.a_sp > 0 {
 						writeln('    sub rsp, $fn_c.a_sp')
 					}
@@ -169,7 +180,7 @@ fn gen_range(start u32, end u32) {
 						r_flush()						
 						writeln('    mov rbp, rsp')
 						writeln('    mov rsp, [_rs_p]')
-						writeln('    call __fn_$fn_c.idx')
+						writeln('    call ${mangled_name(fn_c)}')
 						writeln('    mov [_rs_p], rsp')
 						writeln('    mov rsp, rbp')
 					}
@@ -657,4 +668,5 @@ fn gen_range(start u32, end u32) {
 			}
 		}
 	}
+	flush_const_stack() // for inlined functions
 }

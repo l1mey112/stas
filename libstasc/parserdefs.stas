@@ -81,7 +81,7 @@ fn rConstant.inst_start 1 1 { Constant.inst_start r32 }
 fn rConstant.tok        1 1 { Constant.tok        r32 }
 fn rConstant.value      1 1 { Constant.value      r64 }
 
-const toplevel_constants.cap { 512 } 
+const toplevel_constants.cap { 1024 } 
 auto toplevel_constants.len 1
 const sizeof(toplevel_constants) { sizeof(Variable) toplevel_constants.cap * }
 reserve toplevel_constants sizeof(toplevel_constants)
@@ -391,7 +391,7 @@ fn scope_context.top 0 1 {
 }
 
 fn scope_context.pop_into_ptr 1 0 {
-	scope_context.top swap sizeof(Scope) memcpy
+	scope_context.top sizeof(Scope) memcpy
 	scope_context.len -- pop scope_context.len
 }
 
