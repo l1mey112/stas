@@ -1112,6 +1112,9 @@ fn parse() {
 									sp_error('not enough values on the stack on function return',
 										function_context.idx)
 								}
+								// unsafe {
+								// 	sp.len -= int(function_context.retc)
+								// }
 
 								// (except ones that end in a return)
 								// not the best solution...

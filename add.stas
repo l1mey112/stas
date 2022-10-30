@@ -1,12 +1,7 @@
+fn puts 2 0 {
+	drop drop
+}
+
 fn main 0 0 {
-	1 if {
-		1111
-	} elif 1 {
-		2222
-	} elif 1 {
-		3333
-	} else {
-		4444
-	}
-	drop
+	"sss" puts
 }

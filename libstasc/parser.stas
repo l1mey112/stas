@@ -286,7 +286,35 @@ fn parse.fn_complex_body_tokens 0 0 {
 			pos 'not inside while loop body' error.Tok
 		}
 	} elif dup Tok.continue_block = {
-		0 assert -> 'unimplemented'
+		scope_context.len 0 = if {
+			pos 'not inside while loop body' error.Tok
+		}
+
+		auto f 1
+		false pop f
+
+		scope_context.len 1 -
+		while 1 {
+			dup scope_context[] rScope.typ
+			ScopeTyp.while_block_scope = if {
+				dup --
+				scope_context[] dup rScope.typ ScopeTyp.while_block = assert
+				
+				Inst.do_jmp swap rScope.label_id ir
+				true pop f
+				break
+			}
+
+			dup 0 = if {
+				break
+			}
+			--
+		}
+		drop
+
+		f false = if {
+			pos 'not inside while loop body' error.Tok
+		}
 	} elif dup Tok.l_cb = {
 		scope_context.len 0 != if {
 			scope_context.top rScope.typ
@@ -509,11 +537,60 @@ fn parse.fn_complex_body_tokens 0 0 {
 			UINT64_MAX pop function_context_idx
 		}
 	} elif dup Tok.ret = {
-		0 assert -> 'unimplemented'
+		Inst.fn_leave function_context_idx ir
+
+		-> 0 {
+			sp.len function_context rFunction.retc > if {
+				function_context rFunction.start_inst.idx
+				'unhandled data on the stack' error.Tok
+			} elif sp.len function_context rFunction.retc < {
+				function_context rFunction.start_inst.idx
+				'not enough values on the stack on function return' error.Tok
+			}
+		}
+
+		scope_context.len 0 != if {
+			scope_context.top
+			rScope.typ ScopeTyp.if_block = if {
+				scope_context.top rScope.sp pop sp.len
+			}
+		}
+
+		function_context Function.forbid_inline 1 w8
 	} elif dup Tok.arrw = {
-		0 assert -> 'unimplemented'
+		auto arrw_c 1
+		pos pop arrw_c
+		
+		pos 2 + pop pos
+		pos token_stream.len >= if {
+			arrw_c 'unexpected EOF when parsing checked scope' error.Tok
+		}
+
+		arrw_c 1 + token_stream[]
+		dup rToken.tok Tok.number_lit != if {
+			arrw_c 1 + 'a number must appear after the arrow assert operator' error.Tok
+		}
+
+		auto num 1
+		rToken.data pop num
+
+		; (typ sp sp2 idx label_id label_id2 var_scope)
+			ScopeTyp.checked_scope
+			num sp.len +
+			0
+			arrw_c
+			0
+			0
+			var_context.len
+		scope_context<<
+
+		pos token_stream[]
+		rToken.tok Tok.l_cb != if {
+			pos 'a scope must come after the arrow assert operator' error.Tok
+		}
 	} elif dup Tok.string_lit = {
-		0 assert -> 'unimplemented'
+		Inst.push_str pos ir
+		2 sp_push
 	} elif dup Tok.w8 = {
 		Inst.w8 0 ir
 		2 0 sp_assert
