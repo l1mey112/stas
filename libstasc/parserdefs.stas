@@ -76,7 +76,10 @@ fn Constant.tok        1 1 { 12 + }
 fn Constant.value      1 1 { 16 + }
 const sizeof(Constant)     { 24   }
 
-fn rConstant.name 1 1 { Constant.name r64 }
+fn rConstant.name       1 1 { Constant.name       r64 }
+fn rConstant.inst_start 1 1 { Constant.inst_start r32 }
+fn rConstant.tok        1 1 { Constant.tok        r32 }
+fn rConstant.value      1 1 { Constant.value      r64 }
 
 const toplevel_constants.cap { 512 } 
 auto toplevel_constants.len 1

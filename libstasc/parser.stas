@@ -164,6 +164,20 @@ fn search_variable_name 1 1 {
 	UINT64_MAX
 }
 
+; (toplevel_constants[idx] token_stream[idx])
+fn replace_as_constant 2 0 {
+	auto const_idx 1
+	swap pop const_idx
+	
+	dup token_stream[]
+	    const_idx toplevel_constants[] rConstant.tok token_stream[]
+	    sizeof(Token)
+	    memcpy
+
+	dup token_stream[] Token.tok  Tok.number_lit                                 w32
+	    token_stream[] Token.data const_idx toplevel_constants[] rConstant.value w64
+}
+
 fn parse.push_empty_scope 0 0 {
 	; (typ sp sp2 idx label_id label_id2 var_scope)
 		ScopeTyp.scope
@@ -273,9 +287,13 @@ fn parse.any_variable 0 3 {
 	}
 
 	pos token_stream[] rToken.tok
-	Tok.name = if {		
-		0 assert -> 'unimplemented'
-		; replace_as_constant
+	Tok.name = if {
+		auto c_name 1
+		pos token_stream[] rToken.data is_constant_name pop c_name
+
+		c_name UINT64_MAX != if {
+			c_name pos replace_as_constant
+		}
 	}
 	pos token_stream[] rToken.tok
 	Tok.number_lit != if {
@@ -505,8 +523,13 @@ fn parse.fn_complex_body_tokens 0 0 {
 		found false = if {
 			sv is_constant_name pop f_idx
 			f_idx UINT64_MAX != if {
-				0 assert -> 'unimplemented'
-				; replace_as_constant
+				auto c_name 1
+				sv is_constant_name pop c_name
+
+				c_name UINT64_MAX != if {
+					c_name pos replace_as_constant
+					pos -- pop pos
+				}
 			}
 		}
 		found false = if {
@@ -1069,6 +1092,41 @@ fn parse.fn_body_tokens 0 0 {
 	drop
 }
 
+fn parse.const_expression 0 0 {
+	auto rs_c 1 pos pop rs_c
+
+	pos 2 + pop pos
+	pos token_stream.len >= if {
+		rs_c 'unexpected EOF when parsing constant expression' error.Tok
+	}
+
+	auto sv 1
+	rs_c 1 + token_stream[] rToken.tok Tok.name != if {
+		rs_c 1 + 'constant expression name must not be in instrinsic' error.Tok
+	}
+	rs_c 1 + token_stream[] rToken.data pop sv
+
+	sv is_function_name UINT64_MAX != if {
+		rs_c 1 + 'duplicate constant expression name as existing function name' error.Tok
+	}
+	sv is_toplevel_name_bool if {
+		rs_c 1 + 'constant expression name as duplicate top level variable name' error.Tok
+	}
+	pos token_stream[] rToken.tok Tok.l_cb != if {
+		pos 'a scope must follow a const expression decl' error.Tok
+	}
+
+	; (name inst_start tok value)
+		sv
+		ir_stream.len
+		pos 1 -
+		UINT64_MAX
+	toplevel_constants<<
+
+	true pop is_still_evaluating_constant
+	sp.len 0 = assert
+}
+
 fn parse 0 0 {
 	0 pop pos
 
@@ -1079,7 +1137,7 @@ fn parse 0 0 {
 			pos token_stream[] rToken.tok
 
 			dup Tok.const_expression = if {
-				0 assert -> 'unimplemented'
+				parse.const_expression
 			} elif dup Tok.fn_decl = {
 				parse.fn_decl
 			} elif dup dup Tok.reserve = swap Tok.auto = | {
@@ -1106,10 +1164,17 @@ fn parse 0 0 {
 					0 assert -> 'unimplemented'
 					; eval const
 				} elif dup Tok.name = {
-					0 assert -> 'unimplemented'
-					; const replace
+					auto c_name 1
+					pos token_stream[] rToken.data is_constant_name pop c_name
+
+					c_name UINT64_MAX != if {
+						c_name pos replace_as_constant
+						pos -- pop pos
+					} else {
+						pos 'unknown constant variable' error.Tok
+					}
 				} else {
-					0 assert -> 'unreachable'
+					parse.fn_body_tokens
 				}
 				drop
 			} else {

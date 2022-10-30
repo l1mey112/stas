@@ -1,5 +1,7 @@
 auto eee 2
 
+const s { 24 }
+
 fn main 0 0 {
 	; auto eee 2
 	
