@@ -8,9 +8,14 @@ fn Function.is_used       1 1 { 28 + }
 fn Function.forbid_inline 1 1 { 29 + }
 const sizeof(Function)        { 30   }
 
-fn rFunction.name 1 1 { Function.name r64 }
-fn rFunction.argc 1 1 { Function.argc r32 }
-fn rFunction.retc 1 1 { Function.retc r32 }
+fn rFunction.argc           1 1 { Function.argc          r32 }
+fn rFunction.retc           1 1 { Function.retc          r32 }
+fn rFunction.name           1 1 { Function.name          r64 }
+fn rFunction.start_inst     1 1 { Function.start_inst    r32 }
+fn rFunction.end_inst       1 1 { Function.end_inst      r32 }
+fn rFunction.a_sp           1 1 { Function.a_sp          r32 }
+fn rFunction.is_used        1 1 { Function.is_used       r8  }
+fn rFunction.forbid_inline  1 1 { Function.forbid_inline r8  }
 
 const functions.cap { 512 }
 auto  functions.len 1
@@ -300,8 +305,6 @@ fn ir_stream[] 1 1 {
 	sizeof(IR) * ir_stream +
 }
 
-fn rFunction.start_inst     1 1 { Function.start_inst r32 }
-fn rFunction.end_inst       1 1 { Function.end_inst   r32 }
 fn rFunction.start_inst.idx 1 1 { Function.start_inst r32 ir_stream[] rIR.idx }
 
 ; (idx inst data)
@@ -416,8 +419,21 @@ fn toplevel_constants<< 4 0 {
 	toplevel_constants.len toplevel_constants.cap < assert
 }
 
-; (idx -- *Constant)
+; (idx -- *Variable)
 fn global_var_context[] 1 1 {
 	dup global_var_context.len < assert
-	sizeof(Constant) * global_var_context +
+	sizeof(Variable) * global_var_context +
+}
+
+; (typ size a_sp idx name)
+fn global_var_context<< 5 0 {
+	global_var_context.len sizeof(Variable) * global_var_context +
+	    swap over Variable.name swap w64
+		swap over Variable.idx  swap w32
+		swap over Variable.a_sp swap w32
+		swap over Variable.size swap w32
+		          Variable.typ  swap w32
+
+	global_var_context.len ++ pop global_var_context.len
+	global_var_context.len global_var_context.cap < assert
 }

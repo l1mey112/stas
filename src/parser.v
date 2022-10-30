@@ -638,7 +638,7 @@ fn parse() {
 							.pop {
 								pos++
 								if pos >= token_stream.len || token_stream[pos].tok != .name {
-									compile_error_t('unexpected a name after a pop', pos)
+									compile_error_t('expected name after pop', pos)
 								}
 								mut f := false
 								name := StringPointer(&u8(token_stream[pos].data))

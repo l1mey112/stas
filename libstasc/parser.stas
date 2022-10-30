@@ -243,8 +243,57 @@ fn parse.fn_decl 0 0 {
 	_argc fn_c sp_push_p
 }
 
-; implement parse variable in a sep function returning idx
-; parses reserve and auto variables
+; ( -- VarTyp string_view size)
+fn parse.any_variable 0 3 {
+	auto rs_c 1
+	pos pop rs_c
+
+	pos 2 + pop pos
+	pos token_stream.len >= if {
+		rs_c 'unexpected EOF when parsing variable decl' error.Tok
+	}
+
+	rs_c token_stream[] rToken.tok
+	Tok.reserve = if {
+		VarTyp.buffer
+	} else {
+		VarTyp.stack
+	}
+
+	; (VarTyp)
+	auto sv 1
+
+	rs_c 1 + token_stream[] dup
+	rToken.tok Tok.name != if {
+		rs_c 1 + 'variable name must not be an intrinsic' error.Tok
+	}
+	rToken.data pop sv
+	sv is_function_name UINT64_MAX != if {
+		rs_c 1 + 'variable decl must not be a function' error.Tok
+	}
+
+	pos token_stream[] rToken.tok
+	Tok.name = if {		
+		0 assert -> 'unimplemented'
+		; replace_as_constant
+	}
+	pos token_stream[] rToken.tok
+	Tok.number_lit != if {
+		pos 'variable decl must specify size in bytes' error.Tok
+	}
+
+	sv
+	
+	rs_c token_stream[] rToken.tok
+	Tok.reserve = if {
+		pos token_stream[] rToken.data
+	} else {
+		pos token_stream[] rToken.data
+		8 *
+	}
+	; (VarTyp string_view size)
+}
+
 fn parse.fn_complex_body_tokens 0 0 {
 	pos token_stream[] rToken.tok
 
@@ -252,9 +301,137 @@ fn parse.fn_complex_body_tokens 0 0 {
 	; fn ir_p (pos inst data)
 
 	dup dup Tok.reserve = swap Tok.auto = | if {
-		0 assert -> 'unimplemented'
+		auto search_p 1
+		0 pop search_p
+
+		scope_context.len 0 != if {
+			scope_context.top rScope.var_scope
+			pop search_p
+			
+			scope_context.len 1 -
+			while 1 {
+				dup scope_context[] rScope.typ
+				ScopeTyp.while_block = if {
+					pos 'cannot define variables inside of while headers' error.Tok
+				}
+
+				dup 0 = if {
+					break
+				}
+				--
+			}
+			drop
+		}
+		; TODO: Maybe above should be removed? I don't see a problem with it.
+		;       Make sure to keep `search_p` though.
+		
+		parse.any_variable
+		; (VarTyp string_view size)
+		auto var_string 2
+		over string_view_to_str pop var_string
+
+		var_context.len search_p != if {
+			var_context.len 1 -
+			while 1 {
+				dup var_context[] rVariable.name
+				string_view_to_str var_string
+				streq if {
+					pos 1 - 'duplicate variable name' error.Tok
+				}
+
+				dup search_p = if {
+					break
+				}
+				--
+			}
+			drop
+		}
+
+		auto size 1
+		dup pop size
+
+		; (VarTyp string_view size)
+
+		; (typ size a_sp idx name)
+					                        swap
+			function_context rFunction.a_sp swap
+			pos 2 -                         swap
+		var_context<<
+
+		function_context Function.a_sp
+			function_context rFunction.a_sp size +
+		w32
+		function_context Function.forbid_inline 1 w8
 	} elif dup Tok.pop = {
-		0 assert -> 'unimplemented'
+		pos ++ pop pos
+		pos token_stream.len >= if {
+			pos 1 - 'unexpected EOF when parsing pop' error.Tok
+		}
+		pos token_stream[] rToken.tok Tok.name != if {
+			pos 'expected name after pop' error.Tok
+		}
+
+		auto sv    1 pos token_stream[] rToken.data pop sv
+		auto f_idx 1 UINT64_MAX                     pop f_idx
+		auto found 1 false                          pop found
+
+		sv search_variable_name pop f_idx
+		f_idx UINT64_MAX != if {
+			auto var 1
+			f_idx var_context[] pop var
+
+			-> 0 {
+				var rVariable.typ VarTyp.buffer = if {
+					pos 'cannot pop into a buffer' error.Tok
+				} elif var rVariable.typ VarTyp.stack = {
+					auto to_pop 1
+					var rVariable.size 8 / pop to_pop
+
+					sp.len to_pop < if {
+						pos 'not enought values on the stack to pop into an automatic variable' error.Tok
+					}
+
+					sp.len to_pop - pop sp.len
+
+					Inst.pop_local_stack_var
+						to_pop 32 <<
+						var rVariable.a_sp |
+					ir
+				} else {
+					0 assert
+				}
+			}
+			true pop found
+		}
+		found false = if {
+			sv is_global_var_name pop f_idx
+			f_idx UINT64_MAX != if {
+				auto var 1
+				f_idx global_var_context[] pop var
+
+				-> 0 {
+					var rVariable.typ VarTyp.buffer = if {
+						pos 'cannot pop into a buffer' error.Tok
+					} elif var rVariable.typ VarTyp.stack = {
+						auto to_pop 1
+						var rVariable.size 8 / pop to_pop
+
+						sp.len to_pop < if {
+							pos 'not enought values on the stack to pop into an automatic variable' error.Tok
+						}
+						sp.len to_pop - pop sp.len
+
+						Inst.pop_global_stack_var f_idx ir
+					} else {
+						0 assert
+					}
+				}
+				true pop found
+			}
+		}
+		found false = if {
+			pos 'unknown auto variable' error.Tok
+		}
 	} elif dup Tok.name = {
 		auto sv    1 pos token_stream[] rToken.data pop sv
 		auto f_idx 1 UINT64_MAX                     pop f_idx
@@ -906,7 +1083,17 @@ fn parse 0 0 {
 			} elif dup Tok.fn_decl = {
 				parse.fn_decl
 			} elif dup dup Tok.reserve = swap Tok.auto = | {
-				0 assert -> 'unimplemented'
+				parse.any_variable
+				over is_toplevel_name_bool if {
+					pos 1 - 'duplicate top level variable name' error.Tok
+				}
+				; (VarTyp string_view size)
+
+				; (typ size a_sp idx name)
+					        swap
+					0       swap
+					pos 2 - swap
+				global_var_context<<
 			} else {
 				pos "unknown toplevel token" error.Tok
 			}
