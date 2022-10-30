@@ -87,6 +87,10 @@ fn eval_one_inst(mut const_stack []u64, pos u32) bool {
 			a := const_stack[const_stack.len - 2]
 			const_stack << a
 		}
+		ins == .over2 && const_stack.len >= 3 {
+			a := const_stack[const_stack.len - 3]
+			const_stack << a
+		}
 		ins == .rot && const_stack.len >= 3 {
 			c := const_stack.pop()
 			b := const_stack.pop()

@@ -374,7 +374,7 @@ fn parse() {
 				}
 
 				if const_stack.len > 1 {
-					sp_error_dep('more than one unhandled values on left on the constant expression',
+					sp_error_dep('more than one unhandled value on left on the constant expression',
 						pos, 1)
 				}
 

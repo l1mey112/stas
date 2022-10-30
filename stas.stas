@@ -7,6 +7,7 @@ include 'libstasc/tokens.stas'
 include 'libstasc/util.stas'
 include 'libstasc/scanner.stas'
 include 'libstasc/parserdefs.stas'
+include 'libstasc/eval.stas'
 include 'libstasc/parser.stas'
 
 fn usage 0 0 {
@@ -53,14 +54,5 @@ fn main 0 0 {
 
 	endl
 
-	'tok[]\tdata\tinst\n\n' puts
-	0
-	while dup ir_stream.len < {
-		dup ir_stream[]
-			dup rIR.idx  putu '\t' puts
-			dup rIR.data putu '\t' puts
-			    rIR.inst Inst.to_str puts endl
-		++
-	}
-	drop
+	ir_stream.dump
 }

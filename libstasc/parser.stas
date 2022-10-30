@@ -19,14 +19,14 @@ fn ir_p 3 0 {
 	ir_stream<<
 }
 
-const   sp.cap     { 1024       }
-const   sizeof(sp) { 4 sp.cap * }
+const   sp.cap     { 1024                 }
+const   sizeof(sp) { sizeof(u32) sp.cap * }
 auto    sp.len     1
 reserve sp         sizeof(sp)
 
 fn sp<< 1 0 {
 	sp.len sp.cap < assert
-	sp sp.len 4 * + swap w32
+	sp sp.len sizeof(u32) * + swap w32
 	sp.len ++ pop sp.len
 }
 
@@ -529,6 +529,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 				c_name UINT64_MAX != if {
 					c_name pos replace_as_constant
 					pos -- pop pos
+					true pop found
 				}
 			}
 		}
@@ -1161,8 +1162,36 @@ fn parse 0 0 {
 				pos token_stream[] rToken.tok
 
 				dup Tok.r_cb = if {
-					0 assert -> 'unimplemented'
-					; eval const
+					0 pop const_stack.len
+
+					toplevel_constants.top rConstant.inst_start
+					while dup ir_stream.len < {
+						dup eval_one_inst assert -> 'unreachable'
+						++
+					}
+					drop
+
+					const_stack.len 0 = if {
+						toplevel_constants.top rConstant.tok
+						'constant expression must contain a value'
+						error.Tok
+					}
+
+					const_stack.len 1 > if {
+						toplevel_constants.top rConstant.tok
+						'more than one unhandled value on left on the constant expression'
+						error.Tok
+					}
+
+					0                                           pop sp.len
+					toplevel_constants.top rConstant.inst_start pop ir_stream.len
+
+					toplevel_constants.top Constant.value
+						const_stack.pop
+					w64
+
+					false pop is_still_evaluating_constant
+					const_stack.len 0 = assert
 				} elif dup Tok.name = {
 					auto c_name 1
 					pos token_stream[] rToken.data is_constant_name pop c_name

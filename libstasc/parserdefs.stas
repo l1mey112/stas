@@ -321,6 +321,19 @@ fn ir_stream<< 3 0 {
 	ir_stream.len ir_stream.cap < assert
 }
 
+fn ir_stream.dump 0 0 {
+	'tok[]\tdata\tinst\n\n' puts
+	0
+	while dup ir_stream.len < {
+		dup ir_stream[]
+			dup rIR.idx  putu '\t' puts
+			dup rIR.data putu '\t' puts
+			    rIR.inst Inst.to_str puts endl
+		++
+	}
+	drop
+}
+
 const   var_context.cap     { 512 }
 const   sizeof(var_context) { var_context.cap sizeof(Variable) * }
 auto    var_context.len 1
@@ -420,6 +433,12 @@ fn toplevel_constants<< 4 0 {
 
 	toplevel_constants.len ++ pop toplevel_constants.len
 	toplevel_constants.len toplevel_constants.cap < assert
+}
+
+; (*Constant)
+fn toplevel_constants.top 0 1 {
+	toplevel_constants.len 0 != assert
+	toplevel_constants.len 1 - toplevel_constants[]
 }
 
 ; (idx -- *Variable)
