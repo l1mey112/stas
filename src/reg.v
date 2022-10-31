@@ -140,7 +140,7 @@ fn r_pop_r(r Reg) {
 
 fn r_flush() {
 	for n in rallocator_stack {
-		writeln('    push $n')
+		writeln('    push $n')	
 	}
 
 	unsafe {

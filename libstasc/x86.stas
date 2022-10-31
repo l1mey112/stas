@@ -1,0 +1,329 @@
+; collect into buffer, flush on full
+fn fwrite 2 0 {
+	puts
+}
+
+fn fwriteln 2 0 {
+	puts
+	endl
+}
+
+const     Reg.rbx { 0  }
+const     Reg.rcx { 1  }
+const     Reg.rsi { 2  }
+const     Reg.rdi { 3  }
+const     Reg.r8  { 4  }
+const     Reg.r9  { 5  }
+const     Reg.r10 { 6  }
+const     Reg.r11 { 7  }
+const     Reg.r12 { 8  }
+const     Reg.r13 { 9  }
+const     Reg.r14 { 10 }
+const     Reg.r15 { 11 }
+const     Reg.rdx { 12 }
+const     Reg.rax { 13 }
+const sizeof(Reg) { 14 }
+
+; (Reg -- str len)
+fn Reg.64.to_str 1 2 {
+	dup Reg.rbx = if {
+		"rbx"
+	} elif dup Reg.rcx = {
+		"rcx"
+	} elif dup Reg.rsi = {
+		"rsi"
+	} elif dup Reg.rdi = {
+		"rdi"
+	} elif dup Reg.r8 = {
+		"r8"
+	} elif dup Reg.r9 = {
+		"r9"
+	} elif dup Reg.r10 = {
+		"r10"
+	} elif dup Reg.r11 = {
+		"r11"
+	} elif dup Reg.r12 = {
+		"r12"
+	} elif dup Reg.r13 = {
+		"r13"
+	} elif dup Reg.r14 = {
+		"r14"
+	} elif dup Reg.r15 = {
+		"r15"
+	} elif dup Reg.rdx = {
+		"rdx"
+	} elif dup Reg.rax = {
+		"rax"
+	} else {
+		0 0 0 assert -> 'unreachable'
+	}
+	rot rot drop
+}
+
+; (Reg -- str len)
+fn Reg.32.to_str 1 2 {
+	dup Reg.rbx = if {
+		"ebx"
+	} elif dup Reg.rcx = {
+		"ecx"
+	} elif dup Reg.rsi = {
+		"esi"
+	} elif dup Reg.rdi = {
+		"edi"
+	} elif dup Reg.r8 = {
+		"r8d"
+	} elif dup Reg.r9 = {
+		"r9d"
+	} elif dup Reg.r10 = {
+		"r10d"
+	} elif dup Reg.r11 = {
+		"r11d"
+	} elif dup Reg.r12 = {
+		"r12d"
+	} elif dup Reg.r13 = {
+		"r13d"
+	} elif dup Reg.r14 = {
+		"r14d"
+	} elif dup Reg.r15 = {
+		"r15d"
+	} elif dup Reg.rdx = {
+		"edx"
+	} elif dup Reg.rax = {
+		"eax"
+	} else {
+		0 0 0 assert -> 'unreachable'
+	}
+	rot rot drop
+}
+
+; (Reg -- str len)
+fn Reg.16.to_str 1 2 {
+	dup Reg.rbx = if {
+		"bx"
+	} elif dup Reg.rcx = {
+		"cx"
+	} elif dup Reg.rsi = {
+		"si"
+	} elif dup Reg.rdi = {
+		"di"
+	} elif dup Reg.r8 = {
+		"r8w"
+	} elif dup Reg.r9 = {
+		"r9w"
+	} elif dup Reg.r10 = {
+		"r10w"
+	} elif dup Reg.r11 = {
+		"r11w"
+	} elif dup Reg.r12 = {
+		"r12w"
+	} elif dup Reg.r13 = {
+		"r13w"
+	} elif dup Reg.r14 = {
+		"r14w"
+	} elif dup Reg.r15 = {
+		"r15w"
+	} elif dup Reg.rdx = {
+		"dx"
+	} elif dup Reg.rax = {
+		"ax"
+	} else {
+		0 0 0 assert -> 'unreachable'
+	}
+	rot rot drop
+}
+
+; (Reg -- str len)
+fn Reg.8.to_str 1 2 {
+	dup Reg.rbx = if {
+		"bl"
+	} elif dup Reg.rcx = {
+		"cl"
+	} elif dup Reg.rsi = {
+		"sil"
+	} elif dup Reg.rdi = {
+		"dil"
+	} elif dup Reg.r8 = {
+		"r8b"
+	} elif dup Reg.r9 = {
+		"r9b"
+	} elif dup Reg.r10 = {
+		"r10b"
+	} elif dup Reg.r11 = {
+		"r11b"
+	} elif dup Reg.r12 = {
+		"r12b"
+	} elif dup Reg.r13 = {
+		"r13b"
+	} elif dup Reg.r14 = {
+		"r14b"
+	} elif dup Reg.r15 = {
+		"r15b"
+	} elif dup Reg.rdx = {
+		"dl"
+	} elif dup Reg.rax = {
+		"al"
+	} else {
+		0 0 0 assert -> 'unreachable'
+	}
+	rot rot drop
+}
+
+reserve rallocator_mask sizeof(Reg)
+
+const   rallocator_stack.cap     { 1024 2 * }
+const   sizeof(rallocator_stack) { rallocator_stack.cap sizeof(u8) * }
+auto    rallocator_stack.len     1
+reserve rallocator_stack         sizeof(rallocator_stack)
+
+; (Reg)
+fn rallocator_stack<< 1 0 {
+	dup sizeof(Reg) < assert
+	rallocator_stack.len rallocator_stack.cap < assert
+	rallocator_stack rallocator_stack.len + swap w8
+	rallocator_stack.len ++ pop rallocator_stack.len
+}
+
+; ( -- Reg)
+fn rallocator_stack.top 0 1 {
+	rallocator_stack.len 0 != assert
+	rallocator_stack.len 1 - rallocator_stack + r8
+}
+; ( -- Reg)
+fn rallocator_stack.pop 0 1 {
+	rallocator_stack.top
+	rallocator_stack.len -- pop rallocator_stack.len
+}
+
+; ( -- Reg)
+fn r_ffs 0 1 {
+	0
+	while dup sizeof(Reg) < {
+		dup rallocator_mask + r8 false = if {
+			ret
+		}
+		++
+	}
+	drop
+	UINT64_MAX
+}
+
+; (Reg -- idx)
+fn r_index 1 1 {
+	auto rg 1 pop rg
+	0
+	while dup rallocator_stack.len < {
+		dup rallocator_stack + r8 rg = if {
+			ret
+		}
+		++
+	}
+	drop
+	UINT64_MAX
+}
+
+fn r_flush 0 0 {
+	0
+	while dup rallocator_stack.len < {
+		dup rallocator_stack + r8
+		"push " fwrite Reg.64.to_str fwriteln
+		++
+	}
+	drop
+
+	0 pop rallocator_stack.len
+	rallocator_mask 0 sizeof(Reg) memset
+}
+
+; (Reg)
+fn r_alloc 0 1 {
+	r_ffs
+	dup UINT64_MAX = if {
+		drop
+		r_flush
+		r_alloc
+		ret
+	}
+}
+
+; (Reg)
+fn r_b_clear 1 0 {
+	dup sizeof(Reg) < assert
+	rallocator_mask + false w8
+}
+
+; (Reg)
+fn r_b_set 1 0 {
+	dup sizeof(Reg) < assert
+	rallocator_mask + true w8
+}
+
+; (Reg)
+fn r_free 1 0 {
+	r_b_clear
+}
+
+; (Reg -- bool)
+fn r_is_used 1 1 {
+	dup sizeof(Reg) < assert
+	rallocator_mask + r8
+}
+
+; (Reg)
+fn r_push 1 0 {
+	dup rallocator_stack<<
+	r_b_set
+}
+
+; ( -- Reg)
+fn r_pop 0 1 {
+	rallocator_stack.len 0 > if {
+		rallocator_stack.pop
+	} else {
+		r_alloc
+		"pop " fwrite
+		dup Reg.64.to_str puts 
+	}
+	dup r_b_set ; chances are it is already set
+}
+
+; ( -- Reg)
+fn r_top 0 1 {
+	rallocator_stack.len 0 > if {
+		rallocator_stack.top
+	} else {
+		r_alloc dup r_push
+		"pop " fwrite
+		dup Reg.64.to_str puts 
+	}
+}
+
+; (Reg)
+fn r_release 1 0 {
+	auto rg 1 pop rg
+	
+	rg r_is_used if {
+		auto rg_a 1
+		r_alloc pop rg_a
+
+		rg_a r_b_set
+		rg   r_b_clear
+		"mov " fwrite rg_a Reg.64.to_str fwrite ", " fwrite rg Reg.64.to_str fwriteln
+		
+
+		auto idx 1
+		rg r_index pop idx
+		idx UINT64_MAX != if {
+			rallocator_stack idx + rg_a w8
+		}
+	}
+}
+
+; ()
+fn r_drop 0 0 {
+	rallocator_stack.len 0 > if {
+		rallocator_stack.pop
+		r_b_clear
+	} else {
+		"add rsp, 8" fwriteln
+	}
+}
