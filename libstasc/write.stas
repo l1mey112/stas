@@ -1,0 +1,21 @@
+; collect into buffer, flush on full
+fn fwrite 2 0 {
+	puts
+}
+
+fn fwriteln 2 0 {
+	puts
+	endl
+}
+
+fn fwriteu 1 0 {
+	putu
+}
+
+fn fwriteuln 1 0 {
+	putuln
+}
+
+fn fwritec 1 0 {
+	putc
+}

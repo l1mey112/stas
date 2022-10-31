@@ -1,21 +1,3 @@
-; collect into buffer, flush on full
-fn fwrite 2 0 {
-	puts
-}
-
-fn fwriteln 2 0 {
-	puts
-	endl
-}
-
-fn fwriteu 1 0 {
-	putu
-}
-
-fn fwriteuln 1 0 {
-	putuln
-}
-
 const     Reg.rbx { 0  }
 const     Reg.rcx { 1  }
 const     Reg.rsi { 2  }

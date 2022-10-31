@@ -67,13 +67,18 @@ fn is_alpha(ch u8) bool {
 	return (ch >= `a` && ch <= `z`) || (ch >= `A` && ch <= `Z`)
 }
 
+fn is_forbidden_ch(ch u8) bool {
+	return ch == `[` || ch == `]` || ch == `<` || ch == `>` || ch == `*`
+}
+
+
 fn mangled_name(f &Function) StringPointer {
 	mut buf := unsafe { new_empty_string() }
 
 	unsafe {
 		for ch in f.name.str() {
-			if !is_alpha(ch) {
-				push_char(buf, `_`)
+			if is_forbidden_ch(ch) {
+				push_char(buf, `$`)
 				a := ch.str()
 				push_string_view(buf, a.str, a.len)
 			} else {

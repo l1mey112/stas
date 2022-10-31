@@ -9,6 +9,9 @@ include 'libstasc/scanner.stas'
 include 'libstasc/parserdefs.stas'
 include 'libstasc/eval.stas'
 include 'libstasc/parser.stas'
+include 'libstasc/write.stas'
+include 'libstasc/x86.stas'
+include 'libstasc/gen.stas'
 
 fn usage 0 0 {
 	; unimplemented
@@ -51,5 +54,14 @@ fn main 0 0 {
 	parse
 
 	endl
-	ir_stream.dump
+
+	0
+	while dup functions.len < {
+		dup write_mangled_function_name
+		endl
+		++
+	}
+	drop
+
+	;ir_stream.dump
 }
