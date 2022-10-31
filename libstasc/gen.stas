@@ -21,8 +21,6 @@ fn gen_range 2 0 {
 
 		pos ir_stream[] rIR.data pop ir_data
 		
-		pos ir_stream[] rIR.inst Inst.to_str puts endl
-		
 		pos ir_stream[] rIR.inst
 		dup Inst.label = if {
 			r_flush
