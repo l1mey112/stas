@@ -175,7 +175,7 @@ fn rallocator_stack<< 1 0 {
 
 ; ( -- Reg)
 fn rallocator_stack.top 0 1 {
-	rallocator_stack.len 0 != assert
+	rallocator_stack.len 0 > assert
 	rallocator_stack.len 1 - rallocator_stack + r8
 }
 ; ( -- Reg)
@@ -346,17 +346,6 @@ fn r_top 0 1 {
 		"	pop " fwrite
 		dup Reg.64.to_str fwriteln 
 	}
-}
-
-; ()
-fn r_drop 0 0 {
-	rallocator_stack.len 0 > if {
-		rallocator_stack.pop
-		r_b_clear
-	} else {
-		"	add rsp, 8" fwriteln
-	}
-	rallocator_stack.len putuln
 }
 
 ; (Reg)
