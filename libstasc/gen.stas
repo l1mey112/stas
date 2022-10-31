@@ -1,110 +1,19 @@
-const CH_a { 97  }
-const CH_z { 122 }
-const CH_A { 65  }
-const CH_Z { 90  }
-const CH_0 { 48  }
-const CH_9 { 57  }
-const CH__ { 95  }
-const CH_. { 46  }
-
-; (u8 -- bool)
-fn is_alpha 1 1 {
-	auto ch 1 pop ch
-
-	ch CH_a >= 
-	ch CH_z <=
-		&
-	ch CH_A >= 
-	ch CH_Z <=
-		&
-	|
-	ch CH_0 >=
-	ch CH_9 <=
-		&
-	|
-	
-	ch CH__ = |
-	ch CH_. = |
-}
-
-const CH_[ { 91  }
-const CH_] { 93  }
-const CH_< { 60  }
-const CH_> { 62  }
-const CH_* { 42  }
-const CH_& { 38  }
-const CH_| { 124 }
-
-const CH_@ { 64 }
-const CH_$ { 36 }
-
-fn is_forbidden_ch 1 1 {
-	dup CH_[ =   swap
-	dup CH_] = | swap
-	dup CH_< = | swap
-	dup CH_> = | swap
-	dup CH_* = | swap
-	dup CH_& = | swap
-	    CH_| = | 
-}
-
-fn write_remap_ch 1 0 {
-	dup CH_[ = if {
-		"__" fwrite
-	} elif dup CH_] = {
-		"__" fwrite
-	} elif dup CH_< = {
-		"__" fwrite
-	} elif dup CH_> = {
-		"__" fwrite
-	} elif dup CH_* = {
-		"__" fwrite
-	} elif dup CH_& = {
-		"__" fwrite
-	} elif dup CH_| = {
-		"__" fwrite
-	} else {
-		dup fwritec
-	}
-	drop
-}
-
-; (functions[idx])
-fn write_mangled_function_name 1 0 {
-	functions[] rFunction.name string_view_to_str
-	auto str.len 1 pop str.len
-	auto str     1 pop str
-
-	0
-	while dup str.len < {
-		dup str u8[]
-		dup is_forbidden_ch if {
-			"__" fwrite
-		} else {
-			dup fwritec
-		}
-		drop
-		++
-	}
-	drop
-}
-
-fn gen 0 0 {
-	"use64" fwriteln
-	is_object_file r8 if {
-"format ELF64
-section '.text' executable
-public _start
-public _exit" fwriteln
-	} else {
-"format ELF64 executable
-segment readable executable
-entry _start" fwriteln
-	}
-
+;fn gen 0 0 {
+;	"use64" fwriteln
+;	is_object_file r8 if {
+;"format ELF64
+;section '.text' executable
+;public _start
+;public _exit" fwriteln
+;	} else {
+;"format ELF64 executable
+;segment readable executable
+;entry _start" fwriteln
+;	}
+;
 ;"_start:
 ;	mov [_arg_p], rsp
 ;	mov qword [_rs_p], _rs_top
 ;	mov rbp, rsp
 ;	mov rsp, [_rs_p]
-}
+;}

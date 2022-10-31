@@ -39,7 +39,7 @@ fn is_whitespace 1 1 {
 }
 
 ; (str len)
-fn scan_file 2 0 {
+fn stas.scan_file 2 0 {
 	auto file_path 2
 	pop file_path
 
@@ -188,7 +188,7 @@ fn scan_file 2 0 {
 				}
 
 				is_next_inc r8 if {
-					str_buf string_view_to_str scan_file
+					str_buf string_view_to_str stas.scan_file
 
 					is_next_inc 0 w8
 				} else {

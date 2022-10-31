@@ -1,4 +1,5 @@
 auto label_c 1
+auto main_fn_idx 1
 
 fn label_allocate 0 1 {
 	label_c dup ++ pop label_c
@@ -243,6 +244,7 @@ fn parse.fn_decl 0 0 {
 			retc  0 != | if {
 				fn_c 'the main function must accept and return zero values' error.Tok
 			}
+			functions.len pop main_fn_idx
 
 			1 1  ; is_used, forbid_inline
 		} else {
@@ -422,7 +424,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 			}
 			true pop found
 		}
-		found false = if {
+		found ! if {
 			sv is_global_var_name pop f_idx
 			f_idx UINT64_MAX != if {
 				auto var 1
@@ -448,7 +450,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 				true pop found
 			}
 		}
-		found false = if {
+		found ! if {
 			pos 'unknown auto variable' error.Tok
 		}
 	} elif dup Tok.name = {
@@ -474,7 +476,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 
 			true pop found
 		}
-		found false = if {
+		found ! if {
 			sv search_variable_name pop f_idx
 			f_idx UINT64_MAX != if {
 				auto var 1
@@ -501,7 +503,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 				true pop found
 			}
 		}
-		found false = if {
+		found ! if {
 			sv is_global_var_name pop f_idx
 			f_idx UINT64_MAX != if {
 				auto var 1
@@ -521,7 +523,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 				true pop found
 			}
 		}
-		found false = if {
+		found ! if {
 			sv is_constant_name pop f_idx
 			f_idx UINT64_MAX != if {
 				auto c_name 1
@@ -534,7 +536,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 				}
 			}
 		}
-		found false = if {
+		found ! if {
 			pos 'unknown function call or variable' error.Tok
 		}
 	} elif dup Tok.if_block = {
@@ -607,7 +609,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 		}
 		drop
 
-		f false = if {
+		f ! if {
 			pos 'not inside while loop body' error.Tok
 		}
 	} elif dup Tok.continue_block = {
@@ -637,7 +639,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 		}
 		drop
 
-		f false = if {
+		f ! if {
 			pos 'not inside while loop body' error.Tok
 		}
 	} elif dup Tok.l_cb = {
@@ -1067,6 +1069,9 @@ fn parse.fn_body_tokens 0 0 {
 	} elif dup Tok.b_not = {
 		Inst.b_not 0 ir
 		1 1 sp_assert
+	} elif dup Tok.not = {
+		Inst.not 0 ir
+		1 1 sp_assert
 	} elif dup Tok.b_xor = {
 		Inst.b_xor 0 ir
 		2 1 sp_assert
@@ -1169,7 +1174,8 @@ fn parse.const_expression 0 0 {
 	sp.len 0 = assert
 }
 
-fn parse 0 0 {
+fn stas.parse 0 0 {
+	UINT64_MAX pop main_fn_idx
 	0 pop pos
 
 	while pos token_stream.len < {

@@ -47,6 +47,7 @@ enum Tok {
 	rot4
 	drop
 	// Conditionals
+	not
 	equ
 	nequ
 	gt
@@ -125,6 +126,7 @@ enum Inst {
 	rot4
 	drop
 	// Conditionals
+	not
 	equ
 	nequ
 	gt

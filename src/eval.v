@@ -67,6 +67,10 @@ fn eval_one_inst(mut const_stack []u64, pos u32) bool {
 			b := const_stack.pop()
 			const_stack << ~b
 		}
+		ins == .not && const_stack.len >= 1 {
+			b := const_stack.pop()
+			const_stack << u64(b == 0)
+		}
 		ins == .b_xor && const_stack.len >= 2 {
 			b := const_stack.pop()
 			a := const_stack.pop()

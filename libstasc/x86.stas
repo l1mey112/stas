@@ -206,7 +206,7 @@ fn r_is_used 1 1 {
 fn r_ffs 0 1 {
 	0
 	while dup sizeof(Reg) < {
-		dup rallocator_mask + r8 false = if {
+		dup rallocator_mask + r8 ! if {
 			ret
 		}
 		++
@@ -330,7 +330,7 @@ fn r_pop_r 1 0 {
 		rg_a r_b_clear
 		"mov " fwrite rg Reg.64.to_str fwrite ", " fwrite rg_a Reg.64.to_str fwriteln
 	} else {
-		rg r_is_used ~ assert
+		rg r_is_used ! assert
 		"pop " fwrite rg Reg.64.to_str fwriteln
 	}
 	rg r_b_set

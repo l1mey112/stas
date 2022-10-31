@@ -67,6 +67,7 @@ const         Tok.syscall6 { 66 }
 const          Tok.reserve { 67 }
 const             Tok.auto { 68 }
 const              Tok.pop { 69 }
+const              Tok.not { 70 }
 
 ; (Tok -- str len)
 fn Tok.to_str 1 2 {
@@ -134,6 +135,8 @@ fn Tok.to_str 1 2 {
 		"|"
 	} elif dup Tok.b_not = {
 		"~"
+	} elif dup Tok.not = {
+		"!"
 	} elif dup Tok.b_xor = {
 		"^"
 	} elif dup Tok.swap = {
@@ -275,6 +278,8 @@ fn Tok.from_str 2 1 {
 		Tok.b_or
 	} elif str "~" streq {
 		Tok.b_not
+	} elif str "!" streq {
+		Tok.not
 	} elif str "^" streq {
 		Tok.b_xor
 	} elif str "swap" streq {
@@ -349,7 +354,7 @@ fn Tok.from_str 2 1 {
 		Tok.pop
 	} else {
 		Tok.name
-	}
+	} 
 }
 
 fn Token.row  1 1   {      }

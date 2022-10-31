@@ -498,6 +498,10 @@ fn parse() {
 					ir(.b_xor, 0)
 					sp_assert(2, 1)
 				}
+				.not {
+					ir(.not, 0)
+					sp_assert(1, 1)
+				}
 				.swap {
 					ir(.swap, 0)
 					sp_assert(2, 2)

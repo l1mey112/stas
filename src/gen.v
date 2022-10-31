@@ -257,7 +257,7 @@ fn gen_range(start u32, end u32) {
 				.do_cond_jmp {
 					r_pop_r(.rax)
 					r_flush()
-					writeln('    test al, al')
+					writeln('    test rax, rax')
 					writeln('    jz .$ir_data')
 					r_free(.rax)
 				}
@@ -414,6 +414,12 @@ fn gen_range(start u32, end u32) {
 				.trap_breakpoint {
 					r_pop_r(.rax)
 					writeln('    db 0xcc')
+					r_push(.rax)
+				}
+				.not {
+					r_pop_r(.rax)
+					writeln('    test rax, rax')
+					writeln('    sete al')
 					r_push(.rax)
 				}
 				.equ {

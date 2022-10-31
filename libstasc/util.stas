@@ -8,6 +8,15 @@ fn error.end_bold_error 0 0 {
 	27 eputc '[22m' eputs
 }
 
+; (str len)
+fn error.generic_fatal 2 0 {
+	error.start_bold_error
+	"FATAL: " eputs
+	error.end_bold_error
+	eputs
+	1 exit
+}
+
 ; (row col file str len)
 fn error.Loc 5 0 {
 	auto msg 2 pop msg

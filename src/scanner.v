@@ -315,6 +315,7 @@ fn parse_token(str StringPointer) Tok {
 		'drop' { .drop }
 		'_breakpoint' { .trap_breakpoint }
 		'const' { .const_expression }
+		'!' {.not}
 		'=' { .equ }
 		'!=' { .nequ }
 		'>' { .gt }

@@ -150,6 +150,7 @@ const              Inst.syscall3 { 61 }
 const              Inst.syscall4 { 62 }
 const              Inst.syscall5 { 63 }
 const              Inst.syscall6 { 64 }
+const                   Inst.not { 65 }
 
 ; (Inst -- str len)
 fn Inst.to_str 1 2 {

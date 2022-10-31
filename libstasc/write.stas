@@ -19,3 +19,78 @@ fn fwriteuln 1 0 {
 fn fwritec 1 0 {
 	putc
 }
+
+const CH_a { 97  }
+const CH_z { 122 }
+const CH_A { 65  }
+const CH_Z { 90  }
+const CH_0 { 48  }
+const CH_9 { 57  }
+const CH__ { 95  }
+const CH_. { 46  }
+
+; (u8 -- bool)
+fn is_alpha 1 1 {
+	auto ch 1 pop ch
+
+	ch CH_a >= 
+	ch CH_z <=
+		&
+	ch CH_A >= 
+	ch CH_Z <=
+		&
+	|
+	ch CH_0 >=
+	ch CH_9 <=
+		&
+	|
+	
+	ch CH__ = |
+	ch CH_. = |
+}
+
+const CH_[ { 91  }
+const CH_] { 93  }
+const CH_< { 60  }
+const CH_> { 62  }
+const CH_* { 42  }
+const CH_& { 38  }
+const CH_| { 124 }
+
+const CH_@ { 64 }
+const CH_$ { 36 }
+
+fn write_remap_ch 1 0 {
+	dup CH_[ = if {
+		"_a" fwrite
+	} elif dup CH_] = {
+		"_b" fwrite
+	} elif dup CH_< = {
+		"_c" fwrite
+	} elif dup CH_> = {
+		"_d" fwrite
+	} elif dup CH_* = {
+		"_e" fwrite
+	} elif dup CH_& = {
+		"_f" fwrite
+	} elif dup CH_| = {
+		"_g" fwrite
+	} else {
+		dup fwritec
+	}
+	drop
+}
+
+fn Function.name.write_mangled 1 0 {
+	rFunction.name string_view_to_str
+	auto str.len 1 pop str.len
+	auto str     1 pop str
+
+	0
+	while dup str.len < {
+		dup str u8[]
+		write_remap_ch
+		++
+	}
+	drop
+}
