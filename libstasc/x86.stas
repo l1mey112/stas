@@ -8,6 +8,14 @@ fn fwriteln 2 0 {
 	endl
 }
 
+fn fwriteu 1 0 {
+	putu
+}
+
+fn fwriteuln 1 0 {
+	putuln
+}
+
 const     Reg.rbx { 0  }
 const     Reg.rcx { 1  }
 const     Reg.rsi { 2  }
@@ -194,6 +202,24 @@ fn rallocator_stack.pop 0 1 {
 	rallocator_stack.len -- pop rallocator_stack.len
 }
 
+; (Reg)
+fn r_b_clear 1 0 {
+	dup sizeof(Reg) < assert
+	rallocator_mask + false w8
+}
+
+; (Reg)
+fn r_b_set 1 0 {
+	dup sizeof(Reg) < assert
+	rallocator_mask + true w8
+}
+
+; (Reg -- bool)
+fn r_is_used 1 1 {
+	dup sizeof(Reg) < assert
+	rallocator_mask + r8
+}
+
 ; ( -- Reg)
 fn r_ffs 0 1 {
 	0
@@ -246,58 +272,6 @@ fn r_alloc 0 1 {
 }
 
 ; (Reg)
-fn r_b_clear 1 0 {
-	dup sizeof(Reg) < assert
-	rallocator_mask + false w8
-}
-
-; (Reg)
-fn r_b_set 1 0 {
-	dup sizeof(Reg) < assert
-	rallocator_mask + true w8
-}
-
-; (Reg)
-fn r_free 1 0 {
-	r_b_clear
-}
-
-; (Reg -- bool)
-fn r_is_used 1 1 {
-	dup sizeof(Reg) < assert
-	rallocator_mask + r8
-}
-
-; (Reg)
-fn r_push 1 0 {
-	dup rallocator_stack<<
-	r_b_set
-}
-
-; ( -- Reg)
-fn r_pop 0 1 {
-	rallocator_stack.len 0 > if {
-		rallocator_stack.pop
-	} else {
-		r_alloc
-		"pop " fwrite
-		dup Reg.64.to_str puts 
-	}
-	dup r_b_set ; chances are it is already set
-}
-
-; ( -- Reg)
-fn r_top 0 1 {
-	rallocator_stack.len 0 > if {
-		rallocator_stack.top
-	} else {
-		r_alloc dup r_push
-		"pop " fwrite
-		dup Reg.64.to_str puts 
-	}
-}
-
-; (Reg)
 fn r_release 1 0 {
 	auto rg 1 pop rg
 	
@@ -318,6 +292,79 @@ fn r_release 1 0 {
 	}
 }
 
+; (Reg)
+fn r_free 1 0 {
+	r_b_clear
+}
+
+; ( -- Reg)
+fn r_new 0 1 {
+	r_alloc
+	dup r_b_set
+}
+
+; (Reg)
+fn r_new_r 1 0 {
+	dup r_release
+	r_b_set
+}
+
+; (Reg)
+fn r_push 1 0 {
+	dup rallocator_stack<<
+	r_b_set
+}
+
+; ( -- Reg)
+fn r_pop 0 1 {
+	rallocator_stack.len 0 > if {
+		rallocator_stack.pop
+	} else {
+		r_alloc
+		"pop " fwrite
+		dup Reg.64.to_str fwriteln 
+	}
+	dup r_b_set ; chances are it is already set
+}
+
+; (Reg)
+fn r_pop_r 1 0 {
+	auto rg 1 pop rg
+
+	rg r_is_used if {
+		rg r_release
+	}
+
+	rallocator_stack.len 0 > if {
+		auto rg_a 1
+
+		rallocator_stack.pop
+		pop rg_a
+
+		rg_a rg = if {
+			ret
+		}
+
+		rg_a r_b_clear
+		"mov " fwrite rg Reg.64.to_str fwrite ", " fwrite rg_a Reg.64.to_str fwriteln
+	} else {
+		rg r_is_used ~ assert
+		"pop " fwrite rg Reg.64.to_str fwriteln
+	}
+	rg r_b_set
+}
+
+; ( -- Reg)
+fn r_top 0 1 {
+	rallocator_stack.len 0 > if {
+		rallocator_stack.top
+	} else {
+		r_alloc dup r_push
+		"pop " fwrite
+		dup Reg.64.to_str fwriteln 
+	}
+}
+
 ; ()
 fn r_drop 0 0 {
 	rallocator_stack.len 0 > if {
@@ -326,4 +373,32 @@ fn r_drop 0 0 {
 	} else {
 		"add rsp, 8" fwriteln
 	}
+}
+
+; (Reg)
+fn r_dup 1 0 {
+	r_alloc
+	dup r_push
+	"mov " fwrite Reg.64.to_str fwrite ", " fwrite Reg.64.to_str fwriteln
+}
+
+; (u64)
+fn r_push_const 1 0 {
+	r_alloc
+	dup r_push
+	"mov " fwrite Reg.64.to_str fwrite ", " fwrite fwriteuln
+}
+
+; (str len)
+fn r_push_const_word 2 0 {
+	r_alloc
+	dup r_push
+	"mov " fwrite Reg.64.to_str fwrite ", " fwrite fwriteln	
+}
+
+; (str len)
+fn r_pop_const_word 2 0 {
+	auto rg 1
+	r_pop pop rg
+	"mov " fwrite fwrite ", " fwrite rg Reg.64.to_str fwriteln
 }

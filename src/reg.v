@@ -136,6 +136,7 @@ fn r_pop_r(r Reg) {
 		assert !r_is_used(r)
 		writeln('    pop $r')
 	}
+	r_b_clear(r)
 }
 
 fn r_flush() {

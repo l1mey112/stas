@@ -2,19 +2,5 @@ include 'std.stas'
 include 'libstasc/x86.stas'
 
 fn main 0 0 {
-	r_alloc r_push
-	r_alloc r_push
-	
-	Reg.rbx r_release
-	r_top Reg.64.to_str puts endl
-	
-	r_pop dup r_free Reg.64.to_str puts endl
-	r_pop dup r_free Reg.64.to_str puts endl
-	r_pop dup r_free Reg.64.to_str puts endl
-	r_pop dup r_free Reg.64.to_str puts endl
-
-;	r_alloc Reg.64.to_str puts endl
-;	r_alloc Reg.64.to_str puts endl
-;	r_alloc Reg.64.to_str puts endl
-;	r_alloc Reg.64.to_str puts endl
+	"[---]" r_pop_const_word
 }
