@@ -1,15 +1,15 @@
 const     Reg.rbx { 0  }
-const     Reg.rcx { 1  }
-const     Reg.rsi { 2  }
-const     Reg.rdi { 3  }
-const     Reg.r8  { 4  }
-const     Reg.r9  { 5  }
-const     Reg.r10 { 6  }
-const     Reg.r11 { 7  }
-const     Reg.r12 { 8  }
-const     Reg.r13 { 9  }
-const     Reg.r14 { 10 }
-const     Reg.r15 { 11 }
+const     Reg.rsi { 1  }
+const     Reg.rdi { 2  }
+const     Reg.r8  { 3  }
+const     Reg.r9  { 4  }
+const     Reg.r10 { 5  }
+const     Reg.r11 { 6  }
+const     Reg.r12 { 7  }
+const     Reg.r13 { 8  }
+const     Reg.r14 { 9  }
+const     Reg.r15 { 10 }
+const     Reg.rcx { 11 }
 const     Reg.rdx { 12 }
 const     Reg.rax { 13 }
 const sizeof(Reg) { 14 }
@@ -233,7 +233,7 @@ fn r_flush 0 0 {
 	0
 	while dup rallocator_stack.len < {
 		dup rallocator_stack + r8
-		"push " fwrite Reg.64.to_str fwriteln
+		"	push " fwrite Reg.64.to_str fwriteln
 		++
 	}
 	drop
@@ -244,12 +244,13 @@ fn r_flush 0 0 {
 
 ; (Reg)
 fn r_alloc 0 1 {
-	r_ffs
-	dup UINT64_MAX = if {
-		drop
+	auto ffs 1
+	r_ffs pop ffs
+	ffs UINT64_MAX = if {
 		r_flush
 		r_alloc
-		ret
+	} else {
+		ffs
 	}
 }
 
@@ -263,7 +264,7 @@ fn r_release 1 0 {
 
 		rg_a r_b_set
 		rg   r_b_clear
-		"mov " fwrite rg_a Reg.64.to_str fwrite ", " fwrite rg Reg.64.to_str fwriteln
+		"	mov " fwrite rg_a Reg.64.to_str fwrite ", " fwrite rg Reg.64.to_str fwriteln
 		
 
 		auto idx 1
@@ -303,7 +304,7 @@ fn r_pop 0 1 {
 		rallocator_stack.pop
 	} else {
 		r_alloc
-		"pop " fwrite
+		"	pop " fwrite
 		dup Reg.64.to_str fwriteln 
 	}
 	dup r_b_set ; chances are it is already set
@@ -328,10 +329,10 @@ fn r_pop_r 1 0 {
 		}
 
 		rg_a r_b_clear
-		"mov " fwrite rg Reg.64.to_str fwrite ", " fwrite rg_a Reg.64.to_str fwriteln
+		"	mov " fwrite rg Reg.64.to_str fwrite ", " fwrite rg_a Reg.64.to_str fwriteln
 	} else {
 		rg r_is_used ! assert
-		"pop " fwrite rg Reg.64.to_str fwriteln
+		"	pop " fwrite rg Reg.64.to_str fwriteln
 	}
 	rg r_b_set
 }
@@ -342,7 +343,7 @@ fn r_top 0 1 {
 		rallocator_stack.top
 	} else {
 		r_alloc dup r_push
-		"pop " fwrite
+		"	pop " fwrite
 		dup Reg.64.to_str fwriteln 
 	}
 }
@@ -353,34 +354,29 @@ fn r_drop 0 0 {
 		rallocator_stack.pop
 		r_b_clear
 	} else {
-		"add rsp, 8" fwriteln
+		"	add rsp, 8" fwriteln
 	}
+	rallocator_stack.len putuln
 }
 
 ; (Reg)
 fn r_dup 1 0 {
 	r_alloc
 	dup r_push
-	"mov " fwrite Reg.64.to_str fwrite ", " fwrite Reg.64.to_str fwriteln
+	"	mov " fwrite Reg.64.to_str fwrite ", " fwrite Reg.64.to_str fwriteln
 }
 
 ; (u64)
 fn r_push_const 1 0 {
 	r_alloc
 	dup r_push
-	"mov " fwrite Reg.64.to_str fwrite ", " fwrite fwriteuln
+	"	mov " fwrite Reg.64.to_str fwrite ", " fwrite fwriteuln
 }
 
-; (str len)
-fn r_push_const_word 2 0 {
+; `r_pop_const_word` must be emulated.
+
+fn r_prepare_push_const_word 0 0 {
 	r_alloc
 	dup r_push
-	"mov " fwrite Reg.64.to_str fwrite ", " fwrite fwriteln	
-}
-
-; (str len)
-fn r_pop_const_word 2 0 {
-	auto rg 1
-	r_pop pop rg
-	"mov " fwrite fwrite ", " fwrite rg Reg.64.to_str fwriteln
+	"	mov " fwrite Reg.64.to_str fwrite ", " fwrite
 }

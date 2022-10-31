@@ -53,6 +53,10 @@ fn fwriteuln 1 0 {
 	LF_CH fwritec
 }
 
+fn fendl 0 0 {
+	LF_CH fwritec
+}
+
 const CH_a { 97  }
 const CH_z { 122 }
 const CH_A { 65  }
@@ -114,7 +118,7 @@ fn write_remap_ch 1 0 {
 	drop
 }
 
-fn Function.name.write_mangled 1 0 {
+fn Function.name.fwrite_mangled 1 0 {
 	rFunction.name string_view_to_str
 	auto str.len 1 pop str.len
 	auto str     1 pop str

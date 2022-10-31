@@ -123,6 +123,9 @@ fn gen_range(start u32, end u32) {
 					writeln('    syscall')
 					writeln('    mov rdi, 1')
 					writeln('    jmp _exit')
+				//	writeln('    mov eax, 60')
+				//	writeln('    syscall')
+				//	writeln('    nop')
 					writeln('.$lbl:')
 					r_free(.rax)
 				}
@@ -556,7 +559,7 @@ fn gen_range(start u32, end u32) {
 				.w64 {
 					r_pop_r(.rax)
 					a := r_pop()
-					writeln('    mov [$a], rax')
+					writeln('    mov qword [$a], rax')
 					r_free(.rax)
 					r_free(a)
 				}
@@ -596,7 +599,7 @@ fn gen_range(start u32, end u32) {
 					r_pop_r(.rdi)
 					writeln('    syscall')
 					r_push(.rax)
-					r_free(.rsi)
+					r_free(.rdi)
 				}
 				.syscall2 {
 					r_pop_r(.rax)

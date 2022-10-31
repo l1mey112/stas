@@ -55,6 +55,7 @@ fn main 0 0 {
 
 	stas.parse
 	stas.dce
+	stas.gen
 
 ;	endl
 ;	0

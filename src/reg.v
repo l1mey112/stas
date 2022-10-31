@@ -1,6 +1,5 @@
 enum Reg {
 	rbx
-	rcx
 	rsi
 	rdi
 	r8
@@ -11,6 +10,7 @@ enum Reg {
 	r13
 	r14
 	r15
+	rcx
 	rdx
 	rax
 	_size_
@@ -100,6 +100,13 @@ fn r_free(r Reg) {
 fn r_new() Reg {
 	a := r_alloc()
 	r_b_clear(a)
+	return a
+}
+
+fn r_new_push() Reg {
+	a := r_alloc()
+	r_b_clear(a)
+	rallocator_stack << a
 	return a
 }
 

@@ -1,5 +1,10 @@
-include 'std.stas'
+; include 'std.stas'
 
 fn main 0 0 {
-	
+	1 if {
+		5
+	} else {
+		5
+	}
+	drop
 }

@@ -210,6 +210,8 @@ fn Inst.to_str 1 2 {
 		"shr"
 	} elif dup Inst.shl = {
 		"shl"
+	} elif dup Inst.not = {
+		"not"
 	} elif dup Inst.b_and = {
 		"b_and"
 	} elif dup Inst.b_or = {
@@ -298,7 +300,7 @@ fn rIR.idx  1 1 { IR.idx  r32 }
 fn rIR.inst 1 1 { IR.inst r32 }
 fn rIR.data 1 1 { IR.data r64 }
 
-const ir_stream.cap { 8192 }
+const ir_stream.cap { 16384 }
 auto  ir_stream.len 1
 const sizeof(ir_stream) { sizeof(IR) ir_stream.cap * }
 reserve ir_stream sizeof(ir_stream)
