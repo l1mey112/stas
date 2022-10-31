@@ -1,23 +1,56 @@
-; collect into buffer, flush on full
-fn fwrite 2 0 {
-	puts
+const   fwrite_buffer.cap     { 1 1024 * 1024 * } ; 1 MiB
+auto    fwrite_buffer.len     1
+const   sizeof(fwrite_buffer) { fwrite_buffer.cap }
+reserve fwrite_buffer         sizeof(fwrite_buffer)
+auto    fwrite_buffer.fd_loc  1
+
+fn fwrite_buffer.flush 0 0 {
+	; (stream str len -- count)
+	fwrite_buffer.fd_loc fwrite_buffer fwrite_buffer.len write
+	fwrite_buffer.len = assert ; to_write.len == actually_wrote.len
+
+	0 pop fwrite_buffer.len
 }
 
-fn fwriteln 2 0 {
-	puts
-	endl
+; (len)
+fn fwrite_buffer.assert_len 1 0 {
+	dup fwrite_buffer.cap < assert
+	fwrite_buffer.len + fwrite_buffer.cap >= if {
+		fwrite_buffer.flush
+	}
 }
 
-fn fwriteu 1 0 {
-	putu
-}
-
-fn fwriteuln 1 0 {
-	putuln
-}
-
+; (u8)
 fn fwritec 1 0 {
-	putc
+	1 fwrite_buffer.assert_len
+	fwrite_buffer.len fwrite_buffer + swap w8
+	fwrite_buffer.len ++ pop fwrite_buffer.len
+}
+
+; (str len)
+fn fwrite 2 0 {
+	dup fwrite_buffer.assert_len
+	dup rot
+	fwrite_buffer fwrite_buffer.len + rot memcpy
+	fwrite_buffer.len + pop fwrite_buffer.len
+}
+
+; (str len)
+fn fwriteln 2 0 {
+	fwrite
+	LF_CH fwritec
+}
+
+; (num)
+fn fwriteu 1 0 {
+	reserve num_buf 20
+	num_buf swap itoa fwrite
+}
+
+; (num)
+fn fwriteuln 1 0 {
+	fwriteu
+	LF_CH fwritec
 }
 
 const CH_a { 97  }

@@ -32,6 +32,7 @@ fn main 0 0 {
 	}
 
 	is_object_file 0 w8
+	stdout pop fwrite_buffer.fd_loc
 
 	1
 	while dup argc < {
