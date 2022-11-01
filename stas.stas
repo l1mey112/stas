@@ -7,17 +7,17 @@ auto    backend_type   1
 const StasBackend.fasm { 1 }
 const StasBackend.nasm { 2 }
 
-include 'libstasc/stringbuffer.stas' ; handling strings
-include 'libstasc/tokens.stas'       ; stas token definitions
-include 'libstasc/util.stas'         ; utility functions, error handling
-include 'libstasc/scanner.stas'      ; lexer/scanner, creates tokens
-include 'libstasc/parserdefs.stas'   ; stas parser definitions, very large file
-include 'libstasc/eval.stas'         ; constant evaluation
-include 'libstasc/parser.stas'       ; stas parser, creates IR instructions
-include 'libstasc/write.stas'        ; buffers + writing to files
-include 'libstasc/dce.stas'          ; dead code elimination compiler pass
-include 'libstasc/x86.stas'          ; stas codegen definitions and reg allocator
-include 'libstasc/gen.stas'          ; stas code generator, creates x86_64 asm
+include 'src/stringbuffer.stas' ; handling strings
+include 'src/tokens.stas'       ; stas token definitions
+include 'src/util.stas'         ; utility functions, error handling
+include 'src/scanner.stas'      ; lexer/scanner, creates tokens
+include 'src/parserdefs.stas'   ; stas parser definitions, very large file
+include 'src/eval.stas'         ; constant evaluation
+include 'src/parser.stas'       ; stas parser, creates IR instructions
+include 'src/write.stas'        ; buffers + writing to files
+include 'src/dce.stas'          ; dead code elimination compiler pass
+include 'src/x86.stas'          ; stas codegen definitions and reg allocator
+include 'src/gen.stas'          ; stas code generator, creates x86_64 asm
 
 fn usage 0 0 {
 	"USAGE:::::\n" eputs
