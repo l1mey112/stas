@@ -6,6 +6,12 @@ fn write(str string) {
 	print(str)
 }
 
+/* fn gen() {
+	for a in ir_stream {
+		eprintln('{a.idx}\t{a.data}\t{a.inst}')
+	}
+} */
+
 fn gen() {
 	writeln('use64')
 	if is_object_file {

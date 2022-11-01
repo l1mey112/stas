@@ -60,6 +60,7 @@ fn gen_range 2 0 {
 				fn_c rFunction.forbid_inline ! if {
 					fn_c rFunction.start_inst 1 + fn_c rFunction.end_inst gen_range
 				} else {
+					r_flush
 					"	mov rbp, rsp"     fwriteln
 					"	mov rsp, [_rs_p]" fwriteln
 					"	call " fwrite fn_c Function.name.fwrite_mangled fendl
@@ -465,7 +466,7 @@ fn gen_range 2 0 {
 			Reg.rax r_push
 		} elif dup Inst.r64 = {
 			r_pop pop a
-			"	mov " fwrite a Reg.64.to_str fwrite ", [" fwrite b Reg.64.to_str fwrite "]" fwriteln
+			"	mov " fwrite a Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
 			a r_push
 		} elif dup Inst.syscall0 = {
 			Reg.rax r_pop_r
@@ -560,16 +561,16 @@ fn stas.gen 0 0 {
 	}
 
 	"_start:"                         fwriteln
-	"	mov [_arg_p], rsp"           fwriteln
-	"	mov qword [_rs_p], _rs_top"  fwriteln
-	"	mov rbp, rsp"                fwriteln
-	"	mov rsp, [_rs_p]"            fwriteln
-	"	call main"                   fwriteln
-	"	xor rdi, rdi"                fwriteln
+	"	mov [_arg_p], rsp"            fwriteln
+	"	mov qword [_rs_p], _rs_top"   fwriteln
+	"	mov rbp, rsp"                 fwriteln
+	"	mov rsp, [_rs_p]"             fwriteln
+	"	call main"                    fwriteln
+	"	xor rdi, rdi"                 fwriteln
 	"_exit:"                          fwriteln
-	"	mov eax, 60"                 fwriteln
-	"	syscall"                     fwriteln
-	"	nop"                         fwriteln
+	"	mov eax, 60"                  fwriteln
+	"	syscall"                      fwriteln
+	"	nop"                          fwriteln
 
 	0 ir_stream.len gen_range
 

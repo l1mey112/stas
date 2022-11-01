@@ -766,8 +766,8 @@ fn parse.fn_complex_body_tokens 0 0 {
 					scope_context<<
 
 					scope rScope.sp pop sp.len
-					Inst.do_jmp scope rScope.label_id ir
-					Inst.label scope rScope.label_id2 ir
+					Inst.do_jmp scope rScope.label_id2 ir
+					Inst.label  scope rScope.label_id  ir
 				} else {
 					scope rScope.sp sp.len != if {
 						pos 'the stack must remain the same with single branches' error.Tok
@@ -949,22 +949,22 @@ fn parse.fn_complex_body_tokens 0 0 {
 		Inst.syscall0 0 ir
 		1 1 sp_assert
 	} elif dup Tok.syscall1 = {
-		Inst.syscall0 0 ir
+		Inst.syscall1 0 ir
 		2 1 sp_assert
 	} elif dup Tok.syscall2 = {
-		Inst.syscall0 0 ir
+		Inst.syscall2 0 ir
 		3 1 sp_assert
 	} elif dup Tok.syscall3 = {
-		Inst.syscall0 0 ir
+		Inst.syscall3 0 ir
 		4 1 sp_assert
 	} elif dup Tok.syscall4 = {
-		Inst.syscall0 0 ir
+		Inst.syscall4 0 ir
 		5 1 sp_assert
 	} elif dup Tok.syscall5 = {
-		Inst.syscall0 0 ir
+		Inst.syscall5 0 ir
 		6 1 sp_assert
 	} elif dup Tok.syscall6 = {
-		Inst.syscall0 0 ir
+		Inst.syscall6 0 ir
 		7 1 sp_assert
 	} elif dup Tok.argc = {
 		Inst.push_argc 0 ir
