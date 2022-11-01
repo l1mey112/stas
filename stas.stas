@@ -20,11 +20,16 @@ include 'src/x86.stas'          ; stas codegen definitions and reg allocator
 include 'src/gen.stas'          ; stas code generator, creates x86_64 asm
 
 fn usage 0 0 {
-	"USAGE:::::\n" eputs
+	"stas 0.1.0 Copyright (C) 2022  l-m.dev\n\n" eputs
+	"USAGE: ./stas [OPTIONS] [FILE]\n\n" eputs
+
+	"	-o <output>       Specify '-o -' to dump assembly to stdout\n" eputs
+	"	-g                Debug symbols. Most effective with the `nasm` backend\n" eputs
+	"	-b <backend>      Assemblers `nasm` or `fasm` as compiler backend\n" eputs
+	"	-h                Show this message\n\n" eputs
 }
 
 fn help_and_exit 0 0 {
-	"hellpy\n" eputs
 	usage
 	0 exit
 }
