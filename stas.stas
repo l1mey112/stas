@@ -26,6 +26,8 @@ fn usage 0 0 {
 	"	-o <output>       Specify '-o -' to dump assembly to stdout\n" eputs
 	"	-g                Debug symbols. Most effective with the `nasm` backend\n" eputs
 	"	-b <backend>      Assemblers `nasm` or `fasm` as compiler backend\n" eputs
+	"	-r                Execute file after compiling. Arguments after this\n" eputs
+	"	                  switch will ignored and passed to the program.\n" eputs
 	"	-h                Show this message\n\n" eputs
 }
 
@@ -86,6 +88,9 @@ fn main 0 0 {
 
 	is_object_file 0 w8
 	to_stdout      0 w8
+
+	auto run_exec_arg  1
+	0 pop run_exec_arg
 	
 	UINT64_MAX       pop fwrite_buffer.fd_loc
 	StasBackend.fasm pop backend_type            
@@ -120,6 +125,12 @@ fn main 0 0 {
 				usage_and_exit
 			}
 			debug_symbols true w8
+		} elif argstr "-r" streq {
+			argparse_mode ArgParseMode.none != if {
+				usage_and_exit
+			}
+			pop run_exec_arg
+			argc
 		} elif argstr "--help" streq argstr "-h" streq | {
 			help_and_exit
 		} else {
@@ -204,4 +215,18 @@ fn main 0 0 {
 	}
 
 	out_file_asm_sv string_view_to_str out_file execute_fasm
+
+	run_exec_arg 0 != if {
+		reserve null_p sizeof(u64)
+		null_p NULL w64
+
+		out_file drop
+		argv run_exec_arg 1 + sizeof(u64) * +
+		null_p
+		
+		execve 0 <s if {
+			"FATAL: Could not execve file\n" eputs
+			1 exit
+		}
+	}
 }

@@ -10,11 +10,57 @@ fn main 0 0 {
 }
 ```
 
-It has evolved and evolved over time as I learnt compiler theory from the ground up. About 3 complete rewrites have taken place. The syntax and structure is settled and work is being done to write the compiler in itself. The current compiler is written in the V programming language.
+A concatenative stack based compiled programming language, stas is a programming language that has evolved as my skills with compiler theory grew. ~~The syntax and structure is settled and work is being done to write the compiler in itself. The current compiler is written in the V programming language.~~ The current compiler is written in stas. stas as a language has been successfully selfhosted, a long time goal of mine.
 
-This is my first serious programming langauge, and it's gotta be good.
+Follow the initial journey with all of the guesswork on my blog at [`tags/stas`](https://blog.l-m.dev/tags/stas/), these show the small steps taken to achieve initial V version of the compiler. The V source code of the bootstrap compiler is in [a-different-branch](https://github.com/l1mey112/stas/tree/0.1.0-v-compiler).
 
-Follow the initial journey with all of the guesswork on my blog [`tags/stas`](https://blog.l-m.dev/tags/stas/), all of that figuring out got to the initial V version of the compiler.
+## bootstrapping stas
+
+[The-stas-compiler-is-written-in-stas.](./stas.stas) To avoid the chicken or the egg scenario, precompiled assembly files reside in the [bootstrap/](bootstrap/) directory.
+
+Use FASM, the [flat-assembler](https://flatassembler.net/), to compile the binaries. In the future, the NASM assembler backend will be avaliable.
+
+```sh
+$ fasm -m 1048576 bootstrap/x86-64_linux.fasm.asm stas
+$ ./stas stas.stas -o stas
+$ ./stas stas.stas -o stas
+$ ./stas stas.stas -o stas
+$ ./stas stas.stas -o stas
+$ ./stas stas.stas -o stas
+$ ./stas stas.stas -o stas
+$ ./stas stas.stas -o stas
+  ....
+  ....
+```
+
+```
+$ ./stas -h
+stas 0.1.0 Copyright (C) 2022  l-m.dev
+
+USAGE: ./stas [OPTIONS] [FILE]
+
+  -o <output>    Specify '-o -' to dump assembly to stdout
+  -g             Debug symbols. Most effective with the `nasm` backend
+  -b <backend>   Assemblers `nasm` or `fasm` as compiler backend
+  -h             Show this message
+```
+(The NASM backend and debug symbols are a work in progress.)
+
+## spec
+
+It generates optimised x86-64 assembly for systems using the Linux kernel. It interfaces with the operating system kernel through syscalls and not through libc. The compiler only emits statically linked binaries for now. This means limited portability among other operating systems and architectures.
+
+The stas compiler generates decently optimised assembly by converting stack based operations to ones that work register to register. It does this through the [register-allocator](./src/x86.stas) present in the compiler.
+
+A dead code elimination pass takes place between the parser and code generation passes. Here, it is also determined which functions will be automatically inlined. Inlining a function removes the overhead of switching between the return stack and the data stack during a function call.
+
+```
+  (text)     |  (tokens)         (IR)            (assembly)      |  (ELF)
+             |                                                   |
+             |             /-- parser  --\   /--- codegen ----\  |
+ input.stas ->- scanning - |             | - |                | ->- fasm
+             |             \-- checker --/   \- optimisation -/  |
+```
 
 ## programming in stas
 
@@ -30,21 +76,19 @@ Comments are denoted with semicolons. Checkout the `files/` directory for exampl
 
 TODO: Guide?
 
-## spec
-
-It generates optimised x86_64 assembly for systems using the Linux kernel. It interfaces with the operating system kernel through syscalls and not through libc. The compiler only emits statically linked binaries for now. This means limited portability among other operating systems and architectures.
-
 ```
-  (text)     |  (tokens)         (IR)            (assembly)      |  (ELF)
-             |                                                   |
-             |             /-- parser  --\   /--- codegen ----\  |
- input.stas ->- scanning - |             | - |                | ->- fasm
-             |             \-- checker --/   \- optimisation -/  |
+include 'std.stas'
+
+fn main 0 0 {
+    0 while dup 100 < {
+        dup putuln         ; put a number to stdout
+        ++
+    }
+    drop
+}
 ```
 
-The assembly dialect is Intel, made to be compiled with the fasm, the flat assembler.
-
-## debugging
+<!-- ## debugging
 
 Besides the compile time checks, it supports breakpoints with the `_breakpoint` keyword, coupled with some scripts inside GDB it allows you to easily inspect the program at runtime.
 
@@ -108,4 +152,4 @@ main.stas:12:8: scope assertation failed, 1 more value on the stack than expecte
 main.stas:13:9: backtrace
 ```
 
-Scope guards assist in debugging, just by skimming a program you know what scopes are self contained and what ones arent. Runtime assertations are also supported and an additional message can be attached. Assertations can also be evaluated at compile time statically.
+Scope guards assist in debugging, just by skimming a program you know what scopes are self contained and what ones arent. Runtime assertations are also supported and an additional message can be attached. Assertations can also be evaluated at compile time statically. -->

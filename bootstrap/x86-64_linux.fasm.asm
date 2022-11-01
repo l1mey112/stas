@@ -256,7 +256,7 @@ fd_stat_size:
 	mov rax, rbx
 	test rax, rax
 	jz .22
-	mov rbx, _slit_30
+	mov rbx, _slit_37
 	mov rsi, 42
 	mov rdi, 2
 	mov r8, 1
@@ -314,7 +314,7 @@ fd_open_fp_readonly:
 	push r8
 	test rax, rax
 	jz .24
-	mov rbx, _slit_28
+	mov rbx, _slit_35
 	mov rsi, 28
 	mov rdi, 2
 	mov r8, 1
@@ -335,7 +335,7 @@ fd_open_fp_readonly:
 	mov rsi, rdi
 	mov rdi, rbx
 	syscall
-	mov rbx, _slit_29
+	mov rbx, _slit_36
 	mov rsi, 2
 	mov rdi, 2
 	mov r8, 1
@@ -392,7 +392,7 @@ fd_new_file_for_writing:
 	push r8
 	test rax, rax
 	jz .26
-	mov rbx, _slit_26
+	mov rbx, _slit_33
 	mov rsi, 28
 	mov rdi, 2
 	mov r8, 1
@@ -413,7 +413,7 @@ fd_new_file_for_writing:
 	mov rsi, rdi
 	mov rdi, rbx
 	syscall
-	mov rbx, _slit_27
+	mov rbx, _slit_34
 	mov rsi, 2
 	mov rdi, 2
 	mov r8, 1
@@ -506,7 +506,7 @@ open_and_mmap_fp:
 	push rdi
 	test rax, rax
 	jz .30
-	mov rbx, _slit_31
+	mov rbx, _slit_38
 	mov rsi, 28
 	mov rdi, 2
 	mov r8, 1
@@ -527,7 +527,7 @@ open_and_mmap_fp:
 	mov rsi, rdi
 	mov rdi, rbx
 	syscall
-	mov rbx, _slit_32
+	mov rbx, _slit_39
 	mov rsi, 2
 	mov rdi, 2
 	mov r8, 1
@@ -568,7 +568,7 @@ open_and_mmap_fp:
 	mov rax, rbx
 	test rax, rax
 	jz .33
-	mov rbx, _slit_33
+	mov rbx, _slit_40
 	mov rsi, 39
 	mov rdi, 2
 	mov r8, 1
@@ -616,7 +616,7 @@ child_execve_and_shut_up:
 	mov rax, rsi
 	mov qword [rbx], rax
 	mov rbx, 18446744073709551516
-	mov rsi, _slit_471
+	mov rsi, _slit_478
 	mov rdi, 9
 	mov rdi, 0
 	mov r8, 0
@@ -639,7 +639,7 @@ child_execve_and_shut_up:
 	push rdi
 	test rax, rax
 	jz .37
-	mov rbx, _slit_472
+	mov rbx, _slit_479
 	mov rsi, 32
 	mov rdi, 2
 	mov r8, 1
@@ -670,7 +670,7 @@ child_execve_and_shut_up:
 	mov rax, rbx
 	test rax, rax
 	jz .39
-	mov rbx, _slit_473
+	mov rbx, _slit_480
 	mov rsi, 42
 	mov rdi, 2
 	mov r8, 1
@@ -707,7 +707,7 @@ child_execve_and_shut_up:
 	mov rax, rbx
 	test rax, rax
 	jz .41
-	mov rbx, _slit_474
+	mov rbx, _slit_481
 	mov rsi, 29
 	mov rdi, 2
 	mov r8, 1
@@ -1074,15 +1074,15 @@ new_string_view:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1471
+	jnz .1479
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_24
-	mov rdx, 102
+	mov rsi, _slit_31
+	mov rdx, 97
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1471:
+.1479:
 	mov rbx, qword _global_string_buffer
 	mov r9, qword _global_string_buffer.len
 	mov r10, qword [r9 + 0]
@@ -1145,15 +1145,15 @@ new_empty_string:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1472
+	jnz .1480
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_24
-	mov rdx, 102
+	mov rsi, _slit_31
+	mov rdx, 97
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1472:
+.1480:
 	mov rbx, qword _global_string_buffer
 	mov rsi, qword _global_string_buffer.len
 	mov rdi, qword [rsi + 0]
@@ -1195,15 +1195,15 @@ push_char:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1473
+	jnz .1481
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_24
-	mov rdx, 102
+	mov rsi, _slit_31
+	mov rdx, 97
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1473:
+.1481:
 	pop rbx
 	pop rsi
 	mov rdi, qword [_rs_p]
@@ -1248,15 +1248,15 @@ push_nul:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1474
+	jnz .1482
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_24
-	mov rdx, 102
+	mov rsi, _slit_31
+	mov rdx, 97
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1474:
+.1482:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 8
@@ -1309,15 +1309,15 @@ push_string_view:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1475
+	jnz .1483
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_24
-	mov rdx, 102
+	mov rsi, _slit_31
+	mov rdx, 97
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1475:
+.1483:
 	mov rsi, rbx
 	mov rdi, qword _global_string_buffer.len
 	mov r8, qword [rdi + 0]
@@ -1387,7 +1387,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov r8, qword [rbx + 8]
 	mov r9, qword [rbx + 0]
-	mov rbx, _slit_44
+	mov rbx, _slit_51
 	mov r10, 1
 	push r8
 	push r9
@@ -1408,7 +1408,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_45
+	mov rbx, _slit_52
 	mov r8, 1
 	push rsi
 	push rdi
@@ -1429,7 +1429,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_46
+	mov rbx, _slit_53
 	mov r8, 2
 	push rsi
 	push rdi
@@ -1450,7 +1450,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_47
+	mov rbx, _slit_54
 	mov r8, 2
 	push rsi
 	push rdi
@@ -1471,7 +1471,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_48
+	mov rbx, _slit_55
 	mov r8, 11
 	push rsi
 	push rdi
@@ -1492,7 +1492,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_49
+	mov rbx, _slit_56
 	mov r8, 5
 	push rsi
 	push rdi
@@ -1513,7 +1513,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_50
+	mov rbx, _slit_57
 	mov r8, 6
 	push rsi
 	push rdi
@@ -1534,7 +1534,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_51
+	mov rbx, _slit_58
 	mov r8, 4
 	push rsi
 	push rdi
@@ -1555,7 +1555,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_52
+	mov rbx, _slit_59
 	mov r8, 4
 	push rsi
 	push rdi
@@ -1576,7 +1576,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_53
+	mov rbx, _slit_60
 	mov r8, 3
 	push rsi
 	push rdi
@@ -1597,7 +1597,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_54
+	mov rbx, _slit_61
 	mov r8, 2
 	push rsi
 	push rdi
@@ -1618,7 +1618,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_55
+	mov rbx, _slit_62
 	mov r8, 4
 	push rsi
 	push rdi
@@ -1639,7 +1639,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_56
+	mov rbx, _slit_63
 	mov r8, 4
 	push rsi
 	push rdi
@@ -1660,7 +1660,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_57
+	mov rbx, _slit_64
 	mov r8, 5
 	push rsi
 	push rdi
@@ -1681,7 +1681,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_58
+	mov rbx, _slit_65
 	mov r8, 5
 	push rsi
 	push rdi
@@ -1702,7 +1702,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_59
+	mov rbx, _slit_66
 	mov r8, 8
 	push rsi
 	push rdi
@@ -1723,7 +1723,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_60
+	mov rbx, _slit_67
 	mov r8, 1
 	push rsi
 	push rdi
@@ -1744,7 +1744,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_61
+	mov rbx, _slit_68
 	mov r8, 1
 	push rsi
 	push rdi
@@ -1765,7 +1765,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_62
+	mov rbx, _slit_69
 	mov r8, 1
 	push rsi
 	push rdi
@@ -1786,7 +1786,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_63
+	mov rbx, _slit_70
 	mov r8, 1
 	push rsi
 	push rdi
@@ -1807,7 +1807,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_64
+	mov rbx, _slit_71
 	mov r8, 1
 	push rsi
 	push rdi
@@ -1828,7 +1828,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_65
+	mov rbx, _slit_72
 	mov r8, 2
 	push rsi
 	push rdi
@@ -1849,7 +1849,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_66
+	mov rbx, _slit_73
 	mov r8, 2
 	push rsi
 	push rdi
@@ -1870,7 +1870,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_67
+	mov rbx, _slit_74
 	mov r8, 2
 	push rsi
 	push rdi
@@ -1891,7 +1891,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_68
+	mov rbx, _slit_75
 	mov r8, 2
 	push rsi
 	push rdi
@@ -1912,7 +1912,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_69
+	mov rbx, _slit_76
 	mov r8, 2
 	push rsi
 	push rdi
@@ -1933,7 +1933,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_70
+	mov rbx, _slit_77
 	mov r8, 1
 	push rsi
 	push rdi
@@ -1954,7 +1954,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_71
+	mov rbx, _slit_78
 	mov r8, 1
 	push rsi
 	push rdi
@@ -1975,7 +1975,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_72
+	mov rbx, _slit_79
 	mov r8, 1
 	push rsi
 	push rdi
@@ -1996,7 +1996,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_73
+	mov rbx, _slit_80
 	mov r8, 1
 	push rsi
 	push rdi
@@ -2017,7 +2017,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_74
+	mov rbx, _slit_81
 	mov r8, 1
 	push rsi
 	push rdi
@@ -2038,7 +2038,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_75
+	mov rbx, _slit_82
 	mov r8, 4
 	push rsi
 	push rdi
@@ -2059,7 +2059,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_76
+	mov rbx, _slit_83
 	mov r8, 3
 	push rsi
 	push rdi
@@ -2080,7 +2080,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_77
+	mov rbx, _slit_84
 	mov r8, 4
 	push rsi
 	push rdi
@@ -2101,7 +2101,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_78
+	mov rbx, _slit_85
 	mov r8, 5
 	push rsi
 	push rdi
@@ -2122,7 +2122,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_79
+	mov rbx, _slit_86
 	mov r8, 3
 	push rsi
 	push rdi
@@ -2143,7 +2143,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_80
+	mov rbx, _slit_87
 	mov r8, 4
 	push rsi
 	push rdi
@@ -2164,7 +2164,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_81
+	mov rbx, _slit_88
 	mov r8, 4
 	push rsi
 	push rdi
@@ -2185,7 +2185,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_82
+	mov rbx, _slit_89
 	mov r8, 1
 	push rsi
 	push rdi
@@ -2206,7 +2206,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_83
+	mov rbx, _slit_90
 	mov r8, 2
 	push rsi
 	push rdi
@@ -2227,7 +2227,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_84
+	mov rbx, _slit_91
 	mov r8, 1
 	push rsi
 	push rdi
@@ -2248,7 +2248,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_85
+	mov rbx, _slit_92
 	mov r8, 1
 	push rsi
 	push rdi
@@ -2269,7 +2269,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_86
+	mov rbx, _slit_93
 	mov r8, 2
 	push rsi
 	push rdi
@@ -2290,7 +2290,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_87
+	mov rbx, _slit_94
 	mov r8, 2
 	push rsi
 	push rdi
@@ -2311,7 +2311,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_88
+	mov rbx, _slit_95
 	mov r8, 2
 	push rsi
 	push rdi
@@ -2332,7 +2332,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_89
+	mov rbx, _slit_96
 	mov r8, 2
 	push rsi
 	push rdi
@@ -2353,7 +2353,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_90
+	mov rbx, _slit_97
 	mov r8, 3
 	push rsi
 	push rdi
@@ -2374,7 +2374,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_91
+	mov rbx, _slit_98
 	mov r8, 3
 	push rsi
 	push rdi
@@ -2395,7 +2395,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_92
+	mov rbx, _slit_99
 	mov r8, 2
 	push rsi
 	push rdi
@@ -2416,7 +2416,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_93
+	mov rbx, _slit_100
 	mov r8, 3
 	push rsi
 	push rdi
@@ -2437,7 +2437,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_94
+	mov rbx, _slit_101
 	mov r8, 3
 	push rsi
 	push rdi
@@ -2458,7 +2458,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_95
+	mov rbx, _slit_102
 	mov r8, 3
 	push rsi
 	push rdi
@@ -2479,7 +2479,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_96
+	mov rbx, _slit_103
 	mov r8, 2
 	push rsi
 	push rdi
@@ -2500,7 +2500,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_97
+	mov rbx, _slit_104
 	mov r8, 3
 	push rsi
 	push rdi
@@ -2521,7 +2521,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_98
+	mov rbx, _slit_105
 	mov r8, 3
 	push rsi
 	push rdi
@@ -2542,7 +2542,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_99
+	mov rbx, _slit_106
 	mov r8, 3
 	push rsi
 	push rdi
@@ -2563,7 +2563,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_100
+	mov rbx, _slit_107
 	mov r8, 8
 	push rsi
 	push rdi
@@ -2584,7 +2584,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_101
+	mov rbx, _slit_108
 	mov r8, 8
 	push rsi
 	push rdi
@@ -2605,7 +2605,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_102
+	mov rbx, _slit_109
 	mov r8, 8
 	push rsi
 	push rdi
@@ -2626,7 +2626,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_103
+	mov rbx, _slit_110
 	mov r8, 8
 	push rsi
 	push rdi
@@ -2647,7 +2647,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_104
+	mov rbx, _slit_111
 	mov r8, 8
 	push rsi
 	push rdi
@@ -2668,7 +2668,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_105
+	mov rbx, _slit_112
 	mov r8, 8
 	push rsi
 	push rdi
@@ -2689,7 +2689,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_106
+	mov rbx, _slit_113
 	mov r8, 8
 	push rsi
 	push rdi
@@ -2710,7 +2710,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_107
+	mov rbx, _slit_114
 	mov r8, 7
 	push rsi
 	push rdi
@@ -2731,7 +2731,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_108
+	mov rbx, _slit_115
 	mov r8, 4
 	push rsi
 	push rdi
@@ -2752,7 +2752,7 @@ Tok.from_str:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 0]
-	mov rbx, _slit_109
+	mov rbx, _slit_116
 	mov r8, 3
 	push rsi
 	push rdi
@@ -2828,15 +2828,15 @@ token_stream_c_c:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1476
+	jnz .1484
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_41
-	mov rdx, 67
+	mov rsi, _slit_48
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1476:
+.1484:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -2859,7 +2859,7 @@ Token.location_print:
 	mov rsi, rdi
 	mov rdi, r8
 	syscall
-	mov rsi, _slit_113
+	mov rsi, _slit_120
 	mov rdi, 1
 	mov r8, 1
 	mov r9, 1
@@ -2883,7 +2883,7 @@ Token.location_print:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_114
+	mov rbx, _slit_121
 	mov rsi, 1
 	mov rdi, 1
 	mov r8, 1
@@ -2908,7 +2908,7 @@ Token.location_print:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_115
+	mov rbx, _slit_122
 	mov rsi, 2
 	mov rdi, 1
 	mov r8, 1
@@ -2937,7 +2937,7 @@ error.Loc:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_10
+	mov rbx, _slit_17
 	mov rsi, 3
 	mov rdi, 2
 	mov r8, 1
@@ -2954,7 +2954,7 @@ error.Loc:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_11
+	mov rbx, _slit_18
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -2978,7 +2978,7 @@ error.Loc:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-	mov rbx, _slit_35
+	mov rbx, _slit_42
 	mov rsi, 1
 	mov rdi, 1
 	mov r8, 1
@@ -3001,7 +3001,7 @@ error.Loc:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_36
+	mov rbx, _slit_43
 	mov rsi, 1
 	mov rdi, 1
 	mov r8, 1
@@ -3022,7 +3022,7 @@ error.Loc:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_37
+	mov rbx, _slit_44
 	mov rsi, 2
 	mov rdi, 1
 	mov r8, 1
@@ -3039,7 +3039,7 @@ error.Loc:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_13
+	mov rbx, _slit_20
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -3056,7 +3056,7 @@ error.Loc:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_14
+	mov rbx, _slit_21
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -3078,7 +3078,7 @@ error.Loc:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, _slit_38
+	mov rsi, _slit_45
 	mov rdi, 1
 	mov r8, 1
 	mov rax, r8
@@ -3112,7 +3112,7 @@ error.Tok:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_10
+	mov rbx, _slit_17
 	mov rsi, 3
 	mov rdi, 2
 	mov r8, 1
@@ -3129,7 +3129,7 @@ error.Tok:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_11
+	mov rbx, _slit_18
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -3149,15 +3149,15 @@ error.Tok:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1477
+	jnz .1485
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1477:
+.1485:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _global_token_stream
@@ -3175,7 +3175,7 @@ error.Tok:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_13
+	mov rbx, _slit_20
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -3192,7 +3192,7 @@ error.Tok:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_14
+	mov rbx, _slit_21
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -3212,7 +3212,7 @@ error.Tok:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, _slit_38
+	mov rsi, _slit_45
 	mov rdi, 1
 	mov r8, 1
 	mov rax, r8
@@ -3259,7 +3259,7 @@ error.Tok.to_string_view:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 21]
-	mov rbx, _slit_160
+	mov rbx, _slit_167
 	mov rdi, 3
 	push rsi
 	push rbx
@@ -3281,7 +3281,7 @@ error.Tok.to_string_view:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 21]
-	mov rbx, _slit_161
+	mov rbx, _slit_168
 	mov rdi, 4
 	push rsi
 	push rbx
@@ -3301,15 +3301,15 @@ error.Tok.to_string_view:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1478
+	jnz .1486
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1478:
+.1486:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _global_token_stream
@@ -3335,7 +3335,7 @@ error.Tok.to_string_view:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 21]
-	mov rbx, _slit_162
+	mov rbx, _slit_169
 	mov rdi, 1
 	push rsi
 	push rbx
@@ -3374,7 +3374,7 @@ error.Tok.to_string_view:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 21]
-	mov rbx, _slit_163
+	mov rbx, _slit_170
 	mov rdi, 1
 	push rsi
 	push rbx
@@ -3413,7 +3413,7 @@ error.Tok.to_string_view:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 21]
-	mov rbx, _slit_164
+	mov rbx, _slit_171
 	mov rdi, 2
 	push rsi
 	push rbx
@@ -3435,7 +3435,7 @@ error.Tok.to_string_view:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 21]
-	mov rbx, _slit_165
+	mov rbx, _slit_172
 	mov rdi, 4
 	push rsi
 	push rbx
@@ -3457,7 +3457,7 @@ error.Tok.to_string_view:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 21]
-	mov rbx, _slit_166
+	mov rbx, _slit_173
 	mov rdi, 4
 	push rsi
 	push rbx
@@ -3881,7 +3881,7 @@ stas.scan_file:
 	mov rdi, qword [rbx + 99]
 	mov rbx, qword [_rs_p]
 	mov r8, qword [rbx + 16]
-	mov rbx, _slit_34
+	mov rbx, _slit_41
 	mov r9, 27
 	push rsi
 	push rdi
@@ -4075,7 +4075,7 @@ stas.scan_file:
 	mov rdi, qword [rbx + 57]
 	mov rbx, qword [_rs_p]
 	mov r8, qword [rbx + 16]
-	mov rbx, _slit_39
+	mov rbx, _slit_46
 	mov r9, 31
 	push rsi
 	push rdi
@@ -4195,7 +4195,7 @@ stas.scan_file:
 	mov rdi, qword [rbx + 57]
 	mov rbx, qword [_rs_p]
 	mov r8, qword [rbx + 16]
-	mov rbx, _slit_40
+	mov rbx, _slit_47
 	mov r9, 26
 	push rsi
 	push rdi
@@ -4405,7 +4405,7 @@ stas.scan_file:
 	mov rdi, qword [rbx + 75]
 	mov rbx, qword [_rs_p]
 	mov r8, qword [rbx + 16]
-	mov rbx, _slit_42
+	mov rbx, _slit_49
 	mov r9, 31
 	push rsi
 	push rdi
@@ -4457,7 +4457,7 @@ stas.scan_file:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 132]
 	mov rdi, qword [rbx + 124]
-	mov rbx, _slit_43
+	mov rbx, _slit_50
 	mov r8, 7
 	push rsi
 	push rdi
@@ -4545,7 +4545,7 @@ stas.scan_file:
 	mov rdi, qword [rbx + 57]
 	mov rbx, qword [_rs_p]
 	mov r8, qword [rbx + 16]
-	mov rbx, _slit_110
+	mov rbx, _slit_117
 	mov r9, 43
 	push rsi
 	push rdi
@@ -4600,15 +4600,15 @@ ir_stream_c_c:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1479
+	jnz .1487
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_137
-	mov rdx, 71
+	mov rsi, _slit_144
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1479:
+.1487:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -4662,15 +4662,15 @@ var_context_c_c:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1480
+	jnz .1488
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_173
-	mov rdx, 71
+	mov rsi, _slit_180
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1480:
+.1488:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -4736,15 +4736,15 @@ scope_context_c_c:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1481
+	jnz .1489
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_188
-	mov rdx, 71
+	mov rsi, _slit_195
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1481:
+.1489:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -4816,15 +4816,15 @@ functions_c_c:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1482
+	jnz .1490
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_136
-	mov rdx, 71
+	mov rsi, _slit_143
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1482:
+.1490:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -4872,15 +4872,15 @@ toplevel_constants_c_c:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1483
+	jnz .1491
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_123
-	mov rdx, 71
+	mov rsi, _slit_130
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1483:
+.1491:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -4934,15 +4934,15 @@ global_var_context_c_c:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1484
+	jnz .1492
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_146
-	mov rdx, 71
+	mov rsi, _slit_153
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1484:
+.1492:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -4958,15 +4958,15 @@ const_stack_c_c:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1485
+	jnz .1493
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_150
-	mov rdx, 63
+	mov rsi, _slit_157
+	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1485:
+.1493:
 	mov rbx, qword _global_const_stack
 	mov rsi, qword _global_const_stack.len
 	mov rdi, qword [rsi + 0]
@@ -4996,15 +4996,15 @@ const_stack.top:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1486
+	jnz .1494
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_152
-	mov rdx, 64
+	mov rsi, _slit_159
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1486:
+.1494:
 	mov rbx, qword _global_const_stack
 	mov rsi, qword _global_const_stack.len
 	mov rdi, qword [rsi + 0]
@@ -5030,15 +5030,15 @@ const_stack.top_e:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1487
+	jnz .1495
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_151
-	mov rdx, 64
+	mov rsi, _slit_158
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1487:
+.1495:
 	mov rbx, qword _global_const_stack
 	mov rsi, qword _global_const_stack.len
 	mov rdi, qword [rsi + 0]
@@ -5066,15 +5066,15 @@ eval_one_inst:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1488
+	jnz .1496
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1488:
+.1496:
 	mov rdi, 16
 	imul rsi, rdi
 	mov rdi, qword _global_ir_stream
@@ -5093,15 +5093,15 @@ eval_one_inst:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1489
+	jnz .1497
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1489:
+.1497:
 	mov rdi, 16
 	imul rbx, rdi
 	mov rdi, qword _global_ir_stream
@@ -6623,15 +6623,15 @@ sp_c_c:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1490
+	jnz .1498
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_140
-	mov rdx, 66
+	mov rsi, _slit_147
+	mov rdx, 61
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1490:
+.1498:
 	mov rbx, qword _global_sp
 	mov rsi, qword _global_sp.len
 	mov rdi, qword [rsi + 0]
@@ -6715,7 +6715,7 @@ sp_assert:
 	jz .626
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_170
+	mov rbx, _slit_177
 	mov rdi, 42
 	push rsi
 	push rbx
@@ -6804,15 +6804,15 @@ is_global_var_name:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1491
+	jnz .1499
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_120
-	mov rdx, 71
+	mov rsi, _slit_127
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1491:
+.1499:
 	mov rdi, 24
 	imul rsi, rdi
 	mov rdi, qword _global_global_var_context
@@ -6913,15 +6913,15 @@ is_constant_name:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1492
+	jnz .1500
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_119
-	mov rdx, 71
+	mov rsi, _slit_126
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1492:
+.1500:
 	mov rdi, 24
 	imul rsi, rdi
 	mov rdi, qword _global_toplevel_constants
@@ -7020,15 +7020,15 @@ is_function_name:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1493
+	jnz .1501
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_117
-	mov rdx, 71
+	mov rsi, _slit_124
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1493:
+.1501:
 	mov rdi, 30
 	imul rsi, rdi
 	mov rdi, qword _global_functions
@@ -7124,15 +7124,15 @@ search_variable_name:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1494
+	jnz .1502
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_171
-	mov rdx, 71
+	mov rsi, _slit_178
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1494:
+.1502:
 	mov rdi, 24
 	imul rsi, rdi
 	mov rdi, qword _global_var_context
@@ -7208,15 +7208,15 @@ replace_as_constant:
 	mov r8, rax
 	mov rax, r8
 	test al, al
-	jnz .1495
+	jnz .1503
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1495:
+.1503:
 	mov r8, 28
 	imul rdi, r8
 	mov r8, qword _global_token_stream
@@ -7232,15 +7232,15 @@ replace_as_constant:
 	mov r8, rax
 	mov rax, r8
 	test al, al
-	jnz .1496
+	jnz .1504
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_119
-	mov rdx, 71
+	mov rsi, _slit_126
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1496:
+.1504:
 	mov r8, 24
 	imul r9, r8
 	mov r8, qword _global_toplevel_constants
@@ -7259,15 +7259,15 @@ replace_as_constant:
 	mov r8, rax
 	mov rax, r8
 	test al, al
-	jnz .1497
+	jnz .1505
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1497:
+.1505:
 	mov r8, 28
 	imul r9, r8
 	mov r8, qword _global_token_stream
@@ -7293,15 +7293,15 @@ replace_as_constant:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1498
+	jnz .1506
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1498:
+.1506:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _global_token_stream
@@ -7320,15 +7320,15 @@ replace_as_constant:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1499
+	jnz .1507
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1499:
+.1507:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _global_token_stream
@@ -7346,15 +7346,15 @@ replace_as_constant:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1500
+	jnz .1508
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_119
-	mov rdx, 71
+	mov rsi, _slit_126
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1500:
+.1508:
 	mov rsi, 24
 	imul rdi, rsi
 	mov rsi, qword _global_toplevel_constants
@@ -7391,15 +7391,15 @@ parse.fn_decl:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1501
+	jnz .1509
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_125
-	mov rdx, 71
+	mov rsi, _slit_132
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1501:
+.1509:
 	mov rbx, qword _global_scope_context.len
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
@@ -7413,15 +7413,15 @@ parse.fn_decl:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1502
+	jnz .1510
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_126
-	mov rdx, 71
+	mov rsi, _slit_133
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1502:
+.1510:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_scope_context
@@ -7430,7 +7430,7 @@ parse.fn_decl:
 	add rsi, rbx
 	mov rax, rsi
 	mov eax, [rax]
-	mov rbx, _slit_127
+	mov rbx, _slit_134
 	mov rsi, 38
 	push rax
 	push rbx
@@ -7464,7 +7464,7 @@ parse.fn_decl:
 	jz .656
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_128
+	mov rbx, _slit_135
 	mov rdi, 36
 	push rsi
 	push rbx
@@ -7488,15 +7488,15 @@ parse.fn_decl:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1503
+	jnz .1511
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1503:
+.1511:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -7518,7 +7518,7 @@ parse.fn_decl:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	add rsi, rbx
-	mov rbx, _slit_129
+	mov rbx, _slit_136
 	mov rdi, 38
 	push rsi
 	push rbx
@@ -7542,15 +7542,15 @@ parse.fn_decl:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1504
+	jnz .1512
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1504:
+.1512:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -7578,15 +7578,15 @@ parse.fn_decl:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1505
+	jnz .1513
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1505:
+.1513:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -7606,7 +7606,7 @@ parse.fn_decl:
 	jz .660
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_130
+	mov rbx, _slit_137
 	mov rdi, 51
 	push rsi
 	push rbx
@@ -7630,15 +7630,15 @@ parse.fn_decl:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1506
+	jnz .1514
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1506:
+.1514:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -7658,7 +7658,7 @@ parse.fn_decl:
 	jz .662
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_131
+	mov rbx, _slit_138
 	mov rdi, 44
 	push rsi
 	push rbx
@@ -7682,15 +7682,15 @@ parse.fn_decl:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1507
+	jnz .1515
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1507:
+.1515:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -7721,7 +7721,7 @@ parse.fn_decl:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	add rsi, rbx
-	mov rbx, _slit_132
+	mov rbx, _slit_139
 	mov rdi, 23
 	push rsi
 	push rbx
@@ -7769,7 +7769,7 @@ parse.fn_decl:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	add rsi, rbx
-	mov rbx, _slit_133
+	mov rbx, _slit_140
 	mov rdi, 45
 	push rsi
 	push rbx
@@ -7793,15 +7793,15 @@ parse.fn_decl:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1508
+	jnz .1516
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1508:
+.1516:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -7824,15 +7824,15 @@ parse.fn_decl:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1509
+	jnz .1517
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1509:
+.1517:
 	mov rbx, 28
 	imul rdi, rbx
 	mov rbx, qword _global_token_stream
@@ -7880,7 +7880,7 @@ parse.fn_decl:
 	add rsi, rbx
 	pop rbx
 	mov rbx, [rbx]
-	mov rdi, _slit_134
+	mov rdi, _slit_141
 	mov r8, 4
 	push rsi
 	push rbx
@@ -7913,7 +7913,7 @@ parse.fn_decl:
 	jz .670
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_135
+	mov rbx, _slit_142
 	mov rdi, 52
 	push rsi
 	push rbx
@@ -7966,15 +7966,15 @@ parse.fn_decl:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1510
+	jnz .1518
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_138
-	mov rdx, 67
+	mov rsi, _slit_145
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1510:
+.1518:
 	mov rbx, qword _global_var_context.len
 	mov rsi, qword [rbx + 0]
 	mov rbx, 0
@@ -7984,15 +7984,15 @@ parse.fn_decl:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1511
+	jnz .1519
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_139
-	mov rdx, 67
+	mov rsi, _slit_146
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1511:
+.1519:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	mov rbx, qword [_rs_p]
@@ -8035,7 +8035,7 @@ parse.any_variable:
 	jz .673
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_141
+	mov rbx, _slit_148
 	mov rdi, 41
 	push rsi
 	push rbx
@@ -8057,15 +8057,15 @@ parse.any_variable:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1512
+	jnz .1520
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1512:
+.1520:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -8103,15 +8103,15 @@ parse.any_variable:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1513
+	jnz .1521
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1513:
+.1521:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -8135,7 +8135,7 @@ parse.any_variable:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	add rsi, rbx
-	mov rbx, _slit_142
+	mov rbx, _slit_149
 	mov rdi, 38
 	push rsi
 	push rbx
@@ -8173,7 +8173,7 @@ parse.any_variable:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	add rsi, rbx
-	mov rbx, _slit_143
+	mov rbx, _slit_150
 	mov rdi, 36
 	push rsi
 	push rbx
@@ -8195,15 +8195,15 @@ parse.any_variable:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1514
+	jnz .1522
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1514:
+.1522:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -8232,15 +8232,15 @@ parse.any_variable:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1515
+	jnz .1523
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1515:
+.1523:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -8291,15 +8291,15 @@ parse.any_variable:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1516
+	jnz .1524
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1516:
+.1524:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -8319,7 +8319,7 @@ parse.any_variable:
 	jz .686
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_144
+	mov rbx, _slit_151
 	mov rdi, 40
 	push rsi
 	push rbx
@@ -8343,15 +8343,15 @@ parse.any_variable:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1517
+	jnz .1525
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1517:
+.1525:
 	mov rbx, 28
 	imul rdi, rbx
 	mov rbx, qword _global_token_stream
@@ -8381,15 +8381,15 @@ parse.any_variable:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1518
+	jnz .1526
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1518:
+.1526:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -8411,15 +8411,15 @@ parse.any_variable:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1519
+	jnz .1527
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1519:
+.1527:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -8450,15 +8450,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1520
+	jnz .1528
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1520:
+.1528:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -8532,15 +8532,15 @@ parse.fn_complex_body_tokens:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1521
+	jnz .1529
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_171
-	mov rdx, 71
+	mov rsi, _slit_178
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1521:
+.1529:
 	mov rdi, 24
 	imul rsi, rdi
 	mov rdi, qword _global_var_context
@@ -8572,7 +8572,7 @@ parse.fn_complex_body_tokens:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	sub rsi, rbx
-	mov rbx, _slit_172
+	mov rbx, _slit_179
 	mov rdi, 23
 	push rsi
 	push rbx
@@ -8684,7 +8684,7 @@ parse.fn_complex_body_tokens:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	sub rsi, rbx
-	mov rbx, _slit_174
+	mov rbx, _slit_181
 	mov rdi, 31
 	push rsi
 	push rbx
@@ -8706,15 +8706,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1522
+	jnz .1530
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1522:
+.1530:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -8734,7 +8734,7 @@ parse.fn_complex_body_tokens:
 	jz .705
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_175
+	mov rbx, _slit_182
 	mov rdi, 23
 	push rsi
 	push rbx
@@ -8756,15 +8756,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1523
+	jnz .1531
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1523:
+.1531:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -8812,15 +8812,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1524
+	jnz .1532
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_171
-	mov rdx, 71
+	mov rsi, _slit_178
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1524:
+.1532:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _global_var_context
@@ -8842,7 +8842,7 @@ parse.fn_complex_body_tokens:
 	jz .709
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_176
+	mov rbx, _slit_183
 	mov rdi, 24
 	push rsi
 	push rbx
@@ -8894,7 +8894,7 @@ parse.fn_complex_body_tokens:
 	jz .713
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_177
+	mov rbx, _slit_184
 	mov rdi, 65
 	push rsi
 	push rbx
@@ -8940,15 +8940,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, 0
 	mov rax, rbx
 	test al, al
-	jnz .1525
+	jnz .1533
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_178
-	mov rdx, 66
+	mov rsi, _slit_185
+	mov rdx, 61
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1525:
+.1533:
 .715:
 .710:
 	mov rbx, 1
@@ -8996,15 +8996,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1526
+	jnz .1534
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_120
-	mov rdx, 71
+	mov rsi, _slit_127
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1526:
+.1534:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _global_global_var_context
@@ -9026,7 +9026,7 @@ parse.fn_complex_body_tokens:
 	jz .720
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_179
+	mov rbx, _slit_186
 	mov rdi, 24
 	push rsi
 	push rbx
@@ -9078,7 +9078,7 @@ parse.fn_complex_body_tokens:
 	jz .724
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_180
+	mov rbx, _slit_187
 	mov rdi, 65
 	push rsi
 	push rbx
@@ -9114,15 +9114,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, 0
 	mov rax, rbx
 	test al, al
-	jnz .1527
+	jnz .1535
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_181
-	mov rdx, 66
+	mov rsi, _slit_188
+	mov rdx, 61
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1527:
+.1535:
 .726:
 .721:
 	mov rbx, 1
@@ -9141,7 +9141,7 @@ parse.fn_complex_body_tokens:
 	jz .727
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_182
+	mov rbx, _slit_189
 	mov rdi, 21
 	push rsi
 	push rbx
@@ -9176,15 +9176,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1528
+	jnz .1536
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1528:
+.1536:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -9247,15 +9247,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1529
+	jnz .1537
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_117
-	mov rdx, 71
+	mov rsi, _slit_124
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1529:
+.1537:
 	mov rbx, 30
 	imul rdi, rbx
 	mov rbx, qword _global_functions
@@ -9272,7 +9272,7 @@ parse.fn_complex_body_tokens:
 	jz .733
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_183
+	mov rbx, _slit_190
 	mov rdi, 46
 	push rsi
 	push rbx
@@ -9294,15 +9294,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1530
+	jnz .1538
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_117
-	mov rdx, 71
+	mov rsi, _slit_124
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1530:
+.1538:
 	mov rbx, 30
 	imul rsi, rbx
 	mov rbx, qword _global_functions
@@ -9321,15 +9321,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1531
+	jnz .1539
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_117
-	mov rdx, 71
+	mov rsi, _slit_124
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1531:
+.1539:
 	mov rbx, 30
 	imul rsi, rbx
 	mov rbx, qword _global_functions
@@ -9390,15 +9390,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1532
+	jnz .1540
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_171
-	mov rdx, 71
+	mov rsi, _slit_178
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1532:
+.1540:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _global_var_context
@@ -9513,15 +9513,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, 0
 	mov rax, rbx
 	test al, al
-	jnz .1533
+	jnz .1541
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_184
-	mov rdx, 66
+	mov rsi, _slit_191
+	mov rdx, 61
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1533:
+.1541:
 .743:
 .740:
 	mov rbx, 1
@@ -9570,15 +9570,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1534
+	jnz .1542
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_120
-	mov rdx, 71
+	mov rsi, _slit_127
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1534:
+.1542:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _global_global_var_context
@@ -9674,15 +9674,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, 0
 	mov rax, rbx
 	test al, al
-	jnz .1535
+	jnz .1543
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_185
-	mov rdx, 66
+	mov rsi, _slit_192
+	mov rdx, 61
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1535:
+.1543:
 .752:
 .749:
 	mov rbx, 1
@@ -9774,7 +9774,7 @@ parse.fn_complex_body_tokens:
 	jz .759
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_186
+	mov rbx, _slit_193
 	mov rdi, 33
 	push rsi
 	push rbx
@@ -9810,7 +9810,7 @@ parse.fn_complex_body_tokens:
 	jz .763
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_187
+	mov rbx, _slit_194
 	mov rdi, 45
 	push rsi
 	push rbx
@@ -9895,7 +9895,7 @@ parse.fn_complex_body_tokens:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	sub rsi, rbx
-	mov rbx, _slit_189
+	mov rbx, _slit_196
 	mov rdi, 40
 	push rsi
 	push rbx
@@ -9917,15 +9917,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1536
+	jnz .1544
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1536:
+.1544:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -9945,7 +9945,7 @@ parse.fn_complex_body_tokens:
 	jz .767
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_190
+	mov rbx, _slit_197
 	mov rdi, 39
 	push rsi
 	push rbx
@@ -10038,7 +10038,7 @@ parse.fn_complex_body_tokens:
 	jz .773
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_191
+	mov rbx, _slit_198
 	mov rdi, 26
 	push rsi
 	push rbx
@@ -10073,15 +10073,15 @@ parse.fn_complex_body_tokens:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1537
+	jnz .1545
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_126
-	mov rdx, 71
+	mov rsi, _slit_133
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1537:
+.1545:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _global_scope_context
@@ -10154,7 +10154,7 @@ parse.fn_complex_body_tokens:
 	jz .781
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_192
+	mov rbx, _slit_199
 	mov rdi, 26
 	push rsi
 	push rbx
@@ -10190,7 +10190,7 @@ parse.fn_complex_body_tokens:
 	jz .785
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_193
+	mov rbx, _slit_200
 	mov rdi, 26
 	push rsi
 	push rbx
@@ -10225,15 +10225,15 @@ parse.fn_complex_body_tokens:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1538
+	jnz .1546
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_126
-	mov rdx, 71
+	mov rsi, _slit_133
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1538:
+.1546:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _global_scope_context
@@ -10262,15 +10262,15 @@ parse.fn_complex_body_tokens:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1539
+	jnz .1547
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_126
-	mov rdx, 71
+	mov rsi, _slit_133
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1539:
+.1547:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _global_scope_context
@@ -10286,15 +10286,15 @@ parse.fn_complex_body_tokens:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1540
+	jnz .1548
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_194
-	mov rdx, 67
+	mov rsi, _slit_201
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1540:
+.1548:
 	mov rdi, 12
 	mov r8, 16
 	add rsi, r8
@@ -10346,7 +10346,7 @@ parse.fn_complex_body_tokens:
 	jz .793
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_195
+	mov rbx, _slit_202
 	mov rdi, 26
 	push rsi
 	push rbx
@@ -10389,15 +10389,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1541
+	jnz .1549
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_125
-	mov rdx, 71
+	mov rsi, _slit_132
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1541:
+.1549:
 	mov rbx, qword _global_scope_context.len
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
@@ -10411,15 +10411,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1542
+	jnz .1550
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_126
-	mov rdx, 71
+	mov rsi, _slit_133
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1542:
+.1550:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_scope_context
@@ -10449,7 +10449,7 @@ parse.fn_complex_body_tokens:
 	jz .801
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_196
+	mov rbx, _slit_203
 	mov rdi, 45
 	push rsi
 	push rbx
@@ -10533,15 +10533,15 @@ parse.fn_complex_body_tokens:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1543
+	jnz .1551
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_125
-	mov rdx, 71
+	mov rsi, _slit_132
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1543:
+.1551:
 	mov rsi, qword _global_scope_context.len
 	mov rdi, qword [rsi + 0]
 	mov rsi, 1
@@ -10555,15 +10555,15 @@ parse.fn_complex_body_tokens:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1544
+	jnz .1552
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_126
-	mov rdx, 71
+	mov rsi, _slit_133
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1544:
+.1552:
 	mov rsi, 28
 	imul rdi, rsi
 	mov rsi, qword _global_scope_context
@@ -10594,7 +10594,7 @@ parse.fn_complex_body_tokens:
 	jz .805
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_197
+	mov rbx, _slit_204
 	mov rdi, 50
 	push rsi
 	push rbx
@@ -10756,15 +10756,15 @@ parse.fn_complex_body_tokens:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1545
+	jnz .1553
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_125
-	mov rdx, 71
+	mov rsi, _slit_132
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1545:
+.1553:
 	mov rsi, qword _global_scope_context.len
 	mov rdi, qword [rsi + 0]
 	mov rsi, 1
@@ -10778,15 +10778,15 @@ parse.fn_complex_body_tokens:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1546
+	jnz .1554
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_126
-	mov rdx, 71
+	mov rsi, _slit_133
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1546:
+.1554:
 	mov rsi, 28
 	imul rdi, rsi
 	mov rsi, qword _global_scope_context
@@ -10840,15 +10840,15 @@ parse.fn_complex_body_tokens:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1547
+	jnz .1555
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_125
-	mov rdx, 71
+	mov rsi, _slit_132
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1547:
+.1555:
 	mov rsi, qword _global_scope_context.len
 	mov rdi, qword [rsi + 0]
 	mov rsi, 1
@@ -10862,15 +10862,15 @@ parse.fn_complex_body_tokens:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1548
+	jnz .1556
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_126
-	mov rdx, 71
+	mov rsi, _slit_133
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1548:
+.1556:
 	mov rsi, 28
 	imul rdi, rsi
 	mov rsi, qword _global_scope_context
@@ -10971,7 +10971,7 @@ parse.fn_complex_body_tokens:
 	add rbx, rsi
 	mov rax, rbx
 	mov eax, [rax]
-	mov rbx, _slit_198
+	mov rbx, _slit_205
 	mov rsi, 84
 	push rax
 	push rbx
@@ -11005,7 +11005,7 @@ parse.fn_complex_body_tokens:
 	add rbx, rsi
 	mov rax, rbx
 	mov eax, [rax]
-	mov rbx, _slit_199
+	mov rbx, _slit_206
 	mov rsi, 84
 	push rax
 	push rbx
@@ -11053,15 +11053,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1549
+	jnz .1557
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1549:
+.1557:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -11157,7 +11157,7 @@ parse.fn_complex_body_tokens:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	sub rsi, rbx
-	mov rbx, _slit_200
+	mov rbx, _slit_207
 	mov rdi, 42
 	push rsi
 	push rbx
@@ -11179,15 +11179,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1550
+	jnz .1558
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1550:
+.1558:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -11207,7 +11207,7 @@ parse.fn_complex_body_tokens:
 	jz .829
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_201
+	mov rbx, _slit_208
 	mov rdi, 41
 	push rsi
 	push rbx
@@ -11260,15 +11260,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1551
+	jnz .1559
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1551:
+.1559:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -11392,7 +11392,7 @@ parse.fn_complex_body_tokens:
 	jz .834
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_202
+	mov rbx, _slit_209
 	mov rdi, 51
 	push rsi
 	push rbx
@@ -11458,15 +11458,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1552
+	jnz .1560
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1552:
+.1560:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -11507,15 +11507,15 @@ parse.fn_complex_body_tokens:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1553
+	jnz .1561
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1553:
+.1561:
 	mov rdi, 28
 	imul r8, rdi
 	mov rdi, qword _global_token_stream
@@ -11558,15 +11558,15 @@ parse.fn_complex_body_tokens:
 	mov rsi, 0
 	mov rax, rsi
 	test al, al
-	jnz .1554
+	jnz .1562
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_203
-	mov rdx, 82
+	mov rsi, _slit_210
+	mov rdx, 77
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1554:
+.1562:
 	push rbx
 .844:
 .841:
@@ -11632,7 +11632,7 @@ parse.fn_complex_body_tokens:
 	jz .845
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_204
+	mov rbx, _slit_211
 	mov rdi, 55
 	push rsi
 	push rbx
@@ -11697,15 +11697,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1555
+	jnz .1563
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1555:
+.1563:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -11743,7 +11743,7 @@ parse.fn_complex_body_tokens:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	sub rsi, rbx
-	mov rbx, _slit_205
+	mov rbx, _slit_212
 	mov rdi, 42
 	push rsi
 	push rbx
@@ -11765,15 +11765,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1556
+	jnz .1564
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1556:
+.1564:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -11793,7 +11793,7 @@ parse.fn_complex_body_tokens:
 	jz .851
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_206
+	mov rbx, _slit_213
 	mov rdi, 41
 	push rsi
 	push rbx
@@ -11825,7 +11825,7 @@ parse.fn_complex_body_tokens:
 	jz .854
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_207
+	mov rbx, _slit_214
 	mov rdi, 51
 	push rsi
 	push rbx
@@ -11906,7 +11906,7 @@ parse.fn_complex_body_tokens:
 	add rbx, rsi
 	mov rax, rbx
 	mov eax, [rax]
-	mov rbx, _slit_208
+	mov rbx, _slit_215
 	mov rsi, 94
 	push rax
 	push rbx
@@ -11940,7 +11940,7 @@ parse.fn_complex_body_tokens:
 	add rbx, rsi
 	mov rax, rbx
 	mov eax, [rax]
-	mov rbx, _slit_209
+	mov rbx, _slit_216
 	mov rsi, 94
 	push rax
 	push rbx
@@ -12007,15 +12007,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, 0
 	mov rax, rbx
 	test al, al
-	jnz .1557
+	jnz .1565
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_210
-	mov rdx, 81
+	mov rsi, _slit_217
+	mov rdx, 76
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1557:
+.1565:
 .864:
 .814:
 	add rsp, 8
@@ -12074,22 +12074,22 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1558
+	jnz .1566
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1558:
+.1566:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _global_ir_stream
 	add rsi, rbx
 	mov rax, rsi
 	mov eax, [rax]
-	mov rbx, _slit_211
+	mov rbx, _slit_218
 	mov rsi, 27
 	push rax
 	push rbx
@@ -12133,22 +12133,22 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1559
+	jnz .1567
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1559:
+.1567:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _global_ir_stream
 	add rsi, rbx
 	mov rax, rsi
 	mov eax, [rax]
-	mov rbx, _slit_212
+	mov rbx, _slit_219
 	mov rsi, 49
 	push rax
 	push rbx
@@ -12231,22 +12231,22 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1560
+	jnz .1568
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1560:
+.1568:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _global_ir_stream
 	add rsi, rbx
 	mov rax, rsi
 	mov eax, [rax]
-	mov rbx, _slit_213
+	mov rbx, _slit_220
 	mov rsi, 27
 	push rax
 	push rbx
@@ -12290,22 +12290,22 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1561
+	jnz .1569
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1561:
+.1569:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _global_ir_stream
 	add rsi, rbx
 	mov rax, rsi
 	mov eax, [rax]
-	mov rbx, _slit_214
+	mov rbx, _slit_221
 	mov rsi, 49
 	push rax
 	push rbx
@@ -12336,15 +12336,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1562
+	jnz .1570
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_125
-	mov rdx, 71
+	mov rsi, _slit_132
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1562:
+.1570:
 	mov rbx, qword _global_scope_context.len
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
@@ -12358,15 +12358,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1563
+	jnz .1571
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_126
-	mov rdx, 71
+	mov rsi, _slit_133
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1563:
+.1571:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_scope_context
@@ -12391,15 +12391,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1564
+	jnz .1572
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_125
-	mov rdx, 71
+	mov rsi, _slit_132
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1564:
+.1572:
 	mov rbx, qword _global_scope_context.len
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
@@ -12413,15 +12413,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1565
+	jnz .1573
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_126
-	mov rdx, 71
+	mov rsi, _slit_133
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1565:
+.1573:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_scope_context
@@ -12477,7 +12477,7 @@ parse.fn_complex_body_tokens:
 	jz .882
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 292]
-	mov rbx, _slit_215
+	mov rbx, _slit_222
 	mov rdi, 41
 	push rsi
 	push rbx
@@ -12501,15 +12501,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1566
+	jnz .1574
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1566:
+.1574:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -12533,7 +12533,7 @@ parse.fn_complex_body_tokens:
 	mov rsi, qword [rbx + 292]
 	mov rbx, 1
 	add rsi, rbx
-	mov rbx, _slit_216
+	mov rbx, _slit_223
 	mov rdi, 52
 	push rsi
 	push rbx
@@ -12586,15 +12586,15 @@ parse.fn_complex_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1567
+	jnz .1575
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1567:
+.1575:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -12614,7 +12614,7 @@ parse.fn_complex_body_tokens:
 	jz .886
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_217
+	mov rbx, _slit_224
 	mov rdi, 49
 	push rsi
 	push rbx
@@ -12650,15 +12650,15 @@ parse.fn_complex_body_tokens:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1568
+	jnz .1576
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1568:
+.1576:
 	mov rsi, 28
 	imul rdi, rsi
 	mov rsi, qword _global_token_stream
@@ -13304,7 +13304,7 @@ parse.fn_complex_body_tokens:
 .925:
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_218
+	mov rbx, _slit_225
 	mov rdi, 28
 	push rsi
 	push rbx
@@ -13337,7 +13337,7 @@ parse.assert:
 	jz .927
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_158
+	mov rbx, _slit_165
 	mov rdi, 42
 	push rsi
 	push rbx
@@ -13382,15 +13382,15 @@ parse.assert:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1569
+	jnz .1577
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1569:
+.1577:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -13418,15 +13418,15 @@ parse.assert:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1570
+	jnz .1578
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1570:
+.1578:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -13451,7 +13451,7 @@ parse.assert:
 .929:
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_159
+	mov rbx, _slit_166
 	mov rdi, 0
 	push rsi
 	push rbx
@@ -13471,7 +13471,7 @@ parse.assert:
 	jz .933
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
-	mov rbx, _slit_167
+	mov rbx, _slit_174
 	mov rdi, 21
 	push rsi
 	push rbx
@@ -13496,15 +13496,15 @@ parse.assert:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1571
+	jnz .1579
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1571:
+.1579:
 	mov rbx, 28
 	imul rdi, rbx
 	mov rbx, qword _global_token_stream
@@ -13526,7 +13526,7 @@ parse.assert:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
-	mov rbx, _slit_168
+	mov rbx, _slit_175
 	mov rdi, 2
 	push rsi
 	push rbx
@@ -13567,7 +13567,7 @@ parse.assert:
 .933:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
-	mov rbx, _slit_169
+	mov rbx, _slit_176
 	mov rdi, 19
 	push rsi
 	push rbx
@@ -13617,15 +13617,15 @@ parse.fn_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1572
+	jnz .1580
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1572:
+.1580:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -13675,15 +13675,15 @@ parse.fn_body_tokens:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1573
+	jnz .1581
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1573:
+.1581:
 	mov rsi, 28
 	imul rdi, rsi
 	mov rsi, qword _global_token_stream
@@ -14829,15 +14829,15 @@ parse.fn_body_tokens:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1574
+	jnz .1582
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1574:
+.1582:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -14857,7 +14857,7 @@ parse.fn_body_tokens:
 	jz .1008
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_219
+	mov rbx, _slit_226
 	mov rdi, 62
 	push rsi
 	push rbx
@@ -14870,7 +14870,7 @@ parse.fn_body_tokens:
 .1008:
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_220
+	mov rbx, _slit_227
 	mov rdi, 33
 	push rsi
 	push rbx
@@ -14914,7 +14914,7 @@ parse.const_expression:
 	jz .1010
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_112
+	mov rbx, _slit_119
 	mov rdi, 47
 	push rsi
 	push rbx
@@ -14938,15 +14938,15 @@ parse.const_expression:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1575
+	jnz .1583
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1575:
+.1583:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -14968,7 +14968,7 @@ parse.const_expression:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	add rsi, rbx
-	mov rbx, _slit_116
+	mov rbx, _slit_123
 	mov rdi, 50
 	push rsi
 	push rbx
@@ -14992,15 +14992,15 @@ parse.const_expression:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1576
+	jnz .1584
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1576:
+.1584:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -15031,7 +15031,7 @@ parse.const_expression:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	add rsi, rbx
-	mov rbx, _slit_118
+	mov rbx, _slit_125
 	mov rdi, 60
 	push rsi
 	push rbx
@@ -15079,7 +15079,7 @@ parse.const_expression:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	add rsi, rbx
-	mov rbx, _slit_121
+	mov rbx, _slit_128
 	mov rdi, 61
 	push rsi
 	push rbx
@@ -15101,15 +15101,15 @@ parse.const_expression:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1577
+	jnz .1585
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1577:
+.1585:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -15129,7 +15129,7 @@ parse.const_expression:
 	jz .1018
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_122
+	mov rbx, _slit_129
 	mov rdi, 43
 	push rsi
 	push rbx
@@ -15170,15 +15170,15 @@ parse.const_expression:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1578
+	jnz .1586
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_124
-	mov rdx, 68
+	mov rsi, _slit_131
+	mov rdx, 63
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1578:
+.1586:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 16
@@ -15233,15 +15233,15 @@ stas.parse:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1579
+	jnz .1587
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1579:
+.1587:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -15344,7 +15344,7 @@ stas.parse:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	sub rsi, rbx
-	mov rbx, _slit_145
+	mov rbx, _slit_152
 	mov rdi, 33
 	push rsi
 	push rbx
@@ -15375,7 +15375,7 @@ stas.parse:
 .1029:
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_147
+	mov rbx, _slit_154
 	mov rdi, 22
 	push rsi
 	push rbx
@@ -15411,15 +15411,15 @@ stas.parse:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1580
+	jnz .1588
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1580:
+.1588:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -15451,15 +15451,15 @@ stas.parse:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1581
+	jnz .1589
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_148
-	mov rdx, 71
+	mov rsi, _slit_155
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1581:
+.1589:
 	mov rdi, qword _global_toplevel_constants.len
 	mov r8, qword [rdi + 0]
 	mov rdi, 1
@@ -15473,15 +15473,15 @@ stas.parse:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1582
+	jnz .1590
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_119
-	mov rdx, 71
+	mov rsi, _slit_126
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1582:
+.1590:
 	mov rdi, 24
 	imul r8, rdi
 	mov rdi, qword _global_toplevel_constants
@@ -15515,15 +15515,15 @@ stas.parse:
 	mov rsp, rbp
 	pop rax
 	test al, al
-	jnz .1583
+	jnz .1591
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_153
-	mov rdx, 83
+	mov rsi, _slit_160
+	mov rdx, 78
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1583:
+.1591:
 	pop rbx
 	inc rbx
 	push rbx
@@ -15549,15 +15549,15 @@ stas.parse:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1584
+	jnz .1592
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_148
-	mov rdx, 71
+	mov rsi, _slit_155
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1584:
+.1592:
 	mov rbx, qword _global_toplevel_constants.len
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
@@ -15571,15 +15571,15 @@ stas.parse:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1585
+	jnz .1593
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_119
-	mov rdx, 71
+	mov rsi, _slit_126
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1585:
+.1593:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _global_toplevel_constants
@@ -15588,7 +15588,7 @@ stas.parse:
 	add rsi, rbx
 	mov rax, rsi
 	mov eax, [rax]
-	mov rbx, _slit_154
+	mov rbx, _slit_161
 	mov rsi, 40
 	push rax
 	push rbx
@@ -15618,15 +15618,15 @@ stas.parse:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1586
+	jnz .1594
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_148
-	mov rdx, 71
+	mov rsi, _slit_155
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1586:
+.1594:
 	mov rbx, qword _global_toplevel_constants.len
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
@@ -15640,15 +15640,15 @@ stas.parse:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1587
+	jnz .1595
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_119
-	mov rdx, 71
+	mov rsi, _slit_126
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1587:
+.1595:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _global_toplevel_constants
@@ -15657,7 +15657,7 @@ stas.parse:
 	add rsi, rbx
 	mov rax, rsi
 	mov eax, [rax]
-	mov rbx, _slit_155
+	mov rbx, _slit_162
 	mov rsi, 64
 	push rax
 	push rbx
@@ -15680,15 +15680,15 @@ stas.parse:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1588
+	jnz .1596
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_148
-	mov rdx, 71
+	mov rsi, _slit_155
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1588:
+.1596:
 	mov rdi, qword _global_toplevel_constants.len
 	mov r8, qword [rdi + 0]
 	mov rdi, 1
@@ -15702,15 +15702,15 @@ stas.parse:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1589
+	jnz .1597
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_119
-	mov rdx, 71
+	mov rsi, _slit_126
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1589:
+.1597:
 	mov rdi, 24
 	imul r8, rdi
 	mov rdi, qword _global_toplevel_constants
@@ -15731,15 +15731,15 @@ stas.parse:
 	mov r8, rax
 	mov rax, r8
 	test al, al
-	jnz .1590
+	jnz .1598
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_148
-	mov rdx, 71
+	mov rsi, _slit_155
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1590:
+.1598:
 	mov r8, qword _global_toplevel_constants.len
 	mov r9, qword [r8 + 0]
 	mov r8, 1
@@ -15753,15 +15753,15 @@ stas.parse:
 	mov r8, rax
 	mov rax, r8
 	test al, al
-	jnz .1591
+	jnz .1599
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_119
-	mov rdx, 71
+	mov rsi, _slit_126
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1591:
+.1599:
 	mov r8, 24
 	imul r9, r8
 	mov r8, qword _global_toplevel_constants
@@ -15794,15 +15794,15 @@ stas.parse:
 	mov r9, rax
 	mov rax, r9
 	test al, al
-	jnz .1592
+	jnz .1600
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_156
-	mov rdx, 68
+	mov rsi, _slit_163
+	mov rdx, 63
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1592:
+.1600:
 	jmp .1037
 .1036:
 	pop rbx
@@ -15827,15 +15827,15 @@ stas.parse:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1593
+	jnz .1601
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_111
-	mov rdx, 67
+	mov rsi, _slit_118
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1593:
+.1601:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _global_token_stream
@@ -15882,7 +15882,7 @@ stas.parse:
 .1046:
 	mov rbx, qword _global_pos
 	mov rsi, qword [rbx + 0]
-	mov rbx, _slit_157
+	mov rbx, _slit_164
 	mov rdi, 25
 	push rsi
 	push rbx
@@ -15928,15 +15928,15 @@ stas.parse:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1594
+	jnz .1602
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_221
-	mov rdx, 68
+	mov rsi, _slit_228
+	mov rdx, 63
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1594:
+.1602:
 	mov rbx, qword _global_sp.len
 	mov rsi, qword [rbx + 0]
 	mov rbx, 0
@@ -15946,15 +15946,15 @@ stas.parse:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1595
+	jnz .1603
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_222
-	mov rdx, 68
+	mov rsi, _slit_229
+	mov rdx, 63
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1595:
+.1603:
 	mov rbx, qword _global_scope_context.len
 	mov rsi, qword [rbx + 0]
 	mov rbx, 0
@@ -15969,7 +15969,7 @@ stas.parse:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	sub rsi, rbx
-	mov rbx, _slit_223
+	mov rbx, _slit_230
 	mov rdi, 32
 	push rsi
 	push rbx
@@ -15994,7 +15994,7 @@ stas.parse:
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
 	sub rsi, rbx
-	mov rbx, _slit_224
+	mov rbx, _slit_231
 	mov rdi, 60
 	push rsi
 	push rbx
@@ -16021,15 +16021,15 @@ fwrite_buffer.assert_len:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1596
+	jnz .1604
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_229
-	mov rdx, 65
+	mov rsi, _slit_236
+	mov rdx, 60
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1596:
+.1604:
 	mov rsi, qword _global_fwrite_buffer.len
 	mov rdi, qword [rsi + 0]
 	add rbx, rdi
@@ -16063,15 +16063,15 @@ fwrite_buffer.assert_len:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1597
+	jnz .1605
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_230
-	mov rdx, 65
+	mov rsi, _slit_237
+	mov rdx, 60
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1597:
+.1605:
 	mov rbx, 0
 	mov rsi, qword _global_fwrite_buffer.len
 	mov qword [rsi + 0], rbx
@@ -16177,7 +16177,7 @@ write_remap_ch:
 	push rbx
 	test rax, rax
 	jz .1057
-	mov rbx, _slit_267
+	mov rbx, _slit_274
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16199,7 +16199,7 @@ write_remap_ch:
 	push rbx
 	test rax, rax
 	jz .1060
-	mov rbx, _slit_268
+	mov rbx, _slit_275
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16221,7 +16221,7 @@ write_remap_ch:
 	push rbx
 	test rax, rax
 	jz .1062
-	mov rbx, _slit_269
+	mov rbx, _slit_276
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16243,7 +16243,7 @@ write_remap_ch:
 	push rbx
 	test rax, rax
 	jz .1064
-	mov rbx, _slit_270
+	mov rbx, _slit_277
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16265,7 +16265,7 @@ write_remap_ch:
 	push rbx
 	test rax, rax
 	jz .1066
-	mov rbx, _slit_271
+	mov rbx, _slit_278
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16287,7 +16287,7 @@ write_remap_ch:
 	push rbx
 	test rax, rax
 	jz .1068
-	mov rbx, _slit_272
+	mov rbx, _slit_279
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16309,7 +16309,7 @@ write_remap_ch:
 	push rbx
 	test rax, rax
 	jz .1070
-	mov rbx, _slit_273
+	mov rbx, _slit_280
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16402,15 +16402,15 @@ slits_c_c:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1598
+	jnz .1606
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_226
-	mov rdx, 63
+	mov rsi, _slit_233
+	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1598:
+.1606:
 	mov rbx, qword _global_slits
 	mov rsi, qword _global_slits.len
 	mov rdi, qword [rsi + 0]
@@ -16442,15 +16442,15 @@ dce.recurse_function:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1599
+	jnz .1607
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_117
-	mov rdx, 71
+	mov rsi, _slit_124
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1599:
+.1607:
 	mov rsi, 30
 	imul rbx, rsi
 	mov rsi, qword _global_functions
@@ -16532,15 +16532,15 @@ dce.recurse_function:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1600
+	jnz .1608
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1600:
+.1608:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _global_ir_stream
@@ -16571,15 +16571,15 @@ dce.recurse_function:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1601
+	jnz .1609
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1601:
+.1609:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _global_ir_stream
@@ -16596,15 +16596,15 @@ dce.recurse_function:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1602
+	jnz .1610
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_117
-	mov rdx, 71
+	mov rsi, _slit_124
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1602:
+.1610:
 	mov rbx, 30
 	imul rsi, rbx
 	mov rbx, qword _global_functions
@@ -16632,15 +16632,15 @@ dce.recurse_function:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1603
+	jnz .1611
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1603:
+.1611:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _global_ir_stream
@@ -16687,15 +16687,15 @@ dce.recurse_function:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1604
+	jnz .1612
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1604:
+.1612:
 	mov rbx, 16
 	imul rdi, rbx
 	mov rbx, qword _global_ir_stream
@@ -16721,15 +16721,15 @@ dce.recurse_function:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1605
+	jnz .1613
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1605:
+.1613:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _global_ir_stream
@@ -16760,15 +16760,15 @@ dce.recurse_function:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1606
+	jnz .1614
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1606:
+.1614:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _global_ir_stream
@@ -16785,15 +16785,15 @@ dce.recurse_function:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1607
+	jnz .1615
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_227
-	mov rdx, 63
+	mov rsi, _slit_234
+	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1607:
+.1615:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 16
@@ -16812,7 +16812,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1086
-	mov rbx, _slit_250
+	mov rbx, _slit_257
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -16829,7 +16829,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1089
-	mov rbx, _slit_251
+	mov rbx, _slit_258
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -16846,7 +16846,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1091
-	mov rbx, _slit_252
+	mov rbx, _slit_259
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -16863,7 +16863,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1093
-	mov rbx, _slit_253
+	mov rbx, _slit_260
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -16880,7 +16880,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1095
-	mov rbx, _slit_254
+	mov rbx, _slit_261
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16897,7 +16897,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1097
-	mov rbx, _slit_255
+	mov rbx, _slit_262
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16914,7 +16914,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1099
-	mov rbx, _slit_256
+	mov rbx, _slit_263
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -16931,7 +16931,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1101
-	mov rbx, _slit_257
+	mov rbx, _slit_264
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -16948,7 +16948,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1103
-	mov rbx, _slit_258
+	mov rbx, _slit_265
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -16965,7 +16965,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1105
-	mov rbx, _slit_259
+	mov rbx, _slit_266
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -16982,7 +16982,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1107
-	mov rbx, _slit_260
+	mov rbx, _slit_267
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -16999,7 +16999,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1109
-	mov rbx, _slit_261
+	mov rbx, _slit_268
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17016,7 +17016,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1111
-	mov rbx, _slit_262
+	mov rbx, _slit_269
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17033,7 +17033,7 @@ Reg.64.to_str:
 	push rbx
 	test rax, rax
 	jz .1113
-	mov rbx, _slit_263
+	mov rbx, _slit_270
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17044,15 +17044,15 @@ Reg.64.to_str:
 	mov rdi, 0
 	mov rax, rdi
 	test al, al
-	jnz .1608
+	jnz .1616
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_264
-	mov rdx, 77
+	mov rsi, _slit_271
+	mov rdx, 72
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1608:
+.1616:
 	push rbx
 	push rsi
 .1114:
@@ -17077,15 +17077,15 @@ rallocator_stack_c_c:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1609
+	jnz .1617
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_307
-	mov rdx, 64
+	mov rsi, _slit_314
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1609:
+.1617:
 	mov rsi, qword _global_rallocator_stack.len
 	mov rdi, qword [rsi + 0]
 	mov rsi, 2048
@@ -17095,15 +17095,15 @@ rallocator_stack_c_c:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1610
+	jnz .1618
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_308
-	mov rdx, 64
+	mov rsi, _slit_315
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1610:
+.1618:
 	mov rsi, qword _global_rallocator_stack
 	mov rdi, qword _global_rallocator_stack.len
 	mov r8, qword [rdi + 0]
@@ -17130,15 +17130,15 @@ rallocator_stack.top:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1611
+	jnz .1619
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_292
-	mov rdx, 64
+	mov rsi, _slit_299
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1611:
+.1619:
 	mov rbx, qword _global_rallocator_stack.len
 	mov rsi, qword [rbx + 0]
 	mov rbx, 1
@@ -17278,7 +17278,7 @@ r_flush:
 	add rsi, rdi
 	xor rax, rax
 	mov al, [rsi]
-	mov rsi, _slit_249
+	mov rsi, _slit_256
 	mov rdi, 6
 	push rbx
 	push rax
@@ -17388,15 +17388,15 @@ r_release:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1612
+	jnz .1620
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_287
-	mov rdx, 64
+	mov rsi, _slit_294
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1612:
+.1620:
 	mov rbx, qword _global_rallocator_mask
 	add rdi, rbx
 	xor rax, rax
@@ -17423,15 +17423,15 @@ r_release:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1613
+	jnz .1621
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1613:
+.1621:
 	mov rbx, qword _global_rallocator_mask
 	add rdi, rbx
 	mov rbx, 1
@@ -17447,21 +17447,21 @@ r_release:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1614
+	jnz .1622
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1614:
+.1622:
 	mov rbx, qword _global_rallocator_mask
 	add rdi, rbx
 	mov rbx, 0
 	mov rax, rbx
 	mov byte [rdi], al
-	mov rbx, _slit_290
+	mov rbx, _slit_297
 	mov rdi, 5
 	push rbx
 	push rdi
@@ -17483,7 +17483,7 @@ r_release:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_291
+	mov rbx, _slit_298
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17577,7 +17577,7 @@ r_pop:
 	call r_alloc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_320
+	mov rbx, _slit_327
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -17618,15 +17618,15 @@ r_pop:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1615
+	jnz .1623
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1615:
+.1623:
 	mov rdi, qword _global_rallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -17653,15 +17653,15 @@ r_pop_r:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1616
+	jnz .1624
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_287
-	mov rdx, 64
+	mov rsi, _slit_294
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1616:
+.1624:
 	mov rbx, qword _global_rallocator_mask
 	add rdi, rbx
 	xor rax, rax
@@ -17728,21 +17728,21 @@ r_pop_r:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1617
+	jnz .1625
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1617:
+.1625:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov rax, rbx
 	mov byte [rsi], al
-	mov rbx, _slit_293
+	mov rbx, _slit_300
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -17764,7 +17764,7 @@ r_pop_r:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_294
+	mov rbx, _slit_301
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17805,15 +17805,15 @@ r_pop_r:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1618
+	jnz .1626
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_287
-	mov rdx, 64
+	mov rsi, _slit_294
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1618:
+.1626:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	xor rax, rax
@@ -17825,16 +17825,16 @@ r_pop_r:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1619
+	jnz .1627
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_295
-	mov rdx, 64
+	mov rsi, _slit_302
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1619:
-	mov rbx, _slit_296
+.1627:
+	mov rbx, _slit_303
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -17874,15 +17874,15 @@ r_pop_r:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1620
+	jnz .1628
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1620:
+.1628:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 1
@@ -17937,21 +17937,21 @@ r_top:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1621
+	jnz .1629
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1621:
+.1629:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, _slit_316
+	mov rbx, _slit_323
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -18013,21 +18013,21 @@ r_dup:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1622
+	jnz .1630
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1622:
+.1630:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, _slit_380
+	mov rbx, _slit_387
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -18046,7 +18046,7 @@ r_dup:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_381
+	mov rbx, _slit_388
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -18103,21 +18103,21 @@ r_push_const:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1623
+	jnz .1631
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1623:
+.1631:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, _slit_312
+	mov rbx, _slit_319
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -18136,7 +18136,7 @@ r_push_const:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_313
+	mov rbx, _slit_320
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -18193,15 +18193,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1624
+	jnz .1632
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1624:
+.1632:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _global_ir_stream
@@ -18222,15 +18222,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1625
+	jnz .1633
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_149
-	mov rdx, 71
+	mov rsi, _slit_156
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1625:
+.1633:
 	mov rbx, 16
 	imul rdi, rbx
 	mov rbx, qword _global_ir_stream
@@ -18306,15 +18306,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1626
+	jnz .1634
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_265
-	mov rdx, 63
+	mov rsi, _slit_272
+	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1626:
+.1634:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	mov rbx, rsi
@@ -18326,15 +18326,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1627
+	jnz .1635
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_117
-	mov rdx, 71
+	mov rsi, _slit_124
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1627:
+.1635:
 	mov rbx, 30
 	imul rsi, rbx
 	mov rbx, qword _global_functions
@@ -18383,7 +18383,7 @@ gen_range:
 	mov rax, rbx
 	test rax, rax
 	jz .1241
-	mov rbx, _slit_266
+	mov rbx, _slit_273
 	mov rsi, 7
 	push rbx
 	push rsi
@@ -18416,7 +18416,7 @@ gen_range:
 	call Function.name.fwrite_mangled
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_274
+	mov rbx, _slit_281
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -18447,7 +18447,7 @@ gen_range:
 	mov rax, rbx
 	test rax, rax
 	jz .1243
-	mov rbx, _slit_275
+	mov rbx, _slit_282
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -18476,7 +18476,7 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 .1243:
-	mov rbx, _slit_276
+	mov rbx, _slit_283
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -18492,7 +18492,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_277
+	mov rbx, _slit_284
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -18538,22 +18538,22 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1628
+	jnz .1636
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_117
-	mov rdx, 71
+	mov rsi, _slit_124
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1628:
+.1636:
 	mov rbx, 30
 	imul rsi, rbx
 	mov rbx, qword _global_functions
 	add rsi, rbx
 	mov rbx, qword [_rs_p]
 	mov qword [rbx + 24], rsi
-	mov rbx, _slit_278
+	mov rbx, _slit_285
 	mov rdi, 13
 	push rbx
 	push rdi
@@ -18569,7 +18569,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_279
+	mov rbx, _slit_286
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -18600,7 +18600,7 @@ gen_range:
 	mov rax, rbx
 	test rax, rax
 	jz .1247
-	mov rbx, _slit_280
+	mov rbx, _slit_287
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -18629,7 +18629,7 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 .1247:
-	mov rbx, _slit_281
+	mov rbx, _slit_288
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -18669,15 +18669,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1629
+	jnz .1637
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_117
-	mov rdx, 71
+	mov rsi, _slit_124
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1629:
+.1637:
 	mov rbx, 30
 	imul rsi, rbx
 	mov rbx, qword _global_functions
@@ -18751,7 +18751,7 @@ gen_range:
 	call r_flush
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_282
+	mov rbx, _slit_289
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -18767,7 +18767,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_283
+	mov rbx, _slit_290
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -18783,7 +18783,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_284
+	mov rbx, _slit_291
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -18807,7 +18807,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_285
+	mov rbx, _slit_292
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -18823,7 +18823,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_286
+	mov rbx, _slit_293
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -18869,7 +18869,7 @@ gen_range:
 	call r_pop_r
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_297
+	mov rbx, _slit_304
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -18885,7 +18885,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_298
+	mov rbx, _slit_305
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -18909,7 +18909,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_299
+	mov rbx, _slit_306
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -18925,7 +18925,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_300
+	mov rbx, _slit_307
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -18941,7 +18941,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_301
+	mov rbx, _slit_308
 	mov rsi, 16
 	push rbx
 	push rsi
@@ -18965,7 +18965,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_302
+	mov rbx, _slit_309
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -18984,15 +18984,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1630
+	jnz .1638
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_303
-	mov rdx, 63
+	mov rsi, _slit_310
+	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1630:
+.1638:
 	mov rbx, 8
 	imul rsi, rbx
 	mov rbx, qword _global_slits
@@ -19012,7 +19012,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_304
+	mov rbx, _slit_311
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -19028,7 +19028,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_305
+	mov rbx, _slit_312
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -19044,7 +19044,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_306
+	mov rbx, _slit_313
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -19098,15 +19098,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1631
+	jnz .1639
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1631:
+.1639:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -19150,21 +19150,21 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1632
+	jnz .1640
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1632:
+.1640:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, _slit_309
+	mov rbx, _slit_316
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19183,7 +19183,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_310
+	mov rbx, _slit_317
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -19192,7 +19192,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_311
+	mov rbx, _slit_318
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -19226,15 +19226,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1633
+	jnz .1641
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_303
-	mov rdx, 63
+	mov rsi, _slit_310
+	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1633:
+.1641:
 	mov rbx, 8
 	imul rsi, rbx
 	mov rbx, qword _global_slits
@@ -19306,21 +19306,21 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1634
+	jnz .1642
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1634:
+.1642:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, _slit_309
+	mov rbx, _slit_316
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19339,7 +19339,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_310
+	mov rbx, _slit_317
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -19348,7 +19348,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_314
+	mov rbx, _slit_321
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -19374,7 +19374,7 @@ gen_range:
 	mov rax, rbx
 	test rax, rax
 	jz .1264
-	mov rbx, _slit_315
+	mov rbx, _slit_322
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19398,7 +19398,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_317
+	mov rbx, _slit_324
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -19464,15 +19464,15 @@ gen_range:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1635
+	jnz .1643
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1635:
+.1643:
 	mov rdi, qword _global_rallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -19480,7 +19480,7 @@ gen_range:
 	mov byte [rsi], al
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 88], rbx
-	mov rsi, _slit_318
+	mov rsi, _slit_325
 	mov rdi, 5
 	push rsi
 	push rdi
@@ -19502,7 +19502,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_319
+	mov rbx, _slit_326
 	mov rsi, 15
 	push rbx
 	push rsi
@@ -19549,7 +19549,7 @@ gen_range:
 	mov rsp, rbp
 	pop rbx
 	pop rsi
-	mov rdi, _slit_321
+	mov rdi, _slit_328
 	mov r8, 12
 	push rbx
 	push rsi
@@ -19573,7 +19573,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_322
+	mov rbx, _slit_329
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -19587,7 +19587,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_323
+	mov rbx, _slit_330
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -19629,15 +19629,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1636
+	jnz .1644
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1636:
+.1644:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -19684,15 +19684,15 @@ gen_range:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1637
+	jnz .1645
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1637:
+.1645:
 	mov rdi, qword _global_rallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -19700,7 +19700,7 @@ gen_range:
 	mov byte [rsi], al
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 112], rbx
-	mov rsi, _slit_324
+	mov rsi, _slit_331
 	mov rdi, 5
 	push rsi
 	push rdi
@@ -19722,7 +19722,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_325
+	mov rbx, _slit_332
 	mov rsi, 15
 	push rbx
 	push rsi
@@ -19792,21 +19792,21 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1638
+	jnz .1646
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1638:
+.1646:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, _slit_309
+	mov rbx, _slit_316
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19825,7 +19825,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_310
+	mov rbx, _slit_317
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -19834,7 +19834,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_326
+	mov rbx, _slit_333
 	mov rsi, 7
 	push rbx
 	push rsi
@@ -19856,7 +19856,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_327
+	mov rbx, _slit_334
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -19870,7 +19870,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_328
+	mov rbx, _slit_335
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -19902,15 +19902,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1639
+	jnz .1647
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1639:
+.1647:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -19954,21 +19954,21 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1640
+	jnz .1648
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1640:
+.1648:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, _slit_309
+	mov rbx, _slit_316
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19987,7 +19987,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_310
+	mov rbx, _slit_317
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -19996,7 +19996,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_329
+	mov rbx, _slit_336
 	mov rsi, 14
 	push rbx
 	push rsi
@@ -20016,15 +20016,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1641
+	jnz .1649
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_120
-	mov rdx, 71
+	mov rsi, _slit_127
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1641:
+.1649:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _global_global_var_context
@@ -20078,15 +20078,15 @@ gen_range:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1642
+	jnz .1650
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1642:
+.1650:
 	mov rdi, qword _global_rallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -20094,7 +20094,7 @@ gen_range:
 	mov byte [rsi], al
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 120], rbx
-	mov rsi, _slit_330
+	mov rsi, _slit_337
 	mov rdi, 5
 	push rsi
 	push rdi
@@ -20116,7 +20116,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_331
+	mov rbx, _slit_338
 	mov rsi, 16
 	push rbx
 	push rsi
@@ -20136,15 +20136,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1643
+	jnz .1651
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_120
-	mov rdx, 71
+	mov rsi, _slit_127
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1643:
+.1651:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _global_global_var_context
@@ -20181,15 +20181,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1644
+	jnz .1652
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_120
-	mov rdx, 71
+	mov rsi, _slit_127
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1644:
+.1652:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _global_global_var_context
@@ -20231,7 +20231,7 @@ gen_range:
 	call r_pop
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_332
+	mov rbx, _slit_339
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -20253,7 +20253,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_333
+	mov rbx, _slit_340
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -20271,7 +20271,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_334
+	mov rbx, _slit_341
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -20331,15 +20331,15 @@ gen_range:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1645
+	jnz .1653
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1645:
+.1653:
 	mov rdi, qword _global_rallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -20347,7 +20347,7 @@ gen_range:
 	mov byte [rsi], al
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 136], rbx
-	mov rsi, _slit_335
+	mov rsi, _slit_342
 	mov rdi, 5
 	push rsi
 	push rdi
@@ -20369,7 +20369,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_336
+	mov rbx, _slit_343
 	mov rsi, 16
 	push rbx
 	push rsi
@@ -20389,15 +20389,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1646
+	jnz .1654
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_120
-	mov rdx, 71
+	mov rsi, _slit_127
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1646:
+.1654:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _global_global_var_context
@@ -20434,15 +20434,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1647
+	jnz .1655
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_120
-	mov rdx, 71
+	mov rsi, _slit_127
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1647:
+.1655:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _global_global_var_context
@@ -20509,21 +20509,21 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1648
+	jnz .1656
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1648:
+.1656:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, _slit_309
+	mov rbx, _slit_316
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -20542,7 +20542,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_310
+	mov rbx, _slit_317
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -20551,7 +20551,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_337
+	mov rbx, _slit_344
 	mov rsi, 7
 	push rbx
 	push rsi
@@ -20573,7 +20573,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_338
+	mov rbx, _slit_345
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -20587,7 +20587,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_339
+	mov rbx, _slit_346
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -20619,15 +20619,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1649
+	jnz .1657
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1649:
+.1657:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -20654,7 +20654,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_340
+	mov rbx, _slit_347
 	mov rdi, 5
 	push rbx
 	push rdi
@@ -20676,7 +20676,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_341
+	mov rbx, _slit_348
 	mov rsi, 16
 	push rbx
 	push rsi
@@ -20692,7 +20692,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_342
+	mov rbx, _slit_349
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -20714,7 +20714,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_343
+	mov rbx, _slit_350
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -20736,7 +20736,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_344
+	mov rbx, _slit_351
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -20771,15 +20771,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1650
+	jnz .1658
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1650:
+.1658:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -20806,7 +20806,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_345
+	mov rbx, _slit_352
 	mov rdi, 5
 	push rbx
 	push rdi
@@ -20828,7 +20828,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_346
+	mov rbx, _slit_353
 	mov rsi, 16
 	push rbx
 	push rsi
@@ -20844,7 +20844,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_347
+	mov rbx, _slit_354
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -20866,7 +20866,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_348
+	mov rbx, _slit_355
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -20901,15 +20901,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1651
+	jnz .1659
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1651:
+.1659:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -20940,7 +20940,7 @@ gen_range:
 	call r_flush
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_349
+	mov rbx, _slit_356
 	mov rsi, 14
 	push rbx
 	push rsi
@@ -20956,7 +20956,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_350
+	mov rbx, _slit_357
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -20989,15 +20989,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1652
+	jnz .1660
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1652:
+.1660:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -21021,7 +21021,7 @@ gen_range:
 	call r_flush
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_351
+	mov rbx, _slit_358
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -21065,7 +21065,7 @@ gen_range:
 	call r_pop_r
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_352
+	mov rbx, _slit_359
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -21099,15 +21099,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1653
+	jnz .1661
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1653:
+.1661:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -21142,7 +21142,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_353
+	mov rbx, _slit_360
 	mov rdi, 5
 	push rbx
 	push rdi
@@ -21164,7 +21164,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_354
+	mov rbx, _slit_361
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -21212,15 +21212,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1654
+	jnz .1662
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1654:
+.1662:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -21236,15 +21236,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1655
+	jnz .1663
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1655:
+.1663:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -21279,7 +21279,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_355
+	mov rbx, _slit_362
 	mov rdi, 5
 	push rbx
 	push rdi
@@ -21301,7 +21301,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_356
+	mov rbx, _slit_363
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -21349,15 +21349,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1656
+	jnz .1664
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1656:
+.1664:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -21373,15 +21373,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1657
+	jnz .1665
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1657:
+.1665:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -21416,7 +21416,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_357
+	mov rbx, _slit_364
 	mov rdi, 6
 	push rbx
 	push rdi
@@ -21438,7 +21438,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_358
+	mov rbx, _slit_365
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -21486,15 +21486,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1658
+	jnz .1666
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1658:
+.1666:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -21510,15 +21510,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1659
+	jnz .1667
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1659:
+.1667:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -21559,7 +21559,7 @@ gen_range:
 	call r_release
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_359
+	mov rbx, _slit_366
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -21575,7 +21575,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_360
+	mov rbx, _slit_367
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -21622,15 +21622,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1660
+	jnz .1668
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1660:
+.1668:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -21645,15 +21645,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1661
+	jnz .1669
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1661:
+.1669:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -21669,15 +21669,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1662
+	jnz .1670
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1662:
+.1670:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -21718,7 +21718,7 @@ gen_range:
 	call r_release
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_361
+	mov rbx, _slit_368
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -21734,7 +21734,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_362
+	mov rbx, _slit_369
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -21781,15 +21781,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1663
+	jnz .1671
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1663:
+.1671:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -21804,15 +21804,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1664
+	jnz .1672
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1664:
+.1672:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -21828,15 +21828,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1665
+	jnz .1673
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1665:
+.1673:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -21860,7 +21860,7 @@ gen_range:
 	call r_top
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_363
+	mov rbx, _slit_370
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -21904,7 +21904,7 @@ gen_range:
 	call r_top
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_364
+	mov rbx, _slit_371
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -21961,15 +21961,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1666
+	jnz .1674
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1666:
+.1674:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -21990,7 +21990,7 @@ gen_range:
 	call r_pop_r
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_365
+	mov rbx, _slit_372
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -22006,7 +22006,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_366
+	mov rbx, _slit_373
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -22045,15 +22045,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1667
+	jnz .1675
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1667:
+.1675:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -22077,15 +22077,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1668
+	jnz .1676
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1668:
+.1676:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -22109,15 +22109,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1669
+	jnz .1677
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1669:
+.1677:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -22151,7 +22151,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_367
+	mov rbx, _slit_374
 	mov rdi, 5
 	push rbx
 	push rdi
@@ -22173,7 +22173,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_368
+	mov rbx, _slit_375
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -22208,15 +22208,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1670
+	jnz .1678
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1670:
+.1678:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -22231,15 +22231,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1671
+	jnz .1679
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1671:
+.1679:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -22273,7 +22273,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_369
+	mov rbx, _slit_376
 	mov rdi, 5
 	push rbx
 	push rdi
@@ -22295,587 +22295,10 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_370
+	mov rbx, _slit_377
 	mov rsi, 4
 	push rbx
 	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
-	mov rbx, rsi
-	push rsi
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call rallocator_stack_c_c
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor rax, rax
-	cmp rsi, rdi
-	setb al
-	mov rsi, rax
-	mov rax, rsi
-	test al, al
-	jnz .1672
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1672:
-	mov rsi, qword _global_rallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov rax, rsi
-	mov byte [rbx], al
-	mov rbx, 11
-	mov rsi, rbx
-	mov rdi, 14
-	xor rax, rax
-	cmp rsi, rdi
-	setb al
-	mov rsi, rax
-	mov rax, rsi
-	test al, al
-	jnz .1673
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1673:
-	mov rsi, qword _global_rallocator_mask
-	add rbx, rsi
-	mov rsi, 0
-	mov rax, rsi
-	mov byte [rbx], al
-	jmp .1235
-.1313:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 65
-	xor rax, rax
-	cmp rsi, rdi
-	sete al
-	mov rsi, rax
-	mov rax, rsi
-	push rbx
-	test rax, rax
-	jz .1315
-	mov rbx, 13
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop_r
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _slit_371
-	mov rsi, 14
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _slit_372
-	mov rsi, 8
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 13
-	mov rsi, rbx
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call rallocator_stack_c_c
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor rax, rax
-	cmp rsi, rdi
-	setb al
-	mov rsi, rax
-	mov rax, rsi
-	test al, al
-	jnz .1674
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1674:
-	mov rsi, qword _global_rallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov rax, rsi
-	mov byte [rbx], al
-	jmp .1235
-.1315:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 29
-	xor rax, rax
-	cmp rsi, rdi
-	sete al
-	mov rsi, rax
-	mov rax, rsi
-	push rbx
-	test rax, rax
-	jz .1317
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 40], rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 32], rsi
-	mov rbx, _slit_373
-	mov rdi, 5
-	push rbx
-	push rdi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _slit_374
-	mov rsi, 2
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 40]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
-	mov rbx, rsi
-	push rsi
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call rallocator_stack_c_c
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor rax, rax
-	cmp rsi, rdi
-	setb al
-	mov rsi, rax
-	mov rax, rsi
-	test al, al
-	jnz .1675
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1675:
-	mov rsi, qword _global_rallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov rax, rsi
-	mov byte [rbx], al
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 40]
-	mov rbx, rsi
-	mov rdi, 14
-	xor rax, rax
-	cmp rbx, rdi
-	setb al
-	mov rbx, rax
-	mov rax, rbx
-	test al, al
-	jnz .1676
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1676:
-	mov rbx, qword _global_rallocator_mask
-	add rsi, rbx
-	mov rbx, 0
-	mov rax, rbx
-	mov byte [rsi], al
-	jmp .1235
-.1317:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 30
-	xor rax, rax
-	cmp rsi, rdi
-	sete al
-	mov rsi, rax
-	mov rax, rsi
-	push rbx
-	test rax, rax
-	jz .1319
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 40], rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 32], rsi
-	mov rbx, _slit_375
-	mov rdi, 4
-	push rbx
-	push rdi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _slit_376
-	mov rsi, 2
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 40]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
-	mov rbx, rsi
-	push rsi
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call rallocator_stack_c_c
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor rax, rax
-	cmp rsi, rdi
-	setb al
-	mov rsi, rax
-	mov rax, rsi
-	test al, al
-	jnz .1677
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1677:
-	mov rsi, qword _global_rallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov rax, rsi
-	mov byte [rbx], al
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 40]
-	mov rbx, rsi
-	mov rdi, 14
-	xor rax, rax
-	cmp rbx, rdi
-	setb al
-	mov rbx, rax
-	mov rax, rbx
-	test al, al
-	jnz .1678
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1678:
-	mov rbx, qword _global_rallocator_mask
-	add rsi, rbx
-	mov rbx, 0
-	mov rax, rbx
-	mov byte [rsi], al
-	jmp .1235
-.1319:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 31
-	xor rax, rax
-	cmp rsi, rdi
-	sete al
-	mov rsi, rax
-	mov rax, rsi
-	push rbx
-	test rax, rax
-	jz .1321
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 32], rsi
-	mov rbx, _slit_377
-	mov rdi, 5
-	push rbx
-	push rdi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
-	mov rbx, rsi
-	push rsi
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call rallocator_stack_c_c
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor rax, rax
-	cmp rsi, rdi
-	setb al
-	mov rsi, rax
-	mov rax, rsi
-	test al, al
-	jnz .1679
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1679:
-	mov rsi, qword _global_rallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov rax, rsi
-	mov byte [rbx], al
-	jmp .1235
-.1321:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 32
-	xor rax, rax
-	cmp rsi, rdi
-	sete al
-	mov rsi, rax
-	mov rax, rsi
-	push rbx
-	test rax, rax
-	jz .1323
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 40], rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 32], rsi
-	mov rbx, _slit_378
-	mov rdi, 5
-	push rbx
-	push rdi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _slit_379
-	mov rsi, 2
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 40]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call fwrite
@@ -22910,12 +22333,232 @@ gen_range:
 	jnz .1680
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
 .1680:
+	mov rsi, qword _global_rallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov rax, rsi
+	mov byte [rbx], al
+	mov rbx, 11
+	mov rsi, rbx
+	mov rdi, 14
+	xor rax, rax
+	cmp rsi, rdi
+	setb al
+	mov rsi, rax
+	mov rax, rsi
+	test al, al
+	jnz .1681
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_296
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1681:
+	mov rsi, qword _global_rallocator_mask
+	add rbx, rsi
+	mov rsi, 0
+	mov rax, rsi
+	mov byte [rbx], al
+	jmp .1235
+.1313:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 65
+	xor rax, rax
+	cmp rsi, rdi
+	sete al
+	mov rsi, rax
+	mov rax, rsi
+	push rbx
+	test rax, rax
+	jz .1315
+	mov rbx, 13
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop_r
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _slit_378
+	mov rsi, 14
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _slit_379
+	mov rsi, 8
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 13
+	mov rsi, rbx
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call rallocator_stack_c_c
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor rax, rax
+	cmp rsi, rdi
+	setb al
+	mov rsi, rax
+	mov rax, rsi
+	test al, al
+	jnz .1682
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_295
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1682:
+	mov rsi, qword _global_rallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov rax, rsi
+	mov byte [rbx], al
+	jmp .1235
+.1315:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 29
+	xor rax, rax
+	cmp rsi, rdi
+	sete al
+	mov rsi, rax
+	mov rax, rsi
+	push rbx
+	test rax, rax
+	jz .1317
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 40], rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 32], rsi
+	mov rbx, _slit_380
+	mov rdi, 5
+	push rbx
+	push rdi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 32]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _slit_381
+	mov rsi, 2
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 40]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 32]
+	mov rbx, rsi
+	push rsi
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call rallocator_stack_c_c
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor rax, rax
+	cmp rsi, rdi
+	setb al
+	mov rsi, rax
+	mov rax, rsi
+	test al, al
+	jnz .1683
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_295
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1683:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -22931,15 +22574,372 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1681
+	jnz .1684
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1681:
+.1684:
+	mov rbx, qword _global_rallocator_mask
+	add rsi, rbx
+	mov rbx, 0
+	mov rax, rbx
+	mov byte [rsi], al
+	jmp .1235
+.1317:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 30
+	xor rax, rax
+	cmp rsi, rdi
+	sete al
+	mov rsi, rax
+	mov rax, rsi
+	push rbx
+	test rax, rax
+	jz .1319
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 40], rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 32], rsi
+	mov rbx, _slit_382
+	mov rdi, 4
+	push rbx
+	push rdi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 32]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _slit_383
+	mov rsi, 2
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 40]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 32]
+	mov rbx, rsi
+	push rsi
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call rallocator_stack_c_c
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor rax, rax
+	cmp rsi, rdi
+	setb al
+	mov rsi, rax
+	mov rax, rsi
+	test al, al
+	jnz .1685
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_295
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1685:
+	mov rsi, qword _global_rallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov rax, rsi
+	mov byte [rbx], al
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 40]
+	mov rbx, rsi
+	mov rdi, 14
+	xor rax, rax
+	cmp rbx, rdi
+	setb al
+	mov rbx, rax
+	mov rax, rbx
+	test al, al
+	jnz .1686
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_296
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1686:
+	mov rbx, qword _global_rallocator_mask
+	add rsi, rbx
+	mov rbx, 0
+	mov rax, rbx
+	mov byte [rsi], al
+	jmp .1235
+.1319:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 31
+	xor rax, rax
+	cmp rsi, rdi
+	sete al
+	mov rsi, rax
+	mov rax, rsi
+	push rbx
+	test rax, rax
+	jz .1321
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 32], rsi
+	mov rbx, _slit_384
+	mov rdi, 5
+	push rbx
+	push rdi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 32]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 32]
+	mov rbx, rsi
+	push rsi
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call rallocator_stack_c_c
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor rax, rax
+	cmp rsi, rdi
+	setb al
+	mov rsi, rax
+	mov rax, rsi
+	test al, al
+	jnz .1687
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_295
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1687:
+	mov rsi, qword _global_rallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov rax, rsi
+	mov byte [rbx], al
+	jmp .1235
+.1321:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 32
+	xor rax, rax
+	cmp rsi, rdi
+	sete al
+	mov rsi, rax
+	mov rax, rsi
+	push rbx
+	test rax, rax
+	jz .1323
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 40], rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 32], rsi
+	mov rbx, _slit_385
+	mov rdi, 5
+	push rbx
+	push rdi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 32]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _slit_386
+	mov rsi, 2
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 40]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 32]
+	mov rbx, rsi
+	push rsi
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call rallocator_stack_c_c
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor rax, rax
+	cmp rsi, rdi
+	setb al
+	mov rsi, rax
+	mov rax, rsi
+	test al, al
+	jnz .1688
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_295
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1688:
+	mov rsi, qword _global_rallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov rax, rsi
+	mov byte [rbx], al
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 40]
+	mov rbx, rsi
+	mov rdi, 14
+	xor rax, rax
+	cmp rbx, rdi
+	setb al
+	mov rbx, rax
+	mov rax, rbx
+	test al, al
+	jnz .1689
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_296
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1689:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -22993,15 +22993,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1682
+	jnz .1690
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1682:
+.1690:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -23026,15 +23026,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1683
+	jnz .1691
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1683:
+.1691:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -23118,21 +23118,21 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1684
+	jnz .1692
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1684:
+.1692:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, _slit_309
+	mov rbx, _slit_316
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -23151,7 +23151,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_310
+	mov rbx, _slit_317
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -23160,7 +23160,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_382
+	mov rbx, _slit_389
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -23174,7 +23174,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_383
+	mov rbx, _slit_390
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -23262,21 +23262,21 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1685
+	jnz .1693
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1685:
+.1693:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, _slit_309
+	mov rbx, _slit_316
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -23295,7 +23295,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_310
+	mov rbx, _slit_317
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -23304,7 +23304,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_384
+	mov rbx, _slit_391
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -23318,7 +23318,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_385
+	mov rbx, _slit_392
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -23407,15 +23407,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1686
+	jnz .1694
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1686:
+.1694:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -23440,15 +23440,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1687
+	jnz .1695
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1687:
+.1695:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -23473,15 +23473,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1688
+	jnz .1696
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1688:
+.1696:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -23551,15 +23551,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1689
+	jnz .1697
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1689:
+.1697:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -23584,15 +23584,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1690
+	jnz .1698
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1690:
+.1698:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -23617,15 +23617,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1691
+	jnz .1699
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1691:
+.1699:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -23650,15 +23650,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1692
+	jnz .1700
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1692:
+.1700:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -23706,15 +23706,15 @@ gen_range:
 	mov r8, rax
 	mov rax, r8
 	test al, al
-	jnz .1693
+	jnz .1701
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1693:
+.1701:
 	mov r8, qword _global_rallocator_mask
 	add rdi, r8
 	mov r8, 0
@@ -23722,7 +23722,7 @@ gen_range:
 	mov byte [rdi], al
 	jmp .1346
 .1344:
-	mov rbx, _slit_386
+	mov rbx, _slit_393
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -23770,459 +23770,11 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1694
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1694:
-	mov rsi, qword _global_rallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov rax, rsi
-	mov byte [rbx], al
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 40], rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 32], rsi
-	mov rbx, _slit_387
-	mov rdi, 13
-	push rbx
-	push rdi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _slit_388
-	mov rsi, 5
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _slit_389
-	mov rsi, 2
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 40]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _slit_390
-	mov rsi, 8
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 13
-	mov rsi, rbx
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call rallocator_stack_c_c
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor rax, rax
-	cmp rsi, rdi
-	setb al
-	mov rsi, rax
-	mov rax, rsi
-	test al, al
-	jnz .1695
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1695:
-	mov rsi, qword _global_rallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov rax, rsi
-	mov byte [rbx], al
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
-	mov rbx, rsi
-	mov rdi, 14
-	xor rax, rax
-	cmp rbx, rdi
-	setb al
-	mov rbx, rax
-	mov rax, rbx
-	test al, al
-	jnz .1696
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1696:
-	mov rbx, qword _global_rallocator_mask
-	add rsi, rbx
-	mov rbx, 0
-	mov rax, rbx
-	mov byte [rsi], al
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 40]
-	mov rbx, rsi
-	mov rdi, 14
-	xor rax, rax
-	cmp rbx, rdi
-	setb al
-	mov rbx, rax
-	mov rax, rbx
-	test al, al
-	jnz .1697
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1697:
-	mov rbx, qword _global_rallocator_mask
-	add rsi, rbx
-	mov rbx, 0
-	mov rax, rbx
-	mov byte [rsi], al
-	jmp .1235
-.1348:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 41
-	xor rax, rax
-	cmp rsi, rdi
-	sete al
-	mov rsi, rax
-	mov rax, rsi
-	push rbx
-	test rax, rax
-	jz .1350
-	mov rbx, 13
-	mov rsi, rbx
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_release
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor rax, rax
-	cmp rsi, rdi
-	setb al
-	mov rsi, rax
-	mov rax, rsi
-	test al, al
-	jnz .1698
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1698:
-	mov rsi, qword _global_rallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov rax, rsi
-	mov byte [rbx], al
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 40], rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 32], rsi
-	mov rbx, _slit_391
-	mov rdi, 13
-	push rbx
-	push rdi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _slit_392
-	mov rsi, 5
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _slit_393
-	mov rsi, 2
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 40]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _slit_394
-	mov rsi, 9
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 13
-	mov rsi, rbx
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call rallocator_stack_c_c
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor rax, rax
-	cmp rsi, rdi
-	setb al
-	mov rsi, rax
-	mov rax, rsi
-	test al, al
-	jnz .1699
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1699:
-	mov rsi, qword _global_rallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov rax, rsi
-	mov byte [rbx], al
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
-	mov rbx, rsi
-	mov rdi, 14
-	xor rax, rax
-	cmp rbx, rdi
-	setb al
-	mov rbx, rax
-	mov rax, rbx
-	test al, al
-	jnz .1700
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1700:
-	mov rbx, qword _global_rallocator_mask
-	add rsi, rbx
-	mov rbx, 0
-	mov rax, rbx
-	mov byte [rsi], al
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 40]
-	mov rbx, rsi
-	mov rdi, 14
-	xor rax, rax
-	cmp rbx, rdi
-	setb al
-	mov rbx, rax
-	mov rax, rbx
-	test al, al
-	jnz .1701
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
-	syscall
-	mov rdi, 1
-	jmp _exit
-.1701:
-	mov rbx, qword _global_rallocator_mask
-	add rsi, rbx
-	mov rbx, 0
-	mov rax, rbx
-	mov byte [rsi], al
-	jmp .1235
-.1350:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 42
-	xor rax, rax
-	cmp rsi, rdi
-	sete al
-	mov rsi, rax
-	mov rax, rsi
-	push rbx
-	test rax, rax
-	jz .1352
-	mov rbx, 13
-	mov rsi, rbx
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_release
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor rax, rax
-	cmp rsi, rdi
-	setb al
-	mov rsi, rax
-	mov rax, rsi
-	test al, al
 	jnz .1702
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
@@ -24248,7 +23800,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_395
+	mov rbx, _slit_394
 	mov rdi, 13
 	push rbx
 	push rdi
@@ -24264,7 +23816,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_396
+	mov rbx, _slit_395
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -24286,7 +23838,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_397
+	mov rbx, _slit_396
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -24315,7 +23867,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_398
+	mov rbx, _slit_397
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -24352,8 +23904,8 @@ gen_range:
 	jnz .1703
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
@@ -24376,8 +23928,8 @@ gen_range:
 	jnz .1704
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
@@ -24400,12 +23952,460 @@ gen_range:
 	jnz .1705
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
 .1705:
+	mov rbx, qword _global_rallocator_mask
+	add rsi, rbx
+	mov rbx, 0
+	mov rax, rbx
+	mov byte [rsi], al
+	jmp .1235
+.1348:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 41
+	xor rax, rax
+	cmp rsi, rdi
+	sete al
+	mov rsi, rax
+	mov rax, rsi
+	push rbx
+	test rax, rax
+	jz .1350
+	mov rbx, 13
+	mov rsi, rbx
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_release
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor rax, rax
+	cmp rsi, rdi
+	setb al
+	mov rsi, rax
+	mov rax, rsi
+	test al, al
+	jnz .1706
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_295
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1706:
+	mov rsi, qword _global_rallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov rax, rsi
+	mov byte [rbx], al
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 40], rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 32], rsi
+	mov rbx, _slit_398
+	mov rdi, 13
+	push rbx
+	push rdi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _slit_399
+	mov rsi, 5
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 32]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _slit_400
+	mov rsi, 2
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 40]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _slit_401
+	mov rsi, 9
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 13
+	mov rsi, rbx
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call rallocator_stack_c_c
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor rax, rax
+	cmp rsi, rdi
+	setb al
+	mov rsi, rax
+	mov rax, rsi
+	test al, al
+	jnz .1707
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_295
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1707:
+	mov rsi, qword _global_rallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov rax, rsi
+	mov byte [rbx], al
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 32]
+	mov rbx, rsi
+	mov rdi, 14
+	xor rax, rax
+	cmp rbx, rdi
+	setb al
+	mov rbx, rax
+	mov rax, rbx
+	test al, al
+	jnz .1708
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_296
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1708:
+	mov rbx, qword _global_rallocator_mask
+	add rsi, rbx
+	mov rbx, 0
+	mov rax, rbx
+	mov byte [rsi], al
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 40]
+	mov rbx, rsi
+	mov rdi, 14
+	xor rax, rax
+	cmp rbx, rdi
+	setb al
+	mov rbx, rax
+	mov rax, rbx
+	test al, al
+	jnz .1709
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_296
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1709:
+	mov rbx, qword _global_rallocator_mask
+	add rsi, rbx
+	mov rbx, 0
+	mov rax, rbx
+	mov byte [rsi], al
+	jmp .1235
+.1350:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 42
+	xor rax, rax
+	cmp rsi, rdi
+	sete al
+	mov rsi, rax
+	mov rax, rsi
+	push rbx
+	test rax, rax
+	jz .1352
+	mov rbx, 13
+	mov rsi, rbx
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_release
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor rax, rax
+	cmp rsi, rdi
+	setb al
+	mov rsi, rax
+	mov rax, rsi
+	test al, al
+	jnz .1710
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_295
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1710:
+	mov rsi, qword _global_rallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov rax, rsi
+	mov byte [rbx], al
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 40], rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 32], rsi
+	mov rbx, _slit_402
+	mov rdi, 13
+	push rbx
+	push rdi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _slit_403
+	mov rsi, 5
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 32]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _slit_404
+	mov rsi, 2
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 40]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _slit_405
+	mov rsi, 8
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 13
+	mov rsi, rbx
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call rallocator_stack_c_c
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor rax, rax
+	cmp rsi, rdi
+	setb al
+	mov rsi, rax
+	mov rax, rsi
+	test al, al
+	jnz .1711
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_295
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1711:
+	mov rsi, qword _global_rallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov rax, rsi
+	mov byte [rbx], al
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 32]
+	mov rbx, rsi
+	mov rdi, 14
+	xor rax, rax
+	cmp rbx, rdi
+	setb al
+	mov rbx, rax
+	mov rax, rbx
+	test al, al
+	jnz .1712
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_296
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1712:
+	mov rbx, qword _global_rallocator_mask
+	add rsi, rbx
+	mov rbx, 0
+	mov rax, rbx
+	mov byte [rsi], al
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 40]
+	mov rbx, rsi
+	mov rdi, 14
+	xor rax, rax
+	cmp rbx, rdi
+	setb al
+	mov rbx, rax
+	mov rax, rbx
+	test al, al
+	jnz .1713
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _slit_296
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.1713:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -24442,15 +24442,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1706
+	jnz .1714
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1706:
+.1714:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -24472,7 +24472,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_399
+	mov rbx, _slit_406
 	mov rdi, 13
 	push rbx
 	push rdi
@@ -24488,7 +24488,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_400
+	mov rbx, _slit_407
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -24510,7 +24510,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_401
+	mov rbx, _slit_408
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -24539,7 +24539,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_402
+	mov rbx, _slit_409
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -24573,15 +24573,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1707
+	jnz .1715
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1707:
+.1715:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -24597,15 +24597,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1708
+	jnz .1716
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1708:
+.1716:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -24621,15 +24621,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1709
+	jnz .1717
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1709:
+.1717:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -24666,15 +24666,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1710
+	jnz .1718
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1710:
+.1718:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -24696,7 +24696,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_403
+	mov rbx, _slit_410
 	mov rdi, 13
 	push rbx
 	push rdi
@@ -24712,7 +24712,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_404
+	mov rbx, _slit_411
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -24734,7 +24734,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_405
+	mov rbx, _slit_412
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -24763,7 +24763,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_406
+	mov rbx, _slit_413
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -24797,15 +24797,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1711
+	jnz .1719
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1711:
+.1719:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -24821,15 +24821,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1712
+	jnz .1720
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1712:
+.1720:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -24845,15 +24845,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1713
+	jnz .1721
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1713:
+.1721:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -24890,15 +24890,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1714
+	jnz .1722
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1714:
+.1722:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -24920,7 +24920,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_407
+	mov rbx, _slit_414
 	mov rdi, 13
 	push rbx
 	push rdi
@@ -24936,7 +24936,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_408
+	mov rbx, _slit_415
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -24958,7 +24958,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_409
+	mov rbx, _slit_416
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -24987,7 +24987,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_410
+	mov rbx, _slit_417
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -25021,15 +25021,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1715
+	jnz .1723
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1715:
+.1723:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -25045,15 +25045,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1716
+	jnz .1724
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1716:
+.1724:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -25069,15 +25069,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1717
+	jnz .1725
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1717:
+.1725:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -25114,15 +25114,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1718
+	jnz .1726
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1718:
+.1726:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -25144,7 +25144,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_411
+	mov rbx, _slit_418
 	mov rdi, 13
 	push rbx
 	push rdi
@@ -25160,7 +25160,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_412
+	mov rbx, _slit_419
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -25182,7 +25182,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_413
+	mov rbx, _slit_420
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -25211,7 +25211,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_414
+	mov rbx, _slit_421
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -25245,15 +25245,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1719
+	jnz .1727
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1719:
+.1727:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -25269,15 +25269,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1720
+	jnz .1728
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1720:
+.1728:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -25293,15 +25293,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1721
+	jnz .1729
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1721:
+.1729:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -25338,15 +25338,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1722
+	jnz .1730
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1722:
+.1730:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -25368,7 +25368,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_415
+	mov rbx, _slit_422
 	mov rdi, 13
 	push rbx
 	push rdi
@@ -25384,7 +25384,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_416
+	mov rbx, _slit_423
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -25406,7 +25406,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_417
+	mov rbx, _slit_424
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -25435,7 +25435,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_418
+	mov rbx, _slit_425
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -25469,15 +25469,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1723
+	jnz .1731
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1723:
+.1731:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -25493,15 +25493,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1724
+	jnz .1732
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1724:
+.1732:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -25517,15 +25517,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1725
+	jnz .1733
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1725:
+.1733:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -25562,15 +25562,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1726
+	jnz .1734
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1726:
+.1734:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -25592,7 +25592,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_419
+	mov rbx, _slit_426
 	mov rdi, 13
 	push rbx
 	push rdi
@@ -25608,7 +25608,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_420
+	mov rbx, _slit_427
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -25630,7 +25630,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_421
+	mov rbx, _slit_428
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -25659,7 +25659,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_422
+	mov rbx, _slit_429
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -25693,15 +25693,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1727
+	jnz .1735
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1727:
+.1735:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -25717,15 +25717,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1728
+	jnz .1736
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1728:
+.1736:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -25741,15 +25741,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1729
+	jnz .1737
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1729:
+.1737:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -25786,15 +25786,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1730
+	jnz .1738
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1730:
+.1738:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -25816,7 +25816,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_423
+	mov rbx, _slit_430
 	mov rdi, 13
 	push rbx
 	push rdi
@@ -25832,7 +25832,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_424
+	mov rbx, _slit_431
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -25854,7 +25854,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_425
+	mov rbx, _slit_432
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -25883,7 +25883,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_426
+	mov rbx, _slit_433
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -25917,15 +25917,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1731
+	jnz .1739
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1731:
+.1739:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -25941,15 +25941,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1732
+	jnz .1740
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1732:
+.1740:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -25965,15 +25965,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1733
+	jnz .1741
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1733:
+.1741:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -26007,7 +26007,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_427
+	mov rbx, _slit_434
 	mov rdi, 11
 	push rbx
 	push rdi
@@ -26029,7 +26029,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_428
+	mov rbx, _slit_435
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -26054,15 +26054,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1734
+	jnz .1742
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1734:
+.1742:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -26078,15 +26078,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1735
+	jnz .1743
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1735:
+.1743:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -26120,7 +26120,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_429
+	mov rbx, _slit_436
 	mov rdi, 11
 	push rbx
 	push rdi
@@ -26142,7 +26142,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_430
+	mov rbx, _slit_437
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -26167,15 +26167,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1736
+	jnz .1744
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1736:
+.1744:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -26191,15 +26191,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1737
+	jnz .1745
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1737:
+.1745:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -26233,7 +26233,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_431
+	mov rbx, _slit_438
 	mov rdi, 12
 	push rbx
 	push rdi
@@ -26255,7 +26255,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_432
+	mov rbx, _slit_439
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -26280,15 +26280,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1738
+	jnz .1746
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1738:
+.1746:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -26304,15 +26304,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1739
+	jnz .1747
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1739:
+.1747:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -26346,7 +26346,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_433
+	mov rbx, _slit_440
 	mov rdi, 12
 	push rbx
 	push rdi
@@ -26368,7 +26368,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_434
+	mov rbx, _slit_441
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -26393,15 +26393,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1740
+	jnz .1748
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1740:
+.1748:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -26417,15 +26417,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1741
+	jnz .1749
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1741:
+.1749:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -26470,21 +26470,21 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1742
+	jnz .1750
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1742:
+.1750:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, _slit_435
+	mov rbx, _slit_442
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -26500,7 +26500,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_436
+	mov rbx, _slit_443
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -26522,7 +26522,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_437
+	mov rbx, _slit_444
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -26556,15 +26556,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1743
+	jnz .1751
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1743:
+.1751:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -26580,15 +26580,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1744
+	jnz .1752
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1744:
+.1752:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -26633,21 +26633,21 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1745
+	jnz .1753
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1745:
+.1753:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, _slit_438
+	mov rbx, _slit_445
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -26663,7 +26663,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_439
+	mov rbx, _slit_446
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -26685,7 +26685,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_440
+	mov rbx, _slit_447
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -26719,15 +26719,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1746
+	jnz .1754
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1746:
+.1754:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -26743,15 +26743,15 @@ gen_range:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1747
+	jnz .1755
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1747:
+.1755:
 	mov rbx, qword _global_rallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -26777,7 +26777,7 @@ gen_range:
 	call r_pop_r
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_441
+	mov rbx, _slit_448
 	mov rsi, 15
 	push rbx
 	push rsi
@@ -26811,15 +26811,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1748
+	jnz .1756
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1748:
+.1756:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -26846,7 +26846,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 32], rsi
-	mov rbx, _slit_442
+	mov rbx, _slit_449
 	mov rdi, 5
 	push rbx
 	push rdi
@@ -26868,7 +26868,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_443
+	mov rbx, _slit_450
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -26890,7 +26890,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_444
+	mov rbx, _slit_451
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -26925,15 +26925,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1749
+	jnz .1757
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1749:
+.1757:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -26959,7 +26959,7 @@ gen_range:
 	call r_pop_r
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_445
+	mov rbx, _slit_452
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -26993,15 +26993,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1750
+	jnz .1758
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1750:
+.1758:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -27034,7 +27034,7 @@ gen_range:
 	call r_pop_r
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_446
+	mov rbx, _slit_453
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -27068,15 +27068,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1751
+	jnz .1759
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1751:
+.1759:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -27091,15 +27091,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1752
+	jnz .1760
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1752:
+.1760:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27139,7 +27139,7 @@ gen_range:
 	call r_pop_r
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_447
+	mov rbx, _slit_454
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -27173,15 +27173,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1753
+	jnz .1761
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1753:
+.1761:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -27196,15 +27196,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1754
+	jnz .1762
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1754:
+.1762:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27219,15 +27219,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1755
+	jnz .1763
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1755:
+.1763:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27274,7 +27274,7 @@ gen_range:
 	call r_pop_r
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_448
+	mov rbx, _slit_455
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -27308,15 +27308,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1756
+	jnz .1764
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1756:
+.1764:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -27331,15 +27331,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1757
+	jnz .1765
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1757:
+.1765:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27354,15 +27354,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1758
+	jnz .1766
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1758:
+.1766:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27377,15 +27377,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1759
+	jnz .1767
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1759:
+.1767:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27439,7 +27439,7 @@ gen_range:
 	call r_pop_r
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_449
+	mov rbx, _slit_456
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -27473,15 +27473,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1760
+	jnz .1768
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1760:
+.1768:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -27496,15 +27496,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1761
+	jnz .1769
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1761:
+.1769:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27519,15 +27519,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1762
+	jnz .1770
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1762:
+.1770:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27542,15 +27542,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1763
+	jnz .1771
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1763:
+.1771:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27565,15 +27565,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1764
+	jnz .1772
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1764:
+.1772:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27634,7 +27634,7 @@ gen_range:
 	call r_pop_r
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_450
+	mov rbx, _slit_457
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -27668,15 +27668,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1765
+	jnz .1773
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1765:
+.1773:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -27691,15 +27691,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1766
+	jnz .1774
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1766:
+.1774:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27714,15 +27714,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1767
+	jnz .1775
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1767:
+.1775:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27737,15 +27737,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1768
+	jnz .1776
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1768:
+.1776:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27760,15 +27760,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1769
+	jnz .1777
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1769:
+.1777:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27783,15 +27783,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1770
+	jnz .1778
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1770:
+.1778:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27859,7 +27859,7 @@ gen_range:
 	call r_pop_r
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_451
+	mov rbx, _slit_458
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -27893,15 +27893,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1771
+	jnz .1779
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_288
-	mov rdx, 64
+	mov rsi, _slit_295
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1771:
+.1779:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -27916,15 +27916,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1772
+	jnz .1780
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1772:
+.1780:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27939,15 +27939,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1773
+	jnz .1781
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1773:
+.1781:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27962,15 +27962,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1774
+	jnz .1782
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1774:
+.1782:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -27985,15 +27985,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1775
+	jnz .1783
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1775:
+.1783:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -28008,15 +28008,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1776
+	jnz .1784
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1776:
+.1784:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -28031,15 +28031,15 @@ gen_range:
 	mov rsi, rax
 	mov rax, rsi
 	test al, al
-	jnz .1777
+	jnz .1785
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_289
-	mov rdx, 64
+	mov rsi, _slit_296
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1777:
+.1785:
 	mov rsi, qword _global_rallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -28050,15 +28050,15 @@ gen_range:
 	mov rbx, 0
 	mov rax, rbx
 	test al, al
-	jnz .1778
+	jnz .1786
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_452
-	mov rdx, 78
+	mov rsi, _slit_459
+	mov rdx, 73
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1778:
+.1786:
 .1397:
 .1235:
 	add rsp, 8
@@ -28077,7 +28077,7 @@ stas.gen:
 	sub rsp, 16
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_228
+	mov rbx, _slit_235
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -28100,7 +28100,7 @@ stas.gen:
 	mov rax, rbx
 	test rax, rax
 	jz .1398
-	mov rbx, _slit_231
+	mov rbx, _slit_238
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -28116,7 +28116,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_232
+	mov rbx, _slit_239
 	mov rsi, 26
 	push rbx
 	push rsi
@@ -28132,7 +28132,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_233
+	mov rbx, _slit_240
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -28148,7 +28148,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_234
+	mov rbx, _slit_241
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -28166,7 +28166,7 @@ stas.gen:
 	mov rsp, rbp
 	jmp .1400
 .1398:
-	mov rbx, _slit_235
+	mov rbx, _slit_242
 	mov rsi, 23
 	push rbx
 	push rsi
@@ -28182,7 +28182,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_236
+	mov rbx, _slit_243
 	mov rsi, 27
 	push rbx
 	push rsi
@@ -28198,7 +28198,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_237
+	mov rbx, _slit_244
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -28215,7 +28215,7 @@ stas.gen:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 .1400:
-	mov rbx, _slit_238
+	mov rbx, _slit_245
 	mov rsi, 7
 	push rbx
 	push rsi
@@ -28231,7 +28231,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_239
+	mov rbx, _slit_246
 	mov rsi, 18
 	push rbx
 	push rsi
@@ -28247,7 +28247,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_240
+	mov rbx, _slit_247
 	mov rsi, 27
 	push rbx
 	push rsi
@@ -28263,7 +28263,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_241
+	mov rbx, _slit_248
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -28279,7 +28279,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_242
+	mov rbx, _slit_249
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -28295,7 +28295,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_243
+	mov rbx, _slit_250
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -28311,7 +28311,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_244
+	mov rbx, _slit_251
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -28327,7 +28327,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_245
+	mov rbx, _slit_252
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -28343,7 +28343,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_246
+	mov rbx, _slit_253
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -28359,7 +28359,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_247
+	mov rbx, _slit_254
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -28375,7 +28375,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_248
+	mov rbx, _slit_255
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -28408,7 +28408,7 @@ stas.gen:
 	mov rax, rbx
 	test rax, rax
 	jz .1401
-	mov rbx, _slit_453
+	mov rbx, _slit_460
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -28426,7 +28426,7 @@ stas.gen:
 	mov rsp, rbp
 	jmp .1403
 .1401:
-	mov rbx, _slit_454
+	mov rbx, _slit_461
 	mov rsi, 16
 	push rbx
 	push rsi
@@ -28460,7 +28460,7 @@ stas.gen:
 	jz .1405
 	pop rbx
 	mov rsi, rbx
-	mov rdi, _slit_455
+	mov rdi, _slit_462
 	mov r8, 6
 	push rbx
 	push rsi
@@ -28476,7 +28476,7 @@ stas.gen:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_456
+	mov rbx, _slit_463
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -28495,15 +28495,15 @@ stas.gen:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1779
+	jnz .1787
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_303
-	mov rdx, 63
+	mov rsi, _slit_310
+	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1779:
+.1787:
 	mov rdi, 8
 	imul rsi, rdi
 	mov rdi, qword _global_slits
@@ -28547,7 +28547,7 @@ stas.gen:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_457
+	mov rbx, _slit_464
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -28562,7 +28562,7 @@ stas.gen:
 	jmp .1406
 .1407:
 	add rsp, 8
-	mov rbx, _slit_458
+	mov rbx, _slit_465
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -28591,7 +28591,7 @@ stas.gen:
 	mov rax, rbx
 	test rax, rax
 	jz .1408
-	mov rbx, _slit_459
+	mov rbx, _slit_466
 	mov rsi, 23
 	push rbx
 	push rsi
@@ -28609,7 +28609,7 @@ stas.gen:
 	mov rsp, rbp
 	jmp .1410
 .1408:
-	mov rbx, _slit_460
+	mov rbx, _slit_467
 	mov rsi, 25
 	push rbx
 	push rsi
@@ -28641,7 +28641,7 @@ stas.gen:
 	push rbx
 	test rax, rax
 	jz .1412
-	mov rbx, _slit_461
+	mov rbx, _slit_468
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -28661,15 +28661,15 @@ stas.gen:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1780
+	jnz .1788
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_120
-	mov rdx, 71
+	mov rsi, _slit_127
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1780:
+.1788:
 	mov rdi, 24
 	imul rsi, rdi
 	mov rdi, qword _global_global_var_context
@@ -28689,7 +28689,7 @@ stas.gen:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_462
+	mov rbx, _slit_469
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -28709,15 +28709,15 @@ stas.gen:
 	mov rdi, rax
 	mov rax, rdi
 	test al, al
-	jnz .1781
+	jnz .1789
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_120
-	mov rdx, 71
+	mov rsi, _slit_127
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1781:
+.1789:
 	mov rdi, 24
 	imul rsi, rdi
 	mov rdi, qword _global_global_var_context
@@ -28746,7 +28746,7 @@ stas.gen:
 	jmp .1411
 .1412:
 	add rsp, 8
-	mov rbx, _slit_463
+	mov rbx, _slit_470
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -28762,7 +28762,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_464
+	mov rbx, _slit_471
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -28778,7 +28778,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_465
+	mov rbx, _slit_472
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -28794,7 +28794,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_466
+	mov rbx, _slit_473
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -28832,15 +28832,15 @@ stas.gen:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1782
+	jnz .1790
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_230
-	mov rdx, 65
+	mov rsi, _slit_237
+	mov rdx, 60
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1782:
+.1790:
 	mov rbx, 0
 	mov rsi, qword _global_fwrite_buffer.len
 	mov qword [rsi + 0], rbx
@@ -28848,12 +28848,98 @@ stas.gen:
 	mov rsp, [_rs_p]
 	add rsp, 16
 	ret
+usage:
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _slit_0
+	mov rsi, 40
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, _slit_1
+	mov rsi, 32
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, _slit_2
+	mov rsi, 61
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, _slit_3
+	mov rsi, 73
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, _slit_4
+	mov rsi, 67
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, _slit_5
+	mov rsi, 70
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, _slit_6
+	mov rsi, 66
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, _slit_7
+	mov rsi, 38
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	ret
 parse_backend_type:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [rsp + 8]
 	mov rsi, qword [rsp + 0]
-	mov rdi, _slit_7
+	mov rdi, _slit_14
 	mov r8, 4
 	push rbx
 	push rsi
@@ -28874,7 +28960,7 @@ parse_backend_type:
 .1413:
 	mov rbx, qword [rsp + 8]
 	mov rsi, qword [rsp + 0]
-	mov rdi, _slit_8
+	mov rdi, _slit_15
 	mov r8, 4
 	push rbx
 	push rsi
@@ -28893,7 +28979,7 @@ parse_backend_type:
 	mov qword [rsi + 0], rbx
 	jmp .1414
 .1416:
-	mov rbx, _slit_9
+	mov rbx, _slit_16
 	mov rsi, 15
 	mov rdi, 27
 	push rbx
@@ -28904,7 +28990,7 @@ parse_backend_type:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_10
+	mov rbx, _slit_17
 	mov rsi, 3
 	mov rdi, 2
 	mov r8, 1
@@ -28921,7 +29007,7 @@ parse_backend_type:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_11
+	mov rbx, _slit_18
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -28931,7 +29017,7 @@ parse_backend_type:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-	mov rbx, _slit_12
+	mov rbx, _slit_19
 	mov rsi, 7
 	mov rdi, 2
 	mov r8, 1
@@ -28948,7 +29034,7 @@ parse_backend_type:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_13
+	mov rbx, _slit_20
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -28965,7 +29051,7 @@ parse_backend_type:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_14
+	mov rbx, _slit_21
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -28991,16 +29077,11 @@ parse_backend_type:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_0
-	mov rsi, 11
-	mov rdi, 2
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rsi
-	mov rsi, rbx
-	mov rbx, rdi
-	mov rdi, rbx
-	syscall
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call usage
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	mov rbx, 1
 	mov rsi, 60
 	mov rax, rsi
@@ -29046,14 +29127,14 @@ execute_fasm:
 	mov r10, 8
 	add rbx, r10
 	mov r10, rbx
-	mov r11, _slit_468
+	mov r11, _slit_475
 	mov r12, 2
 	mov rax, r11
 	mov qword [r10], rax
 	mov r10, 8
 	add rbx, r10
 	mov r10, rbx
-	mov r11, _slit_469
+	mov r11, _slit_476
 	mov r12, 7
 	mov rax, r11
 	mov qword [r10], rax
@@ -29062,7 +29143,7 @@ execute_fasm:
 	mov r10, 0
 	mov rax, r10
 	mov qword [rbx], rax
-	mov rbx, _slit_470
+	mov rbx, _slit_477
 	mov r10, 13
 	mov r11, qword [_rs_p]
 	add r11, 32
@@ -29079,7 +29160,7 @@ execute_fasm:
 	add rsp, 72
 	ret
 main:
-	sub rsp, 65
+	sub rsp, 81
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_arg_p]
@@ -29092,16 +29173,11 @@ main:
 	mov rax, rbx
 	test rax, rax
 	jz .1418
-	mov rbx, _slit_0
-	mov rsi, 11
-	mov rdi, 2
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rsi
-	mov rsi, rbx
-	mov rbx, rdi
-	mov rdi, rbx
-	syscall
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call usage
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	mov rbx, 1
 	mov rsi, 60
 	mov rax, rsi
@@ -29116,31 +29192,34 @@ main:
 	mov rsi, 0
 	mov rax, rsi
 	mov byte [rbx], al
-	mov rbx, 18446744073709551615
-	mov rsi, qword _global_fwrite_buffer.fd_loc
-	mov qword [rsi + 0], rbx
-	mov rdi, 1
-	mov r8, qword _global_backend_type
-	mov qword [r8 + 0], rdi
-	mov r9, 0
+	mov rbx, 0
+	mov rsi, qword [_rs_p]
+	mov qword [rsi + 1], rbx
+	mov rsi, 18446744073709551615
+	mov rdi, qword _global_fwrite_buffer.fd_loc
+	mov qword [rdi + 0], rsi
+	mov r8, 1
+	mov r9, qword _global_backend_type
+	mov qword [r9 + 0], r8
 	mov r10, 0
-	mov r11, qword [_rs_p]
-	mov qword [r11 + 25], r10
-	mov qword [r11 + 33], r9
 	mov r11, 0
+	mov r12, qword [_rs_p]
+	mov qword [r12 + 33], r11
+	mov qword [r12 + 41], r10
 	mov r12, 0
-	mov r13, qword [_rs_p]
-	mov qword [r13 + 41], r12
-	mov qword [r13 + 49], r11
 	mov r13, 0
 	mov r14, qword [_rs_p]
-	mov qword [r14 + 1], r13
-	mov r14, qword _global_debug_symbols
-	mov r15, 0
-	mov rax, r15
-	mov byte [r14], al
-	mov r14, 1
-	push r14
+	mov qword [r14 + 49], r13
+	mov qword [r14 + 57], r12
+	mov r14, 0
+	mov r15, qword [_rs_p]
+	mov qword [r15 + 9], r14
+	mov r15, qword _global_debug_symbols
+	mov rcx, 0
+	mov rax, rcx
+	mov byte [r15], al
+	mov r15, 1
+	push r15
 .1420:
 	pop rbx
 	mov rsi, rbx
@@ -29165,13 +29244,13 @@ main:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 9], rsi
+	mov qword [rbx + 17], rsi
 	pop rdi
-	mov qword [rbx + 17], rdi
+	mov qword [rbx + 25], rdi
 	mov rbx, qword [_rs_p]
-	mov r8, qword [rbx + 17]
-	mov r9, qword [rbx + 9]
-	mov rbx, _slit_1
+	mov r8, qword [rbx + 25]
+	mov r9, qword [rbx + 17]
+	mov rbx, _slit_8
 	mov r10, 2
 	push r8
 	push r9
@@ -29186,7 +29265,7 @@ main:
 	test rax, rax
 	jz .1422
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 1]
+	mov rsi, qword [rbx + 9]
 	mov rbx, 0
 	xor rax, rax
 	cmp rsi, rbx
@@ -29195,16 +29274,11 @@ main:
 	mov rax, rbx
 	test rax, rax
 	jz .1424
-	mov rbx, _slit_0
-	mov rsi, 11
-	mov rdi, 2
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rsi
-	mov rsi, rbx
-	mov rbx, rdi
-	mov rdi, rbx
-	syscall
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call usage
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	mov rbx, 1
 	mov rsi, 60
 	mov rax, rsi
@@ -29213,13 +29287,13 @@ main:
 .1424:
 	mov rbx, 1
 	mov rsi, qword [_rs_p]
-	mov qword [rsi + 1], rbx
+	mov qword [rsi + 9], rbx
 	jmp .1423
 .1422:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 17]
-	mov rdi, qword [rbx + 9]
-	mov rbx, _slit_2
+	mov rsi, qword [rbx + 25]
+	mov rdi, qword [rbx + 17]
+	mov rbx, _slit_9
 	mov r8, 2
 	push rsi
 	push rdi
@@ -29234,7 +29308,7 @@ main:
 	test rax, rax
 	jz .1427
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 1]
+	mov rsi, qword [rbx + 9]
 	mov rbx, 0
 	xor rax, rax
 	cmp rsi, rbx
@@ -29243,16 +29317,11 @@ main:
 	mov rax, rbx
 	test rax, rax
 	jz .1428
-	mov rbx, _slit_0
-	mov rsi, 11
-	mov rdi, 2
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rsi
-	mov rsi, rbx
-	mov rbx, rdi
-	mov rdi, rbx
-	syscall
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call usage
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	mov rbx, 1
 	mov rsi, 60
 	mov rax, rsi
@@ -29261,13 +29330,13 @@ main:
 .1428:
 	mov rbx, 2
 	mov rsi, qword [_rs_p]
-	mov qword [rsi + 1], rbx
+	mov qword [rsi + 9], rbx
 	jmp .1423
 .1427:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 17]
-	mov rdi, qword [rbx + 9]
-	mov rbx, _slit_3
+	mov rsi, qword [rbx + 25]
+	mov rdi, qword [rbx + 17]
+	mov rbx, _slit_10
 	mov r8, 2
 	push rsi
 	push rdi
@@ -29288,16 +29357,11 @@ main:
 	mov rax, rbx
 	test rax, rax
 	jz .1432
-	mov rbx, _slit_0
-	mov rsi, 11
-	mov rdi, 2
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rsi
-	mov rsi, rbx
-	mov rbx, rdi
-	mov rdi, rbx
-	syscall
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call usage
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	mov rbx, 1
 	mov rsi, 60
 	mov rax, rsi
@@ -29311,9 +29375,55 @@ main:
 	jmp .1423
 .1431:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 17]
-	mov rdi, qword [rbx + 9]
-	mov rbx, _slit_4
+	mov rsi, qword [rbx + 25]
+	mov rdi, qword [rbx + 17]
+	mov rbx, _slit_11
+	mov r8, 2
+	push rsi
+	push rdi
+	push rbx
+	push r8
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call streq
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rax
+	test rax, rax
+	jz .1435
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 9]
+	mov rbx, 0
+	xor rax, rax
+	cmp rsi, rbx
+	setne al
+	mov rbx, rax
+	mov rax, rbx
+	test rax, rax
+	jz .1436
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call usage
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 1
+	mov rsi, 60
+	mov rax, rsi
+	mov rdi, rbx
+	syscall
+.1436:
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 1], rsi
+	mov rbx, qword [_arg_p]
+	mov rbx, [rbx]
+	push rbx
+	jmp .1423
+.1435:
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 25]
+	mov rdi, qword [rbx + 17]
+	mov rbx, _slit_12
 	mov r8, 6
 	push rsi
 	push rdi
@@ -29325,9 +29435,9 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 17]
-	mov rdi, qword [rbx + 9]
-	mov rbx, _slit_5
+	mov rsi, qword [rbx + 25]
+	mov rdi, qword [rbx + 17]
+	mov rbx, _slit_13
 	mov r8, 2
 	push rsi
 	push rdi
@@ -29343,92 +29453,32 @@ main:
 	or rsi, rbx
 	mov rax, rsi
 	test rax, rax
-	jz .1435
-	mov rbx, _slit_6
-	mov rsi, 7
-	mov rdi, 2
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rsi
-	mov rsi, rbx
-	mov rbx, rdi
-	mov rdi, rbx
-	syscall
-	mov rbx, _slit_0
-	mov rsi, 11
-	mov rdi, 2
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rsi
-	mov rsi, rbx
-	mov rbx, rdi
-	mov rdi, rbx
-	syscall
+	jz .1439
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call usage
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	mov rbx, 0
 	mov rsi, 60
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
 	jmp .1423
-.1435:
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 1]
-	mov rbx, 0
-	xor rax, rax
-	cmp rsi, rbx
-	sete al
-	mov rbx, rax
-	mov rax, rbx
-	test rax, rax
-	jz .1437
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 49]
-	mov rdi, qword [rbx + 41]
-	mov rbx, 0
-	xor rax, rax
-	cmp rsi, rbx
-	setne al
-	mov rbx, rax
-	mov rax, rbx
-	test rax, rax
-	jz .1439
-	mov rbx, _slit_0
-	mov rsi, 11
-	mov rdi, 2
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rsi
-	mov rsi, rbx
-	mov rbx, rdi
-	mov rdi, rbx
-	syscall
-	mov rbx, 1
-	mov rsi, 60
-	mov rax, rsi
-	mov rdi, rbx
-	syscall
 .1439:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 17]
-	mov rdi, qword [rbx + 9]
-	mov rbx, qword [_rs_p]
-	mov qword [rbx + 41], rdi
-	mov qword [rbx + 49], rsi
-	jmp .1438
-.1437:
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 1]
-	mov rbx, 1
+	mov rsi, qword [rbx + 9]
+	mov rbx, 0
 	xor rax, rax
 	cmp rsi, rbx
 	sete al
 	mov rbx, rax
 	mov rax, rbx
 	test rax, rax
-	jz .1442
+	jz .1441
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 33]
-	mov rdi, qword [rbx + 25]
+	mov rsi, qword [rbx + 57]
+	mov rdi, qword [rbx + 49]
 	mov rbx, 0
 	xor rax, rax
 	cmp rsi, rbx
@@ -29437,16 +29487,11 @@ main:
 	mov rax, rbx
 	test rax, rax
 	jz .1443
-	mov rbx, _slit_0
-	mov rsi, 11
-	mov rdi, 2
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rsi
-	mov rsi, rbx
-	mov rbx, rdi
-	mov rdi, rbx
-	syscall
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call usage
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	mov rbx, 1
 	mov rsi, 60
 	mov rax, rsi
@@ -29454,16 +29499,16 @@ main:
 	syscall
 .1443:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 17]
-	mov rdi, qword [rbx + 9]
+	mov rsi, qword [rbx + 25]
+	mov rdi, qword [rbx + 17]
 	mov rbx, qword [_rs_p]
-	mov qword [rbx + 25], rdi
-	mov qword [rbx + 33], rsi
-	jmp .1438
-.1442:
+	mov qword [rbx + 49], rdi
+	mov qword [rbx + 57], rsi
+	jmp .1442
+.1441:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 1]
-	mov rbx, 2
+	mov rsi, qword [rbx + 9]
+	mov rbx, 1
 	xor rax, rax
 	cmp rsi, rbx
 	sete al
@@ -29472,8 +29517,48 @@ main:
 	test rax, rax
 	jz .1446
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 17]
-	mov rdi, qword [rbx + 9]
+	mov rsi, qword [rbx + 41]
+	mov rdi, qword [rbx + 33]
+	mov rbx, 0
+	xor rax, rax
+	cmp rsi, rbx
+	setne al
+	mov rbx, rax
+	mov rax, rbx
+	test rax, rax
+	jz .1447
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call usage
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 1
+	mov rsi, 60
+	mov rax, rsi
+	mov rdi, rbx
+	syscall
+.1447:
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 25]
+	mov rdi, qword [rbx + 17]
+	mov rbx, qword [_rs_p]
+	mov qword [rbx + 33], rdi
+	mov qword [rbx + 41], rsi
+	jmp .1442
+.1446:
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 9]
+	mov rbx, 2
+	xor rax, rax
+	cmp rsi, rbx
+	sete al
+	mov rbx, rax
+	mov rax, rbx
+	test rax, rax
+	jz .1450
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 25]
+	mov rdi, qword [rbx + 17]
 	push rsi
 	push rdi
 	mov rbp, rsp
@@ -29481,26 +29566,26 @@ main:
 	call parse_backend_type
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1438
-.1446:
+	jmp .1442
+.1450:
 	mov rbx, 0
 	mov rax, rbx
 	test al, al
-	jnz .1783
+	jnz .1791
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_15
+	mov rsi, _slit_22
 	mov rdx, 55
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1783:
-.1447:
-.1438:
+.1791:
+.1451:
+.1442:
 	mov rbx, 0
 	mov rsi, qword [_rs_p]
-	mov qword [rsi + 1], rbx
-.1436:
+	mov qword [rsi + 9], rbx
+.1440:
 .1423:
 	pop rbx
 	inc rbx
@@ -29509,7 +29594,7 @@ main:
 .1421:
 	add rsp, 8
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 1]
+	mov rsi, qword [rbx + 9]
 	mov rbx, 0
 	xor rax, rax
 	cmp rsi, rbx
@@ -29517,9 +29602,9 @@ main:
 	mov rbx, rax
 	mov rax, rbx
 	test rax, rax
-	jz .1448
+	jz .1452
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 1]
+	mov rsi, qword [rbx + 9]
 	mov rbx, 1
 	xor rax, rax
 	cmp rsi, rbx
@@ -29527,8 +29612,8 @@ main:
 	mov rbx, rax
 	mov rax, rbx
 	test rax, rax
-	jz .1450
-	mov rbx, _slit_16
+	jz .1454
+	mov rbx, _slit_23
 	mov rsi, 18
 	mov rdi, 27
 	push rbx
@@ -29539,7 +29624,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_10
+	mov rbx, _slit_17
 	mov rsi, 3
 	mov rdi, 2
 	mov r8, 1
@@ -29556,7 +29641,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_11
+	mov rbx, _slit_18
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -29566,7 +29651,7 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-	mov rbx, _slit_12
+	mov rbx, _slit_19
 	mov rsi, 7
 	mov rdi, 2
 	mov r8, 1
@@ -29583,7 +29668,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_13
+	mov rbx, _slit_20
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -29600,7 +29685,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_14
+	mov rbx, _slit_21
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -29626,25 +29711,20 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_0
-	mov rsi, 11
-	mov rdi, 2
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rsi
-	mov rsi, rbx
-	mov rbx, rdi
-	mov rdi, rbx
-	syscall
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call usage
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	mov rbx, 1
 	mov rsi, 60
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-	jmp .1451
-.1450:
+	jmp .1455
+.1454:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 1]
+	mov rsi, qword [rbx + 9]
 	mov rbx, 2
 	xor rax, rax
 	cmp rsi, rbx
@@ -29652,8 +29732,8 @@ main:
 	mov rbx, rax
 	mov rax, rbx
 	test rax, rax
-	jz .1453
-	mov rbx, _slit_17
+	jz .1457
+	mov rbx, _slit_24
 	mov rsi, 19
 	mov rdi, 27
 	push rbx
@@ -29664,7 +29744,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_10
+	mov rbx, _slit_17
 	mov rsi, 3
 	mov rdi, 2
 	mov r8, 1
@@ -29681,7 +29761,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_11
+	mov rbx, _slit_18
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -29691,7 +29771,7 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-	mov rbx, _slit_12
+	mov rbx, _slit_19
 	mov rsi, 7
 	mov rdi, 2
 	mov r8, 1
@@ -29708,7 +29788,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_13
+	mov rbx, _slit_20
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -29725,7 +29805,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_14
+	mov rbx, _slit_21
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -29751,24 +29831,19 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_0
-	mov rsi, 11
-	mov rdi, 2
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rsi
-	mov rsi, rbx
-	mov rbx, rdi
-	mov rdi, rbx
-	syscall
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call usage
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	mov rbx, 1
 	mov rsi, 60
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1453:
-.1451:
-.1448:
+.1457:
+.1455:
+.1452:
 	mov rbx, qword _global_backend_type
 	mov rsi, qword [rbx + 0]
 	mov rbx, 2
@@ -29778,15 +29853,15 @@ main:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1784
+	jnz .1792
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_18
+	mov rsi, _slit_25
 	mov rdx, 90
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1784:
+.1792:
 	mov rbx, qword _global_debug_symbols
 	xor rax, rax
 	mov al, [rbx]
@@ -29798,18 +29873,18 @@ main:
 	mov rbx, rax
 	mov rax, rbx
 	test al, al
-	jnz .1785
+	jnz .1793
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _slit_19
+	mov rsi, _slit_26
 	mov rdx, 100
 	syscall
 	mov rdi, 1
 	jmp _exit
-.1785:
+.1793:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 49]
-	mov rdi, qword [rbx + 41]
+	mov rsi, qword [rbx + 57]
+	mov rdi, qword [rbx + 49]
 	mov rbx, 0
 	xor rax, rax
 	cmp rsi, rbx
@@ -29817,8 +29892,8 @@ main:
 	mov rbx, rax
 	mov rax, rbx
 	test rax, rax
-	jz .1454
-	mov rbx, _slit_20
+	jz .1458
+	mov rbx, _slit_27
 	mov rsi, 16
 	mov rdi, 27
 	push rbx
@@ -29829,7 +29904,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_10
+	mov rbx, _slit_17
 	mov rsi, 3
 	mov rdi, 2
 	mov r8, 1
@@ -29846,7 +29921,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_11
+	mov rbx, _slit_18
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -29856,7 +29931,7 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-	mov rbx, _slit_12
+	mov rbx, _slit_19
 	mov rsi, 7
 	mov rdi, 2
 	mov r8, 1
@@ -29873,7 +29948,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_13
+	mov rbx, _slit_20
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -29890,7 +29965,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_14
+	mov rbx, _slit_21
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -29916,25 +29991,20 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_0
-	mov rsi, 11
-	mov rdi, 2
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rsi
-	mov rsi, rbx
-	mov rbx, rdi
-	mov rdi, rbx
-	syscall
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call usage
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	mov rbx, 1
 	mov rsi, 60
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1454:
+.1458:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 33]
-	mov rdi, qword [rbx + 25]
+	mov rsi, qword [rbx + 41]
+	mov rdi, qword [rbx + 33]
 	mov rbx, 0
 	xor rax, rax
 	cmp rsi, rbx
@@ -29942,7 +30012,7 @@ main:
 	mov rbx, rax
 	mov rax, rbx
 	test rax, rax
-	jz .1456
+	jz .1460
 	mov rbx, qword _global_debug_symbols
 	xor rax, rax
 	mov al, [rbx]
@@ -29956,29 +30026,29 @@ main:
 	or rdi, rax
 	mov rax, rdi
 	test rax, rax
-	jz .1458
-	mov rbx, _slit_21
+	jz .1462
+	mov rbx, _slit_28
 	mov rsi, 3
 	push rbx
 	push rsi
-	jmp .1460
-.1458:
-	mov rbx, _slit_22
+	jmp .1464
+.1462:
+	mov rbx, _slit_29
 	mov rsi, 5
 	push rbx
 	push rsi
-.1460:
+.1464:
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 25], rsi
+	mov qword [rbx + 33], rsi
 	pop rdi
-	mov qword [rbx + 33], rdi
-	jmp .1461
-.1456:
+	mov qword [rbx + 41], rdi
+	jmp .1465
+.1460:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 33]
-	mov rdi, qword [rbx + 25]
-	mov rbx, _slit_23
+	mov rsi, qword [rbx + 41]
+	mov rdi, qword [rbx + 33]
+	mov rbx, _slit_30
 	mov r8, 1
 	push rsi
 	push rdi
@@ -29991,13 +30061,13 @@ main:
 	mov rsp, rbp
 	pop rax
 	test rax, rax
-	jz .1462
+	jz .1466
 	mov rbx, qword [_rs_p]
 	mov rsi, 1
 	mov rax, rsi
 	mov byte [rbx], al
-.1462:
-.1461:
+.1466:
+.1465:
 	mov rbx, qword [_rs_p]
 	xor rax, rax
 	mov al, [rbx]
@@ -30008,10 +30078,10 @@ main:
 	mov rbx, rax
 	mov rax, rbx
 	test rax, rax
-	jz .1464
+	jz .1468
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 33]
-	mov rdi, qword [rbx + 25]
+	mov rsi, qword [rbx + 41]
+	mov rdi, qword [rbx + 33]
 	push rsi
 	push rdi
 	mov rbp, rsp
@@ -30021,7 +30091,7 @@ main:
 	mov rsp, rbp
 	pop rbx
 	mov rsi, rbx
-	mov rdi, _slit_25
+	mov rdi, _slit_32
 	mov r8, 4
 	push rbx
 	push rsi
@@ -30035,7 +30105,7 @@ main:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
-	mov qword [rdi + 57], rsi
+	mov qword [rdi + 65], rsi
 	mov rdi, rbx
 	mov r8, 8
 	add rdi, r8
@@ -30050,15 +30120,15 @@ main:
 	mov rbx, qword _global_fwrite_buffer.fd_loc
 	pop rsi
 	mov qword [rbx + 0], rsi
-	jmp .1466
-.1464:
+	jmp .1470
+.1468:
 	mov rbx, 1
 	mov rsi, qword _global_fwrite_buffer.fd_loc
 	mov qword [rsi + 0], rbx
-.1466:
+.1470:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 49]
-	mov rdi, qword [rbx + 41]
+	mov rsi, qword [rbx + 57]
+	mov rdi, qword [rbx + 49]
 	push rsi
 	push rdi
 	mov rbp, rsp
@@ -30081,7 +30151,7 @@ main:
 	mov rax, rbx
 	test rax, rax
 	jz .1084
-	mov rbx, _slit_225
+	mov rbx, _slit_232
 	mov rsi, 16
 	mov rdi, 27
 	push rbx
@@ -30092,7 +30162,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_10
+	mov rbx, _slit_17
 	mov rsi, 3
 	mov rdi, 2
 	mov r8, 1
@@ -30109,7 +30179,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_11
+	mov rbx, _slit_18
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -30119,7 +30189,7 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-	mov rbx, _slit_12
+	mov rbx, _slit_19
 	mov rsi, 7
 	mov rdi, 2
 	mov r8, 1
@@ -30136,7 +30206,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_13
+	mov rbx, _slit_20
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -30153,7 +30223,7 @@ main:
 	call eputc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _slit_14
+	mov rbx, _slit_21
 	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
@@ -30204,12 +30274,12 @@ main:
 	mov rbx, rax
 	mov rax, rbx
 	test rax, rax
-	jz .1467
+	jz .1471
 	mov rbp, rsp
 	mov rsp, [_rs_p]
-	add rsp, 65
+	add rsp, 81
 	ret
-.1467:
+.1471:
 	mov rbx, qword _global_fwrite_buffer.fd_loc
 	mov rsi, qword [rbx + 0]
 	mov rbx, 3
@@ -30224,8 +30294,8 @@ main:
 	mov rbx, rax
 	mov rax, rbx
 	test rax, rax
-	jz .1469
-	mov rbx, _slit_467
+	jz .1473
+	mov rbx, _slit_474
 	mov rsi, 39
 	mov rdi, 2
 	mov r8, 1
@@ -30240,16 +30310,16 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1469:
+.1473:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 57]
+	mov rsi, qword [rbx + 65]
 	mov rbx, rsi
 	mov rdi, 8
 	add rbx, rdi
 	mov rsi, [rsi]
 	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 33]
-	mov r9, qword [rdi + 25]
+	mov r8, qword [rdi + 41]
+	mov r9, qword [rdi + 33]
 	push rbx
 	push rsi
 	push r8
@@ -30259,486 +30329,557 @@ main:
 	call execute_fasm
 	mov [_rs_p], rsp
 	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 1]
+	mov rbx, 0
+	xor rax, rax
+	cmp rsi, rbx
+	setne al
+	mov rbx, rax
+	mov rax, rbx
+	test rax, rax
+	jz .1475
+	mov rbx, qword [_rs_p]
+	add rbx, 73
+	mov rsi, 0
+	mov rax, rsi
+	mov qword [rbx], rax
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 41]
+	mov rdi, qword [rbx + 33]
+	mov rbx, qword [_arg_p]
+	add rbx, 8
+	mov rdi, qword [_rs_p]
+	mov r8, qword [rdi + 1]
+	mov rdi, 1
+	add r8, rdi
+	mov rdi, 8
+	imul r8, rdi
+	add rbx, r8
+	mov rdi, qword [_rs_p]
+	add rdi, 73
+	mov r8, 59
+	mov rax, r8
+	mov rdx, rdi
+	mov rdi, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, 0
+	mov rsi, rax
+	xor rax, rax
+	cmp rsi, rbx
+	setl al
+	mov rbx, rax
+	mov rax, rbx
+	test rax, rax
+	jz .1477
+	mov rbx, _slit_482
+	mov rsi, 29
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, 1
+	mov rsi, 60
+	mov rax, rsi
+	mov rdi, rbx
+	syscall
+.1477:
+.1475:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
-	add rsp, 65
+	add rsp, 81
 	ret
 segment readable
-_slit_0: db 85, 83, 65, 71, 69, 58, 58, 58, 58, 58, 10, 0
-_slit_1: db 45, 111, 0
-_slit_2: db 45, 98, 0
-_slit_3: db 45, 103, 0
-_slit_4: db 45, 45, 104, 101, 108, 112, 0
-_slit_5: db 45, 104, 0
-_slit_6: db 104, 101, 108, 108, 112, 121, 10, 0
-_slit_7: db 102, 97, 115, 109, 0
-_slit_8: db 110, 97, 115, 109, 0
-_slit_9: db 117, 110, 107, 110, 111, 119, 110, 32, 98, 97, 99, 107, 101, 110, 100, 0
-_slit_10: db 91, 49, 109, 0
-_slit_11: db 91, 51, 49, 109, 0
-_slit_12: db 70, 65, 84, 65, 76, 58, 32, 0
-_slit_13: db 91, 51, 57, 109, 0
-_slit_14: db 91, 50, 50, 109, 0
-_slit_15: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 116, 97, 115, 46, 115, 116, 97, 115, 58, 49, 51, 52, 58, 55, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_16: db 115, 117, 112, 112, 108, 121, 32, 111, 117, 116, 112, 117, 116, 32, 102, 105, 108, 101, 0
-_slit_17: db 115, 117, 112, 112, 108, 121, 32, 98, 97, 99, 107, 101, 110, 100, 32, 116, 121, 112, 101, 0
-_slit_18: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 116, 97, 115, 46, 115, 116, 97, 115, 58, 49, 53, 48, 58, 51, 53, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 110, 97, 115, 109, 32, 98, 97, 99, 107, 101, 110, 100, 32, 110, 111, 116, 32, 115, 117, 112, 112, 111, 114, 116, 101, 100, 32, 121, 101, 116, 39, 10, 0
-_slit_19: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 116, 97, 115, 46, 115, 116, 97, 115, 58, 49, 53, 49, 58, 50, 55, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 111, 98, 106, 101, 99, 116, 32, 102, 105, 108, 101, 32, 43, 32, 108, 105, 110, 101, 32, 110, 117, 109, 98, 101, 114, 115, 32, 110, 111, 116, 32, 115, 117, 112, 112, 111, 114, 116, 101, 100, 39, 10, 0
-_slit_20: db 115, 117, 112, 112, 108, 121, 32, 115, 116, 97, 115, 32, 102, 105, 108, 101, 0
-_slit_21: db 97, 46, 111, 0
-_slit_22: db 97, 46, 111, 117, 116, 0
-_slit_23: db 45, 0
-_slit_24: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 115, 116, 114, 105, 110, 103, 98, 117, 102, 102, 101, 114, 46, 115, 116, 97, 115, 58, 56, 58, 53, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 83, 116, 114, 105, 110, 103, 32, 109, 101, 109, 111, 114, 121, 32, 101, 120, 99, 101, 101, 100, 101, 100, 32, 108, 105, 109, 105, 116, 39, 10, 0
-_slit_25: db 46, 116, 109, 112, 0
-_slit_26: db 70, 65, 84, 65, 76, 58, 32, 70, 97, 105, 108, 101, 100, 32, 116, 111, 32, 111, 112, 101, 110, 32, 102, 105, 108, 101, 32, 39, 0
-_slit_27: db 39, 10, 0
-_slit_28: db 70, 65, 84, 65, 76, 58, 32, 70, 97, 105, 108, 101, 100, 32, 116, 111, 32, 111, 112, 101, 110, 32, 102, 105, 108, 101, 32, 39, 0
-_slit_29: db 39, 10, 0
-_slit_30: db 70, 65, 84, 65, 76, 58, 32, 70, 97, 105, 108, 101, 100, 32, 116, 111, 32, 115, 116, 97, 116, 32, 116, 104, 101, 32, 102, 105, 108, 101, 32, 100, 101, 115, 99, 114, 105, 112, 116, 111, 114, 10, 0
-_slit_31: db 70, 65, 84, 65, 76, 58, 32, 67, 111, 117, 108, 100, 32, 110, 111, 116, 32, 109, 109, 97, 112, 32, 102, 105, 108, 101, 32, 39, 0
-_slit_32: db 39, 10, 0
-_slit_33: db 70, 65, 84, 65, 76, 58, 32, 70, 97, 105, 108, 101, 100, 32, 116, 111, 32, 99, 108, 111, 115, 101, 32, 102, 105, 108, 101, 32, 100, 101, 115, 99, 114, 105, 112, 116, 111, 114, 10, 0
-_slit_34: db 117, 110, 116, 101, 114, 109, 105, 110, 97, 116, 101, 100, 32, 115, 116, 114, 105, 110, 103, 32, 108, 105, 116, 101, 114, 97, 108, 0
-_slit_35: db 58, 0
-_slit_36: db 58, 0
-_slit_37: db 58, 32, 0
-_slit_38: db 10, 0
-_slit_39: db 101, 115, 99, 97, 112, 101, 32, 99, 104, 97, 114, 97, 99, 116, 101, 114, 32, 100, 111, 101, 115, 32, 110, 111, 116, 32, 101, 120, 105, 115, 116, 0
-_slit_40: db 117, 110, 104, 97, 110, 100, 108, 101, 100, 32, 101, 115, 99, 97, 112, 101, 32, 99, 104, 97, 114, 97, 99, 116, 101, 114, 0
-_slit_41: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 116, 111, 107, 101, 110, 115, 46, 115, 116, 97, 115, 58, 51, 57, 49, 58, 51, 56, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_42: db 102, 105, 108, 101, 32, 116, 111, 32, 105, 110, 99, 108, 117, 100, 101, 32, 105, 115, 32, 110, 111, 116, 32, 97, 32, 115, 116, 114, 105, 110, 103, 0
-_slit_43: db 105, 110, 99, 108, 117, 100, 101, 0
-_slit_44: db 123, 0
-_slit_45: db 125, 0
-_slit_46: db 45, 62, 0
-_slit_47: db 102, 110, 0
-_slit_48: db 95, 98, 114, 101, 97, 107, 112, 111, 105, 110, 116, 0
-_slit_49: db 99, 111, 110, 115, 116, 0
-_slit_50: db 97, 115, 115, 101, 114, 116, 0
-_slit_51: db 97, 114, 103, 99, 0
-_slit_52: db 97, 114, 103, 118, 0
-_slit_53: db 114, 101, 116, 0
-_slit_54: db 105, 102, 0
-_slit_55: db 101, 108, 115, 101, 0
-_slit_56: db 101, 108, 105, 102, 0
-_slit_57: db 119, 104, 105, 108, 101, 0
-_slit_58: db 98, 114, 101, 97, 107, 0
-_slit_59: db 99, 111, 110, 116, 105, 110, 117, 101, 0
-_slit_60: db 43, 0
-_slit_61: db 45, 0
-_slit_62: db 42, 0
-_slit_63: db 47, 0
-_slit_64: db 37, 0
-_slit_65: db 43, 43, 0
-_slit_66: db 45, 45, 0
-_slit_67: db 37, 37, 0
-_slit_68: db 62, 62, 0
-_slit_69: db 60, 60, 0
-_slit_70: db 38, 0
-_slit_71: db 124, 0
-_slit_72: db 126, 0
-_slit_73: db 33, 0
-_slit_74: db 94, 0
-_slit_75: db 115, 119, 97, 112, 0
-_slit_76: db 100, 117, 112, 0
-_slit_77: db 111, 118, 101, 114, 0
-_slit_78: db 111, 118, 101, 114, 50, 0
-_slit_79: db 114, 111, 116, 0
-_slit_80: db 114, 111, 116, 52, 0
-_slit_81: db 100, 114, 111, 112, 0
-_slit_82: db 61, 0
-_slit_83: db 33, 61, 0
-_slit_84: db 62, 0
-_slit_85: db 60, 0
-_slit_86: db 62, 61, 0
-_slit_87: db 60, 61, 0
-_slit_88: db 62, 115, 0
-_slit_89: db 60, 115, 0
-_slit_90: db 62, 61, 115, 0
-_slit_91: db 60, 61, 115, 0
-_slit_92: db 119, 56, 0
-_slit_93: db 119, 49, 54, 0
-_slit_94: db 119, 51, 50, 0
-_slit_95: db 119, 54, 52, 0
-_slit_96: db 114, 56, 0
-_slit_97: db 114, 49, 54, 0
-_slit_98: db 114, 51, 50, 0
-_slit_99: db 114, 54, 52, 0
-_slit_100: db 115, 121, 115, 99, 97, 108, 108, 48, 0
-_slit_101: db 115, 121, 115, 99, 97, 108, 108, 49, 0
-_slit_102: db 115, 121, 115, 99, 97, 108, 108, 50, 0
-_slit_103: db 115, 121, 115, 99, 97, 108, 108, 51, 0
-_slit_104: db 115, 121, 115, 99, 97, 108, 108, 52, 0
-_slit_105: db 115, 121, 115, 99, 97, 108, 108, 53, 0
-_slit_106: db 115, 121, 115, 99, 97, 108, 108, 54, 0
-_slit_107: db 114, 101, 115, 101, 114, 118, 101, 0
-_slit_108: db 97, 117, 116, 111, 0
-_slit_109: db 112, 111, 112, 0
-_slit_110: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 102, 105, 108, 101, 32, 116, 111, 32, 105, 110, 99, 108, 117, 100, 101, 0
-_slit_111: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 116, 111, 107, 101, 110, 115, 46, 115, 116, 97, 115, 58, 51, 55, 55, 58, 50, 53, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_112: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 0
-_slit_113: db 58, 0
-_slit_114: db 58, 0
-_slit_115: db 58, 32, 0
-_slit_116: db 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 110, 97, 109, 101, 32, 109, 117, 115, 116, 32, 110, 111, 116, 32, 98, 101, 32, 105, 110, 32, 105, 110, 115, 116, 114, 105, 110, 115, 105, 99, 0
-_slit_117: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 48, 51, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_118: db 100, 117, 112, 108, 105, 99, 97, 116, 101, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 110, 97, 109, 101, 32, 97, 115, 32, 101, 120, 105, 115, 116, 105, 110, 103, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 110, 97, 109, 101, 0
-_slit_119: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 50, 53, 58, 51, 49, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_120: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 52, 57, 58, 51, 49, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_121: db 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 110, 97, 109, 101, 32, 97, 115, 32, 100, 117, 112, 108, 105, 99, 97, 116, 101, 32, 116, 111, 112, 32, 108, 101, 118, 101, 108, 32, 118, 97, 114, 105, 97, 98, 108, 101, 32, 110, 97, 109, 101, 0
-_slit_122: db 97, 32, 115, 99, 111, 112, 101, 32, 109, 117, 115, 116, 32, 102, 111, 108, 108, 111, 119, 32, 97, 32, 99, 111, 110, 115, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 100, 101, 99, 108, 0
-_slit_123: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 51, 56, 58, 53, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_124: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 49, 49, 55, 52, 58, 49, 51, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_125: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 57, 50, 58, 50, 53, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_126: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 55, 49, 58, 50, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_127: db 117, 110, 99, 108, 111, 115, 101, 100, 32, 115, 99, 111, 112, 101, 32, 102, 111, 114, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 0
-_slit_128: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 102, 117, 110, 99, 116, 105, 111, 110, 0
-_slit_129: db 102, 117, 110, 99, 116, 105, 111, 110, 32, 110, 97, 109, 101, 32, 109, 117, 115, 116, 32, 110, 111, 116, 32, 98, 101, 32, 97, 110, 32, 105, 110, 116, 114, 105, 110, 115, 105, 99, 0
-_slit_130: db 102, 117, 110, 99, 116, 105, 111, 110, 32, 114, 101, 116, 117, 114, 110, 32, 97, 110, 100, 32, 97, 114, 103, 117, 109, 101, 110, 116, 32, 99, 111, 117, 110, 116, 115, 32, 109, 117, 115, 116, 32, 98, 101, 32, 110, 117, 109, 98, 101, 114, 115, 0
-_slit_131: db 110, 101, 119, 32, 115, 99, 111, 112, 101, 32, 109, 117, 115, 116, 32, 112, 114, 111, 99, 101, 101, 100, 32, 97, 102, 116, 101, 114, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 104, 101, 97, 100, 101, 114, 0
-_slit_132: db 100, 117, 112, 108, 105, 99, 97, 116, 101, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 110, 97, 109, 101, 0
-_slit_133: db 102, 117, 110, 99, 116, 105, 111, 110, 32, 110, 97, 109, 101, 32, 97, 108, 114, 101, 97, 100, 121, 32, 101, 120, 105, 115, 116, 115, 32, 97, 115, 32, 118, 97, 114, 105, 97, 98, 108, 101, 32, 110, 97, 109, 101, 0
-_slit_134: db 109, 97, 105, 110, 0
-_slit_135: db 116, 104, 101, 32, 109, 97, 105, 110, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 109, 117, 115, 116, 32, 97, 99, 99, 101, 112, 116, 32, 97, 110, 100, 32, 114, 101, 116, 117, 114, 110, 32, 122, 101, 114, 111, 32, 118, 97, 108, 117, 101, 115, 0
-_slit_136: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 50, 48, 58, 51, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_137: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 50, 52, 58, 51, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_138: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 50, 53, 55, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_139: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 50, 53, 56, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_140: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 50, 57, 58, 49, 56, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_141: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 118, 97, 114, 105, 97, 98, 108, 101, 32, 100, 101, 99, 108, 0
-_slit_142: db 118, 97, 114, 105, 97, 98, 108, 101, 32, 110, 97, 109, 101, 32, 109, 117, 115, 116, 32, 110, 111, 116, 32, 98, 101, 32, 97, 110, 32, 105, 110, 116, 114, 105, 110, 115, 105, 99, 0
-_slit_143: db 118, 97, 114, 105, 97, 98, 108, 101, 32, 100, 101, 99, 108, 32, 109, 117, 115, 116, 32, 110, 111, 116, 32, 98, 101, 32, 97, 32, 102, 117, 110, 99, 116, 105, 111, 110, 0
-_slit_144: db 118, 97, 114, 105, 97, 98, 108, 101, 32, 100, 101, 99, 108, 32, 109, 117, 115, 116, 32, 115, 112, 101, 99, 105, 102, 121, 32, 115, 105, 122, 101, 32, 105, 110, 32, 98, 121, 116, 101, 115, 0
-_slit_145: db 100, 117, 112, 108, 105, 99, 97, 116, 101, 32, 116, 111, 112, 32, 108, 101, 118, 101, 108, 32, 118, 97, 114, 105, 97, 98, 108, 101, 32, 110, 97, 109, 101, 0
-_slit_146: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 54, 51, 58, 53, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_147: db 117, 110, 107, 110, 111, 119, 110, 32, 116, 111, 112, 108, 101, 118, 101, 108, 32, 116, 111, 107, 101, 110, 0
-_slit_148: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 52, 51, 58, 51, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_149: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 49, 48, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_150: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 101, 118, 97, 108, 46, 115, 116, 97, 115, 58, 56, 58, 51, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_151: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 101, 118, 97, 108, 46, 115, 116, 97, 115, 58, 50, 49, 58, 50, 51, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_152: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 101, 118, 97, 108, 46, 115, 116, 97, 115, 58, 49, 53, 58, 50, 51, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_153: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 49, 50, 49, 54, 58, 50, 53, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 117, 110, 114, 101, 97, 99, 104, 97, 98, 108, 101, 39, 10, 0
-_slit_154: db 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 109, 117, 115, 116, 32, 99, 111, 110, 116, 97, 105, 110, 32, 97, 32, 118, 97, 108, 117, 101, 0
-_slit_155: db 109, 111, 114, 101, 32, 116, 104, 97, 110, 32, 111, 110, 101, 32, 117, 110, 104, 97, 110, 100, 108, 101, 100, 32, 118, 97, 108, 117, 101, 32, 111, 110, 32, 108, 101, 102, 116, 32, 111, 110, 32, 116, 104, 101, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 0
-_slit_156: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 49, 50, 52, 49, 58, 50, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_157: db 117, 110, 107, 110, 111, 119, 110, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 118, 97, 114, 105, 97, 98, 108, 101, 0
-_slit_158: db 110, 111, 32, 118, 97, 108, 117, 101, 32, 111, 110, 32, 115, 116, 97, 99, 107, 32, 116, 111, 32, 99, 111, 110, 115, 117, 109, 101, 32, 102, 111, 114, 32, 97, 115, 115, 101, 114, 116, 105, 111, 110, 0
-_slit_159: db 0
-_slit_160: db 91, 49, 109, 0
-_slit_161: db 91, 51, 49, 109, 0
-_slit_162: db 58, 0
-_slit_163: db 58, 0
-_slit_164: db 58, 32, 0
-_slit_165: db 91, 51, 57, 109, 0
-_slit_166: db 91, 50, 50, 109, 0
-_slit_167: db 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 0
-_slit_168: db 39, 10, 0
-_slit_169: db 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_170: db 110, 111, 116, 32, 101, 110, 111, 117, 103, 104, 32, 118, 97, 108, 117, 101, 115, 32, 116, 111, 32, 99, 111, 110, 115, 117, 109, 101, 32, 102, 111, 114, 32, 111, 112, 101, 114, 97, 116, 105, 111, 110, 0
-_slit_171: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 52, 55, 58, 50, 52, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_172: db 100, 117, 112, 108, 105, 99, 97, 116, 101, 32, 118, 97, 114, 105, 97, 98, 108, 101, 32, 110, 97, 109, 101, 0
-_slit_173: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 54, 49, 58, 51, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_174: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 112, 111, 112, 0
-_slit_175: db 101, 120, 112, 101, 99, 116, 101, 100, 32, 110, 97, 109, 101, 32, 97, 102, 116, 101, 114, 32, 112, 111, 112, 0
-_slit_176: db 99, 97, 110, 110, 111, 116, 32, 112, 111, 112, 32, 105, 110, 116, 111, 32, 97, 32, 98, 117, 102, 102, 101, 114, 0
-_slit_177: db 110, 111, 116, 32, 101, 110, 111, 117, 103, 104, 116, 32, 118, 97, 108, 117, 101, 115, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 116, 111, 32, 112, 111, 112, 32, 105, 110, 116, 111, 32, 97, 110, 32, 97, 117, 116, 111, 109, 97, 116, 105, 99, 32, 118, 97, 114, 105, 97, 98, 108, 101, 0
-_slit_178: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 52, 50, 50, 58, 56, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_179: db 99, 97, 110, 110, 111, 116, 32, 112, 111, 112, 32, 105, 110, 116, 111, 32, 97, 32, 98, 117, 102, 102, 101, 114, 0
-_slit_180: db 110, 111, 116, 32, 101, 110, 111, 117, 103, 104, 116, 32, 118, 97, 108, 117, 101, 115, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 116, 111, 32, 112, 111, 112, 32, 105, 110, 116, 111, 32, 97, 110, 32, 97, 117, 116, 111, 109, 97, 116, 105, 99, 32, 118, 97, 114, 105, 97, 98, 108, 101, 0
-_slit_181: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 52, 52, 55, 58, 57, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_182: db 117, 110, 107, 110, 111, 119, 110, 32, 97, 117, 116, 111, 32, 118, 97, 114, 105, 97, 98, 108, 101, 0
-_slit_183: db 110, 111, 116, 32, 101, 110, 111, 117, 103, 104, 32, 118, 97, 108, 117, 101, 115, 32, 116, 111, 32, 99, 111, 110, 115, 117, 109, 101, 32, 102, 111, 114, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 99, 97, 108, 108, 0
-_slit_184: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 53, 48, 48, 58, 57, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_185: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 53, 50, 48, 58, 57, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_186: db 117, 110, 107, 110, 111, 119, 110, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 99, 97, 108, 108, 32, 111, 114, 32, 118, 97, 114, 105, 97, 98, 108, 101, 0
-_slit_187: db 110, 111, 32, 118, 97, 108, 117, 101, 32, 111, 110, 32, 115, 116, 97, 99, 107, 32, 116, 111, 32, 99, 111, 110, 115, 117, 109, 101, 32, 102, 111, 114, 32, 105, 102, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
-_slit_188: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 56, 55, 58, 52, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_189: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 105, 102, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
-_slit_190: db 97, 32, 115, 99, 111, 112, 101, 32, 109, 117, 115, 116, 32, 99, 111, 109, 101, 32, 97, 102, 116, 101, 114, 32, 97, 110, 32, 105, 102, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
-_slit_191: db 110, 111, 116, 32, 105, 110, 115, 105, 100, 101, 32, 119, 104, 105, 108, 101, 32, 108, 111, 111, 112, 32, 98, 111, 100, 121, 0
-_slit_192: db 110, 111, 116, 32, 105, 110, 115, 105, 100, 101, 32, 119, 104, 105, 108, 101, 32, 108, 111, 111, 112, 32, 98, 111, 100, 121, 0
-_slit_193: db 110, 111, 116, 32, 105, 110, 115, 105, 100, 101, 32, 119, 104, 105, 108, 101, 32, 108, 111, 111, 112, 32, 98, 111, 100, 121, 0
-_slit_194: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 54, 50, 56, 58, 53, 57, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_195: db 110, 111, 116, 32, 105, 110, 115, 105, 100, 101, 32, 119, 104, 105, 108, 101, 32, 108, 111, 111, 112, 32, 98, 111, 100, 121, 0
-_slit_196: db 110, 111, 32, 118, 97, 108, 117, 101, 32, 111, 110, 32, 115, 116, 97, 99, 107, 32, 116, 111, 32, 99, 111, 110, 115, 117, 109, 101, 32, 102, 111, 114, 32, 119, 104, 105, 108, 101, 32, 104, 101, 97, 100, 101, 114, 0
-_slit_197: db 110, 111, 32, 118, 97, 108, 117, 101, 32, 111, 110, 32, 115, 116, 97, 99, 107, 32, 116, 111, 32, 99, 111, 110, 115, 117, 109, 101, 32, 102, 111, 114, 32, 101, 108, 115, 101, 32, 105, 102, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
-_slit_198: db 115, 99, 111, 112, 101, 32, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 109, 111, 114, 101, 32, 118, 97, 108, 117, 101, 115, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 116, 104, 97, 110, 32, 101, 120, 112, 101, 99, 116, 101, 100, 32, 40, 84, 79, 68, 79, 58, 32, 119, 114, 105, 116, 101, 32, 99, 111, 117, 110, 116, 41, 0
-_slit_199: db 115, 99, 111, 112, 101, 32, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 108, 101, 115, 115, 32, 118, 97, 108, 117, 101, 115, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 116, 104, 97, 110, 32, 101, 120, 112, 101, 99, 116, 101, 100, 32, 40, 84, 79, 68, 79, 58, 32, 119, 114, 105, 116, 101, 32, 99, 111, 117, 110, 116, 41, 0
-_slit_200: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 101, 108, 115, 101, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
-_slit_201: db 97, 32, 115, 99, 111, 112, 101, 32, 109, 117, 115, 116, 32, 99, 111, 109, 101, 32, 97, 102, 116, 101, 114, 32, 97, 110, 32, 101, 108, 115, 101, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
-_slit_202: db 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 109, 117, 115, 116, 32, 114, 101, 109, 97, 105, 110, 32, 116, 104, 101, 32, 115, 97, 109, 101, 32, 119, 105, 116, 104, 32, 115, 105, 110, 103, 108, 101, 32, 98, 114, 97, 110, 99, 104, 101, 115, 0
-_slit_203: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 55, 57, 51, 58, 49, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 117, 110, 114, 101, 97, 99, 104, 97, 98, 108, 101, 39, 10, 0
-_slit_204: db 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 109, 117, 115, 116, 32, 114, 101, 109, 97, 105, 110, 32, 116, 104, 101, 32, 115, 97, 109, 101, 32, 101, 97, 99, 104, 32, 119, 105, 116, 104, 32, 101, 108, 115, 101, 32, 105, 102, 32, 98, 114, 97, 110, 99, 104, 0
-_slit_205: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 101, 108, 115, 101, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
-_slit_206: db 97, 32, 115, 99, 111, 112, 101, 32, 109, 117, 115, 116, 32, 99, 111, 109, 101, 32, 97, 102, 116, 101, 114, 32, 97, 110, 32, 101, 108, 115, 101, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
-_slit_207: db 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 109, 117, 115, 116, 32, 114, 101, 109, 97, 105, 110, 32, 116, 104, 101, 32, 115, 97, 109, 101, 32, 119, 105, 116, 104, 32, 115, 105, 110, 103, 108, 101, 32, 98, 114, 97, 110, 99, 104, 101, 115, 0
-_slit_208: db 117, 110, 98, 97, 108, 97, 110, 99, 101, 100, 32, 115, 116, 97, 99, 107, 32, 111, 110, 32, 98, 111, 116, 104, 32, 105, 102, 32, 97, 110, 100, 32, 101, 108, 115, 101, 32, 98, 114, 97, 110, 99, 104, 101, 115, 44, 32, 101, 108, 115, 101, 32, 104, 97, 115, 32, 109, 111, 114, 101, 32, 116, 104, 97, 110, 32, 101, 120, 112, 101, 99, 116, 101, 100, 32, 40, 84, 79, 68, 79, 58, 32, 119, 114, 105, 116, 101, 32, 99, 111, 117, 110, 116, 41, 0
-_slit_209: db 117, 110, 98, 97, 108, 97, 110, 99, 101, 100, 32, 115, 116, 97, 99, 107, 32, 111, 110, 32, 98, 111, 116, 104, 32, 105, 102, 32, 97, 110, 100, 32, 101, 108, 115, 101, 32, 98, 114, 97, 110, 99, 104, 101, 115, 44, 32, 101, 108, 115, 101, 32, 104, 97, 115, 32, 108, 101, 115, 115, 32, 116, 104, 97, 110, 32, 101, 120, 112, 101, 99, 116, 101, 100, 32, 40, 84, 79, 68, 79, 58, 32, 119, 114, 105, 116, 101, 32, 99, 111, 117, 110, 116, 41, 0
-_slit_210: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 56, 52, 52, 58, 55, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 117, 110, 114, 101, 97, 99, 104, 97, 98, 108, 101, 39, 10, 0
-_slit_211: db 117, 110, 104, 97, 110, 100, 108, 101, 100, 32, 100, 97, 116, 97, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 0
-_slit_212: db 110, 111, 116, 32, 101, 110, 111, 117, 103, 104, 32, 118, 97, 108, 117, 101, 115, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 111, 110, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 114, 101, 116, 117, 114, 110, 0
-_slit_213: db 117, 110, 104, 97, 110, 100, 108, 101, 100, 32, 100, 97, 116, 97, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 0
-_slit_214: db 110, 111, 116, 32, 101, 110, 111, 117, 103, 104, 32, 118, 97, 108, 117, 101, 115, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 111, 110, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 114, 101, 116, 117, 114, 110, 0
-_slit_215: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 99, 104, 101, 99, 107, 101, 100, 32, 115, 99, 111, 112, 101, 0
-_slit_216: db 97, 32, 110, 117, 109, 98, 101, 114, 32, 109, 117, 115, 116, 32, 97, 112, 112, 101, 97, 114, 32, 97, 102, 116, 101, 114, 32, 116, 104, 101, 32, 97, 114, 114, 111, 119, 32, 97, 115, 115, 101, 114, 116, 32, 111, 112, 101, 114, 97, 116, 111, 114, 0
-_slit_217: db 97, 32, 115, 99, 111, 112, 101, 32, 109, 117, 115, 116, 32, 99, 111, 109, 101, 32, 97, 102, 116, 101, 114, 32, 116, 104, 101, 32, 97, 114, 114, 111, 119, 32, 97, 115, 115, 101, 114, 116, 32, 111, 112, 101, 114, 97, 116, 111, 114, 0
-_slit_218: db 117, 110, 107, 110, 111, 119, 110, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 108, 111, 99, 97, 108, 32, 116, 111, 107, 101, 110, 0
-_slit_219: db 99, 97, 110, 110, 111, 116, 32, 100, 101, 102, 105, 110, 101, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 105, 110, 115, 105, 100, 101, 32, 97, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 0
-_slit_220: db 117, 110, 107, 110, 111, 119, 110, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 116, 111, 107, 101, 110, 0
-_slit_221: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 49, 50, 54, 52, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_222: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 49, 50, 54, 53, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_223: db 117, 110, 99, 108, 111, 115, 101, 100, 32, 115, 99, 111, 112, 101, 115, 32, 111, 110, 32, 112, 97, 114, 115, 101, 114, 32, 102, 105, 110, 105, 115, 104, 0
-_slit_224: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 102, 117, 110, 99, 116, 105, 111, 110, 44, 32, 115, 99, 111, 112, 101, 115, 32, 109, 97, 121, 32, 98, 101, 32, 117, 110, 99, 108, 111, 115, 101, 100, 0
-_slit_225: db 110, 111, 32, 109, 97, 105, 110, 32, 102, 117, 110, 99, 116, 105, 111, 110, 0
-_slit_226: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 100, 99, 101, 46, 115, 116, 97, 115, 58, 49, 48, 58, 50, 52, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_227: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 100, 99, 101, 46, 115, 116, 97, 115, 58, 53, 55, 58, 52, 51, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_228: db 117, 115, 101, 54, 52, 0
-_slit_229: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 119, 114, 105, 116, 101, 46, 115, 116, 97, 115, 58, 49, 55, 58, 50, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_230: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 119, 114, 105, 116, 101, 46, 115, 116, 97, 115, 58, 49, 48, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_231: db 102, 111, 114, 109, 97, 116, 32, 69, 76, 70, 54, 52, 0
-_slit_232: db 115, 101, 99, 116, 105, 111, 110, 32, 39, 46, 116, 101, 120, 116, 39, 32, 101, 120, 101, 99, 117, 116, 97, 98, 108, 101, 0
-_slit_233: db 112, 117, 98, 108, 105, 99, 32, 95, 115, 116, 97, 114, 116, 0
-_slit_234: db 112, 117, 98, 108, 105, 99, 32, 95, 101, 120, 105, 116, 0
-_slit_235: db 102, 111, 114, 109, 97, 116, 32, 69, 76, 70, 54, 52, 32, 101, 120, 101, 99, 117, 116, 97, 98, 108, 101, 0
-_slit_236: db 115, 101, 103, 109, 101, 110, 116, 32, 114, 101, 97, 100, 97, 98, 108, 101, 32, 101, 120, 101, 99, 117, 116, 97, 98, 108, 101, 0
-_slit_237: db 101, 110, 116, 114, 121, 32, 95, 115, 116, 97, 114, 116, 0
-_slit_238: db 95, 115, 116, 97, 114, 116, 58, 0
-_slit_239: db 9, 109, 111, 118, 32, 91, 95, 97, 114, 103, 95, 112, 93, 44, 32, 114, 115, 112, 0
-_slit_240: db 9, 109, 111, 118, 32, 113, 119, 111, 114, 100, 32, 91, 95, 114, 115, 95, 112, 93, 44, 32, 95, 114, 115, 95, 116, 111, 112, 0
-_slit_241: db 9, 109, 111, 118, 32, 114, 98, 112, 44, 32, 114, 115, 112, 0
-_slit_242: db 9, 109, 111, 118, 32, 114, 115, 112, 44, 32, 91, 95, 114, 115, 95, 112, 93, 0
-_slit_243: db 9, 99, 97, 108, 108, 32, 109, 97, 105, 110, 0
-_slit_244: db 9, 120, 111, 114, 32, 114, 100, 105, 44, 32, 114, 100, 105, 0
-_slit_245: db 95, 101, 120, 105, 116, 58, 0
-_slit_246: db 9, 109, 111, 118, 32, 101, 97, 120, 44, 32, 54, 48, 0
-_slit_247: db 9, 115, 121, 115, 99, 97, 108, 108, 0
-_slit_248: db 9, 110, 111, 112, 0
-_slit_249: db 9, 112, 117, 115, 104, 32, 0
-_slit_250: db 114, 98, 120, 0
-_slit_251: db 114, 99, 120, 0
-_slit_252: db 114, 115, 105, 0
-_slit_253: db 114, 100, 105, 0
-_slit_254: db 114, 56, 0
-_slit_255: db 114, 57, 0
-_slit_256: db 114, 49, 48, 0
-_slit_257: db 114, 49, 49, 0
-_slit_258: db 114, 49, 50, 0
-_slit_259: db 114, 49, 51, 0
-_slit_260: db 114, 49, 52, 0
-_slit_261: db 114, 49, 53, 0
-_slit_262: db 114, 100, 120, 0
-_slit_263: db 114, 97, 120, 0
-_slit_264: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 52, 56, 58, 57, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 117, 110, 114, 101, 97, 99, 104, 97, 98, 108, 101, 39, 10, 0
-_slit_265: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 103, 101, 110, 46, 115, 116, 97, 115, 58, 50, 57, 58, 50, 57, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_266: db 112, 117, 98, 108, 105, 99, 32, 0
-_slit_267: db 95, 97, 0
-_slit_268: db 95, 98, 0
-_slit_269: db 95, 99, 0
-_slit_270: db 95, 100, 0
-_slit_271: db 95, 101, 0
-_slit_272: db 95, 102, 0
-_slit_273: db 95, 103, 0
-_slit_274: db 58, 0
-_slit_275: db 9, 115, 117, 98, 32, 114, 115, 112, 44, 32, 0
-_slit_276: db 9, 109, 111, 118, 32, 91, 95, 114, 115, 95, 112, 93, 44, 32, 114, 115, 112, 0
-_slit_277: db 9, 109, 111, 118, 32, 114, 115, 112, 44, 32, 114, 98, 112, 0
-_slit_278: db 9, 109, 111, 118, 32, 114, 98, 112, 44, 32, 114, 115, 112, 0
-_slit_279: db 9, 109, 111, 118, 32, 114, 115, 112, 44, 32, 91, 95, 114, 115, 95, 112, 93, 0
-_slit_280: db 9, 97, 100, 100, 32, 114, 115, 112, 44, 32, 0
-_slit_281: db 9, 114, 101, 116, 0
-_slit_282: db 9, 109, 111, 118, 32, 114, 98, 112, 44, 32, 114, 115, 112, 0
-_slit_283: db 9, 109, 111, 118, 32, 114, 115, 112, 44, 32, 91, 95, 114, 115, 95, 112, 93, 0
-_slit_284: db 9, 99, 97, 108, 108, 32, 0
-_slit_285: db 9, 109, 111, 118, 32, 91, 95, 114, 115, 95, 112, 93, 44, 32, 114, 115, 112, 0
-_slit_286: db 9, 109, 111, 118, 32, 114, 115, 112, 44, 32, 114, 98, 112, 0
-_slit_287: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 50, 48, 49, 58, 50, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_288: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 49, 57, 53, 58, 50, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_289: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 49, 56, 57, 58, 50, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_290: db 9, 109, 111, 118, 32, 0
-_slit_291: db 44, 32, 0
-_slit_292: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 49, 55, 56, 58, 50, 55, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_293: db 9, 109, 111, 118, 32, 0
-_slit_294: db 44, 32, 0
-_slit_295: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 51, 51, 52, 58, 49, 56, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_296: db 9, 112, 111, 112, 32, 0
-_slit_297: db 9, 116, 101, 115, 116, 32, 97, 108, 44, 32, 97, 108, 0
-_slit_298: db 9, 106, 110, 122, 32, 46, 0
-_slit_299: db 9, 109, 111, 118, 32, 101, 97, 120, 44, 32, 49, 0
-_slit_300: db 9, 109, 111, 118, 32, 101, 100, 105, 44, 32, 50, 0
-_slit_301: db 9, 109, 111, 118, 32, 114, 115, 105, 44, 32, 95, 115, 108, 105, 116, 95, 0
-_slit_302: db 9, 109, 111, 118, 32, 114, 100, 120, 44, 32, 0
-_slit_303: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 100, 99, 101, 46, 115, 116, 97, 115, 58, 49, 55, 58, 49, 56, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_304: db 9, 115, 121, 115, 99, 97, 108, 108, 0
-_slit_305: db 9, 109, 111, 118, 32, 114, 100, 105, 44, 32, 49, 0
-_slit_306: db 9, 106, 109, 112, 32, 95, 101, 120, 105, 116, 0
-_slit_307: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 49, 55, 48, 58, 50, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_308: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 49, 55, 49, 58, 52, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
-_slit_309: db 9, 109, 111, 118, 32, 0
-_slit_310: db 44, 32, 0
-_slit_311: db 95, 115, 108, 105, 116, 95, 0
-_slit_312: db 9, 109, 111, 118, 32, 0
-_slit_313: db 44, 32, 0
-_slit_314: db 113, 119, 111, 114, 100, 32, 91, 95, 114, 115, 95, 112, 93, 0
-_slit_315: db 9, 97, 100, 100, 32, 0
-_slit_316: db 9, 112, 111, 112, 32, 0
+_slit_0: db 115, 116, 97, 115, 32, 48, 46, 49, 46, 48, 32, 67, 111, 112, 121, 114, 105, 103, 104, 116, 32, 40, 67, 41, 32, 50, 48, 50, 50, 32, 32, 108, 45, 109, 46, 100, 101, 118, 10, 10, 0
+_slit_1: db 85, 83, 65, 71, 69, 58, 32, 46, 47, 115, 116, 97, 115, 32, 91, 79, 80, 84, 73, 79, 78, 83, 93, 32, 91, 70, 73, 76, 69, 93, 10, 10, 0
+_slit_2: db 9, 45, 111, 32, 60, 111, 117, 116, 112, 117, 116, 62, 32, 32, 32, 32, 32, 32, 32, 83, 112, 101, 99, 105, 102, 121, 32, 39, 45, 111, 32, 45, 39, 32, 116, 111, 32, 100, 117, 109, 112, 32, 97, 115, 115, 101, 109, 98, 108, 121, 32, 116, 111, 32, 115, 116, 100, 111, 117, 116, 10, 0
+_slit_3: db 9, 45, 103, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 68, 101, 98, 117, 103, 32, 115, 121, 109, 98, 111, 108, 115, 46, 32, 77, 111, 115, 116, 32, 101, 102, 102, 101, 99, 116, 105, 118, 101, 32, 119, 105, 116, 104, 32, 116, 104, 101, 32, 96, 110, 97, 115, 109, 96, 32, 98, 97, 99, 107, 101, 110, 100, 10, 0
+_slit_4: db 9, 45, 98, 32, 60, 98, 97, 99, 107, 101, 110, 100, 62, 32, 32, 32, 32, 32, 32, 65, 115, 115, 101, 109, 98, 108, 101, 114, 115, 32, 96, 110, 97, 115, 109, 96, 32, 111, 114, 32, 96, 102, 97, 115, 109, 96, 32, 97, 115, 32, 99, 111, 109, 112, 105, 108, 101, 114, 32, 98, 97, 99, 107, 101, 110, 100, 10, 0
+_slit_5: db 9, 45, 114, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 69, 120, 101, 99, 117, 116, 101, 32, 102, 105, 108, 101, 32, 97, 102, 116, 101, 114, 32, 99, 111, 109, 112, 105, 108, 105, 110, 103, 46, 32, 65, 114, 103, 117, 109, 101, 110, 116, 115, 32, 97, 102, 116, 101, 114, 32, 116, 104, 105, 115, 10, 0
+_slit_6: db 9, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 115, 119, 105, 116, 99, 104, 32, 119, 105, 108, 108, 32, 105, 103, 110, 111, 114, 101, 100, 32, 97, 110, 100, 32, 112, 97, 115, 115, 101, 100, 32, 116, 111, 32, 116, 104, 101, 32, 112, 114, 111, 103, 114, 97, 109, 46, 10, 0
+_slit_7: db 9, 45, 104, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 83, 104, 111, 119, 32, 116, 104, 105, 115, 32, 109, 101, 115, 115, 97, 103, 101, 10, 10, 0
+_slit_8: db 45, 111, 0
+_slit_9: db 45, 98, 0
+_slit_10: db 45, 103, 0
+_slit_11: db 45, 114, 0
+_slit_12: db 45, 45, 104, 101, 108, 112, 0
+_slit_13: db 45, 104, 0
+_slit_14: db 102, 97, 115, 109, 0
+_slit_15: db 110, 97, 115, 109, 0
+_slit_16: db 117, 110, 107, 110, 111, 119, 110, 32, 98, 97, 99, 107, 101, 110, 100, 0
+_slit_17: db 91, 49, 109, 0
+_slit_18: db 91, 51, 49, 109, 0
+_slit_19: db 70, 65, 84, 65, 76, 58, 32, 0
+_slit_20: db 91, 51, 57, 109, 0
+_slit_21: db 91, 50, 50, 109, 0
+_slit_22: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 116, 97, 115, 46, 115, 116, 97, 115, 58, 49, 53, 48, 58, 55, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_23: db 115, 117, 112, 112, 108, 121, 32, 111, 117, 116, 112, 117, 116, 32, 102, 105, 108, 101, 0
+_slit_24: db 115, 117, 112, 112, 108, 121, 32, 98, 97, 99, 107, 101, 110, 100, 32, 116, 121, 112, 101, 0
+_slit_25: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 116, 97, 115, 46, 115, 116, 97, 115, 58, 49, 54, 54, 58, 51, 53, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 110, 97, 115, 109, 32, 98, 97, 99, 107, 101, 110, 100, 32, 110, 111, 116, 32, 115, 117, 112, 112, 111, 114, 116, 101, 100, 32, 121, 101, 116, 39, 10, 0
+_slit_26: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 116, 97, 115, 46, 115, 116, 97, 115, 58, 49, 54, 55, 58, 50, 55, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 111, 98, 106, 101, 99, 116, 32, 102, 105, 108, 101, 32, 43, 32, 108, 105, 110, 101, 32, 110, 117, 109, 98, 101, 114, 115, 32, 110, 111, 116, 32, 115, 117, 112, 112, 111, 114, 116, 101, 100, 39, 10, 0
+_slit_27: db 115, 117, 112, 112, 108, 121, 32, 115, 116, 97, 115, 32, 102, 105, 108, 101, 0
+_slit_28: db 97, 46, 111, 0
+_slit_29: db 97, 46, 111, 117, 116, 0
+_slit_30: db 45, 0
+_slit_31: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 115, 116, 114, 105, 110, 103, 98, 117, 102, 102, 101, 114, 46, 115, 116, 97, 115, 58, 56, 58, 53, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 83, 116, 114, 105, 110, 103, 32, 109, 101, 109, 111, 114, 121, 32, 101, 120, 99, 101, 101, 100, 101, 100, 32, 108, 105, 109, 105, 116, 39, 10, 0
+_slit_32: db 46, 116, 109, 112, 0
+_slit_33: db 70, 65, 84, 65, 76, 58, 32, 70, 97, 105, 108, 101, 100, 32, 116, 111, 32, 111, 112, 101, 110, 32, 102, 105, 108, 101, 32, 39, 0
+_slit_34: db 39, 10, 0
+_slit_35: db 70, 65, 84, 65, 76, 58, 32, 70, 97, 105, 108, 101, 100, 32, 116, 111, 32, 111, 112, 101, 110, 32, 102, 105, 108, 101, 32, 39, 0
+_slit_36: db 39, 10, 0
+_slit_37: db 70, 65, 84, 65, 76, 58, 32, 70, 97, 105, 108, 101, 100, 32, 116, 111, 32, 115, 116, 97, 116, 32, 116, 104, 101, 32, 102, 105, 108, 101, 32, 100, 101, 115, 99, 114, 105, 112, 116, 111, 114, 10, 0
+_slit_38: db 70, 65, 84, 65, 76, 58, 32, 67, 111, 117, 108, 100, 32, 110, 111, 116, 32, 109, 109, 97, 112, 32, 102, 105, 108, 101, 32, 39, 0
+_slit_39: db 39, 10, 0
+_slit_40: db 70, 65, 84, 65, 76, 58, 32, 70, 97, 105, 108, 101, 100, 32, 116, 111, 32, 99, 108, 111, 115, 101, 32, 102, 105, 108, 101, 32, 100, 101, 115, 99, 114, 105, 112, 116, 111, 114, 10, 0
+_slit_41: db 117, 110, 116, 101, 114, 109, 105, 110, 97, 116, 101, 100, 32, 115, 116, 114, 105, 110, 103, 32, 108, 105, 116, 101, 114, 97, 108, 0
+_slit_42: db 58, 0
+_slit_43: db 58, 0
+_slit_44: db 58, 32, 0
+_slit_45: db 10, 0
+_slit_46: db 101, 115, 99, 97, 112, 101, 32, 99, 104, 97, 114, 97, 99, 116, 101, 114, 32, 100, 111, 101, 115, 32, 110, 111, 116, 32, 101, 120, 105, 115, 116, 0
+_slit_47: db 117, 110, 104, 97, 110, 100, 108, 101, 100, 32, 101, 115, 99, 97, 112, 101, 32, 99, 104, 97, 114, 97, 99, 116, 101, 114, 0
+_slit_48: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 116, 111, 107, 101, 110, 115, 46, 115, 116, 97, 115, 58, 51, 57, 49, 58, 51, 56, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_49: db 102, 105, 108, 101, 32, 116, 111, 32, 105, 110, 99, 108, 117, 100, 101, 32, 105, 115, 32, 110, 111, 116, 32, 97, 32, 115, 116, 114, 105, 110, 103, 0
+_slit_50: db 105, 110, 99, 108, 117, 100, 101, 0
+_slit_51: db 123, 0
+_slit_52: db 125, 0
+_slit_53: db 45, 62, 0
+_slit_54: db 102, 110, 0
+_slit_55: db 95, 98, 114, 101, 97, 107, 112, 111, 105, 110, 116, 0
+_slit_56: db 99, 111, 110, 115, 116, 0
+_slit_57: db 97, 115, 115, 101, 114, 116, 0
+_slit_58: db 97, 114, 103, 99, 0
+_slit_59: db 97, 114, 103, 118, 0
+_slit_60: db 114, 101, 116, 0
+_slit_61: db 105, 102, 0
+_slit_62: db 101, 108, 115, 101, 0
+_slit_63: db 101, 108, 105, 102, 0
+_slit_64: db 119, 104, 105, 108, 101, 0
+_slit_65: db 98, 114, 101, 97, 107, 0
+_slit_66: db 99, 111, 110, 116, 105, 110, 117, 101, 0
+_slit_67: db 43, 0
+_slit_68: db 45, 0
+_slit_69: db 42, 0
+_slit_70: db 47, 0
+_slit_71: db 37, 0
+_slit_72: db 43, 43, 0
+_slit_73: db 45, 45, 0
+_slit_74: db 37, 37, 0
+_slit_75: db 62, 62, 0
+_slit_76: db 60, 60, 0
+_slit_77: db 38, 0
+_slit_78: db 124, 0
+_slit_79: db 126, 0
+_slit_80: db 33, 0
+_slit_81: db 94, 0
+_slit_82: db 115, 119, 97, 112, 0
+_slit_83: db 100, 117, 112, 0
+_slit_84: db 111, 118, 101, 114, 0
+_slit_85: db 111, 118, 101, 114, 50, 0
+_slit_86: db 114, 111, 116, 0
+_slit_87: db 114, 111, 116, 52, 0
+_slit_88: db 100, 114, 111, 112, 0
+_slit_89: db 61, 0
+_slit_90: db 33, 61, 0
+_slit_91: db 62, 0
+_slit_92: db 60, 0
+_slit_93: db 62, 61, 0
+_slit_94: db 60, 61, 0
+_slit_95: db 62, 115, 0
+_slit_96: db 60, 115, 0
+_slit_97: db 62, 61, 115, 0
+_slit_98: db 60, 61, 115, 0
+_slit_99: db 119, 56, 0
+_slit_100: db 119, 49, 54, 0
+_slit_101: db 119, 51, 50, 0
+_slit_102: db 119, 54, 52, 0
+_slit_103: db 114, 56, 0
+_slit_104: db 114, 49, 54, 0
+_slit_105: db 114, 51, 50, 0
+_slit_106: db 114, 54, 52, 0
+_slit_107: db 115, 121, 115, 99, 97, 108, 108, 48, 0
+_slit_108: db 115, 121, 115, 99, 97, 108, 108, 49, 0
+_slit_109: db 115, 121, 115, 99, 97, 108, 108, 50, 0
+_slit_110: db 115, 121, 115, 99, 97, 108, 108, 51, 0
+_slit_111: db 115, 121, 115, 99, 97, 108, 108, 52, 0
+_slit_112: db 115, 121, 115, 99, 97, 108, 108, 53, 0
+_slit_113: db 115, 121, 115, 99, 97, 108, 108, 54, 0
+_slit_114: db 114, 101, 115, 101, 114, 118, 101, 0
+_slit_115: db 97, 117, 116, 111, 0
+_slit_116: db 112, 111, 112, 0
+_slit_117: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 102, 105, 108, 101, 32, 116, 111, 32, 105, 110, 99, 108, 117, 100, 101, 0
+_slit_118: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 116, 111, 107, 101, 110, 115, 46, 115, 116, 97, 115, 58, 51, 55, 55, 58, 50, 53, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_119: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 0
+_slit_120: db 58, 0
+_slit_121: db 58, 0
+_slit_122: db 58, 32, 0
+_slit_123: db 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 110, 97, 109, 101, 32, 109, 117, 115, 116, 32, 110, 111, 116, 32, 98, 101, 32, 105, 110, 32, 105, 110, 115, 116, 114, 105, 110, 115, 105, 99, 0
+_slit_124: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 48, 51, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_125: db 100, 117, 112, 108, 105, 99, 97, 116, 101, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 110, 97, 109, 101, 32, 97, 115, 32, 101, 120, 105, 115, 116, 105, 110, 103, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 110, 97, 109, 101, 0
+_slit_126: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 50, 53, 58, 51, 49, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_127: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 52, 57, 58, 51, 49, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_128: db 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 110, 97, 109, 101, 32, 97, 115, 32, 100, 117, 112, 108, 105, 99, 97, 116, 101, 32, 116, 111, 112, 32, 108, 101, 118, 101, 108, 32, 118, 97, 114, 105, 97, 98, 108, 101, 32, 110, 97, 109, 101, 0
+_slit_129: db 97, 32, 115, 99, 111, 112, 101, 32, 109, 117, 115, 116, 32, 102, 111, 108, 108, 111, 119, 32, 97, 32, 99, 111, 110, 115, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 100, 101, 99, 108, 0
+_slit_130: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 51, 56, 58, 53, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_131: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 49, 49, 55, 52, 58, 49, 51, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_132: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 57, 50, 58, 50, 53, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_133: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 55, 49, 58, 50, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_134: db 117, 110, 99, 108, 111, 115, 101, 100, 32, 115, 99, 111, 112, 101, 32, 102, 111, 114, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 0
+_slit_135: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 102, 117, 110, 99, 116, 105, 111, 110, 0
+_slit_136: db 102, 117, 110, 99, 116, 105, 111, 110, 32, 110, 97, 109, 101, 32, 109, 117, 115, 116, 32, 110, 111, 116, 32, 98, 101, 32, 97, 110, 32, 105, 110, 116, 114, 105, 110, 115, 105, 99, 0
+_slit_137: db 102, 117, 110, 99, 116, 105, 111, 110, 32, 114, 101, 116, 117, 114, 110, 32, 97, 110, 100, 32, 97, 114, 103, 117, 109, 101, 110, 116, 32, 99, 111, 117, 110, 116, 115, 32, 109, 117, 115, 116, 32, 98, 101, 32, 110, 117, 109, 98, 101, 114, 115, 0
+_slit_138: db 110, 101, 119, 32, 115, 99, 111, 112, 101, 32, 109, 117, 115, 116, 32, 112, 114, 111, 99, 101, 101, 100, 32, 97, 102, 116, 101, 114, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 104, 101, 97, 100, 101, 114, 0
+_slit_139: db 100, 117, 112, 108, 105, 99, 97, 116, 101, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 110, 97, 109, 101, 0
+_slit_140: db 102, 117, 110, 99, 116, 105, 111, 110, 32, 110, 97, 109, 101, 32, 97, 108, 114, 101, 97, 100, 121, 32, 101, 120, 105, 115, 116, 115, 32, 97, 115, 32, 118, 97, 114, 105, 97, 98, 108, 101, 32, 110, 97, 109, 101, 0
+_slit_141: db 109, 97, 105, 110, 0
+_slit_142: db 116, 104, 101, 32, 109, 97, 105, 110, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 109, 117, 115, 116, 32, 97, 99, 99, 101, 112, 116, 32, 97, 110, 100, 32, 114, 101, 116, 117, 114, 110, 32, 122, 101, 114, 111, 32, 118, 97, 108, 117, 101, 115, 0
+_slit_143: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 50, 48, 58, 51, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_144: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 50, 52, 58, 51, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_145: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 50, 53, 55, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_146: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 50, 53, 56, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_147: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 50, 57, 58, 49, 56, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_148: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 118, 97, 114, 105, 97, 98, 108, 101, 32, 100, 101, 99, 108, 0
+_slit_149: db 118, 97, 114, 105, 97, 98, 108, 101, 32, 110, 97, 109, 101, 32, 109, 117, 115, 116, 32, 110, 111, 116, 32, 98, 101, 32, 97, 110, 32, 105, 110, 116, 114, 105, 110, 115, 105, 99, 0
+_slit_150: db 118, 97, 114, 105, 97, 98, 108, 101, 32, 100, 101, 99, 108, 32, 109, 117, 115, 116, 32, 110, 111, 116, 32, 98, 101, 32, 97, 32, 102, 117, 110, 99, 116, 105, 111, 110, 0
+_slit_151: db 118, 97, 114, 105, 97, 98, 108, 101, 32, 100, 101, 99, 108, 32, 109, 117, 115, 116, 32, 115, 112, 101, 99, 105, 102, 121, 32, 115, 105, 122, 101, 32, 105, 110, 32, 98, 121, 116, 101, 115, 0
+_slit_152: db 100, 117, 112, 108, 105, 99, 97, 116, 101, 32, 116, 111, 112, 32, 108, 101, 118, 101, 108, 32, 118, 97, 114, 105, 97, 98, 108, 101, 32, 110, 97, 109, 101, 0
+_slit_153: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 54, 51, 58, 53, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_154: db 117, 110, 107, 110, 111, 119, 110, 32, 116, 111, 112, 108, 101, 118, 101, 108, 32, 116, 111, 107, 101, 110, 0
+_slit_155: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 52, 52, 51, 58, 51, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_156: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 49, 48, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_157: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 101, 118, 97, 108, 46, 115, 116, 97, 115, 58, 56, 58, 51, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_158: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 101, 118, 97, 108, 46, 115, 116, 97, 115, 58, 50, 49, 58, 50, 51, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_159: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 101, 118, 97, 108, 46, 115, 116, 97, 115, 58, 49, 53, 58, 50, 51, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_160: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 49, 50, 49, 54, 58, 50, 53, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 117, 110, 114, 101, 97, 99, 104, 97, 98, 108, 101, 39, 10, 0
+_slit_161: db 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 109, 117, 115, 116, 32, 99, 111, 110, 116, 97, 105, 110, 32, 97, 32, 118, 97, 108, 117, 101, 0
+_slit_162: db 109, 111, 114, 101, 32, 116, 104, 97, 110, 32, 111, 110, 101, 32, 117, 110, 104, 97, 110, 100, 108, 101, 100, 32, 118, 97, 108, 117, 101, 32, 111, 110, 32, 108, 101, 102, 116, 32, 111, 110, 32, 116, 104, 101, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 0
+_slit_163: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 49, 50, 52, 49, 58, 50, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_164: db 117, 110, 107, 110, 111, 119, 110, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 118, 97, 114, 105, 97, 98, 108, 101, 0
+_slit_165: db 110, 111, 32, 118, 97, 108, 117, 101, 32, 111, 110, 32, 115, 116, 97, 99, 107, 32, 116, 111, 32, 99, 111, 110, 115, 117, 109, 101, 32, 102, 111, 114, 32, 97, 115, 115, 101, 114, 116, 105, 111, 110, 0
+_slit_166: db 0
+_slit_167: db 91, 49, 109, 0
+_slit_168: db 91, 51, 49, 109, 0
+_slit_169: db 58, 0
+_slit_170: db 58, 0
+_slit_171: db 58, 32, 0
+_slit_172: db 91, 51, 57, 109, 0
+_slit_173: db 91, 50, 50, 109, 0
+_slit_174: db 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 0
+_slit_175: db 39, 10, 0
+_slit_176: db 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_177: db 110, 111, 116, 32, 101, 110, 111, 117, 103, 104, 32, 118, 97, 108, 117, 101, 115, 32, 116, 111, 32, 99, 111, 110, 115, 117, 109, 101, 32, 102, 111, 114, 32, 111, 112, 101, 114, 97, 116, 105, 111, 110, 0
+_slit_178: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 52, 55, 58, 50, 52, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_179: db 100, 117, 112, 108, 105, 99, 97, 116, 101, 32, 118, 97, 114, 105, 97, 98, 108, 101, 32, 110, 97, 109, 101, 0
+_slit_180: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 54, 49, 58, 51, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_181: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 112, 111, 112, 0
+_slit_182: db 101, 120, 112, 101, 99, 116, 101, 100, 32, 110, 97, 109, 101, 32, 97, 102, 116, 101, 114, 32, 112, 111, 112, 0
+_slit_183: db 99, 97, 110, 110, 111, 116, 32, 112, 111, 112, 32, 105, 110, 116, 111, 32, 97, 32, 98, 117, 102, 102, 101, 114, 0
+_slit_184: db 110, 111, 116, 32, 101, 110, 111, 117, 103, 104, 116, 32, 118, 97, 108, 117, 101, 115, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 116, 111, 32, 112, 111, 112, 32, 105, 110, 116, 111, 32, 97, 110, 32, 97, 117, 116, 111, 109, 97, 116, 105, 99, 32, 118, 97, 114, 105, 97, 98, 108, 101, 0
+_slit_185: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 52, 50, 50, 58, 56, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_186: db 99, 97, 110, 110, 111, 116, 32, 112, 111, 112, 32, 105, 110, 116, 111, 32, 97, 32, 98, 117, 102, 102, 101, 114, 0
+_slit_187: db 110, 111, 116, 32, 101, 110, 111, 117, 103, 104, 116, 32, 118, 97, 108, 117, 101, 115, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 116, 111, 32, 112, 111, 112, 32, 105, 110, 116, 111, 32, 97, 110, 32, 97, 117, 116, 111, 109, 97, 116, 105, 99, 32, 118, 97, 114, 105, 97, 98, 108, 101, 0
+_slit_188: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 52, 52, 55, 58, 57, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_189: db 117, 110, 107, 110, 111, 119, 110, 32, 97, 117, 116, 111, 32, 118, 97, 114, 105, 97, 98, 108, 101, 0
+_slit_190: db 110, 111, 116, 32, 101, 110, 111, 117, 103, 104, 32, 118, 97, 108, 117, 101, 115, 32, 116, 111, 32, 99, 111, 110, 115, 117, 109, 101, 32, 102, 111, 114, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 99, 97, 108, 108, 0
+_slit_191: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 53, 48, 48, 58, 57, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_192: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 53, 50, 48, 58, 57, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_193: db 117, 110, 107, 110, 111, 119, 110, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 99, 97, 108, 108, 32, 111, 114, 32, 118, 97, 114, 105, 97, 98, 108, 101, 0
+_slit_194: db 110, 111, 32, 118, 97, 108, 117, 101, 32, 111, 110, 32, 115, 116, 97, 99, 107, 32, 116, 111, 32, 99, 111, 110, 115, 117, 109, 101, 32, 102, 111, 114, 32, 105, 102, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
+_slit_195: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 100, 101, 102, 115, 46, 115, 116, 97, 115, 58, 51, 56, 55, 58, 52, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_196: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 105, 102, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
+_slit_197: db 97, 32, 115, 99, 111, 112, 101, 32, 109, 117, 115, 116, 32, 99, 111, 109, 101, 32, 97, 102, 116, 101, 114, 32, 97, 110, 32, 105, 102, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
+_slit_198: db 110, 111, 116, 32, 105, 110, 115, 105, 100, 101, 32, 119, 104, 105, 108, 101, 32, 108, 111, 111, 112, 32, 98, 111, 100, 121, 0
+_slit_199: db 110, 111, 116, 32, 105, 110, 115, 105, 100, 101, 32, 119, 104, 105, 108, 101, 32, 108, 111, 111, 112, 32, 98, 111, 100, 121, 0
+_slit_200: db 110, 111, 116, 32, 105, 110, 115, 105, 100, 101, 32, 119, 104, 105, 108, 101, 32, 108, 111, 111, 112, 32, 98, 111, 100, 121, 0
+_slit_201: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 54, 50, 56, 58, 53, 57, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_202: db 110, 111, 116, 32, 105, 110, 115, 105, 100, 101, 32, 119, 104, 105, 108, 101, 32, 108, 111, 111, 112, 32, 98, 111, 100, 121, 0
+_slit_203: db 110, 111, 32, 118, 97, 108, 117, 101, 32, 111, 110, 32, 115, 116, 97, 99, 107, 32, 116, 111, 32, 99, 111, 110, 115, 117, 109, 101, 32, 102, 111, 114, 32, 119, 104, 105, 108, 101, 32, 104, 101, 97, 100, 101, 114, 0
+_slit_204: db 110, 111, 32, 118, 97, 108, 117, 101, 32, 111, 110, 32, 115, 116, 97, 99, 107, 32, 116, 111, 32, 99, 111, 110, 115, 117, 109, 101, 32, 102, 111, 114, 32, 101, 108, 115, 101, 32, 105, 102, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
+_slit_205: db 115, 99, 111, 112, 101, 32, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 109, 111, 114, 101, 32, 118, 97, 108, 117, 101, 115, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 116, 104, 97, 110, 32, 101, 120, 112, 101, 99, 116, 101, 100, 32, 40, 84, 79, 68, 79, 58, 32, 119, 114, 105, 116, 101, 32, 99, 111, 117, 110, 116, 41, 0
+_slit_206: db 115, 99, 111, 112, 101, 32, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 108, 101, 115, 115, 32, 118, 97, 108, 117, 101, 115, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 116, 104, 97, 110, 32, 101, 120, 112, 101, 99, 116, 101, 100, 32, 40, 84, 79, 68, 79, 58, 32, 119, 114, 105, 116, 101, 32, 99, 111, 117, 110, 116, 41, 0
+_slit_207: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 101, 108, 115, 101, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
+_slit_208: db 97, 32, 115, 99, 111, 112, 101, 32, 109, 117, 115, 116, 32, 99, 111, 109, 101, 32, 97, 102, 116, 101, 114, 32, 97, 110, 32, 101, 108, 115, 101, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
+_slit_209: db 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 109, 117, 115, 116, 32, 114, 101, 109, 97, 105, 110, 32, 116, 104, 101, 32, 115, 97, 109, 101, 32, 119, 105, 116, 104, 32, 115, 105, 110, 103, 108, 101, 32, 98, 114, 97, 110, 99, 104, 101, 115, 0
+_slit_210: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 55, 57, 51, 58, 49, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 117, 110, 114, 101, 97, 99, 104, 97, 98, 108, 101, 39, 10, 0
+_slit_211: db 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 109, 117, 115, 116, 32, 114, 101, 109, 97, 105, 110, 32, 116, 104, 101, 32, 115, 97, 109, 101, 32, 101, 97, 99, 104, 32, 119, 105, 116, 104, 32, 101, 108, 115, 101, 32, 105, 102, 32, 98, 114, 97, 110, 99, 104, 0
+_slit_212: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 101, 108, 115, 101, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
+_slit_213: db 97, 32, 115, 99, 111, 112, 101, 32, 109, 117, 115, 116, 32, 99, 111, 109, 101, 32, 97, 102, 116, 101, 114, 32, 97, 110, 32, 101, 108, 115, 101, 32, 115, 116, 97, 116, 101, 109, 101, 110, 116, 0
+_slit_214: db 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 109, 117, 115, 116, 32, 114, 101, 109, 97, 105, 110, 32, 116, 104, 101, 32, 115, 97, 109, 101, 32, 119, 105, 116, 104, 32, 115, 105, 110, 103, 108, 101, 32, 98, 114, 97, 110, 99, 104, 101, 115, 0
+_slit_215: db 117, 110, 98, 97, 108, 97, 110, 99, 101, 100, 32, 115, 116, 97, 99, 107, 32, 111, 110, 32, 98, 111, 116, 104, 32, 105, 102, 32, 97, 110, 100, 32, 101, 108, 115, 101, 32, 98, 114, 97, 110, 99, 104, 101, 115, 44, 32, 101, 108, 115, 101, 32, 104, 97, 115, 32, 109, 111, 114, 101, 32, 116, 104, 97, 110, 32, 101, 120, 112, 101, 99, 116, 101, 100, 32, 40, 84, 79, 68, 79, 58, 32, 119, 114, 105, 116, 101, 32, 99, 111, 117, 110, 116, 41, 0
+_slit_216: db 117, 110, 98, 97, 108, 97, 110, 99, 101, 100, 32, 115, 116, 97, 99, 107, 32, 111, 110, 32, 98, 111, 116, 104, 32, 105, 102, 32, 97, 110, 100, 32, 101, 108, 115, 101, 32, 98, 114, 97, 110, 99, 104, 101, 115, 44, 32, 101, 108, 115, 101, 32, 104, 97, 115, 32, 108, 101, 115, 115, 32, 116, 104, 97, 110, 32, 101, 120, 112, 101, 99, 116, 101, 100, 32, 40, 84, 79, 68, 79, 58, 32, 119, 114, 105, 116, 101, 32, 99, 111, 117, 110, 116, 41, 0
+_slit_217: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 56, 52, 52, 58, 55, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 117, 110, 114, 101, 97, 99, 104, 97, 98, 108, 101, 39, 10, 0
+_slit_218: db 117, 110, 104, 97, 110, 100, 108, 101, 100, 32, 100, 97, 116, 97, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 0
+_slit_219: db 110, 111, 116, 32, 101, 110, 111, 117, 103, 104, 32, 118, 97, 108, 117, 101, 115, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 111, 110, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 114, 101, 116, 117, 114, 110, 0
+_slit_220: db 117, 110, 104, 97, 110, 100, 108, 101, 100, 32, 100, 97, 116, 97, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 0
+_slit_221: db 110, 111, 116, 32, 101, 110, 111, 117, 103, 104, 32, 118, 97, 108, 117, 101, 115, 32, 111, 110, 32, 116, 104, 101, 32, 115, 116, 97, 99, 107, 32, 111, 110, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 114, 101, 116, 117, 114, 110, 0
+_slit_222: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 99, 104, 101, 99, 107, 101, 100, 32, 115, 99, 111, 112, 101, 0
+_slit_223: db 97, 32, 110, 117, 109, 98, 101, 114, 32, 109, 117, 115, 116, 32, 97, 112, 112, 101, 97, 114, 32, 97, 102, 116, 101, 114, 32, 116, 104, 101, 32, 97, 114, 114, 111, 119, 32, 97, 115, 115, 101, 114, 116, 32, 111, 112, 101, 114, 97, 116, 111, 114, 0
+_slit_224: db 97, 32, 115, 99, 111, 112, 101, 32, 109, 117, 115, 116, 32, 99, 111, 109, 101, 32, 97, 102, 116, 101, 114, 32, 116, 104, 101, 32, 97, 114, 114, 111, 119, 32, 97, 115, 115, 101, 114, 116, 32, 111, 112, 101, 114, 97, 116, 111, 114, 0
+_slit_225: db 117, 110, 107, 110, 111, 119, 110, 32, 102, 117, 110, 99, 116, 105, 111, 110, 32, 108, 111, 99, 97, 108, 32, 116, 111, 107, 101, 110, 0
+_slit_226: db 99, 97, 110, 110, 111, 116, 32, 100, 101, 102, 105, 110, 101, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 105, 110, 115, 105, 100, 101, 32, 97, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 0
+_slit_227: db 117, 110, 107, 110, 111, 119, 110, 32, 99, 111, 110, 115, 116, 97, 110, 116, 32, 101, 120, 112, 114, 101, 115, 115, 105, 111, 110, 32, 116, 111, 107, 101, 110, 0
+_slit_228: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 49, 50, 54, 52, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_229: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 112, 97, 114, 115, 101, 114, 46, 115, 116, 97, 115, 58, 49, 50, 54, 53, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_230: db 117, 110, 99, 108, 111, 115, 101, 100, 32, 115, 99, 111, 112, 101, 115, 32, 111, 110, 32, 112, 97, 114, 115, 101, 114, 32, 102, 105, 110, 105, 115, 104, 0
+_slit_231: db 117, 110, 101, 120, 112, 101, 99, 116, 101, 100, 32, 69, 79, 70, 32, 119, 104, 101, 110, 32, 112, 97, 114, 115, 105, 110, 103, 32, 102, 117, 110, 99, 116, 105, 111, 110, 44, 32, 115, 99, 111, 112, 101, 115, 32, 109, 97, 121, 32, 98, 101, 32, 117, 110, 99, 108, 111, 115, 101, 100, 0
+_slit_232: db 110, 111, 32, 109, 97, 105, 110, 32, 102, 117, 110, 99, 116, 105, 111, 110, 0
+_slit_233: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 100, 99, 101, 46, 115, 116, 97, 115, 58, 49, 48, 58, 50, 52, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_234: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 100, 99, 101, 46, 115, 116, 97, 115, 58, 53, 55, 58, 52, 51, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_235: db 117, 115, 101, 54, 52, 0
+_slit_236: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 119, 114, 105, 116, 101, 46, 115, 116, 97, 115, 58, 49, 55, 58, 50, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_237: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 119, 114, 105, 116, 101, 46, 115, 116, 97, 115, 58, 49, 48, 58, 50, 50, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_238: db 102, 111, 114, 109, 97, 116, 32, 69, 76, 70, 54, 52, 0
+_slit_239: db 115, 101, 99, 116, 105, 111, 110, 32, 39, 46, 116, 101, 120, 116, 39, 32, 101, 120, 101, 99, 117, 116, 97, 98, 108, 101, 0
+_slit_240: db 112, 117, 98, 108, 105, 99, 32, 95, 115, 116, 97, 114, 116, 0
+_slit_241: db 112, 117, 98, 108, 105, 99, 32, 95, 101, 120, 105, 116, 0
+_slit_242: db 102, 111, 114, 109, 97, 116, 32, 69, 76, 70, 54, 52, 32, 101, 120, 101, 99, 117, 116, 97, 98, 108, 101, 0
+_slit_243: db 115, 101, 103, 109, 101, 110, 116, 32, 114, 101, 97, 100, 97, 98, 108, 101, 32, 101, 120, 101, 99, 117, 116, 97, 98, 108, 101, 0
+_slit_244: db 101, 110, 116, 114, 121, 32, 95, 115, 116, 97, 114, 116, 0
+_slit_245: db 95, 115, 116, 97, 114, 116, 58, 0
+_slit_246: db 9, 109, 111, 118, 32, 91, 95, 97, 114, 103, 95, 112, 93, 44, 32, 114, 115, 112, 0
+_slit_247: db 9, 109, 111, 118, 32, 113, 119, 111, 114, 100, 32, 91, 95, 114, 115, 95, 112, 93, 44, 32, 95, 114, 115, 95, 116, 111, 112, 0
+_slit_248: db 9, 109, 111, 118, 32, 114, 98, 112, 44, 32, 114, 115, 112, 0
+_slit_249: db 9, 109, 111, 118, 32, 114, 115, 112, 44, 32, 91, 95, 114, 115, 95, 112, 93, 0
+_slit_250: db 9, 99, 97, 108, 108, 32, 109, 97, 105, 110, 0
+_slit_251: db 9, 120, 111, 114, 32, 114, 100, 105, 44, 32, 114, 100, 105, 0
+_slit_252: db 95, 101, 120, 105, 116, 58, 0
+_slit_253: db 9, 109, 111, 118, 32, 101, 97, 120, 44, 32, 54, 48, 0
+_slit_254: db 9, 115, 121, 115, 99, 97, 108, 108, 0
+_slit_255: db 9, 110, 111, 112, 0
+_slit_256: db 9, 112, 117, 115, 104, 32, 0
+_slit_257: db 114, 98, 120, 0
+_slit_258: db 114, 99, 120, 0
+_slit_259: db 114, 115, 105, 0
+_slit_260: db 114, 100, 105, 0
+_slit_261: db 114, 56, 0
+_slit_262: db 114, 57, 0
+_slit_263: db 114, 49, 48, 0
+_slit_264: db 114, 49, 49, 0
+_slit_265: db 114, 49, 50, 0
+_slit_266: db 114, 49, 51, 0
+_slit_267: db 114, 49, 52, 0
+_slit_268: db 114, 49, 53, 0
+_slit_269: db 114, 100, 120, 0
+_slit_270: db 114, 97, 120, 0
+_slit_271: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 52, 56, 58, 57, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 117, 110, 114, 101, 97, 99, 104, 97, 98, 108, 101, 39, 10, 0
+_slit_272: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 103, 101, 110, 46, 115, 116, 97, 115, 58, 50, 57, 58, 50, 57, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_273: db 112, 117, 98, 108, 105, 99, 32, 0
+_slit_274: db 95, 97, 0
+_slit_275: db 95, 98, 0
+_slit_276: db 95, 99, 0
+_slit_277: db 95, 100, 0
+_slit_278: db 95, 101, 0
+_slit_279: db 95, 102, 0
+_slit_280: db 95, 103, 0
+_slit_281: db 58, 0
+_slit_282: db 9, 115, 117, 98, 32, 114, 115, 112, 44, 32, 0
+_slit_283: db 9, 109, 111, 118, 32, 91, 95, 114, 115, 95, 112, 93, 44, 32, 114, 115, 112, 0
+_slit_284: db 9, 109, 111, 118, 32, 114, 115, 112, 44, 32, 114, 98, 112, 0
+_slit_285: db 9, 109, 111, 118, 32, 114, 98, 112, 44, 32, 114, 115, 112, 0
+_slit_286: db 9, 109, 111, 118, 32, 114, 115, 112, 44, 32, 91, 95, 114, 115, 95, 112, 93, 0
+_slit_287: db 9, 97, 100, 100, 32, 114, 115, 112, 44, 32, 0
+_slit_288: db 9, 114, 101, 116, 0
+_slit_289: db 9, 109, 111, 118, 32, 114, 98, 112, 44, 32, 114, 115, 112, 0
+_slit_290: db 9, 109, 111, 118, 32, 114, 115, 112, 44, 32, 91, 95, 114, 115, 95, 112, 93, 0
+_slit_291: db 9, 99, 97, 108, 108, 32, 0
+_slit_292: db 9, 109, 111, 118, 32, 91, 95, 114, 115, 95, 112, 93, 44, 32, 114, 115, 112, 0
+_slit_293: db 9, 109, 111, 118, 32, 114, 115, 112, 44, 32, 114, 98, 112, 0
+_slit_294: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 50, 48, 49, 58, 50, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_295: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 49, 57, 53, 58, 50, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_296: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 49, 56, 57, 58, 50, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_297: db 9, 109, 111, 118, 32, 0
+_slit_298: db 44, 32, 0
+_slit_299: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 49, 55, 56, 58, 50, 55, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_300: db 9, 109, 111, 118, 32, 0
+_slit_301: db 44, 32, 0
+_slit_302: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 51, 51, 52, 58, 49, 56, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_303: db 9, 112, 111, 112, 32, 0
+_slit_304: db 9, 116, 101, 115, 116, 32, 97, 108, 44, 32, 97, 108, 0
+_slit_305: db 9, 106, 110, 122, 32, 46, 0
+_slit_306: db 9, 109, 111, 118, 32, 101, 97, 120, 44, 32, 49, 0
+_slit_307: db 9, 109, 111, 118, 32, 101, 100, 105, 44, 32, 50, 0
+_slit_308: db 9, 109, 111, 118, 32, 114, 115, 105, 44, 32, 95, 115, 108, 105, 116, 95, 0
+_slit_309: db 9, 109, 111, 118, 32, 114, 100, 120, 44, 32, 0
+_slit_310: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 100, 99, 101, 46, 115, 116, 97, 115, 58, 49, 55, 58, 49, 56, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_311: db 9, 115, 121, 115, 99, 97, 108, 108, 0
+_slit_312: db 9, 109, 111, 118, 32, 114, 100, 105, 44, 32, 49, 0
+_slit_313: db 9, 106, 109, 112, 32, 95, 101, 120, 105, 116, 0
+_slit_314: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 49, 55, 48, 58, 50, 48, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_315: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 120, 56, 54, 46, 115, 116, 97, 115, 58, 49, 55, 49, 58, 52, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 10, 0
+_slit_316: db 9, 109, 111, 118, 32, 0
 _slit_317: db 44, 32, 0
-_slit_318: db 9, 109, 111, 118, 32, 0
-_slit_319: db 44, 32, 113, 119, 111, 114, 100, 32, 91, 95, 114, 115, 95, 112, 93, 0
-_slit_320: db 9, 112, 111, 112, 32, 0
-_slit_321: db 9, 109, 111, 118, 32, 113, 119, 111, 114, 100, 32, 91, 0
-_slit_322: db 32, 43, 32, 0
-_slit_323: db 93, 44, 32, 0
-_slit_324: db 9, 109, 111, 118, 32, 0
-_slit_325: db 44, 32, 113, 119, 111, 114, 100, 32, 91, 95, 114, 115, 95, 112, 93, 0
-_slit_326: db 113, 119, 111, 114, 100, 32, 91, 0
-_slit_327: db 32, 43, 32, 0
-_slit_328: db 93, 0
-_slit_329: db 113, 119, 111, 114, 100, 32, 95, 103, 108, 111, 98, 97, 108, 95, 0
-_slit_330: db 9, 109, 111, 118, 32, 0
-_slit_331: db 44, 32, 113, 119, 111, 114, 100, 32, 95, 103, 108, 111, 98, 97, 108, 95, 0
-_slit_332: db 9, 109, 111, 118, 32, 113, 119, 111, 114, 100, 32, 91, 0
-_slit_333: db 32, 43, 32, 0
-_slit_334: db 93, 44, 32, 0
-_slit_335: db 9, 109, 111, 118, 32, 0
-_slit_336: db 44, 32, 113, 119, 111, 114, 100, 32, 95, 103, 108, 111, 98, 97, 108, 95, 0
-_slit_337: db 113, 119, 111, 114, 100, 32, 91, 0
-_slit_338: db 32, 43, 32, 0
-_slit_339: db 93, 0
-_slit_340: db 9, 109, 111, 118, 32, 0
-_slit_341: db 44, 32, 113, 119, 111, 114, 100, 32, 91, 95, 97, 114, 103, 95, 112, 93, 0
+_slit_318: db 95, 115, 108, 105, 116, 95, 0
+_slit_319: db 9, 109, 111, 118, 32, 0
+_slit_320: db 44, 32, 0
+_slit_321: db 113, 119, 111, 114, 100, 32, 91, 95, 114, 115, 95, 112, 93, 0
+_slit_322: db 9, 97, 100, 100, 32, 0
+_slit_323: db 9, 112, 111, 112, 32, 0
+_slit_324: db 44, 32, 0
+_slit_325: db 9, 109, 111, 118, 32, 0
+_slit_326: db 44, 32, 113, 119, 111, 114, 100, 32, 91, 95, 114, 115, 95, 112, 93, 0
+_slit_327: db 9, 112, 111, 112, 32, 0
+_slit_328: db 9, 109, 111, 118, 32, 113, 119, 111, 114, 100, 32, 91, 0
+_slit_329: db 32, 43, 32, 0
+_slit_330: db 93, 44, 32, 0
+_slit_331: db 9, 109, 111, 118, 32, 0
+_slit_332: db 44, 32, 113, 119, 111, 114, 100, 32, 91, 95, 114, 115, 95, 112, 93, 0
+_slit_333: db 113, 119, 111, 114, 100, 32, 91, 0
+_slit_334: db 32, 43, 32, 0
+_slit_335: db 93, 0
+_slit_336: db 113, 119, 111, 114, 100, 32, 95, 103, 108, 111, 98, 97, 108, 95, 0
+_slit_337: db 9, 109, 111, 118, 32, 0
+_slit_338: db 44, 32, 113, 119, 111, 114, 100, 32, 95, 103, 108, 111, 98, 97, 108, 95, 0
+_slit_339: db 9, 109, 111, 118, 32, 113, 119, 111, 114, 100, 32, 91, 0
+_slit_340: db 32, 43, 32, 0
+_slit_341: db 93, 44, 32, 0
 _slit_342: db 9, 109, 111, 118, 32, 0
-_slit_343: db 44, 32, 91, 0
-_slit_344: db 93, 0
-_slit_345: db 9, 109, 111, 118, 32, 0
-_slit_346: db 44, 32, 113, 119, 111, 114, 100, 32, 91, 95, 97, 114, 103, 95, 112, 93, 0
-_slit_347: db 9, 97, 100, 100, 32, 0
-_slit_348: db 44, 32, 56, 0
-_slit_349: db 9, 116, 101, 115, 116, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_350: db 9, 106, 122, 32, 46, 0
-_slit_351: db 9, 106, 109, 112, 32, 46, 0
-_slit_352: db 9, 100, 98, 32, 48, 120, 99, 99, 0
-_slit_353: db 9, 97, 100, 100, 32, 0
-_slit_354: db 44, 32, 0
-_slit_355: db 9, 115, 117, 98, 32, 0
-_slit_356: db 44, 32, 0
-_slit_357: db 9, 105, 109, 117, 108, 32, 0
-_slit_358: db 44, 32, 0
-_slit_359: db 9, 120, 111, 114, 32, 114, 100, 120, 44, 32, 114, 100, 120, 0
-_slit_360: db 9, 100, 105, 118, 32, 0
-_slit_361: db 9, 120, 111, 114, 32, 114, 100, 120, 44, 32, 114, 100, 120, 0
-_slit_362: db 9, 100, 105, 118, 32, 0
-_slit_363: db 9, 105, 110, 99, 32, 0
-_slit_364: db 9, 100, 101, 99, 32, 0
-_slit_365: db 9, 120, 111, 114, 32, 114, 100, 120, 44, 32, 114, 100, 120, 0
-_slit_366: db 9, 100, 105, 118, 32, 0
-_slit_367: db 9, 115, 104, 114, 32, 0
-_slit_368: db 44, 32, 99, 108, 0
-_slit_369: db 9, 115, 104, 108, 32, 0
-_slit_370: db 44, 32, 99, 108, 0
-_slit_371: db 9, 116, 101, 115, 116, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_372: db 9, 115, 101, 116, 101, 32, 97, 108, 0
-_slit_373: db 9, 97, 110, 100, 32, 0
-_slit_374: db 44, 32, 0
-_slit_375: db 9, 111, 114, 32, 0
-_slit_376: db 44, 32, 0
-_slit_377: db 9, 110, 111, 116, 32, 0
-_slit_378: db 9, 120, 111, 114, 32, 0
-_slit_379: db 44, 32, 0
-_slit_380: db 9, 109, 111, 118, 32, 0
+_slit_343: db 44, 32, 113, 119, 111, 114, 100, 32, 95, 103, 108, 111, 98, 97, 108, 95, 0
+_slit_344: db 113, 119, 111, 114, 100, 32, 91, 0
+_slit_345: db 32, 43, 32, 0
+_slit_346: db 93, 0
+_slit_347: db 9, 109, 111, 118, 32, 0
+_slit_348: db 44, 32, 113, 119, 111, 114, 100, 32, 91, 95, 97, 114, 103, 95, 112, 93, 0
+_slit_349: db 9, 109, 111, 118, 32, 0
+_slit_350: db 44, 32, 91, 0
+_slit_351: db 93, 0
+_slit_352: db 9, 109, 111, 118, 32, 0
+_slit_353: db 44, 32, 113, 119, 111, 114, 100, 32, 91, 95, 97, 114, 103, 95, 112, 93, 0
+_slit_354: db 9, 97, 100, 100, 32, 0
+_slit_355: db 44, 32, 56, 0
+_slit_356: db 9, 116, 101, 115, 116, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_357: db 9, 106, 122, 32, 46, 0
+_slit_358: db 9, 106, 109, 112, 32, 46, 0
+_slit_359: db 9, 100, 98, 32, 48, 120, 99, 99, 0
+_slit_360: db 9, 97, 100, 100, 32, 0
+_slit_361: db 44, 32, 0
+_slit_362: db 9, 115, 117, 98, 32, 0
+_slit_363: db 44, 32, 0
+_slit_364: db 9, 105, 109, 117, 108, 32, 0
+_slit_365: db 44, 32, 0
+_slit_366: db 9, 120, 111, 114, 32, 114, 100, 120, 44, 32, 114, 100, 120, 0
+_slit_367: db 9, 100, 105, 118, 32, 0
+_slit_368: db 9, 120, 111, 114, 32, 114, 100, 120, 44, 32, 114, 100, 120, 0
+_slit_369: db 9, 100, 105, 118, 32, 0
+_slit_370: db 9, 105, 110, 99, 32, 0
+_slit_371: db 9, 100, 101, 99, 32, 0
+_slit_372: db 9, 120, 111, 114, 32, 114, 100, 120, 44, 32, 114, 100, 120, 0
+_slit_373: db 9, 100, 105, 118, 32, 0
+_slit_374: db 9, 115, 104, 114, 32, 0
+_slit_375: db 44, 32, 99, 108, 0
+_slit_376: db 9, 115, 104, 108, 32, 0
+_slit_377: db 44, 32, 99, 108, 0
+_slit_378: db 9, 116, 101, 115, 116, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_379: db 9, 115, 101, 116, 101, 32, 97, 108, 0
+_slit_380: db 9, 97, 110, 100, 32, 0
 _slit_381: db 44, 32, 0
-_slit_382: db 113, 119, 111, 114, 100, 32, 91, 114, 115, 112, 32, 43, 32, 0
-_slit_383: db 93, 0
-_slit_384: db 113, 119, 111, 114, 100, 32, 91, 114, 115, 112, 32, 43, 32, 0
-_slit_385: db 93, 0
-_slit_386: db 9, 97, 100, 100, 32, 114, 115, 112, 44, 32, 56, 0
-_slit_387: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_388: db 9, 99, 109, 112, 32, 0
-_slit_389: db 44, 32, 0
-_slit_390: db 9, 115, 101, 116, 101, 32, 97, 108, 0
-_slit_391: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_392: db 9, 99, 109, 112, 32, 0
-_slit_393: db 44, 32, 0
-_slit_394: db 9, 115, 101, 116, 110, 101, 32, 97, 108, 0
-_slit_395: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_396: db 9, 99, 109, 112, 32, 0
-_slit_397: db 44, 32, 0
-_slit_398: db 9, 115, 101, 116, 97, 32, 97, 108, 0
-_slit_399: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_400: db 9, 99, 109, 112, 32, 0
-_slit_401: db 44, 32, 0
-_slit_402: db 9, 115, 101, 116, 98, 32, 97, 108, 0
-_slit_403: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_404: db 9, 99, 109, 112, 32, 0
-_slit_405: db 44, 32, 0
-_slit_406: db 9, 115, 101, 116, 97, 101, 32, 97, 108, 0
-_slit_407: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_408: db 9, 99, 109, 112, 32, 0
-_slit_409: db 44, 32, 0
-_slit_410: db 9, 115, 101, 116, 98, 101, 32, 97, 108, 0
-_slit_411: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_412: db 9, 99, 109, 112, 32, 0
-_slit_413: db 44, 32, 0
-_slit_414: db 9, 115, 101, 116, 103, 32, 97, 108, 0
-_slit_415: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_416: db 9, 99, 109, 112, 32, 0
-_slit_417: db 44, 32, 0
-_slit_418: db 9, 115, 101, 116, 108, 32, 97, 108, 0
-_slit_419: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_420: db 9, 99, 109, 112, 32, 0
-_slit_421: db 44, 32, 0
-_slit_422: db 9, 115, 101, 116, 103, 101, 32, 97, 108, 0
-_slit_423: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_424: db 9, 99, 109, 112, 32, 0
-_slit_425: db 44, 32, 0
-_slit_426: db 9, 115, 101, 116, 108, 101, 32, 97, 108, 0
-_slit_427: db 9, 109, 111, 118, 32, 98, 121, 116, 101, 32, 91, 0
-_slit_428: db 93, 44, 32, 97, 108, 0
-_slit_429: db 9, 109, 111, 118, 32, 119, 111, 114, 100, 32, 91, 0
-_slit_430: db 93, 44, 32, 97, 120, 0
-_slit_431: db 9, 109, 111, 118, 32, 100, 119, 111, 114, 100, 32, 91, 0
-_slit_432: db 93, 44, 32, 101, 97, 120, 0
-_slit_433: db 9, 109, 111, 118, 32, 113, 119, 111, 114, 100, 32, 91, 0
-_slit_434: db 93, 44, 32, 114, 97, 120, 0
-_slit_435: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_436: db 9, 109, 111, 118, 32, 97, 108, 44, 32, 91, 0
-_slit_437: db 93, 0
-_slit_438: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
-_slit_439: db 9, 109, 111, 118, 32, 97, 120, 44, 32, 91, 0
-_slit_440: db 93, 0
-_slit_441: db 9, 109, 111, 118, 32, 101, 97, 120, 44, 32, 91, 114, 97, 120, 93, 0
-_slit_442: db 9, 109, 111, 118, 32, 0
-_slit_443: db 44, 32, 91, 0
+_slit_382: db 9, 111, 114, 32, 0
+_slit_383: db 44, 32, 0
+_slit_384: db 9, 110, 111, 116, 32, 0
+_slit_385: db 9, 120, 111, 114, 32, 0
+_slit_386: db 44, 32, 0
+_slit_387: db 9, 109, 111, 118, 32, 0
+_slit_388: db 44, 32, 0
+_slit_389: db 113, 119, 111, 114, 100, 32, 91, 114, 115, 112, 32, 43, 32, 0
+_slit_390: db 93, 0
+_slit_391: db 113, 119, 111, 114, 100, 32, 91, 114, 115, 112, 32, 43, 32, 0
+_slit_392: db 93, 0
+_slit_393: db 9, 97, 100, 100, 32, 114, 115, 112, 44, 32, 56, 0
+_slit_394: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_395: db 9, 99, 109, 112, 32, 0
+_slit_396: db 44, 32, 0
+_slit_397: db 9, 115, 101, 116, 101, 32, 97, 108, 0
+_slit_398: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_399: db 9, 99, 109, 112, 32, 0
+_slit_400: db 44, 32, 0
+_slit_401: db 9, 115, 101, 116, 110, 101, 32, 97, 108, 0
+_slit_402: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_403: db 9, 99, 109, 112, 32, 0
+_slit_404: db 44, 32, 0
+_slit_405: db 9, 115, 101, 116, 97, 32, 97, 108, 0
+_slit_406: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_407: db 9, 99, 109, 112, 32, 0
+_slit_408: db 44, 32, 0
+_slit_409: db 9, 115, 101, 116, 98, 32, 97, 108, 0
+_slit_410: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_411: db 9, 99, 109, 112, 32, 0
+_slit_412: db 44, 32, 0
+_slit_413: db 9, 115, 101, 116, 97, 101, 32, 97, 108, 0
+_slit_414: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_415: db 9, 99, 109, 112, 32, 0
+_slit_416: db 44, 32, 0
+_slit_417: db 9, 115, 101, 116, 98, 101, 32, 97, 108, 0
+_slit_418: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_419: db 9, 99, 109, 112, 32, 0
+_slit_420: db 44, 32, 0
+_slit_421: db 9, 115, 101, 116, 103, 32, 97, 108, 0
+_slit_422: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_423: db 9, 99, 109, 112, 32, 0
+_slit_424: db 44, 32, 0
+_slit_425: db 9, 115, 101, 116, 108, 32, 97, 108, 0
+_slit_426: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_427: db 9, 99, 109, 112, 32, 0
+_slit_428: db 44, 32, 0
+_slit_429: db 9, 115, 101, 116, 103, 101, 32, 97, 108, 0
+_slit_430: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_431: db 9, 99, 109, 112, 32, 0
+_slit_432: db 44, 32, 0
+_slit_433: db 9, 115, 101, 116, 108, 101, 32, 97, 108, 0
+_slit_434: db 9, 109, 111, 118, 32, 98, 121, 116, 101, 32, 91, 0
+_slit_435: db 93, 44, 32, 97, 108, 0
+_slit_436: db 9, 109, 111, 118, 32, 119, 111, 114, 100, 32, 91, 0
+_slit_437: db 93, 44, 32, 97, 120, 0
+_slit_438: db 9, 109, 111, 118, 32, 100, 119, 111, 114, 100, 32, 91, 0
+_slit_439: db 93, 44, 32, 101, 97, 120, 0
+_slit_440: db 9, 109, 111, 118, 32, 113, 119, 111, 114, 100, 32, 91, 0
+_slit_441: db 93, 44, 32, 114, 97, 120, 0
+_slit_442: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_443: db 9, 109, 111, 118, 32, 97, 108, 44, 32, 91, 0
 _slit_444: db 93, 0
-_slit_445: db 9, 115, 121, 115, 99, 97, 108, 108, 0
-_slit_446: db 9, 115, 121, 115, 99, 97, 108, 108, 0
-_slit_447: db 9, 115, 121, 115, 99, 97, 108, 108, 0
-_slit_448: db 9, 115, 121, 115, 99, 97, 108, 108, 0
-_slit_449: db 9, 115, 121, 115, 99, 97, 108, 108, 0
-_slit_450: db 9, 115, 121, 115, 99, 97, 108, 108, 0
-_slit_451: db 9, 115, 121, 115, 99, 97, 108, 108, 0
-_slit_452: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 108, 105, 98, 115, 116, 97, 115, 99, 47, 103, 101, 110, 46, 115, 116, 97, 115, 58, 53, 52, 50, 58, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 117, 110, 114, 101, 97, 99, 104, 97, 98, 108, 101, 39, 10, 0
-_slit_453: db 115, 101, 99, 116, 105, 111, 110, 32, 39, 46, 114, 111, 100, 97, 116, 97, 39, 0
-_slit_454: db 115, 101, 103, 109, 101, 110, 116, 32, 114, 101, 97, 100, 97, 98, 108, 101, 0
-_slit_455: db 95, 115, 108, 105, 116, 95, 0
-_slit_456: db 58, 32, 100, 98, 32, 0
-_slit_457: db 44, 32, 0
-_slit_458: db 48, 0
-_slit_459: db 115, 101, 99, 116, 105, 111, 110, 32, 39, 46, 98, 115, 115, 39, 32, 119, 114, 105, 116, 97, 98, 108, 101, 0
-_slit_460: db 115, 101, 103, 109, 101, 110, 116, 32, 114, 101, 97, 100, 97, 98, 108, 101, 32, 119, 114, 105, 116, 97, 98, 108, 101, 0
-_slit_461: db 95, 103, 108, 111, 98, 97, 108, 95, 0
-_slit_462: db 58, 32, 114, 98, 32, 0
-_slit_463: db 95, 97, 114, 103, 95, 112, 58, 32, 114, 113, 32, 49, 0
-_slit_464: db 95, 114, 115, 95, 112, 58, 32, 114, 113, 32, 49, 0
-_slit_465: db 95, 114, 115, 58, 32, 114, 98, 32, 54, 53, 53, 51, 54, 0
-_slit_466: db 95, 114, 115, 95, 116, 111, 112, 58, 0
-_slit_467: db 70, 65, 84, 65, 76, 58, 32, 70, 97, 105, 108, 101, 100, 32, 116, 111, 32, 99, 108, 111, 115, 101, 32, 102, 105, 108, 101, 32, 100, 101, 115, 99, 114, 105, 112, 116, 111, 114, 10, 0
-_slit_468: db 45, 109, 0
-_slit_469: db 49, 48, 52, 56, 53, 55, 54, 0
-_slit_470: db 47, 117, 115, 114, 47, 98, 105, 110, 47, 102, 97, 115, 109, 0
-_slit_471: db 47, 100, 101, 118, 47, 110, 117, 108, 108, 0
-_slit_472: db 70, 65, 84, 65, 76, 58, 32, 67, 111, 117, 108, 100, 32, 110, 111, 116, 32, 111, 112, 101, 110, 32, 47, 100, 101, 118, 47, 110, 117, 108, 108, 10, 0
-_slit_473: db 70, 65, 84, 65, 76, 58, 32, 67, 111, 117, 108, 100, 32, 110, 111, 116, 32, 111, 112, 101, 110, 32, 47, 100, 101, 118, 47, 110, 117, 108, 108, 32, 97, 115, 32, 115, 116, 100, 111, 117, 116, 10, 0
-_slit_474: db 70, 65, 84, 65, 76, 58, 32, 67, 111, 117, 108, 100, 32, 110, 111, 116, 32, 101, 120, 101, 99, 118, 101, 32, 99, 104, 105, 108, 100, 0
+_slit_445: db 9, 120, 111, 114, 32, 114, 97, 120, 44, 32, 114, 97, 120, 0
+_slit_446: db 9, 109, 111, 118, 32, 97, 120, 44, 32, 91, 0
+_slit_447: db 93, 0
+_slit_448: db 9, 109, 111, 118, 32, 101, 97, 120, 44, 32, 91, 114, 97, 120, 93, 0
+_slit_449: db 9, 109, 111, 118, 32, 0
+_slit_450: db 44, 32, 91, 0
+_slit_451: db 93, 0
+_slit_452: db 9, 115, 121, 115, 99, 97, 108, 108, 0
+_slit_453: db 9, 115, 121, 115, 99, 97, 108, 108, 0
+_slit_454: db 9, 115, 121, 115, 99, 97, 108, 108, 0
+_slit_455: db 9, 115, 121, 115, 99, 97, 108, 108, 0
+_slit_456: db 9, 115, 121, 115, 99, 97, 108, 108, 0
+_slit_457: db 9, 115, 121, 115, 99, 97, 108, 108, 0
+_slit_458: db 9, 115, 121, 115, 99, 97, 108, 108, 0
+_slit_459: db 27, 91, 49, 109, 27, 91, 51, 49, 109, 115, 114, 99, 47, 103, 101, 110, 46, 115, 116, 97, 115, 58, 53, 52, 50, 58, 54, 58, 32, 27, 91, 51, 57, 109, 27, 91, 50, 50, 109, 97, 115, 115, 101, 114, 116, 97, 116, 105, 111, 110, 32, 102, 97, 105, 108, 101, 100, 44, 32, 39, 117, 110, 114, 101, 97, 99, 104, 97, 98, 108, 101, 39, 10, 0
+_slit_460: db 115, 101, 99, 116, 105, 111, 110, 32, 39, 46, 114, 111, 100, 97, 116, 97, 39, 0
+_slit_461: db 115, 101, 103, 109, 101, 110, 116, 32, 114, 101, 97, 100, 97, 98, 108, 101, 0
+_slit_462: db 95, 115, 108, 105, 116, 95, 0
+_slit_463: db 58, 32, 100, 98, 32, 0
+_slit_464: db 44, 32, 0
+_slit_465: db 48, 0
+_slit_466: db 115, 101, 99, 116, 105, 111, 110, 32, 39, 46, 98, 115, 115, 39, 32, 119, 114, 105, 116, 97, 98, 108, 101, 0
+_slit_467: db 115, 101, 103, 109, 101, 110, 116, 32, 114, 101, 97, 100, 97, 98, 108, 101, 32, 119, 114, 105, 116, 97, 98, 108, 101, 0
+_slit_468: db 95, 103, 108, 111, 98, 97, 108, 95, 0
+_slit_469: db 58, 32, 114, 98, 32, 0
+_slit_470: db 95, 97, 114, 103, 95, 112, 58, 32, 114, 113, 32, 49, 0
+_slit_471: db 95, 114, 115, 95, 112, 58, 32, 114, 113, 32, 49, 0
+_slit_472: db 95, 114, 115, 58, 32, 114, 98, 32, 54, 53, 53, 51, 54, 0
+_slit_473: db 95, 114, 115, 95, 116, 111, 112, 58, 0
+_slit_474: db 70, 65, 84, 65, 76, 58, 32, 70, 97, 105, 108, 101, 100, 32, 116, 111, 32, 99, 108, 111, 115, 101, 32, 102, 105, 108, 101, 32, 100, 101, 115, 99, 114, 105, 112, 116, 111, 114, 10, 0
+_slit_475: db 45, 109, 0
+_slit_476: db 49, 48, 52, 56, 53, 55, 54, 0
+_slit_477: db 47, 117, 115, 114, 47, 98, 105, 110, 47, 102, 97, 115, 109, 0
+_slit_478: db 47, 100, 101, 118, 47, 110, 117, 108, 108, 0
+_slit_479: db 70, 65, 84, 65, 76, 58, 32, 67, 111, 117, 108, 100, 32, 110, 111, 116, 32, 111, 112, 101, 110, 32, 47, 100, 101, 118, 47, 110, 117, 108, 108, 10, 0
+_slit_480: db 70, 65, 84, 65, 76, 58, 32, 67, 111, 117, 108, 100, 32, 110, 111, 116, 32, 111, 112, 101, 110, 32, 47, 100, 101, 118, 47, 110, 117, 108, 108, 32, 97, 115, 32, 115, 116, 100, 111, 117, 116, 10, 0
+_slit_481: db 70, 65, 84, 65, 76, 58, 32, 67, 111, 117, 108, 100, 32, 110, 111, 116, 32, 101, 120, 101, 99, 118, 101, 32, 99, 104, 105, 108, 100, 0
+_slit_482: db 70, 65, 84, 65, 76, 58, 32, 67, 111, 117, 108, 100, 32, 110, 111, 116, 32, 101, 120, 101, 99, 118, 101, 32, 102, 105, 108, 101, 10, 0
 segment readable writable
 _global___curbrk: rb 8
 _global_is_object_file: rb 1
