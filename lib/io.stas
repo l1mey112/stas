@@ -26,7 +26,7 @@ fn itoa 2 2 {
 	}
 	
 	0 pop len
-	buf 20 + pop pos
+	buf 21 + pop pos
 
 	while dup 0 > {
 		pos -- pop pos
@@ -40,7 +40,7 @@ fn itoa 2 2 {
 	}
 	drop
 
-	buf len + 0 w8
+	;buf len + 0 w8
 
 	pos len
 }

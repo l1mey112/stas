@@ -98,23 +98,23 @@ fn mangled_name(f &Function) StringPointer {
 }
 
 fn gen_range(start u32, end u32) {
-	mut const_stack := []u64{}
-	mut const_stack_r := &mut const_stack
-	
-	flush_const_stack := fn [mut const_stack_r] () {
-		for n in *const_stack_r {
-			r_push_const(n)
-		}
-		unsafe {
-			(*const_stack_r).len = 0
-		}
-	}
+//	mut const_stack := []u64{}
+//	mut const_stack_r := &mut const_stack
+//	
+//	flush_const_stack := fn [mut const_stack_r] () {
+//		for n in *const_stack_r {
+//			r_push_const(n)
+//		}
+//		unsafe {
+//			(*const_stack_r).len = 0
+//		}
+//	}
 
 	for pos := start ; pos < end; pos++ {
 		ir_data := ir_stream[pos].data
 
-		if !eval_one_inst(mut const_stack, pos) {
-			flush_const_stack()
+		if true /* !eval_one_inst(mut const_stack, pos) */ {
+			//flush_const_stack()
 
 			match ir_stream[pos].inst {
 				._assert {
@@ -136,7 +136,8 @@ fn gen_range(start u32, end u32) {
 					r_free(.rax)
 				}
 				.push_num {
-					assert false, 'unreachable'
+					r_push_const(ir_data)
+				//	assert false, 'unreachable'
 				}
 				.push_str {
 					len := *&u64(slits[ir_data])
@@ -688,5 +689,5 @@ fn gen_range(start u32, end u32) {
 			}
 		}
 	}
-	flush_const_stack() // for inlined functions
+//	flush_const_stack() // for inlined functions
 }

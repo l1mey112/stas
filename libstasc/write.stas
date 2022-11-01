@@ -43,7 +43,7 @@ fn fwriteln 2 0 {
 
 ; (num)
 fn fwriteu 1 0 {
-	reserve num_buf 20
+	reserve num_buf 21
 	num_buf swap itoa fwrite
 }
 

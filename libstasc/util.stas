@@ -46,7 +46,7 @@ fn error.Tok 3 0 {
 
 ; (idx str len -- string_view)
 fn error.Tok.to_string_view 3 1 {
-	reserve num_buf 20
+	reserve num_buf 21
  
 	auto sv 1 new_empty_string pop sv
 	rot rot

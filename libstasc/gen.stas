@@ -237,13 +237,13 @@ fn gen_range 2 0 {
 		} elif dup Inst.shr = {
 			Reg.rcx r_pop_r
 			r_pop pop a
-			"	shr " fwriteln a Reg.64.to_str fwrite ", cl" fwriteln
+			"	shr " fwrite a Reg.64.to_str fwrite ", cl" fwriteln
 			a r_push
 			Reg.rcx r_free
 		} elif dup Inst.shl = {
 			Reg.rcx r_pop_r
 			r_pop pop a
-			"	shl " fwriteln a Reg.64.to_str fwrite ", cl" fwriteln
+			"	shl " fwrite a Reg.64.to_str fwrite ", cl" fwriteln
 			a r_push
 			Reg.rcx r_free
 		} elif dup Inst.not = {
