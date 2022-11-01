@@ -13,7 +13,9 @@ compiler
 a.out
 
 *.fasm
-
+!bootstrap-compiler/*.fasm
 *.out
+
+*.tmp
 
 a

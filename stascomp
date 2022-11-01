@@ -1,7 +1,0 @@
-#!/bin/sh
-
-set -e
-
-v -g -enable-globals crun . $@ > a.out.fasm
-fasm a.out.fasm a.out -m 1048576 > /dev/null
-chmod +x a.out

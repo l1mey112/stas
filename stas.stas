@@ -1,6 +1,11 @@
 include 'std.stas'
 
 reserve is_object_file 1
+reserve debug_symbols  1
+auto    backend_type   1
+
+const StasBackend.fasm { 1 }
+const StasBackend.nasm { 2 }
 
 include 'libstasc/stringbuffer.stas' ; handling strings
 include 'libstasc/tokens.stas'       ; stas token definitions
@@ -15,56 +20,183 @@ include 'libstasc/x86.stas'          ; stas codegen definitions and reg allocato
 include 'libstasc/gen.stas'          ; stas code generator, creates x86_64 asm
 
 fn usage 0 0 {
-	; unimplemented
+	"USAGE:::::\n" eputs
 }
+
+fn help_and_exit 0 0 {
+	"hellpy\n" eputs
+	usage
+	0 exit
+}
+
+fn usage_and_exit 0 0 {
+	usage
+	1 exit
+}
+
+fn usage_msg_and_exit 2 0 {
+	error.generic_fatal_noexit
+	usage_and_exit
+}
+
+fn parse_backend_type 2 0 {
+	over over "fasm" streq if {
+		StasBackend.fasm pop backend_type
+	} elif over over "nasm" streq {
+		StasBackend.nasm pop backend_type
+	} else {
+		"unknown backend" usage_msg_and_exit
+	}
+	drop drop
+}
+
+const sizeof(fasm_arg_buf) { sizeof(u64) 5 * }
+
+; (infile.str infile.len outfile.str outfile.len)
+fn execute_fasm 4 0 {
+	auto outfile 2 pop outfile
+	auto infile  2 pop infile
+
+	reserve arg_buf sizeof(fasm_arg_buf) 
+
+	arg_buf       dup outfile   drop w64
+	sizeof(u64) + dup infile    drop w64
+	sizeof(u64) + dup "-m"      drop w64
+	sizeof(u64) + dup "1048576" drop w64
+	sizeof(u64) +     NULL           w64
+
+	"/usr/bin/fasm" arg_buf child_execve_and_shut_up	
+}
+
+const ArgParseMode.none    { 0 }
+const ArgParseMode.output  { 1 }
+const ArgParseMode.backend { 2 }
 
 fn main 0 0 {
 	argc 1 = if {
-		'FATAL: Must supply files to compile\n' eputs
-		1 exit
+		usage_and_exit
 	}
 
-	argc 2 = if {
-		1 args[] "-elf" streq if {
-			'FATAL: Must supply files to compile\n' eputs
-			1 exit
-		}
-	}
+	reserve to_stdout 1
 
 	is_object_file 0 w8
-	stdout pop fwrite_buffer.fd_loc
+	to_stdout      0 w8
+	
+	UINT64_MAX       pop fwrite_buffer.fd_loc
+	StasBackend.fasm pop backend_type            
+
+	auto argparse_mode 1
+	auto argstr        2
+
+	auto out_file 2
+	auto in_file  2
+	NULL 0 pop out_file
+	NULL 0 pop in_file
+
+	ArgParseMode.none pop argparse_mode
+	debug_symbols false w8
 
 	1
 	while dup argc < {
-		dup args[]
+		dup args[] pop argstr
 
-		over over '-elf' streq if {
-			drop drop
-			is_object_file r8 if {
-				'TODO: put usage here and in all the other places including above\n' eputs
-				1 exit
+		argstr "-o" streq if {
+			argparse_mode ArgParseMode.none != if {
+				usage_and_exit
 			}
-			is_object_file 1 w8
+			ArgParseMode.output pop argparse_mode
+		} elif argstr "-b" streq {
+			argparse_mode ArgParseMode.none != if {
+				usage_and_exit
+			}
+			ArgParseMode.backend pop argparse_mode
+		} elif argstr "-g" streq {
+			debug_symbols r8 if {
+				usage_and_exit
+			}
+			debug_symbols true w8
+		} elif argstr "--help" streq argstr "-h" streq | {
+			help_and_exit
 		} else {
-			stas.scan_file
+			argparse_mode ArgParseMode.none = if {
+				in_file drop NULL != if {
+					usage_and_exit
+				}
+				argstr pop in_file
+			} elif argparse_mode ArgParseMode.output = {
+				out_file drop NULL != if {
+					usage_and_exit
+				}
+				argstr pop out_file
+			} elif argparse_mode ArgParseMode.backend = {
+				argstr parse_backend_type
+			} else {
+				0 assert
+			}
+			ArgParseMode.none pop argparse_mode
 		}
-
 		++
 	}
 	drop
+
+	argparse_mode ArgParseMode.none != if {
+		argparse_mode ArgParseMode.output = if {
+			"supply output file" usage_msg_and_exit
+		} elif argparse_mode ArgParseMode.backend = {
+			"supply backend type" usage_msg_and_exit
+		}
+	}
+
+	backend_type StasBackend.nasm != assert -> 'nasm backend not supported yet'
+	debug_symbols r8 false = assert -> 'object file + line numbers not supported'
+
+	; TODO: `is_object_file` is not used at all and cannot be set
+	;       replace with `debug_symbols` instead
+
+	in_file drop NULL = if {
+		"supply stas file" usage_msg_and_exit
+	}
+
+	out_file drop NULL = if {
+		debug_symbols r8 backend_type StasBackend.nasm = | if {
+			"a.o"
+		} else {
+			"a.out"
+		}
+		pop out_file
+	} else {
+		out_file "-" streq if {
+			to_stdout true w8
+		}
+	}
+
+	auto out_file_asm_sv 1 
+
+	to_stdout r8 ! if {
+		out_file new_string_view
+		dup ".tmp" push_string_view
+		dup pop out_file_asm_sv
+
+		string_view_to_str fd_new_file_for_writing
+		pop fwrite_buffer.fd_loc
+	} else {
+		stdout pop fwrite_buffer.fd_loc
+	}
+
+	in_file stas.scan_file
 
 	stas.parse
 	stas.dce
 	stas.gen
 
-;	endl
-;	0
-;	while dup functions.len < {
-;		dup functions[] Function.name.write_mangled
-;		endl
-;		++
-;	}
-;	drop
+	to_stdout r8 if {
+		ret
+	}
 
-;	ir_stream.dump
+	fwrite_buffer.fd_loc close 0 <s if {
+		"FATAL: Failed to close file descriptor\n" eputs
+		1 exit
+	}
+
+	out_file_asm_sv string_view_to_str out_file execute_fasm
 }

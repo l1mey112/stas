@@ -41,3 +41,17 @@ fn mmap 6 1 {
 fn mummap 2 1 {
 	sys_munmap syscall2	
 }
+
+; http://codewiki.wikidot.com/c%3asystem-calls%3aopen
+
+const S_IRUSR { 256 } ; Set read rights for the owner to true.
+const S_IWUSR { 128 } ; Set write rights for the owner to true.
+const S_IXUSR { 64  } ; Set execution rights for the owner to true.
+const S_IRGRP { 32  } ; Set read rights for the group to true.
+const S_IWGRP { 16  } ; Set write rights for the group to true.
+const S_IXGRP { 8   } ; Set execution rights for the group to true.
+const S_IROTH { 4   } ; Set read rights for other users to true.
+const S_IWOTH { 2   } ; Set write rights for other users to true.
+const S_IXOTH { 1   } ; Set execution rights for other users to true.
+
+const S_RWE_OWNER { S_IRUSR S_IWUSR | S_IXUSR | }

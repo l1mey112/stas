@@ -1,7 +1,5 @@
-;include 'std.stas'
+include 'std.stas'
 
 fn main 0 0 {
-	1 if {
-		1 "hello!\n" 1 syscall3 drop
-	}
+	
 }

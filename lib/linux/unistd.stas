@@ -5,6 +5,11 @@
 ; int          execve(const char *, char *const [], char *const []);
 ; int          execvp(const char *, char *const []);
 
+; (filename argv[] envp[])
+fn execve 3 1 {
+	stub_execve syscall3
+}
+
 ; (cstr -- ret)
 fn chdir 1 1 {
 	sys_chdir syscall1
@@ -98,3 +103,7 @@ fn open 3 1 {
 fn openat 4 1 {
 	sys_openat syscall4
 }
+
+fn dup2 2 1 {
+	sys_dup2 syscall2
+} 

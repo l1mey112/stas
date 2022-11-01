@@ -167,6 +167,21 @@ fn fd_open_fp_readonly 2 1 {
 	}
 }
 
+; (str len -- fd)
+fn fd_new_file_for_writing 2 1 {
+	auto path 2
+	pop path
+
+	path drop
+
+	O_WRONLY O_CREAT | O_TRUNC | S_RWE_OWNER open
+
+	dup 0 <s if {
+		"FATAL: Failed to open file '" eputs path eputs "'\n" eputs
+		1 exit
+	}
+}
+
 ; (str len -- ptr len)
 fn open_and_mmap_fp 2 2 {
 	auto path 2
@@ -200,5 +215,45 @@ fn open_and_mmap_fp 2 2 {
 	fd close 0 <s if {
 		"FATAL: Failed to close file descriptor\n" eputs
 		1 exit
+	}
+}
+
+; (execute.str execute.len argv[])
+fn child_execve_and_shut_up 3 0 {
+	swap drop
+	
+	auto args 2
+	pop args
+	
+	fork
+
+	0 = if {
+		reserve null_p sizeof(u64)
+		null_p NULL w64
+
+			AT_FDCWD
+			"/dev/null" drop
+			O_RDONLY
+			0
+		openat
+
+		dup 0 <s if {
+			"FATAL: Could not open /dev/null\n" eputs
+			1 exit
+		}
+
+		stdout
+
+		dup2 0 <s if {
+			"FATAL: Could not open /dev/null as stdout\n" eputs
+			1 exit
+		}
+
+		args null_p execve 0 <s if {
+			"FATAL: Could not execve child" eputs
+			1 exit
+		}
+
+		0 exit
 	}
 }
