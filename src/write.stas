@@ -1,4 +1,4 @@
-const   fwrite_buffer.cap     { 1 1024 * 1024 * } ; 1 MiB
+const   fwrite_buffer.cap     { 10 1024 * } ; 10 KiB
 auto    fwrite_buffer.len     1
 const   sizeof(fwrite_buffer) { fwrite_buffer.cap }
 reserve fwrite_buffer         sizeof(fwrite_buffer)

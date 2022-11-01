@@ -16014,7 +16014,7 @@ fwrite_buffer.assert_len:
 	mov rsp, rbp
 	pop rbx
 	mov rsi, rbx
-	mov rdi, 1048576
+	mov rdi, 10240
 	xor rax, rax
 	cmp rsi, rdi
 	setb al
@@ -16033,7 +16033,7 @@ fwrite_buffer.assert_len:
 	mov rsi, qword _global_fwrite_buffer.len
 	mov rdi, qword [rsi + 0]
 	add rbx, rdi
-	mov rsi, 1048576
+	mov rsi, 10240
 	xor rax, rax
 	cmp rbx, rsi
 	setae al
@@ -30912,7 +30912,7 @@ _global_is_still_evaluating_constant: rb 8
 _global_sp.len: rb 8
 _global_sp: rb 4096
 _global_fwrite_buffer.len: rb 8
-_global_fwrite_buffer: rb 1048576
+_global_fwrite_buffer: rb 10240
 _global_fwrite_buffer.fd_loc: rb 8
 _global_slits.len: rb 8
 _global_slits: rb 8192
