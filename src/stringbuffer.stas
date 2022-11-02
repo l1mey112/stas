@@ -1,4 +1,4 @@
-const string_buffer.cap { 256 1024 * 1024 * } ; 256 MiB
+const string_buffer.cap { 256 1024 * } ; 256 KiB
 auto string_buffer.len 1
 reserve string_buffer string_buffer.cap
 
