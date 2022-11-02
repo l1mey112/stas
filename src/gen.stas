@@ -547,6 +547,75 @@ fn gen_range 2 0 {
 	}
 }
 
+; https://en.cppreference.com/w/cpp/string/byte/isprint
+; (u8 -- bool)
+fn isprint_pp_escape 1 1 {
+	auto ch 1 pop ch
+
+	ch 34 = if {
+		false
+		ret
+	}
+
+	ch 32  >=
+	ch 126 <= &
+	ch 9    = |
+}
+
+; (str len)
+fn string_literal_pretty_printer 2 0 {
+	auto str.len 1 pop str.len
+	auto str     1 pop str
+
+	auto is_word_mode 1
+
+	str.len 0 = if {
+		"0\n" fwrite
+		ret
+	}
+
+	str.len 0 > if {
+		str r8
+		dup isprint_pp_escape if {
+			'"' fwrite fwritec
+			
+			true pop is_word_mode
+		} else {
+			fwriteu
+			
+			false pop is_word_mode
+		}
+	}
+
+	1
+	while dup str.len < {
+		dup str u8[]
+		
+		dup isprint_pp_escape if {
+			is_word_mode if {
+				fwritec
+			} else {
+				', "' fwrite fwritec
+			}
+			true pop is_word_mode
+		} else {
+			is_word_mode if {
+				'", ' fwrite fwriteu
+			} else {
+				', ' fwrite fwriteu
+			}
+			false pop is_word_mode
+		}
+
+		++
+	}
+	drop
+	is_word_mode if {
+		'"' fwrite
+	}
+	", 0\n" fwrite
+}
+
 fn stas.gen 0 0 {
 	"use64"                           fwriteln
 	is_object_file r8 if {
@@ -585,19 +654,10 @@ fn stas.gen 0 0 {
 		dup "_slit_" fwrite fwriteu ": db " fwrite
 		
 		dup slits[] string_view_to_str
-		auto str.len 1 pop str.len
-		auto str     1 pop str
-		 
-		0
-		while dup str.len < {
-			dup str u8[] fwriteu
-			", " fwrite
-			++
-		}
-		drop
+
+		string_literal_pretty_printer
 		
-		"0" fwriteln
-		++ 
+		++
 	}
 	drop
 
