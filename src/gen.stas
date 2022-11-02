@@ -19,6 +19,11 @@ fn gen_range 2 0 {
 		auto c 1
 		auto d 1
 
+		backend_type StasBackend.nasm = if {
+			pos ir_stream[] rIR.idx token_stream[] dup
+			"%line " fwrite rToken.row fwriteu "+0 '" fwrite rToken.file string_view_to_str fwrite "'" fwriteln
+		}
+
 		pos ir_stream[] rIR.data pop ir_data
 		
 		pos ir_stream[] rIR.inst
@@ -32,7 +37,7 @@ fn gen_range 2 0 {
 			fn_c rFunction.is_used ! fn_c rFunction.forbid_inline ! | if {
 				fn_c rFunction.end_inst pop pos
 			} else {
-				is_object_file r8 if {
+				backend_type StasBackend.fasm = debug_symbols r8 & if {
 					"public " fwrite fn_c Function.name.fwrite_mangled fendl
 				}
 				fn_c Function.name.fwrite_mangled ":" fwriteln
@@ -616,37 +621,56 @@ fn string_literal_pretty_printer 2 0 {
 	", 0\n" fwrite
 }
 
-fn stas.gen 0 0 {
-	"use64"                           fwriteln
-	is_object_file r8 if {
-		"format ELF64"                fwriteln
-		"section '.text' executable"  fwriteln
-		"public _start"               fwriteln
-		"public _exit"                fwriteln
+; (infile.str infile.len)
+fn stas.gen 2 0 {
+	auto fp 2
+	pop fp
+	
+	backend_type StasBackend.fasm = if {
+		"use64"                           fwriteln
+		debug_symbols r8 if {
+			"format ELF64"                fwriteln
+			"section '.text' executable"  fwriteln
+			"public _start"               fwriteln
+			"public _exit"                fwriteln
+		} else {
+			"format ELF64 executable"     fwriteln
+			"segment readable executable" fwriteln
+			"entry _start"                fwriteln
+		}
+	} elif backend_type StasBackend.nasm = {
+		"%line 0+0 '" fwrite fp fwrite "'"  fwriteln
+		"[BITS 64]"                       fwriteln
+		"[global _start]"                 fwriteln
+		"[section .text]"                 fwriteln
 	} else {
-		"format ELF64 executable"     fwriteln
-		"segment readable executable" fwriteln
-		"entry _start"                fwriteln
+		0 assert -> 'unreachable'
 	}
 
-	"_start:"                         fwriteln
-	"	mov [_arg_p], rsp"            fwriteln
-	"	mov qword [_rs_p], _rs_top"   fwriteln
-	"	mov rbp, rsp"                 fwriteln
-	"	mov rsp, [_rs_p]"             fwriteln
-	"	call main"                    fwriteln
-	"	xor rdi, rdi"                 fwriteln
-	"_exit:"                          fwriteln
-	"	mov eax, 60"                  fwriteln
-	"	syscall"                      fwriteln
-	"	nop"                          fwriteln
+	"_start:"                             fwriteln
+	"	mov [_arg_p], rsp"                fwriteln
+	"	mov qword [_rs_p], _rs_top"       fwriteln
+	"	mov rbp, rsp"                     fwriteln
+	"	mov rsp, [_rs_p]"                 fwriteln
+	"	call main"                        fwriteln
+	"	xor rdi, rdi"                     fwriteln
+	"_exit:"                              fwriteln
+	"	mov eax, 60"                      fwriteln
+	"	syscall"                          fwriteln
+	"	nop"                              fwriteln
 
 	0 ir_stream.len gen_range
-
-	is_object_file r8 if {
-		"section '.rodata'"           fwriteln
+	
+	backend_type StasBackend.fasm = if {
+		debug_symbols r8 if {
+			"section '.rodata'"           fwriteln
+		} else {
+			"segment readable"            fwriteln
+		}
+	} elif backend_type StasBackend.nasm = {
+		"[section .rodata]"               fwriteln
 	} else {
-		"segment readable"            fwriteln
+		0 assert -> 'unreachable'
 	}
 
 	0
@@ -661,25 +685,46 @@ fn stas.gen 0 0 {
 	}
 	drop
 
-	is_object_file r8 if {
-		"section '.bss' writable"     fwriteln
+	backend_type StasBackend.fasm = if {
+		debug_symbols r8 if {
+			"section '.bss' writable"     fwriteln
+		} else {
+			"segment readable writable"   fwriteln
+		}
+	} elif backend_type StasBackend.nasm = {
+		"[section .bss]"                  fwriteln 
 	} else {
-		"segment readable writable"   fwriteln
+		0 assert -> 'unreachable'
 	}
 
 	0
 	while dup global_var_context.len < {
 		    "_g" fwrite
 		dup global_var_context[] rVariable.name string_view_to_str fwrite
-		    ": rb " fwrite
+			backend_type StasBackend.fasm = if {
+				": rb " fwrite
+			} elif backend_type StasBackend.nasm = {
+				": resb " fwrite
+			} else {
+				0 assert -> 'unreachable'
+			}
 		dup global_var_context[] rVariable.size fwriteuln
 		++
 	}
 	drop
 
-	"_arg_p: rq 1"                    fwriteln
-	"_rs_p: rq 1"                     fwriteln
-	"_rs: rb 65536"                   fwriteln
+	backend_type StasBackend.fasm = if {
+		"_arg_p: rq 1"                    fwriteln
+		"_rs_p: rq 1"                     fwriteln
+		"_rs: rb 65536"                   fwriteln
+	} elif backend_type StasBackend.nasm = {
+		"_arg_p: resq 1"                  fwriteln
+		"_rs_p: resq 1"                   fwriteln
+		"_rs: resb 65536"                 fwriteln
+	} else {
+		0 assert -> 'unreachable'
+	}
+
 	"_rs_top:"                        fwriteln
 
 	fwrite_buffer.flush

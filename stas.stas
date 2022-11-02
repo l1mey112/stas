@@ -1,6 +1,5 @@
 include 'std.stas'
 
-reserve is_object_file 1
 reserve debug_symbols  1
 auto    backend_type   1
 
@@ -57,22 +56,42 @@ fn parse_backend_type 2 0 {
 	drop drop
 }
 
-const sizeof(fasm_arg_buf) { sizeof(u64) 5 * }
+const sizeof(fasm_arg_buf) { sizeof(u64) 32 * }
 
 ; (infile.str infile.len outfile.str outfile.len)
-fn execute_fasm 4 0 {
+fn execute_backend 4 0 {
 	auto outfile 2 pop outfile
 	auto infile  2 pop infile
 
-	reserve arg_buf sizeof(fasm_arg_buf) 
+	reserve arg_buf sizeof(fasm_arg_buf)
 
-	arg_buf       dup outfile   drop w64
-	sizeof(u64) + dup infile    drop w64
-	sizeof(u64) + dup "-m"      drop w64
-	sizeof(u64) + dup "1048576" drop w64
-	sizeof(u64) +     NULL           w64
+	backend_type StasBackend.fasm = if {
+		arg_buf       dup "fasm"    drop w64
+		sizeof(u64) + dup outfile   drop w64
+		sizeof(u64) + dup infile    drop w64
+		sizeof(u64) + dup "-m"      drop w64
+		sizeof(u64) + dup "1048576" drop w64
+		sizeof(u64) +     NULL           w64
 
-	"/usr/bin/fasm" arg_buf child_execve_and_shut_up	
+		"/usr/bin/fasm"
+	} elif backend_type StasBackend.nasm = {
+		arg_buf       dup "nasm"    drop w64
+		sizeof(u64) + dup infile    drop w64
+		sizeof(u64) + dup "-o"      drop w64
+		sizeof(u64) + dup outfile   drop w64
+		sizeof(u64) + dup "-O0"     drop w64
+		sizeof(u64) + dup "-felf64" drop w64
+
+		debug_symbols r8 if {
+			sizeof(u64) + dup "-Fdwarf" drop w64
+			sizeof(u64) + dup "-g"      drop w64
+		}
+
+		sizeof(u64) +     NULL           w64
+		"/usr/bin/nasm"
+	}
+
+	arg_buf child_execve_and_shut_up
 }
 
 const ArgParseMode.none    { 0 }
@@ -86,7 +105,6 @@ fn main 0 0 {
 
 	reserve to_stdout 1
 
-	is_object_file 0 w8
 	to_stdout      0 w8
 
 	auto run_exec_arg  1
@@ -121,6 +139,9 @@ fn main 0 0 {
 			}
 			ArgParseMode.backend pop argparse_mode
 		} elif argstr "-g" streq {
+			argparse_mode ArgParseMode.none != if {
+				usage_and_exit
+			}
 			debug_symbols r8 if {
 				usage_and_exit
 			}
@@ -163,8 +184,8 @@ fn main 0 0 {
 		}
 	}
 
-	backend_type StasBackend.nasm != assert -> 'nasm backend not supported yet'
-	debug_symbols r8 false = assert -> 'object file + line numbers not supported'
+;	backend_type StasBackend.nasm != assert -> 'nasm backend not supported yet'
+;	debug_symbols r8 false = assert -> 'object file + line numbers not supported'
 
 	; TODO: `is_object_file` is not used at all and cannot be set
 	;       replace with `debug_symbols` instead
@@ -190,7 +211,7 @@ fn main 0 0 {
 
 	to_stdout r8 ! if {
 		out_file new_string_view
-		dup ".tmp" push_string_view
+		dup ".tmp.asm" push_string_view
 		dup pop out_file_asm_sv
 
 		string_view_to_str fd_new_file_for_writing
@@ -203,7 +224,7 @@ fn main 0 0 {
 
 	stas.parse
 	stas.dce
-	stas.gen
+	in_file stas.gen
 
 	to_stdout r8 if {
 		ret
@@ -214,7 +235,11 @@ fn main 0 0 {
 		1 exit
 	}
 
-	out_file_asm_sv string_view_to_str out_file execute_fasm
+	out_file_asm_sv string_view_to_str out_file execute_backend
+
+	debug_symbols r8 backend_type StasBackend.nasm = | if {
+		ret
+	}
 
 	run_exec_arg 0 != if {
 		reserve null_p sizeof(u64)
