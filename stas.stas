@@ -67,8 +67,8 @@ fn execute_backend 4 0 {
 
 	backend_type StasBackend.fasm = if {
 		arg_buf       dup "fasm"    drop w64
-		sizeof(u64) + dup outfile   drop w64
 		sizeof(u64) + dup infile    drop w64
+		sizeof(u64) + dup outfile   drop w64
 		sizeof(u64) + dup "-m"      drop w64
 		sizeof(u64) + dup "1048576" drop w64
 		sizeof(u64) +     NULL           w64
