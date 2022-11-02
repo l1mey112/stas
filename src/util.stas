@@ -8,6 +8,16 @@ fn error.end_bold_error 0 0 {
 	27 eputc '[22m' eputs
 }
 
+fn notice.start_bold_notice 0 0 {
+	27 eputc '[1m'  eputs
+	27 eputc '[33m' eputs
+}
+
+fn notice.end_bold_notice 0 0 {
+	27 eputc '[39m' eputs
+	27 eputc '[22m' eputs
+}
+
 ; (str len)
 fn error.generic_fatal_noexit 2 0 {
 	error.start_bold_error
@@ -39,7 +49,7 @@ fn error.Loc 5 0 {
 }
 
 ; (idx str len)
-fn error.Tok 3 0 {
+fn error_noexit.Tok 3 0 {
 	rot rot
 	
 	error.start_bold_error
@@ -47,6 +57,22 @@ fn error.Tok 3 0 {
 	error.end_bold_error
 	
 	eputs endl
+}
+
+; (idx str len)
+fn notice.Tok 3 0 {
+	rot rot
+	
+	notice.start_bold_notice
+		token_stream[] Token.location_print
+	notice.end_bold_notice
+	
+	eputs endl
+}
+
+; (idx str len)
+fn error.Tok 3 0 {
+	error_noexit.Tok
 	1 exit
 }
 

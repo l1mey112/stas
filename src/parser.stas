@@ -25,6 +25,38 @@ const   sizeof(sp) { sizeof(u32) sp.cap * }
 auto    sp.len     1
 reserve sp         sizeof(sp)
 
+fn sp[] 1 1 {
+	dup sp.len < assert
+	sizeof(u32) * sp + r32
+}
+
+; (idx str len)
+fn error_st.Tok 3 0 {
+	error_noexit.Tok
+
+	sp.len 0 > if {
+		sp.len 1 -
+		while 1 {
+			dup sp[] "backtrace" notice.Tok
+	
+			dup 0 = if {
+				break
+			}
+			--
+		}
+		drop
+
+	;	0
+	;	while dup sp.len < {
+	;		dup sp[] "backtrace" notice.Tok
+	;		++
+	;	}
+	;	drop
+	}
+
+	1 exit
+}
+
 fn sp<< 1 0 {
 	sp.len sp.cap < assert
 	sp sp.len sizeof(u32) * + swap w32
@@ -55,7 +87,7 @@ fn sp_assert 2 0 {
 	auto _argc 1 pop _argc
 	
 	sp.len _argc < if {
-		pos "not enough values to consume for operation" error.Tok
+		pos "not enough values to consume for operation" error_st.Tok
 	}
 	
 	sp.len _argc - pop sp.len
@@ -409,7 +441,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 					var rVariable.size 8 / pop to_pop
 
 					sp.len to_pop < if {
-						pos 'not enought values on the stack to pop into an automatic variable' error.Tok
+						pos 'not enought values on the stack to pop into an automatic variable' error_st.Tok
 					}
 
 					sp.len to_pop - pop sp.len
@@ -438,7 +470,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 						var rVariable.size 8 / pop to_pop
 
 						sp.len to_pop < if {
-							pos 'not enought values on the stack to pop into an automatic variable' error.Tok
+							pos 'not enought values on the stack to pop into an automatic variable' error_st.Tok
 						}
 						sp.len to_pop - pop sp.len
 
@@ -467,7 +499,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 			sp.len
 			f_idx functions[] rFunction.argc
 			< if {
-				pos 'not enough values to consume for function call' error.Tok
+				pos 'not enough values to consume for function call' error_st.Tok
 			}
 
 			f_idx functions[] rFunction.argc
@@ -713,11 +745,11 @@ fn parse.fn_complex_body_tokens 0 0 {
 				sp.len scope rScope.sp > if {
 					scope rScope.idx
 						'scope assertation failed, more values on the stack than expected (TODO: write count)'
-					error.Tok
+					error_st.Tok
 				} elif sp.len scope rScope.sp < {
 					scope rScope.idx
 						'scope assertation failed, less values on the stack than expected (TODO: write count)'
-					error.Tok
+					error_st.Tok
 				}
 			} elif dup ScopeTyp.if_block = {
 				pos 1 + token_stream.len <
@@ -770,7 +802,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 					Inst.label  scope rScope.label_id  ir
 				} else {
 					scope rScope.sp sp.len != if {
-						pos 'the stack must remain the same with single branches' error.Tok
+						pos 'the stack must remain the same with single branches' error_st.Tok
 					}
 					Inst.label scope rScope.label_id ir
 				}
@@ -803,7 +835,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 					scope_context<<
 
 					scope rScope.sp2 sp.len != if {
-						pos 'the stack must remain the same each with else if branch' error.Tok
+						pos 'the stack must remain the same each with else if branch' error_st.Tok
 					}
 					scope rScope.sp pop sp.len
 
@@ -821,7 +853,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 					}
 				} else {
 					scope rScope.sp2 sp.len != if {
-						pos 'the stack must remain the same with single branches' error.Tok
+						pos 'the stack must remain the same with single branches' error_st.Tok
 					}
 					Inst.label scope rScope.label_id  ir
 					Inst.label scope rScope.label_id2 ir
@@ -830,11 +862,11 @@ fn parse.fn_complex_body_tokens 0 0 {
 				sp.len scope rScope.sp2 > if {
 					scope rScope.idx
 						'unbalanced stack on both if and else branches, else has more than expected (TODO: write count)'
-					error.Tok
+					error_st.Tok
 				} elif sp.len scope rScope.sp2 < {
 					scope rScope.idx
 						'unbalanced stack on both if and else branches, else has less than expected (TODO: write count)'
-					error.Tok
+					error_st.Tok
 				}
 				Inst.label scope rScope.label_id ir
 				scope rScope.label_id2 UINT32_MAX != if {
@@ -851,10 +883,10 @@ fn parse.fn_complex_body_tokens 0 0 {
 			-> 0 {
 				sp.len function_context rFunction.retc > if {
 					function_context rFunction.start_inst.idx
-					'unhandled data on the stack' error.Tok
+					'unhandled data on the stack' error_st.Tok
 				} elif sp.len function_context rFunction.retc < {
 					function_context rFunction.start_inst.idx
-					'not enough values on the stack on function return' error.Tok
+					'not enough values on the stack on function return' error_st.Tok
 				}
 			}
 
@@ -869,10 +901,10 @@ fn parse.fn_complex_body_tokens 0 0 {
 		-> 0 {
 			sp.len function_context rFunction.retc > if {
 				function_context rFunction.start_inst.idx
-				'unhandled data on the stack' error.Tok
+				'unhandled data on the stack' error_st.Tok
 			} elif sp.len function_context rFunction.retc < {
 				function_context rFunction.start_inst.idx
-				'not enough values on the stack on function return' error.Tok
+				'not enough values on the stack on function return' error_st.Tok
 			}
 		}
 
@@ -1227,7 +1259,7 @@ fn stas.parse 0 0 {
 					const_stack.len 1 > if {
 						toplevel_constants.top rConstant.tok
 						'more than one unhandled value on left on the constant expression'
-						error.Tok
+						error_st.Tok
 					}
 
 					0                                           pop sp.len

@@ -1,7 +1,15 @@
 include 'std.stas'
 
-fn main 0 0 {
-    reserve buffer 128
+; https://en.cppreference.com/w/cpp/string/byte/isprint
+; (u8 -- bool)
+fn isprint_nonstd 1 1 {
+	auto ch 1 pop ch
 
-    buffer 255 128 memset
+	ch 32  >=
+	ch 126 <= &
+	ch 9    = |
+}
+
+fn main 0 0 {
+	2 60 isprint_nonstd putuln
 }

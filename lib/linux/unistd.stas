@@ -106,4 +106,38 @@ fn openat 4 1 {
 
 fn dup2 2 1 {
 	sys_dup2 syscall2
-} 
+}
+
+fn wait4 4 1 {
+	sys_wait4 syscall4
+}
+
+fn WIFSTOPPED 1 1 {
+	255 &
+	127 =
+}
+
+fn WIFCONTINUED 1 1 {
+	65535 =
+}
+
+fn WIFSIGNALED 1 1 {
+	127 &
+	1 +
+	1 >>
+	0 >s
+}
+
+fn WTERMSIG 1 1 {
+	127 &
+}
+
+fn WIFEXITED 1 1 {
+	127 &
+	0 =
+}
+
+fn WEXITSTATUS 1 1 {
+	65280 &
+	8 >>
+}
