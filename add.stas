@@ -1,39 +1,19 @@
 include 'std.stas'
 
-;fn fact 1 1 {
-;	dup 0 = if {
-;		drop 1
-;	} else {
-;		dup 1 - fact
-;		* 
-;	}
-;}
-
-; int factorial( int n, int acc = 1 ) {
-;     if ( n == 0 ) return acc;
-;     else return factorial( n-1, acc * n );
-; }
-
 ; (n acc)
-fn factEtail 2 1 {
+fn fact_tail 2 1 {
 	over 0 = if {
 		swap drop
 	} else {
 		over 1 - rot *
-		factEtail
+		fact_tail
 	}
 }
 
 fn fact 1 1 {
-	1 factEtail putuln
+	1 fact_tail
 }
 
-; (define (fact x)
-;   (define (fact-tail x accum)
-;     (if (= x 0) accum
-;         (fact-tail (- x 1) (* x accum))))
-;   (fact-tail x 1))
-
 fn main 0 0 {
-	10 fact putuln
+	12 fact putuln
 }

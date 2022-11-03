@@ -27,7 +27,9 @@ fn usage 0 0 {
 	"	-b <backend>      Assemblers `nasm` or `fasm` as compiler backend\n"       eputs
 	"	-r                Execute file after compiling. Arguments after this\n"    eputs
 	"	                  switch will ignored and passed to the program\n"         eputs
-	"	-h                Show this message\n\n"                                   eputs
+	"	--dump-tok        Dump token information after scanning stage\n"           eputs
+	"	--dump-ir         Dump intermediate representation after parsing stage\n"  eputs
+	"	-h, --help        Show this message\n\n"                                   eputs
 }
 
 fn help_and_exit 0 0 {
@@ -103,9 +105,13 @@ fn main 0 0 {
 		usage_and_exit
 	}
 
+	reserve dump_ir   1
+	reserve dump_tok  1
 	reserve to_stdout 1
 
 	to_stdout      0 w8
+	dump_ir        0 w8
+	dump_tok       0 w8
 
 	auto run_exec_arg  1
 	0 pop run_exec_arg
@@ -154,6 +160,16 @@ fn main 0 0 {
 			argc
 		} elif argstr "--help" streq argstr "-h" streq | {
 			help_and_exit
+		} elif argstr "--dump-ir" streq argstr "-h" streq | {
+			argparse_mode ArgParseMode.none != dump_ir r8 | dump_tok r8 | if {
+				usage_and_exit
+			}
+			dump_ir true w8
+		} elif argstr "--dump-tok" streq argstr "-h" streq | {
+			argparse_mode ArgParseMode.none != dump_ir r8 | dump_tok r8 | if {
+				usage_and_exit
+			}
+			dump_tok true w8
 		} else {
 			argparse_mode ArgParseMode.none = if {
 				in_file drop NULL != if {
@@ -207,11 +223,27 @@ fn main 0 0 {
 		}
 	}
 
+	in_file stas.scan_file
+
+	dump_tok r8 if {
+		token_stream.dump
+		ret
+	}
+
+	stas.parse
+	
+	dump_ir r8 if {
+		ir_stream.dump
+		ret
+	}
+
+	stas.dce
+	
 	auto out_file_asm_sv 1 
 
 	to_stdout r8 ! if {
 		out_file new_string_view
-		dup ".tmp." push_string_view
+		dup ".tmp" push_string_view
 		dup pop out_file_asm_sv
 
 		string_view_to_str fd_new_file_for_writing
@@ -219,11 +251,7 @@ fn main 0 0 {
 	} else {
 		stdout pop fwrite_buffer.fd_loc
 	}
-
-	in_file stas.scan_file
-
-	stas.parse
-	stas.dce
+	
 	in_file stas.gen
 
 	to_stdout r8 if {
@@ -234,6 +262,10 @@ fn main 0 0 {
 		"FATAL: Failed to close file descriptor\n" eputs
 		1 exit
 	}
+
+	; TODO: do not wait for backend if the "-r" switch is not
+	;       passed. this is so you can compile a stas binary
+	;       in place overwriting it.
 
 	out_file_asm_sv string_view_to_str out_file execute_backend
 

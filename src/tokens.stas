@@ -404,3 +404,26 @@ fn Token.location_print 1 0 {
 	    Token.col r32 1 + putu
 	    ': ' puts
 }
+
+fn token_stream.dump 0 0 {
+	0 while dup token_stream.len < {
+		dup token_stream[]
+
+			dup Token.location_print
+
+			dup 39 putc rToken.tok Tok.to_str puts 39 putc
+
+			dup rToken.tok Tok.name = if {
+				" -> " puts rToken.data string_view_to_str puts
+			} elif dup rToken.tok Tok.string_lit = {
+				" -> " puts 34 putc rToken.data string_view_to_str puts 34 putc
+			} elif dup rToken.tok Tok.number_lit = {
+				" -> " puts rToken.data putu
+			} else {
+				drop
+			}
+		++
+		endl
+	}
+	drop
+}
