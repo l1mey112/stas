@@ -1,19 +1,11 @@
 include 'std.stas'
 
-; (n acc)
-fn fact_tail 2 1 {
-	over 0 = if {
-		swap drop
-	} else {
-		over 1 - rot *
-		fact_tail
+fn decrease 1 1 {
+	dup 0 != if {
+		dup putuln -- decrease
 	}
 }
 
-fn fact 1 1 {
-	1 fact_tail
-}
-
 fn main 0 0 {
-	12 fact putuln
+	22 decrease drop
 }

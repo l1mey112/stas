@@ -52,6 +52,11 @@ fn gen_range 2 0 {
 				}
 				"	mov [_rs_p], rsp" fwriteln
 				"	mov rsp, rbp"     fwriteln
+
+				fn_c rFunction.tail_r_label dup UINT32_MAX != if {
+					label.fwriteln 0
+				}
+				drop
 			}
 		} elif dup Inst.fn_leave = {
 			r_flush

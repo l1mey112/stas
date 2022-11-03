@@ -1,0 +1,24 @@
+include 'std.stas'
+
+; (n acc)
+fn fact_tail 2 1 {
+	over 0 = if {
+		swap drop
+	} else {
+		over 1 - rot *
+		fact_tail
+	}
+}
+
+fn fact 1 1 {
+	1 fact_tail
+}
+
+fn main 0 0 {
+	12 fact putuln
+}
+
+; Inspect the code with: `./stas files/tail_recursion.stas -o -`
+;     Not a single recursive call visible, the compiler
+;     will search for tail recursive calls and optimise
+;     them away with a jump instruction.

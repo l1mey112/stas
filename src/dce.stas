@@ -33,20 +33,64 @@ fn dce.recurse_function 1 0 {
 ;	fn_c rFunction.name string_view_to_str puts endl
 ;	"\tinline: "  puts fn_c rFunction.forbid_inline ! bool_to_str puts endl endl
 
-	auto pos 1
+	auto ir_data 1
+	auto pos     1
 
 	fn_c rFunction.start_inst pop pos
 
 	while pos fn_c rFunction.end_inst < {
+		pos ir_stream[] rIR.data pop ir_data
 		pos ir_stream[] rIR.inst
 		
 		dup Inst.fn_call = if {
-			pos ir_stream[] rIR.data functions[] rFunction.is_used ! if {
-				pos ir_stream[] rIR.data dce.recurse_function
+			ir_data functions[] fn_c = if {
+				auto jmp_pos 1
+				auto in_pos  1
+				
+				UINT64_MAX pop jmp_pos
+				pos        pop in_pos
+
+				while true {
+					in_pos ++ pop in_pos
+					
+					in_pos ir_stream[] rIR.data pop ir_data
+					in_pos ir_stream[] rIR.inst
+
+					dup Inst.label = if {
+						ir_data jmp_pos = if {
+							UINT64_MAX pop jmp_pos
+						}
+					} elif dup Inst.do_jmp = {
+						jmp_pos UINT64_MAX = if {
+							ir_data pop jmp_pos
+						}
+					} elif dup Inst.fn_leave = {
+					;	fn_c rFunction.name string_view_to_str eputs
+					;	" is tail recursive\n" eputs
+					;	fn_c rFunction.tail_r_label eputuln
+
+						pos ir_stream[]
+						dup IR.inst Inst.do_jmp w32
+							IR.data fn_c rFunction.tail_r_label w64
+					
+						break
+					} else {
+						jmp_pos UINT64_MAX = if {
+							break
+						}
+					}
+				}
+				drop
+			}
+			pos ir_stream[] rIR.inst Inst.fn_call = if {
+				pos ir_stream[] rIR.data functions[]
+				rFunction.is_used ! if {
+					ir_data dce.recurse_function
+				}
 			}
 		} elif dup dup Inst.push_str = swap Inst._assert = | {
 			slits.len
-			pos ir_stream[] rIR.data slits<<
+			ir_data slits<<
 			pos ir_stream[] IR.data swap w64
 		}
 		drop

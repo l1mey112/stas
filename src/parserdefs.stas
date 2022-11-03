@@ -6,7 +6,8 @@ fn Function.end_inst      1 1 { 20 + }
 fn Function.a_sp          1 1 { 24 + }
 fn Function.is_used       1 1 { 28 + }
 fn Function.forbid_inline 1 1 { 29 + }
-const sizeof(Function)        { 30   }
+fn Function.tail_r_label  1 1 { 30 + }
+const sizeof(Function)        { 40   }
 
 fn rFunction.argc           1 1 { Function.argc          r32 }
 fn rFunction.retc           1 1 { Function.retc          r32 }
@@ -16,6 +17,7 @@ fn rFunction.end_inst       1 1 { Function.end_inst      r32 }
 fn rFunction.a_sp           1 1 { Function.a_sp          r32 }
 fn rFunction.is_used        1 1 { Function.is_used       r8  }
 fn rFunction.forbid_inline  1 1 { Function.forbid_inline r8  }
+fn rFunction.tail_r_label   1 1 { Function.tail_r_label  r32 }
 
 const functions.cap { 512 }
 auto  functions.len 1
@@ -415,6 +417,9 @@ fn functions<< 8 0 {
 		swap over Function.name          swap w64
 		swap over Function.retc          swap w32
                   Function.argc          swap w32
+
+	functions.len sizeof(Function) * functions +
+		Function.tail_r_label UINT32_MAX w32
 
 	functions.len ++ pop functions.len
 	functions.len functions.cap < assert

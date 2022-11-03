@@ -501,6 +501,11 @@ fn parse.fn_complex_body_tokens 0 0 {
 		f_idx UINT64_MAX != if {
 			Inst.fn_call f_idx ir
 
+			function_context_idx f_idx = if {
+				function_context Function.forbid_inline 1 w8
+				function_context Function.tail_r_label label_allocate w32
+			}
+
 			sp.len
 			f_idx functions[] rFunction.argc
 			< if {
