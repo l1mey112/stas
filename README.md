@@ -46,7 +46,6 @@ USAGE: ./stas [OPTIONS] [FILE]
                  switch will ignored and passed to the program.
   -h             Show this message
 ```
-(The NASM backend and debug symbols are a work in progress.)
 
 ## spec
 
@@ -54,7 +53,7 @@ It generates optimised x86-64 assembly for systems using the Linux kernel. It in
 
 The stas compiler generates decently optimised assembly by converting stack based operations to ones that work register to register. It does this through the [register-allocator](./src/x86.stas) present in the compiler.
 
-A dead code elimination pass takes place between the parser and code generation passes. Here, it is also determined which functions will be automatically inlined. Inlining a function removes the overhead of switching between the return stack and the data stack during a function call.
+A dead code elimination pass takes place between the parser and code generation passes. Here, it is also determined which functions will be automatically inlined. Inlining a function removes the overhead of switching between the return stack and the data stack during a function call. The DCE pass also handles optimising tail recursion calls.
 
 ```
   (text)     |  (tokens)         (IR)            (assembly)      |  (ELF)
