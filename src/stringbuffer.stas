@@ -90,7 +90,9 @@ fn push_string_view 3 0 {
 	sv sv r64 str.len + w64
 }
 
-; (number -- string_view)
-; fn num_to_string_view 1 1 {
-; 
-; }
+; (u64)
+fn string_buffer.generic_append_u64 1 0 {
+	string_buffer.len sizeof(u64) + string_buffer.assert_size
+	string_buffer string_buffer.len + swap w64
+	string_buffer.len sizeof(u64) + pop string_buffer.len
+}

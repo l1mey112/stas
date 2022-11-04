@@ -277,8 +277,25 @@ fn main 0 0 {
 		reserve null_p sizeof(u64)
 		null_p NULL w64
 
+		auto argp 1
+
+		{
+			string_buffer string_buffer.len + pop argp
+
+			out_file drop string_buffer.generic_append_u64
+
+			run_exec_arg 1 +
+			while dup argc < {
+				dup sizeof(u64) * argv + r64 string_buffer.generic_append_u64
+				++
+			}
+			drop
+
+			NULL string_buffer.generic_append_u64
+		}
+
 		out_file drop
-		argv run_exec_arg 1 + sizeof(u64) * +
+		argp
 		null_p
 		
 		execve 0 <s if {

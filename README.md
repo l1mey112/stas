@@ -89,6 +89,10 @@ fn main 0 0 {
 }
 ```
 
+## IDE support
+
+Currently, only a [Visual Studio Code extension](https://github.com/l1mey112/stas-vscode) exists supporting syntax highlighting. Freely avaliable in the vscodium extension store, download a copy from [open-vsx](https://open-vsx.org/extension/l-m/stas-vscode).
+
 <!-- ## debugging
 
 Besides the compile time checks, it supports breakpoints with the `_breakpoint` keyword, coupled with some scripts inside GDB it allows you to easily inspect the program at runtime.
