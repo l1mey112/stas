@@ -30,9 +30,6 @@ fn dce.recurse_function 1 0 {
 		fn_c Function.forbid_inline true w8
 	}
 
-;	fn_c rFunction.name string_view_to_str puts endl
-;	"\tinline: "  puts fn_c rFunction.forbid_inline ! bool_to_str puts endl endl
-
 	auto ir_data 1
 	auto pos     1
 
@@ -65,10 +62,6 @@ fn dce.recurse_function 1 0 {
 							ir_data pop jmp_pos
 						}
 					} elif dup Inst.fn_leave = {
-					;	fn_c rFunction.name string_view_to_str eputs
-					;	" is tail recursive\n" eputs
-					;	fn_c rFunction.tail_r_label eputuln
-
 						pos ir_stream[]
 						dup IR.inst Inst.do_jmp w32
 							IR.data fn_c rFunction.tail_r_label w64

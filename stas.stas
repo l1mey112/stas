@@ -201,12 +201,6 @@ fn main 0 0 {
 		}
 	}
 
-;	backend_type StasBackend.nasm != assert -> 'nasm backend not supported yet'
-;	debug_symbols r8 false = assert -> 'object file + line numbers not supported'
-
-	; TODO: `is_object_file` is not used at all and cannot be set
-	;       replace with `debug_symbols` instead
-
 	in_file drop NULL = if {
 		"supply stas file" usage_msg_and_exit
 	}
@@ -263,10 +257,6 @@ fn main 0 0 {
 		"FATAL: Failed to close file descriptor\n" eputs
 		1 exit
 	}
-
-	; TODO: do not wait for backend if the "-r" switch is not
-	;       passed. this is so you can compile a stas binary
-	;       in place overwriting it.
 
 	out_file_asm_sv string_view_to_str out_file run_exec_arg 0 != execute_backend
 

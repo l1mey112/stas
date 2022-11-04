@@ -56,10 +56,10 @@ The stas compiler generates decently optimised assembly by converting stack base
 A dead code elimination pass takes place between the parser and code generation passes. Here, it is also determined which functions will be automatically inlined. Inlining a function removes the overhead of switching between the return stack and the data stack during a function call. The DCE pass also handles optimising tail recursion calls.
 
 ```
-  (text)     |  (tokens)         (IR)            (assembly)      |  (ELF)
+  (text)     |  (tokens)         (IR)            (assembly)      | (ELF/assembly)
              |                                                   |
              |             /-- parser  --\   /--- codegen ----\  |
- input.stas ->- scanning - |             | - |                | ->- fasm
+ input.stas ->- scanning - |             | - |                | ->- backend
              |             \-- checker --/   \- optimisation -/  |
 ```
 
