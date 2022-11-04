@@ -60,10 +60,11 @@ fn parse_backend_type 2 0 {
 
 const sizeof(fasm_arg_buf) { sizeof(u64) 32 * }
 
-; (infile.str infile.len outfile.str outfile.len)
-fn execute_backend 4 0 {
-	auto outfile 2 pop outfile
-	auto infile  2 pop infile
+; (infile.str infile.len outfile.str outfile.len is_blocking)
+fn execute_backend 5 0 {
+	auto is_blocking 1 pop is_blocking
+	auto outfile     2 pop outfile
+	auto infile      2 pop infile
 
 	reserve arg_buf sizeof(fasm_arg_buf)
 
@@ -93,7 +94,7 @@ fn execute_backend 4 0 {
 		"/usr/bin/nasm"
 	}
 
-	arg_buf child_execve_and_shut_up
+	arg_buf is_blocking child_execve_and_shut_up
 }
 
 const ArgParseMode.none    { 0 }
@@ -267,7 +268,7 @@ fn main 0 0 {
 	;       passed. this is so you can compile a stas binary
 	;       in place overwriting it.
 
-	out_file_asm_sv string_view_to_str out_file execute_backend
+	out_file_asm_sv string_view_to_str out_file run_exec_arg 0 != execute_backend
 
 	debug_symbols r8 backend_type StasBackend.nasm = | if {
 		ret

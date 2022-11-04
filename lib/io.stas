@@ -218,8 +218,9 @@ fn open_and_mmap_fp 2 2 {
 	}
 }
 
-; (execute.str execute.len argv[])
-fn child_execve_and_shut_up 3 0 {
+; (execute.str execute.len argv[] is_blocking)
+fn child_execve_and_shut_up 4 0 {
+	auto is_blocking 1 pop is_blocking
 	swap drop
 	
 	auto args 2
@@ -256,42 +257,44 @@ fn child_execve_and_shut_up 3 0 {
 
 		0 exit
 	} elif dup 0 >s {
-		auto loop 1
-		true pop loop
-		
-		reserve proc_status sizeof(u64)
-
-		while loop {
-			UINT64_MAX
-			proc_status
-			0
-			NULL
+		is_blocking if {
+			auto loop 1
+			true pop loop
 			
-			wait4 0 <s if {
-				"FATAL: Could not wait for process" eputs
-				1 exit
-			}
+			reserve proc_status sizeof(u64)
 
-			proc_status r64
-			dup WIFEXITED if {
-				dup WEXITSTATUS 
-				dup 0 >s if {
-					dup exit	
+			while loop {
+				UINT64_MAX
+				proc_status
+				0
+				NULL
+				
+				wait4 0 <s if {
+					"FATAL: Could not wait for process" eputs
+					1 exit
+				}
+
+				proc_status r64
+				dup WIFEXITED if {
+					dup WEXITSTATUS 
+					dup 0 >s if {
+						dup exit	
+					}
+					drop
+					false pop loop
+				} elif dup WIFSIGNALED {
+					"FATAL: Child process was terminated by signal " eputs dup WTERMSIG eputuln
+					255 exit
+					false pop loop
+				} elif dup WIFSTOPPED {
+					
+				} elif dup WIFCONTINUED {
+					
+				} else {
+					0 assert -> 'unreachable'
 				}
 				drop
-				false pop loop
-			} elif dup WIFSIGNALED {
-				"FATAL: Child process was terminated by signal " eputs dup WTERMSIG eputuln
-				255 exit
-				false pop loop
-			} elif dup WIFSTOPPED {
-				
-			} elif dup WIFCONTINUED {
-				
-			} else {
-				0 assert -> 'unreachable'
 			}
-			drop
 		}
 	} else {
 		"FATAL: Could not fork child" eputs
