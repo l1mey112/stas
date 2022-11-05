@@ -1,12 +1,8 @@
-fn my_inliner 0 0 {
-	1 if {
-		2 drop
-	}
+fn noer 0 0 {
+	reserve a 8
+	3 drop
 }
 
 fn main 0 0 {
-	0 if {
-		my_inliner
-		my_inliner
-	}
+	noer
 }

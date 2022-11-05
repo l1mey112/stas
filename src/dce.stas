@@ -21,10 +21,16 @@ fn slits[] 1 1 {
 	sizeof(u64) * slits + r64
 }
 
-; (functions[idx])
-fn dce.recurse_function 1 0 {
-	auto fn_c 1
+auto dce.max_stack_frame 1
+
+const dce.baseline_rstack_size { 64 1024 * }
+
+; (stack_frame functions[idx])
+fn dce.recurse_function 2 0 {
+	auto fn_c  1
 	functions[] pop fn_c
+
+	auto st_frame 1 pop st_frame
 
 	fn_c Function.is_used true w8
 	used_functions ++ pop used_functions
@@ -33,6 +39,12 @@ fn dce.recurse_function 1 0 {
 	dce.inline_cutoff >= if {
 		fn_c Function.forbid_inline true w8
 		inlined_functions ++ pop inlined_functions
+	}
+	fn_c rFunction.forbid_inline if {
+		st_frame
+			sizeof(u64) +
+			fn_c rFunction.a_sp +
+		pop st_frame
 	}
 
 	auto ir_data 1
@@ -82,8 +94,12 @@ fn dce.recurse_function 1 0 {
 			}
 			pos ir_stream[] rIR.inst Inst.fn_call = if {
 				pos ir_stream[] rIR.data functions[]
+				dup fn_c = if {
+					; cannot relibly determine stack usage
+					UINT64_MAX pop dce.max_stack_frame
+				}
 				rFunction.is_used ! if {
-					ir_data dce.recurse_function
+					st_frame ir_data dce.recurse_function
 				}
 			}
 		} elif dup dup Inst.push_str = swap Inst._assert = | {
@@ -97,15 +113,27 @@ fn dce.recurse_function 1 0 {
 	}
 	
 	pos ir_stream[] rIR.inst Inst.fn_leave = assert
+
+	st_frame dce.max_stack_frame > if {
+		st_frame pop dce.max_stack_frame
+	}
 }
 
 fn stas.dce 0 0 {
 	main_fn_idx UINT64_MAX = if {
 		"no main function" error.generic_fatal
 	}
+
+	main_fn_idx functions[] Function.forbid_inline true w8
 	
 	0 pop used_functions
 	0 pop inlined_functions
+	0 pop dce.max_stack_frame
 
-	main_fn_idx dce.recurse_function
+	0 main_fn_idx dce.recurse_function
+
+	dce.max_stack_frame UINT64_MAX = if {
+		; "cannot reliably determine stack size\n" eputs
+		dce.baseline_rstack_size pop dce.max_stack_frame
+	}
 }

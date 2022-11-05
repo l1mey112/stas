@@ -768,11 +768,11 @@ fn stas.gen 2 0 {
 	backend_type StasBackend.fasm = if {
 		"_arg_p: rq 1"                    fwriteln
 		"_rs_p: rq 1"                     fwriteln
-		"_rs: rb 65536"                   fwriteln
+		"_rs: rb " fwrite dce.max_stack_frame fwriteuln
 	} elif backend_type StasBackend.nasm = {
 		"_arg_p: resq 1"                  fwriteln
 		"_rs_p: resq 1"                   fwriteln
-		"_rs: resb 65536"                 fwriteln
+		"_rs: resb " fwrite dce.max_stack_frame fwriteuln
 	} else {
 		0 assert -> 'unreachable'
 	}
