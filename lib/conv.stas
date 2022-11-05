@@ -7,6 +7,11 @@ fn bool_to_str 1 2 {
 	}
 }
 
+; (ptr -- str len)
+fn cstr_to_stastr 1 2 {
+	dup strlen     ; (str len)
+}
+
 ; (idx -- str len)
 fn args[] 1 2 {
 	dup argc >= if {
@@ -14,7 +19,22 @@ fn args[] 1 2 {
 	}
 
 	8 * argv + r64 ; (cstr)
-	dup strlen     ; (str len)
+	cstr_to_stastr ; (str len)
+}
+
+; (*argv)
+fn argp_print 1 0 {
+	while true {
+		dup r64 cstr_to_stastr eputs
+		sizeof(u64) +
+		
+		dup r64 NULL = if {
+			break
+		} else {
+			32 eputc
+		}
+	}
+	drop
 }
 
 ; (ptr pos -- u8)

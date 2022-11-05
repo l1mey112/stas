@@ -1,8 +1,8 @@
 include 'lib/linux/syscalls.stas'
 include 'lib/linux/unistd.stas'
 
-const sizeof(stat) { 144 }
-fn stat.st_dev     1 1 { 0   + }
+const sizeof(stat)     { 144   }
+fn stat.st_dev     1 1 {       }
 fn stat.st_ino     1 1 { 8   + }
 fn stat.st_mode    1 1 { 24  + }
 fn stat.st_nlink   1 1 { 16  + }
@@ -55,3 +55,16 @@ const S_IWOTH { 2   } ; Set write rights for other users to true.
 const S_IXOTH { 1   } ; Set execution rights for other users to true.
 
 const S_RWE_OWNER { S_IRUSR S_IWUSR | S_IXUSR | }
+
+const CLOCK_MONOTONIC { 1 }
+
+const sizeof(timespec)  { 16  }
+fn timespec.tv_sec  1 1 {     }
+fn timespec.tv_nsec 1 1 { 8 + }
+
+fn rtimespec.tv_sec  1 1 { timespec.tv_sec  r64 }
+fn rtimespec.tv_nsec 1 1 { timespec.tv_nsec r64 }
+
+fn clock_gettime 2 1 {
+	sys_clock_gettime syscall2
+}

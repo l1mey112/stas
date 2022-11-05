@@ -44,7 +44,7 @@ fn gen_range 3 0 {
 		auto c 1
 		auto d 1
 
-		backend_type StasBackend.nasm = if {
+		backend_type StasBackend.nasm = debug_symbols r8 & if {
 			pos ir_stream[] rIR.idx token_stream[] dup
 			"%line " fwrite rToken.row fwriteu "+0 '" fwrite rToken.file string_view_to_str fwrite "'" fwriteln
 		}
@@ -689,10 +689,12 @@ fn stas.gen 2 0 {
 			"entry _start"                fwriteln
 		}
 	} elif backend_type StasBackend.nasm = {
-		"%line 0+0 '" fwrite fp fwrite "'"  fwriteln
-		"[BITS 64]"                       fwriteln
-		"[global _start]"                 fwriteln
-		"[section .text]"                 fwriteln
+		debug_symbols r8 if {
+			"%line 0+0 '" fwrite fp fwrite "'" fwriteln
+		}
+		"[BITS 64]"                        fwriteln
+		"[global _start]"                  fwriteln
+		"[section .text]"                  fwriteln
 	} else {
 		0 assert -> 'unreachable'
 	}

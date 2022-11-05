@@ -101,3 +101,74 @@ fn error.Tok.to_string_view 3 1 {
 	sv push_nul
 	sv
 }
+
+; (str len)
+fn log.msg.start 0 0 {
+	notice.start_bold_notice
+		"LOG:  " eputs
+	notice.end_bold_notice
+}
+
+; (str len)
+fn log.msg 2 0 {
+	verbose_mode r8 if {
+		log.msg.start
+		eputs 10 eputc
+	} else {
+		drop drop
+	}
+}
+
+reserve timespec_start sizeof(timespec)
+const 1e9 { 1000000000 }
+
+fn log.start_bold_time 0 0 {
+	27 eputc '[1m'  eputs
+	27 eputc '[34m' eputs
+}
+
+fn log.end_bold_time 0 0 {
+	27 eputc '[39m' eputs
+	27 eputc '[22m' eputs
+}
+
+fn log.time.start 0 0 {
+	verbose_mode r8 if {
+		CLOCK_MONOTONIC timespec_start clock_gettime 0 <s if {
+			"FATAL: Failed to get current time" eputs
+			1 exit
+		}
+	}
+}
+
+; (str len)
+fn log.time.end 2 0 {
+	verbose_mode r8 if {
+		log.start_bold_time
+			"TIME: " eputs eputs
+		
+		reserve timespec_end sizeof(timespec)
+		CLOCK_MONOTONIC timespec_end clock_gettime 0 <s if {
+			"FATAL: Failed to get current time" eputs
+			1 exit
+		}
+
+		timespec_end   rtimespec.tv_sec
+		timespec_start rtimespec.tv_sec
+		-
+		1e9 *
+		timespec_end   rtimespec.tv_nsec
+		timespec_start rtimespec.tv_nsec
+		-
+		+
+		
+		1e9 %% swap eputu "." eputs 9 eputpu
+		; printf("%lld.%.9ld", (long long)ts.tv_sec, ts.tv_nsec);
+
+		" seconds\n" eputs
+
+		log.end_bold_time
+	} else {
+		drop drop
+	}
+}

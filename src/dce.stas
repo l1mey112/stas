@@ -12,6 +12,9 @@ fn slits<< 1 0 {
 	slits.len ++ pop slits.len
 }
 
+auto used_functions    1
+auto inlined_functions 1
+
 ; (idx -- u64)
 fn slits[] 1 1 {
 	dup slits.cap < assert
@@ -24,10 +27,12 @@ fn dce.recurse_function 1 0 {
 	functions[] pop fn_c
 
 	fn_c Function.is_used true w8
+	used_functions ++ pop used_functions
 
 	fn_c rFunction.end_inst 1 + fn_c rFunction.start_inst -
 	dce.inline_cutoff >= if {
 		fn_c Function.forbid_inline true w8
+		inlined_functions ++ pop inlined_functions
 	}
 
 	auto ir_data 1
@@ -98,6 +103,9 @@ fn stas.dce 0 0 {
 	main_fn_idx UINT64_MAX = if {
 		"no main function" error.generic_fatal
 	}
+	
+	0 pop used_functions
+	0 pop inlined_functions
 
 	main_fn_idx dce.recurse_function
 }

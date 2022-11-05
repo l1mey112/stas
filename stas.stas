@@ -1,10 +1,23 @@
 include 'std.stas'
 
 reserve debug_symbols  1
+reserve verbose_mode   1
 auto    backend_type   1
 
 const StasBackend.fasm { 1 }
 const StasBackend.nasm { 2 }
+
+; (StasBackend -- str len)
+fn StasBackend.to_str 1 2 {
+	dup StasBackend.fasm = if {
+		"fasm"
+	} elif dup StasBackend.nasm = {
+		"nasm"
+	} else {
+		0 0 0 assert -> 'unreachable'
+	}
+	rot rot drop
+}
 
 include 'src/stringbuffer.stas' ; handling strings
 include 'src/tokens.stas'       ; stas token definitions
@@ -23,10 +36,11 @@ fn usage 0 0 {
 	"USAGE: ./stas [OPTIONS] [FILE]\n\n"                                           eputs
 
 	"	-o <output>       Specify '-o -' to dump assembly to stdout\n"             eputs
-	"	-g                Debug symbols. Most effective with the `nasm` backend\n" eputs
+	"	-g                Debug info. Most effective with the `nasm` backend\n"    eputs
 	"	-b <backend>      Assemblers `nasm` or `fasm` as compiler backend\n"       eputs
 	"	-r                Execute file after compiling. Arguments after this\n"    eputs
 	"	                  switch will ignored and passed to the program\n"         eputs
+	"	-v, --verbose     Activate verbose mode\n"                                 eputs
 	"	--dump-tok        Dump token information after scanning stage\n"           eputs
 	"	--dump-ir         Dump intermediate representation after parsing stage\n"  eputs
 	"	-h, --help        Show this message\n\n"                                   eputs
@@ -94,6 +108,13 @@ fn execute_backend 5 0 {
 		"/usr/bin/nasm"
 	}
 
+	verbose_mode r8 if {
+		log.msg.start
+		"`" eputs
+			arg_buf argp_print
+		"`\n" eputs	
+	}
+
 	arg_buf is_blocking child_execve_and_shut_up
 }
 
@@ -153,6 +174,14 @@ fn main 0 0 {
 				usage_and_exit
 			}
 			debug_symbols true w8
+		} elif argstr "--verbose" streq argstr "-v" streq | {
+			argparse_mode ArgParseMode.none != if {
+				usage_and_exit
+			}
+			verbose_mode r8 if {
+				usage_and_exit
+			}
+			verbose_mode true w8
 		} elif argstr "-r" streq {
 			argparse_mode ArgParseMode.none != if {
 				usage_and_exit
@@ -218,21 +247,52 @@ fn main 0 0 {
 		}
 	}
 
-	in_file stas.scan_file
+	verbose_mode r8 if {
+		log.msg.start
+		"scanning file `" eputs in_file eputs "`\n" eputs
+	}
+	
+	log.time.start
+		in_file stas.scan_file
+	"scanning took " log.time.end
 
 	dump_tok r8 if {
 		token_stream.dump
 		ret
 	}
 
-	stas.parse
+	verbose_mode r8 if {
+		log.msg.start
+		"parsing " eputs token_stream.len eputu " tokens\n" eputs
+	}
+	log.time.start
+		stas.parse
+	"parsing took " log.time.end
+	verbose_mode r8 if {
+		log.msg.start
+		functions.len eputu " functions, " eputs label_c ++ eputu " labels\n" eputs
+		log.msg.start
+		global_var_context.len eputu " global variables, " eputs toplevel_constants.len eputu " constants\n" eputs
+	}
 	
 	dump_ir r8 if {
 		ir_stream.dump
 		ret
 	}
 
-	stas.dce
+	verbose_mode r8 if {
+		log.msg.start
+		"dce pass started\n" eputs
+	}
+	log.time.start
+		stas.dce
+	"dce took " log.time.end
+	verbose_mode r8 if {
+		log.msg.start
+		used_functions eputu " used functions, of which " eputs inlined_functions eputu " are eligible for inline\n" eputs
+		log.msg.start
+		slits.len eputu " string literals\n" eputs
+	}
 	
 	auto out_file_asm_sv 1 
 
@@ -246,19 +306,53 @@ fn main 0 0 {
 	} else {
 		stdout pop fwrite_buffer.fd_loc
 	}
-	
-	in_file stas.gen
+
+	verbose_mode r8 if {
+		log.msg.start
+		"generating code from " eputs ir_stream.len eputu " IR instructions\n" eputs
+	}
+	log.time.start
+		in_file stas.gen
+	"gen took " log.time.end
 
 	to_stdout r8 if {
 		ret
+	}
+	verbose_mode r8 if {
+		log.msg.start
+		"generated " eputs
+
+		fwrite_buffer.fd_loc fd_stat_size
+
+		dup 1024 / 0 > if {
+			eputu " KiBs of code\n" eputs
+		} else {
+			eputu " bytes of code\n" eputs
+		}
 	}
 
 	fwrite_buffer.fd_loc close 0 <s if {
 		"FATAL: Failed to close file descriptor\n" eputs
 		1 exit
 	}
+	verbose_mode r8 if {
+		log.msg.start
+		"wrote code to `" eputs out_file_asm_sv string_view_to_str eputs "`\n" eputs
+	}
 
-	out_file_asm_sv string_view_to_str out_file run_exec_arg 0 != execute_backend
+	verbose_mode r8 if {
+		log.msg.start
+		"executing assembler backend `" eputs backend_type StasBackend.to_str eputs "`\n" eputs
+	}
+
+	log.time.start
+		out_file_asm_sv string_view_to_str out_file run_exec_arg 0 != execute_backend
+	"backend took " log.time.end
+	
+	verbose_mode r8 if {
+		log.msg.start
+		"created binary `" eputs out_file eputs "`\n" eputs
+	}
 
 	debug_symbols r8 backend_type StasBackend.nasm = | if {
 		ret
@@ -288,6 +382,17 @@ fn main 0 0 {
 		out_file drop
 		argp
 		null_p
+
+		verbose_mode r8 if {
+			log.msg.start
+			
+			"exceve binary `" eputs 
+
+			argp
+			argp_print
+
+			"`\n" eputs
+		}
 		
 		execve 0 <s if {
 			"FATAL: Could not execve file\n" eputs
