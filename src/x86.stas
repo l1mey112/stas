@@ -229,6 +229,20 @@ fn r_index 1 1 {
 	UINT64_MAX
 }
 
+
+fn r_stack_deep_flush 0 0 {
+	0
+	while dup rallocator_stack.len < {
+		dup rallocator_stack + r8
+		dup r_b_clear
+		"	push " fwrite Reg.64.to_str fwriteln
+		++
+	}
+	drop
+
+	0 pop rallocator_stack.len
+}
+
 fn r_flush 0 0 {
 	0
 	while dup rallocator_stack.len < {

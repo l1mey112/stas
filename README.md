@@ -47,7 +47,7 @@ USAGE: ./stas [OPTIONS] [FILE]
   -v, --verbose  Activate verbose mode
   --dump-tok     Dump token information after scanning stage
   --dump-ir      Dump intermediate representation after parsing stage
-  -h             Show this message
+  -h, --help     Show this message
 ```
 
 ## spec

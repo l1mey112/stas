@@ -1,23 +1,7 @@
-fn aa 0 1 {
-	-> 0 {
-		2 ret
-	}
-	1
-}
-
-fn bb 0 2 {
-	1 if {
-		1 if {
-			22 22
-		} elif 1 {
-			22 22 ret 2 2 2 2
-		} else {
-			22 22 ret 2 2 2 2
-		}
-	}
-	3 3 ret 22
-}
-
 fn main 0 0 {
-	bb drop drop
+
+    1 if {
+        ; true
+    }
+
 }
