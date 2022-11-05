@@ -1,8 +1,7 @@
-fn noer 0 0 {
-	reserve a 8
-	3 drop
-}
+include 'std.stas'
 
 fn main 0 0 {
-	noer
+	-100 0 <s if {
+		"lesser" eputs
+	}
 }

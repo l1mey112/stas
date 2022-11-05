@@ -80,7 +80,7 @@ fn sbrk 1 1 {
 ; int brk(void *addr);
 ; void *sbrk(intptr_t increment);
 
-const   AT_FDCWD { 18446744073709551516 }
+const   AT_FDCWD { -100 }
 const  O_ACCMODE { 3 }
 const   O_RDONLY { 0 }
 const   O_WRONLY { 1 }

@@ -6,6 +6,7 @@ const DOUBLE_QUOTE_CH { 34 }
 const SEMICOLON_CH    { 59 }
 const L_CB_CH { 123 }
 const R_CB_CH { 125 }
+const -_CH { 45 }
 
 const DELIM_\_   { 92  }
 const DELIM_\_CH { 92  }
@@ -40,6 +41,11 @@ fn is_whitespace 1 1 {
 	swap drop
 }
 
+; (u8 -- bool)
+fn is_dec 1 1 {
+	dup 0_CH >= swap 9_CH <= &
+}
+
 ; (str len)
 fn stas.scan_file 2 0 {
 	auto file_path 2
@@ -66,8 +72,10 @@ fn stas.scan_file 2 0 {
 	is_next_inc 0 w8
 
 	while 1 {
-		reserve is_number 1
-		is_number 1 w8
+		reserve is_number    1
+		reserve leading_dash 1
+		is_number    1 w8
+		leading_dash 0 w8
 
 		pos data.len >= if {
 			break
@@ -87,9 +95,6 @@ fn stas.scan_file 2 0 {
 		pos data.len >= if {
 			break
 		}
-
-		auto start     1 pos pop start
-		auto start_col 1 col pop start_col
 
 		; TODO: instead of a continue keyword in
 		;       matching quotes and semicolons by
@@ -128,9 +133,21 @@ fn stas.scan_file 2 0 {
 		; and after a token scanning for a single character at the
 		; start and end.
 
-		while data pos u8[] is_whitespace true != {
+		data pos u8[] -_CH = if {
+			data pos ++ u8[] is_dec if {
+				leading_dash 1 w8
+	
+				col ++ pop col
+				pos ++ pop pos
+			}
+		}
+
+		auto start     1 pos pop start
+		auto start_col 1 col pop start_col
+
+		while data pos u8[] is_whitespace ! {
 			is_number r8 if {
-				data pos u8[] dup 0_CH >= swap 9_CH <= & true != if {
+				data pos u8[] is_dec ! if {
 					is_number 0 w8
 				}
 			}
@@ -267,11 +284,15 @@ fn stas.scan_file 2 0 {
 			row start_col fp_string_view 'file to include is not a string' error.Loc
 		}
 
-		is_number r8 if {
+		is_number r8 if { ; pos start - 1 > &
 			row start_col fp_string_view Tok.number_lit
 			
 			lit str_to_num_unsafe
 			
+			leading_dash r8 if {
+				negate	
+			}
+
 			token_stream<<
 		} else {
 			lit "include" streq if {
