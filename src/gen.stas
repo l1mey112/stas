@@ -1,6 +1,11 @@
+; (label prefix)
 fn label.fwriteln 1 0 {
 	46 fwritec ; `.`
 	fwriteu
+;	dup 0 > if {
+;		46 fwritec ; `.`
+;		dup fwriteu
+;	}
 	58 fwritec ; `:`
 	fendl
 }
@@ -147,37 +152,54 @@ fn gen_range 2 0 {
 			auto r     1
 			auto count 1
 
-			r_new pop r
-			"	mov " fwrite r Reg.64.to_str fwrite ", qword _g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwriteln
-			
 			ir_data global_var_context[] rVariable.size 8 / pop count
 
-			0
-			while dup count < {
-				dup 8 *
-				r_pop
-				"	mov qword [" fwrite r Reg.64.to_str fwrite " + " fwrite swap fwriteu "], " fwrite
-				Reg.64.to_str fwriteln
-				++
+			count 1 = if {
+				r_pop pop r
+
+				"	mov [_g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwrite "], " fwrite r Reg.64.to_str fwriteln
+			} else {
+				r_new pop r
+
+				"	mov " fwrite r Reg.64.to_str fwrite ", _g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwriteln
+				
+				0
+				while dup count < {
+					dup 8 *
+					r_pop
+					"	mov qword [" fwrite r Reg.64.to_str fwrite " + " fwrite swap fwriteu "], " fwrite
+					Reg.64.to_str fwriteln
+					++
+				}
+				drop
 			}
-			drop
+
+			r r_free
 		} elif dup Inst.push_global_stack_var = {
 			auto r     1
 			auto count 1
 
-			r_new pop r
-			"	mov " fwrite r Reg.64.to_str fwrite ", qword _g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwriteln
-			
 			ir_data global_var_context[] rVariable.size 8 / pop count
 
-			0
-			while dup count < {
-				dup count swap - 1 - 8 *
-				r_prepare_push_const_word "qword [" fwrite r Reg.64.to_str fwrite " + " fwrite fwriteu "]" fwriteln
-				++
+			r_new pop r
+
+			count 1 = if {	
+				"	mov " fwrite r Reg.64.to_str fwrite ", [_g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwrite "]" fwriteln
+
+				r r_push
+			} else {
+				"	mov " fwrite r Reg.64.to_str fwrite ", _g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwriteln
+
+				0
+				while dup count < {
+					dup count swap - 1 - 8 *
+					r_prepare_push_const_word "qword [" fwrite r Reg.64.to_str fwrite " + " fwrite fwriteu "]" fwriteln
+					++
+				}
+				drop
+
+				r r_free
 			}
-			drop
-			r r_free
 		} elif dup Inst.push_argc = {
 			r_alloc pop a
 			"	mov " fwrite a Reg.64.to_str fwrite ", qword [_arg_p]" fwriteln
@@ -672,7 +694,7 @@ fn stas.gen 2 0 {
 	"	syscall"                          fwriteln
 	"	nop"                              fwriteln
 
-	0 ir_stream.len gen_range
+	0 ir_stream.len 0 gen_range
 	
 	backend_type StasBackend.fasm = if {
 		debug_symbols r8 if {
