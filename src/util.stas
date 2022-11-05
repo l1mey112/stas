@@ -121,6 +121,8 @@ fn log.msg 2 0 {
 
 reserve timespec_start sizeof(timespec)
 const 1e9 { 1000000000 }
+const 1e6 { 1000000    }
+const 1e3 { 1000       }
 
 fn log.start_bold_time 0 0 {
 	27 eputc '[1m'  eputs
@@ -161,11 +163,11 @@ fn log.time.end 2 0 {
 		timespec_start rtimespec.tv_nsec
 		-
 		+
-		
-		1e9 %% swap eputu "." eputs 9 eputpu
+		1e6 %% swap eputu "." eputs 6 eputpu
+
 		; printf("%lld.%.9ld", (long long)ts.tv_sec, ts.tv_nsec);
 
-		" seconds\n" eputs
+		" ms\n" eputs
 
 		log.end_bold_time
 	} else {

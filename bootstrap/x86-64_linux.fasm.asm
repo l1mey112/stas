@@ -5231,7 +5231,7 @@ log.time.end:
 	mov rdi, [rdi]
 	sub rsi, rdi
 	add rbx, rsi
-	mov rsi, 1000000000
+	mov rsi, 1000000
 	mov rax, rbx
 	xor rdx, rdx
 	div rsi
@@ -5254,7 +5254,7 @@ log.time.end:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-	mov rbx, 9
+	mov rbx, 6
 	mov rsi, 2
 	pop rdi
 	push rsi
@@ -5266,7 +5266,7 @@ log.time.end:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s138
-	mov rsi, 9
+	mov rsi, 4
 	mov rdi, 2
 	mov r8, 1
 	mov rax, r8
@@ -42137,7 +42137,7 @@ _s134: db "[34m", 0
 _s135: db "TIME: ", 0
 _s136: db "FATAL: Failed to get current time", 0
 _s137: db ".", 0
-_s138: db " seconds", 10, 0
+_s138: db " ms", 10, 0
 _s139: db "[39m", 0
 _s140: db "[22m", 0
 _s141: db 27, "[1m", 27, "[31msrc/tokens.stas:380:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
