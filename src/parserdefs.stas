@@ -26,15 +26,16 @@ auto  functions.len 1
 const sizeof(functions) { sizeof(Function) functions.cap * }
 reserve functions sizeof(functions)
 
-const ScopeTyp.scope             { 1 }
-const ScopeTyp.checked_scope     { 2 }
-const ScopeTyp.if_block          { 3 }
-const ScopeTyp.else_block        { 4 }
-const ScopeTyp.else_block_scope  { 5 }
-const ScopeTyp.elif_block        { 6 }
-const ScopeTyp.elif_block_scope  { 7 }
-const ScopeTyp.while_block       { 8 }
-const ScopeTyp.while_block_scope { 9 }
+const ScopeTyp.scope             { 1  }
+const ScopeTyp.checked_scope     { 2  }
+const ScopeTyp.if_block          { 3  }
+const ScopeTyp.else_block        { 4  }
+const ScopeTyp.else_block_scope  { 5  }
+const ScopeTyp.elif_block        { 6  }
+const ScopeTyp.elif_block_scope  { 7  }
+const ScopeTyp.while_block       { 8  }
+const ScopeTyp.while_block_scope { 9  }
+const ScopeTyp.early_ret         { 10 }
 
 fn Scope.typ       1 1 {      }
 fn Scope.sp        1 1 { 4  + }

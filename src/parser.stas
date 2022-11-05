@@ -226,6 +226,14 @@ fn parse.push_empty_scope 0 0 {
 	scope_context<<
 }
 
+fn parse.push_early_ret 0 0 {
+	scope_context.len sizeof(Scope) * scope_context +
+	Scope.typ ScopeTyp.early_ret w32
+
+	scope_context.len ++ pop scope_context.len
+	scope_context.len scope_context.cap < assert
+}
+
 fn parse.fn_decl 0 0 {
 	scope_context.len 0 > if {
 		scope_context.top Scope.idx r32
@@ -736,7 +744,25 @@ fn parse.fn_complex_body_tokens 0 0 {
 			parse.push_empty_scope
 		}
 	} elif dup Tok.r_cb = {
-		scope_context.len 0 != if {
+		reserve is_early_ret 1
+		is_early_ret false w8
+
+		while
+			scope_context.len 0 > if {
+				scope_context.top rScope.typ ScopeTyp.early_ret = if {
+					true
+				} else {
+					false
+				}
+			} else {
+				false
+			}
+		{
+			is_early_ret true w8
+			scope_context.len -- pop scope_context.len
+		}
+		
+		scope_context.len 0 > if {
 			reserve scope sizeof(Scope)
 			scope scope_context.pop_into_ptr
 
@@ -752,6 +778,9 @@ fn parse.fn_complex_body_tokens 0 0 {
 			} elif dup ScopeTyp.scope = {
 				; nop
 			} elif dup ScopeTyp.checked_scope = {
+				is_early_ret r8 if {
+					scope rScope.sp pop sp.len
+				}
 				sp.len scope rScope.sp > if {
 					scope rScope.idx
 						'scope assertation failed, more values on the stack than expected (TODO: write count)'
@@ -811,6 +840,9 @@ fn parse.fn_complex_body_tokens 0 0 {
 					Inst.do_jmp scope rScope.label_id2 ir
 					Inst.label  scope rScope.label_id  ir
 				} else {
+					is_early_ret r8 if {
+						scope rScope.sp pop sp.len
+					}
 					scope rScope.sp sp.len != if {
 						pos 'the stack must remain the same with single branches' error_st.Tok
 					}
@@ -844,6 +876,9 @@ fn parse.fn_complex_body_tokens 0 0 {
 						var_context.len
 					scope_context<<
 
+					is_early_ret r8 if {
+						scope rScope.sp2 pop sp.len
+					}
 					scope rScope.sp2 sp.len != if {
 						pos 'the stack must remain the same each with else if branch' error_st.Tok
 					}
@@ -862,6 +897,9 @@ fn parse.fn_complex_body_tokens 0 0 {
 						}
 					}
 				} else {
+					is_early_ret r8 if {
+						scope rScope.sp2 pop sp.len
+					}
 					scope rScope.sp2 sp.len != if {
 						pos 'the stack must remain the same with single branches' error_st.Tok
 					}
@@ -869,6 +907,9 @@ fn parse.fn_complex_body_tokens 0 0 {
 					Inst.label scope rScope.label_id2 ir
 				}
 			} elif dup ScopeTyp.else_block_scope = {
+				is_early_ret r8 if {
+					scope rScope.sp2 pop sp.len
+				}
 				sp.len scope rScope.sp2 > if {
 					scope rScope.idx
 						'unbalanced stack on both if and else branches, else has more than expected (TODO: write count)'
@@ -886,17 +927,23 @@ fn parse.fn_complex_body_tokens 0 0 {
 				0 assert -> 'unreachable'
 			}
 			drop
+
+			is_early_ret r8 if {
+				parse.push_early_ret
+			}
 		} else {
 			function_context Function.end_inst ir_stream.len w32
 			Inst.fn_leave function_context_idx ir
 
-			-> 0 {
-				sp.len function_context rFunction.retc > if {
-					function_context rFunction.start_inst.idx
-					'unhandled data on the stack' error_st.Tok
-				} elif sp.len function_context rFunction.retc < {
-					function_context rFunction.start_inst.idx
-					'not enough values on the stack on function return' error_st.Tok
+			is_early_ret r8 ! if {
+				-> 0 {
+					sp.len function_context rFunction.retc > if {
+						function_context rFunction.start_inst.idx
+						'unhandled data on the stack' error_st.Tok
+					} elif sp.len function_context rFunction.retc < {
+						function_context rFunction.start_inst.idx
+						'not enough values on the stack on function return' error_st.Tok
+					}
 				}
 			}
 
@@ -911,25 +958,21 @@ fn parse.fn_complex_body_tokens 0 0 {
 		-> 0 {
 			sp.len function_context rFunction.retc > if {
 				function_context rFunction.start_inst.idx
-				'unhandled data on the stack' error_st.Tok
+				'unhandled data on the stack for early return' error_st.Tok
 			} elif sp.len function_context rFunction.retc < {
 				function_context rFunction.start_inst.idx
-				'not enough values on the stack on function return' error_st.Tok
+				'not enough values on the stack on early return' error_st.Tok
 			}
 		}
 
-		scope_context.len 0 != if {
-			scope_context.top
-			rScope.typ ScopeTyp.if_block = if {
-				scope_context.top rScope.sp pop sp.len
-			}
-		}
+		0 pop sp.len
+		parse.push_early_ret
 
 		function_context Function.forbid_inline 1 w8
 	} elif dup Tok.arrw = {
 		auto arrw_c 1
 		pos pop arrw_c
-		
+
 		pos 2 + pop pos
 		pos token_stream.len >= if {
 			arrw_c 'unexpected EOF when parsing checked scope' error.Tok
