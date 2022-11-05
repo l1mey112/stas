@@ -1,12 +1,25 @@
-; (label prefix)
-fn label.fwriteln 1 0 {
+; (prefix label)
+fn label.def.fwriteln 2 0 {
 	46 fwritec ; `.`
 	fwriteu
-;	dup 0 > if {
-;		46 fwritec ; `.`
-;		dup fwriteu
-;	}
+	dup 0 > if {
+		46 fwritec ; `.`
+		dup fwriteu
+	}
+	drop
 	58 fwritec ; `:`
+	fendl
+}
+
+; (prefix label)
+fn label.ref.fwriteln 2 0 {
+	46 fwritec ; `.`
+	fwriteu
+	dup 0 > if {
+		46 fwritec ; `.`
+		dup fwriteu
+	}
+	drop
 	fendl
 }
 
@@ -16,10 +29,11 @@ fn gen_inst 4 0 {
 	32 fwritec Reg.64.to_str fwrite ", " fwrite Reg.64.to_str fwriteln
 }
 
-; (start end)
-fn gen_range 2 0 {
-	auto end 1 pop end
-	auto pos 1 pop pos
+; (start end inlined_count)
+fn gen_range 3 0 {
+	auto inlined_count 1 pop inlined_count
+	auto end           1 pop end
+	auto pos           1 pop pos
 	
 	while pos end < {
 		auto ir_data 1
@@ -40,7 +54,7 @@ fn gen_range 2 0 {
 		pos ir_stream[] rIR.inst
 		dup Inst.label = if {
 			r_flush
-			ir_data label.fwriteln
+			inlined_count ir_data label.def.fwriteln
 		} elif dup Inst.fn_prelude = {
 			rallocator_stack.len 0 = assert
 			ir_data functions[] pop fn_c
@@ -59,7 +73,7 @@ fn gen_range 2 0 {
 				"	mov rsp, rbp"     fwriteln
 
 				fn_c rFunction.tail_r_label dup UINT32_MAX != if {
-					label.fwriteln 0
+					inlined_count swap label.def.fwriteln 0
 				}
 				drop
 			}
@@ -81,7 +95,8 @@ fn gen_range 2 0 {
 			fn_c rFunction.end_inst 1 + fn_c rFunction.start_inst -
 			2 != if {
 				fn_c rFunction.forbid_inline ! if {
-					fn_c rFunction.start_inst 1 + fn_c rFunction.end_inst gen_range
+					fn_c Function.inlined_count p32++
+					fn_c rFunction.start_inst 1 + fn_c rFunction.end_inst fn_c rFunction.inlined_count gen_range
 				} else {
 					r_flush
 					"	mov rbp, rsp"     fwriteln
@@ -97,15 +112,15 @@ fn gen_range 2 0 {
 
 			r_pop pop a
 			"	test " fwrite a Reg.64.to_str fwrite ", " fwrite a Reg.64.to_str fwriteln
-			"	jnz ."           fwrite   lbl fwriteuln
+			"	jnz "            fwrite inlined_count lbl label.ref.fwriteln
 			"	mov eax, 1"      fwriteln
 			"	mov edi, 2"      fwriteln
-			"	mov rsi, _s" fwrite ir_data fwriteuln
+			"	mov rsi, _s"     fwrite ir_data fwriteuln
 			"	mov rdx, "       fwrite ir_data slits[] r64 fwriteuln
 			"	syscall"         fwriteln
 			"	mov rdi, 1"      fwriteln
 			"	jmp _exit"       fwriteln
-			lbl label.fwriteln
+			inlined_count lbl label.def.fwriteln
 			a r_free
 		} elif dup Inst.push_str = {
 			r_prepare_push_const_word "_s" fwrite ir_data fwriteuln
@@ -214,11 +229,11 @@ fn gen_range 2 0 {
 			r_flush
 			r_pop pop a
 			"	test " fwrite a Reg.64.to_str fwrite ", " fwrite a Reg.64.to_str fwriteln
-			"	jz ." fwrite ir_data fwriteuln
+			"	jz " fwrite inlined_count ir_data label.ref.fwriteln
 			a r_free
 		} elif dup Inst.do_jmp = {
 			r_flush
-			"	jmp ." fwrite ir_data fwriteuln
+			"	jmp " fwrite inlined_count ir_data label.ref.fwriteln
 		} elif dup Inst.trap_breakpoint = {
 			Reg.rax r_pop_r
 			"	db 0xcc" fwriteln

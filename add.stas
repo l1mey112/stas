@@ -1,10 +1,12 @@
 fn my_inliner 0 0 {
 	1 if {
-
+		2 drop
 	}
 }
 
 fn main 0 0 {
-	my_inliner
-	my_inliner
+	0 if {
+		my_inliner
+		my_inliner
+	}
 }

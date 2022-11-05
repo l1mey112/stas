@@ -43,7 +43,9 @@ USAGE: ./stas [OPTIONS] [FILE]
   -g             Debug symbols. Most effective with the `nasm` backend
   -b <backend>   Assemblers `nasm` or `fasm` as compiler backend
   -r             Execute file after compiling. Arguments after this
-                 switch will ignored and passed to the program.
+                 switch will ignored and passed to the program
+  --dump-tok     Dump token information after scanning stage
+  --dump-ir      Dump intermediate representation after parsing stage
   -h             Show this message
 ```
 
