@@ -54,6 +54,23 @@ fn Array64.pop? 1 2 {
 
 	true
 }
+; (idx *Array64 -- data bool)
+fn Array64[]? 2 2 {
+	auto arr 1 pop arr
+
+	dup arr rArray64.len >= if {
+		drop 0 false ret
+	}
+
+	sizeof(u64) *
+	arr rArray64.data + r64
+
+	true
+}
+; (idx *Array64 -- data)
+fn Array64[] 2 1 {
+	Array64[]? assert -> 'Array64[]: index out of bounds'
+}
 ; (data *Array64)
 fn Array64<< 2 0 {
 	Array64<<? assert -> 'Array64<<: append exceeded bounds in Array64'
@@ -86,47 +103,29 @@ fn Array64.print 1 0 {
 	"	cap:  " puts arr rArray64.cap  putuln
 	"}\n" puts
 }
+; (*Array64)
+fn Array64.dump 1 0 {
+	auto arr.len 1
 
-;fn Array.data     1 1 {      }
-;fn Array.len      1 1 { 8  + }
-;fn Array.cap      1 1 { 16 + }
-;fn Array.elm_size 1 1 { 24 + }
-;const sizeof(Array)   { 32   }
-;; (ptr -- data)
-;fn rArray.data     1 1 { Array.data     r64 }
-;fn rArray.len      1 1 { Array.len      r64 }
-;fn rArray.cap      1 1 { Array.cap      r64 }
-;fn rArray.elm_size 1 1 { Array.elm_size r64 }
-;; (ptr data)
-;fn wArray.data     2 1 { swap Array.data     swap w64 }
-;fn wArray.len      2 1 { swap Array.len      swap w64 }
-;fn wArray.cap      2 1 { swap Array.cap      swap w64 }
-;fn wArray.elm_size 2 1 { swap Array.elm_size swap w64 }
-;
-;; (*data *Array -- bool)
-;fn Array<<*? 2 1 {
-;	auto array 1 pop array
-;	
-;	array
-;	 dup rArray.len
-;	swap rArray.cap >= if {
-;		drop false ret
-;	}
-;
-;	array
-;	 dup rArray.len over rArray.elm_size *
-;	swap rArray.data +
-;	
-;	swap
-;	array rArray.elm_size
-;	memcpy
-;	
-;	array Array64.len p64++
-;
-;	true
-;}
-;
-;; (data *Array64)
-;fn Array<<* 2 1 {
-;	Array<<*? assert -> 'append exceeded bounds in Array'
-;}
+	dup
+	rArray64.len pop arr.len
+	
+	91 putc ; `[`
+
+	rArray64.data 0
+	while dup arr.len < {
+		swap
+			dup r64
+			putu
+			sizeof(u64) +
+		swap
+		dup arr.len -- < if {
+			", " puts
+		}
+		++
+	}
+	drop drop
+
+	93 putc ; `]`
+	endl
+}

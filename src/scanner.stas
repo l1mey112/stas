@@ -23,7 +23,9 @@ const DELIM_r_CH { 114 }
 const DELIM_t_   { 9   }
 const DELIM_t_CH { 116 }
 const DELIM_v_   { 11  }
-const DELIM_v_CH { 118 } 
+const DELIM_v_CH { 118 }
+const DELIM_`_   { 96  }
+const DELIM_`_CH { 96  }
 
 ; (u8 -- bool)
 fn is_whitespace 1 1 {
@@ -44,6 +46,37 @@ fn is_whitespace 1 1 {
 ; (u8 -- bool)
 fn is_dec 1 1 {
 	dup 0_CH >= swap 9_CH <= &
+}
+
+; (u8 -- data bool)
+fn parse_escape_ch 1 2 {
+	dup SINGLE_QUOTE_CH = if {
+		SINGLE_QUOTE_CH
+	} elif dup DOUBLE_QUOTE_CH = {
+		DOUBLE_QUOTE_CH
+	} elif dup DELIM_\_CH = {
+		DELIM_\_
+	} elif dup DELIM_a_CH = {
+		DELIM_a_
+	} elif dup DELIM_b_CH = {
+		DELIM_b_
+	} elif dup DELIM_f_CH = {
+		DELIM_f_
+	} elif dup DELIM_n_CH = {
+		DELIM_n_
+	} elif dup DELIM_r_CH = {
+		DELIM_r_
+	} elif dup DELIM_t_CH = {
+		DELIM_t_
+	} elif dup DELIM_v_CH = {
+		DELIM_v_
+	} elif dup DELIM_`_CH = {
+		DELIM_`_
+	} else {
+		drop 0 false ret
+	}
+	swap drop
+	true
 }
 
 ; (str len)
@@ -133,6 +166,151 @@ fn stas.scan_file 2 0 {
 		; and after a token scanning for a single character at the
 		; start and end.
 
+		auto start     1 pos pop start
+		auto start_col 1 col pop start_col
+		auto start_row 1 row pop start_row
+
+		; handle special tokens
+		data pos u8[]
+			dup SINGLE_QUOTE_CH =
+			swap DOUBLE_QUOTE_CH =
+		| if {
+			auto str_quote 1 data pos u8[]    pop str_quote
+			auto str_buf   1 new_empty_string pop str_buf
+
+			reserve delim 1 delim 0 w8
+			while 1 {
+				pos ++ pop pos
+				data pos u8[]
+				LF_CH = if {
+					row ++ pop row
+					0      pop col
+				} else {
+					col ++ pop col
+				}
+
+				pos data.len >= if {
+					start_row start_col fp_string_view 'unterminated string literal' error.Loc
+				}
+
+				auto ch 1
+				data pos u8[] pop ch
+
+				; handle delimiters
+
+				delim r8 if {
+					data pos u8[]
+
+					parse_escape_ch ! if {
+						row col fp_string_view 'escape character does not exist' error.Loc
+					}
+					str_buf swap push_char
+
+					delim 0 w8
+					continue
+				}
+
+				ch str_quote = if {
+					break
+				}
+
+				ch DELIM_\_CH = if {
+					delim 1 w8
+					continue
+				} elif ch LF_CH = {
+					0      pop col
+					row ++ pop row
+				}
+
+				str_buf ch push_char 
+			}
+
+			str_buf push_nul
+
+			delim r8 if {
+				row col fp_string_view 'unhandled escape character' error.Loc
+			}
+
+			is_next_inc r8 if {
+				verbose_mode r8 if {
+					log.msg.start
+					"including file `" eputs
+						str_buf string_view_to_str eputs
+					"`\n" eputs
+				}
+
+				str_buf string_view_to_str stas.scan_file
+
+				is_next_inc 0 w8
+			} else {
+				start_row start_col fp_string_view Tok.string_lit str_buf
+				token_stream<<
+			}
+
+			col ++ pop col
+			pos ++ pop pos
+
+			continue
+		} elif data pos u8[] DELIM_`_CH = {
+			auto ch  1
+			auto len 1 0 pop len
+
+			while 1 {
+				pos ++ pop pos
+				
+				data pos u8[]
+				dup LF_CH = if {
+					row ++ pop row
+					0      pop col
+				} elif dup DELIM_`_CH = {
+					break
+				} else {
+					col ++ pop col
+				}
+				drop
+
+				len ++ pop len
+
+				pos data.len >= if {
+					start_row start_col fp_string_view 'unterminated character literal' error.Loc
+				}
+			}
+
+			data start ++ u8[] pop ch
+
+			len 0 = if {
+				start_row start_col fp_string_view 'empty character literal' error.Loc
+			} elif len 1 = ch DELIM_\_CH = & {
+				start_row start_col fp_string_view 'unhandled escape character' error.Loc
+			} elif len 1 != {
+				len 2 = ch DELIM_\_CH != & len 2 > | if {
+					start_row start_col fp_string_view 'character literals must contain a single character' error.Loc
+				}
+
+				data start 2 + u8[]
+				parse_escape_ch ! if {
+					start_row start_col fp_string_view 'escape character does not exist' error.Loc
+				}
+				pop ch
+			}
+
+			start_row start_col fp_string_view Tok.number_lit
+				ch
+			token_stream<<
+	
+			col ++ pop col
+			pos ++ pop pos
+			continue
+		} elif data pos u8[] SEMICOLON_CH = {
+			while data pos u8[] LF_CH != {
+				pos ++ pop pos
+				pos data.len >= if {
+					ret
+				}
+			}
+			continue
+		}
+
 		data pos u8[] -_CH = if {
 			data pos ++ u8[] is_dec if {
 				leading_dash 1 w8
@@ -142,126 +320,11 @@ fn stas.scan_file 2 0 {
 			}
 		}
 
-		auto start     1 pos pop start
-		auto start_col 1 col pop start_col
-
 		while data pos u8[] is_whitespace ! {
 			is_number r8 if {
 				data pos u8[] is_dec ! if {
 					is_number 0 w8
 				}
-			}
-
-			; handle special tokens
-			data pos u8[]
-				dup SINGLE_QUOTE_CH =
-				swap DOUBLE_QUOTE_CH =
-			| if {
-				auto str_quote 1 data pos u8[] pop str_quote
-				auto str_f_row 1 row           pop str_f_row
-				auto str_f_col 1 col           pop str_f_col
-
-				auto str_buf  1 new_empty_string pop str_buf
-
-				reserve delim 1 delim 0 w8
-				while 1 {
-					col ++ pop col
-					pos ++ pop pos
-
-					pos data.len >= if {
-						str_f_row str_f_col fp_string_view 'unterminated string literal' error.Loc
-					}
-
-					auto ch 1
-					data pos u8[] pop ch
-
-					; handle delimiters
-
-					delim r8 if {
-						data pos u8[]
-
-						dup SINGLE_QUOTE_CH = if {
-							SINGLE_QUOTE_CH
-						} elif dup DOUBLE_QUOTE_CH = {
-							DOUBLE_QUOTE_CH
-						} elif dup DELIM_\_CH = {
-							DELIM_\_
-						} elif dup DELIM_a_CH = {
-							DELIM_a_
-						} elif dup DELIM_b_CH = {
-							DELIM_b_
-						} elif dup DELIM_f_CH = {
-							DELIM_f_
-						} elif dup DELIM_n_CH = {
-							DELIM_n_
-						} elif dup DELIM_r_CH = {
-							DELIM_r_
-						} elif dup DELIM_t_CH = {
-							DELIM_t_
-						} elif dup DELIM_v_CH = {
-							DELIM_v_
-						} else {
-							row col fp_string_view 'escape character does not exist' error.Loc
-							0
-						}
-						swap drop
-						str_buf swap push_char
-
-						delim 0 w8
-						continue
-					}
-
-					ch str_quote = if {
-						break
-					}
-
-					ch DELIM_\_CH = if {
-						delim 1 w8
-						continue
-					} elif ch LF_CH = {
-						0      pop col
-						row ++ pop row
-					}
-
-					str_buf ch push_char 
-				}
-
-				str_buf push_nul
-
-				delim r8 if {
-					row col fp_string_view 'unhandled escape character' error.Loc
-				}
-
-				is_next_inc r8 if {
-					verbose_mode r8 if {
-						log.msg.start
-						"including file `" eputs
-							str_buf string_view_to_str eputs
-						"`\n" eputs
-					}
-
-					str_buf string_view_to_str stas.scan_file
-
-					is_next_inc 0 w8
-				} else {
-					str_f_row str_f_col fp_string_view Tok.string_lit str_buf
-					token_stream<<
-				}
-
-				col ++ pop col
-				pos ++ pop pos
-
-				reset_outer 1 w8
-				break
-			} elif data pos u8[] SEMICOLON_CH = {
-				while data pos u8[] LF_CH != {
-					pos ++ pop pos
-					pos data.len >= if {
-						ret
-					}
-				}
-				reset_outer 1 w8
-				break
 			}
 
 			col ++ pop col
