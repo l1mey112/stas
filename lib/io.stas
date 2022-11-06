@@ -128,6 +128,50 @@ fn fputpu 3 0 {
 	stream pos len write drop
 }
 
+; (stream ch)
+fn fgetc 1 1 {
+	reserve ch 1
+	ch 1 read
+	0 = if {
+		EOF
+	} else {
+		ch r8
+	}
+}
+
+; (buf size stream -- str len)
+fn fgets 3 2 {
+	auto stream 1      pop stream
+	auto buf    1 swap pop buf
+	auto bufp   1 buf  pop bufp
+	auto c      1
+	auto count  1 0    pop count
+	
+	--
+	while dup 0 > {
+		stream fgetc pop c
+		c EOF = if {
+			drop NULL 0 ret
+		}
+		bufp c w8
+		count ++ pop count
+		c 10 = if {
+			break
+		}
+		bufp  ++ pop bufp
+		--
+	}
+	drop
+
+	bufp 0 w8
+	
+	c EOF = buf bufp = & if {
+		NULL 0
+	} else {
+		buf count
+	}
+}
+
 ; (num)
 fn putu 1 0 {
 	stdout swap fputu
@@ -184,15 +228,8 @@ fn eputc 1 0 {
 	stderr ch 1 write drop
 }
 
-; (ch)
 fn getc 0 1 {
-	reserve ch 1
-	stdin ch 1 read
-	0 = if {
-		EOF
-	} else {
-		ch r8
-	}
+	stdin fgetc
 }
 
 

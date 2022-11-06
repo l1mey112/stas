@@ -227,7 +227,7 @@ fn gen_range 3 0 {
 			a r_push
 		} elif dup Inst.do_cond_jmp = {
 			r_pop pop a
-			r_stack_deep_flush
+			r_flush
 			"	test " fwrite a Reg.64.to_str fwrite ", " fwrite a Reg.64.to_str fwriteln
 			"	jz " fwrite inlined_count ir_data label.ref.fwriteln
 			a r_free

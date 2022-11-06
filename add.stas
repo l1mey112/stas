@@ -1,5 +1,7 @@
 include 'std.stas'
 
+reserve a 288
+
 fn main 0 0 {
-	`A` putuln
+	`\\` putc `\n` putc
 }

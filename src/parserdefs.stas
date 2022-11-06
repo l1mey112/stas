@@ -70,7 +70,7 @@ fn rVariable.a_sp 1 1  { Variable.a_sp r32 }
 fn rVariable.idx  1 1  { Variable.idx  r32 }
 fn rVariable.name 1 1  { Variable.name r64 }
 
-const global_var_context.cap { 512 } 
+const global_var_context.cap { 1024 } 
 auto global_var_context.len 1
 const sizeof(global_var_context) { sizeof(Variable) global_var_context.cap * }
 reserve global_var_context sizeof(global_var_context)

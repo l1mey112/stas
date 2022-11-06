@@ -1,0 +1,64 @@
+include 'std.stas'
+
+; (buf count -- bool)
+fn is_anagram 2 1 {
+	auto count     1 pop count
+	auto input_buf 1 pop input_buf
+
+	auto middle 1
+	count 2 / pop middle
+
+	; *********** -> 11 characters
+	;   ^     ^
+	;
+	; idx[2] -> (11 - 1) - 2 -> idx[8]
+
+	0
+	while dup middle < {
+		; (idx)
+		count -- over - ; count - 1 - idx
+		; (idx ridx)
+		over
+		; (idx ridx idx)
+		input_buf + r8
+		swap
+		input_buf + r8
+		!= if {
+			drop false ret
+		}
+		++
+	}
+	drop
+
+	true
+}
+
+const buf_size { 128 }
+
+fn main 0 0 {
+	reserve input_buf 128
+	auto count 1
+
+	"Enter a string: " puts
+
+	; (buf size stream -- str len)
+	input_buf buf_size stdin fgets
+	
+	-- pop count ; trim newline
+	NULL = if {
+		"Failed to read: EOF\n" puts
+		1 exit
+	}
+	count 0 = if {
+		"Failed to read: entered zero characters\n" puts
+		1 exit
+	}
+
+	input_buf count is_anagram
+	
+	if {
+		"... is an anagram!\n" puts
+	} else {
+		"... is not an anagram :(\n" puts
+	}
+}

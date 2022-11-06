@@ -30,7 +30,7 @@ fn fork 0 1 {
 	stub_fork syscall0
 }
 
-; (stream str len -- count)
+; (stream buf len -- count)
 fn read 3 1 {
 	sys_read syscall3
 }
@@ -80,7 +80,7 @@ fn write 3 1 {
 ; int brk(void *addr);
 ; void *sbrk(intptr_t increment);
 
-const   AT_FDCWD { -100 }
+const   AT_FDCWD { 18446744073709551516 }
 const  O_ACCMODE { 3 }
 const   O_RDONLY { 0 }
 const   O_WRONLY { 1 }

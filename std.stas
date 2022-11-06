@@ -7,7 +7,7 @@ const sizeof(u16) { 2 }
 const sizeof(u8)  { 1 }
 
 const UINT32_MAX { 4294967295 }
-const UINT64_MAX { -1 }
+const UINT64_MAX { 18446744073709551615 }
 const       NULL { 0 }
 
 include 'lib/linux.stas'

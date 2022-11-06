@@ -1,0 +1,83 @@
+include 'std.stas'
+
+; (idx -- num)
+fn fib_iterative 1 1 {
+	auto count 1 pop count
+	
+	count 0 = if {
+		0 ret
+	}
+
+	auto c 1
+
+	0 ; (a)
+	1 ; (b)
+	2 ; (idx)
+	while dup count <= {
+		rot
+		; (idx a b)
+		over over
+		; (idx a b a b)
+		+ pop c          ; c = a + b;
+		; (idx a b)      ;
+		swap             ; a = b;
+		; (idx b a)      ;
+		drop c           ; b = c;
+		; (idx b c)
+		rot rot
+		; (b c idx)
+		++
+	}
+	; (a b idx)
+	drop ; (a b)
+	swap ; (b a)
+	drop ; (b)
+}
+
+; (idx a b -- num)
+fn fib_tail_recursive_fn 3 1 {
+	over2
+	; (idx a b idx)
+	0 = if {             ; if (idx == 0) return a;
+		; (idx a b)
+		drop swap drop
+		; (a)
+		ret
+	}
+
+	over2
+	; (idx a b idx)
+	1 = if {             ; if (idx == 1) return b;
+		; (idx a b)
+		rot
+		; (b idx a)
+		drop drop
+		; (b)
+		ret
+	}
+
+	; (idx a b)
+	swap over
+	; (idx b a b)
+	+
+	; (idx b a+b)
+	rot rot --
+	; (b a+b idx)
+	rot
+	; (idx b a+b)
+	fib_tail_recursive_fn  ; return fib(idx - 1, b, a + b);
+}
+
+; (idx -- num)
+fn fib_recursive 1 1 {
+	0 1 fib_tail_recursive_fn
+}
+
+; The tail recursive function will be optimised in 
+; a way that it will never self call. It will be 
+; as fast as the iterative method.
+
+fn main 0 0 {
+	"(iterative) Fibonacci number 33 = " puts 33 fib_iterative putuln
+	"(recursive) Fibonacci number 54 = " puts 54 fib_recursive putuln
+}

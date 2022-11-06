@@ -1,8 +1,6 @@
 auto label_c 1
 auto main_fn_idx 1
 
-const __CH { 95 }
-
 fn label_allocate 0 1 {
 	label_c dup ++ pop label_c
 }
@@ -207,7 +205,7 @@ fn replace_as_constant 2 0 {
 	dup token_stream[]
 	    const_idx toplevel_constants[] rConstant.tok token_stream[]
 	    swap
-		sizeof(Token)
+	    sizeof(Token)
 	    memcpy
 
 	dup token_stream[] Token.tok  Tok.number_lit                                 w32
@@ -262,7 +260,7 @@ fn parse.fn_decl 0 0 {
 		fn_c 1 + token_stream[] rToken.data
 	pop sv
 
-	sv string_view_to_str drop r8 __CH = if {
+	sv string_view_to_str drop r8 `_` = if {
 		fn_c 1 + 'a function name cannot begin with an an underscore' error.Tok
 	}
 	sv is_function_name UINT64_MAX != if {

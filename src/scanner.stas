@@ -1,41 +1,16 @@
-const LF_CH           { 10 }
-const 0_CH            { 48 }
-const 9_CH            { 57 }
-const SINGLE_QUOTE_CH { 39 }
-const DOUBLE_QUOTE_CH { 34 }
-const SEMICOLON_CH    { 59 }
-const L_CB_CH { 123 }
-const R_CB_CH { 125 }
-const -_CH { 45 }
-
-const DELIM_\_   { 92  }
-const DELIM_\_CH { 92  }
-const DELIM_a_   { 7   }
-const DELIM_a_CH { 97  }
-const DELIM_b_   { 8   }
-const DELIM_b_CH { 98  }
-const DELIM_f_   { 12  }
-const DELIM_f_CH { 102 }
-const DELIM_n_   { 10  }
-const DELIM_n_CH { 110 }
-const DELIM_r_   { 13  }
-const DELIM_r_CH { 114 }
-const DELIM_t_   { 9   }
-const DELIM_t_CH { 116 }
-const DELIM_v_   { 11  }
-const DELIM_v_CH { 118 }
-const DELIM_`_   { 96  }
-const DELIM_`_CH { 96  }
+const LF_CH           { `\n` }
+const SINGLE_QUOTE_CH { 39   }
+const DOUBLE_QUOTE_CH { 34   }
 
 ; (u8 -- bool)
 fn is_whitespace 1 1 {
-	dup 13 = if {
+	dup `\r` = if {
 		1
-	} elif dup 10 = {
+	} elif dup `\n` = {
 		1
-	} elif dup 9 = {
+	} elif dup `\t` = {
 		1
-	} elif dup 32 = {
+	} elif dup ` ` = {
 		1
 	} else {
 		0
@@ -45,7 +20,7 @@ fn is_whitespace 1 1 {
 
 ; (u8 -- bool)
 fn is_dec 1 1 {
-	dup 0_CH >= swap 9_CH <= &
+	dup `0` >= swap `9` <= &
 }
 
 ; (u8 -- data bool)
@@ -54,24 +29,24 @@ fn parse_escape_ch 1 2 {
 		SINGLE_QUOTE_CH
 	} elif dup DOUBLE_QUOTE_CH = {
 		DOUBLE_QUOTE_CH
-	} elif dup DELIM_\_CH = {
-		DELIM_\_
-	} elif dup DELIM_a_CH = {
-		DELIM_a_
-	} elif dup DELIM_b_CH = {
-		DELIM_b_
-	} elif dup DELIM_f_CH = {
-		DELIM_f_
-	} elif dup DELIM_n_CH = {
-		DELIM_n_
-	} elif dup DELIM_r_CH = {
-		DELIM_r_
-	} elif dup DELIM_t_CH = {
-		DELIM_t_
-	} elif dup DELIM_v_CH = {
-		DELIM_v_
-	} elif dup DELIM_`_CH = {
-		DELIM_`_
+	} elif dup `\\` = {
+		`\\`
+	} elif dup `a` = {
+		`\a`
+	} elif dup `b` = {
+		`\b`
+	} elif dup `f` = {
+		`\f`
+	} elif dup `n` = {
+		`\n`
+	} elif dup `r` = {
+		`\r`
+	} elif dup `t` = {
+		`\t`
+	} elif dup `v` = {
+		`\v`
+	} elif dup 96 = {
+		96
 	} else {
 		drop 0 false ret
 	}
@@ -214,7 +189,7 @@ fn stas.scan_file 2 0 {
 					break
 				}
 
-				ch DELIM_\_CH = if {
+				ch `\\` = if {
 					delim 1 w8
 					continue
 				} elif ch LF_CH = {
@@ -251,7 +226,7 @@ fn stas.scan_file 2 0 {
 			pos ++ pop pos
 
 			continue
-		} elif data pos u8[] DELIM_`_CH = {
+		} elif data pos u8[] 96 = {
 			auto ch  1
 			auto len 1 0 pop len
 
@@ -262,7 +237,7 @@ fn stas.scan_file 2 0 {
 				dup LF_CH = if {
 					row ++ pop row
 					0      pop col
-				} elif dup DELIM_`_CH = {
+				} elif dup 96 = {
 					break
 				} else {
 					col ++ pop col
@@ -280,10 +255,10 @@ fn stas.scan_file 2 0 {
 
 			len 0 = if {
 				start_row start_col fp_string_view 'empty character literal' error.Loc
-			} elif len 1 = ch DELIM_\_CH = & {
+			} elif len 1 = ch `\\` = & {
 				start_row start_col fp_string_view 'unhandled escape character' error.Loc
 			} elif len 1 != {
-				len 2 = ch DELIM_\_CH != & len 2 > | if {
+				len 2 = ch `\\` != & len 2 > | if {
 					start_row start_col fp_string_view 'character literals must contain a single character' error.Loc
 				}
 
@@ -301,7 +276,7 @@ fn stas.scan_file 2 0 {
 			col ++ pop col
 			pos ++ pop pos
 			continue
-		} elif data pos u8[] SEMICOLON_CH = {
+		} elif data pos u8[] `;` = {
 			while data pos u8[] LF_CH != {
 				pos ++ pop pos
 				pos data.len >= if {
@@ -311,7 +286,7 @@ fn stas.scan_file 2 0 {
 			continue
 		}
 
-		data pos u8[] -_CH = if {
+		data pos u8[] `-` = if {
 			data pos ++ u8[] is_dec if {
 				leading_dash 1 w8
 	
