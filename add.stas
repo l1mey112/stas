@@ -1,7 +1,25 @@
+include 'std.stas'
+
 fn main 0 0 {
+	reserve arr sizeof(Array64)
+	
+	222 arr Array64.init_alloc_size
 
-    1 if {
-        ; true
-    }
+;	arr Array64.len p64++
 
+	22 arr Array64<<
+	25 arr Array64<<
+	28 arr Array64<<
+
+;	arr Array64.top? putuln putuln
+
+	arr Array64.pop putuln
+	arr Array64.pop putuln
+	arr Array64.pop putuln
+
+;	arr Array64.pop putuln
+;	arr Array64.pop putuln
+;	arr Array64.pop putuln
+
+	arr Array64.print
 }

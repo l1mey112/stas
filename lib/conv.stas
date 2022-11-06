@@ -77,6 +77,26 @@ fn p8++ 1 0 {
 	dup r8 ++ w8
 }
 
+; (ptr)
+fn p64-- 1 0 {
+	dup r64 -- w64
+}
+
+; (ptr)
+fn p32-- 1 0 {
+	dup r32 -- w32
+}
+
+; (ptr)
+fn p16-- 1 0 {
+	dup r16 -- w16
+}
+
+; (ptr)
+fn p8-- 1 0 {
+	dup r8 -- w8
+}
+
 ; (u64)
 fn negate 1 1 {
 	~ ++

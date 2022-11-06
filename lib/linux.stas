@@ -28,7 +28,9 @@ const     MAP_SHARED { 1 }
 const    MAP_PRIVATE { 2 }
 const      MAP_FIXED { 16 }
 const  MAP_ANONYMOUS { 32 }
-const     MAP_FAILED { UINT64_MAX }
+const     MAP_FAILED { -1 }
+const     MAP_PRW { PROT_READ PROT_WRITE      | }
+const      MAP_PA { MAP_PRIVATE MAP_ANONYMOUS | }
 
 ; void *mmap(void *addr, size_t len, int prot, int flags,
 ;            int fildes, off_t off);
@@ -67,4 +69,15 @@ fn rtimespec.tv_nsec 1 1 { timespec.tv_nsec r64 }
 
 fn clock_gettime 2 1 {
 	sys_clock_gettime syscall2
+}
+
+; (size -- ptr bool)
+fn memory.mmap_anon? 1 2 {
+	0 swap MAP_PRW MAP_PA -1 0 mmap
+	dup MAP_FAILED !=
+}
+
+; (size -- ptr)
+fn memory.mmap_anon 1 1 {
+	memory.mmap_anon? assert -> 'memory.mmap_anon: failed'
 }
