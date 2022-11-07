@@ -1,0 +1,48 @@
+include 'std.stas'
+
+fn main 0 0 {
+	reserve my_array sizeof(Array64)
+
+	14 my_array Array64.init_alloc_size
+
+	8899910 srand
+	while true {
+		rand 200 % my_array Array64<<? ! if {
+			break
+		}
+	}
+	
+	my_array Array64.dump
+
+	; https://en.wikipedia.org/wiki/Bubble_sort#Optimizing_bubble_sort
+
+	auto search_n 1
+	my_array rArray64.len pop search_n
+
+	while true {
+		auto swapped  1
+
+		false pop swapped
+
+		1
+		while dup search_n < {
+			dup
+			dup -- my_array Array64[]
+			swap   my_array Array64[]
+			> if {
+				dup dup -- swap my_array Array64.swap
+				true pop swapped
+			}
+			++
+		}
+		drop
+
+		search_n -- pop search_n
+
+		swapped ! if {
+			break
+		}
+	}
+
+	my_array Array64.dump
+}

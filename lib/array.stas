@@ -67,6 +67,23 @@ fn Array64[]? 2 2 {
 
 	true
 }
+; (value idx *Array64 -- bool)
+fn wArray64[]? 3 1 {
+	auto arr 1 pop arr
+	
+	dup arr rArray64.len >= if {
+		drop drop false ret
+	}
+
+	sizeof(u64) *
+	arr rArray64.data + swap w64
+
+	true
+}
+; (value idx *Array64)
+fn wArray64[] 3 0 {
+	wArray64[]? assert -> 'wArray64[]: index out of bounds'
+}
 ; (idx *Array64 -- data)
 fn Array64[] 2 1 {
 	Array64[]? assert -> 'Array64[]: index out of bounds'
@@ -82,6 +99,19 @@ fn Array64.top 1 1 {
 ; (*Array64 -- u64)
 fn Array64.pop 1 1 {
 	Array64.pop? assert -> 'Array64.pop: array is empty'
+}
+; (idx_1 idx_2 *Array64)
+fn Array64.swap 3 0 {
+	auto arr 1 pop arr
+
+	over over
+	; (idx_1 idx_2 idx_1 idx_2)
+	arr Array64[] swap arr Array64[]
+	; (idx_1 idx_2 [idx_2] [idx_1])
+	rot rot4
+	; ([idx_2] idx_1 [idx_1] idx_2)
+	arr wArray64[]
+	arr wArray64[]
 }
 ; (size *Array64)
 fn Array64.init_alloc_size 2 0 {
