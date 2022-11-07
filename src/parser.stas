@@ -955,11 +955,9 @@ fn parse.fn_complex_body_tokens 0 0 {
 
 		-> 0 {
 			sp.len function_context rFunction.retc > if {
-				function_context rFunction.start_inst.idx
-				'unhandled data on the stack for early return' error_st.Tok
+				pos 'unhandled data on the stack for early return' error_st.Tok
 			} elif sp.len function_context rFunction.retc < {
-				function_context rFunction.start_inst.idx
-				'not enough values on the stack on early return' error_st.Tok
+				pos 'not enough values on the stack on early return' error_st.Tok
 			}
 		}
 

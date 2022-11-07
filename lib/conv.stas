@@ -37,20 +37,27 @@ fn argp_print 1 0 {
 	drop
 }
 
+; (u8 -- bool)
+fn is_dec 1 1 {
+	dup `0` >= swap `9` <= &
+}
+
 ; (ptr pos -- u8)
 fn u8[] 2 1 {
 	+ r8
 }
 
 ; (str len -- number)
-fn str_to_num_unsafe 2 1 {
+fn str_to_num 2 1 {
 	auto str.len 1 pop str.len
 	auto str     1 pop str
 
 	0 0 ; (num idx)
 	while dup str.len < {
 		swap 10 *
-		over str u8[] 48 - ; `0`
+		over str u8[]
+			dup is_dec assert
+		48 - ; `0`
 		+ swap
 		++
 	}

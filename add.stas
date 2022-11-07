@@ -1,7 +1,7 @@
-include 'std.stas'
-
-reserve a 288
+fn aaer 0 1 {
+	; ret
+}
 
 fn main 0 0 {
-	`\\` putc `\n` putc
+	`\n`
 }
