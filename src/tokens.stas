@@ -68,6 +68,7 @@ const          Tok.reserve { 67 }
 const             Tok.auto { 68 }
 const              Tok.pop { 69 }
 const              Tok.not { 70 }
+const             Tok.addr { 71 }
 
 ; (Tok -- str len)
 fn Tok.to_str 1 2 {
@@ -209,6 +210,8 @@ fn Tok.to_str 1 2 {
 		"auto"
 	} elif dup Tok.pop = {
 		"pop"
+	} elif dup Tok.addr = {
+		"addr"
 	} else {
 		0 0 0 assert -> "unreachable"
 	}
@@ -352,6 +355,8 @@ fn Tok.from_str 2 1 {
 		Tok.auto
 	} elif str "pop" streq {
 		Tok.pop
+	} elif str "addr" streq {
+		Tok.addr
 	} else {
 		Tok.name
 	} 

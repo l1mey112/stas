@@ -1,30 +1,10 @@
 include 'std.stas'
 
-; (idx_1 idx_2 *Array64)
-fn swap_idx 3 0 {
-	auto arr 1 pop arr
-
-	over over
-	; (idx_1 idx_2 idx_1 idx_2)
-	arr Array64[] swap arr Array64[]
-	; (idx_1 idx_2 [idx_2] [idx_1])
-	rot rot4
-	; ([idx_2] idx_1 [idx_1] idx_2)
-	arr wArray64[]
-	arr wArray64[]
-}
-
 fn main 0 0 {
-	reserve my_array sizeof(Array64)
+	auto a 2
 
-	256 my_array Array64.init_alloc_size
+	addr a     91 w64
+	addr a 8 + 92 w64
 
-	2 my_array Array64<<
-	5 my_array Array64<<
-
-	my_array Array64.dump
-
-	0 1 my_array swap_idx
-
-	my_array Array64.dump
+	a putuln putuln
 }
