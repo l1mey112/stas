@@ -93,6 +93,22 @@ fn Array64.init_alloc_size 2 0 {
 	dup sz wArray64.cap
 	    0  wArray64.len
 }
+; (buffer size *Array64)
+fn Array64.init_with_buffer_sz_bytes 3 0 {
+	auto arr 1 pop arr
+
+	sizeof(u64) / arr swap wArray64.cap
+	arr 0    wArray64.len
+	arr swap wArray64.data
+}
+; (buffer size *Array64)
+fn Array64.init_with_buffer_sz_elm 3 0 {
+	auto arr 1 pop arr
+
+	arr swap wArray64.cap
+	arr 0    wArray64.len
+	arr swap wArray64.data
+}
 ; (*Array64)
 fn Array64.print 1 0 {
 	auto arr 1 pop arr

@@ -1,0 +1,41 @@
+include 'std.stas'
+
+fn main 0 0 {
+	reserve my_array sizeof(Array64)
+
+	256 my_array Array64.init_alloc_size
+	; allocate zeroed memory with mmap
+
+	my_array Array64.print
+
+	222 my_array Array64<<
+	224 my_array Array64<<
+	226 my_array Array64<<
+	; append to array, does bounds checking
+
+	my_array Array64.dump endl
+	; print in array form
+
+	"Top element: " puts my_array Array64.top putuln
+	"0th element: " puts 0 my_array Array64[] putuln
+	; Array64.top and Array64[] functions
+
+	8899910 srand endl
+	0
+	while dup 6 < {
+		rand 10 % my_array Array64<<
+		++
+	}
+	drop
+	my_array Array64.dump endl
+	; adding random numbers to the array
+
+	while true {
+		my_array Array64.pop? ! if {
+			drop break
+		} else {
+			putuln
+		}
+	}
+	; pop all elements off until there is no more
+}

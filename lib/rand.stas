@@ -1,0 +1,14 @@
+auto _rand_state 1
+
+fn srand 1 0 {
+	pop _rand_state
+}
+
+; glibc/stdlib/random_r.c:364:7
+; https://en.wikipedia.org/wiki/Linear_congruential_generator
+
+fn rand 0 1 {
+	_rand_state
+	1103515245 * 12345 +
+	dup pop _rand_state
+}
