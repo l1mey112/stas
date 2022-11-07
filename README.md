@@ -18,7 +18,7 @@ Follow the initial journey with all of the guesswork on my blog at [`tags/stas`]
 
 [The-stas-compiler-is-written-in-stas.](./stas.stas) To avoid the chicken or the egg scenario, precompiled assembly files reside in the [bootstrap/](bootstrap/) directory.
 
-Use FASM, the [flat-assembler](https://flatassembler.net/), to compile the binaries. In the future, the NASM assembler backend will be avaliable.
+Use FASM, the [flat-assembler](https://flatassembler.net/), to compile the binaries.
 
 ```sh
 $ fasm -m 1048576 bootstrap/x86-64_linux.fasm.asm stas

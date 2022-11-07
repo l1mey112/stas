@@ -226,7 +226,17 @@ fn parse.push_empty_scope 0 0 {
 
 fn parse.push_early_ret 0 0 {
 	scope_context.len sizeof(Scope) * scope_context +
-	Scope.typ ScopeTyp.early_ret w32
+	dup Scope.typ ScopeTyp.early_ret w32
+	    Scope.idx 0                  w32
+
+	scope_context.len ++ pop scope_context.len
+	scope_context.len scope_context.cap < assert
+}
+
+fn parse.push_early_ret_with_pos 0 0 {
+	scope_context.len sizeof(Scope) * scope_context +
+	dup Scope.typ ScopeTyp.early_ret w32
+	    Scope.idx pos                w32
 
 	scope_context.len ++ pop scope_context.len
 	scope_context.len scope_context.cap < assert
@@ -773,6 +783,18 @@ fn parse.fn_complex_body_tokens 0 0 {
 		while
 			scope_context.len 0 > if {
 				scope_context.top rScope.typ ScopeTyp.early_ret = if {
+					scope_context.top rScope.idx
+
+					dup 0 != if {
+						dup pos -- != if {
+							++ 'unreachable code' error.Tok 
+						} else {
+							drop
+						}
+					} else {
+						drop
+					}
+					
 					true
 				} else {
 					false
@@ -987,7 +1009,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 		}
 
 		0 pop sp.len
-		parse.push_early_ret
+		parse.push_early_ret_with_pos
 
 		function_context Function.forbid_inline 1 w8
 	} elif dup Tok.arrw = {
