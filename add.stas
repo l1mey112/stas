@@ -1,19 +1,5 @@
-include 'std.stas'
-
 fn main 0 0 {
-	argc 2 != if {
-		"Usage: ./a.out [FILE]\n" eputs
-		1 exit
-	}
-
-	reserve arr sizeof(Array64)
-
-	128 arr Array64.init_alloc_size
-
-	0 6
-
-	1 args[] open_and_mmap_fp
-	arr get_lines_into_array
-
-	arr rArray64.len putuln
+	s
+	22 drop
+	; hello `s` "s" 's'
 }

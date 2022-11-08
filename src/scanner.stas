@@ -54,8 +54,7 @@ fn stas.scan_file 2 0 {
 	auto file_path 2
 	pop file_path
 
-	auto fp_string_view 1
-	file_path new_string_view pop fp_string_view
+	auto open_file_pos 1
 
 	auto data     1
 	auto data.len 1
@@ -64,6 +63,11 @@ fn stas.scan_file 2 0 {
 		file_path open_and_mmap_fp
 		pop data.len pop data
 	}
+
+	opened_files.len pop open_file_pos
+
+	file_path new_string_view
+	data data.len opened_files<<
 
 	reserve reset_outer 1 reset_outer 0 w8
 	
@@ -110,32 +114,6 @@ fn stas.scan_file 2 0 {
 		; TODO: check for overflow inside the 
 		;       number parser
 
-	;	data pos u8[]
-	;	dup L_CB_CH = if {
-	;		; (row col file)
-	;		row col fp_string_view
-	;		Tok.l_cb 0
-	;		token_stream<<
-	;
-	;		col ++ pop col
-	;		pos ++ pop pos
-	;		continue
-	;	} elif dup R_CB_CH = {
-	;		; (row col file)
-	;		row col fp_string_view
-	;		Tok.r_cb 0
-	;		token_stream<<
-	;
-	;		col ++ pop col
-	;		pos ++ pop pos
-	;		continue
-	;	}
-	;	drop
-
-		; Above does not really have a point unless it runs before
-		; and after a token scanning for a single character at the
-		; start and end.
-
 		auto start     1 pos pop start
 		auto start_col 1 col pop start_col
 		auto start_row 1 row pop start_row
@@ -160,7 +138,7 @@ fn stas.scan_file 2 0 {
 				}
 
 				pos data.len >= if {
-					start_row start_col fp_string_view 'unterminated string literal' error.Loc
+					start_row start_col open_file_pos 'unterminated string literal' error.Loc
 				}
 
 				auto ch 1
@@ -172,7 +150,7 @@ fn stas.scan_file 2 0 {
 					data pos u8[]
 
 					parse_escape_ch ! if {
-						row col fp_string_view 'escape character does not exist' error.Loc
+						row col open_file_pos 'escape character does not exist' error.Loc
 					}
 					str_buf swap push_char
 
@@ -198,7 +176,7 @@ fn stas.scan_file 2 0 {
 			str_buf push_nul
 
 			delim r8 if {
-				row col fp_string_view 'unhandled escape character' error.Loc
+				row col open_file_pos 'unhandled escape character' error.Loc
 			}
 
 			is_next_inc r8 if {
@@ -213,7 +191,8 @@ fn stas.scan_file 2 0 {
 
 				is_next_inc 0 w8
 			} else {
-				start_row start_col fp_string_view Tok.string_lit str_buf
+				start_row start_col open_file_pos Tok.string_lit str_buf
+				pos start -
 				token_stream<<
 			}
 
@@ -229,7 +208,7 @@ fn stas.scan_file 2 0 {
 				pos ++ pop pos
 				
 				pos data.len >= if {
-					start_row start_col fp_string_view 'unterminated character literal' error.Loc
+					start_row start_col open_file_pos 'unterminated character literal' error.Loc
 				}
 
 				data pos u8[]
@@ -253,23 +232,24 @@ fn stas.scan_file 2 0 {
 			data start ++ u8[] pop ch
 
 			len 0 = if {
-				start_row start_col fp_string_view 'empty character literal' error.Loc
+				start_row start_col open_file_pos 'empty character literal' error.Loc
 			} elif len 1 = ch `\\` = & {
-				start_row start_col fp_string_view 'unhandled escape character' error.Loc
+				start_row start_col open_file_pos 'unhandled escape character' error.Loc
 			} elif len 1 != {
 				len 2 = ch `\\` != & len 2 > | if {
-					start_row start_col fp_string_view 'character literals must contain a single character' error.Loc
+					start_row start_col open_file_pos 'character literals must contain a single character' error.Loc
 				}
 
 				data start 2 + u8[]
 				parse_escape_ch ! if {
-					start_row start_col fp_string_view 'escape character does not exist' error.Loc
+					start_row start_col open_file_pos 'escape character does not exist' error.Loc
 				}
 				pop ch
 			}
 
-			start_row start_col fp_string_view Tok.number_lit
+			start_row start_col open_file_pos Tok.number_lit
 				ch
+			pos start -
 			token_stream<<
 	
 			col ++ pop col
@@ -326,11 +306,11 @@ fn stas.scan_file 2 0 {
 		pop lit
 
 		is_next_inc r8 if {
-			row start_col fp_string_view 'file to include is not a string' error.Loc
+			row start_col open_file_pos 'file to include is not a string' error.Loc
 		}
 
 		is_number r8 if { ; pos start - 1 > &
-			row start_col fp_string_view Tok.number_lit
+			row start_col open_file_pos Tok.number_lit
 			
 			lit str_to_num
 			
@@ -338,6 +318,7 @@ fn stas.scan_file 2 0 {
 				negate	
 			}
 
+			pos start -
 			token_stream<<
 		} else {
 			lit "include" streq if {
@@ -346,7 +327,7 @@ fn stas.scan_file 2 0 {
 			}
 
 			; (row col file)
-			row start_col fp_string_view
+			row start_col open_file_pos
 
 			; (row col file tok)
 			lit Tok.from_str
@@ -358,11 +339,12 @@ fn stas.scan_file 2 0 {
 				0
 			}
 
+			pos start -
 			token_stream<<
 		}
 	}
 
 	is_next_inc r8 if {
-		row col fp_string_view 'unexpected EOF when parsing file to include' error.Loc
+		row col open_file_pos 'unexpected EOF when parsing file to include' error.Loc
 	}
 }

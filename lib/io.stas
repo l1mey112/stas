@@ -82,6 +82,53 @@ fn fputu 2 0 {
 }
 
 ; (stream num padding)
+fn fputpu_space 3 0 {
+	auto padding 1 pop padding
+	auto stream  1
+	swap pop stream
+
+	reserve buf 20
+	auto pos 1
+	auto len 1
+
+	dup 0 = if {
+		drop
+
+		buf 48 w8
+		stream buf 1 write drop
+		
+		ret
+	}
+	
+	0 pop len
+	buf 20 + pop pos
+
+	while dup 0 > {
+		pos -- pop pos
+
+		10 %%
+		48 +
+
+		pos swap w8
+
+		len ++ pop len
+	}
+	drop
+
+	len padding < if {
+		padding len - while dup 0 > {
+			pos -- pop pos
+			pos ` ` w8
+			len ++ pop len
+			--
+		}
+		drop
+	}
+
+	stream pos len write drop
+}
+
+; (stream num padding)
 fn fputpu 3 0 {
 	auto padding 1 pop padding
 	auto stream  1

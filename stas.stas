@@ -19,6 +19,7 @@ fn StasBackend.to_str 1 2 {
 	rot rot drop
 }
 
+include 'src/formatting.stas'   ; basic utility formatting and files
 include 'src/stringbuffer.stas' ; handling strings
 include 'src/tokens.stas'       ; stas token definitions
 include 'src/util.stas'         ; utility functions, error handling

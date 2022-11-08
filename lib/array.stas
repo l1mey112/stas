@@ -127,6 +127,8 @@ fn Array64.init_alloc_size 2 0 {
 fn Array64.init_with_buffer_sz_bytes 3 0 {
 	auto arr 1 pop arr
 
+	dup sizeof(u64) % 0 = assert -> 'Array64.init_with_buffer_sz_bytes: size must be a multiple of 8 bytes'
+
 	sizeof(u64) / arr swap wArray64.cap
 	arr 0    wArray64.len
 	arr swap wArray64.data

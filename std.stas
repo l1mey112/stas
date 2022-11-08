@@ -26,3 +26,18 @@ include 'lib/array.stas'
 include 'lib/string.stas'
 include 'lib/conv.stas'
 include 'lib/rand.stas'
+
+fn string.str 1 1    {     }
+fn string.len 1 1    { 8 + }
+const sizeof(string) { 16  }
+
+; (ptr str len)
+fn wstring 3 0 {
+	over2 8 + swap w64
+	               w64
+}
+
+; (ptr -- str len)
+fn rstring 1 2 {
+	dup r64 swap 8 + r64
+}

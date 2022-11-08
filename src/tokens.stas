@@ -365,15 +365,17 @@ fn Tok.from_str 2 1 {
 fn Token.row  1 1   {      }
 fn Token.col  1 1   { 4  + }
 fn Token.file 1 1   { 8  + }
-fn Token.tok  1 1   { 16 + }
-fn Token.data 1 1   { 20 + }
+fn Token.tok  1 1   { 12 + }
+fn Token.data 1 1   { 16 + }
+fn Token.len  1 1   { 24 + }
 const sizeof(Token) { 28   }
 
 fn rToken.row  1 1 { Token.row  r32 }
 fn rToken.col  1 1 { Token.col  r32 }
-fn rToken.file 1 1 { Token.file r64 }
+fn rToken.file 1 1 { Token.file r32 }
 fn rToken.tok  1 1 { Token.tok  r32 }
 fn rToken.data 1 1 { Token.data r64 }
+fn rToken.len  1 1 { Token.len  r32 }
 
 const token_stream.cap { 32768 }
 const sizeof(token_stream) { sizeof(Token) token_stream.cap  * }
@@ -386,12 +388,13 @@ fn token_stream[] 1 1 {
 	sizeof(Token) * token_stream +
 }
 
-; (row col file tok data)
-fn token_stream<< 5 0 {
+; (row col file tok data len)
+fn token_stream<< 6 0 {
 	token_stream.len sizeof(Token) * token_stream +
-	    swap over Token.data swap w64
+	    swap over Token.len  swap w32
+		swap over Token.data swap w64
 	    swap over Token.tok  swap w32
-	    swap over Token.file swap w64
+	    swap over Token.file swap w32
 	    swap over Token.col  swap w32
 	              Token.row  swap w32
 
@@ -401,13 +404,85 @@ fn token_stream<< 5 0 {
 
 ; (ptr)
 fn Token.location_print 1 0 {
-	dup Token.file r64
-	    string_view_to_str puts
+	dup rToken.file
+	    opened_files[] rFileEntry.file_path_sv string_view_to_str puts
 	    ':' puts
-	dup Token.row r32 1 + putu
+	dup rToken.row 1 + putu
 	    ':' puts
-	    Token.col r32 1 + putu
+	    rToken.col 1 + putu
 	    ': ' puts
+}
+
+; (str len -- displacement)
+fn print_normalise_tabs 2 1 {
+
+	; TODO: if string does not have a newline at the end, put it there
+
+	auto len 1
+	auto st  1
+
+	over + pop len
+	dup    pop st
+
+	auto tabs 1
+	0 pop tabs
+
+	; (str)
+	while dup len < {
+		dup r8 `\t` = if {
+			tabs ++ pop tabs
+			dup st - -- st swap puts ; flush
+			"    " puts
+			dup ++ pop st
+		}
+		++
+	}
+	st - st swap puts
+	tabs
+}
+
+const line_array_len { sizeof(u64) 10 * }
+
+; (idx)
+fn Token.print_file_loc 1 0 {
+	auto t 1 token_stream[] pop t
+
+	reserve array_data line_array_len
+	reserve array      sizeof(Array64)
+
+	array_data line_array_len array Array64.init_with_buffer_sz_bytes
+
+	t rToken.row
+	1
+	t rToken.file opened_files[]
+		dup  rFileEntry.data
+		swap rFileEntry.len
+	array
+	get_lines_into_array
+
+	0 array Array64[]
+	1 array Array64[]
+
+	print_normalise_tabs
+	dup 4 * swap t rToken.col swap - +
+	while dup 0 > {
+		` ` putc
+		--
+	}
+	drop
+
+	error.start_bold_error
+		t rToken.len
+		while dup 0 > {
+			`~` putc
+			--
+		}
+		drop
+	error.end_bold_error
+
+	endl
+
+;	0 assert -> 'unimplemented'
 }
 
 fn token_stream.dump 0 0 {
@@ -427,8 +502,9 @@ fn token_stream.dump 0 0 {
 			} else {
 				drop
 			}
-		++
 		endl
+		dup Token.print_file_loc
+		++
 	}
 	drop
 }

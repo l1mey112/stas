@@ -103,5 +103,11 @@ fn get_lines_into_array 5 0 {
 		}
 		++
 	}
+	offset 0 = if {
+		over 0 > if {
+			dup st - ++ st arr Array64<< ; str
+			               arr Array64<< ; len
+		}
+	}
 	drop drop
 }
