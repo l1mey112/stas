@@ -10,9 +10,19 @@ const UINT32_MAX { 4294967295 }
 const UINT64_MAX { 18446744073709551615 }
 const       NULL { 0 }
 
+; (ptr)
+fn p64++ 1 0 { dup r64 ++ w64 }
+fn p32++ 1 0 { dup r32 ++ w32 }
+fn p16++ 1 0 { dup r16 ++ w16 }
+fn p8++  1 0 { dup r8  ++ w8  }
+fn p64-- 1 0 { dup r64 -- w64 }
+fn p32-- 1 0 { dup r32 -- w32 }
+fn p16-- 1 0 { dup r16 -- w16 }
+fn p8--  1 0 { dup r8  -- w8  }
+
 include 'lib/linux.stas'
 include 'lib/io.stas'
+include 'lib/array.stas'
 include 'lib/string.stas'
 include 'lib/conv.stas'
-include 'lib/array.stas'
 include 'lib/rand.stas'

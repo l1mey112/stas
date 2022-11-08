@@ -64,47 +64,44 @@ fn str_to_num 2 1 {
 	drop
 }
 
-; (ptr)
-fn p64++ 1 0 {
-	dup r64 ++ w64
-}
-
-; (ptr)
-fn p32++ 1 0 {
-	dup r32 ++ w32
-}
-
-; (ptr)
-fn p16++ 1 0 {
-	dup r16 ++ w16
-}
-
-; (ptr)
-fn p8++ 1 0 {
-	dup r8 ++ w8
-}
-
-; (ptr)
-fn p64-- 1 0 {
-	dup r64 -- w64
-}
-
-; (ptr)
-fn p32-- 1 0 {
-	dup r32 -- w32
-}
-
-; (ptr)
-fn p16-- 1 0 {
-	dup r16 -- w16
-}
-
-; (ptr)
-fn p8-- 1 0 {
-	dup r8 -- w8
-}
-
 ; (u64)
 fn negate 1 1 {
 	~ ++
+}
+
+; (lo hi str len *Array64)
+fn get_lines_into_array 5 0 {
+	auto arr 1        pop arr
+	auto len 1 over + pop len
+	auto st  1
+	
+	auto offset 1
+	auto count  1
+
+	dup pop st
+
+	rot swap
+	; (str hi lo)
+	pop offset
+	; (str hi)
+	swap
+	while dup len < {
+		; (hi str)
+		dup r8 `\n` = if {
+			offset 0 > if {
+				offset -- pop offset
+			} else {
+				over 0 > if {
+					dup st - ++ st arr Array64<< ; str
+					               arr Array64<< ; len
+					swap -- swap
+				} else {
+					break
+				}
+			}
+			dup ++ pop st
+		}
+		++
+	}
+	drop drop
 }

@@ -1,72 +1,19 @@
 include 'std.stas'
 
-; (str len)
-fn write_till_end_of_line 2 0 {
-	auto len 1 pop len
-	auto str 1 pop str
-
-	str
-	0
-	while dup len < {
-		; (str idx)
-		swap
-			; (idx str)
-			dup r8 `\n` = if {
-				drop str swap ++ eputs ; include newline
-				ret
-			}
-			++
-		swap
-		++
-	}
-	drop
-	drop
-}
-
-; (str len line)
-fn print_line 3 0 {
-	auto data 1
-	auto len  1
-	auto line 1
-
-	pop line
-	pop len
-	pop data
-
-	line 0 = if {
-		data len write_till_end_of_line
-		ret
-	}
-
-	line
-	0
-	while dup len < {
-		swap
-		over data u8[] `\n` = if {
-			--
-			dup 0 = if {
-				drop data + ++
-				len write_till_end_of_line
-				ret
-			}
-		}
-		swap
-		++
-	}
-	drop
-	drop
-
-	0 assert -> 'out of bounds'
-}
-
-; fn get_lines_into_array 5 1 {
-
 fn main 0 0 {
 	argc 2 != if {
 		"Usage: ./a.out [FILE]\n" eputs
 		1 exit
 	}
-	
+
+	reserve arr sizeof(Array64)
+
+	128 arr Array64.init_alloc_size
+
+	0 6
+
 	1 args[] open_and_mmap_fp
-	44 print_line
+	arr get_lines_into_array
+
+	arr rArray64.len putuln
 }
