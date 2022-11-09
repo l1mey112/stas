@@ -26,3 +26,7 @@ fn term.cursor_down  1 0 { `B` term.move }
 fn term.cursor_right 1 0 { `C` term.move }
 fn term.cursor_left  1 0 { `D` term.move }
 
+fn term.erase_screen_reset_cursor 0 0 {
+    term.escape `H` putc
+    term.escape `J` putc
+}

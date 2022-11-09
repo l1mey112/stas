@@ -1,0 +1,150 @@
+include 'std.stas'
+
+const HEIGHT  { 40 }
+const WIDTH   { 40 }
+const BUFSIZE { WIDTH HEIGHT * } 
+
+; ( x y buffer -- u8 bool )
+fn r_cell? 3 2 {
+	rot
+	; (buffer x y)
+	over WIDTH >= if {
+		drop drop drop 0 false ret
+	}
+	dup HEIGHT >= if {
+		drop drop drop 0 false ret
+	}
+	WIDTH * + + r8 true
+}
+
+; ( x y buffer -- u8 )
+fn r_cell 3 1 {
+	r_cell? assert -> 'r_cell: coord out of bounds'
+}
+
+; ( x y buffer u8 )
+fn w_cell 4 0 {
+	rot4 rot
+	; (u8 buffer x y)
+	over WIDTH  < assert
+	dup  HEIGHT < assert
+	WIDTH * + + swap w8
+}
+
+; ( x y buffer -- u8 )
+fn probe_cell 3 1 {
+	r_cell? drop ; if out of bounds, return zero neighbours
+}
+
+; ( x y buffer -- count )
+fn neighbors_cell 3 1 {
+	auto b 1   pop b
+	auto y 1   pop y
+	auto x 1   pop x
+	auto c 1 0 pop c
+
+	y HEIGHT >= x WIDTH >= | ! assert -> 'bounds exceeded'
+
+	x 0 = if { 0 } else { x -- }
+	y 0 = if { 0 } else { y -- }
+	while dup y ++ <= {
+		over
+		while dup x ++ <= {
+			; (y x)
+			dup over2
+			; (y x x y)
+			y != swap x != | if {
+				dup over2
+				; (y x x y)
+				b probe_cell c + pop c
+			}
+			++
+		}
+		drop
+		++
+	}
+	drop
+	drop
+
+	c
+}
+
+; (buffer)
+fn iterate_gol 1 0 {
+	auto buffer_actual 1 pop buffer_actual
+
+	reserve buffer_old BUFSIZE
+	buffer_old buffer_actual BUFSIZE memcpy
+
+	
+	auto is_live 1
+
+	0 while dup HEIGHT < {
+		0 while dup WIDTH < {
+			; (y x)
+			dup over2 buffer_old r_cell pop is_live
+			dup over2 buffer_old neighbors_cell
+			is_live if {
+				dup 2 < swap 3 > | if {
+					dup over2 buffer_actual false w_cell
+				}
+			} else {
+				3 = if {
+					dup over2 buffer_actual true w_cell
+				}
+			}
+			++
+		}
+		drop
+		++
+		endl
+	}
+	drop
+}
+
+fn main 0 0 {
+	reserve buffer BUFSIZE
+
+	; random stuff to init some kind of board first.
+	; unsuprisingly the rand function is absolute garbage at 0 or 1 results.
+
+	-> 0
+	{
+		buffer BUFSIZE 2 / + 1 BUFSIZE 4 / memset
+
+		2 srand
+		0 while dup BUFSIZE < {
+			dup buffer + rand 2 % w8 
+			22 +
+		}
+		drop
+	}
+
+	while true {
+		term.erase_screen_reset_cursor
+
+		buffer
+		0 while dup HEIGHT < {
+			0 while dup WIDTH < {
+				; (buffer h w)
+				rot rot
+					dup r8 if {
+						"██" puts ; `#` putc
+					} else {
+						"  " puts ; ` ` putc
+					}
+					++
+				rot
+				++
+			}
+			drop
+			++
+			endl
+		}
+		drop
+		drop ; buffer idx
+		
+		getc drop
+		buffer iterate_gol
+	}
+}
