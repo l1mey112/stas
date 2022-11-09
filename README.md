@@ -14,6 +14,12 @@ A concatenative stack based compiled programming language, stas is a programming
 
 Follow the initial journey with all of the guesswork on my blog at [`tags/stas`](https://blog.l-m.dev/tags/stas/), these show the small steps taken to achieve initial V version of the compiler. The V source code of the bootstrap compiler is in [a-different-branch](https://github.com/l1mey112/stas/tree/0.1.0-v-compiler).
 
+## release changelogs
+
+A release changelog is a complete post outlining all additional features added between releases, and if you're lucky, how they are implemented.
+
+- [stas `0.1.1` Changelog](https://blog.l-m.dev/posts/release-stas-0.1.1/) - [Github Release](https://github.com/l1mey112/stas/releases/tag/0.1.1)
+
 ## bootstrapping stas
 
 [The-stas-compiler-is-written-in-stas.](./stas.stas) To avoid the chicken or the egg scenario, precompiled assembly files reside in the [bootstrap/](bootstrap/) directory.
