@@ -179,6 +179,9 @@ fn stas.scan_file 2 0 {
 				row col open_file_pos 'unhandled escape character' error.Loc
 			}
 
+			col ++ pop col
+			pos ++ pop pos
+
 			is_next_inc r8 if {
 				verbose_mode r8 if {
 					log.msg.start
@@ -195,9 +198,6 @@ fn stas.scan_file 2 0 {
 				pos start -
 				token_stream<<
 			}
-
-			col ++ pop col
-			pos ++ pop pos
 
 			continue
 		} elif data pos u8[] 96 = {
@@ -247,13 +247,14 @@ fn stas.scan_file 2 0 {
 				pop ch
 			}
 
+			col ++ pop col
+			pos ++ pop pos
+
 			start_row start_col open_file_pos Tok.number_lit
 				ch
 			pos start -
 			token_stream<<
 	
-			col ++ pop col
-			pos ++ pop pos
 			continue
 		} elif data pos u8[] `;` = {
 			while data pos u8[] LF_CH != {

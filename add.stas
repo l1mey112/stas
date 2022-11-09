@@ -1,0 +1,10 @@
+fn segfaulter 1 1 {
+	dup 0 != if {
+		-- segfaulter
+	}
+    r64
+}
+
+fn main 0 0 {
+	555 segfaulter drop
+}
