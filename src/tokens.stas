@@ -69,6 +69,7 @@ const             Tok.auto { 68 }
 const              Tok.pop { 69 }
 const              Tok.not { 70 }
 const             Tok.addr { 71 }
+const             Tok.envp { 72 }
 
 ; (Tok -- str len)
 fn Tok.to_str 1 2 {
@@ -212,6 +213,8 @@ fn Tok.to_str 1 2 {
 		"pop"
 	} elif dup Tok.addr = {
 		"addr"
+	} elif dup Tok.envp = {
+		"envp"
 	} else {
 		0 0 0 assert -> "unreachable"
 	}
@@ -357,6 +360,8 @@ fn Tok.from_str 2 1 {
 		Tok.pop
 	} elif str "addr" streq {
 		Tok.addr
+	} elif str "envp" streq {
+		Tok.envp
 	} else {
 		Tok.name
 	} 

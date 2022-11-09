@@ -156,6 +156,7 @@ const              Inst.syscall4 { 62 }
 const              Inst.syscall5 { 63 }
 const              Inst.syscall6 { 64 }
 const                   Inst.not { 65 }
+const             Inst.push_envp { 66 }
 
 ; (Inst -- str len)
 fn Inst.to_str 1 2 {
@@ -289,6 +290,8 @@ fn Inst.to_str 1 2 {
 		"syscall5"
 	} elif dup Inst.syscall6 = {
 		"syscall6"
+	} elif dup Inst.push_envp = {
+		"push_envp"
 	} else {
 		0 0 0 assert -> 'unreachable'
 	}

@@ -1100,6 +1100,9 @@ fn parse.fn_complex_body_tokens 0 0 {
 	} elif dup Tok.argv = {
 		Inst.push_argv 0 ir
 		1 sp_push
+	} elif dup Tok.envp = {
+		Inst.push_envp 0 ir
+		1 sp_push
 	} else {
 		pos 'unknown function local token' error.Tok
 	}
