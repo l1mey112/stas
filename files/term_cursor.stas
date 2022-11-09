@@ -1,0 +1,22 @@
+include 'std.stas'
+
+fn main 0 0 {
+	auto p 1
+	0 pop p
+
+	while true {
+		0 while dup 20 < {
+			0 while dup 40 < {
+				p putu
+				++
+			}
+			drop
+			++
+			endl
+		}
+		drop
+		getc drop
+		p ++ 10 % pop p
+		21 term.cursor_up
+	}
+}

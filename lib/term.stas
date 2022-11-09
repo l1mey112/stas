@@ -1,0 +1,28 @@
+fn term.escape 0 0 {
+    27 putc `[` putc
+}
+
+fn term.hide_cursor 0 0 {
+    term.escape "?251" puts
+}
+
+fn term.show_cursor 0 0 {
+    term.escape "?25h" puts
+}
+
+; (x y)
+fn term.set_cursor_position 2 0 {
+    term.escape swap putu `;` putc putu `H` putc
+}
+
+; count u8(direction)
+fn term.move 2 0 {
+    term.escape swap putu putc 
+}
+
+; count
+fn term.cursor_up    1 0 { `A` term.move }
+fn term.cursor_down  1 0 { `B` term.move }
+fn term.cursor_right 1 0 { `C` term.move }
+fn term.cursor_left  1 0 { `D` term.move }
+

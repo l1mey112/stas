@@ -268,8 +268,7 @@ fn stas.scan_file 2 0 {
 		data pos u8[] `-` = if {
 			data pos ++ u8[] is_dec if {
 				leading_dash 1 w8
-				"leading dash!\n" eputs
-	
+				
 				col ++ pop col
 				pos ++ pop pos
 				
