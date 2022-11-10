@@ -1,14 +1,38 @@
 include 'std.stas'
 
-; (ptr)
-fn iter 1 0 {
-	while dup r64 NULL != {
-		dup r64 cstr_to_stastr puts endl
-		sizeof(u64) +
+;fn getenv 0 0 {
+;	while dup r64 NULL != {
+;		dup r64 cstr_to_stastr puts endl
+;		sizeof(u64) +
+;	}
+;	drop
+;}
+
+; ( str len d_str d_len -- 'str 'len )
+fn string.after_delim 4 2 {
+	over2 over < if { ; str.len < delim.len
+		drop drop drop drop NULL 0 ret
 	}
-	drop
+
+	
+}
+
+; ( str len d_str d_len -- bool )
+fn string.starts_with 4 1 {
+	; (str len d_str d_len)
+	over2 over < if { ; str.len < delim.len
+		drop drop drop drop false ret
+	}
+
+	auto dl 1
+	dup pop dl
+
+	; (str d_str d_len len)
+	rot rot drop dl rot
+	; (str d_len d_str d_len)
+	streq
 }
 
 fn main 0 0 {
-	envp iter
+	"HELLO=man" "HELLO=man" string.starts_with bool_to_str puts endl
 }
