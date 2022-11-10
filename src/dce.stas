@@ -23,6 +23,26 @@ fn slits[] 1 1 {
 	sizeof(u64) * slits + r64
 }
 
+; ( ir_stream[idx] -- slits[idx] bool )
+fn is_slit_duplicate? 1 2 {
+	auto sv 2
+
+	ir_stream[] rIR.data string_view_to_str pop sv
+
+	0
+	while dup slits.len < {
+		dup slits[]
+		string_view_to_str sv streq if {
+			true ret	
+		}
+		++
+	}
+	drop
+
+	0
+	false
+}
+
 ; (functions[idx])
 fn dce.recurse_function 1 0 {
 	auto fn_c 1
@@ -88,7 +108,20 @@ fn dce.recurse_function 1 0 {
 					ir_data dce.recurse_function
 				}
 			}
-		} elif dup dup Inst.push_str = swap Inst._assert = | {
+		} elif dup Inst.push_str = {
+			; DCE - stas.stas
+			;   with    0.131086 ms
+			;   without 1.159264 ms
+			; 
+			;   reduces size by 4KiBs... is it worth it?
+
+			pos is_slit_duplicate? ! if {
+				drop
+				slits.len
+				ir_data slits<<
+			}
+			pos ir_stream[] IR.data swap w64
+		} elif dup Inst._assert = {
 			slits.len
 			ir_data slits<<
 			pos ir_stream[] IR.data swap w64

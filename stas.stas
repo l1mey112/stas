@@ -99,12 +99,6 @@ fn stas_exec 4 0 {
 	child_execve_and_shut_up
 }
 
-; out_file new_string_view
-; dup ".tmp" push_string_view
-; dup pop out_file_asm_sv
-; 
-; string_view_to_str 
-
 ; (infile.str infile.len outfile.str outfile.len is_blocking)
 fn execute_backend 5 0 {
 	auto is_blocking 1 pop is_blocking
