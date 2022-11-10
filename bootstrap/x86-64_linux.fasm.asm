@@ -21581,17 +21581,141 @@ parse.fn_complex_body_tokens:
 .1099:
 	jmp .1038
 .1092:
-	mov rbx, 0
-	test rbx, rbx
-	jnz .2026
+	mov rbx, qword [_rs_p]
+	add rbx, 237
+	mov rsi, 12
+	add rbx, rsi
+	mov ebx, [rbx]
+	mov rsi, _s234
+	mov rdi, 73
+	mov r8, rbx
+	mov r9, 27
+	push r8
+	push rsi
+	push rdi
+	push rbx
+	push r9
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call eputc
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s24
+	mov rsi, 3
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, 27
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call eputc
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s25
+	mov rsi, 4
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	pop rbx
+	mov rsi, rbx
+	mov rdi, [_gtoken_stream.len]
+	xor r8, r8
+	cmp rsi, rdi
+	setb r8b
+	test r8, r8
+	jnz .2026.76
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s234
-	mov rdx, 76
+	mov rsi, _s141
+	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2026:
+.2026.76:
+	mov rsi, 28
+	imul rbx, rsi
+	mov rsi, qword _gtoken_stream
+	add rbx, rsi
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Token.location_print
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 27
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call eputc
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s27
+	mov rsi, 4
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, 27
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call eputc
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s28
+	mov rsi, 4
+	mov rdi, 2
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, 2
+	pop rsi
+	pop rdi
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rsi
+	mov rsi, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, 1
+	mov rsi, _s51
+	mov rdi, 1
+	mov r8, 1
+	mov rax, r8
+	mov rdx, rdi
+	mov rdi, rsi
+	mov rsi, rdi
+	mov rdi, rbx
+	syscall
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Token.eprint_file_tok
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 1
+	mov rsi, 60
+	mov rax, rsi
+	mov rdi, rbx
+	syscall
 .1101:
 .1038:
 	add rsp, 8
@@ -21890,7 +22014,7 @@ parse.fn_complex_body_tokens:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2029.76
+	jnz .2029.77
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -21898,7 +22022,7 @@ parse.fn_complex_body_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2029.76:
+.2029.77:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -21983,7 +22107,7 @@ parse.fn_complex_body_tokens:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2030.77
+	jnz .2030.78
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -21991,7 +22115,7 @@ parse.fn_complex_body_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2030.77:
+.2030.78:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _gtoken_stream
@@ -22059,7 +22183,7 @@ parse.fn_complex_body_tokens:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2031.78
+	jnz .2031.79
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -22067,7 +22191,7 @@ parse.fn_complex_body_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2031.78:
+.2031.79:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -22178,7 +22302,7 @@ parse.fn_complex_body_tokens:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2032.79
+	jnz .2032.80
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -22186,7 +22310,7 @@ parse.fn_complex_body_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2032.79:
+.2032.80:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -22249,7 +22373,7 @@ parse.fn_complex_body_tokens:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2033.80
+	jnz .2033.81
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -22257,7 +22381,7 @@ parse.fn_complex_body_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2033.80:
+.2033.81:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -22351,7 +22475,7 @@ parse.fn_complex_body_tokens:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2034.81
+	jnz .2034.82
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -22359,7 +22483,7 @@ parse.fn_complex_body_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2034.81:
+.2034.82:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _gtoken_stream
@@ -23025,7 +23149,7 @@ parse.fn_complex_body_tokens:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2035.82
+	jnz .2035.83
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -23033,7 +23157,7 @@ parse.fn_complex_body_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2035.82:
+.2035.83:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -23174,7 +23298,7 @@ parse.assert:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2036.83
+	jnz .2036.84
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -23182,7 +23306,7 @@ parse.assert:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2036.83:
+.2036.84:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -23281,7 +23405,7 @@ parse.assert:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2037.84
+	jnz .2037.85
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -23289,7 +23413,7 @@ parse.assert:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2037.84:
+.2037.85:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -23310,7 +23434,7 @@ parse.assert:
 	cmp rsi, r8
 	setb r9b
 	test r9, r9
-	jnz .2038.85
+	jnz .2038.86
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -23318,7 +23442,7 @@ parse.assert:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2038.85:
+.2038.86:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -23379,7 +23503,7 @@ parse.assert:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2039.86
+	jnz .2039.87
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -23387,7 +23511,7 @@ parse.assert:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2039.86:
+.2039.87:
 	mov rdi, 28
 	imul rbx, rdi
 	mov rdi, qword _gtoken_stream
@@ -23492,7 +23616,7 @@ parse.fn_body_tokens:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2040.87
+	jnz .2040.88
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -23500,7 +23624,7 @@ parse.fn_body_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2040.87:
+.2040.88:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -23540,7 +23664,7 @@ parse.fn_body_tokens:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2041.88
+	jnz .2041.89
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -23548,7 +23672,7 @@ parse.fn_body_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2041.88:
+.2041.89:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _gtoken_stream
@@ -24589,7 +24713,7 @@ parse.fn_body_tokens:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2042.89
+	jnz .2042.90
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -24597,7 +24721,7 @@ parse.fn_body_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2042.89:
+.2042.90:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -24660,7 +24784,7 @@ parse.fn_body_tokens:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2043.90
+	jnz .2043.91
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -24668,7 +24792,7 @@ parse.fn_body_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2043.90:
+.2043.91:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -24792,7 +24916,7 @@ parse.fn_body_tokens:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2044.91
+	jnz .2044.92
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -24800,7 +24924,7 @@ parse.fn_body_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2044.91:
+.2044.92:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -24949,7 +25073,7 @@ parse.const_expression:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2045.92
+	jnz .2045.93
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -24957,7 +25081,7 @@ parse.const_expression:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2045.92:
+.2045.93:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -25042,7 +25166,7 @@ parse.const_expression:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2046.93
+	jnz .2046.94
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -25050,7 +25174,7 @@ parse.const_expression:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2046.93:
+.2046.94:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _gtoken_stream
@@ -25116,7 +25240,7 @@ parse.const_expression:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2047.94
+	jnz .2047.95
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -25124,7 +25248,7 @@ parse.const_expression:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2047.94:
+.2047.95:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -25209,7 +25333,7 @@ parse.const_expression:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2048.95
+	jnz .2048.96
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -25217,7 +25341,7 @@ parse.const_expression:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2048.95:
+.2048.96:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _gtoken_stream
@@ -25294,7 +25418,7 @@ parse.const_expression:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2049.96
+	jnz .2049.97
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -25302,7 +25426,7 @@ parse.const_expression:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2049.96:
+.2049.97:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -25461,7 +25585,7 @@ parse.const_expression:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2050.97
+	jnz .2050.98
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -25469,7 +25593,7 @@ parse.const_expression:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2050.97:
+.2050.98:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -25551,7 +25675,7 @@ parse.const_expression:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2051.98
+	jnz .2051.99
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -25559,7 +25683,7 @@ parse.const_expression:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2051.98:
+.2051.99:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -25622,7 +25746,7 @@ parse.const_expression:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2052.99
+	jnz .2052.100
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -25630,7 +25754,7 @@ parse.const_expression:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2052.99:
+.2052.100:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -25778,7 +25902,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2054.100
+	jnz .2054.101
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -25786,7 +25910,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2054.100:
+.2054.101:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -25927,7 +26051,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2055.101
+	jnz .2055.102
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -25935,7 +26059,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2055.101:
+.2055.102:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -26076,7 +26200,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2056.102
+	jnz .2056.103
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -26084,7 +26208,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2056.102:
+.2056.103:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -26177,7 +26301,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2057.103
+	jnz .2057.104
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -26185,7 +26309,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2057.103:
+.2057.104:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -26375,7 +26499,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2063.104
+	jnz .2063.105
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -26383,7 +26507,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2063.104:
+.2063.105:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -26645,7 +26769,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2071.105
+	jnz .2071.106
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -26653,7 +26777,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2071.105:
+.2071.106:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -26742,7 +26866,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2072.106
+	jnz .2072.107
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -26750,7 +26874,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2072.106:
+.2072.107:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -26937,7 +27061,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2075.107
+	jnz .2075.108
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -26945,7 +27069,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2075.107:
+.2075.108:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -27078,7 +27202,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2076.108
+	jnz .2076.109
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -27086,7 +27210,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2076.108:
+.2076.109:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -30568,7 +30692,7 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2116.109
+	jnz .2116.110
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s141
@@ -30576,7 +30700,7 @@ gen_range:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2116.109:
+.2116.110:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _gtoken_stream
@@ -46259,7 +46383,7 @@ _s154: db 27, "[1m", 27, "[31msrc/parserdefs.stas:461:31: ", 27, "[39m", 27, "[2
 _s155: db "constant expression name as duplicate top level variable name", 0
 _s156: db "a scope must follow a const expression decl", 0
 _s157: db 27, "[1m", 27, "[31msrc/parserdefs.stas:450:50: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s158: db 27, "[1m", 27, "[31msrc/parser.stas:1316:13: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s158: db 27, "[1m", 27, "[31msrc/parser.stas:1318:13: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s159: db 27, "[1m", 27, "[31msrc/parserdefs.stas:400:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s160: db 27, "[1m", 27, "[31msrc/parserdefs.stas:379:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s161: db "unclosed scope for constant expression", 0
@@ -46290,12 +46414,12 @@ _s185: db 27, "[1m", 27, "[31msrc/parserdefs.stas:318:22: ", 27, "[39m", 27, "[2
 _s186: db 27, "[1m", 27, "[31msrc/eval.stas:8:36: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s187: db 27, "[1m", 27, "[31msrc/eval.stas:21:23: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s188: db 27, "[1m", 27, "[31msrc/eval.stas:15:23: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s189: db 27, "[1m", 27, "[31msrc/parser.stas:1358:25: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s189: db 27, "[1m", 27, "[31msrc/parser.stas:1360:25: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
 _s190: db "constant expression must contain a value", 0
 _s191: db "more than one unhandled value on left on the constant expression", 0
 _s192: db 27, "[1m", 27, "[31msrc/parser.stas:29:15: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s193: db "backtrace", 0
-_s194: db 27, "[1m", 27, "[31msrc/parser.stas:1383:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s194: db 27, "[1m", 27, "[31msrc/parser.stas:1385:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s195: db "unknown constant variable", 0
 _s196: db "no value on stack to consume for assertion", 0
 _s197: db 0
@@ -46335,7 +46459,7 @@ _s230: db 27, "[1m", 27, "[31msrc/parser.stas:923:12: ", 27, "[39m", 27, "[22mas
 _s231: db "the stack must remain the same each with else if branch", 0
 _s232: db "unbalanced stack on both if and else branches, else has more than expected (TODO: write count)", 0
 _s233: db "unbalanced stack on both if and else branches, else has less than expected (TODO: write count)", 0
-_s234: db 27, "[1m", 27, "[31msrc/parser.stas:983:7: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s234: db "block expects body, an unhandled elif or while keyword may be the culprit", 0
 _s235: db 27, "[1m", 27, "[31msrc/parser.stas:226:40: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s236: db "unhandled data on the stack", 0
 _s237: db "not enough values on the stack on function return", 0
@@ -46348,8 +46472,8 @@ _s243: db "a scope must come after the arrow assert operator", 0
 _s244: db "unknown function local token", 0
 _s245: db "cannot define constant expression inside a constant expression", 0
 _s246: db "unknown constant expression token", 0
-_s247: db 27, "[1m", 27, "[31msrc/parser.stas:1406:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s248: db 27, "[1m", 27, "[31msrc/parser.stas:1407:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s247: db 27, "[1m", 27, "[31msrc/parser.stas:1408:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s248: db 27, "[1m", 27, "[31msrc/parser.stas:1409:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s249: db "unclosed scopes on parser finish", 0
 _s250: db "unexpected EOF when parsing function, scopes may be unclosed", 0
 _s251: db "parsing took ", 0

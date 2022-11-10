@@ -980,7 +980,9 @@ fn parse.fn_complex_body_tokens {
 					Inst.label scope rScope.label_id2 ir
 				}
 			} else {
-				0 assert -> 'unreachable'
+				scope rScope.idx
+					'block expects body, an unhandled elif or while keyword may be the culprit'
+				error.Tok
 			}
 			drop
 
