@@ -1,6 +1,6 @@
 include 'std.stas'
 
-fn main 0 0 {
+fn main {
 	reserve my_array sizeof(Array64)
 
 	14 my_array Array64.init_alloc_size

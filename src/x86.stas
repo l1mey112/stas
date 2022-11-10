@@ -230,7 +230,7 @@ fn r_index 1 1 {
 }
 
 
-fn r_stack_deep_flush 0 0 {
+fn r_stack_deep_flush {
 	0
 	while dup rallocator_stack.len < {
 		dup rallocator_stack + r8
@@ -243,7 +243,7 @@ fn r_stack_deep_flush 0 0 {
 	0 pop rallocator_stack.len
 }
 
-fn r_flush 0 0 {
+fn r_flush {
 	0
 	while dup rallocator_stack.len < {
 		dup rallocator_stack + r8
@@ -378,7 +378,7 @@ fn r_push_const 1 0 {
 
 ; `r_pop_const_word` must be emulated.
 
-fn r_prepare_push_const_word 0 0 {
+fn r_prepare_push_const_word {
 	r_alloc
 	dup r_push
 	"	mov " fwrite Reg.64.to_str fwrite ", " fwrite

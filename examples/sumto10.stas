@@ -2,7 +2,7 @@ include 'std.stas'
 
 ; sum all numbers starting from 1 to 10
 
-fn main 0 0 {
+fn main {
 	0 1 ; (sum idx)
 	while dup 10 <= {
 		; (sum idx)

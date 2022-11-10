@@ -1,5 +1,5 @@
 ; (str len)
-fn error.generic_fatal_begin 0 0 {
+fn error.generic_fatal_begin {
 	error.start_bold_error
 	"FATAL: " eputs
 	error.end_bold_error
@@ -97,7 +97,7 @@ fn error.Tok.to_string_view 3 1 {
 }
 
 ; (str len)
-fn log.msg.start 0 0 {
+fn log.msg.start {
 	notice.start_bold_notice
 		"LOG:  " eputs
 	notice.end_bold_notice
@@ -118,17 +118,17 @@ const 1e9 { 1000000000 }
 const 1e6 { 1000000    }
 const 1e3 { 1000       }
 
-fn log.start_bold_time 0 0 {
+fn log.start_bold_time {
 	27 eputc '[1m'  eputs
 	27 eputc '[34m' eputs
 }
 
-fn log.end_bold_time 0 0 {
+fn log.end_bold_time {
 	27 eputc '[39m' eputs
 	27 eputc '[22m' eputs
 }
 
-fn log.time.start 0 0 {
+fn log.time.start {
 	verbose_mode r8 if {
 		CLOCK_MONOTONIC timespec_start clock_gettime 0 <s if {
 			"FATAL: Failed to get current time" eputs

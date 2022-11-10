@@ -102,7 +102,7 @@ fn iterate_gol 1 0 {
 	drop
 }
 
-fn main 0 0 {
+fn main {
 	reserve buffer BUFSIZE
 
 	; random stuff to init some kind of board first.

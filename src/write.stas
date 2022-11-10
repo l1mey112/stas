@@ -4,7 +4,7 @@ const   sizeof(fwrite_buffer) { fwrite_buffer.cap }
 reserve fwrite_buffer         sizeof(fwrite_buffer)
 auto    fwrite_buffer.fd_loc  1
 
-fn fwrite_buffer.flush 0 0 {
+fn fwrite_buffer.flush {
 	; (stream str len -- count)
 	fwrite_buffer.fd_loc fwrite_buffer fwrite_buffer.len write
 	fwrite_buffer.len = assert ; to_write.len == actually_wrote.len
@@ -53,7 +53,7 @@ fn fwriteuln 1 0 {
 	`\n` fwritec
 }
 
-fn fendl 0 0 {
+fn fendl {
 	`\n` fwritec
 }
 

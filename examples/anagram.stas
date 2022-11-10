@@ -35,7 +35,7 @@ fn is_anagram 2 1 {
 
 const buf_size { 128 }
 
-fn main 0 0 {
+fn main {
 	reserve input_buf 128
 	auto count 1
 

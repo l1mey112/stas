@@ -134,7 +134,7 @@ fn dce.recurse_function 1 0 {
 	pos ir_stream[] rIR.inst Inst.fn_leave = assert
 }
 
-fn stas.dce 0 0 {
+fn stas.dce {
 	main_fn_idx UINT64_MAX = if {
 		"no main function" error.generic_fatal
 	}

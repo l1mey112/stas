@@ -332,7 +332,7 @@ fn ir_stream<< 3 0 {
 	ir_stream.len ir_stream.cap < assert
 }
 
-fn ir_stream.dump 0 0 {
+fn ir_stream.dump {
 	'tok[]\tdata\tinst\n\n' puts
 	0
 	while dup ir_stream.len < {

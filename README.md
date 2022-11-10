@@ -5,7 +5,7 @@ A stack based compiled programming language.
 ```
 include 'std.stas'
 
-fn main 0 0 {
+fn main {
     'Hello world!\n' puts
 }
 ```
@@ -89,7 +89,7 @@ TODO: Guide?
 ```
 include 'std.stas'
 
-fn main 0 0 {
+fn main {
     0 while dup 100 < {
         dup putuln         ; put a number to stdout
         ++
@@ -107,7 +107,7 @@ Currently, only a [Visual Studio Code extension](https://github.com/l1mey112/sta
 Besides the compile time checks, it supports breakpoints with the `_breakpoint` keyword, coupled with some scripts inside GDB it allows you to easily inspect the program at runtime.
 
 ```
-fn main 0 0 {
+fn main {
     0 while dup 10 < {
         _breakpoint
         ++
@@ -145,7 +145,7 @@ fn function_a 0 1 {
     value
 }
 
-fn main 0 0 {
+fn main {
     -> 2 {
         3 3
     }

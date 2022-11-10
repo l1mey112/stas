@@ -3,7 +3,7 @@ const stdout { 1 }
 const stderr { 2 }
 const EOF    { UINT64_MAX }
 
-fn endl 0 0 {
+fn endl {
 	stdout "\n" write drop
 }
 

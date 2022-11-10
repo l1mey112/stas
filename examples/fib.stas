@@ -77,7 +77,7 @@ fn fib_recursive 1 1 {
 ; a way that it will never self call. It will be 
 ; as fast as the iterative method.
 
-fn main 0 0 {
+fn main {
 	"(iterative) Fibonacci number 33 = " puts 33 fib_iterative putuln
 	"(recursive) Fibonacci number 54 = " puts 54 fib_recursive putuln
 }

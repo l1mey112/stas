@@ -1,19 +1,19 @@
-fn error.start_bold_error 0 0 {
+fn error.start_bold_error {
 	27 eputc '[1m'  eputs
 	27 eputc '[31m' eputs
 }
 
-fn error.end_bold_error 0 0 {
+fn error.end_bold_error {
 	27 eputc '[39m' eputs
 	27 eputc '[22m' eputs
 }
 
-fn notice.start_bold_notice 0 0 {
+fn notice.start_bold_notice {
 	27 eputc '[1m'  eputs
 	27 eputc '[33m' eputs
 }
 
-fn notice.end_bold_notice 0 0 {
+fn notice.end_bold_notice {
 	27 eputc '[39m' eputs
 	27 eputc '[22m' eputs
 }

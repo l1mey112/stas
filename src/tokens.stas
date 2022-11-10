@@ -509,7 +509,7 @@ fn Token.eprint_file_tok 1 0 {
 	Token.eprint_file_lok
 }
 
-fn token_stream.dump 0 0 {
+fn token_stream.dump {
 	0 while dup token_stream.len < {
 		dup token_stream[]
 

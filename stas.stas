@@ -32,7 +32,7 @@ include 'src/dce.stas'          ; dead code elimination compiler pass
 include 'src/x86.stas'          ; stas codegen definitions and reg allocator
 include 'src/gen.stas'          ; stas code generator, creates x86_64 asm
 
-fn usage 0 0 {
+fn usage {
 	"stas 0.1.1 Copyright (C) 2022  l-m.dev\n\n"                                   eputs
 	"USAGE: ./stas [OPTIONS] [FILE]\n\n"                                           eputs
 
@@ -47,12 +47,12 @@ fn usage 0 0 {
 	"	-h, --help        Show this message\n\n"                                   eputs
 }
 
-fn help_and_exit 0 0 {
+fn help_and_exit {
 	usage
 	0 exit
 }
 
-fn usage_and_exit 0 0 {
+fn usage_and_exit {
 	usage
 	1 exit
 }
@@ -160,7 +160,7 @@ const ArgParseMode.none    { 0 }
 const ArgParseMode.output  { 1 }
 const ArgParseMode.backend { 2 }
 
-fn main 0 0 {
+fn main {
 	argc 1 = if {
 		usage_and_exit
 	}

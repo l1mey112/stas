@@ -14,7 +14,7 @@ fn fact 1 1 {
 	1 fact_tail
 }
 
-fn main 0 0 {
+fn main {
 	12 fact putuln
 }
 

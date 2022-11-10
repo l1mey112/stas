@@ -46407,7 +46407,7 @@ _s302: db "dce pass started", 10, 0
 _s303: db "no main function", 0
 _s304: db 27, "[1m", 27, "[31msrc/dce.stas:22:18: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s305: db 27, "[1m", 27, "[31msrc/dce.stas:12:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s306: db 27, "[1m", 27, "[31msrc/dce.stas:135:43: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s306: db 27, "[1m", 27, "[31msrc/dce.stas:134:43: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s307: db "dce took ", 0
 _s308: db " used functions, of which ", 0
 _s309: db " are eligible for inline", 10, 0

@@ -205,7 +205,7 @@ fn replace_as_constant 2 0 {
 	    token_stream[] Token.data const_idx toplevel_constants[] rConstant.value w64
 }
 
-fn parse.push_empty_scope 0 0 {
+fn parse.push_empty_scope {
 	; (typ sp sp2 idx label_id label_id2 var_scope)
 		ScopeTyp.scope
 		sp.len
@@ -217,7 +217,7 @@ fn parse.push_empty_scope 0 0 {
 	scope_context<<
 }
 
-fn parse.push_early_ret 0 0 {
+fn parse.push_early_ret {
 	scope_context.len sizeof(Scope) * scope_context +
 	dup Scope.typ ScopeTyp.early_ret w32
 	    Scope.idx 0                  w32
@@ -226,7 +226,7 @@ fn parse.push_early_ret 0 0 {
 	scope_context.len scope_context.cap < assert
 }
 
-fn parse.push_early_ret_with_pos 0 0 {
+fn parse.push_early_ret_with_pos {
 	scope_context.len sizeof(Scope) * scope_context +
 	dup Scope.typ ScopeTyp.early_ret w32
 	    Scope.idx pos                w32
@@ -235,7 +235,7 @@ fn parse.push_early_ret_with_pos 0 0 {
 	scope_context.len scope_context.cap < assert
 }
 
-fn parse.fn_decl 0 0 {
+fn parse.fn_decl {
 	scope_context.len 0 > if {
 		scope_context.top Scope.idx r32
 		'unclosed scope for constant expression'
@@ -375,7 +375,7 @@ fn parse.any_variable 0 3 {
 	; (VarTyp string_view size)
 }
 
-fn parse.fn_complex_body_tokens 0 0 {
+fn parse.fn_complex_body_tokens {
 	pos token_stream[] rToken.tok
 
 	; fn ir   (inst data)
@@ -1121,7 +1121,7 @@ fn parse.fn_complex_body_tokens 0 0 {
 	drop
 }
 
-fn parse.assert 0 0 {
+fn parse.assert {
 	sp.len 0 = if {
 		pos 'no value on stack to consume for assertion' error.Tok
 	}
@@ -1161,7 +1161,7 @@ fn parse.assert 0 0 {
 	}
 }
 
-fn parse.fn_body_tokens 0 0 {
+fn parse.fn_body_tokens {
 	pos token_stream[] rToken.tok
 
 	; fn ir   (inst data)
@@ -1281,7 +1281,7 @@ fn parse.fn_body_tokens 0 0 {
 	drop
 }
 
-fn parse.const_expression 0 0 {
+fn parse.const_expression {
 	auto rs_c 1 pos pop rs_c
 
 	pos 2 + pop pos
@@ -1316,7 +1316,7 @@ fn parse.const_expression 0 0 {
 	sp.len 0 = assert
 }
 
-fn stas.parse 0 0 {
+fn stas.parse {
 	UINT64_MAX pop main_fn_idx
 	0 pop pos
 

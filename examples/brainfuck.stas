@@ -39,7 +39,7 @@ fn loop_stack_top 0 1 {
 
 const sizeof(brainfuck_tape) { 30000 }
 
-fn main 0 0 {
+fn main {
 	argc 2 != if {
 		"USAGE: " puts 0 args[] puts " <file.bf>\n" puts
 		1 exit

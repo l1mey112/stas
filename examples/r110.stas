@@ -2,7 +2,7 @@ fn write 3 0 {
 	1 syscall3 drop
 }
 
-fn main 0 0 {
+fn main {
 	reserve scanline 40
 
 	scanline 39 + 1 w8

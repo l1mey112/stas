@@ -1,12 +1,12 @@
-fn term.escape 0 0 {
+fn term.escape {
     27 putc `[` putc
 }
 
-fn term.hide_cursor 0 0 {
+fn term.hide_cursor {
     term.escape "?251" puts
 }
 
-fn term.show_cursor 0 0 {
+fn term.show_cursor {
     term.escape "?25h" puts
 }
 
@@ -26,7 +26,7 @@ fn term.cursor_down  1 0 { `B` term.move }
 fn term.cursor_right 1 0 { `C` term.move }
 fn term.cursor_left  1 0 { `D` term.move }
 
-fn term.erase_screen_reset_cursor 0 0 {
+fn term.erase_screen_reset_cursor {
     term.escape `H` putc
     term.escape `J` putc
 }
