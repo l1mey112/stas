@@ -45,13 +45,6 @@ fn error_st.Tok 3 0 {
 			--
 		}
 		drop
-
-	;	0
-	;	while dup sp.len < {
-	;		dup sp[] "backtrace" notice.Tok
-	;		++
-	;	}
-	;	drop
 	}
 
 	1 exit
@@ -248,8 +241,10 @@ fn parse.fn_decl 0 0 {
 		'unclosed scope for constant expression'
 		error.Tok
 	}
+	auto _argc 1
+	auto _retc 1
 	auto fn_c 1 pos pop fn_c
-	pos 4 + pop pos
+	pos 2 + pop pos
 
 	pos token_stream.len >= if {
 		fn_c 'unexpected EOF when parsing function' error.Tok
@@ -257,14 +252,29 @@ fn parse.fn_decl 0 0 {
 	fn_c 1 + token_stream[] rToken.tok Tok.name != if {
 		fn_c 1 + 'function name must not be an intrinsic' error.Tok
 	}
-	fn_c 2 + token_stream[] rToken.tok Tok.number_lit !=
-	fn_c 3 + token_stream[] rToken.tok Tok.number_lit !=
-	| if {
-		fn_c 2 + 'function return and argument counts must be numbers' error.Tok
+	fn_c 2 + token_stream[]
+	dup rToken.tok Tok.l_cb = if {
+		0 pop _argc
+		0 pop _retc
+	} elif dup rToken.tok Tok.number_lit = {
+		pos 2 + pop pos
+		pos token_stream.len >= if {
+			fn_c 'unexpected EOF when parsing function' error.Tok
+		}
+		fn_c 3 + token_stream[] rToken.tok Tok.number_lit != if {
+			fn_c 3 + 'function return and argument counts must be numbers' error.Tok
+		}
+
+		fn_c 2 + token_stream[] rToken.data pop _argc
+		fn_c 3 + token_stream[] rToken.data pop _retc
+
+		fn_c 4 + token_stream[] rToken.tok Tok.l_cb != if {
+			fn_c 'new scope must proceed after function header' error.Tok
+		}
+	} else {
+		fn_c 2 + 'unknown token in function declaration' error.Tok
 	}
-	fn_c 4 + token_stream[] rToken.tok Tok.l_cb != if {
-		fn_c 'new scope must proceed after function header' error.Tok
-	}
+	drop
 
 	auto sv 1
 		fn_c 1 + token_stream[] rToken.data
@@ -280,21 +290,18 @@ fn parse.fn_decl 0 0 {
 		fn_c 1 + 'function name already exists as variable name' error.Tok
 	}
 
-	auto _argc 1 fn_c 2 + token_stream[] rToken.data pop _argc
-	auto  retc 1 fn_c 3 + token_stream[] rToken.data pop  retc
-	
 	; functions[] body but without assertion
 	functions.len sizeof(Function) * functions + pop function_context
 	functions.len                                pop function_context_idx
 		_argc
-		retc
+		_retc
 		sv
 		ir_stream.len
 		0 ; end_inst
 		0 ; a_sp
 		sv string_view_to_str 'main' streq if {
 			_argc 0 !=
-			retc  0 != | if {
+			_retc  0 != | if {
 				fn_c 'the main function must accept and return zero values' error.Tok
 			}
 			functions.len pop main_fn_idx
