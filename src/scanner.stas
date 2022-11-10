@@ -40,8 +40,8 @@ fn parse_escape_ch 1 2 {
 		`\t`
 	} elif dup `v` = {
 		`\v`
-	} elif dup 96 = {
-		96
+	} elif dup `\`` = {
+		`\``
 	} else {
 		drop 0 false ret
 	}
@@ -200,12 +200,13 @@ fn stas.scan_file 2 0 {
 			}
 
 			continue
-		} elif data pos u8[] 96 = {
+		} elif data pos u8[] `\`` = {
 			auto ch  1
 			auto len 1 0 pop len
 
 			while 1 {
 				pos ++ pop pos
+				col ++ pop col
 				
 				pos data.len >= if {
 					start_row start_col open_file_pos 'unterminated character literal' error.Loc
@@ -215,14 +216,12 @@ fn stas.scan_file 2 0 {
 				dup LF_CH = if {
 					row ++ pop row
 					0      pop col
-				} elif dup 96 = {
+				} elif dup `\`` = {
 					data pos -- u8[]  `\\` !=
 					data pos 2 - u8[] `\\` =
 					data pos  -- u8[] `\\` = & | if {
 						break
 					}
-				} else {
-					col ++ pop col
 				}
 				drop
 

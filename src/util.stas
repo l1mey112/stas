@@ -21,7 +21,9 @@ fn error.generic_fatal 2 0 {
 ; (row col file str len)
 fn error.Loc 5 0 {
 	auto msg 2 pop msg
+	auto ccc 3 pop ccc
 
+	ccc
 	error.start_bold_error
 		opened_files[] rFileEntry.file_path_sv string_view_to_str puts ':'  puts
 		swap
@@ -30,6 +32,10 @@ fn error.Loc 5 0 {
 	error.end_bold_error
 	
 	msg eputs endl
+	
+	ccc 1
+	Token.eprint_file_lok
+
 	1 exit
 }
 
@@ -46,18 +52,21 @@ fn error_noexit.Tok 3 0 {
 
 ; (idx str len)
 fn notice.Tok 3 0 {
-	rot rot
+	rot rot dup rot4
 	
 	notice.start_bold_notice
 		token_stream[] Token.location_print
 	notice.end_bold_notice
-	
+
 	eputs endl
+
+	Token.eprint_file_tok
 }
 
 ; (idx str len)
 fn error.Tok 3 0 {
-	error_noexit.Tok
+	over2 rot4 error_noexit.Tok
+	Token.eprint_file_tok
 	1 exit
 }
 

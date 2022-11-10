@@ -420,9 +420,6 @@ fn Token.location_print 1 0 {
 
 ; (str len -- displacement)
 fn print_normalise_tabs 2 1 {
-
-	; TODO: if string does not have a newline at the end, put it there
-
 	auto len 1
 	auto st  1
 
@@ -442,24 +439,31 @@ fn print_normalise_tabs 2 1 {
 		}
 		++
 	}
-	st - st swap puts
+	st - st swap
+	over over puts
+	+ -- r8 `\n` != if {
+		endl
+	}
 	tabs
 }
 
-const line_array_len { sizeof(u64) 10 * }
+const line_array_len { sizeof(u64) 2 * }
 
-; (idx)
-fn Token.print_file_loc 1 0 {
-	auto t 1 token_stream[] pop t
+; (row col file len)
+fn Token.eprint_file_lok 4 0 {
+	auto len  1 pop len
+	auto file 1 pop file
+	auto col  1 pop col
+	auto row  1 pop row
 
 	reserve array_data line_array_len
 	reserve array      sizeof(Array64)
 
 	array_data line_array_len array Array64.init_with_buffer_sz_bytes
 
-	t rToken.row
+	row
 	1
-	t rToken.file opened_files[]
+	file opened_files[]
 		dup  rFileEntry.data
 		swap rFileEntry.len
 	array
@@ -468,26 +472,41 @@ fn Token.print_file_loc 1 0 {
 	0 array Array64[]
 	1 array Array64[]
 
+	stderr row ++ 4 fputpu_space
+	' | ' eputs
+
 	print_normalise_tabs
-	dup 4 * swap t rToken.col swap - +
+	'       ' eputs
+	dup 4 * swap col swap - +
 	while dup 0 > {
-		` ` putc
+		` ` eputc
 		--
 	}
 	drop
 
 	error.start_bold_error
-		t rToken.len
+		len
 		while dup 0 > {
-			`~` putc
+			`~` eputc
 			--
 		}
 		drop
 	error.end_bold_error
-
+	
 	endl
+}
 
-;	0 assert -> 'unimplemented'
+; (idx)
+fn Token.eprint_file_tok 1 0 {
+	auto t 1
+	token_stream[] pop t
+
+	t rToken.row
+	t rToken.col
+	t rToken.file
+	t rToken.len
+
+	Token.eprint_file_lok
 }
 
 fn token_stream.dump 0 0 {
@@ -508,7 +527,6 @@ fn token_stream.dump 0 0 {
 				drop
 			}
 		endl
-		dup Token.print_file_loc
 		++
 	}
 	drop

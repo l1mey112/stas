@@ -260,7 +260,7 @@ fn parse.fn_decl 0 0 {
 	fn_c 2 + token_stream[] rToken.tok Tok.number_lit !=
 	fn_c 3 + token_stream[] rToken.tok Tok.number_lit !=
 	| if {
-		fn_c 'function return and argument counts must be numbers' error.Tok
+		fn_c 2 + 'function return and argument counts must be numbers' error.Tok
 	}
 	fn_c 4 + token_stream[] rToken.tok Tok.l_cb != if {
 		fn_c 'new scope must proceed after function header' error.Tok
