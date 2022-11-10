@@ -9,6 +9,7 @@ auto pos                          1
 auto function_context             1
 auto function_context_idx         1
 auto is_still_evaluating_constant 1
+auto function_attributes          1
 
 ; (inst data)
 fn ir 2 0 {
@@ -289,6 +290,9 @@ fn parse.fn_decl {
 	sv is_toplevel_name_bool if {
 		fn_c 1 + 'function name already exists as variable name' error.Tok
 	}
+	function_attributes FnAttribute.is_conflict if {
+		fn_c 'function attributes conflict' error.Tok
+	}
 
 	; functions[] body but without assertion
 	functions.len sizeof(Function) * functions + pop function_context
@@ -310,12 +314,15 @@ fn parse.fn_decl {
 		} else {
 			0 0  ; is_used, forbid_inline
 		}
+		function_attributes
 	functions<<
 
 	fn_c Inst.fn_prelude function_context_idx ir_p
 	
 	sp.len          0 = assert
 	var_context.len 0 = assert
+	
+	0 pop function_attributes
 
 	_argc fn_c sp_push_p
 }
@@ -1344,6 +1351,21 @@ fn stas.parse {
 					0       swap
 					pos 2 - swap
 				global_var_context<<
+			} elif dup Tok.sub = {
+				pos ++ pop pos
+
+				pos token_stream.len >= if {
+					pos -- "unexpected EOF when parsing function attribute" error.Tok
+				}
+
+				pos token_stream[]
+				dup rToken.tok Tok.name != if {
+					pos "function attribute must be a name" error.Tok
+				}
+				rToken.data string_view_to_str FnAttribute.from_str? ! if {
+					pos "unknown function attribute" error.Tok
+				}
+				function_attributes | pop function_attributes
 			} else {
 				pos "unknown toplevel token" error.Tok
 			}
@@ -1409,9 +1431,9 @@ fn stas.parse {
 	sp.len          0 = assert
 
 	scope_context.len 0 != if {
-		token_stream.len 1 - "unclosed scopes on parser finish" error.Tok
+		token_stream.len -- "unclosed scopes on parser finish" error.Tok
 	}
 	function_context NULL != if {
-		token_stream.len 1 - "unexpected EOF when parsing function, scopes may be unclosed" error.Tok	
+		token_stream.len -- "unexpected EOF when parsing function, scopes may be unclosed" error.Tok	
 	}
 }

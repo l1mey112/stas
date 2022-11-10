@@ -1,7 +1,10 @@
+- noreturn
+fn exit 0 0 {
+	
+}
+
+- inline
+- noinline
 fn main {
-	0 if {
-
-	} elif 0 if {
-
-	}
+	exit
 }
