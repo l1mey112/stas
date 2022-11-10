@@ -71,3 +71,58 @@ fn strlen 1 1 {
 	}
 	swap -
 }
+
+; ( str len u8 -- 'str 'len )
+fn string.after_delim_u8 3 2 {
+	over 0 = if { ; len == 0
+		drop ret
+	}
+
+	; (str len u8)
+	
+	auto ch    1 pop ch
+	auto t_len 1 
+	
+	; (str len)
+	over over +
+	; (str len str+len)
+	pop t_len
+
+	swap
+
+	; (len str)
+	while dup t_len < {
+		; (len str)
+		dup r8 ch = if {
+			++ swap -- ret
+		}
+			++
+		swap
+			--
+		swap
+	}
+	drop
+	drop
+
+	NULL 0
+}
+
+; ( str len d_str d_len -- bool )
+fn string.starts_with 4 1 {
+	; (str len d_str d_len)
+	over2 over < if { ; str.len < delim.len
+		drop drop drop drop false ret
+	}
+
+	auto dl 1
+	dup pop dl
+
+	; (str d_str d_len len)
+	rot rot drop dl rot
+	; (str d_len d_str d_len)
+	streq
+}
+
+fn string.assert 2 2 {
+	over over assert assert
+}

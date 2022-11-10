@@ -370,14 +370,12 @@ fn child_execve_and_shut_up 4 0 {
 	fork
 
 	dup 0 = if {
-		reserve null_p sizeof(u64)
-		null_p NULL w64
-
+		{
 			AT_FDCWD
 			"/dev/null" drop
 			O_RDONLY
 			0
-		openat
+		} openat
 
 		dup 0 <s if {
 			"FATAL: Could not open /dev/null\n" eputs
@@ -391,7 +389,7 @@ fn child_execve_and_shut_up 4 0 {
 			1 exit
 		}
 
-		args null_p execve 0 <s if {
+		args envp execve 0 <s if {
 			"FATAL: Could not execve child" eputs
 			1 exit
 		}

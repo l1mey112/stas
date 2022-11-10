@@ -360,9 +360,6 @@ fn main 0 0 {
 	}
 
 	run_exec_arg 0 != if {
-		reserve null_p sizeof(u64)
-		null_p NULL w64
-
 		auto argp 1
 
 		{
@@ -382,7 +379,7 @@ fn main 0 0 {
 
 		out_file drop
 		argp
-		null_p
+		envp
 
 		verbose_mode r8 if {
 			log.msg.start
