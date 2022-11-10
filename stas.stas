@@ -75,6 +75,36 @@ fn parse_backend_type 2 0 {
 
 const sizeof(fasm_arg_buf) { sizeof(u64) 32 * }
 
+; (str len argv[] is_blocking)
+fn stas_exec 4 0 {
+	auto n 2 rot4 rot4 pop n
+
+	n find_abs_path_of_executable over NULL = if {
+		error.generic_fatal_begin
+			"cannot locate executable `" eputs
+			n eputs "`\n" eputs
+		1 exit
+	}
+
+	rot4 rot4
+	; (str len argv[] is_blocking)
+	
+	verbose_mode r8 if {
+		log.msg.start
+		"`" eputs
+			over argp_print
+		"`\n" eputs	
+	}
+	
+	child_execve_and_shut_up
+}
+
+; out_file new_string_view
+; dup ".tmp" push_string_view
+; dup pop out_file_asm_sv
+; 
+; string_view_to_str 
+
 ; (infile.str infile.len outfile.str outfile.len is_blocking)
 fn execute_backend 5 0 {
 	auto is_blocking 1 pop is_blocking
@@ -84,6 +114,18 @@ fn execute_backend 5 0 {
 	reserve arg_buf sizeof(fasm_arg_buf)
 
 	auto name 2
+	auto ld   2 NULL 0 pop ld
+
+	debug_symbols r8 backend_type StasBackend.nasm = | if {
+		outfile       new_string_view
+		dup     ".o"  push_string_view
+		string_view_to_str
+
+		outfile pop ld
+		        pop outfile
+
+		true pop is_blocking
+	}
 
 	backend_type StasBackend.fasm = if {
 		arg_buf       dup "fasm"    drop w64
@@ -91,9 +133,9 @@ fn execute_backend 5 0 {
 		sizeof(u64) + dup outfile   drop w64
 		sizeof(u64) + dup "-m"      drop w64
 		sizeof(u64) + dup "1048576" drop w64
-		sizeof(u64) +     NULL           w64
+		sizeof(u64) +               NULL w64
 
-		"fasm"
+		"fasm" arg_buf is_blocking stas_exec
 	} elif backend_type StasBackend.nasm = {
 		arg_buf       dup "nasm"    drop w64
 		sizeof(u64) + dup infile    drop w64
@@ -107,26 +149,17 @@ fn execute_backend 5 0 {
 			sizeof(u64) + dup "-g"      drop w64
 		}
 
-		sizeof(u64) +     NULL           w64
-		"nasm"
+		sizeof(u64) + NULL w64
+		"nasm" arg_buf is_blocking stas_exec
 	}
-	pop name
-
-	name find_abs_path_of_executable over NULL = if {
-		error.generic_fatal_begin
-			"cannot find executable backend `" eputs
-			name eputs "`\n" eputs
-		1 exit
+	ld drop NULL != if {
+		arg_buf       dup "ld"      drop w64
+		sizeof(u64) + dup outfile   drop w64
+		sizeof(u64) + dup "-o"      drop w64
+		sizeof(u64) + dup ld        drop w64
+		sizeof(u64) +               NULL w64
+		"ld" arg_buf is_blocking stas_exec
 	}
-
-	verbose_mode r8 if {
-		log.msg.start
-		"`" eputs
-			arg_buf argp_print
-		"`\n" eputs	
-	}
-
-	arg_buf is_blocking child_execve_and_shut_up
 }
 
 const ArgParseMode.none    { 0 }
@@ -246,12 +279,7 @@ fn main 0 0 {
 	}
 
 	out_file drop NULL = if {
-		debug_symbols r8 backend_type StasBackend.nasm = | if {
-			"a.o"
-		} else {
-			"a.out"
-		}
-		pop out_file
+		"a.out" pop out_file
 	} else {
 		out_file "-" streq if {
 			to_stdout true w8
@@ -363,10 +391,6 @@ fn main 0 0 {
 	verbose_mode r8 if {
 		log.msg.start
 		"created binary `" eputs out_file eputs "`\n" eputs
-	}
-
-	debug_symbols r8 backend_type StasBackend.nasm = | if {
-		ret
 	}
 
 	run_exec_arg 0 != if {
