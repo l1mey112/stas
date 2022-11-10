@@ -141,3 +141,8 @@ fn WEXITSTATUS 1 1 {
 	65280 &
 	8 >>
 }
+
+; (cstr mode)
+fn access 2 1 {
+	sys_access syscall2
+}

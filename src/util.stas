@@ -1,8 +1,13 @@
 ; (str len)
-fn error.generic_fatal_noexit 2 0 {
+fn error.generic_fatal_begin 0 0 {
 	error.start_bold_error
 	"FATAL: " eputs
 	error.end_bold_error
+}
+
+; (str len)
+fn error.generic_fatal_noexit 2 0 {
+	error.generic_fatal_begin
 	eputs
 	10 eputc
 }

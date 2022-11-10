@@ -19,8 +19,8 @@ fn StasBackend.to_str 1 2 {
 	rot rot drop
 }
 
-include 'src/formatting.stas'   ; basic utility formatting and files
 include 'src/stringbuffer.stas' ; handling strings
+include 'src/formatting.stas'   ; basic utility formatting and files
 include 'src/tokens.stas'       ; stas token definitions
 include 'src/util.stas'         ; utility functions, error handling
 include 'src/scanner.stas'      ; lexer/scanner, creates tokens
@@ -83,6 +83,8 @@ fn execute_backend 5 0 {
 
 	reserve arg_buf sizeof(fasm_arg_buf)
 
+	auto name 2
+
 	backend_type StasBackend.fasm = if {
 		arg_buf       dup "fasm"    drop w64
 		sizeof(u64) + dup infile    drop w64
@@ -91,7 +93,7 @@ fn execute_backend 5 0 {
 		sizeof(u64) + dup "1048576" drop w64
 		sizeof(u64) +     NULL           w64
 
-		"/usr/bin/fasm"
+		"fasm"
 	} elif backend_type StasBackend.nasm = {
 		arg_buf       dup "nasm"    drop w64
 		sizeof(u64) + dup infile    drop w64
@@ -106,7 +108,15 @@ fn execute_backend 5 0 {
 		}
 
 		sizeof(u64) +     NULL           w64
-		"/usr/bin/nasm"
+		"nasm"
+	}
+	pop name
+
+	name find_abs_path_of_executable over NULL = if {
+		error.generic_fatal_begin
+			"cannot find executable backend `" eputs
+			name eputs "`\n" eputs
+		1 exit
 	}
 
 	verbose_mode r8 if {

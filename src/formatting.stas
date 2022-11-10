@@ -48,3 +48,47 @@ fn opened_files<< 3 0 {
 	opened_files.len ++ pop opened_files.len
 	opened_files.len opened_files.cap < assert
 }
+
+; ( str len str len -- str len )
+fn join_path 4 2 {
+	auto sv 1
+
+	rot4 rot4 `/` string.trim_len_delim_u8 new_string_view
+		pop sv
+
+	sv `/` push_char
+	; (str len)
+	sv rot push_string_view
+
+	sv string_view_to_str
+}
+
+; (str len -- str? len)
+fn find_abs_path_of_executable 2 2 {
+	auto abc        2 pop abc
+	auto search_str 2
+
+	"PATH" getenv
+		over NULL != assert -> '\'PATH\' enviroment variable not found'
+	pop search_str
+
+	while true {
+		search_str `:` string.after_delim_u8.ret_both pop search_str
+
+		search_str drop NULL = if {
+			drop drop
+			break
+		} else {
+			abc join_path
+			; (str len)
+
+			over 0 access 0 = if {
+				ret
+			} else {
+				drop drop
+			}
+		}
+	}
+
+	NULL 0
+}

@@ -72,7 +72,7 @@ fn strlen 1 1 {
 	swap -
 }
 
-; ( str len u8 -- 'str 'len )
+; ( str len u8 -- str len )
 fn string.after_delim_u8 3 2 {
 	over 0 = if { ; len == 0
 		drop ret
@@ -107,6 +107,25 @@ fn string.after_delim_u8 3 2 {
 	NULL 0
 }
 
+; ( str len u8 -- 'str 'len str len )
+fn string.after_delim_u8.ret_both 3 4 {
+	auto a     1
+	auto a.len 1
+
+	over2 over2 pop a.len pop a
+
+	; (str len u8)
+	string.after_delim_u8 over NULL = if {
+		drop drop a a.len NULL 0 ret
+	}
+	
+	; (str len)
+
+	a over2 swap - ; new len
+	-- ; do not include delim
+	rot a rot4
+}
+
 ; ( str len d_str d_len -- bool )
 fn string.starts_with 4 1 {
 	; (str len d_str d_len)
@@ -125,4 +144,18 @@ fn string.starts_with 4 1 {
 
 fn string.assert 2 2 {
 	over over assert assert
+}
+
+; ( str len u8 -- str len )
+fn string.trim_len_delim_u8 3 2 {
+	auto ch 1 pop ch
+
+	; (str len)
+	while dup 0 > {
+		dup -- over2 + r8 ch = if {
+			--
+		} else {
+			break
+		}
+	}
 }

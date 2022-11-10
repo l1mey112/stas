@@ -112,7 +112,7 @@ fn get_lines_into_array 5 0 {
 	drop drop
 }
 
-; ( str len -- str? len? )
+; ( str len -- str? len )
 fn getenv 2 2 {
 	auto str 2 pop str
 
