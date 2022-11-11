@@ -167,16 +167,16 @@ fn stas.scan_file 2 0 {
 					start_row start_col open_file_pos 'unterminated string literal' error.Loc
 				}
 
-				data pos u8[]
+				auto ch 1
+				data pos u8[] pop ch
+
+				ch
 				LF_CH = if {
 					row ++ pop row
 					0      pop col
 				} else {
 					col ++ pop col
 				}
-
-				auto ch 1
-				data pos u8[] pop ch
 
 				; handle delimiters
 
@@ -202,6 +202,10 @@ fn stas.scan_file 2 0 {
 				}
 
 				str_buf ch push_char 
+
+				ch LF_CH = if {
+					col -- pop col
+				}
 			}
 
 			str_buf push_nul
@@ -210,6 +214,7 @@ fn stas.scan_file 2 0 {
 				row col open_file_pos 'unhandled escape character' error.Loc
 			}
 
+			col ++ pop col
 			pos ++ pop pos
 
 			is_next_inc r8 if {
@@ -233,6 +238,8 @@ fn stas.scan_file 2 0 {
 		} elif data pos u8[] `\`` = {
 			auto ch  1
 			auto len 1 0 pop len
+
+			col ++ pop col
 
 			while 1 {
 				pos ++ pop pos
