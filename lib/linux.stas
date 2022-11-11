@@ -20,17 +20,17 @@ fn fstat 2 1 {
 	sys_fstat syscall2
 }
 
-const      PROT_READ { 1 }
-const     PROT_WRITE { 2 }
-const      PROT_EXEC { 4 }
-const      PROT_NONE { 0 }
-const     MAP_SHARED { 1 }
-const    MAP_PRIVATE { 2 }
-const      MAP_FIXED { 16 }
-const  MAP_ANONYMOUS { 32 }
-const     MAP_FAILED { 18446744073709551615 }
-const     MAP_PRW { PROT_READ PROT_WRITE      | }
-const      MAP_PA { MAP_PRIVATE MAP_ANONYMOUS | }
+const PROT_READ     { 1 }
+const PROT_WRITE    { 2 }
+const PROT_EXEC     { 4 }
+const PROT_NONE     { 0 }
+const MAP_SHARED    { 1 }
+const MAP_PRIVATE   { 2 }
+const MAP_FIXED     { 16 }
+const MAP_ANONYMOUS { 32 }
+const MAP_FAILED    { 18446744073709551615 }
+const MAP_PRW       { PROT_READ PROT_WRITE      | }
+const MAP_PA        { MAP_PRIVATE MAP_ANONYMOUS | }
 
 ; void *mmap(void *addr, size_t len, int prot, int flags,
 ;            int fildes, off_t off);
@@ -40,7 +40,7 @@ fn mmap 6 1 {
 }
 
 ; int munmap(void *addr, size_t len);
-fn mummap 2 1 {
+fn munmap 2 1 {
 	sys_munmap syscall2	
 }
 

@@ -1,20 +1,18 @@
-- noreturn
-fn my_noreturn_exit 0 0 {
-	
-}
-
-- inline
-fn my_forced_inline 0 0 {
-	2 drop 2 drop 2 drop 2 drop 2 drop 2 drop 2 drop 2 drop 2 drop
-}
-
-- noinline
-fn my_noinline_functor 0 0 {
-	2 drop
-}
+include 'std.stas'
 
 fn main {
-	my_forced_inline
-	my_noinline_functor
-	my_noreturn_exit
+	alloc.now -> 0 {
+
+		"fasm"    drop alloc.push_64
+		"a.asm"   drop alloc.push_64
+		"a.out"   drop alloc.push_64
+		"-m"      drop alloc.push_64
+		"1048576" drop alloc.push_64
+		          NULL alloc.push_64
+
+		dup argp_print
+
+	} alloc.rewind
+
+	endl
 }

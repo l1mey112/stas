@@ -277,6 +277,12 @@ fn parse.fn_decl {
 	}
 	drop
 
+	function_attributes FnAttribute.noreturn FnAttribute.is_set if {
+		_retc 0 > if {
+			fn_c 3 + 'noreturn functions cannot return values' error.Tok
+		}
+	}
+
 	auto sv 1
 		fn_c 1 + token_stream[] rToken.data
 	pop sv

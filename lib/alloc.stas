@@ -1,0 +1,93 @@
+const alloc_buffer.default_size { 1024 256 * } ; 256 KiB
+auto  alloc_buffer.cap  1
+auto  alloc_buffer.len  1
+auto  alloc_buffer.data 1
+
+; (size)
+fn alloc.init 1 0 {
+	alloc_buffer.data 0 != if {
+		alloc_buffer.data alloc_buffer.cap munmap 0 = assert -> 'alloc.init: munmap failed'
+	}
+	dup memory.mmap_anon pop alloc_buffer.data
+	                     pop alloc_buffer.cap
+}
+
+fn alloc.guard {
+	alloc_buffer.data 0 = if {
+		alloc_buffer.default_size alloc.init
+	}
+}
+
+; (size)
+fn alloc.guard_size 1 0 {
+	dup alloc_buffer.len + alloc_buffer.cap >= if {
+		alloc_buffer.cap 2 * alloc.init
+		alloc.guard_size ; tail recursive!
+	} else {
+		drop
+	}
+}
+
+
+- noinline
+; ( -- ptr )
+fn alloc.now 0 1 {
+	alloc.guard
+	alloc_buffer.data alloc_buffer.len +
+}
+
+- noinline
+; (ptr)
+fn alloc.rewind 1 0 {
+	alloc.guard
+	alloc_buffer.data -
+	pop alloc_buffer.len
+}
+
+; (str len)
+fn alloc.push 2 0 {
+	dup alloc.guard_size
+	dup rot
+	; (len str len)
+	alloc_buffer.data alloc_buffer.len +
+	rot memcpy
+	alloc_buffer.len + pop alloc_buffer.len
+}
+
+; (u8)
+fn alloc.push_8 1 0 {
+	sizeof(u8) alloc.guard_size
+	alloc_buffer.data alloc_buffer.len + swap w8
+	alloc_buffer.len ++ pop alloc_buffer.len
+}
+
+; (u16)
+fn alloc.push_16 1 0 {
+	sizeof(u16) alloc.guard_size
+	alloc_buffer.data alloc_buffer.len + swap w16
+	alloc_buffer.len sizeof(u16) + pop alloc_buffer.len
+}
+
+; (u32)
+fn alloc.push_32 1 0 {
+	sizeof(u32) alloc.guard_size
+	alloc_buffer.data alloc_buffer.len + swap w32
+	alloc_buffer.len sizeof(u32) + pop alloc_buffer.len
+}
+
+; (u64)
+fn alloc.push_64 1 0 {
+	sizeof(u64) alloc.guard_size
+	alloc_buffer.data alloc_buffer.len + swap w64
+	alloc_buffer.len sizeof(u64) + pop alloc_buffer.len
+}
+
+; (val len)
+fn alloc.push_memset 2 0 {
+	dup alloc.guard_size
+	dup rot
+	; (len val len)
+	alloc_buffer.data alloc_buffer.len + rot memset
+	; (len data val len)
+	alloc_buffer.len + pop alloc_buffer.len
+}
