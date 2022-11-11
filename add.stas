@@ -1,10 +1,20 @@
 - noreturn
-fn exit 0 0 {
+fn my_noreturn_exit 0 0 {
 	
 }
 
 - inline
+fn my_forced_inline 0 0 {
+	2 drop 2 drop 2 drop 2 drop 2 drop 2 drop 2 drop 2 drop 2 drop
+}
+
 - noinline
+fn my_noinline_functor 0 0 {
+	2 drop
+}
+
 fn main {
-	exit
+	my_forced_inline
+	my_noinline_functor
+	my_noreturn_exit
 }

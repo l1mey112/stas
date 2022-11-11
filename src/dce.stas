@@ -51,10 +51,15 @@ fn dce.recurse_function 1 0 {
 	fn_c Function.is_used true w8
 	used_functions ++ pop used_functions
 
-	fn_c rFunction.end_inst 1 + fn_c rFunction.start_inst -
-	dce.inline_cutoff >= if {
-		fn_c Function.forbid_inline true w8
-		inlined_functions ++ pop inlined_functions
+	fn_c rFunction.attributes FnAttribute.inline FnAttribute.is_set !
+	if {
+		fn_c rFunction.end_inst 1 + fn_c rFunction.start_inst -
+		dce.inline_cutoff >= if {
+			fn_c Function.forbid_inline true w8
+			inlined_functions ++ pop inlined_functions
+		}
+	} else {
+		fn_c rFunction.forbid_inline ! assert -> 'unreachable'
 	}
 
 	auto ir_data 1

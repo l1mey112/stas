@@ -304,6 +304,9 @@ fn parse.fn_decl {
 		0 ; end_inst
 		0 ; a_sp
 		sv string_view_to_str 'main' streq if {
+			function_attributes FnAttribute.inline FnAttribute.is_set if {
+				fn_c 'the main function is not inlinable' error.Tok
+			}
 			_argc 0 !=
 			_retc  0 != | if {
 				fn_c 'the main function must accept and return zero values' error.Tok
@@ -312,7 +315,14 @@ fn parse.fn_decl {
 
 			1 1  ; is_used, forbid_inline
 		} else {
-			0 0  ; is_used, forbid_inline
+			0 ; is_used
+
+			; forbid_inline
+			function_attributes FnAttribute.noinline FnAttribute.is_set if {
+				1
+			} else {
+				0
+			}
 		}
 		function_attributes
 	functions<<
@@ -389,6 +399,11 @@ fn parse.fn_complex_body_tokens {
 	; fn ir_p (pos inst data)
 
 	dup dup Tok.reserve = swap Tok.auto = | if {
+		function_context rFunction.attributes
+		FnAttribute.inline FnAttribute.is_set if {
+			pos 'functions marked as inline cannot contain variable declarations' error.Tok
+		}
+
 		auto search_p 1
 		0 pop search_p
 
@@ -559,6 +574,11 @@ fn parse.fn_complex_body_tokens {
 			function_context_idx f_idx = if {
 				function_context Function.forbid_inline 1 w8
 				function_context Function.tail_r_label label_allocate w32
+			}
+
+			f_idx functions[] rFunction.attributes
+			FnAttribute.noreturn FnAttribute.is_set if {
+				parse.push_early_ret_with_pos
 			}
 
 			sp.len
@@ -1030,6 +1050,11 @@ fn parse.fn_complex_body_tokens {
 
 		0 pop sp.len
 		parse.push_early_ret_with_pos
+
+		function_context rFunction.attributes
+		FnAttribute.inline FnAttribute.is_set if {
+			pos 'functions marked as inline cannot contain early returns' error.Tok
+		}
 
 		function_context Function.forbid_inline 1 w8
 	} elif dup Tok.arrw = {
