@@ -766,6 +766,32 @@ fn parse.fn_complex_body_tokens {
 			pos 'not inside while loop body' error.Tok
 		}
 	} elif dup Tok.l_cb = {
+		while
+			scope_context.len 0 > if {
+				scope_context.top rScope.typ ScopeTyp.early_ret = if {
+					scope_context.top rScope.idx
+
+					dup 0 != if {
+						dup pos -- != if {
+							++ 'unreachable code' error.Tok 
+						} else {
+							drop
+						}
+					} else {
+						drop
+					}
+					
+					true
+				} else {
+					false
+				}
+			} else {
+				false
+			}
+		{
+			scope_context.len -- pop scope_context.len
+		}
+
 		scope_context.len 0 != if {
 			scope_context.top rScope.typ
 			dup ScopeTyp.while_block = if {
@@ -1013,6 +1039,8 @@ fn parse.fn_complex_body_tokens {
 					Inst.label scope rScope.label_id2 ir
 				}
 			} else {
+				scope rScope.typ putuln
+				
 				scope rScope.idx
 					'block expects body, an unhandled elif or while keyword may be the culprit'
 				error.Tok

@@ -424,7 +424,6 @@ fn child_execve_and_shut_up 4 0 {
 				} elif dup WIFSIGNALED {
 					"FATAL: Child process was terminated by signal " eputs dup WTERMSIG eputuln
 					255 exit
-					false pop loop
 				} elif dup WIFSTOPPED {
 					
 				} elif dup WIFCONTINUED {

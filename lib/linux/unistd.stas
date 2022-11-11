@@ -20,7 +20,7 @@ fn close 1 1 {
 	sys_close syscall1
 }
 
-; - noreturn
+- noreturn
 ; (code)
 fn exit 1 0 {
 	sys_exit syscall1 drop

@@ -1,18 +1,13 @@
 include 'std.stas'
 
 fn main {
-	alloc.now -> 0 {
-
-		"fasm"    drop alloc.push_64
-		"a.asm"   drop alloc.push_64
-		"a.out"   drop alloc.push_64
-		"-m"      drop alloc.push_64
-		"1048576" drop alloc.push_64
-		          NULL alloc.push_64
-
-		dup argp_print
-
-	} alloc.rewind
-
-	endl
+	1 if {
+		
+	} elif 1 {
+		
+	} elif 1 {
+		
+	} else {
+		ret
+	}
 }
