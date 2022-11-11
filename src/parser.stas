@@ -57,6 +57,16 @@ fn sp<< 1 0 {
 	sp.len ++ pop sp.len
 }
 
+fn sp.top 0 1 {
+	sp.len 0 > assert
+	sp sp.len -- sizeof(u32) * + r32
+}
+
+fn sp.pop 0 1 {
+	sp.top
+	sp.len -- pop sp.len
+}
+
 ; (count pos)
 fn sp_push_p 2 0 {
 	auto pos  1 pop pos
@@ -75,15 +85,19 @@ fn sp_push 1 0 {
 	pos sp_push_p
 }
 
+; (argc)
+fn sp_has 1 0 {
+	sp.len > if {
+		pos "not enough values to consume for operation" error_st.Tok
+	}
+}
+
 ; (argc retc)
 fn sp_assert 2 0 {
 	auto retc 1 pop retc
 	auto _argc 1 pop _argc
 	
-	sp.len _argc < if {
-		pos "not enough values to consume for operation" error_st.Tok
-	}
-	
+	_argc sp_has
 	sp.len _argc - pop sp.len
 
 	retc pos sp_push_p
@@ -1287,22 +1301,46 @@ fn parse.fn_body_tokens {
 		2 1 sp_assert
 	} elif dup Tok.swap = {
 		Inst.swap 0 ir
-		2 2 sp_assert
+		2 sp_has
+			sp.pop
+			sp.pop
+			swap
+			sp<<
+			sp<<
 	} elif dup Tok.dup = {
 		Inst.dup 0 ir
-		1 2 sp_assert
+		1 sp_has
+		sp.top sp<<
 	} elif dup Tok.over = {
 		Inst.over 0 ir
-		2 3 sp_assert
+		2 sp_has
+		sp.len 2 - sp[] sp<<
 	} elif dup Tok.over2 = {
 		Inst.over2 0 ir
-		3 4 sp_assert
+		3 sp_has
+		sp.len 3 - sp[] sp<<
 	} elif dup Tok.rot = {
 		Inst.rot 0 ir
-		3 3 sp_assert
+		3 sp_has
+			sp.pop
+			sp.pop
+			sp.pop
+			rot rot
+			sp<<
+			sp<<
+			sp<<
 	} elif dup Tok.rot4 = {
 		Inst.rot4 0 ir
-		4 4 sp_assert
+		4 sp_has
+			sp.pop
+			sp.pop
+			sp.pop
+			sp.pop
+			rot4 rot4 rot4
+			sp<<
+			sp<<
+			sp<<
+			sp<<
 	} elif dup Tok.drop = {
 		Inst.drop 0 ir
 		1 0 sp_assert

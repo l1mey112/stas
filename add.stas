@@ -1,13 +1,5 @@
 include 'std.stas'
 
 fn main {
-	1 if {
-		
-	} elif 1 {
-		
-	} elif 1 {
-		
-	} else {
-		ret
-	}
+	
 }
