@@ -19,6 +19,7 @@ Follow the initial journey with all of the guesswork on my blog at [`tags/stas`]
 A release changelog is a complete post outlining all additional features added between releases, and if you're lucky, how they are implemented.
 
 - [stas `0.1.1` Changelog](https://blog.l-m.dev/posts/release-stas-0.1.1/) - [Github Release](https://github.com/l1mey112/stas/releases/tag/0.1.1)
+- [stas `0.1.2` Changelog](https://blog.l-m.dev/posts/release-stas-0.1.2/) - [Github Release](https://github.com/l1mey112/stas/releases/tag/0.1.2)
 
 ## bootstrapping stas
 
