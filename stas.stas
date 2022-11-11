@@ -77,9 +77,10 @@ const sizeof(fasm_arg_buf) { sizeof(u64) 32 * }
 
 ; (str len argv[] is_blocking)
 fn stas_exec 4 0 {
-	auto n 2 rot4 rot4 pop n
+	auto n       2 rot4 rot4 pop n
+	auto old_brk 1 alloc.now pop old_brk
 
-	n find_abs_path_of_executable over NULL = if {
+	n find_abs_path_of_executable? over NULL = if {
 		error.generic_fatal_begin
 			"cannot locate executable `" eputs
 			n eputs "`\n" eputs
@@ -97,6 +98,8 @@ fn stas_exec 4 0 {
 	}
 	
 	child_execve_and_shut_up
+
+	old_brk alloc.rewind
 }
 
 ; (infile.str infile.len outfile.str outfile.len is_blocking)
@@ -412,7 +415,7 @@ fn main {
 		verbose_mode r8 if {
 			log.msg.start
 			
-			"exceve binary `" eputs 
+			"execve binary `" eputs 
 
 			argp
 			argp_print

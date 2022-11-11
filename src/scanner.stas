@@ -49,6 +49,47 @@ fn parse_escape_ch 1 2 {
 	true
 }
 
+; ( is_negative str len -- bool )
+fn does_int_literal_overflow 3 1 {
+	auto str.len 1 pop str.len
+	auto str     1 pop str
+
+	if {
+		"9223372036854775808"
+	} else {
+		"18446744073709551615"
+	}
+
+	; (str len)
+
+	dup str.len swap > if {
+		drop drop true ret
+	} elif dup str.len = {
+		drop
+		auto strn 1 pop strn
+		0
+		; (len)
+		while dup str.len < {
+			str r8 strn r8 < if {
+				break
+			}
+
+			str r8 strn r8 > if {
+				drop true ret
+			}
+			
+			str  ++ pop str
+			strn ++ pop strn
+			++
+		}
+		drop
+	} else {
+		drop drop
+	}
+
+	false	
+}
+
 ; (str len)
 fn stas.scan_file 2 0 {
 	auto file_path 2
@@ -103,14 +144,6 @@ fn stas.scan_file 2 0 {
 			break
 		}
 
-		; TODO: instead of a continue keyword in
-		;       matching quotes and semicolons by
-		;       moving it out of the lower loop
-		;       and putting it right here instead
-		; 
-		;       there should not be any flush 
-		;       token and restart anymore
-
 		; TODO: check for overflow inside the 
 		;       number parser
 
@@ -129,16 +162,17 @@ fn stas.scan_file 2 0 {
 			reserve delim 1 delim 0 w8
 			while 1 {
 				pos ++ pop pos
+				
+				pos data.len >= if {
+					start_row start_col open_file_pos 'unterminated string literal' error.Loc
+				}
+
 				data pos u8[]
 				LF_CH = if {
 					row ++ pop row
 					0      pop col
 				} else {
 					col ++ pop col
-				}
-
-				pos data.len >= if {
-					start_row start_col open_file_pos 'unterminated string literal' error.Loc
 				}
 
 				auto ch 1
@@ -165,9 +199,6 @@ fn stas.scan_file 2 0 {
 				ch `\\` = if {
 					delim 1 w8
 					continue
-				} elif ch LF_CH = {
-					0      pop col
-					row ++ pop row
 				}
 
 				str_buf ch push_char 
@@ -179,7 +210,6 @@ fn stas.scan_file 2 0 {
 				row col open_file_pos 'unhandled escape character' error.Loc
 			}
 
-			col ++ pop col
 			pos ++ pop pos
 
 			is_next_inc r8 if {
@@ -206,7 +236,6 @@ fn stas.scan_file 2 0 {
 
 			while 1 {
 				pos ++ pop pos
-				col ++ pop col
 				
 				pos data.len >= if {
 					start_row start_col open_file_pos 'unterminated character literal' error.Loc
@@ -222,6 +251,8 @@ fn stas.scan_file 2 0 {
 					data pos  -- u8[] `\\` = & | if {
 						break
 					}
+				} else {
+					col ++ pop col
 				}
 				drop
 
@@ -310,9 +341,14 @@ fn stas.scan_file 2 0 {
 
 		is_number r8 if { ; pos start - 1 > &
 			row start_col open_file_pos Tok.number_lit
+
+			leading_dash r8 lit does_int_literal_overflow
+			if {
+				start_row start_col open_file_pos addr lit r64 'number overflows' error.Loc.len
+			}
 			
 			lit str_to_num
-			
+
 			leading_dash r8 if {
 				negate	
 			}

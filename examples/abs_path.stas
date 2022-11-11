@@ -1,0 +1,27 @@
+include 'std.stas'
+
+const buf_size { 128 }
+
+fn main {
+	reserve input_buf buf_size
+
+	"Enter executable name in PATH to execute: " puts
+
+	; (buf size stream -- str len)
+	input_buf buf_size stdin fgets
+
+	; fgets can return NULL on EOF
+	; the function below will propagate it
+	find_abs_path_of_executable?
+
+	; (str? len)
+	over NULL != assert -> 'could not find executable'
+
+	; (str len)
+	-- ; trim newline
+
+	; (str len)
+	drop NULL envp
+	; (str argv envp)
+	execve 0 = assert -> 'could not execve child'
+}

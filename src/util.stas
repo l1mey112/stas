@@ -18,9 +18,10 @@ fn error.generic_fatal 2 0 {
 	1 exit
 }
 
-; (row col file str len)
-fn error.Loc 5 0 {
+; (row col file len str len)
+fn error.Loc.len 6 0 {
 	auto msg 2 pop msg
+	auto l   1 pop l
 	auto ccc 3 pop ccc
 
 	ccc
@@ -33,10 +34,15 @@ fn error.Loc 5 0 {
 	
 	msg eputs endl
 	
-	ccc 1
+	ccc l
 	Token.eprint_file_lok
 
 	1 exit
+}
+
+; (row col file str len)
+fn error.Loc 5 0 {
+	1 rot error.Loc.len
 }
 
 ; (idx str len)

@@ -1,0 +1,46 @@
+; ( str len str len -- str len )
+fn join_path 4 2 {
+	auto a 1 alloc.now pop a
+
+	rot4 rot4 `/` string.trim_len_delim_u8 alloc.push
+	          `/`                          alloc.push_8
+	                                       alloc.push
+	a alloc.make_str
+}
+
+; (str len -- str? len)
+fn find_abs_path_of_executable? 2 2 {
+	auto abc        2 pop abc
+	auto search_str 2
+	auto old_brk    1
+
+	abc 0 = swap NULL = | if {
+		NULL 0 ret
+	}
+
+	"PATH" getenv
+		over NULL != assert -> '\'PATH\' enviroment variable not found'
+	pop search_str
+
+	while true {
+		search_str `:` string.after_delim_u8.ret_both pop search_str
+
+		search_str drop NULL = if {
+			drop drop
+			break
+		} else {
+			alloc.now pop old_brk
+
+			abc join_path
+			; (str len)
+
+			over 0 access 0 = if {
+				ret
+			} else {
+				drop drop old_brk alloc.rewind
+			}
+		}
+	}
+
+	NULL 0
+}

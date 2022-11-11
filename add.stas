@@ -1,5 +1,21 @@
 include 'std.stas'
 
 fn main {
-	
+	18446744073709551615 drop
+
+;	str r8 strn r8
+;			
+;	over over > if {
+;		drop drop drop true ret
+;	} elif over over < {
+;		drop drop break
+;	} else {
+;		drop drop
+;	}
+
+;	str r8 strn r8 > if {
+;		drop true ret
+;	} elif str r8 strn r8 < {
+;		break
+;	}
 }

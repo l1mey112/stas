@@ -469,6 +469,16 @@ fn Token.eprint_file_lok 4 0 {
 	array
 	get_lines_into_array
 
+	reserve is_multiline 1
+
+	1 array Array64[]
+	col len + swap > if {
+		1 array Array64[] -- col - pop len 
+		is_multiline true w8
+	} else {
+		is_multiline false w8
+	}
+
 	0 array Array64[]
 	1 array Array64[]
 
@@ -491,6 +501,10 @@ fn Token.eprint_file_lok 4 0 {
 			--
 		}
 		drop
+
+		is_multiline r8 if {
+			`>` eputc
+		}
 	error.end_bold_error
 	
 	endl

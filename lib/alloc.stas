@@ -91,3 +91,10 @@ fn alloc.push_memset 2 0 {
 	; (len data val len)
 	alloc_buffer.len + pop alloc_buffer.len
 }
+
+; ( ptr -- str len )
+fn alloc.make_str 1 2 {
+	dup alloc_buffer.data -
+	    alloc_buffer.len swap -
+	0 alloc.push_8
+}
