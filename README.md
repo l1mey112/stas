@@ -21,6 +21,23 @@ A release changelog is a complete post outlining all additional features added b
 - [stas `0.1.1` Changelog](https://blog.l-m.dev/posts/release-stas-0.1.1/) - [Github Release](https://github.com/l1mey112/stas/releases/tag/0.1.1)
 - [stas `0.1.2` Changelog](https://blog.l-m.dev/posts/release-stas-0.1.2/) - [Github Release](https://github.com/l1mey112/stas/releases/tag/0.1.2)
 
+
+## programming in stas
+
+Guides created by myself.
+
+- [Intro To The stas Programming Language - Core Features](https://blog.l-m.dev/posts/intro-to-stas-1/)
+
+As you know, concatenative stack based programming. Think forth. Gloss over these sources.
+
+- [Starting FORTH Part 1 - Forth Inc](https://www.forth.com/starting-forth/1-forth-stacks-dictionary/)
+- [Stack-oriented programming - Wikipedia](https://en.wikipedia.org/wiki/Stack-oriented_programming)
+- [Concatenative language wiki](https://concatenative.org/wiki/view/Front%20Page)
+- [Concatenative programming language - Wikipedia](https://en.wikipedia.org/wiki/Concatenative_programming_language)
+- [Reverse Polish notation - Wikipedia](https://en.wikipedia.org/wiki/Reverse_Polish_notation)
+
+Comments are denoted with semicolons. Checkout the `files/` directory for examples, it contains implementations of rule 110, rule 90 and rule 30, among others and growing.
+
 ## bootstrapping stas
 
 [The-stas-compiler-is-written-in-stas.](./stas.stas) To avoid the chicken or the egg scenario, precompiled assembly files reside in the [bootstrap/](bootstrap/) directory.
@@ -71,32 +88,6 @@ A dead code elimination pass takes place between the parser and code generation 
              |             /-- parser  --\   /--- codegen ----\  |
  input.stas ->- scanning - |             | - |                | ->- backend
              |             \-- checker --/   \- optimisation -/  |
-```
-
-## programming in stas
-
-As you know, concatenative stack based programming. Think forth. Programmed in python all your life? Don't know forth? Gloss over these sources.
-
-- [Starting FORTH Part 1 - Forth Inc](https://www.forth.com/starting-forth/1-forth-stacks-dictionary/)
-- [Stack-oriented programming - Wikipedia](https://en.wikipedia.org/wiki/Stack-oriented_programming)
-- [Concatenative language wiki](https://concatenative.org/wiki/view/Front%20Page)
-- [Concatenative programming language - Wikipedia](https://en.wikipedia.org/wiki/Concatenative_programming_language)
-- [Reverse Polish notation - Wikipedia](https://en.wikipedia.org/wiki/Reverse_Polish_notation)
-
-Comments are denoted with semicolons. Checkout the `files/` directory for examples, it contains implementations of rule 110, rule 90 and rule 30, among others and growing.
-
-TODO: Guide?
-
-```
-include 'std.stas'
-
-fn main {
-    0 while dup 100 < {
-        dup putuln         ; put a number to stdout
-        ++
-    }
-    drop
-}
 ```
 
 ## IDE support
