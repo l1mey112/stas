@@ -45,7 +45,7 @@ Comments are denoted with semicolons. Checkout the `files/` directory for exampl
 Use FASM, the [flat-assembler](https://flatassembler.net/), to compile the binaries.
 
 ```sh
-$ fasm -m 1048576 bootstrap/x86-64_linux.fasm.asm stas
+$ fasm -m 1048576 bootstrap/x86-64_linux.fasm stas
 $ ./stas stas.stas -o stas
 $ ./stas stas.stas -o stas
 $ ./stas stas.stas -o stas

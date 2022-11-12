@@ -12,8 +12,8 @@ gdb.output
 compiler
 a.out
 
-*.fasm
-!bootstrap-compiler/*.fasm
+#*.fasm
+!bootstrap-compiler/*
 *.out
 
 *.asm
