@@ -1,2 +1,3 @@
 **/*.v linguist-language=V text=auto eol=lf
 **/*.stas linguist-language=stas text=auto eol=lf
+bootstrap/** linguist-vendored
