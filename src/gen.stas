@@ -138,12 +138,12 @@ fn gen_range 3 0 {
 
 			auto r 1 r_new pop r
 			"	mov " fwrite r Reg.64.to_str fwrite ", qword [_rs_p]" fwriteln
-			0
-			while dup count < {
+			count
+			while dup 0 > {
+				--
 				dup 8 * var_addr + r_pop swap
 				"	mov qword [" fwrite r Reg.64.to_str fwrite " + " fwrite fwriteu "], " fwrite
 				Reg.64.to_str fwriteln
-				++
 			}
 			drop
 			r r_free
@@ -153,11 +153,11 @@ fn gen_range 3 0 {
 
 			auto r 1 r_new pop r
 			"	mov " fwrite r Reg.64.to_str fwrite ", qword [_rs_p]" fwriteln
-			0
-			while dup count < {
+			count
+			while dup 0 > {
+				--
 				dup count swap - 1 - 8 * var_addr +
 				r_prepare_push_const_word "qword [" fwrite r Reg.64.to_str fwrite " + " fwrite fwriteu "]" fwriteln
-				++
 			}
 			drop
 			r r_free
@@ -178,13 +178,13 @@ fn gen_range 3 0 {
 
 				"	mov " fwrite r Reg.64.to_str fwrite ", _g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwriteln
 				
-				0
-				while dup count < {
+				count
+				while dup 0 > {
+					--
 					dup 8 *
 					r_pop
 					"	mov qword [" fwrite r Reg.64.to_str fwrite " + " fwrite swap fwriteu "], " fwrite
 					Reg.64.to_str fwriteln
-					++
 				}
 				drop
 			}
@@ -205,11 +205,11 @@ fn gen_range 3 0 {
 			} else {
 				"	mov " fwrite r Reg.64.to_str fwrite ", _g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwriteln
 
-				0
-				while dup count < {
+				count
+				while dup 0 > {
+					--
 					dup count swap - 1 - 8 *
 					r_prepare_push_const_word "qword [" fwrite r Reg.64.to_str fwrite " + " fwrite fwriteu "]" fwriteln
-					++
 				}
 				drop
 

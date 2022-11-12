@@ -1,20 +1,7 @@
-; include 'std.stas'
+include 'std.stas'
 
-fn main 0 0 {
-;	"fasm" find_abs_path_of_executable?
+auto a 2
 
-	222221 ` ` '
-	' 999999
-
-	`a` `a` 2
-
-	`
-` 2
-
-;    ; (str? len)
-;    over NULL != assert
-;		-> 'executable not found'
-;
-;    ; (str len)
-;    puts endl
+fn main {
+	"hello!\n" pop a
 }

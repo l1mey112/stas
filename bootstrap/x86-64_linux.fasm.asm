@@ -615,12 +615,12 @@ fd_open_fp_readonly:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 0], rsi
+	mov qword [rbx + 8], rsi
 	pop rdi
-	mov qword [rbx + 8], rdi
+	mov qword [rbx + 0], rdi
 	mov rbx, qword [_rs_p]
-	mov r8, qword [rbx + 8]
-	mov r9, qword [rbx + 0]
+	mov r8, qword [rbx + 0]
+	mov r9, qword [rbx + 8]
 	mov rbx, 0
 	mov r9, 0
 	mov r10, 2
@@ -650,8 +650,8 @@ fd_open_fp_readonly:
 	mov rdi, rbx
 	syscall
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, 2
 	mov r8, 1
 	mov rax, r8
@@ -686,12 +686,12 @@ fd_new_file_for_writing:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 0], rsi
+	mov qword [rbx + 8], rsi
 	pop rdi
-	mov qword [rbx + 8], rdi
+	mov qword [rbx + 0], rdi
 	mov rbx, qword [_rs_p]
-	mov r8, qword [rbx + 8]
-	mov r9, qword [rbx + 0]
+	mov r8, qword [rbx + 0]
+	mov r9, qword [rbx + 8]
 	mov rbx, 1
 	mov r9, 64
 	or rbx, r9
@@ -725,8 +725,8 @@ fd_new_file_for_writing:
 	mov rdi, rbx
 	syscall
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, 2
 	mov r8, 1
 	mov rax, r8
@@ -761,12 +761,12 @@ open_and_mmap_fp:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 0], rsi
+	mov qword [rbx + 8], rsi
 	pop rdi
-	mov qword [rbx + 8], rdi
+	mov qword [rbx + 0], rdi
 	mov rbx, qword [_rs_p]
-	mov r8, qword [rbx + 8]
-	mov r9, qword [rbx + 0]
+	mov r8, qword [rbx + 0]
+	mov r9, qword [rbx + 8]
 	push r8
 	push r9
 	mov rbp, rsp
@@ -834,8 +834,8 @@ open_and_mmap_fp:
 	mov rdi, rbx
 	syscall
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, 2
 	mov r8, 1
 	mov rax, r8
@@ -912,9 +912,9 @@ child_execve_and_shut_up:
 	pop rbx
 	pop rdi
 	mov rdi, qword [_rs_p]
-	mov qword [rdi + 8], rbx
+	mov qword [rdi + 16], rbx
 	pop r8
-	mov qword [rdi + 16], r8
+	mov qword [rdi + 8], r8
 	mov rdi, 57
 	mov rax, rdi
 	syscall
@@ -992,8 +992,8 @@ child_execve_and_shut_up:
 	syscall
 .53:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 16]
-	mov rdi, qword [rbx + 8]
+	mov rsi, qword [rbx + 8]
+	mov rdi, qword [rbx + 16]
 	mov rbx, qword [_arg_p]
 	mov r8, [rbx]
 	add rbx, 8
@@ -2410,9 +2410,9 @@ getenv:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 0], rsi
+	mov qword [rbx + 8], rsi
 	pop rdi
-	mov qword [rbx + 8], rdi
+	mov qword [rbx + 0], rdi
 	mov rbx, qword [_arg_p]
 	mov r8, [rbx]
 	add rbx, 8
@@ -2444,8 +2444,8 @@ getenv:
 	mov rbx, qword [rsp + 8]
 	mov rsi, qword [rsp + 0]
 	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 8]
-	mov r9, qword [rdi + 0]
+	mov r8, qword [rdi + 0]
+	mov r9, qword [rdi + 8]
 	push rbx
 	push rsi
 	push r8
@@ -2564,12 +2564,12 @@ find_abs_path_of_executable?:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 0], rsi
+	mov qword [rbx + 8], rsi
 	pop rdi
-	mov qword [rbx + 8], rdi
+	mov qword [rbx + 0], rdi
 	mov rbx, qword [_rs_p]
-	mov r8, qword [rbx + 8]
-	mov r9, qword [rbx + 0]
+	mov r8, qword [rbx + 0]
+	mov r9, qword [rbx + 8]
 	mov rbx, 0
 	xor r10, r10
 	cmp r9, rbx
@@ -2616,16 +2616,16 @@ find_abs_path_of_executable?:
 .1967:
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 16], rsi
+	mov qword [rbx + 24], rsi
 	pop rdi
-	mov qword [rbx + 24], rdi
+	mov qword [rbx + 16], rdi
 .159:
 	mov rbx, 1
 	test rbx, rbx
 	jz .160
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 24]
-	mov rdi, qword [rbx + 16]
+	mov rsi, qword [rbx + 16]
+	mov rdi, qword [rbx + 24]
 	mov rbx, 58
 	push rsi
 	push rdi
@@ -2637,12 +2637,12 @@ find_abs_path_of_executable?:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 16], rsi
+	mov qword [rbx + 24], rsi
 	pop rdi
-	mov qword [rbx + 24], rdi
+	mov qword [rbx + 16], rdi
 	mov rbx, qword [_rs_p]
-	mov r8, qword [rbx + 24]
-	mov r9, qword [rbx + 16]
+	mov r8, qword [rbx + 16]
+	mov r9, qword [rbx + 24]
 	mov rbx, 0
 	xor r9, r9
 	cmp r8, rbx
@@ -2663,8 +2663,8 @@ find_abs_path_of_executable?:
 	pop rsi
 	mov qword [rbx + 32], rsi
 	mov rbx, qword [_rs_p]
-	mov rdi, qword [rbx + 8]
-	mov r8, qword [rbx + 0]
+	mov rdi, qword [rbx + 0]
+	mov r8, qword [rbx + 8]
 	push rdi
 	push r8
 	mov rbp, rsp
@@ -4235,12 +4235,12 @@ Tok.from_str:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 0], rsi
+	mov qword [rbx + 8], rsi
 	pop rdi
-	mov qword [rbx + 8], rdi
+	mov qword [rbx + 0], rdi
 	mov rbx, qword [_rs_p]
-	mov r8, qword [rbx + 8]
-	mov r9, qword [rbx + 0]
+	mov r8, qword [rbx + 0]
+	mov r9, qword [rbx + 8]
 	mov rbx, _s71
 	mov r10, 1
 	push r8
@@ -4260,8 +4260,8 @@ Tok.from_str:
 	jmp .318
 .317:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s72
 	mov r8, 1
 	push rsi
@@ -4281,8 +4281,8 @@ Tok.from_str:
 	jmp .318
 .320:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s73
 	mov r8, 2
 	push rsi
@@ -4302,8 +4302,8 @@ Tok.from_str:
 	jmp .318
 .322:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s74
 	mov r8, 2
 	push rsi
@@ -4323,8 +4323,8 @@ Tok.from_str:
 	jmp .318
 .324:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s75
 	mov r8, 11
 	push rsi
@@ -4344,8 +4344,8 @@ Tok.from_str:
 	jmp .318
 .326:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s76
 	mov r8, 5
 	push rsi
@@ -4365,8 +4365,8 @@ Tok.from_str:
 	jmp .318
 .328:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s77
 	mov r8, 6
 	push rsi
@@ -4386,8 +4386,8 @@ Tok.from_str:
 	jmp .318
 .330:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s78
 	mov r8, 4
 	push rsi
@@ -4407,8 +4407,8 @@ Tok.from_str:
 	jmp .318
 .332:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s79
 	mov r8, 4
 	push rsi
@@ -4428,8 +4428,8 @@ Tok.from_str:
 	jmp .318
 .334:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s80
 	mov r8, 3
 	push rsi
@@ -4449,8 +4449,8 @@ Tok.from_str:
 	jmp .318
 .336:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s81
 	mov r8, 2
 	push rsi
@@ -4470,8 +4470,8 @@ Tok.from_str:
 	jmp .318
 .338:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s82
 	mov r8, 4
 	push rsi
@@ -4491,8 +4491,8 @@ Tok.from_str:
 	jmp .318
 .340:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s83
 	mov r8, 4
 	push rsi
@@ -4512,8 +4512,8 @@ Tok.from_str:
 	jmp .318
 .342:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s84
 	mov r8, 5
 	push rsi
@@ -4533,8 +4533,8 @@ Tok.from_str:
 	jmp .318
 .344:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s85
 	mov r8, 5
 	push rsi
@@ -4554,8 +4554,8 @@ Tok.from_str:
 	jmp .318
 .346:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s86
 	mov r8, 8
 	push rsi
@@ -4575,8 +4575,8 @@ Tok.from_str:
 	jmp .318
 .348:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s87
 	mov r8, 1
 	push rsi
@@ -4596,8 +4596,8 @@ Tok.from_str:
 	jmp .318
 .350:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s34
 	mov r8, 1
 	push rsi
@@ -4617,8 +4617,8 @@ Tok.from_str:
 	jmp .318
 .352:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s88
 	mov r8, 1
 	push rsi
@@ -4638,8 +4638,8 @@ Tok.from_str:
 	jmp .318
 .354:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s89
 	mov r8, 1
 	push rsi
@@ -4659,8 +4659,8 @@ Tok.from_str:
 	jmp .318
 .356:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s90
 	mov r8, 1
 	push rsi
@@ -4680,8 +4680,8 @@ Tok.from_str:
 	jmp .318
 .358:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s91
 	mov r8, 2
 	push rsi
@@ -4701,8 +4701,8 @@ Tok.from_str:
 	jmp .318
 .360:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s92
 	mov r8, 2
 	push rsi
@@ -4722,8 +4722,8 @@ Tok.from_str:
 	jmp .318
 .362:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s93
 	mov r8, 2
 	push rsi
@@ -4743,8 +4743,8 @@ Tok.from_str:
 	jmp .318
 .364:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s94
 	mov r8, 2
 	push rsi
@@ -4764,8 +4764,8 @@ Tok.from_str:
 	jmp .318
 .366:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s95
 	mov r8, 2
 	push rsi
@@ -4785,8 +4785,8 @@ Tok.from_str:
 	jmp .318
 .368:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s96
 	mov r8, 1
 	push rsi
@@ -4806,8 +4806,8 @@ Tok.from_str:
 	jmp .318
 .370:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s97
 	mov r8, 1
 	push rsi
@@ -4827,8 +4827,8 @@ Tok.from_str:
 	jmp .318
 .372:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s98
 	mov r8, 1
 	push rsi
@@ -4848,8 +4848,8 @@ Tok.from_str:
 	jmp .318
 .374:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s99
 	mov r8, 1
 	push rsi
@@ -4869,8 +4869,8 @@ Tok.from_str:
 	jmp .318
 .376:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s100
 	mov r8, 1
 	push rsi
@@ -4890,8 +4890,8 @@ Tok.from_str:
 	jmp .318
 .378:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s101
 	mov r8, 4
 	push rsi
@@ -4911,8 +4911,8 @@ Tok.from_str:
 	jmp .318
 .380:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s102
 	mov r8, 3
 	push rsi
@@ -4932,8 +4932,8 @@ Tok.from_str:
 	jmp .318
 .382:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s103
 	mov r8, 4
 	push rsi
@@ -4953,8 +4953,8 @@ Tok.from_str:
 	jmp .318
 .384:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s104
 	mov r8, 5
 	push rsi
@@ -4974,8 +4974,8 @@ Tok.from_str:
 	jmp .318
 .386:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s105
 	mov r8, 3
 	push rsi
@@ -4995,8 +4995,8 @@ Tok.from_str:
 	jmp .318
 .388:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s106
 	mov r8, 4
 	push rsi
@@ -5016,8 +5016,8 @@ Tok.from_str:
 	jmp .318
 .390:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s107
 	mov r8, 4
 	push rsi
@@ -5037,8 +5037,8 @@ Tok.from_str:
 	jmp .318
 .392:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s108
 	mov r8, 1
 	push rsi
@@ -5058,8 +5058,8 @@ Tok.from_str:
 	jmp .318
 .394:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s109
 	mov r8, 2
 	push rsi
@@ -5079,8 +5079,8 @@ Tok.from_str:
 	jmp .318
 .396:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s110
 	mov r8, 1
 	push rsi
@@ -5100,8 +5100,8 @@ Tok.from_str:
 	jmp .318
 .398:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s111
 	mov r8, 1
 	push rsi
@@ -5121,8 +5121,8 @@ Tok.from_str:
 	jmp .318
 .400:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s112
 	mov r8, 2
 	push rsi
@@ -5142,8 +5142,8 @@ Tok.from_str:
 	jmp .318
 .402:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s113
 	mov r8, 2
 	push rsi
@@ -5163,8 +5163,8 @@ Tok.from_str:
 	jmp .318
 .404:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s114
 	mov r8, 2
 	push rsi
@@ -5184,8 +5184,8 @@ Tok.from_str:
 	jmp .318
 .406:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s115
 	mov r8, 2
 	push rsi
@@ -5205,8 +5205,8 @@ Tok.from_str:
 	jmp .318
 .408:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s116
 	mov r8, 3
 	push rsi
@@ -5226,8 +5226,8 @@ Tok.from_str:
 	jmp .318
 .410:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s117
 	mov r8, 3
 	push rsi
@@ -5247,8 +5247,8 @@ Tok.from_str:
 	jmp .318
 .412:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s118
 	mov r8, 2
 	push rsi
@@ -5268,8 +5268,8 @@ Tok.from_str:
 	jmp .318
 .414:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s119
 	mov r8, 3
 	push rsi
@@ -5289,8 +5289,8 @@ Tok.from_str:
 	jmp .318
 .416:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s120
 	mov r8, 3
 	push rsi
@@ -5310,8 +5310,8 @@ Tok.from_str:
 	jmp .318
 .418:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s121
 	mov r8, 3
 	push rsi
@@ -5331,8 +5331,8 @@ Tok.from_str:
 	jmp .318
 .420:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s122
 	mov r8, 2
 	push rsi
@@ -5352,8 +5352,8 @@ Tok.from_str:
 	jmp .318
 .422:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s123
 	mov r8, 3
 	push rsi
@@ -5373,8 +5373,8 @@ Tok.from_str:
 	jmp .318
 .424:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s124
 	mov r8, 3
 	push rsi
@@ -5394,8 +5394,8 @@ Tok.from_str:
 	jmp .318
 .426:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s125
 	mov r8, 3
 	push rsi
@@ -5415,8 +5415,8 @@ Tok.from_str:
 	jmp .318
 .428:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s126
 	mov r8, 8
 	push rsi
@@ -5436,8 +5436,8 @@ Tok.from_str:
 	jmp .318
 .430:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s127
 	mov r8, 8
 	push rsi
@@ -5457,8 +5457,8 @@ Tok.from_str:
 	jmp .318
 .432:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s128
 	mov r8, 8
 	push rsi
@@ -5478,8 +5478,8 @@ Tok.from_str:
 	jmp .318
 .434:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s129
 	mov r8, 8
 	push rsi
@@ -5499,8 +5499,8 @@ Tok.from_str:
 	jmp .318
 .436:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s130
 	mov r8, 8
 	push rsi
@@ -5520,8 +5520,8 @@ Tok.from_str:
 	jmp .318
 .438:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s131
 	mov r8, 8
 	push rsi
@@ -5541,8 +5541,8 @@ Tok.from_str:
 	jmp .318
 .440:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s132
 	mov r8, 8
 	push rsi
@@ -5562,8 +5562,8 @@ Tok.from_str:
 	jmp .318
 .442:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s133
 	mov r8, 7
 	push rsi
@@ -5583,8 +5583,8 @@ Tok.from_str:
 	jmp .318
 .444:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s134
 	mov r8, 4
 	push rsi
@@ -5604,8 +5604,8 @@ Tok.from_str:
 	jmp .318
 .446:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s135
 	mov r8, 3
 	push rsi
@@ -5625,8 +5625,8 @@ Tok.from_str:
 	jmp .318
 .448:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s136
 	mov r8, 4
 	push rsi
@@ -5646,8 +5646,8 @@ Tok.from_str:
 	jmp .318
 .450:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s137
 	mov r8, 4
 	push rsi
@@ -6630,23 +6630,23 @@ error.Loc.len:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 0], rsi
+	mov qword [rbx + 8], rsi
 	pop rdi
-	mov qword [rbx + 8], rdi
+	mov qword [rbx + 0], rdi
 	mov rbx, qword [_rs_p]
 	pop r8
 	mov qword [rbx + 16], r8
 	mov rbx, qword [_rs_p]
 	pop r9
-	mov qword [rbx + 24], r9
+	mov qword [rbx + 40], r9
 	pop r10
 	mov qword [rbx + 32], r10
 	pop r11
-	mov qword [rbx + 40], r11
+	mov qword [rbx + 24], r11
 	mov rbx, qword [_rs_p]
-	mov r12, qword [rbx + 40]
+	mov r12, qword [rbx + 24]
 	mov r13, qword [rbx + 32]
-	mov r14, qword [rbx + 24]
+	mov r14, qword [rbx + 40]
 	mov rbx, 27
 	push r12
 	push r13
@@ -6807,8 +6807,8 @@ error.Loc.len:
 	mov rdi, rbx
 	syscall
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, 2
 	mov r8, 1
 	mov rax, r8
@@ -6828,9 +6828,9 @@ error.Loc.len:
 	mov rdi, rbx
 	syscall
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 40]
+	mov rsi, qword [rbx + 24]
 	mov rdi, qword [rbx + 32]
-	mov r8, qword [rbx + 24]
+	mov r8, qword [rbx + 40]
 	mov rbx, qword [_rs_p]
 	mov r9, qword [rbx + 16]
 	push rsi
@@ -7872,12 +7872,12 @@ stas.scan_file:
 .574:
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 0], rsi
+	mov qword [rbx + 8], rsi
 	pop rdi
-	mov qword [rbx + 8], rdi
+	mov qword [rbx + 0], rdi
 	mov rbx, qword [_rs_p]
-	mov r8, qword [rbx + 8]
-	mov r9, qword [rbx + 0]
+	mov r8, qword [rbx + 0]
+	mov r9, qword [rbx + 8]
 	push r8
 	push r9
 	mov rbp, rsp
@@ -7895,8 +7895,8 @@ stas.scan_file:
 	mov r8, qword [_rs_p]
 	mov qword [r8 + 16], rbx
 	mov r8, qword [_rs_p]
-	mov r9, qword [r8 + 8]
-	mov r10, qword [r8 + 0]
+	mov r9, qword [r8 + 0]
+	mov r10, qword [r8 + 8]
 	push r9
 	push r10
 	mov rbp, rsp
@@ -9069,8 +9069,8 @@ stas.scan_file:
 	mov r8, qword [rbx + 68]
 	sub rdi, r8
 	mov rbx, qword [_rs_p]
-	mov qword [rbx + 133], rdi
-	mov qword [rbx + 141], rsi
+	mov qword [rbx + 141], rdi
+	mov qword [rbx + 133], rsi
 	mov rbx, qword [_rs_p]
 	add rbx, 65
 	xor r8, r8
@@ -9116,8 +9116,8 @@ stas.scan_file:
 	xor r10, r10
 	mov r10b, [r9]
 	mov r9, qword [_rs_p]
-	mov r11, qword [r9 + 141]
-	mov r12, qword [r9 + 133]
+	mov r11, qword [r9 + 133]
+	mov r12, qword [r9 + 141]
 	push rsi
 	push rdi
 	push r8
@@ -9141,6 +9141,8 @@ stas.scan_file:
 	mov r8, qword [rbx + 16]
 	mov rbx, qword [_rs_p]
 	add rbx, 133
+	mov r9, 8
+	add rbx, r9
 	mov rbx, [rbx]
 	mov r9, _s68
 	mov r10, 16
@@ -9157,8 +9159,8 @@ stas.scan_file:
 	mov rsp, rbp
 .625:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 141]
-	mov rdi, qword [rbx + 133]
+	mov rsi, qword [rbx + 133]
+	mov rdi, qword [rbx + 141]
 	push rsi
 	push rdi
 	mov rbp, rsp
@@ -9191,8 +9193,8 @@ stas.scan_file:
 	jmp .629
 .623:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 141]
-	mov rdi, qword [rbx + 133]
+	mov rsi, qword [rbx + 133]
+	mov rdi, qword [rbx + 141]
 	mov rbx, _s70
 	mov r8, 7
 	push rsi
@@ -9220,8 +9222,8 @@ stas.scan_file:
 	mov rbx, qword [_rs_p]
 	mov r8, qword [rbx + 16]
 	mov rbx, qword [_rs_p]
-	mov r9, qword [rbx + 141]
-	mov r10, qword [rbx + 133]
+	mov r9, qword [rbx + 133]
+	mov r10, qword [rbx + 141]
 	push rsi
 	push rdi
 	push r8
@@ -9242,8 +9244,8 @@ stas.scan_file:
 	test r8, r8
 	jz .632
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 141]
-	mov rdi, qword [rbx + 133]
+	mov rsi, qword [rbx + 133]
+	mov rdi, qword [rbx + 141]
 	push rsi
 	push rdi
 	mov rbp, rsp
@@ -10790,12 +10792,12 @@ FnAttribute.from_str?:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 0], rsi
+	mov qword [rbx + 8], rsi
 	pop rdi
-	mov qword [rbx + 8], rdi
+	mov qword [rbx + 0], rdi
 	mov rbx, qword [_rs_p]
-	mov r8, qword [rbx + 8]
-	mov r9, qword [rbx + 0]
+	mov r8, qword [rbx + 0]
+	mov r9, qword [rbx + 8]
 	mov rbx, _s191
 	mov r10, 8
 	push r8
@@ -10815,8 +10817,8 @@ FnAttribute.from_str?:
 	jmp .773
 .772:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s192
 	mov r8, 6
 	push rsi
@@ -10836,8 +10838,8 @@ FnAttribute.from_str?:
 	jmp .773
 .775:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, _s193
 	mov r8, 8
 	push rsi
@@ -12718,8 +12720,8 @@ is_global_var_name:
 	add rsi, rdi
 	mov rbx, [rbx]
 	mov rdi, qword [_rs_p]
-	mov qword [rdi + 0], rbx
-	mov qword [rdi + 8], rsi
+	mov qword [rdi + 8], rbx
+	mov qword [rdi + 0], rsi
 	mov rdi, 0
 	push rdi
 .859:
@@ -12761,8 +12763,8 @@ is_global_var_name:
 	add rdi, r8
 	mov rsi, [rsi]
 	mov r8, qword [_rs_p]
-	mov r9, qword [r8 + 8]
-	mov r10, qword [r8 + 0]
+	mov r9, qword [r8 + 0]
+	mov r10, qword [r8 + 8]
 	push rbx
 	push rdi
 	push rsi
@@ -12818,8 +12820,8 @@ is_constant_name:
 	add rsi, rdi
 	mov rbx, [rbx]
 	mov rdi, qword [_rs_p]
-	mov qword [rdi + 0], rbx
-	mov qword [rdi + 8], rsi
+	mov qword [rdi + 8], rbx
+	mov qword [rdi + 0], rsi
 	mov rdi, 0
 	push rdi
 .865:
@@ -12859,8 +12861,8 @@ is_constant_name:
 	add rdi, r8
 	mov rsi, [rsi]
 	mov r8, qword [_rs_p]
-	mov r9, qword [r8 + 8]
-	mov r10, qword [r8 + 0]
+	mov r9, qword [r8 + 0]
+	mov r10, qword [r8 + 8]
 	push rbx
 	push rdi
 	push rsi
@@ -12916,8 +12918,8 @@ is_function_name:
 	add rsi, rdi
 	mov rbx, [rbx]
 	mov rdi, qword [_rs_p]
-	mov qword [rdi + 0], rbx
-	mov qword [rdi + 8], rsi
+	mov qword [rdi + 8], rbx
+	mov qword [rdi + 0], rsi
 	mov rdi, 0
 	push rdi
 .871:
@@ -12959,8 +12961,8 @@ is_function_name:
 	add rdi, r8
 	mov rsi, [rsi]
 	mov r8, qword [_rs_p]
-	mov r9, qword [r8 + 8]
-	mov r10, qword [r8 + 0]
+	mov r9, qword [r8 + 0]
+	mov r10, qword [r8 + 8]
 	push rbx
 	push rdi
 	push rsi
@@ -13016,8 +13018,8 @@ search_variable_name:
 	add rsi, rdi
 	mov rbx, [rbx]
 	mov rdi, qword [_rs_p]
-	mov qword [rdi + 0], rbx
-	mov qword [rdi + 8], rsi
+	mov qword [rdi + 8], rbx
+	mov qword [rdi + 0], rsi
 	mov rdi, [_gvar_context.len]
 	mov r8, 1
 	sub rdi, r8
@@ -13055,8 +13057,8 @@ search_variable_name:
 	add rdi, r8
 	mov rsi, [rsi]
 	mov r8, qword [_rs_p]
-	mov r9, qword [r8 + 8]
-	mov r10, qword [r8 + 0]
+	mov r9, qword [r8 + 0]
+	mov r10, qword [r8 + 8]
 	push rbx
 	push rdi
 	push rsi
@@ -16807,8 +16809,8 @@ parse.fn_complex_body_tokens:
 	add rsi, rdi
 	mov rbx, [rbx]
 	mov rdi, qword [_rs_p]
-	mov qword [rdi + 8], rbx
-	mov qword [rdi + 16], rsi
+	mov qword [rdi + 16], rbx
+	mov qword [rdi + 8], rsi
 	mov rdi, [_gvar_context.len]
 	mov r8, qword [_rs_p]
 	mov r9, qword [r8 + 0]
@@ -16854,8 +16856,8 @@ parse.fn_complex_body_tokens:
 	add rdi, r8
 	mov rsi, [rsi]
 	mov r8, qword [_rs_p]
-	mov r9, qword [r8 + 16]
-	mov r10, qword [r8 + 8]
+	mov r9, qword [r8 + 8]
+	mov r10, qword [r8 + 16]
 	push rbx
 	push rdi
 	push rsi
@@ -30228,8 +30230,8 @@ is_slit_duplicate?:
 	add rsi, rdi
 	mov rbx, [rbx]
 	mov rdi, qword [_rs_p]
-	mov qword [rdi + 0], rbx
-	mov qword [rdi + 8], rsi
+	mov qword [rdi + 8], rbx
+	mov qword [rdi + 0], rsi
 	mov rdi, 0
 	push rdi
 .1397:
@@ -30269,8 +30271,8 @@ is_slit_duplicate?:
 	add rdi, r8
 	mov rsi, [rsi]
 	mov r8, qword [_rs_p]
-	mov r9, qword [r8 + 8]
-	mov r10, qword [r8 + 0]
+	mov r9, qword [r8 + 0]
+	mov r10, qword [r8 + 8]
 	push rbx
 	push rdi
 	push rsi
@@ -34644,20 +34646,21 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, 0
-	push rbx
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 88]
+	push rsi
 .1634:
 	pop rbx
 	mov rsi, rbx
-	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 88]
-	xor rdi, rdi
-	cmp rsi, r8
-	setb dil
+	mov rdi, 0
+	xor r8, r8
+	cmp rsi, rdi
+	seta r8b
 	push rbx
-	test rdi, rdi
+	test r8, r8
 	jz .1635
 	pop rbx
+	dec rbx
 	mov rsi, rbx
 	mov rdi, 8
 	imul rsi, rdi
@@ -34737,9 +34740,6 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	pop rbx
-	inc rbx
-	push rbx
 	jmp .1634
 .1635:
 	add rsp, 8
@@ -34854,20 +34854,21 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, 0
-	push rbx
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 112]
+	push rsi
 .1638:
 	pop rbx
 	mov rsi, rbx
-	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 112]
-	xor rdi, rdi
-	cmp rsi, r8
-	setb dil
+	mov rdi, 0
+	xor r8, r8
+	cmp rsi, rdi
+	seta r8b
 	push rbx
-	test rdi, rdi
+	test r8, r8
 	jz .1639
 	pop rbx
+	dec rbx
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
 	mov r8, qword [rdi + 112]
@@ -34997,9 +34998,6 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	pop rbx
-	inc rbx
-	push rbx
 	jmp .1638
 .1639:
 	add rsp, 8
@@ -35383,20 +35381,21 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, 0
-	push rbx
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 136]
+	push rsi
 .1647:
 	pop rbx
 	mov rsi, rbx
-	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 136]
-	xor rdi, rdi
-	cmp rsi, r8
-	setb dil
+	mov rdi, 0
+	xor r8, r8
+	cmp rsi, rdi
+	seta r8b
 	push rbx
-	test rdi, rdi
+	test r8, r8
 	jz .1648
 	pop rbx
+	dec rbx
 	mov rsi, rbx
 	mov rdi, 8
 	imul rsi, rdi
@@ -35473,9 +35472,6 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	pop rbx
-	inc rbx
-	push rbx
 	jmp .1647
 .1648:
 	add rsp, 8
@@ -35765,20 +35761,21 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, 0
-	push rbx
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 152]
+	push rsi
 .1654:
 	pop rbx
 	mov rsi, rbx
-	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 152]
-	xor rdi, rdi
-	cmp rsi, r8
-	setb dil
+	mov rdi, 0
+	xor r8, r8
+	cmp rsi, rdi
+	seta r8b
 	push rbx
-	test rdi, rdi
+	test r8, r8
 	jz .1655
 	pop rbx
+	dec rbx
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
 	mov r8, qword [rdi + 152]
@@ -35905,9 +35902,6 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	pop rbx
-	inc rbx
-	push rbx
 	jmp .1654
 .1655:
 	add rsp, 8
@@ -44020,9 +44014,9 @@ stas.gen:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 0], rsi
+	mov qword [rbx + 8], rsi
 	pop rdi
-	mov qword [rbx + 8], rdi
+	mov qword [rbx + 0], rdi
 	mov rbx, [_gbackend_type]
 	mov r8, 1
 	xor r9, r9
@@ -44190,8 +44184,8 @@ stas.gen:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	push rsi
 	push rdi
 	mov rbp, rsp
@@ -45339,8 +45333,8 @@ stas_exec:
 	pop rdi
 	pop r8
 	mov r9, qword [_rs_p]
-	mov qword [r9 + 0], rdi
-	mov qword [r9 + 8], r8
+	mov qword [r9 + 8], rdi
+	mov qword [r9 + 0], r8
 	push rsi
 	push rbx
 	mov rbp, rsp
@@ -45352,8 +45346,8 @@ stas_exec:
 	pop rsi
 	mov qword [rbx + 16], rsi
 	mov rbx, qword [_rs_p]
-	mov rdi, qword [rbx + 8]
-	mov r8, qword [rbx + 0]
+	mov rdi, qword [rbx + 0]
+	mov r8, qword [rbx + 8]
 	push rdi
 	push r8
 	mov rbp, rsp
@@ -45457,8 +45451,8 @@ stas_exec:
 	mov rdi, rbx
 	syscall
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 8]
-	mov rdi, qword [rbx + 0]
+	mov rsi, qword [rbx + 0]
+	mov rdi, qword [rbx + 8]
 	mov rbx, 2
 	mov r8, 1
 	mov rax, r8
@@ -45628,19 +45622,19 @@ execute_backend:
 	mov qword [rbx + 0], rsi
 	mov rbx, qword [_rs_p]
 	pop rdi
-	mov qword [rbx + 8], rdi
+	mov qword [rbx + 16], rdi
 	pop r8
-	mov qword [rbx + 16], r8
+	mov qword [rbx + 8], r8
 	mov rbx, qword [_rs_p]
 	pop r9
-	mov qword [rbx + 24], r9
+	mov qword [rbx + 32], r9
 	pop r10
-	mov qword [rbx + 32], r10
+	mov qword [rbx + 24], r10
 	mov rbx, 0
 	mov r11, 0
 	mov r12, qword [_rs_p]
-	mov qword [r12 + 312], r11
-	mov qword [r12 + 320], rbx
+	mov qword [r12 + 320], r11
+	mov qword [r12 + 312], rbx
 	mov r12, qword _gdebug_symbols
 	xor r13, r13
 	mov r13b, [r12]
@@ -45653,8 +45647,8 @@ execute_backend:
 	test r13, r13
 	jz .1843
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 16]
-	mov rdi, qword [rbx + 8]
+	mov rsi, qword [rbx + 8]
+	mov rdi, qword [rbx + 16]
 	push rsi
 	push rdi
 	mov rbp, rsp
@@ -45681,14 +45675,14 @@ execute_backend:
 	add rsi, rdi
 	mov rbx, [rbx]
 	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 16]
-	mov r9, qword [rdi + 8]
+	mov r8, qword [rdi + 8]
+	mov r9, qword [rdi + 16]
 	mov rdi, qword [_rs_p]
-	mov qword [rdi + 312], r9
-	mov qword [rdi + 320], r8
+	mov qword [rdi + 320], r9
+	mov qword [rdi + 312], r8
 	mov rdi, qword [_rs_p]
-	mov qword [rdi + 8], rbx
-	mov qword [rdi + 16], rsi
+	mov qword [rdi + 16], rbx
+	mov qword [rdi + 8], rsi
 	mov rdi, 1
 	mov r10, qword [_rs_p]
 	mov qword [r10 + 0], rdi
@@ -45710,15 +45704,15 @@ execute_backend:
 	add rbx, rsi
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 32]
-	mov r9, qword [rdi + 24]
+	mov r8, qword [rdi + 24]
+	mov r9, qword [rdi + 32]
 	mov qword [rsi], r8
 	mov rsi, 8
 	add rbx, rsi
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 16]
-	mov r9, qword [rdi + 8]
+	mov r8, qword [rdi + 8]
+	mov r9, qword [rdi + 16]
 	mov qword [rsi], r8
 	mov rsi, 8
 	add rbx, rsi
@@ -45770,8 +45764,8 @@ execute_backend:
 	add rbx, rsi
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 32]
-	mov r9, qword [rdi + 24]
+	mov r8, qword [rdi + 24]
+	mov r9, qword [rdi + 32]
 	mov qword [rsi], r8
 	mov rsi, 8
 	add rbx, rsi
@@ -45783,8 +45777,8 @@ execute_backend:
 	add rbx, rsi
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 16]
-	mov r9, qword [rdi + 8]
+	mov r8, qword [rdi + 8]
+	mov r9, qword [rdi + 16]
 	mov qword [rsi], r8
 	mov rsi, 8
 	add rbx, rsi
@@ -45842,8 +45836,8 @@ execute_backend:
 .1848:
 .1846:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 320]
-	mov rdi, qword [rbx + 312]
+	mov rsi, qword [rbx + 312]
+	mov rdi, qword [rbx + 320]
 	mov rbx, 0
 	xor rdi, rdi
 	cmp rsi, rbx
@@ -45860,8 +45854,8 @@ execute_backend:
 	add rbx, rsi
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 16]
-	mov r9, qword [rdi + 8]
+	mov r8, qword [rdi + 8]
+	mov r9, qword [rdi + 16]
 	mov qword [rsi], r8
 	mov rsi, 8
 	add rbx, rsi
@@ -45873,8 +45867,8 @@ execute_backend:
 	add rbx, rsi
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 320]
-	mov r9, qword [rdi + 312]
+	mov r8, qword [rdi + 312]
+	mov r9, qword [rdi + 320]
 	mov qword [rsi], r8
 	mov rsi, 8
 	add rbx, rsi
@@ -45944,13 +45938,13 @@ main:
 	mov rsi, 0
 	mov rdi, 0
 	mov r8, qword [_rs_p]
-	mov qword [r8 + 35], rdi
-	mov qword [r8 + 43], rsi
+	mov qword [r8 + 43], rdi
+	mov qword [r8 + 35], rsi
 	mov r8, 0
 	mov r9, 0
 	mov r10, qword [_rs_p]
-	mov qword [r10 + 51], r9
-	mov qword [r10 + 59], r8
+	mov qword [r10 + 59], r9
+	mov qword [r10 + 51], r8
 	mov r10, 0
 	mov r11, qword [_rs_p]
 	mov qword [r11 + 11], r10
@@ -45981,12 +45975,12 @@ main:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 19], rsi
+	mov qword [rbx + 27], rsi
 	pop rdi
-	mov qword [rbx + 27], rdi
+	mov qword [rbx + 19], rdi
 	mov rbx, qword [_rs_p]
-	mov r8, qword [rbx + 27]
-	mov r9, qword [rbx + 19]
+	mov r8, qword [rbx + 19]
+	mov r9, qword [rbx + 27]
 	mov rbx, _s11
 	mov r10, 2
 	push r8
@@ -46026,8 +46020,8 @@ main:
 	jmp .1858
 .1857:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, _s12
 	mov r8, 2
 	push rsi
@@ -46067,8 +46061,8 @@ main:
 	jmp .1858
 .1862:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, _s13
 	mov r8, 2
 	push rsi
@@ -46124,8 +46118,8 @@ main:
 	jmp .1858
 .1866:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, _s14
 	mov r8, 9
 	push rsi
@@ -46138,8 +46132,8 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, _s15
 	mov r8, 2
 	push rsi
@@ -46197,8 +46191,8 @@ main:
 	jmp .1858
 .1872:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, _s16
 	mov r8, 2
 	push rsi
@@ -46241,8 +46235,8 @@ main:
 	jmp .1858
 .1878:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, _s17
 	mov r8, 6
 	push rsi
@@ -46255,8 +46249,8 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, _s18
 	mov r8, 2
 	push rsi
@@ -46286,8 +46280,8 @@ main:
 	jmp .1858
 .1882:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, _s19
 	mov r8, 9
 	push rsi
@@ -46300,8 +46294,8 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, _s18
 	mov r8, 2
 	push rsi
@@ -46352,8 +46346,8 @@ main:
 	jmp .1858
 .1884:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, _s20
 	mov r8, 10
 	push rsi
@@ -46366,8 +46360,8 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, _s18
 	mov r8, 2
 	push rsi
@@ -46427,8 +46421,8 @@ main:
 	test rdi, rdi
 	jz .1892
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 59]
-	mov rdi, qword [rbx + 51]
+	mov rsi, qword [rbx + 51]
+	mov rdi, qword [rbx + 59]
 	mov rbx, 0
 	xor rdi, rdi
 	cmp rsi, rbx
@@ -46447,11 +46441,11 @@ main:
 	syscall
 .1894:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, qword [_rs_p]
-	mov qword [rbx + 51], rdi
-	mov qword [rbx + 59], rsi
+	mov qword [rbx + 59], rdi
+	mov qword [rbx + 51], rsi
 	jmp .1893
 .1892:
 	mov rbx, qword [_rs_p]
@@ -46463,8 +46457,8 @@ main:
 	test rdi, rdi
 	jz .1897
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 43]
-	mov rdi, qword [rbx + 35]
+	mov rsi, qword [rbx + 35]
+	mov rdi, qword [rbx + 43]
 	mov rbx, 0
 	xor rdi, rdi
 	cmp rsi, rbx
@@ -46483,11 +46477,11 @@ main:
 	syscall
 .1898:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	mov rbx, qword [_rs_p]
-	mov qword [rbx + 35], rdi
-	mov qword [rbx + 43], rsi
+	mov qword [rbx + 43], rdi
+	mov qword [rbx + 35], rsi
 	jmp .1893
 .1897:
 	mov rbx, qword [_rs_p]
@@ -46499,8 +46493,8 @@ main:
 	test rdi, rdi
 	jz .1901
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 27]
-	mov rdi, qword [rbx + 19]
+	mov rsi, qword [rbx + 19]
+	mov rdi, qword [rbx + 27]
 	push rsi
 	push rdi
 	mov rbp, rsp
@@ -46780,8 +46774,8 @@ main:
 .1906:
 .1903:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 59]
-	mov rdi, qword [rbx + 51]
+	mov rsi, qword [rbx + 51]
+	mov rdi, qword [rbx + 59]
 	mov rbx, 0
 	xor rdi, rdi
 	cmp rsi, rbx
@@ -46898,8 +46892,8 @@ main:
 	syscall
 .1909:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 43]
-	mov rdi, qword [rbx + 35]
+	mov rsi, qword [rbx + 35]
+	mov rdi, qword [rbx + 43]
 	mov rbx, 0
 	xor rdi, rdi
 	cmp rsi, rbx
@@ -46909,13 +46903,13 @@ main:
 	mov rbx, _s33
 	mov rsi, 5
 	mov rdi, qword [_rs_p]
-	mov qword [rdi + 35], rsi
-	mov qword [rdi + 43], rbx
+	mov qword [rdi + 43], rsi
+	mov qword [rdi + 35], rbx
 	jmp .1913
 .1911:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 43]
-	mov rdi, qword [rbx + 35]
+	mov rsi, qword [rbx + 35]
+	mov rdi, qword [rbx + 43]
 	mov rbx, _s34
 	mov r8, 1
 	push rsi
@@ -47030,8 +47024,8 @@ main:
 	mov rdi, rbx
 	syscall
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 59]
-	mov rdi, qword [rbx + 51]
+	mov rsi, qword [rbx + 51]
+	mov rdi, qword [rbx + 59]
 	mov rbx, 2
 	mov r8, 1
 	mov rax, r8
@@ -47057,8 +47051,8 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 59]
-	mov rdi, qword [rbx + 51]
+	mov rsi, qword [rbx + 51]
+	mov rdi, qword [rbx + 59]
 	push rsi
 	push rdi
 	mov rbp, rsp
@@ -47818,8 +47812,8 @@ main:
 	test rsi, rsi
 	jz .1930
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 43]
-	mov rdi, qword [rbx + 35]
+	mov rsi, qword [rbx + 35]
+	mov rdi, qword [rbx + 43]
 	push rsi
 	push rdi
 	mov rbp, rsp
@@ -47981,8 +47975,8 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 59]
-	mov rdi, qword [rbx + 51]
+	mov rsi, qword [rbx + 51]
+	mov rdi, qword [rbx + 59]
 	push rsi
 	push rdi
 	mov rbp, rsp
@@ -48442,8 +48436,8 @@ main:
 	add rbx, rdi
 	mov rsi, [rsi]
 	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 43]
-	mov r9, qword [rdi + 35]
+	mov r8, qword [rdi + 35]
+	mov r9, qword [rdi + 43]
 	mov rdi, qword [_rs_p]
 	mov r10, qword [rdi + 3]
 	mov rdi, 0
@@ -48563,8 +48557,8 @@ main:
 	mov rdi, rbx
 	syscall
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 43]
-	mov rdi, qword [rbx + 35]
+	mov rsi, qword [rbx + 35]
+	mov rdi, qword [rbx + 43]
 	mov rbx, 2
 	mov r8, 1
 	mov rax, r8
@@ -48598,8 +48592,8 @@ main:
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 75], rbx
 	mov rsi, qword [_rs_p]
-	mov rdi, qword [rsi + 43]
-	mov r8, qword [rsi + 35]
+	mov rdi, qword [rsi + 35]
+	mov r8, qword [rsi + 43]
 	push rdi
 	mov rbp, rsp
 	mov rsp, [_rs_p]
@@ -48651,8 +48645,8 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 43]
-	mov rdi, qword [rbx + 35]
+	mov rsi, qword [rbx + 35]
+	mov rdi, qword [rbx + 43]
 	mov rbx, qword [_rs_p]
 	mov rdi, qword [rbx + 75]
 	mov rbx, qword [_arg_p]

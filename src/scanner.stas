@@ -351,7 +351,9 @@ fn stas.scan_file 2 0 {
 
 			leading_dash r8 lit does_int_literal_overflow
 			if {
-				start_row start_col open_file_pos addr lit r64 'number overflows' error.Loc.len
+				start_row start_col open_file_pos
+					addr lit 8 + r64 ; str.len
+				'number overflows' error.Loc.len
 			}
 			
 			lit str_to_num
