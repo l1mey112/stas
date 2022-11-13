@@ -1,19 +1,7 @@
-; include 'std.stas'
+include 'std.stas'
+
+auto a 0
 
 fn main {
-;	0
-;	while dup 10 < {
-;
-;	}
-;	drop
-;
-;
-;	0
-;	while dup 10 < {
-;
-;	} else {
-;		
-;	}
-;	drop
-	
+	auto a 0
 }

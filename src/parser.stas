@@ -357,7 +357,7 @@ fn parse.fn_decl {
 	_argc fn_c sp_push_p
 }
 
-; ( -- VarTyp string_view size)
+; ( -- VarTyp string_view size )
 fn parse.any_variable 0 3 {
 	auto rs_c 1
 	pos pop rs_c
@@ -407,6 +407,9 @@ fn parse.any_variable 0 3 {
 		pos token_stream[] rToken.data
 	} else {
 		pos token_stream[] rToken.data
+		dup 0 = if {
+			pos 'auto variables cannot have a size of zero' error.Tok
+		}
 		8 *
 	}
 	; (VarTyp string_view size)
@@ -1102,13 +1105,6 @@ fn parse.fn_complex_body_tokens {
 
 		0 pop sp.len
 		parse.push_early_ret_with_pos
-
-		function_context rFunction.attributes
-		FnAttribute.inline FnAttribute.is_set if {
-			pos 'functions marked as inline cannot contain early returns' error.Tok
-		}
-
-		function_context Function.forbid_inline 1 w8
 	} elif dup Tok.arrw = {
 		auto arrw_c 1
 		pos pop arrw_c

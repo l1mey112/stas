@@ -34,6 +34,11 @@ fn gen_range 3 0 {
 	auto inlined_count 1 pop inlined_count
 	auto end           1 pop end
 	auto pos           1 pop pos
+
+
+	auto early_ret_label 1
+
+	-1 pop early_ret_label
 	
 	while pos end < {
 		auto ir_data 1
@@ -96,13 +101,21 @@ fn gen_range 3 0 {
 		} elif dup Inst.fn_leave = {
 			r_flush
 
-			ir_data functions[] pop fn_c
-			"	mov rbp, rsp"     fwriteln
-			"	mov rsp, [_rs_p]" fwriteln
-			fn_c rFunction.a_sp 0 > if {
-				"	add rsp, " fwrite fn_c rFunction.a_sp fwriteuln
+			inlined_count 0 > if {
+				early_ret_label -1 = if {
+					label_allocate pop early_ret_label
+				}
+
+				"	jmp " fwrite inlined_count early_ret_label label.ref.fwriteln
+			} else {
+				ir_data functions[] pop fn_c
+				"	mov rbp, rsp"     fwriteln
+				"	mov rsp, [_rs_p]" fwriteln
+				fn_c rFunction.a_sp 0 > if {
+					"	add rsp, " fwrite fn_c rFunction.a_sp fwriteuln
+				}
+				"	ret" fwriteln
 			}
-			"	ret" fwriteln
 		} elif dup Inst.fn_call = {
 			ir_data functions[] pop fn_c
 
@@ -624,6 +637,10 @@ fn gen_range 3 0 {
 		drop
 
 		pos ++ pop pos
+	}
+
+	early_ret_label -1 != if {
+		inlined_count early_ret_label label.def.fwriteln
 	}
 }
 
