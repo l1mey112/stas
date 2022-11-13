@@ -1,0 +1,18 @@
+include 'std.stas'
+
+fn main {
+	0 1
+	while dup 100 <= {
+		dup rot + swap
+		++
+	}
+	drop
+	putuln
+	0 100
+	while dup 0 > {
+		dup rot + swap
+		--
+	}
+	drop
+	putuln
+}

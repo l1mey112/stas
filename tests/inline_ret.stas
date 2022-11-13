@@ -1,0 +1,24 @@
+include 'std.stas'
+
+- inline
+fn inline 1 0 {
+	dup 10 > if {
+		putu " ret\n" puts
+		ret
+	}
+	dup putu " going on\n" puts
+	dup 5 < if {
+		putu " ret\n" puts
+		ret
+	}
+	putu " end\n" puts
+}
+
+fn main {
+	6  inline
+	10 inline
+	2  inline
+	11 inline
+	5  inline
+	7  inline
+}

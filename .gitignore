@@ -12,12 +12,17 @@ gdb.output
 compiler
 a.out
 
-#*.fasm
-!bootstrap-compiler/*
+*.fasm
+*.asm
+*.tmp
 *.out
 
-#*.asm
-*.tmp
+tests/*
+!tests/*.stas
+!tests/*.out
+!bootstrap-compiler/*
+
+test
 
 a
 b

@@ -1,0 +1,19 @@
+include 'std.stas'
+
+fn main {
+	-1                   putuln
+	-100                 putuln
+	-9223372036854775808 putuln
+	18446744073709551615 putuln
+	100 -50 -            putuln
+
+	-10   0  <s if { 'less\n'           puts } else { 'not\n' puts }
+	-10   0  >s if { 'greater\n'        puts } else { 'not\n' puts }
+	 10   0  <s if { 'less\n'           puts } else { 'not\n' puts }
+	 10   0  >s if { 'greater\n'        puts } else { 'not\n' puts }
+	-10 -10 <=s if { 'less equals\n'    puts } else { 'not\n' puts }
+	-10 -10 >=s if { 'greater equals\n' puts } else { 'not\n' puts }
+
+	5992 putuln
+	5994 putuln
+}

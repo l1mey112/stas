@@ -1,0 +1,32 @@
+include 'std.stas'
+
+fn main {
+	auto acc 1
+
+	0 pop acc
+
+	"ABCD"
+	while true {
+		--
+
+		over over u8[]
+
+		dup `A` = if {
+			acc 30 + pop acc
+		} elif dup `B` = {
+			acc 20 + pop acc
+		} elif dup `C` = {
+			acc 5 + pop acc
+		} elif dup `D` = {
+			acc 2 + pop acc
+		}
+		drop
+
+		dup 0 = if {
+			break
+		}
+	}
+	drop drop
+	
+	acc putuln
+}

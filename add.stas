@@ -1,7 +1,12 @@
 include 'std.stas'
 
-auto a 0
+- inline
+fn inline_recurse 1 1 {
+	dup 0 > if {
+		-- inline_recurse
+	}
+}
 
 fn main {
-	auto a 0
+	66 inline_recurse drop
 }

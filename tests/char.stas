@@ -1,0 +1,26 @@
+include 'std.stas'
+
+fn main {
+	`A`  putuln
+	`B`  putuln
+	`\n` putuln
+	`\\` putuln
+	`\\` putuln
+	` `  putuln
+	`a`  putuln
+
+	0
+	while dup 256 < {
+		dup dup `0` >= swap `9` <= & if {
+			dup putc
+		}
+		dup dup `a` >= swap `z` <= & if {
+			dup putc
+		}
+		dup dup `A` >= swap `Z` <= & if {
+			dup putc
+		}
+		++
+	}
+	drop
+}

@@ -1,0 +1,72 @@
+include 'std.stas'
+
+fn rec 2 1 {
+	over over > if {
+		drop drop 1 ret
+	} elif over over < {
+		drop drop 0 ret
+	} else {
+		drop drop
+	}
+
+	3
+}
+
+fn elifs {
+	1 if {
+		
+	} elif 1 {
+		
+	} elif 1 {
+		
+	} else {
+		ret
+	}
+
+	1 if {
+		ret
+	} elif 1 {
+		
+	} elif 1 {
+		ret
+	} else {
+		
+	}
+
+	while true {
+		break
+	}
+	
+	while true {
+		ret
+	}
+}
+
+fn whl 2 1 {
+	auto c 2 pop c
+	
+	11
+	while dup 0 > {
+		c > if {
+			ret
+		}
+		c < if {
+			drop
+			5
+			break
+		}
+		--
+	}
+}
+
+fn main {
+	2 4 rec putuln
+	9 2 rec putuln
+	5 5 rec putuln
+
+	2 2 whl putuln
+	1 2 whl putuln
+	2 1 whl putuln
+
+	elifs
+}
