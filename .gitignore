@@ -16,7 +16,7 @@ a.out
 !bootstrap-compiler/*
 *.out
 
-*.asm
+#*.asm
 *.tmp
 
 a

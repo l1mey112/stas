@@ -76,6 +76,22 @@ fn gen_range 3 0 {
 					inlined_count swap label.def.fwriteln 0
 				}
 				drop
+
+				trace_calls r8 if {
+					pos ir_stream[] rIR.idx
+					""
+					trace.Tok.to_string_view
+					dup fn_c rFunction.name string_view_to_str push_string_view
+					dup `\n` push_char
+					dup      push_nul
+					slits<<
+					; (slits.len len)
+					"	mov rax, 1"  fwriteln
+					"	mov rdi, 2"  fwriteln
+					"	mov rdx, "   fwrite slits.len -- slits[] r64 fwriteuln
+					"	mov rsi, _s" fwrite slits.len -- fwriteuln
+					"	syscall"     fwriteln
+				}
 			}
 		} elif dup Inst.fn_leave = {
 			r_flush

@@ -45,7 +45,7 @@ Comments are denoted with semicolons. Checkout the `files/` directory for exampl
 Use FASM, the [flat-assembler](https://flatassembler.net/), to compile the binaries.
 
 ```sh
-$ fasm -m 1048576 bootstrap/x86-64_linux.fasm stas
+$ fasm -m 1048576 bootstrap/x86-64_linux.fasm.asm stas
 $ ./stas stas.stas -o stas
 $ ./stas stas.stas -o stas
 $ ./stas stas.stas -o stas
@@ -71,6 +71,8 @@ USAGE: ./stas [OPTIONS] [FILE]
   -v, --verbose  Activate verbose mode
   --dump-tok     Dump token information after scanning stage
   --dump-ir      Dump intermediate representation after parsing stage
+  --trace-calls  Compiled executable will have function calls traced
+                 at runtime. Will not trace inlined calls.
   -h, --help     Show this message
 ```
 

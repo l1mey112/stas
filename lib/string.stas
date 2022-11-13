@@ -52,6 +52,23 @@ fn string.after_delim_u8.ret_both 3 4 {
 	rot a rot4
 }
 
+; ( str len u8 -- bool )
+fn string.starts_with_u8 3 1 {
+	; (str len u8)
+	over 0 = if {
+		drop drop drop false
+	} else {
+		rot drop r8
+		; (u8 u8)
+		
+		= if {
+			true
+		} else {
+			false
+		}
+	}
+}
+
 ; ( str len d_str d_len -- bool )
 fn string.starts_with 4 1 {
 	; (str len d_str d_len)

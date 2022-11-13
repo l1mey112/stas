@@ -2,6 +2,7 @@ include 'std.stas'
 
 reserve debug_symbols  1
 reserve verbose_mode   1
+reserve trace_calls    1
 auto    backend_type   1
 
 const StasBackend.fasm { 1 }
@@ -44,6 +45,8 @@ fn usage {
 	"	-v, --verbose     Activate verbose mode\n"                                 eputs
 	"	--dump-tok        Dump token information after scanning stage\n"           eputs
 	"	--dump-ir         Dump intermediate representation after parsing stage\n"  eputs
+	"	--trace-calls     Compiled executable will have function calls traced\n"   eputs
+	"	                  at runtime. Will not trace inlined calls.\n"             eputs
 	"	-h, --help        Show this message\n\n"                                   eputs
 }
 
@@ -231,16 +234,21 @@ fn main {
 			argc
 		} elif argstr "--help" streq argstr "-h" streq | {
 			help_and_exit
-		} elif argstr "--dump-ir" streq argstr "-h" streq | {
+		} elif argstr "--dump-ir" streq {
 			argparse_mode ArgParseMode.none != dump_ir r8 | dump_tok r8 | if {
 				usage_and_exit
 			}
 			dump_ir true w8
-		} elif argstr "--dump-tok" streq argstr "-h" streq | {
+		} elif argstr "--dump-tok" streq {
 			argparse_mode ArgParseMode.none != dump_ir r8 | dump_tok r8 | if {
 				usage_and_exit
 			}
 			dump_tok true w8
+		} elif argstr "--trace-calls" streq {
+			argparse_mode ArgParseMode.none != trace_calls r8 | if {
+				usage_and_exit
+			}
+			trace_calls true w8
 		} else {
 			argparse_mode ArgParseMode.none = if {
 				in_file drop NULL != if {

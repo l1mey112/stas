@@ -2,6 +2,7 @@ const LF_CH           { `\n` }
 const SINGLE_QUOTE_CH { 39   }
 const DOUBLE_QUOTE_CH { 34   }
 
+- inline
 ; (u8 -- bool)
 fn is_whitespace 1 1 {
 	dup `\r` = if {

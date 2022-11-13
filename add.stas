@@ -1,7 +1,19 @@
-include 'std.stas'
-
-auto a 2
+; include 'std.stas'
 
 fn main {
-	"hello!\n" pop a
+;	0
+;	while dup 10 < {
+;
+;	}
+;	drop
+;
+;
+;	0
+;	while dup 10 < {
+;
+;	} else {
+;		
+;	}
+;	drop
+	
 }

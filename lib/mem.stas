@@ -22,17 +22,17 @@ fn memeq 3 1 {
 	1
 }
 
+- inline
 ; (str len str len -- bool)
 fn streq 4 1 {
 	over2 over ; (len len)
-	!= if {
-		drop drop drop drop 0 ret
+	= if {
+		drop swap ; (str str len)
+		memeq
+	} else {
+		drop drop drop drop
+		false
 	}
-	
-	; (str len str len)
-	
-	drop swap ; (str str len)
-	memeq
 }
 
 ; (dest src len)
@@ -63,6 +63,7 @@ fn memset 3 0 {
 	drop drop drop
 }
 
+- inline
 ; (str -- len)
 fn strlen 1 1 {
 	dup
