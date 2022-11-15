@@ -12,4 +12,7 @@ diff stas2 stas3
 ./stas3 stas.stas         -o - > bootstrap/x86-64_linux.fasm.asm
 ./stas3 stas.stas -b nasm -o - > bootstrap/x86-64_linux.nasm.asm
 
+cp stas3 stas
+./test.vsh
+
 git clean -fX

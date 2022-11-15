@@ -22342,6 +22342,11 @@ parse.fn_complex_body_tokens:
 	mov rdi, rbx
 	syscall
 .1059:
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call parse.push_early_ret_with_pos
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	jmp .950
 .1050:
 	pop rbx
@@ -22744,6 +22749,11 @@ parse.fn_complex_body_tokens:
 	mov rdi, rbx
 	syscall
 .1071:
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call parse.push_early_ret_with_pos
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	jmp .950
 .1062:
 	pop rbx
@@ -51682,7 +51692,7 @@ _s160: db 27, "[1m", 27, "[31msrc/parserdefs.stas:464:31: ", 27, "[39m", 27, "[2
 _s161: db "constant expression name as duplicate top level variable name", 0
 _s162: db "a scope must follow a const expression decl", 0
 _s163: db 27, "[1m", 27, "[31msrc/parserdefs.stas:453:50: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s164: db 27, "[1m", 27, "[31msrc/parser.stas:1425:13: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s164: db 27, "[1m", 27, "[31msrc/parser.stas:1429:13: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s165: db 27, "[1m", 27, "[31msrc/parserdefs.stas:402:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s166: db 27, "[1m", 27, "[31msrc/parserdefs.stas:381:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s167: db "unclosed scope for constant expression", 0
@@ -51723,12 +51733,12 @@ _s201: db 27, "[1m", 27, "[31msrc/parserdefs.stas:320:22: ", 27, "[39m", 27, "[2
 _s202: db 27, "[1m", 27, "[31msrc/eval.stas:8:36: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s203: db 27, "[1m", 27, "[31msrc/eval.stas:21:23: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s204: db 27, "[1m", 27, "[31msrc/eval.stas:15:23: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s205: db 27, "[1m", 27, "[31msrc/parser.stas:1482:25: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s205: db 27, "[1m", 27, "[31msrc/parser.stas:1486:25: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
 _s206: db "constant expression must contain a value", 0
 _s207: db "more than one unhandled value on left on the constant expression", 0
 _s208: db 27, "[1m", 27, "[31msrc/parser.stas:30:15: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s209: db "backtrace", 0
-_s210: db 27, "[1m", 27, "[31msrc/parser.stas:1507:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s210: db 27, "[1m", 27, "[31msrc/parser.stas:1511:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s211: db "unknown constant variable", 0
 _s212: db "no value on stack to consume for assertion", 0
 _s213: db 0
@@ -51759,7 +51769,7 @@ _s237: db 27, "[1m", 27, "[31msrc/parserdefs.stas:397:40: ", 27, "[39m", 27, "[2
 _s238: db "unexpected EOF when parsing if statement", 0
 _s239: db "a scope must come after an if statement", 0
 _s240: db "not inside while loop body", 0
-_s241: db 27, "[1m", 27, "[31msrc/parser.stas:771:59: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s241: db 27, "[1m", 27, "[31msrc/parser.stas:773:59: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s242: db "unreachable code", 0
 _s243: db "no value on stack to consume for while header", 0
 _s244: db "no value on stack to consume for else if statement", 0
@@ -51768,7 +51778,7 @@ _s246: db "scope assertation failed, less values on the stack than expected (TOD
 _s247: db "unexpected EOF when parsing else statement", 0
 _s248: db "a scope must come after an else statement", 0
 _s249: db "the stack must remain the same with single branches", 0
-_s250: db 27, "[1m", 27, "[31msrc/parser.stas:1006:12: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s250: db 27, "[1m", 27, "[31msrc/parser.stas:1010:12: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
 _s251: db "the stack must remain the same each with else if branch", 0
 _s252: db "unbalanced stack on both if and else branches, else has more than expected (TODO: write count)", 0
 _s253: db "unbalanced stack on both if and else branches, else has less than expected (TODO: write count)", 0
@@ -51784,8 +51794,8 @@ _s262: db "a scope must come after the arrow assert operator", 0
 _s263: db "unknown function local token", 0
 _s264: db "cannot define constant expression inside a constant expression", 0
 _s265: db "unknown constant expression token", 0
-_s266: db 27, "[1m", 27, "[31msrc/parser.stas:1530:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s267: db 27, "[1m", 27, "[31msrc/parser.stas:1531:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s266: db 27, "[1m", 27, "[31msrc/parser.stas:1534:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s267: db 27, "[1m", 27, "[31msrc/parser.stas:1535:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s268: db "unclosed scopes on parser finish", 0
 _s269: db "unexpected EOF when parsing function, scopes may be unclosed", 0
 _s270: db "parsing took ", 0
