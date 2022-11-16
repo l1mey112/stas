@@ -172,7 +172,7 @@ fn gen_range 3 0 {
 				--
 				dup 8 * var_addr + r_pop swap
 				"	mov qword [" fwrite r Reg.64.to_str fwrite " + " fwrite fwriteu "], " fwrite
-				Reg.64.to_str fwriteln
+				dup r_free Reg.64.to_str fwriteln
 			}
 			drop
 			r r_free
@@ -213,7 +213,7 @@ fn gen_range 3 0 {
 					dup 8 *
 					r_pop
 					"	mov qword [" fwrite r Reg.64.to_str fwrite " + " fwrite swap fwriteu "], " fwrite
-					Reg.64.to_str fwriteln
+					dup r_free Reg.64.to_str fwriteln
 				}
 				drop
 			}

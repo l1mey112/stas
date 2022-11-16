@@ -184,6 +184,28 @@ fn rallocator_stack.pop 0 1 {
 	rallocator_stack.len -- pop rallocator_stack.len
 }
 
+fn rallocator_mask.dump 0 0 {
+	auto f 1
+	false pop f
+
+	`[` putc
+	0
+	while dup sizeof(Reg) < {
+		dup rallocator_mask + r8 if {
+			f if {
+				", " puts
+			}
+			dup Reg.64.to_str puts
+			true pop f
+		} else {
+			false pop f
+		}
+		++
+	}
+	drop
+	`]` putc `\n` putc
+}
+
 ; (Reg)
 fn r_b_clear 1 0 {
 	dup sizeof(Reg) < assert
@@ -231,6 +253,13 @@ fn r_index 1 1 {
 
 
 fn r_stack_deep_flush {
+;	0
+;	while dup sizeof(Reg) < {
+;		dup Reg.64.to_str puts ` ` putc
+;		dup rallocator_mask + r8 bool_to_str puts endl
+;		++
+;	}
+;	drop
 	0
 	while dup rallocator_stack.len < {
 		dup rallocator_stack + r8
@@ -239,8 +268,17 @@ fn r_stack_deep_flush {
 		++
 	}
 	drop
-
+	
 	0 pop rallocator_stack.len
+
+;	" --- \n" puts
+;	0
+;	while dup sizeof(Reg) < {
+;		dup Reg.64.to_str puts ` ` putc
+;		dup rallocator_mask + r8 bool_to_str puts endl
+;		++
+;	}
+;	drop
 }
 
 fn r_flush {
@@ -258,13 +296,12 @@ fn r_flush {
 
 ; (Reg)
 fn r_alloc 0 1 {
-	auto ffs 1
-	r_ffs pop ffs
-	ffs UINT64_MAX = if {
-		r_flush
+	r_ffs dup
+	UINT64_MAX = if {
+		drop
+		rallocator_stack.len 0 != assert
+		r_stack_deep_flush
 		r_alloc
-	} else {
-		ffs
 	}
 }
 
