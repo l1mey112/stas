@@ -28,6 +28,7 @@ auto  functions.len 1
 const sizeof(functions) { sizeof(Function) functions.cap * }
 reserve functions sizeof(functions)
 
+const ScopeTyp.function          { 0  }
 const ScopeTyp.scope             { 1  }
 const ScopeTyp.checked_scope     { 2  }
 const ScopeTyp.if_block          { 3  }
@@ -56,8 +57,9 @@ fn rScope.label_id  1 1 { Scope.label_id  r32 }
 fn rScope.label_id2 1 1 { Scope.label_id2 r32 }
 fn rScope.var_scope 1 1 { Scope.var_scope r32 }
 
-const VarTyp.buffer { 1 }
-const VarTyp.stack  { 2 }
+const VarTyp.buffer   { 1 }
+const VarTyp.stack    { 2 }
+const VarTyp.constant { 3 }
 
 fn Variable.typ  1 1   {      }
 fn Variable.size 1 1   { 4  + }
@@ -71,27 +73,6 @@ fn rVariable.size 1 1  { Variable.size r32 }
 fn rVariable.a_sp 1 1  { Variable.a_sp r32 }
 fn rVariable.idx  1 1  { Variable.idx  r32 }
 fn rVariable.name 1 1  { Variable.name r64 }
-
-const global_var_context.cap { 1024 } 
-auto global_var_context.len 1
-const sizeof(global_var_context) { sizeof(Variable) global_var_context.cap * }
-reserve global_var_context sizeof(global_var_context)
-
-fn Constant.name       1 1 {      }
-fn Constant.inst_start 1 1 { 8  + }
-fn Constant.tok        1 1 { 12 + }
-fn Constant.value      1 1 { 16 + }
-const sizeof(Constant)     { 24   }
-
-fn rConstant.name       1 1 { Constant.name       r64 }
-fn rConstant.inst_start 1 1 { Constant.inst_start r32 }
-fn rConstant.tok        1 1 { Constant.tok        r32 }
-fn rConstant.value      1 1 { Constant.value      r64 }
-
-const toplevel_constants.cap { 1024 } 
-auto toplevel_constants.len 1
-const sizeof(toplevel_constants) { sizeof(Variable) toplevel_constants.cap * }
-reserve toplevel_constants sizeof(toplevel_constants)
 
 const              Inst.push_str { 1  }
 const              Inst.push_num { 2  }
@@ -435,49 +416,6 @@ fn functions<< 9 0 {
 	functions.len functions.cap < assert
 }
 
-; (idx -- *Constant)
-fn toplevel_constants[] 1 1 {
-	dup toplevel_constants.len < assert
-	sizeof(Constant) * toplevel_constants +
-}
-
-; (name inst_start tok value)
-fn toplevel_constants<< 4 0 {
-	toplevel_constants.len sizeof(Constant) * toplevel_constants +
-	    swap over Constant.value      swap w64
-		swap over Constant.tok        swap w32
-		swap over Constant.inst_start swap w32
-                  Constant.name       swap w64
-
-	toplevel_constants.len ++ pop toplevel_constants.len
-	toplevel_constants.len toplevel_constants.cap < assert
-}
-
-; (*Constant)
-fn toplevel_constants.top 0 1 {
-	toplevel_constants.len 0 != assert
-	toplevel_constants.len 1 - toplevel_constants[]
-}
-
-; (idx -- *Variable)
-fn global_var_context[] 1 1 {
-	dup global_var_context.len < assert
-	sizeof(Variable) * global_var_context +
-}
-
-; (typ size a_sp idx name)
-fn global_var_context<< 5 0 {
-	global_var_context.len sizeof(Variable) * global_var_context +
-	    swap over Variable.name swap w64
-		swap over Variable.idx  swap w32
-		swap over Variable.a_sp swap w32
-		swap over Variable.size swap w32
-		          Variable.typ  swap w32
-
-	global_var_context.len ++ pop global_var_context.len
-	global_var_context.len global_var_context.cap < assert
-}
-
 const FnAttribute.noinline { 1 0 << }
 const FnAttribute.inline   { 1 1 << }
 const FnAttribute.noreturn { 1 2 << }
@@ -516,4 +454,98 @@ fn FnAttribute.is_conflict 1 1 {
 	} else {
 		false
 	}
+}
+
+auto pos 1
+
+const   sp.cap     { 1024                 }
+const   sizeof(sp) { sizeof(u32) sp.cap * }
+auto    sp.len     1
+reserve sp         sizeof(sp)
+
+fn sp[] 1 1 {
+	dup sp.len < assert
+	sizeof(u32) * sp + r32
+}
+
+fn sp<< 1 0 {
+	sp.len sp.cap < assert
+	sp sp.len sizeof(u32) * + swap w32
+	sp.len ++ pop sp.len
+}
+
+fn sp.top 0 1 {
+	sp.len 0 > assert
+	sp sp.len -- sizeof(u32) * + r32
+}
+
+fn sp.pop 0 1 {
+	sp.top
+	sp.len -- pop sp.len
+}
+
+; (idx str len)
+fn error_st.Tok 3 0 {
+	error_noexit.Tok
+
+	sp.len 0 > if {
+		sp.len 1 -
+		while 1 {
+			dup sp[] "backtrace" notice.Tok
+	
+			dup 0 = if {
+				break
+			}
+			--
+		}
+		drop
+	}
+
+	1 exit
+}
+
+; (count pos)
+fn sp_push_p 2 0 {
+	auto pos  1 pop pos
+	auto retc 1 pop retc
+
+	0
+	while dup retc < {
+		pos sp<<
+		++
+	}
+	drop
+}
+
+; (count)
+fn sp_push 1 0 {
+	pos sp_push_p
+}
+
+; (argc)
+fn sp_has 1 0 {
+	sp.len > if {
+		pos "not enough values to consume for operation" error_st.Tok
+	}
+}
+
+; (argc retc)
+fn sp_assert 2 0 {
+	auto retc 1 pop retc
+	auto _argc 1 pop _argc
+	
+	_argc sp_has
+	sp.len _argc - pop sp.len
+
+	retc pos sp_push_p
+}
+
+; (inst data)
+fn ir 2 0 {
+	pos rot ir_stream<<
+}
+
+; (pos inst data)
+fn ir_p 3 0 {
+	ir_stream<<
 }

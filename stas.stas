@@ -29,9 +29,9 @@ include 'src/parserdefs.stas'   ; stas parser definitions, very large file
 include 'src/eval.stas'         ; constant evaluation
 include 'src/parser.stas'       ; stas parser, creates IR instructions
 include 'src/write.stas'        ; buffers + writing to files
-include 'src/dce.stas'          ; dead code elimination compiler pass
-include 'src/x86.stas'          ; stas codegen definitions and reg allocator
-include 'src/gen.stas'          ; stas code generator, creates x86_64 asm
+;include 'src/dce.stas'          ; dead code elimination compiler pass
+;include 'src/x86.stas'          ; stas codegen definitions and reg allocator
+;include 'src/gen.stas'          ; stas code generator, creates x86_64 asm
 
 fn usage {
 	"stas 0.1.1 Copyright (C) 2022  l-m.dev\n\n"                                   eputs
@@ -316,124 +316,128 @@ fn main {
 		log.msg.start
 		functions.len eputu " functions, " eputs label_c ++ eputu " labels\n" eputs
 		log.msg.start
-		global_var_context.len eputu " global variables, " eputs toplevel_constants.len eputu " constants\n" eputs
+		0 assert -> 'unimplemented'
+	;	global_var_context.len eputu " global variables, " eputs toplevel_constants.len eputu " constants\n" eputs
 	}
-	
+
 	dump_ir r8 if {
 		ir_stream.dump
 		ret
 	}
 
-	verbose_mode r8 if {
-		log.msg.start
-		"dce pass started\n" eputs
-	}
-	log.time.start
-		stas.dce
-	"dce took " log.time.end
-	verbose_mode r8 if {
-		log.msg.start
-		used_functions eputu " used functions, of which " eputs inlined_functions eputu " are eligible for inline\n" eputs
-		log.msg.start
-		slits.len eputu " string literals\n" eputs
-	}
-	
-	auto out_file_asm_sv 1 
+	"exiting\n" puts
+	0 exit
 
-	to_stdout r8 ! if {
-		out_file new_string_view
-		dup ".tmp" push_string_view
-		dup pop out_file_asm_sv
-
-		string_view_to_str fd_new_file_for_writing
-		pop fwrite_buffer.fd_loc
-	} else {
-		stdout pop fwrite_buffer.fd_loc
-	}
-
-	verbose_mode r8 if {
-		log.msg.start
-		"generating code from " eputs ir_stream.len eputu " IR instructions\n" eputs
-	}
-	log.time.start
-		in_file stas.gen
-	"gen took " log.time.end
-
-	to_stdout r8 if {
-		ret
-	}
-	verbose_mode r8 if {
-		log.msg.start
-		"generated " eputs
-
-		fwrite_buffer.fd_loc fd_stat_size
-
-		dup 1024 / 0 > if {
-			eputu " KiBs of code\n" eputs
-		} else {
-			eputu " bytes of code\n" eputs
-		}
-	}
-
-	fwrite_buffer.fd_loc close 0 <s if {
-		"FATAL: Failed to close file descriptor\n" eputs
-		1 exit
-	}
-	verbose_mode r8 if {
-		log.msg.start
-		"wrote code to `" eputs out_file_asm_sv string_view_to_str eputs "`\n" eputs
-	}
-
-	verbose_mode r8 if {
-		log.msg.start
-		"executing assembler backend `" eputs backend_type StasBackend.to_str eputs "`\n" eputs
-	}
-
-	log.time.start
-		out_file_asm_sv string_view_to_str out_file run_exec_arg 0 != execute_backend
-	"backend took " log.time.end
-	
-	verbose_mode r8 if {
-		log.msg.start
-		"created binary `" eputs out_file eputs "`\n" eputs
-	}
-
-	run_exec_arg 0 != if {
-		auto argp 1
-
-		{
-			string_buffer string_buffer.len + pop argp
-
-			out_file drop string_buffer.generic_append_u64
-
-			run_exec_arg 1 +
-			while dup argc < {
-				dup sizeof(u64) * argv + r64 string_buffer.generic_append_u64
-				++
-			}
-			drop
-
-			NULL string_buffer.generic_append_u64
-		}
-
-		out_file drop
-		argp
-		envp
-
-		verbose_mode r8 if {
-			log.msg.start
-			
-			"execve binary `" eputs 
-
-			argp
-			argp_print
-
-			"`\n" eputs
-		}
-		
-		execve 0 <s if {
-			"FATAL: Could not execve file\n" eputs
-			1 exit
-		}
-	}
+;	verbose_mode r8 if {
+;		log.msg.start
+;		"dce pass started\n" eputs
+;	}
+;	log.time.start
+;		stas.dce
+;	"dce took " log.time.end
+;	verbose_mode r8 if {
+;		log.msg.start
+;		used_functions eputu " used functions, of which " eputs inlined_functions eputu " are eligible for inline\n" eputs
+;		log.msg.start
+;		slits.len eputu " string literals\n" eputs
+;	}
+;	
+;	auto out_file_asm_sv 1 
+;
+;	to_stdout r8 ! if {
+;		out_file new_string_view
+;		dup ".tmp" push_string_view
+;		dup pop out_file_asm_sv
+;
+;		string_view_to_str fd_new_file_for_writing
+;		pop fwrite_buffer.fd_loc
+;	} else {
+;		stdout pop fwrite_buffer.fd_loc
+;	}
+;
+;	verbose_mode r8 if {
+;		log.msg.start
+;		"generating code from " eputs ir_stream.len eputu " IR instructions\n" eputs
+;	}
+;	log.time.start
+;		in_file stas.gen
+;	"gen took " log.time.end
+;
+;	to_stdout r8 if {
+;		ret
+;	}
+;	verbose_mode r8 if {
+;		log.msg.start
+;		"generated " eputs
+;
+;		fwrite_buffer.fd_loc fd_stat_size
+;
+;		dup 1024 / 0 > if {
+;			eputu " KiBs of code\n" eputs
+;		} else {
+;			eputu " bytes of code\n" eputs
+;		}
+;	}
+;
+;	fwrite_buffer.fd_loc close 0 <s if {
+;		"FATAL: Failed to close file descriptor\n" eputs
+;		1 exit
+;	}
+;	verbose_mode r8 if {
+;		log.msg.start
+;		"wrote code to `" eputs out_file_asm_sv string_view_to_str eputs "`\n" eputs
+;	}
+;
+;	verbose_mode r8 if {
+;		log.msg.start
+;		"executing assembler backend `" eputs backend_type StasBackend.to_str eputs "`\n" eputs
+;	}
+;
+;	log.time.start
+;		out_file_asm_sv string_view_to_str out_file run_exec_arg 0 != execute_backend
+;	"backend took " log.time.end
+;	
+;	verbose_mode r8 if {
+;		log.msg.start
+;		"created binary `" eputs out_file eputs "`\n" eputs
+;	}
+;
+;	run_exec_arg 0 != if {
+;		auto argp 1
+;
+;		{
+;			string_buffer string_buffer.len + pop argp
+;
+;			out_file drop string_buffer.generic_append_u64
+;
+;			run_exec_arg 1 +
+;			while dup argc < {
+;				dup sizeof(u64) * argv + r64 string_buffer.generic_append_u64
+;				++
+;			}
+;			drop
+;
+;			NULL string_buffer.generic_append_u64
+;		}
+;
+;		out_file drop
+;		argp
+;		envp
+;
+;		verbose_mode r8 if {
+;			log.msg.start
+;			
+;			"execve binary `" eputs 
+;
+;			argp
+;			argp_print
+;
+;			"`\n" eputs
+;		}
+;		
+;		execve 0 <s if {
+;			"FATAL: Could not execve file\n" eputs
+;			1 exit
+;		}
+;	}
 }

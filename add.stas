@@ -1,3 +1,7 @@
-fn main {
-	
+fn main 0 0 {
+	1 if {
+
+	} elif 1 {
+		
+	}
 }
