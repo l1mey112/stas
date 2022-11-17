@@ -13,7 +13,7 @@ auto function_attributes  1
 fn is_function_name 2 1 {
 	functions.len 0 = if {
 		drop drop
-		UINT64_MAX
+		-1
 		ret
 	}
 
@@ -28,19 +28,20 @@ fn is_function_name 2 1 {
 		++
 	}
 	drop
-	UINT64_MAX
+	-1
 }
 
-; ( string_view -- idx )
-fn search_variable_name 1 1 {
-	var_context.len 0 = if {
-		drop
-		UINT64_MAX
+; ( str len search_idx -- idx )
+fn search_variable_name 3 1 {
+	auto search_p 1 pop search_p
+
+	var_context.len search_p <= if {
+		drop drop
+		-1
 		ret
 	}
 
-	auto lit 2
-	string_view_to_str pop lit
+	auto lit 2 pop lit
 
 	var_context.len 1 -
 	while 1 {
@@ -49,13 +50,37 @@ fn search_variable_name 1 1 {
 			ret
 		}
 
-		dup 0 = if {
+		dup search_p = if {
 			break
 		}
 		--
 	}
 	drop
-	UINT64_MAX
+	-1
+}
+
+
+; ( str len -- idx )
+fn search_variable_name_global 2 1 {
+	auto lit 2 pop lit
+
+	scope_context.len 0 > if {
+		0 scope_context[] rScope.var_scope ; fn scope top
+	} else {
+		var_context.len
+	}
+	0
+	; (cap idx)
+	while dup over2 < {
+		dup var_context[] rVariable.name string_view_to_str
+		lit streq if {
+			swap drop
+			ret
+		}
+		++
+	}
+	drop drop
+	-1
 }
 
 fn parse.push_empty_scope {
@@ -134,12 +159,14 @@ fn parse.fn_decl {
 	name drop r8 `_` = if {
 		pos 'a function name cannot begin with an an underscore' error.Tok
 	}
-	name is_function_name UINT64_MAX != if {
+	name is_function_name -1 != if {
 		pos 'duplicate function name' error.Tok
 	}
-	
+	name search_variable_name_global -1 != if {
+		pos 'function name already exists as variable name' error.Tok
+	}
 	parse.next_eof? ! if {
-		pos 'unknown token in function declaration' error.Tok
+		pos 'unexpected EOF in function declaration' error.Tok
 	}
 	dup Tok.l_cb = if {
 		0 pop _argc
@@ -160,16 +187,9 @@ fn parse.fn_decl {
 	}
 	drop
 
-;	function_attributes FnAttribute.is_conflict if {
-;		fn_c 'function attributes conflict' error.Tok
-;	}
-
-	; TODO: search variable idx, pass stopping value of zero for scope
-
-;	sv is_toplevel_name_bool if {
-;		fn_c 1 + 'function name already exists as variable name' error.Tok
-;	}
-
+	function_attributes FnAttribute.is_conflict if {
+		fn_c 'function attributes conflict' error.Tok
+	}
 
 	functions.len sizeof(Function) * functions + pop function_context
 	functions.len                                pop function_context_idx
@@ -180,10 +200,9 @@ fn parse.fn_decl {
 		0 ; end_inst
 		0 ; a_sp
 		name 'main' streq if {
-			; TODO: main function is not inlinable
-			;	function_attributes FnAttribute.inline FnAttribute.is_set if {
-			;		fn_c 'the main function is not inlinable' error.Tok
-			;	}
+			function_attributes FnAttribute.inline FnAttribute.is_set if {
+				fn_c 'the main function is not inlinable' error.Tok
+			}
 
 			_argc 0 !=
 			_retc 0 != | if {
@@ -195,16 +214,13 @@ fn parse.fn_decl {
 		} else {
 			0 ; is_used
 
-			; TODO: forbid_inline
-			;	function_attributes FnAttribute.noinline FnAttribute.is_set if {
-			;		1
-			;	} else {
-			;		0
-			;	}
-
-			0 ; forbid inline
+			function_attributes FnAttribute.noinline FnAttribute.is_set if {
+				1
+			} else {
+				0
+			}
 		}
-		NULL ; TODO: function_attributes
+		function_attributes
 	functions<<
 
 	fn_c Inst.fn_prelude function_context_idx ir_p
@@ -364,7 +380,78 @@ fn parse.basic_token? 0 1 {
 	true
 }
 
-; ( -- bool(is_early_ret) )
+; ( bool )
+fn parse.complex_token? 0 1 {
+	pos token_stream[] rToken.tok
+	dup Tok.string_lit = if {
+		Inst.push_str pos token_stream[] rToken.data ir
+		2 sp_push
+	} elif dup Tok.w8 = {
+		Inst.w8 0 ir
+		2 0 sp_assert
+	} elif dup Tok.w16 = {
+		Inst.w16 0 ir
+		2 0 sp_assert
+	} elif dup Tok.w32 = {
+		Inst.w32 0 ir
+		2 0 sp_assert
+	} elif dup Tok.w64 = {
+		Inst.w64 0 ir
+		2 0 sp_assert
+	} elif dup Tok.r8 = {
+		Inst.r8 0 ir
+		1 1 sp_assert
+	} elif dup Tok.r16 = {
+		Inst.r16 0 ir
+		1 1 sp_assert
+	} elif dup Tok.r32 = {
+		Inst.r32 0 ir
+		1 1 sp_assert
+	} elif dup Tok.r64 = {
+		Inst.r64 0 ir
+		1 1 sp_assert
+	} elif dup Tok.trap_breakpoint = {
+		Inst.trap_breakpoint 0 ir
+		1 1 sp_assert
+	} elif dup Tok.syscall0 = {
+		Inst.syscall0 0 ir
+		1 1 sp_assert
+	} elif dup Tok.syscall1 = {
+		Inst.syscall1 0 ir
+		2 1 sp_assert
+	} elif dup Tok.syscall2 = {
+		Inst.syscall2 0 ir
+		3 1 sp_assert
+	} elif dup Tok.syscall3 = {
+		Inst.syscall3 0 ir
+		4 1 sp_assert
+	} elif dup Tok.syscall4 = {
+		Inst.syscall4 0 ir
+		5 1 sp_assert
+	} elif dup Tok.syscall5 = {
+		Inst.syscall5 0 ir
+		6 1 sp_assert
+	} elif dup Tok.syscall6 = {
+		Inst.syscall6 0 ir
+		7 1 sp_assert
+	} elif dup Tok.argc = {
+		Inst.push_argc 0 ir
+		1 sp_push
+	} elif dup Tok.argv = {
+		Inst.push_argv 0 ir
+		1 sp_push
+	} elif dup Tok.envp = {
+		Inst.push_envp 0 ir
+		1 sp_push
+	} else {
+		drop false ret
+	}
+	drop
+	true
+}
+
+
+; ( -- is_early_ret )
 fn parse.slurp_early_ret 0 1 {
 	reserve is_early_ret 1
 	is_early_ret false w8
@@ -414,21 +501,20 @@ fn parse.handle_close_r_cb {
 		Inst.fn_leave function_context_idx ir
 
 		is_early_ret r8 ! if {
-			-> 0 {
-				sp.len function_context rFunction.retc > if {
-					function_context rFunction.start_inst.idx
-					'unhandled data on the stack' error_st.Tok
-				} elif sp.len function_context rFunction.retc < {
-					function_context rFunction.start_inst.idx
-					'not enough values on the stack on function return' error_st.Tok
-				}
+			sp.len function_context rFunction.retc > if {
+				function_context rFunction.start_inst.idx
+				'unhandled data on the stack' error_st.Tok
+			} elif sp.len function_context rFunction.retc < {
+				function_context rFunction.start_inst.idx
+				'not enough values on the stack on function return' error_st.Tok
 			}
 		}
 
-		0          pop sp.len
-		0          pop var_context.len
-		NULL       pop function_context
-		UINT64_MAX pop function_context_idx
+		0    pop sp.len
+		NULL pop function_context
+		-1   pop function_context_idx
+
+		is_early_ret false w8
 	} elif dup ScopeTyp.while_block_scope = {
 		reserve while_header sizeof(Scope)
 		while_header scope_context.pop_into_ptr
@@ -608,52 +694,56 @@ fn parse.handle_close_r_cb {
 fn parse.handle_open_l_cb {
 	parse.slurp_early_ret drop
 
-	scope_context.top rScope.typ
-	dup ScopeTyp.while_block = if {
-		sp.len 0 = if {
-			pos 'no value on stack to consume for while header' error.Tok
+	scope_context.len 1 > if {	
+		scope_context.top rScope.typ
+		dup ScopeTyp.while_block = if {
+			sp.len 0 = if {
+				pos 'no value on stack to consume for while header' error.Tok
+			}
+			sp.len -- pop sp.len
+			auto lbl 1
+			label_allocate pop lbl
+
+			; (typ sp sp2 idx label_id label_id2 var_scope)
+				ScopeTyp.while_block_scope
+				sp.len
+				0
+				pos
+				lbl
+				0
+				var_context.len
+			scope_context<<
+
+			Inst.do_cond_jmp lbl ir
+		} elif dup ScopeTyp.elif_block = {
+			reserve scope sizeof(Scope)
+			scope scope_context.pop_into_ptr
+
+			sp.len 0 = if {
+				pos 'no value on stack to consume for else if statement' error.Tok
+			}
+			sp.len -- pop sp.len
+			auto lbl 1
+			label_allocate pop lbl
+
+			; (typ sp sp2 idx label_id label_id2 var_scope)
+				ScopeTyp.elif_block_scope
+				scope rScope.sp
+				scope rScope.sp2
+				pos
+				lbl
+				scope rScope.label_id2
+				var_context.len
+			scope_context<<
+
+			Inst.do_cond_jmp lbl ir
+		} else {
+			parse.push_empty_scope
 		}
-		sp.len -- pop sp.len
-		auto lbl 1
-		label_allocate pop lbl
-
-		; (typ sp sp2 idx label_id label_id2 var_scope)
-			ScopeTyp.while_block_scope
-			sp.len
-			0
-			pos
-			lbl
-			0
-			var_context.len
-		scope_context<<
-
-		Inst.do_cond_jmp lbl ir
-	} elif dup ScopeTyp.elif_block = {
-		reserve scope sizeof(Scope)
-		scope scope_context.pop_into_ptr
-
-		sp.len 0 = if {
-			pos 'no value on stack to consume for else if statement' error.Tok
-		}
-		sp.len -- pop sp.len
-		auto lbl 1
-		label_allocate pop lbl
-
-		; (typ sp sp2 idx label_id label_id2 var_scope)
-			ScopeTyp.elif_block_scope
-			scope rScope.sp
-			scope rScope.sp2
-			pos
-			lbl
-			scope rScope.label_id2
-			var_context.len
-		scope_context<<
-
-		Inst.do_cond_jmp lbl ir
+		drop
 	} else {
 		parse.push_empty_scope
 	}
-	drop
 }
 
 ; ( ScopeTyp -- idx? )
@@ -683,15 +773,107 @@ fn parse.locate_scope 1 1 {
 	-1
 }
 
+fn parse.handle_name {
+	auto str   2 pos token_stream[] rToken.data string_view_to_str pop str
+	auto f_idx 1
+	auto found 1 false pop found
+
+	str is_function_name pop f_idx
+	f_idx -1 != if {
+		Inst.fn_call f_idx ir
+
+		function_context_idx f_idx = if {
+			function_context Function.forbid_inline 1 w8
+			function_context rFunction.attributes FnAttribute.inline FnAttribute.is_set if {
+				pos 'inline functions cannot call themselves' error.Tok
+			}
+			function_context Function.tail_r_label label_allocate w32
+		}
+
+		f_idx functions[] rFunction.attributes
+		FnAttribute.noreturn FnAttribute.is_set if {
+			parse.push_early_ret_with_pos
+		}
+
+		sp.len
+		f_idx functions[] rFunction.argc
+		< if {
+			pos 'not enough values to consume for function call' error_st.Tok
+		}
+
+		f_idx functions[] rFunction.argc
+		f_idx functions[] rFunction.retc
+		sp_assert
+
+		true pop found
+	}
+	found ! if {
+		str 
+			0 scope_context[] rScope.var_scope ; fn scope only
+		search_variable_name pop f_idx
+
+		f_idx -1 != if {
+			auto var 1
+			f_idx var_context[] pop var
+
+			var rVariable.typ
+			dup VarTyp.buffer = if {
+				Inst.push_local_addr var rVariable.a_sp ir
+				1 sp_push
+			} elif dup VarTyp.stack = {
+				auto to_push 1
+				var rVariable.size 8 / pop to_push
+
+				Inst.push_local_stack_var
+					to_push 32 <<
+					var rVariable.a_sp |
+				ir
+
+				to_push sp_push
+			} elif dup VarTyp.constant = {
+				0 assert -> 'unimplemented'
+			} else {
+				0 assert
+			}
+			drop
+			true pop found
+		}
+	}
+	found ! if {
+		str search_variable_name_global pop f_idx
+
+		f_idx -1 != if {
+			auto var 1
+			f_idx var_context[] pop var
+
+			var rVariable.typ
+			dup VarTyp.buffer = if {
+				Inst.push_global_var_name f_idx ir
+				1 sp_push
+			} elif dup VarTyp.stack = {
+				Inst.push_global_stack_var f_idx ir
+				var rVariable.size 8 / sp_push
+			} elif dup VarTyp.constant = {
+				0 assert -> 'unimplemented'
+			} else {
+				0 assert -> 'unreachable'
+			}
+			drop
+			true pop found
+		}
+	}
+	found ! if {
+		pos 'unknown function or variable' error.Tok
+	}
+}
+
 fn parse.fn_complex_body_tokens {
 	pos token_stream[] rToken.tok
 
-	dup dup dup Tok.reserve = rot Tok.auto = rot Tok.const = | | if {
-		0 assert -> 'unimplemented'
-	} elif dup dup Tok.pop = swap Tok.addr = | {
+	dup dup Tok.pop = swap Tok.addr = | if {
 		0 assert -> 'unimplemented'
 	} elif dup Tok.name = {
-		0 assert -> 'unimplemented'
+		parse.handle_name
 	} elif dup Tok.if_block = {
 		sp.len 0 = if {
 			pos 'no value on stack to consume for if statement' error.Tok
@@ -747,6 +929,7 @@ fn parse.fn_complex_body_tokens {
 			pos 'not inside while loop body' error.Tok
 		}
 		; dup -- scope_context[] dup rScope.typ ScopeTyp.while_block = assert -> 'TODO: zero support for nested while loops or loops with complex blocks inside its header'
+		; TODO: still a todo...
 		Inst.do_jmp swap scope_context[] rScope.label_id ir
 		parse.push_early_ret_with_pos
 	} elif dup Tok.l_cb = {
@@ -792,25 +975,138 @@ fn parse.fn_complex_body_tokens {
 	drop
 }
 
+; ( str len -- bool )
+fn parse.is_scoped_var 2 1 {
+	; (str len)
+	scope_context.len 0 > if {
+		scope_context.top rScope.var_scope
+	} else {
+		0
+	}
+	; (str len search_p)
+	search_variable_name -1 !=
+}
+
+fn parse.any_variable {
+	auto typ  1
+	auto rs_c 1 pos pop rs_c
+
+	pos token_stream[] rToken.tok
+	dup Tok.reserve = if {
+		VarTyp.buffer
+	} elif dup Tok.auto = {
+		VarTyp.stack
+	} else {
+		0
+		; does not handle constants.
+		0 assert -> 'unreachable'
+	}
+	pop typ
+	drop
+
+	Tok.name parse.expect? ! if {
+		pos 'expected variable name' error.Tok
+	}
+
+	auto str 2
+		pos token_stream[] rToken.data string_view_to_str
+	pop str
+
+	parse.next_eof? ! if {
+		pos 'unexpected EOF in variable declaration' error.Tok
+	}
+	; (Tok)
+	dup dup Tok.name = swap Tok.l_cb = | if {
+		0
+		0 assert -> 'unimplemented'
+	} elif dup Tok.number_lit = {
+		pos token_stream[] rToken.data
+		typ VarTyp.stack = if {
+			dup 0 = if {
+				pos 'auto variables cannot have a size of zero' error.Tok
+			}
+			8 *
+		}
+	} else {
+		pos 'expected size in bytes, constant name or constant expression' error.Tok
+		0
+		; noreturn function
+	}
+	auto size 1 pop size
+	drop
+
+	str parse.is_scoped_var if {
+		rs_c ++ 'duplicate variable name' error.Tok
+	}
+
+	; `function_context NULL =` means toplevel
+
+	; (typ size a_sp idx name)
+		typ
+		size
+		function_context NULL != if {
+			function_context rFunction.a_sp
+		} else {
+			0
+		}
+		rs_c
+		rs_c ++ token_stream[] rToken.data
+	var_context<<
+
+	function_context NULL != if {
+		function_context Function.a_sp
+			function_context rFunction.a_sp size +
+		w32
+		function_context Function.forbid_inline 1 w8
+	}
+}
+
 fn stas.parse {
-	0 pop pos
+	-1 pop main_fn_idx
+	0  pop pos
 
 	while pos token_stream.len < {
-		scope_context.len 0 = if {
-			pos token_stream[] rToken.tok
-
-			dup Tok.fn_decl = if {
-				parse.fn_decl
-			} else {
-				pos "unknown toplevel token" error.Tok
-			}
-			drop
+		pos token_stream[] rToken.tok
+		dup dup Tok.reserve = swap Tok.auto = | if {
+			parse.any_variable
+		} elif dup Tok.const = {
+			0 assert -> 'unimplemented'
 		} else {
-			parse.basic_token? ! if {
-				parse.fn_complex_body_tokens
+			scope_context.len 0 = if {
+				pos token_stream[] rToken.tok
+
+				dup Tok.fn_decl = if {
+					parse.fn_decl
+				} elif dup Tok.sub = {
+					Tok.name parse.expect? ! if {
+						pos "expected name as function attribute" error.Tok
+					}
+					pos token_stream[]
+					rToken.data string_view_to_str FnAttribute.from_str? ! if {
+						pos "unknown function attribute" error.Tok
+					}
+					function_attributes | pop function_attributes
+				} else {
+					pos "unknown toplevel token" error.Tok
+				}
+				drop
+			} else {
+				parse.basic_token? ! if {
+					parse.fn_complex_body_tokens
+				}
 			}
 		}
+		drop
 
 		pos ++ pop pos
 	}
+
+	sp.len 0 = assert
+
+;	scope_context.len putuln
+;	0 scope_context[] rScope.idx "ee" error.Tok
+	function_context NULL != if {
+		token_stream.len -- "unexpected EOF when parsing function, scopes may be unclosed" error.Tok	
+	}
+	scope_context.len 0 = assert
 }
