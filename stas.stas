@@ -159,6 +159,12 @@ fn execute_backend 5 0 {
 		sizeof(u64) + dup ld        drop w64
 		sizeof(u64) +               NULL w64
 		"ld" arg_buf is_blocking stas_exec
+	} else {
+		arg_buf       dup "chmod"   drop w64
+		sizeof(u64) + dup "+x"      drop w64
+		sizeof(u64) + dup outfile   drop w64
+		sizeof(u64) +               NULL w64
+		"chmod" arg_buf is_blocking stas_exec
 	}
 }
 
@@ -390,7 +396,7 @@ fn main {
 	}
 
 	log.time.start
-		out_file_asm_sv string_view_to_str out_file run_exec_arg 0 != execute_backend
+		out_file_asm_sv string_view_to_str out_file true execute_backend ; run_exec_arg 0 !=
 	"backend took " log.time.end
 	
 	verbose_mode r8 if {

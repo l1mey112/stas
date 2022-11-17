@@ -1,4 +1,4 @@
-#!/bin/env v
+#!/usr/bin/env v
 
 import os
 import term
