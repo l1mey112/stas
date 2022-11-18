@@ -1174,6 +1174,9 @@ fn parse.get_constant 0 1 {
 const   sizeof(sp_array_data_const) { sizeof(u32) 1024 * }
 reserve sp_array_data_const         sizeof(sp_array_data_const)
 
+const   sizeof(const_stack_data) { sizeof(u64) 1024 * }
+reserve const_stack_data         sizeof(const_stack_data)
+
 ; ( -- u64 )
 fn parse.eval_const_expr 0 1 {
 	auto start_ir 1 ir_stream.len pop start_ir
@@ -1181,7 +1184,10 @@ fn parse.eval_const_expr 0 1 {
 	reserve sp_array sizeof(Array32)
 	sp_array_data_const sizeof(sp_array_data_const) sp_array Array32.init_with_buffer_sz_bytes
 
-	while true {
+	reserve const_stack_array sizeof(Array64)
+	const_stack_data sizeof(const_stack_data) const_stack_array Array64.init_with_buffer_sz_bytes
+
+	while true {		
 		; (Tok bool)
 		parse.next_eof? if {
 			Tok.r_cb = if {
@@ -1206,22 +1212,22 @@ fn parse.eval_const_expr 0 1 {
 
 	start_ir
 	while dup ir_stream.len < {
-		dup eval_one_inst assert -> 'unreachable'
+		dup const_stack_array eval_one_inst assert -> 'unreachable'
 		++
 	}
 	drop
 
-	const_stack.len 0 = if {
+	const_stack_array rArray64.len 0 = if {
 		pos 'constant expression must contain a value' error.Tok
 	}
-	const_stack.len 1 > if {
+	const_stack_array rArray64.len 1 > if {
 		pos 'more than one unhandled value on left on the constant expression' sp_array error_st.Tok
 	}
 
-	const_stack.pop
+	const_stack_array Array64.pop
 
 	start_ir pop ir_stream.len
-	const_stack.len 0 = assert
+	const_stack_array rArray64.len 0 = assert
 }
 
 fn parse.any_variable {

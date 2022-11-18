@@ -1,38 +1,7 @@
-const   const_stack.cap     { 1024                          }
-const   sizeof(const_stack) { sizeof(u64) const_stack.cap * }
-auto    const_stack.len     1
-reserve const_stack         sizeof(const_stack)
-
-; (u64)
-fn const_stack<< 1 0 {
-	const_stack.len const_stack.cap < assert
-	const_stack const_stack.len sizeof(u64) * + swap w64
-	const_stack.len ++ pop const_stack.len
-}
-
-; ( -- u64)
-fn const_stack.top 0 1 {
-	const_stack.len 0 != assert
-	const_stack const_stack.len 1 - sizeof(u64) * + r64
-}
-
-; ( -- *u64)
-fn const_stack.top* 0 1 {
-	const_stack.len 0 != assert
-	const_stack const_stack.len 1 - sizeof(u64) * +
-}
-
-; ( -- u64)
-fn const_stack.pop 0 1 {
-	const_stack.top
-	const_stack.len -- pop const_stack.len
-}
-
-
-; (inst[idx] -- bool)
-fn eval_one_inst 1 1 {
+; (ir_data[idx] *Array64 -- bool)
+fn eval_one_inst 2 1 {
+	auto arr     1                          pop arr
 	auto ir_data 1 dup ir_stream[] rIR.data pop ir_data
-	auto ins     1     ir_stream[] rIR.inst pop ins
 
 	auto found 1
 	true pop found
@@ -43,157 +12,159 @@ fn eval_one_inst 1 1 {
 	; 
 	; }
 
-	ins Inst.push_num = if {
-		ir_data const_stack<<
-	} elif ins Inst.inc = const_stack.len 1 >= & {
-		const_stack.top* dup r64 ++ w64
-	} elif ins Inst.dec = const_stack.len 1 >= & {
-		const_stack.top* dup r64 -- w64
-	} elif ins Inst.b_not = const_stack.len 1 >= & {
-		const_stack.top* dup r64 ~ w64
-	} elif ins Inst.dup = const_stack.len 1 >= & {
-		const_stack.top const_stack<<
-	} elif ins Inst.drop = const_stack.len 1 >= & {
-		const_stack.len -- pop const_stack.len
-	} elif ins Inst.plus = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+	ir_stream[] rIR.inst
+	dup Inst.push_num = if {
+		ir_data arr Array64<<
+	} elif dup Inst.inc = arr rArray64.len 1 >= & {
+		arr &Array64.top p64++
+	} elif dup Inst.dec = arr rArray64.len 1 >= & {
+		arr &Array64.top p64--
+	} elif dup Inst.b_not = arr rArray64.len 1 >= & {
+		arr &Array64.top dup r64 ~ w64
+	} elif dup Inst.dup = arr rArray64.len 1 >= & {
+		arr Array64.top arr Array64<<
+	} elif dup Inst.drop = arr rArray64.len 1 >= & {
+		arr Array64.len p64--
+	} elif dup Inst.plus = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap +
-		const_stack<<
-	} elif ins Inst.sub = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.sub = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap -
-		const_stack<<
-	} elif ins Inst.mul = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.mul = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap *
-		const_stack<<
-	} elif ins Inst.div = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.div = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap /
-		const_stack<<
-	} elif ins Inst.mod = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.mod = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap %
-		const_stack<<
-	} elif ins Inst.divmod = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.divmod = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap %% swap
-		const_stack<<
-		const_stack<<
-	} elif ins Inst.shr = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+		arr Array64<<
+	} elif dup Inst.shr = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap >>
-		const_stack<<
-	} elif ins Inst.shl = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.shl = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap <<
-		const_stack<<
-	} elif ins Inst.b_and = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.b_and = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap &
-		const_stack<<
-	} elif ins Inst.b_or = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.b_or = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap |
-		const_stack<<
-	} elif ins Inst.b_xor = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.b_xor = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap ^
-		const_stack<<
-	} elif ins Inst.swap = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.swap = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap
-		const_stack<<
-		const_stack<<
-	} elif ins Inst.over = const_stack.len 2 >= & {
-		const_stack const_stack.len 2 - sizeof(u64) * + r64
-		const_stack<<
-	} elif ins Inst.equ = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+		arr Array64<<
+	} elif dup Inst.over = arr rArray64.len 2 >= & {
+		arr rArray64.len 2 - arr Array64[]
+		arr Array64<<
+	} elif dup Inst.equ = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap =
-		const_stack<<
-	} elif ins Inst.nequ = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.nequ = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap !=
-		const_stack<<
-	} elif ins Inst.gt = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.gt = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap >
-		const_stack<<
-	} elif ins Inst.lt = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.lt = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap <
-		const_stack<<
-	} elif ins Inst.gte = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.gte = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap >=
-		const_stack<<
-	} elif ins Inst.lte = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.lte = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap <=
-		const_stack<<
-	} elif ins Inst.s_gt = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.s_gt = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap >s
-		const_stack<<
-	} elif ins Inst.s_lt = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.s_lt = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap <s
-		const_stack<<
-	} elif ins Inst.s_gte = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.s_gte = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap >=s
-		const_stack<<
-	} elif ins Inst.s_lte = const_stack.len 2 >= & {
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.s_lte = arr rArray64.len 2 >= & {
+		arr Array64.pop
+		arr Array64.pop
 		swap <=s
-		const_stack<<
-	} elif ins Inst.rot = const_stack.len 3 >= & {
-		const_stack.pop
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+	} elif dup Inst.rot = arr rArray64.len 3 >= & {
+		arr Array64.pop
+		arr Array64.pop
+		arr Array64.pop
 		rot rot
-		const_stack<<
-		const_stack<<
-		const_stack<<
-	} elif ins Inst.over2 = const_stack.len 3 >= & {
-		const_stack const_stack.len 3 - sizeof(u64) * + r64
-		const_stack<<
-	} elif ins Inst.rot4 = const_stack.len 4 >= & {
-		const_stack.pop
-		const_stack.pop
-		const_stack.pop
-		const_stack.pop
+		arr Array64<<
+		arr Array64<<
+		arr Array64<<
+	} elif dup Inst.over2 = arr rArray64.len 3 >= & {
+		arr rArray64.len 3 - arr Array64[]
+		arr Array64<<
+	} elif dup Inst.rot4 = arr rArray64.len 4 >= & {
+		arr Array64.pop
+		arr Array64.pop
+		arr Array64.pop
+		arr Array64.pop
 		rot4 rot4 rot4
-		const_stack<<
-		const_stack<<
-		const_stack<<
-		const_stack<<
+		arr Array64<<
+		arr Array64<<
+		arr Array64<<
+		arr Array64<<
 	} else {
 		false pop found
 	}
+	drop
 
 	found
 }

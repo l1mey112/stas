@@ -49,8 +49,9 @@ fn gen_peek_inst_forward 1 2 {
 	ir_stream[] rIR.inst true
 }
 
-; (start end inlined_count)
-fn gen_range 3 0 {
+; (start end inlined_count *Array64)
+fn gen_range 4 0 {
+	auto arr           1 pop arr
 	auto inlined_count 1 pop inlined_count
 	auto end           1 pop end
 	auto pos           1 pop pos
@@ -60,611 +61,619 @@ fn gen_range 3 0 {
 	-1 pop early_ret_label
 	
 	while pos end < {
-		auto ir_data 1
-		auto fn_c 1
-		
-		auto a 1
-		auto b 1
-		auto c 1
-		auto d 1
-
-		backend_type StasBackend.nasm = debug_symbols r8 & if {
-			pos ir_stream[] rIR.idx token_stream[] dup
-			"%line " fwrite rToken.row fwriteu "+0 '" fwrite rToken.file opened_files[] rFileEntry.file_path_sv string_view_to_str fwrite "'" fwriteln
-		}
-
-		pos ir_stream[] rIR.data pop ir_data
-		
-		pos ir_stream[] rIR.inst
-		dup Inst.label = if {
-			r_flush
-			inlined_count ir_data label.def.fwriteln
-		} elif dup Inst.fn_prelude = {
-			rallocator_stack.len 0 = assert
-			ir_data functions[] pop fn_c
-
-			fn_c rFunction.is_used ! fn_c rFunction.forbid_inline ! | if {
-				fn_c rFunction.end_inst pop pos
-			} else {
-				backend_type StasBackend.fasm = debug_symbols r8 & if {
-					"public " fwrite fn_c Function.name.fwrite_mangled fendl
-				}
-				fn_c Function.name.fwrite_mangled ":" fwriteln
-				fn_c rFunction.a_sp 0 > if {
-					"	sub rsp, " fwrite fn_c rFunction.a_sp fwriteuln
-				}
-				"	mov [_rs_p], rsp" fwriteln
-				"	mov rsp, rbp"     fwriteln
-
-				fn_c rFunction.tail_r_label dup UINT32_MAX != if {
-					inlined_count swap label.def.fwriteln 0
-				}
-				drop
-
-				trace_calls r8 if {
-					pos ir_stream[] rIR.idx
-					""
-					trace.Tok.to_string_view
-					dup fn_c rFunction.name string_view_to_str push_string_view
-					dup `\n` push_char
-					dup      push_nul
-					slits<<
-					; (slits.len len)
-					"	mov rax, 1"  fwriteln
-					"	mov rdi, 2"  fwriteln
-					"	mov rdx, "   fwrite slits.len -- slits[] r64 fwriteuln
-					"	mov rsi, _s" fwrite slits.len -- fwriteuln
-					"	syscall"     fwriteln
-				}
+		pos arr eval_one_inst ! if {
+			0 while dup arr rArray64.len < {
+				dup arr Array64[] r_push_const
+				++
 			}
-		} elif dup Inst.fn_leave = {
-			r_flush
+			drop
+			arr 0 wArray64.len
 
-			inlined_count 0 > if {
-				early_ret_label -1 = if {
-					label_allocate pop early_ret_label
-				}
+			auto ir_data 1
+			auto fn_c 1
+			
+			auto a 1
+			auto b 1
+			auto c 1
+			auto d 1
 
-				"	jmp " fwrite inlined_count early_ret_label label.ref.fwriteln
-			} else {
-				ir_data functions[] pop fn_c
-				"	mov rbp, rsp"     fwriteln
-				"	mov rsp, [_rs_p]" fwriteln
-				fn_c rFunction.a_sp 0 > if {
-					"	add rsp, " fwrite fn_c rFunction.a_sp fwriteuln
-				}
-				"	ret" fwriteln
+			backend_type StasBackend.nasm = debug_symbols r8 & if {
+				pos ir_stream[] rIR.idx token_stream[] dup
+				"%line " fwrite rToken.row fwriteu "+0 '" fwrite rToken.file opened_files[] rFileEntry.file_path_sv string_view_to_str fwrite "'" fwriteln
 			}
-		} elif dup Inst.fn_call = {
-			ir_data functions[] pop fn_c
 
-			fn_c rFunction.forbid_inline ! if {
-			;	fn_c rFunction.end_inst 1 + fn_c rFunction.start_inst -
-			;	2 != if {
-					fn_c Function.inlined_count p32++
-					fn_c rFunction.start_inst 1 + fn_c rFunction.end_inst fn_c rFunction.inlined_count gen_range
-			;	}
-			} else {
+			pos ir_stream[] rIR.data pop ir_data
+			
+			pos ir_stream[] rIR.inst
+			dup Inst.label = if {
 				r_flush
-			;	pos gen_peek_inst_back if {
-			;		Inst.fn_call != if {
-						"	mov rbp, rsp"     fwriteln
-						"	mov rsp, [_rs_p]" fwriteln
-			;		}
-			;	} else {
-			;		drop
-			;	}
-				"	call " fwrite fn_c Function.name.fwrite_mangled fendl
-			;	pos gen_peek_inst_forward if {
-			;		Inst.fn_call != if {
-						"	mov [_rs_p], rsp" fwriteln
-						"	mov rsp, rbp"     fwriteln
-			;		}
-			;	} else {
-			;		drop
-			;	}
-			}
-		} elif dup Inst._assert = {
-			auto lbl 1
-			label_allocate pop lbl
+				inlined_count ir_data label.def.fwriteln
+			} elif dup Inst.fn_prelude = {
+				rallocator_stack.len 0 = assert
+				ir_data functions[] pop fn_c
 
-			r_pop pop a
-			"	test " fwrite a Reg.64.to_str fwrite ", " fwrite a Reg.64.to_str fwriteln
-			"	jnz "            fwrite inlined_count lbl label.ref.fwriteln
-			"	mov eax, 1"      fwriteln
-			"	mov edi, 2"      fwriteln
-			"	mov rsi, _s"     fwrite ir_data fwriteuln
-			"	mov rdx, "       fwrite ir_data slits[] r64 fwriteuln
-			"	syscall"         fwriteln
-			"	mov rdi, 1"      fwriteln
-			"	jmp _exit"       fwriteln
-			inlined_count lbl label.def.fwriteln
-			a r_free
-		} elif dup Inst.push_str = {
-			r_prepare_push_const_word "_s" fwrite ir_data fwriteuln
-			ir_data slits[] r64 r_push_const
-		} elif dup Inst.push_num = {
-			ir_data r_push_const
-		} elif dup Inst.push_local_addr = {
-			r_prepare_push_const_word "qword [_rs_p]" fwriteln
-			ir_data 0 != if {
-				"	add " fwrite r_top Reg.64.to_str fwrite ", " fwrite ir_data fwriteuln
-			}
-		} elif dup Inst.pop_local_stack_var = {
-			auto var_addr  1 ir_data UINT32_MAX & pop var_addr
-			auto count     1 ir_data 32 >>        pop count
+				fn_c rFunction.is_used ! fn_c rFunction.forbid_inline ! | if {
+					fn_c rFunction.end_inst pop pos
+				} else {
+					backend_type StasBackend.fasm = debug_symbols r8 & if {
+						"public " fwrite fn_c Function.name.fwrite_mangled fendl
+					}
+					fn_c Function.name.fwrite_mangled ":" fwriteln
+					fn_c rFunction.a_sp 0 > if {
+						"	sub rsp, " fwrite fn_c rFunction.a_sp fwriteuln
+					}
+					"	mov [_rs_p], rsp" fwriteln
+					"	mov rsp, rbp"     fwriteln
 
-			auto r 1 r_new pop r
-			"	mov " fwrite r Reg.64.to_str fwrite ", qword [_rs_p]" fwriteln
-			count
-			while dup 0 > {
-				--
-				dup 8 * var_addr + r_pop swap
-				"	mov qword [" fwrite r Reg.64.to_str fwrite " + " fwrite fwriteu "], " fwrite
-				dup r_free Reg.64.to_str fwriteln
-			}
-			drop
-			r r_free
-		} elif dup Inst.push_local_stack_var = {
-			auto var_addr  1 ir_data UINT32_MAX & pop var_addr
-			auto count     1 ir_data 32 >>        pop count
+					fn_c rFunction.tail_r_label dup UINT32_MAX != if {
+						inlined_count swap label.def.fwriteln 0
+					}
+					drop
 
-			auto r 1 r_new pop r
-			"	mov " fwrite r Reg.64.to_str fwrite ", qword [_rs_p]" fwriteln
-			count
-			while dup 0 > {
-				--
-				dup count swap - 1 - 8 * var_addr +
-				r_prepare_push_const_word "qword [" fwrite r Reg.64.to_str fwrite " + " fwrite fwriteu "]" fwriteln
-			}
-			drop
-			r r_free
-		} elif dup Inst.push_global_var_name = {
-			r_prepare_push_const_word "qword _g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwriteln
-		} elif dup Inst.pop_global_stack_var = {
-			auto r     1
-			auto count 1
+					trace_calls r8 if {
+						pos ir_stream[] rIR.idx
+						""
+						trace.Tok.to_string_view
+						dup fn_c rFunction.name string_view_to_str push_string_view
+						dup `\n` push_char
+						dup      push_nul
+						slits<<
+						; (slits.len len)
+						"	mov rax, 1"  fwriteln
+						"	mov rdi, 2"  fwriteln
+						"	mov rdx, "   fwrite slits.len -- slits[] r64 fwriteuln
+						"	mov rsi, _s" fwrite slits.len -- fwriteuln
+						"	syscall"     fwriteln
+					}
+				}
+			} elif dup Inst.fn_leave = {
+				r_flush
 
-			ir_data var_context[] rVariable.size 8 / pop count
+				inlined_count 0 > if {
+					early_ret_label -1 = if {
+						label_allocate pop early_ret_label
+					}
 
-			count 1 = if {
-				r_pop pop r
+					"	jmp " fwrite inlined_count early_ret_label label.ref.fwriteln
+				} else {
+					ir_data functions[] pop fn_c
+					"	mov rbp, rsp"     fwriteln
+					"	mov rsp, [_rs_p]" fwriteln
+					fn_c rFunction.a_sp 0 > if {
+						"	add rsp, " fwrite fn_c rFunction.a_sp fwriteuln
+					}
+					"	ret" fwriteln
+				}
+			} elif dup Inst.fn_call = {
+				ir_data functions[] pop fn_c
 
-				"	mov [_g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwrite "], " fwrite r Reg.64.to_str fwriteln
-			} else {
-				r_new pop r
+				fn_c rFunction.forbid_inline ! if {
+				;	fn_c rFunction.end_inst 1 + fn_c rFunction.start_inst -
+				;	2 != if {
+						fn_c Function.inlined_count p32++
+						fn_c rFunction.start_inst 1 + fn_c rFunction.end_inst fn_c rFunction.inlined_count arr gen_range
+				;	}
+				} else {
+					r_flush
+				;	pos gen_peek_inst_back if {
+				;		Inst.fn_call != if {
+							"	mov rbp, rsp"     fwriteln
+							"	mov rsp, [_rs_p]" fwriteln
+				;		}
+				;	} else {
+				;		drop
+				;	}
+					"	call " fwrite fn_c Function.name.fwrite_mangled fendl
+				;	pos gen_peek_inst_forward if {
+				;		Inst.fn_call != if {
+							"	mov [_rs_p], rsp" fwriteln
+							"	mov rsp, rbp"     fwriteln
+				;		}
+				;	} else {
+				;		drop
+				;	}
+				}
+			} elif dup Inst._assert = {
+				auto lbl 1
+				label_allocate pop lbl
 
-				"	mov " fwrite r Reg.64.to_str fwrite ", _g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwriteln
-				
+				r_pop pop a
+				"	test " fwrite a Reg.64.to_str fwrite ", " fwrite a Reg.64.to_str fwriteln
+				"	jnz "            fwrite inlined_count lbl label.ref.fwriteln
+				"	mov eax, 1"      fwriteln
+				"	mov edi, 2"      fwriteln
+				"	mov rsi, _s"     fwrite ir_data fwriteuln
+				"	mov rdx, "       fwrite ir_data slits[] r64 fwriteuln
+				"	syscall"         fwriteln
+				"	mov rdi, 1"      fwriteln
+				"	jmp _exit"       fwriteln
+				inlined_count lbl label.def.fwriteln
+				a r_free
+			} elif dup Inst.push_str = {
+				r_prepare_push_const_word "_s" fwrite ir_data fwriteuln
+				ir_data slits[] r64 r_push_const
+			} elif dup Inst.push_num = {
+				0 assert -> 'unreachable'
+			} elif dup Inst.push_local_addr = {
+				r_prepare_push_const_word "qword [_rs_p]" fwriteln
+				ir_data 0 != if {
+					"	add " fwrite r_top Reg.64.to_str fwrite ", " fwrite ir_data fwriteuln
+				}
+			} elif dup Inst.pop_local_stack_var = {
+				auto var_addr  1 ir_data UINT32_MAX & pop var_addr
+				auto count     1 ir_data 32 >>        pop count
+
+				auto r 1 r_new pop r
+				"	mov " fwrite r Reg.64.to_str fwrite ", qword [_rs_p]" fwriteln
 				count
 				while dup 0 > {
 					--
-					dup 8 *
-					r_pop
-					"	mov qword [" fwrite r Reg.64.to_str fwrite " + " fwrite swap fwriteu "], " fwrite
+					dup 8 * var_addr + r_pop swap
+					"	mov qword [" fwrite r Reg.64.to_str fwrite " + " fwrite fwriteu "], " fwrite
 					dup r_free Reg.64.to_str fwriteln
 				}
 				drop
-			}
+				r r_free
+			} elif dup Inst.push_local_stack_var = {
+				auto var_addr  1 ir_data UINT32_MAX & pop var_addr
+				auto count     1 ir_data 32 >>        pop count
 
-			r r_free
-		} elif dup Inst.push_global_stack_var = {
-			auto r     1
-			auto count 1
-
-			ir_data var_context[] rVariable.size 8 / pop count
-
-			r_new pop r
-
-			count 1 = if {	
-				"	mov " fwrite r Reg.64.to_str fwrite ", [_g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwrite "]" fwriteln
-
-				r r_push
-			} else {
-				"	mov " fwrite r Reg.64.to_str fwrite ", _g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwriteln
-
+				auto r 1 r_new pop r
+				"	mov " fwrite r Reg.64.to_str fwrite ", qword [_rs_p]" fwriteln
 				count
 				while dup 0 > {
 					--
-					dup count swap - 1 - 8 *
+					dup count swap - 1 - 8 * var_addr +
 					r_prepare_push_const_word "qword [" fwrite r Reg.64.to_str fwrite " + " fwrite fwriteu "]" fwriteln
 				}
 				drop
+				r r_free
+			} elif dup Inst.push_global_var_name = {
+				r_prepare_push_const_word "qword _g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwriteln
+			} elif dup Inst.pop_global_stack_var = {
+				auto r     1
+				auto count 1
+
+				ir_data var_context[] rVariable.size 8 / pop count
+
+				count 1 = if {
+					r_pop pop r
+
+					"	mov [_g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwrite "], " fwrite r Reg.64.to_str fwriteln
+				} else {
+					r_new pop r
+
+					"	mov " fwrite r Reg.64.to_str fwrite ", _g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwriteln
+					
+					count
+					while dup 0 > {
+						--
+						dup 8 *
+						r_pop
+						"	mov qword [" fwrite r Reg.64.to_str fwrite " + " fwrite swap fwriteu "], " fwrite
+						dup r_free Reg.64.to_str fwriteln
+					}
+					drop
+				}
 
 				r r_free
-			}
-		} elif dup Inst.push_argc = {
-			r_new pop a
-			"	mov " fwrite a Reg.64.to_str fwrite ", qword [_arg_p]" fwriteln
-			"	mov " fwrite a Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
-			a r_push
-		} elif dup Inst.push_argv = {
-			r_new pop a
-			"	mov " fwrite a Reg.64.to_str fwrite ", qword [_arg_p]" fwriteln
-			"	add " fwrite a Reg.64.to_str fwrite ", 8" fwriteln
-			a r_push
-		} elif dup Inst.push_envp = {
-			r_new pop a
-			r_new pop b
-			"	mov " fwrite a Reg.64.to_str fwrite ", qword [_arg_p]" fwriteln
-			"	mov " fwrite b Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
-			"	add " fwrite a Reg.64.to_str fwrite ", 8" fwriteln
-			"	lea " fwrite a Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite " + " fwrite b Reg.64.to_str fwrite " * 8 + 8]" fwriteln
-			a r_push
-			b r_free
-		} elif dup Inst.do_cond_jmp = {
-			r_pop pop a
-			r_flush
-			"	test " fwrite a Reg.64.to_str fwrite ", " fwrite a Reg.64.to_str fwriteln
-			"	jz " fwrite inlined_count ir_data label.ref.fwriteln
-			a r_free
-		} elif dup Inst.do_jmp = {
-			r_flush
-			"	jmp " fwrite inlined_count ir_data label.ref.fwriteln
-		} elif dup Inst.trap_breakpoint = {
-			Reg.rax r_pop_r
-			"	db 0xcc" fwriteln
-			Reg.rax r_push
-		} elif dup Inst.plus = {
-			r_pop
-			r_pop
-			over over "add" gen_inst
-			r_push
-			r_free
-		} elif dup Inst.sub = {
-			r_pop
-			r_pop
-			over over "sub" gen_inst
-			r_push
-			r_free
-		} elif dup Inst.mul = {
-			r_pop
-			r_pop
-			over over "imul" gen_inst
-			r_push
-			r_free
-		} elif dup Inst.div = {
-			r_pop pop b
-			Reg.rax r_pop_r
-			Reg.rdx r_release
-			"	xor rdx, rdx" fwriteln
-			"	div " fwrite b Reg.64.to_str fwriteln
-			Reg.rax r_push
-			Reg.rdx r_free
-			b        r_free
-		} elif dup Inst.mod = {
-			r_pop pop b
-			Reg.rax r_pop_r
-			Reg.rdx r_release
-			"	xor rdx, rdx" fwriteln
-			"	div " fwrite b Reg.64.to_str fwriteln
-			Reg.rdx r_push
-			Reg.rax r_free
-			b        r_free
-		} elif dup Inst.inc = {
-			r_top
-			"	inc " fwrite Reg.64.to_str fwriteln
-		} elif dup Inst.dec = {
-			r_top
-			"	dec " fwrite Reg.64.to_str fwriteln
-		} elif dup Inst.divmod = {
-			Reg.rdx r_new_r
-			r_pop pop b
-			Reg.rax r_pop_r
-			"	xor rdx, rdx" fwriteln
-			"	div " fwrite b Reg.64.to_str fwriteln
-			b        r_free
-			Reg.rax r_push
-			Reg.rdx r_push
-		} elif dup Inst.shr = {
-			Reg.rcx r_pop_r
-			r_pop pop a
-			"	shr " fwrite a Reg.64.to_str fwrite ", cl" fwriteln
-			a r_push
-			Reg.rcx r_free
-		} elif dup Inst.shl = {
-			Reg.rcx r_pop_r
-			r_pop pop a
-			"	shl " fwrite a Reg.64.to_str fwrite ", cl" fwriteln
-			a r_push
-			Reg.rcx r_free
-		} elif dup Inst.not = {
-			r_pop pop a
-			"	test " fwrite a Reg.64.to_str fwrite ", " fwrite a Reg.64.to_str fwriteln
-			"	sete " fwrite a Reg.8.to_str fwriteln
-			a r_push
-		} elif dup Inst.b_and = {
-			r_pop
-			r_pop
-			over over "and" gen_inst
-			r_push
-			r_free
-		} elif dup Inst.b_or = {
-			r_pop
-			r_pop
-			over over "or" gen_inst
-			r_push
-			r_free
-		} elif dup Inst.b_not = {
-			r_pop pop a
-			"	not " fwrite a Reg.64.to_str fwriteln
-			a r_push
-		} elif dup Inst.b_xor = {
-			r_pop
-			r_pop
-			over over "xor" gen_inst
-			r_push
-			r_free
-		} elif dup Inst.swap = {
-			r_pop pop b
-			r_pop pop a
-			b r_push
-			a r_push
-		} elif dup Inst.dup = {
-			r_top
-			r_dup
-		} elif dup Inst.over = {
-			rallocator_stack.len 2 < if {
-				1 rallocator_stack.len - 8 *
-				r_prepare_push_const_word "qword [rsp + " fwrite
-				fwriteu
-				"]" fwriteln
-			} else {
-				rallocator_stack.len 2 - rallocator_stack + r8 r_dup
-			}
-		} elif dup Inst.over2 = {
-			rallocator_stack.len 3 < if {
-				2 rallocator_stack.len - 8 *
-				r_prepare_push_const_word "qword [rsp + " fwrite
-				fwriteu
-				"]" fwriteln
-			} else {
-				rallocator_stack.len 3 - rallocator_stack + r8 r_dup
-			}
-		} elif dup Inst.rot = {
-			r_pop pop c
-			r_pop pop b
-			r_pop pop a
-			c r_push
-			a r_push
-			b r_push
-		} elif dup Inst.rot4 = {
-			r_pop pop d
-			r_pop pop c
-			r_pop pop b
-			r_pop pop a
-			d r_push
-			a r_push
-			b r_push
-			c r_push
-		} elif dup Inst.drop = {
-			rallocator_stack.len 0 > if {
-				rallocator_stack.pop
-				r_free
-			} else {
-				"	add rsp, 8" fwriteln
-			}
-		} elif dup Inst.equ = {
-			r_new pop c
-			r_pop pop b
-			r_pop pop a
-			"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
-			"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
-			"	sete " fwrite c Reg.8.to_str fwriteln
-			c r_push
-			a r_free
-			b r_free
-		} elif dup Inst.nequ = {
-			r_new pop c
-			r_pop pop b
-			r_pop pop a
-			"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
-			"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
-			"	setne " fwrite c Reg.8.to_str fwriteln
-			c r_push
-			a r_free
-			b r_free
-		} elif dup Inst.gt = {
-			r_new pop c
-			r_pop pop b
-			r_pop pop a
-			"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
-			"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
-			"	seta " fwrite c Reg.8.to_str fwriteln
-			c r_push
-			a r_free
-			b r_free
-		} elif dup Inst.lt = {
-			r_new pop c
-			r_pop pop b
-			r_pop pop a
-			"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
-			"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
-			"	setb " fwrite c Reg.8.to_str fwriteln
-			c r_push
-			a r_free
-			b r_free
-		} elif dup Inst.gte = {
-			r_new pop c
-			r_pop pop b
-			r_pop pop a
-			"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
-			"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
-			"	setae " fwrite c Reg.8.to_str fwriteln
-			c r_push
-			a r_free
-			b r_free
-		} elif dup Inst.lte = {
-			r_new pop c
-			r_pop pop b
-			r_pop pop a
-			"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
-			"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
-			"	setbe " fwrite c Reg.8.to_str fwriteln
-			c r_push
-			a r_free
-			b r_free
-		} elif dup Inst.s_gt = {
-			r_new pop c
-			r_pop pop b
-			r_pop pop a
-			"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
-			"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
-			"	setg " fwrite c Reg.8.to_str fwriteln
-			c r_push
-			a r_free
-			b r_free
-		} elif dup Inst.s_lt = {
-			r_new pop c
-			r_pop pop b
-			r_pop pop a
-			"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
-			"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
-			"	setl " fwrite c Reg.8.to_str fwriteln
-			c r_push
-			a r_free
-			b r_free
-		} elif dup Inst.s_gte = {
-			r_new pop c
-			r_pop pop b
-			r_pop pop a
-			"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
-			"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
-			"	setge " fwrite c Reg.8.to_str fwriteln
-			c r_push
-			a r_free
-			b r_free
-		} elif dup Inst.s_lte = {
-			r_new pop c
-			r_pop pop b
-			r_pop pop a
-			"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
-			"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
-			"	setle " fwrite c Reg.8.to_str fwriteln
-			c r_push
-			a r_free
-			b r_free
-		} elif dup Inst.w8 = {
-			r_pop pop b
-			r_pop pop a
-			"	mov byte [" fwrite a Reg.64.to_str fwrite "], " fwrite b Reg.8.to_str fwriteln
-			b r_free
-			a r_free
-		} elif dup Inst.w16 = {
-			r_pop pop b
-			r_pop pop a
-			"	mov word [" fwrite a Reg.64.to_str fwrite "], " fwrite b Reg.16.to_str fwriteln
-			b r_free
-			a r_free
-		} elif dup Inst.w32 = {
-			r_pop pop b
-			r_pop pop a
-			"	mov dword [" fwrite a Reg.64.to_str fwrite "], " fwrite b Reg.32.to_str fwriteln
-			b r_free
-			a r_free
-		} elif dup Inst.w64 = {
-			r_pop pop b
-			r_pop pop a
-			"	mov qword [" fwrite a Reg.64.to_str fwrite "], " fwrite b Reg.64.to_str fwriteln
-			b r_free
-			a r_free
-		} elif dup Inst.r8 = {
-			r_pop pop a
-			r_new pop b
-			"	xor " fwrite b Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
-			"	mov " fwrite b Reg.8.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
-			b r_push
-			a r_free
-		} elif dup Inst.r16 = {
-			r_pop pop a
-			r_new pop b
-			"	xor " fwrite b Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
-			"	mov " fwrite b Reg.16.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
-			b r_push
-			a r_free
-		} elif dup Inst.r32 = {
-			r_pop pop a
-			"	mov " fwrite a Reg.32.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
-			a r_push
-		} elif dup Inst.r64 = {
-			r_pop pop a
-			"	mov " fwrite a Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
-			a r_push
-		} elif dup Inst.syscall0 = {
-			Reg.rax r_pop_r
-			"	syscall" fwriteln
-			Reg.rax r_push
-		} elif dup Inst.syscall1 = {
-			Reg.rax r_pop_r
-			Reg.rdi r_pop_r
-			"	syscall" fwriteln
-			Reg.rax r_push
-			Reg.rdi r_free
-		} elif dup Inst.syscall2 = {
-			Reg.rax r_pop_r
-			Reg.rsi r_pop_r
-			Reg.rdi r_pop_r
-			"	syscall" fwriteln
-			Reg.rax r_push
-			Reg.rdi r_free
-			Reg.rsi r_free
-		} elif dup Inst.syscall3 = {
-			Reg.rax r_pop_r
-			Reg.rdx r_pop_r
-			Reg.rsi r_pop_r
-			Reg.rdi r_pop_r
-			"	syscall" fwriteln
-			Reg.rax r_push
-			Reg.rdi r_free
-			Reg.rsi r_free
-			Reg.rdx r_free
-		} elif dup Inst.syscall4 = {
-			Reg.rax r_pop_r
-			Reg.r10 r_pop_r
-			Reg.rdx r_pop_r
-			Reg.rsi r_pop_r
-			Reg.rdi r_pop_r
-			"	syscall" fwriteln
-			Reg.rax r_push
-			Reg.rdi r_free
-			Reg.rsi r_free
-			Reg.rdx r_free
-			Reg.r10 r_free
-		} elif dup Inst.syscall5 = {
-			Reg.rax r_pop_r
-			Reg.r8  r_pop_r
-			Reg.r10 r_pop_r
-			Reg.rdx r_pop_r
-			Reg.rsi r_pop_r
-			Reg.rdi r_pop_r
-			"	syscall" fwriteln
-			Reg.rax r_push
-			Reg.rdi r_free
-			Reg.rsi r_free
-			Reg.rdx r_free
-			Reg.r10 r_free
-			Reg.r8  r_free
-		} elif dup Inst.syscall6 = {
-			Reg.rax r_pop_r
-			Reg.r9  r_pop_r
-			Reg.r8  r_pop_r
-			Reg.r10 r_pop_r
-			Reg.rdx r_pop_r
-			Reg.rsi r_pop_r
-			Reg.rdi r_pop_r
-			"	syscall" fwriteln
-			Reg.rax r_push
-			Reg.rdi r_free
-			Reg.rsi r_free
-			Reg.rdx r_free
-			Reg.r10 r_free
-			Reg.r8  r_free
-			Reg.r9  r_free
-		} else {
-			0 assert -> 'unreachable'
-		}
-		drop
+			} elif dup Inst.push_global_stack_var = {
+				auto r     1
+				auto count 1
 
+				ir_data var_context[] rVariable.size 8 / pop count
+
+				r_new pop r
+
+				count 1 = if {	
+					"	mov " fwrite r Reg.64.to_str fwrite ", [_g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwrite "]" fwriteln
+
+					r r_push
+				} else {
+					"	mov " fwrite r Reg.64.to_str fwrite ", _g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwriteln
+
+					count
+					while dup 0 > {
+						--
+						dup count swap - 1 - 8 *
+						r_prepare_push_const_word "qword [" fwrite r Reg.64.to_str fwrite " + " fwrite fwriteu "]" fwriteln
+					}
+					drop
+
+					r r_free
+				}
+			} elif dup Inst.push_argc = {
+				r_new pop a
+				"	mov " fwrite a Reg.64.to_str fwrite ", qword [_arg_p]" fwriteln
+				"	mov " fwrite a Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
+				a r_push
+			} elif dup Inst.push_argv = {
+				r_new pop a
+				"	mov " fwrite a Reg.64.to_str fwrite ", qword [_arg_p]" fwriteln
+				"	add " fwrite a Reg.64.to_str fwrite ", 8" fwriteln
+				a r_push
+			} elif dup Inst.push_envp = {
+				r_new pop a
+				r_new pop b
+				"	mov " fwrite a Reg.64.to_str fwrite ", qword [_arg_p]" fwriteln
+				"	mov " fwrite b Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
+				"	add " fwrite a Reg.64.to_str fwrite ", 8" fwriteln
+				"	lea " fwrite a Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite " + " fwrite b Reg.64.to_str fwrite " * 8 + 8]" fwriteln
+				a r_push
+				b r_free
+			} elif dup Inst.do_cond_jmp = {
+				r_pop pop a
+				r_flush
+				"	test " fwrite a Reg.64.to_str fwrite ", " fwrite a Reg.64.to_str fwriteln
+				"	jz " fwrite inlined_count ir_data label.ref.fwriteln
+				a r_free
+			} elif dup Inst.do_jmp = {
+				r_flush
+				"	jmp " fwrite inlined_count ir_data label.ref.fwriteln
+			} elif dup Inst.trap_breakpoint = {
+				Reg.rax r_pop_r
+				"	db 0xcc" fwriteln
+				Reg.rax r_push
+			} elif dup Inst.plus = {
+				r_pop
+				r_pop
+				over over "add" gen_inst
+				r_push
+				r_free
+			} elif dup Inst.sub = {
+				r_pop
+				r_pop
+				over over "sub" gen_inst
+				r_push
+				r_free
+			} elif dup Inst.mul = {
+				r_pop
+				r_pop
+				over over "imul" gen_inst
+				r_push
+				r_free
+			} elif dup Inst.div = {
+				r_pop pop b
+				Reg.rax r_pop_r
+				Reg.rdx r_release
+				"	xor rdx, rdx" fwriteln
+				"	div " fwrite b Reg.64.to_str fwriteln
+				Reg.rax r_push
+				Reg.rdx r_free
+				b        r_free
+			} elif dup Inst.mod = {
+				r_pop pop b
+				Reg.rax r_pop_r
+				Reg.rdx r_release
+				"	xor rdx, rdx" fwriteln
+				"	div " fwrite b Reg.64.to_str fwriteln
+				Reg.rdx r_push
+				Reg.rax r_free
+				b        r_free
+			} elif dup Inst.inc = {
+				r_top
+				"	inc " fwrite Reg.64.to_str fwriteln
+			} elif dup Inst.dec = {
+				r_top
+				"	dec " fwrite Reg.64.to_str fwriteln
+			} elif dup Inst.divmod = {
+				Reg.rdx r_new_r
+				r_pop pop b
+				Reg.rax r_pop_r
+				"	xor rdx, rdx" fwriteln
+				"	div " fwrite b Reg.64.to_str fwriteln
+				b        r_free
+				Reg.rax r_push
+				Reg.rdx r_push
+			} elif dup Inst.shr = {
+				Reg.rcx r_pop_r
+				r_pop pop a
+				"	shr " fwrite a Reg.64.to_str fwrite ", cl" fwriteln
+				a r_push
+				Reg.rcx r_free
+			} elif dup Inst.shl = {
+				Reg.rcx r_pop_r
+				r_pop pop a
+				"	shl " fwrite a Reg.64.to_str fwrite ", cl" fwriteln
+				a r_push
+				Reg.rcx r_free
+			} elif dup Inst.not = {
+				r_pop pop a
+				"	test " fwrite a Reg.64.to_str fwrite ", " fwrite a Reg.64.to_str fwriteln
+				"	sete " fwrite a Reg.8.to_str fwriteln
+				a r_push
+			} elif dup Inst.b_and = {
+				r_pop
+				r_pop
+				over over "and" gen_inst
+				r_push
+				r_free
+			} elif dup Inst.b_or = {
+				r_pop
+				r_pop
+				over over "or" gen_inst
+				r_push
+				r_free
+			} elif dup Inst.b_not = {
+				r_pop pop a
+				"	not " fwrite a Reg.64.to_str fwriteln
+				a r_push
+			} elif dup Inst.b_xor = {
+				r_pop
+				r_pop
+				over over "xor" gen_inst
+				r_push
+				r_free
+			} elif dup Inst.swap = {
+				r_pop pop b
+				r_pop pop a
+				b r_push
+				a r_push
+			} elif dup Inst.dup = {
+				r_top
+				r_dup
+			} elif dup Inst.over = {
+				rallocator_stack.len 2 < if {
+					1 rallocator_stack.len - 8 *
+					r_prepare_push_const_word "qword [rsp + " fwrite
+					fwriteu
+					"]" fwriteln
+				} else {
+					rallocator_stack.len 2 - rallocator_stack + r8 r_dup
+				}
+			} elif dup Inst.over2 = {
+				rallocator_stack.len 3 < if {
+					2 rallocator_stack.len - 8 *
+					r_prepare_push_const_word "qword [rsp + " fwrite
+					fwriteu
+					"]" fwriteln
+				} else {
+					rallocator_stack.len 3 - rallocator_stack + r8 r_dup
+				}
+			} elif dup Inst.rot = {
+				r_pop pop c
+				r_pop pop b
+				r_pop pop a
+				c r_push
+				a r_push
+				b r_push
+			} elif dup Inst.rot4 = {
+				r_pop pop d
+				r_pop pop c
+				r_pop pop b
+				r_pop pop a
+				d r_push
+				a r_push
+				b r_push
+				c r_push
+			} elif dup Inst.drop = {
+				rallocator_stack.len 0 > if {
+					rallocator_stack.pop
+					r_free
+				} else {
+					"	add rsp, 8" fwriteln
+				}
+			} elif dup Inst.equ = {
+				r_new pop c
+				r_pop pop b
+				r_pop pop a
+				"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
+				"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
+				"	sete " fwrite c Reg.8.to_str fwriteln
+				c r_push
+				a r_free
+				b r_free
+			} elif dup Inst.nequ = {
+				r_new pop c
+				r_pop pop b
+				r_pop pop a
+				"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
+				"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
+				"	setne " fwrite c Reg.8.to_str fwriteln
+				c r_push
+				a r_free
+				b r_free
+			} elif dup Inst.gt = {
+				r_new pop c
+				r_pop pop b
+				r_pop pop a
+				"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
+				"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
+				"	seta " fwrite c Reg.8.to_str fwriteln
+				c r_push
+				a r_free
+				b r_free
+			} elif dup Inst.lt = {
+				r_new pop c
+				r_pop pop b
+				r_pop pop a
+				"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
+				"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
+				"	setb " fwrite c Reg.8.to_str fwriteln
+				c r_push
+				a r_free
+				b r_free
+			} elif dup Inst.gte = {
+				r_new pop c
+				r_pop pop b
+				r_pop pop a
+				"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
+				"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
+				"	setae " fwrite c Reg.8.to_str fwriteln
+				c r_push
+				a r_free
+				b r_free
+			} elif dup Inst.lte = {
+				r_new pop c
+				r_pop pop b
+				r_pop pop a
+				"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
+				"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
+				"	setbe " fwrite c Reg.8.to_str fwriteln
+				c r_push
+				a r_free
+				b r_free
+			} elif dup Inst.s_gt = {
+				r_new pop c
+				r_pop pop b
+				r_pop pop a
+				"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
+				"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
+				"	setg " fwrite c Reg.8.to_str fwriteln
+				c r_push
+				a r_free
+				b r_free
+			} elif dup Inst.s_lt = {
+				r_new pop c
+				r_pop pop b
+				r_pop pop a
+				"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
+				"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
+				"	setl " fwrite c Reg.8.to_str fwriteln
+				c r_push
+				a r_free
+				b r_free
+			} elif dup Inst.s_gte = {
+				r_new pop c
+				r_pop pop b
+				r_pop pop a
+				"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
+				"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
+				"	setge " fwrite c Reg.8.to_str fwriteln
+				c r_push
+				a r_free
+				b r_free
+			} elif dup Inst.s_lte = {
+				r_new pop c
+				r_pop pop b
+				r_pop pop a
+				"	xor " fwrite c Reg.64.to_str fwrite ", " fwrite c Reg.64.to_str fwriteln
+				"	cmp " fwrite a Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
+				"	setle " fwrite c Reg.8.to_str fwriteln
+				c r_push
+				a r_free
+				b r_free
+			} elif dup Inst.w8 = {
+				r_pop pop b
+				r_pop pop a
+				"	mov byte [" fwrite a Reg.64.to_str fwrite "], " fwrite b Reg.8.to_str fwriteln
+				b r_free
+				a r_free
+			} elif dup Inst.w16 = {
+				r_pop pop b
+				r_pop pop a
+				"	mov word [" fwrite a Reg.64.to_str fwrite "], " fwrite b Reg.16.to_str fwriteln
+				b r_free
+				a r_free
+			} elif dup Inst.w32 = {
+				r_pop pop b
+				r_pop pop a
+				"	mov dword [" fwrite a Reg.64.to_str fwrite "], " fwrite b Reg.32.to_str fwriteln
+				b r_free
+				a r_free
+			} elif dup Inst.w64 = {
+				r_pop pop b
+				r_pop pop a
+				"	mov qword [" fwrite a Reg.64.to_str fwrite "], " fwrite b Reg.64.to_str fwriteln
+				b r_free
+				a r_free
+			} elif dup Inst.r8 = {
+				r_pop pop a
+				r_new pop b
+				"	xor " fwrite b Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
+				"	mov " fwrite b Reg.8.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
+				b r_push
+				a r_free
+			} elif dup Inst.r16 = {
+				r_pop pop a
+				r_new pop b
+				"	xor " fwrite b Reg.64.to_str fwrite ", " fwrite b Reg.64.to_str fwriteln
+				"	mov " fwrite b Reg.16.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
+				b r_push
+				a r_free
+			} elif dup Inst.r32 = {
+				r_pop pop a
+				"	mov " fwrite a Reg.32.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
+				a r_push
+			} elif dup Inst.r64 = {
+				r_pop pop a
+				"	mov " fwrite a Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
+				a r_push
+			} elif dup Inst.syscall0 = {
+				Reg.rax r_pop_r
+				"	syscall" fwriteln
+				Reg.rax r_push
+			} elif dup Inst.syscall1 = {
+				Reg.rax r_pop_r
+				Reg.rdi r_pop_r
+				"	syscall" fwriteln
+				Reg.rax r_push
+				Reg.rdi r_free
+			} elif dup Inst.syscall2 = {
+				Reg.rax r_pop_r
+				Reg.rsi r_pop_r
+				Reg.rdi r_pop_r
+				"	syscall" fwriteln
+				Reg.rax r_push
+				Reg.rdi r_free
+				Reg.rsi r_free
+			} elif dup Inst.syscall3 = {
+				Reg.rax r_pop_r
+				Reg.rdx r_pop_r
+				Reg.rsi r_pop_r
+				Reg.rdi r_pop_r
+				"	syscall" fwriteln
+				Reg.rax r_push
+				Reg.rdi r_free
+				Reg.rsi r_free
+				Reg.rdx r_free
+			} elif dup Inst.syscall4 = {
+				Reg.rax r_pop_r
+				Reg.r10 r_pop_r
+				Reg.rdx r_pop_r
+				Reg.rsi r_pop_r
+				Reg.rdi r_pop_r
+				"	syscall" fwriteln
+				Reg.rax r_push
+				Reg.rdi r_free
+				Reg.rsi r_free
+				Reg.rdx r_free
+				Reg.r10 r_free
+			} elif dup Inst.syscall5 = {
+				Reg.rax r_pop_r
+				Reg.r8  r_pop_r
+				Reg.r10 r_pop_r
+				Reg.rdx r_pop_r
+				Reg.rsi r_pop_r
+				Reg.rdi r_pop_r
+				"	syscall" fwriteln
+				Reg.rax r_push
+				Reg.rdi r_free
+				Reg.rsi r_free
+				Reg.rdx r_free
+				Reg.r10 r_free
+				Reg.r8  r_free
+			} elif dup Inst.syscall6 = {
+				Reg.rax r_pop_r
+				Reg.r9  r_pop_r
+				Reg.r8  r_pop_r
+				Reg.r10 r_pop_r
+				Reg.rdx r_pop_r
+				Reg.rsi r_pop_r
+				Reg.rdi r_pop_r
+				"	syscall" fwriteln
+				Reg.rax r_push
+				Reg.rdi r_free
+				Reg.rsi r_free
+				Reg.rdx r_free
+				Reg.r10 r_free
+				Reg.r8  r_free
+				Reg.r9  r_free
+			} else {
+				0 assert -> 'unreachable'
+			}
+			drop
+		}
 		pos ++ pop pos
 	}
 
@@ -782,7 +791,10 @@ fn stas.gen 2 0 {
 	"	syscall"                          fwriteln
 	"	nop"                              fwriteln
 
-	0 ir_stream.len 0 gen_range
+	reserve const_stack_array sizeof(Array64)
+	const_stack_data sizeof(const_stack_data) const_stack_array Array64.init_with_buffer_sz_bytes
+
+	0 ir_stream.len 0 const_stack_array gen_range
 	
 	backend_type StasBackend.fasm = if {
 		debug_symbols r8 if {

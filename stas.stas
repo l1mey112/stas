@@ -322,7 +322,6 @@ fn main {
 		log.msg.start
 		functions.len eputu " functions, " eputs label_c ++ eputu " labels\n" eputs
 		log.msg.start
-		0 assert -> 'unimplemented'
 	;	global_var_context.len eputu " global variables, " eputs toplevel_constants.len eputu " constants\n" eputs
 	}
 

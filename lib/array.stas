@@ -80,6 +80,40 @@ fn wArray64[]? 3 1 {
 
 	true
 }
+; (idx *Array64 -- ptr bool)
+fn &Array64[]? 2 2 {
+	auto arr 1 pop arr
+
+	dup arr rArray64.len >= if {
+		drop 0 false ret
+	}
+
+	sizeof(u64) *
+	arr rArray64.data +
+
+	true
+}
+; (*Array64 -- ptr bool)
+fn &Array64.top? 1 2 {
+	auto array 1 pop array
+	array rArray64.len 0 = if {
+		0 false ret
+	}
+
+	array
+	 dup rArray64.len -- sizeof(u64) *
+	swap rArray64.data +
+
+	true
+}
+; (*Array64 -- ptr)
+fn &Array64.top 1 1 {
+	&Array64.top? assert -> '&Array64.top: array is empty'
+}
+; (idx *Array64 -- ptr)
+fn &Array64[] 2 1 {
+	&Array64[]? assert -> '&Array64[]: index out of bounds'
+}
 ; (value idx *Array64)
 fn wArray64[] 3 0 {
 	wArray64[]? assert -> 'wArray64[]: index out of bounds'
@@ -259,6 +293,40 @@ fn wArray32[]? 3 1 {
 	arr rArray32.data + swap w32
 
 	true
+}
+; (idx *Array32 -- data bool)
+fn &Array32[]? 2 2 {
+	auto arr 1 pop arr
+
+	dup arr rArray32.len >= if {
+		drop 0 false ret
+	}
+
+	sizeof(u32) *
+	arr rArray32.data +
+
+	true
+}
+; (*Array32 -- ptr bool)
+fn &Array32.top? 1 2 {
+	auto array 1 pop array
+	array rArray32.len 0 = if {
+		0 false ret
+	}
+
+	array
+	 dup rArray32.len -- sizeof(u32) *
+	swap rArray32.data +
+
+	true
+}
+; (*Array32 -- ptr)
+fn &Array32.top 1 1 {
+	&Array32.top? assert -> '&Array32.top: array is empty'
+}
+; (idx *Array32 -- data)
+fn &Array32[] 2 1 {
+	&Array32[]? assert -> '&Array32[]: index out of bounds'
 }
 ; (value idx *Array32)
 fn wArray32[] 3 0 {

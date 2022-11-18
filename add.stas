@@ -1,9 +1,5 @@
-fn c {
-	
-}
+include 'std.stas'
 
 fn main {
-	const c { 10 }
-
-	reserve c 22
+	23 7 + putuln
 }
