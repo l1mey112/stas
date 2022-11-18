@@ -458,40 +458,15 @@ fn FnAttribute.is_conflict 1 1 {
 
 auto pos 1
 
-const   sp.cap     { 1024                 }
-const   sizeof(sp) { sizeof(u32) sp.cap * }
-auto    sp.len     1
-reserve sp         sizeof(sp)
-
-fn sp[] 1 1 {
-	dup sp.len < assert
-	sizeof(u32) * sp + r32
-}
-
-fn sp<< 1 0 {
-	sp.len sp.cap < assert
-	sp sp.len sizeof(u32) * + swap w32
-	sp.len ++ pop sp.len
-}
-
-fn sp.top 0 1 {
-	sp.len 0 > assert
-	sp sp.len -- sizeof(u32) * + r32
-}
-
-fn sp.pop 0 1 {
-	sp.top
-	sp.len -- pop sp.len
-}
-
-; (idx str len)
-fn error_st.Tok 3 0 {
+; (idx str len sp)
+fn error_st.Tok 4 0 {
+	auto sp 1 pop sp
 	error_noexit.Tok
 
-	sp.len 0 > if {
-		sp.len 1 -
+	sp rArray32.len 0 > if {
+		sp rArray32.len 1 -
 		while 1 {
-			dup sp[] "backtrace" notice.Tok
+			dup sp Array32[] "backtrace" notice.Tok
 	
 			dup 0 = if {
 				break
@@ -504,40 +479,46 @@ fn error_st.Tok 3 0 {
 	1 exit
 }
 
-; (count pos)
-fn sp_push_p 2 0 {
+; (count pos sp)
+fn sp_push_p 3 0 {
+	auto sp   1 pop sp
 	auto pos  1 pop pos
 	auto retc 1 pop retc
 
 	0
 	while dup retc < {
-		pos sp<<
+		pos sp Array32<<
 		++
 	}
 	drop
 }
 
-; (count)
-fn sp_push 1 0 {
-	pos sp_push_p
+; (count sp)
+fn sp_push 2 0 {
+	pos swap sp_push_p
 }
 
-; (argc)
-fn sp_has 1 0 {
-	sp.len > if {
-		pos "not enough values to consume for operation" error_st.Tok
+; (argc sp)
+fn sp_has 2 0 {
+	auto sp 1 pop sp
+
+	sp rArray32.len > if {
+		pos "not enough values to consume for operation" sp error_st.Tok
 	}
 }
 
-; (argc retc)
-fn sp_assert 2 0 {
-	auto retc 1 pop retc
+; (argc retc sp)
+fn sp_assert 3 0 {
+	auto sp    1 pop sp
+	auto retc  1 pop retc
 	auto _argc 1 pop _argc
 	
-	_argc sp_has
-	sp.len _argc - pop sp.len
+	_argc sp sp_has
+	sp
+		dup rArray32.len _argc -
+	wArray32.len
 
-	retc pos sp_push_p
+	retc pos sp sp_push_p
 }
 
 ; (inst data)

@@ -1,3 +1,9 @@
+
+fn aaer {
+	auto a 1
+	addr a drop
+}
+
 fn main {
-	
+	aaer
 }

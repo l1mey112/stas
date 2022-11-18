@@ -86,7 +86,7 @@ fn search_variable_name_global 2 1 {
 fn parse.push_empty_scope {
 	; (typ sp sp2 idx label_id label_id2 var_scope)
 		ScopeTyp.scope
-		sp.len
+		0
 		0
 		pos
 		0
@@ -143,7 +143,9 @@ fn parse.next_eof? 0 2 {
 	true
 }
 
-fn parse.fn_decl {
+; ( *Array32(sp) )
+fn parse.fn_decl 1 0 {
+	auto sp    1 pop sp
 	auto _argc 1
 	auto _retc 1
 	auto fn_c  1 pos pop fn_c
@@ -223,10 +225,11 @@ fn parse.fn_decl {
 		function_attributes
 	functions<<
 
-	fn_c Inst.fn_prelude function_context_idx ir_p
-	_argc fn_c sp_push_p
+	sp rArray32.len 0 = assert
 
-	sp.len 0 = assert
+	fn_c Inst.fn_prelude function_context_idx ir_p
+	_argc fn_c sp sp_push_p
+
 	; 0 pop function_attributes
 
 	; (typ sp sp2 idx label_id label_id2 var_scope)
@@ -240,8 +243,9 @@ fn parse.fn_decl {
 	scope_context<<
 }
 
-; ( bool )
-fn parse.basic_token? 0 1 {
+; ( *Array32(sp) bool )
+fn parse.basic_token? 1 1 {
+	auto sp 1 pop sp
 	pos token_stream[] rToken.tok
 
 	; fn ir   (inst data)
@@ -252,204 +256,133 @@ fn parse.basic_token? 0 1 {
 	;	parse.assert
 	} elif dup Tok.number_lit = {
 		Inst.push_num pos token_stream[] rToken.data ir
-		1 sp_push
+		1 sp sp_push
 	} elif dup Tok.plus = {
 		Inst.plus 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.sub = {
 		Inst.sub 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.mul = {
 		Inst.mul 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.div = {
 		Inst.div 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.mod = {
 		Inst.mod 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.inc = {
 		Inst.inc 0 ir
-		1 1 sp_assert
+		1 1 sp sp_assert
 	} elif dup Tok.dec = {
 		Inst.dec 0 ir
-		1 1 sp_assert
+		1 1 sp sp_assert
 	} elif dup Tok.divmod = {
 		Inst.divmod 0 ir
-		2 2 sp_assert
+		2 2 sp sp_assert
 	} elif dup Tok.shr = {
 		Inst.shr 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.shl = {
 		Inst.shl 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.b_and = {
 		Inst.b_and 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.b_or = {
 		Inst.b_or 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.b_not = {
 		Inst.b_not 0 ir
-		1 1 sp_assert
+		1 1 sp sp_assert
 	} elif dup Tok.not = {
 		Inst.not 0 ir
-		1 1 sp_assert
+		1 1 sp sp_assert
 	} elif dup Tok.b_xor = {
 		Inst.b_xor 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.swap = {
 		Inst.swap 0 ir
-		2 sp_has
-			sp.pop
-			sp.pop
+		2 sp sp_has
+			sp Array32.pop
+			sp Array32.pop
 			swap
-			sp<<
-			sp<<
+			sp Array32<<
+			sp Array32<<
 	} elif dup Tok.dup = {
 		Inst.dup 0 ir
-		1 sp_has
-		sp.top sp<<
+		1 sp sp_has
+		sp Array32.top sp Array32<<
 	} elif dup Tok.over = {
 		Inst.over 0 ir
-		2 sp_has
-		sp.len 2 - sp[] sp<<
+		2 sp sp_has
+		sp rArray32.len 2 - sp Array32[] sp Array32<<
 	} elif dup Tok.over2 = {
 		Inst.over2 0 ir
-		3 sp_has
-		sp.len 3 - sp[] sp<<
+		3 sp sp_has
+		sp rArray32.len 3 - sp Array32[] sp Array32<<
 	} elif dup Tok.rot = {
 		Inst.rot 0 ir
-		3 sp_has
-			sp.pop
-			sp.pop
-			sp.pop
+		3 sp sp_has
+			sp Array32.pop
+			sp Array32.pop
+			sp Array32.pop
 			rot rot
-			sp<<
-			sp<<
-			sp<<
+			sp Array32<<
+			sp Array32<<
+			sp Array32<<
 	} elif dup Tok.rot4 = {
 		Inst.rot4 0 ir
-		4 sp_has
-			sp.pop
-			sp.pop
-			sp.pop
-			sp.pop
+		4 sp sp_has
+			sp Array32.pop
+			sp Array32.pop
+			sp Array32.pop
+			sp Array32.pop
 			rot4 rot4 rot4
-			sp<<
-			sp<<
-			sp<<
-			sp<<
+			sp Array32<<
+			sp Array32<<
+			sp Array32<<
+			sp Array32<<
 	} elif dup Tok.drop = {
 		Inst.drop 0 ir
-		1 0 sp_assert
+		1 0 sp sp_assert
 	} elif dup Tok.equ = {
 		Inst.equ 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.nequ = {
 		Inst.nequ 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.gt = {
 		Inst.gt 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.lt = {
 		Inst.lt 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.gte = {
 		Inst.gte 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.lte = {
 		Inst.lte 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.s_gt = {
 		Inst.s_gt 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.s_lt = {
 		Inst.s_lt 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.s_gte = {
 		Inst.s_gte 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} elif dup Tok.s_lte = {
 		Inst.s_lte 0 ir
-		2 1 sp_assert
+		2 1 sp sp_assert
 	} else {
 		drop false ret
 	}
 	drop
 	true
 }
-
-; ( bool )
-fn parse.complex_token? 0 1 {
-	pos token_stream[] rToken.tok
-	dup Tok.string_lit = if {
-		Inst.push_str pos token_stream[] rToken.data ir
-		2 sp_push
-	} elif dup Tok.w8 = {
-		Inst.w8 0 ir
-		2 0 sp_assert
-	} elif dup Tok.w16 = {
-		Inst.w16 0 ir
-		2 0 sp_assert
-	} elif dup Tok.w32 = {
-		Inst.w32 0 ir
-		2 0 sp_assert
-	} elif dup Tok.w64 = {
-		Inst.w64 0 ir
-		2 0 sp_assert
-	} elif dup Tok.r8 = {
-		Inst.r8 0 ir
-		1 1 sp_assert
-	} elif dup Tok.r16 = {
-		Inst.r16 0 ir
-		1 1 sp_assert
-	} elif dup Tok.r32 = {
-		Inst.r32 0 ir
-		1 1 sp_assert
-	} elif dup Tok.r64 = {
-		Inst.r64 0 ir
-		1 1 sp_assert
-	} elif dup Tok.trap_breakpoint = {
-		Inst.trap_breakpoint 0 ir
-		1 1 sp_assert
-	} elif dup Tok.syscall0 = {
-		Inst.syscall0 0 ir
-		1 1 sp_assert
-	} elif dup Tok.syscall1 = {
-		Inst.syscall1 0 ir
-		2 1 sp_assert
-	} elif dup Tok.syscall2 = {
-		Inst.syscall2 0 ir
-		3 1 sp_assert
-	} elif dup Tok.syscall3 = {
-		Inst.syscall3 0 ir
-		4 1 sp_assert
-	} elif dup Tok.syscall4 = {
-		Inst.syscall4 0 ir
-		5 1 sp_assert
-	} elif dup Tok.syscall5 = {
-		Inst.syscall5 0 ir
-		6 1 sp_assert
-	} elif dup Tok.syscall6 = {
-		Inst.syscall6 0 ir
-		7 1 sp_assert
-	} elif dup Tok.argc = {
-		Inst.push_argc 0 ir
-		1 sp_push
-	} elif dup Tok.argv = {
-		Inst.push_argv 0 ir
-		1 sp_push
-	} elif dup Tok.envp = {
-		Inst.push_envp 0 ir
-		1 sp_push
-	} else {
-		drop false ret
-	}
-	drop
-	true
-}
-
 
 ; ( -- is_early_ret )
 fn parse.slurp_early_ret 0 1 {
@@ -486,7 +419,9 @@ fn parse.slurp_early_ret 0 1 {
 	is_early_ret r8
 }
 
-fn parse.handle_close_r_cb {
+; ( *Array32(sp) )
+fn parse.handle_close_r_cb 1 0 {
+	auto    sp           1 pop sp
 	reserve is_early_ret 1
 	is_early_ret parse.slurp_early_ret w8
 
@@ -501,16 +436,16 @@ fn parse.handle_close_r_cb {
 		Inst.fn_leave function_context_idx ir
 
 		is_early_ret r8 ! if {
-			sp.len function_context rFunction.retc > if {
+			sp rArray32.len function_context rFunction.retc > if {
 				function_context rFunction.start_inst.idx
-				'unhandled data on the stack' error_st.Tok
-			} elif sp.len function_context rFunction.retc < {
+				'unhandled data on the stack' sp error_st.Tok
+			} elif sp rArray32.len function_context rFunction.retc < {
 				function_context rFunction.start_inst.idx
-				'not enough values on the stack on function return' error_st.Tok
+				'not enough values on the stack on function return' sp error_st.Tok
 			}
 		}
 
-		0    pop sp.len
+		sp 0 wArray32.len 
 		NULL pop function_context
 		-1   pop function_context_idx
 
@@ -525,16 +460,18 @@ fn parse.handle_close_r_cb {
 		; nop
 	} elif dup ScopeTyp.checked_scope = {
 		is_early_ret r8 if {
-			scope rScope.sp pop sp.len
+			sp
+				scope rScope.sp
+			wArray32.len
 		}
-		sp.len scope rScope.sp > if {
+		sp rArray32.len scope rScope.sp > if {
 			scope rScope.idx
 				'scope assertation failed, more values on the stack than expected (TODO: write count)'
-			error_st.Tok
-		} elif sp.len scope rScope.sp < {
+			sp error_st.Tok
+		} elif sp rArray32.len scope rScope.sp < {
 			scope rScope.idx
 				'scope assertation failed, less values on the stack than expected (TODO: write count)'
-			error_st.Tok
+			sp error_st.Tok
 		}
 	} elif dup ScopeTyp.if_block = {
 		pos 1 + token_stream.len <
@@ -547,19 +484,21 @@ fn parse.handle_close_r_cb {
 
 			; (typ sp sp2 idx label_id label_id2 var_scope)
 				ScopeTyp.else_block_scope
-				sp.len
+				sp rArray32.len
 				is_early_ret r8 if {
 					scope rScope.sp		
 				} else {
-					sp.len
+					dup
 				}
 				pos
 				lbl
 				UINT32_MAX
 				var_context.len
 			scope_context<<
-
-			scope rScope.sp pop sp.len
+			
+			sp
+				scope rScope.sp
+			wArray32.len
 			Inst.do_jmp lbl ir
 
 			pos ++ pop pos
@@ -582,7 +521,7 @@ fn parse.handle_close_r_cb {
 				is_early_ret r8 if {
 					scope rScope.sp		
 				} else {
-					sp.len
+					sp rArray32.len
 				}
 				pos
 				label_allocate
@@ -590,15 +529,19 @@ fn parse.handle_close_r_cb {
 				var_context.len
 			scope_context<<
 
-			scope rScope.sp pop sp.len
+			sp
+				scope rScope.sp
+			wArray32.len
 			Inst.do_jmp scope rScope.label_id2 ir
 			Inst.label  scope rScope.label_id  ir
 		} else {
 			is_early_ret r8 if {
-				scope rScope.sp pop sp.len
+				sp
+					scope rScope.sp
+				wArray32.len
 			}
-			scope rScope.sp sp.len != if {
-				pos 'the stack must remain the same with single branches' error_st.Tok
+			scope rScope.sp sp rArray32.len != if {
+				pos 'the stack must remain the same with single branches' sp error_st.Tok
 			}
 			Inst.label scope rScope.label_id ir
 		}
@@ -631,12 +574,16 @@ fn parse.handle_close_r_cb {
 			scope_context<<
 
 			is_early_ret r8 if {
-				scope rScope.sp2 pop sp.len
+				sp
+					scope rScope.sp2
+				wArray32.len
 			}
-			scope rScope.sp2 sp.len != if {
-				pos 'the stack must remain the same each with else if branch' error_st.Tok
+			scope rScope.sp2 sp rArray32.len != if {
+				pos 'the stack must remain the same each with else if branch' sp error_st.Tok
 			}
-			scope rScope.sp pop sp.len
+			sp
+				scope rScope.sp
+			wArray32.len
 
 			Inst.do_jmp scope rScope.label_id2 ir
 			Inst.label  scope rScope.label_id  ir
@@ -652,26 +599,30 @@ fn parse.handle_close_r_cb {
 			}
 		} else {
 			is_early_ret r8 if {
-				scope rScope.sp2 pop sp.len
+				sp
+					scope rScope.sp2
+				wArray32.len
 			}
-			scope rScope.sp2 sp.len != if {
-				pos 'the stack must remain the same with single branches' error_st.Tok
+			scope rScope.sp2 sp rArray32.len != if {
+				pos 'the stack must remain the same with single branches' sp error_st.Tok
 			}
 			Inst.label scope rScope.label_id  ir
 			Inst.label scope rScope.label_id2 ir
 		}
 	} elif dup ScopeTyp.else_block_scope = {
 		is_early_ret r8 if {
-			scope rScope.sp2 pop sp.len
+			sp
+				scope rScope.sp2
+			wArray32.len
 		}
-		sp.len scope rScope.sp2 > if {
+		sp rArray32.len scope rScope.sp2 > if {
 			scope rScope.idx
 				'unbalanced stack on both if and else branches, else has more than expected (TODO: write count)'
-			error_st.Tok
-		} elif sp.len scope rScope.sp2 < {
+			sp error_st.Tok
+		} elif sp rArray32.len scope rScope.sp2 < {
 			scope rScope.idx
 				'unbalanced stack on both if and else branches, else has less than expected (TODO: write count)'
-			error_st.Tok
+			sp error_st.Tok
 		}
 		Inst.label scope rScope.label_id ir
 		scope rScope.label_id2 UINT32_MAX != if {
@@ -691,22 +642,24 @@ fn parse.handle_close_r_cb {
 	}
 }
 
-fn parse.handle_open_l_cb {
+; ( *Array32(sp) )
+fn parse.handle_open_l_cb 1 0 {
+	auto sp 1 pop sp
 	parse.slurp_early_ret drop
 
 	scope_context.len 1 > if {	
 		scope_context.top rScope.typ
 		dup ScopeTyp.while_block = if {
-			sp.len 0 = if {
+			sp rArray32.len 0 = if {
 				pos 'no value on stack to consume for while header' error.Tok
 			}
-			sp.len -- pop sp.len
+			sp Array32.len p64--
 			auto lbl 1
 			label_allocate pop lbl
 
 			; (typ sp sp2 idx label_id label_id2 var_scope)
 				ScopeTyp.while_block_scope
-				sp.len
+				sp rArray32.len
 				0
 				pos
 				lbl
@@ -719,10 +672,10 @@ fn parse.handle_open_l_cb {
 			reserve scope sizeof(Scope)
 			scope scope_context.pop_into_ptr
 
-			sp.len 0 = if {
+			sp rArray32.len 0 = if {
 				pos 'no value on stack to consume for else if statement' error.Tok
 			}
-			sp.len -- pop sp.len
+			sp Array32.len p64--
 			auto lbl 1
 			label_allocate pop lbl
 
@@ -773,7 +726,9 @@ fn parse.locate_scope 1 1 {
 	-1
 }
 
-fn parse.handle_name {
+; ( *Array32(sp) )
+fn parse.handle_name 1 0 {
+	auto sp    1 pop sp
 	auto str   2 pos token_stream[] rToken.data string_view_to_str pop str
 	auto f_idx 1
 	auto found 1 false pop found
@@ -795,15 +750,15 @@ fn parse.handle_name {
 			parse.push_early_ret_with_pos
 		}
 
-		sp.len
+		sp rArray32.len
 		f_idx functions[] rFunction.argc
 		< if {
-			pos 'not enough values to consume for function call' error_st.Tok
+			pos 'not enough values to consume for function call' sp error_st.Tok
 		}
 
 		f_idx functions[] rFunction.argc
 		f_idx functions[] rFunction.retc
-		sp_assert
+		sp sp_assert
 
 		true pop found
 	}
@@ -819,7 +774,7 @@ fn parse.handle_name {
 			var rVariable.typ
 			dup VarTyp.buffer = if {
 				Inst.push_local_addr var rVariable.a_sp ir
-				1 sp_push
+				1 sp sp_push
 			} elif dup VarTyp.stack = {
 				auto to_push 1
 				var rVariable.size 8 / pop to_push
@@ -829,7 +784,7 @@ fn parse.handle_name {
 					var rVariable.a_sp |
 				ir
 
-				to_push sp_push
+				to_push sp sp_push
 			} elif dup VarTyp.constant = {
 				0 assert -> 'unimplemented'
 			} else {
@@ -849,10 +804,10 @@ fn parse.handle_name {
 			var rVariable.typ
 			dup VarTyp.buffer = if {
 				Inst.push_global_var_name f_idx ir
-				1 sp_push
+				1 sp sp_push
 			} elif dup VarTyp.stack = {
 				Inst.push_global_stack_var f_idx ir
-				var rVariable.size 8 / sp_push
+				var rVariable.size 8 / sp sp_push
 			} elif dup VarTyp.constant = {
 				0 assert -> 'unimplemented'
 			} else {
@@ -867,24 +822,106 @@ fn parse.handle_name {
 	}
 }
 
-fn parse.fn_complex_body_tokens {
+; ( *Array32(sp) )
+fn parse.handle_var_interaction 1 0 {
+	auto sp     1 pop sp
+	auto is_pop 1
+
+	pos token_stream[] rToken.tok Tok.pop = pop is_pop
+
+	Tok.name parse.expect? ! if {
+		pos 'expected variable name' error.Tok
+	}
+
+	auto str 2
+		pos token_stream[] rToken.data string_view_to_str
+	pop str
+
+	auto f_idx 1
+
+	str 0 search_variable_name pop f_idx
+
+	f_idx -1 != if {
+		auto var       1
+		auto is_global 1 
+
+		f_idx var_context[]                        pop var
+		f_idx 0 scope_context[] rScope.var_scope < pop is_global
+
+		var rVariable.typ
+		dup VarTyp.stack = if {
+			is_pop if {
+				auto to_pop 1
+				var rVariable.size 8 / pop to_pop
+
+				sp rArray32.len to_pop < if {
+					pos 'not enought values on the stack to pop into an automatic variable' sp error_st.Tok
+				}
+
+				sp
+					dup rArray32.len to_pop -
+				wArray32.len
+
+				is_global if {
+					Inst.pop_global_stack_var f_idx ir
+				} else {
+					Inst.pop_local_stack_var
+						to_pop 32 <<
+						var rVariable.a_sp |
+					ir
+				}
+			} else {
+				1 pos -- sp sp_push_p
+
+				is_global if {
+					Inst.push_global_var_name f_idx ir
+				} else {
+					Inst.push_local_addr
+						var rVariable.a_sp
+					ir	
+				}
+			}
+		} elif dup VarTyp.buffer = {
+			is_pop if {
+				pos 'cannot pop into a buffer' error.Tok
+			} else {
+				pos 'cannot get address of a buffer, buffer is already an address' error.Tok
+			}
+		} elif dup VarTyp.constant = {
+			is_pop if {
+				pos 'cannot edit a constant' error.Tok
+			} else {
+				pos 'cannot get address of a constant as it does not reside in memory' error.Tok
+			}
+		} else {
+			0 assert -> 'unreachable'
+		}
+		drop
+	} else {
+		pos 'unknown variable' error.Tok
+	}
+}
+
+; ( *Array32(sp) )
+fn parse.fn_complex_tokens 1 0 {
+	auto sp 1 pop sp
 	pos token_stream[] rToken.tok
 
 	dup dup Tok.pop = swap Tok.addr = | if {
-		0 assert -> 'unimplemented'
+		sp parse.handle_var_interaction
 	} elif dup Tok.name = {
-		parse.handle_name
+		sp parse.handle_name
 	} elif dup Tok.if_block = {
-		sp.len 0 = if {
+		sp rArray32.len 0 = if {
 			pos 'no value on stack to consume for if statement' error.Tok
 		}
-		sp.len -- pop sp.len
+		sp Array32.len p64--
 
 		auto lbl 1 label_allocate pop lbl
 
 		; (typ sp sp2 idx label_id label_id2 var_scope)
 			ScopeTyp.if_block
-			sp.len
+			sp rArray32.len
 			0
 			pos
 			lbl
@@ -905,7 +942,7 @@ fn parse.fn_complex_body_tokens {
 
 		; (typ sp sp2 idx label_id label_id2 var_scope)
 			ScopeTyp.while_block
-			sp.len
+			sp rArray32.len
 			0
 			pos
 			lbl
@@ -933,17 +970,17 @@ fn parse.fn_complex_body_tokens {
 		Inst.do_jmp swap scope_context[] rScope.label_id ir
 		parse.push_early_ret_with_pos
 	} elif dup Tok.l_cb = {
-		parse.handle_open_l_cb
+		sp parse.handle_open_l_cb
 	} elif dup Tok.r_cb = {
-		parse.handle_close_r_cb
+		sp parse.handle_close_r_cb
 	} elif dup Tok.ret = {
 		Inst.fn_leave function_context_idx ir
-		sp.len function_context rFunction.retc > if {
-			pos 'unhandled data on the stack for early return' error_st.Tok
-		} elif sp.len function_context rFunction.retc < {
-			pos 'not enough values on the stack on early return' error_st.Tok
+		sp rArray32.len function_context rFunction.retc > if {
+			pos 'unhandled data on the stack for early return' sp error_st.Tok
+		} elif sp rArray32.len function_context rFunction.retc < {
+			pos 'not enough values on the stack on early return' sp error_st.Tok
 		}
-		0 pop sp.len
+		sp 0 wArray32.len
 		parse.push_early_ret_with_pos
 	} elif dup Tok.arrw = {
 		auto arrw_c 1
@@ -955,7 +992,7 @@ fn parse.fn_complex_body_tokens {
 
 		; (typ sp sp2 idx label_id label_id2 var_scope)
 			ScopeTyp.checked_scope
-			pos token_stream[] rToken.data sp.len +
+			pos token_stream[] rToken.data sp rArray32.len +
 			0
 			arrw_c
 			0
@@ -966,6 +1003,66 @@ fn parse.fn_complex_body_tokens {
 		Tok.l_cb parse.expect? ! if {
 			pos 'a scope must come after the arrow assert operator' error.Tok
 		}
+	} elif dup Tok.string_lit = {
+		Inst.push_str pos token_stream[] rToken.data ir
+		2 sp sp_push
+	} elif dup Tok.w8 = {
+		Inst.w8 0 ir
+		2 0 sp sp_assert
+	} elif dup Tok.w16 = {
+		Inst.w16 0 ir
+		2 0 sp sp_assert
+	} elif dup Tok.w32 = {
+		Inst.w32 0 ir
+		2 0 sp sp_assert
+	} elif dup Tok.w64 = {
+		Inst.w64 0 ir
+		2 0 sp sp_assert
+	} elif dup Tok.r8 = {
+		Inst.r8 0 ir
+		1 1 sp sp_assert
+	} elif dup Tok.r16 = {
+		Inst.r16 0 ir
+		1 1 sp sp_assert
+	} elif dup Tok.r32 = {
+		Inst.r32 0 ir
+		1 1 sp sp_assert
+	} elif dup Tok.r64 = {
+		Inst.r64 0 ir
+		1 1 sp sp_assert
+	} elif dup Tok.trap_breakpoint = {
+		Inst.trap_breakpoint 0 ir
+		1 1 sp sp_assert
+	} elif dup Tok.syscall0 = {
+		Inst.syscall0 0 ir
+		1 1 sp sp_assert
+	} elif dup Tok.syscall1 = {
+		Inst.syscall1 0 ir
+		2 1 sp sp_assert
+	} elif dup Tok.syscall2 = {
+		Inst.syscall2 0 ir
+		3 1 sp sp_assert
+	} elif dup Tok.syscall3 = {
+		Inst.syscall3 0 ir
+		4 1 sp sp_assert
+	} elif dup Tok.syscall4 = {
+		Inst.syscall4 0 ir
+		5 1 sp sp_assert
+	} elif dup Tok.syscall5 = {
+		Inst.syscall5 0 ir
+		6 1 sp sp_assert
+	} elif dup Tok.syscall6 = {
+		Inst.syscall6 0 ir
+		7 1 sp sp_assert
+	} elif dup Tok.argc = {
+		Inst.push_argc 0 ir
+		1 sp sp_push
+	} elif dup Tok.argv = {
+		Inst.push_argv 0 ir
+		1 sp sp_push
+	} elif dup Tok.envp = {
+		Inst.push_envp 0 ir
+		1 sp sp_push
 	} else {
 		; TODO:
 		;     elif -> cannot start elif without if
@@ -1061,9 +1158,15 @@ fn parse.any_variable {
 	}
 }
 
+const   sizeof(sp_array_data) { sizeof(u32) 1024 * }
+reserve sp_array_data         sizeof(sp_array_data)
+
 fn stas.parse {
 	-1 pop main_fn_idx
 	0  pop pos
+
+	reserve sp_array sizeof(Array32)
+	sp_array_data sizeof(sp_array_data) sp_array Array32.init_with_buffer_sz_bytes
 
 	while pos token_stream.len < {
 		pos token_stream[] rToken.tok
@@ -1076,7 +1179,7 @@ fn stas.parse {
 				pos token_stream[] rToken.tok
 
 				dup Tok.fn_decl = if {
-					parse.fn_decl
+					sp_array parse.fn_decl
 				} elif dup Tok.sub = {
 					Tok.name parse.expect? ! if {
 						pos "expected name as function attribute" error.Tok
@@ -1091,8 +1194,8 @@ fn stas.parse {
 				}
 				drop
 			} else {
-				parse.basic_token? ! if {
-					parse.fn_complex_body_tokens
+				sp_array parse.basic_token? ! if {
+					sp_array parse.fn_complex_tokens
 				}
 			}
 		}
@@ -1101,7 +1204,7 @@ fn stas.parse {
 		pos ++ pop pos
 	}
 
-	sp.len 0 = assert
+	sp_array rArray32.len 0 = assert
 
 ;	scope_context.len putuln
 ;	0 scope_context[] rScope.idx "ee" error.Tok
