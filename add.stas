@@ -1,11 +1,6 @@
 const b { 22 }
 const z { 1 }
 
-auto e 1
-fn ee {
-	e drop
-}
-
 fn main {
 	const a { b 11 + }
 
