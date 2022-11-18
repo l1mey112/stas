@@ -16835,7 +16835,7 @@ parse.duplicate_name:
 	jz .925
 	mov rbx, [_gpos]
 	mov rsi, _s165
-	mov rdi, 33
+	mov rdi, 36
 	push rbx
 	push rsi
 	push rdi
@@ -44271,7 +44271,7 @@ _s161: db 27, "[1m", 27, "[31msrc/parserdefs.stas:339:24: ", 27, "[39m", 27, "[2
 _s162: db "name is already an existing variable", 0
 _s163: db "variable declared here", 0
 _s164: db 27, "[1m", 27, "[31msrc/parserdefs.stas:406:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s165: db "name already an existing function", 0
+_s165: db "name is already an existing function", 0
 _s166: db 27, "[1m", 27, "[31msrc/parserdefs.stas:303:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s167: db "function declared here", 0
 _s168: db "unexpected EOF in variable declaration", 0

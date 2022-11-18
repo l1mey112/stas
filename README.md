@@ -10,9 +10,11 @@ fn main {
 }
 ```
 
-A concatenative stack based compiled programming language, stas is a programming language that has evolved as my skills with compiler theory grew. ~~The syntax and structure is settled and work is being done to write the compiler in itself. The current compiler is written in the V programming language.~~ The current compiler is written in stas. stas as a language has been successfully selfhosted, a long time goal of mine.
+Inspired by FORTH with a modern syntax, stas is a general purpose stack based programming language. With syntax designed to be short and consise, programs written in stas take a concatenative form. A form where functions and operations mutate the stack in a pipeline where each output is anothers input.
 
-Follow the initial journey with all of the guesswork on my blog at [`tags/stas`](https://blog.l-m.dev/tags/stas/), these show the small steps taken to achieve initial V version of the compiler. The V source code of the bootstrap compiler is in [a-different-branch](https://github.com/l1mey112/stas/tree/0.1.0-v-compiler).
+The current compiler is written in stas. stas as a language has been successfully selfhosted, a long time goal of mine.
+
+This is my first ever programming language and compiler, the initial journey with all of the guesswork has been documented on my blog at [`tags/stas`](https://blog.l-m.dev/tags/stas/), these show the small steps taken to achieve initial V version of the compiler. The V source code of the bootstrap compiler is in [a-different-branch](https://github.com/l1mey112/stas/tree/0.1.0-v-compiler).
 
 ## release changelogs
 
@@ -20,7 +22,7 @@ A release changelog is a complete post outlining all additional features added b
 
 - [stas `0.1.1` Changelog](https://blog.l-m.dev/posts/release-stas-0.1.1/) - [Github Release](https://github.com/l1mey112/stas/releases/tag/0.1.1)
 - [stas `0.1.2` Changelog](https://blog.l-m.dev/posts/release-stas-0.1.2/) - [Github Release](https://github.com/l1mey112/stas/releases/tag/0.1.2)
-
+- [stas `0.1.3` Changelog](https://blog.l-m.dev/posts/release-stas-0.1.3/) - [Github Release](https://github.com/l1mey112/stas/releases/tag/0.1.3)
 
 ## programming in stas
 

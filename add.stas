@@ -1,8 +1,3 @@
 fn main {
-	auto str 2
-
-	"hello" pop str
-
-	addr str     r64 ; *char
-	addr str 8 + r64 ; length
+	
 }

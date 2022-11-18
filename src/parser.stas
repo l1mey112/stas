@@ -171,7 +171,7 @@ fn parse.duplicate_name {
 	}
 	str name_get_function_idx
 	dup -1 != if {
-		pos 'name already an existing function' error_noexit.Tok
+		pos 'name is already an existing function' error_noexit.Tok
 		functions[] rFunction.start_inst ir_stream[] rIR.idx ++ 'function declared here' notice.Tok
 		1 exit
 	} else {
