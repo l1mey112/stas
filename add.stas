@@ -1,8 +1,9 @@
+fn c {
+	
+}
+
 fn main {
 	const c { 10 }
 
-	reserve b c
-	reserve a { 1 1 + }
-
-	a drop
+	reserve c 22
 }

@@ -47,13 +47,15 @@ fn error.Loc 5 0 {
 
 ; (idx str len)
 fn error_noexit.Tok 3 0 {
-	rot rot
+	rot rot dup rot4
 	
 	error.start_bold_error
 		token_stream[] Token.location_print
 	error.end_bold_error
 	
 	eputs endl
+
+	Token.eprint_file_tok
 }
 
 ; (idx str len)
@@ -71,8 +73,7 @@ fn notice.Tok 3 0 {
 
 ; (idx str len)
 fn error.Tok 3 0 {
-	over2 rot4 error_noexit.Tok
-	Token.eprint_file_tok
+	error_noexit.Tok
 	1 exit
 }
 

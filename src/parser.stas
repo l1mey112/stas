@@ -144,6 +144,41 @@ fn parse.expect? 1 1 {
 	pos ++ pop pos
 }
 
+; ( str len -- bool )
+fn parse.search_scoped_var 2 1 {
+	; (str len)
+	scope_context.len 0 > if {
+		scope_context.top rScope.var_scope
+	} else {
+		0
+	}
+	; (str len search_p)
+	search_variable_name
+}
+
+fn parse.duplicate_name {
+	auto str 2
+		pos token_stream[] rToken.data string_view_to_str
+	pop str
+
+	str parse.search_scoped_var
+	dup -1 != if {
+		pos 'name is already an existing variable' error_noexit.Tok
+		var_context[] rVariable.idx ++ 'variable declared here' notice.Tok
+		1 exit
+	} else {
+		drop
+	}
+	str name_get_function_idx
+	dup -1 != if {
+		pos 'name already an existing function' error_noexit.Tok
+		functions[] rFunction.start_inst ir_stream[] rIR.idx ++ 'function declared here' notice.Tok
+		1 exit
+	} else {
+		drop
+	}
+}
+
 ; ( *Array32(sp) )
 fn parse.fn_decl 1 0 {
 	auto sp    1 pop sp
@@ -162,12 +197,9 @@ fn parse.fn_decl 1 0 {
 	name drop r8 `_` = if {
 		pos 'a function name cannot begin with an an underscore' error.Tok
 	}
-	name name_get_function_idx -1 != if {
-		pos 'duplicate function name' error.Tok
-	}
-	name search_variable_name_global -1 != if {
-		pos 'function name already exists as variable name' error.Tok
-	}
+	
+	parse.duplicate_name
+
 	parse.next_eof? ! if {
 		pos 'unexpected EOF in function declaration' error.Tok
 	}
@@ -1122,18 +1154,6 @@ fn parse.fn_complex_tokens 1 0 {
 	drop
 }
 
-; ( str len -- bool )
-fn parse.is_scoped_var 2 1 {
-	; (str len)
-	scope_context.len 0 > if {
-		scope_context.top rScope.var_scope
-	} else {
-		0
-	}
-	; (str len search_p)
-	search_variable_name -1 !=
-}
-
 ; ( -- u64 )
 fn parse.get_constant 0 1 {
 	; ( str len search_idx -- idx )
@@ -1225,16 +1245,7 @@ fn parse.any_variable {
 		pos 'expected variable name' error.Tok
 	}
 
-	auto str 2
-		pos token_stream[] rToken.data string_view_to_str
-	pop str
-
-	str parse.is_scoped_var if {
-		pos 'duplicate variable name' error.Tok
-	}
-	str name_get_function_idx -1 != if {
-		pos 'variable name is existing function' error.Tok
-	}
+	parse.duplicate_name
 
 	parse.next_eof? ! if {
 		pos 'unexpected EOF in variable declaration' error.Tok
@@ -1293,12 +1304,7 @@ fn parse.const_expression {
 		pos token_stream[] rToken.data
 	pop sv
 
-	sv string_view_to_str parse.is_scoped_var if {
-		pos 'duplicate variable name' error.Tok
-	}
-	sv string_view_to_str name_get_function_idx -1 != if {
-		pos 'variable name is existing function' error.Tok
-	}
+	parse.duplicate_name
 
 	Tok.l_cb parse.expect? ! if {
 		pos 'a scope must follow a const to open an expression' error.Tok

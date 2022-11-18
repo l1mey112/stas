@@ -1,0 +1,19 @@
+include 'std.stas'
+
+const a { 22 }
+
+fn main {
+	const b { a 11 + }
+
+	{
+		const z { 1 }
+		auto c z
+	}
+
+	auto c { 1 1 + }
+
+	22 111 pop c
+
+	'const a = ' puts a putuln
+	'const b = ' puts b putuln
+}
