@@ -1,5 +1,8 @@
-include 'std.stas'
+fn gimmie 0 2 {
+	23 7
+}
 
+- noeval
 fn main {
-	23 7 + putuln
+	gimmie + drop
 }

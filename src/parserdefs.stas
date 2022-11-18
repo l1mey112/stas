@@ -435,6 +435,7 @@ fn functions<< 9 0 {
 const FnAttribute.noinline { 1 0 << }
 const FnAttribute.inline   { 1 1 << }
 const FnAttribute.noreturn { 1 2 << }
+const FnAttribute.noeval   { 1 3 << }
 
 ; ( str len -- FnAttribute bool )
 fn FnAttribute.from_str? 2 2 {
@@ -446,6 +447,8 @@ fn FnAttribute.from_str? 2 2 {
 		FnAttribute.inline
 	} elif str "noreturn" streq {
 		FnAttribute.noreturn
+	} elif str "noeval" streq {
+		FnAttribute.noeval
 	} else {
 		0 false
 		ret
