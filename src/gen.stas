@@ -29,12 +29,31 @@ fn gen_inst 4 0 {
 	32 fwritec Reg.64.to_str fwrite ", " fwrite Reg.64.to_str fwriteln
 }
 
+; ( pos -- Inst bool )
+fn gen_peek_inst_back 1 2 {
+	dup 0 = if {
+		drop -1 false ret
+	}
+
+	--
+	ir_stream[] rIR.inst true
+}
+
+; ( pos -- Inst bool )
+fn gen_peek_inst_forward 1 2 {
+	dup ir_stream.len -- = if {
+		drop -1 false ret
+	}
+
+	++
+	ir_stream[] rIR.inst true
+}
+
 ; (start end inlined_count)
 fn gen_range 3 0 {
 	auto inlined_count 1 pop inlined_count
 	auto end           1 pop end
 	auto pos           1 pop pos
-
 
 	auto early_ret_label 1
 
@@ -119,21 +138,31 @@ fn gen_range 3 0 {
 		} elif dup Inst.fn_call = {
 			ir_data functions[] pop fn_c
 
-		;	fn_c rFunction.name
-
-			fn_c rFunction.end_inst 1 + fn_c rFunction.start_inst -
-			2 != if {
-				fn_c rFunction.forbid_inline ! if {
+			fn_c rFunction.forbid_inline ! if {
+			;	fn_c rFunction.end_inst 1 + fn_c rFunction.start_inst -
+			;	2 != if {
 					fn_c Function.inlined_count p32++
 					fn_c rFunction.start_inst 1 + fn_c rFunction.end_inst fn_c rFunction.inlined_count gen_range
-				} else {
-					r_flush
-					"	mov rbp, rsp"     fwriteln
-					"	mov rsp, [_rs_p]" fwriteln
-					"	call " fwrite fn_c Function.name.fwrite_mangled fendl
-					"	mov [_rs_p], rsp" fwriteln
-					"	mov rsp, rbp"     fwriteln
-				}
+			;	}
+			} else {
+				r_flush
+			;	pos gen_peek_inst_back if {
+			;		Inst.fn_call != if {
+						"	mov rbp, rsp"     fwriteln
+						"	mov rsp, [_rs_p]" fwriteln
+			;		}
+			;	} else {
+			;		drop
+			;	}
+				"	call " fwrite fn_c Function.name.fwrite_mangled fendl
+			;	pos gen_peek_inst_forward if {
+			;		Inst.fn_call != if {
+						"	mov [_rs_p], rsp" fwriteln
+						"	mov rsp, rbp"     fwriteln
+			;		}
+			;	} else {
+			;		drop
+			;	}
 			}
 		} elif dup Inst._assert = {
 			auto lbl 1
@@ -191,21 +220,21 @@ fn gen_range 3 0 {
 			drop
 			r r_free
 		} elif dup Inst.push_global_var_name = {
-			r_prepare_push_const_word "qword _g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwriteln
+			r_prepare_push_const_word "qword _g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwriteln
 		} elif dup Inst.pop_global_stack_var = {
 			auto r     1
 			auto count 1
 
-			ir_data global_var_context[] rVariable.size 8 / pop count
+			ir_data var_context[] rVariable.size 8 / pop count
 
 			count 1 = if {
 				r_pop pop r
 
-				"	mov [_g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwrite "], " fwrite r Reg.64.to_str fwriteln
+				"	mov [_g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwrite "], " fwrite r Reg.64.to_str fwriteln
 			} else {
 				r_new pop r
 
-				"	mov " fwrite r Reg.64.to_str fwrite ", _g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwriteln
+				"	mov " fwrite r Reg.64.to_str fwrite ", _g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwriteln
 				
 				count
 				while dup 0 > {
@@ -223,16 +252,16 @@ fn gen_range 3 0 {
 			auto r     1
 			auto count 1
 
-			ir_data global_var_context[] rVariable.size 8 / pop count
+			ir_data var_context[] rVariable.size 8 / pop count
 
 			r_new pop r
 
 			count 1 = if {	
-				"	mov " fwrite r Reg.64.to_str fwrite ", [_g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwrite "]" fwriteln
+				"	mov " fwrite r Reg.64.to_str fwrite ", [_g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwrite "]" fwriteln
 
 				r r_push
 			} else {
-				"	mov " fwrite r Reg.64.to_str fwrite ", _g" fwrite ir_data global_var_context[] rVariable.name string_view_to_str fwriteln
+				"	mov " fwrite r Reg.64.to_str fwrite ", _g" fwrite ir_data var_context[] rVariable.name string_view_to_str fwriteln
 
 				count
 				while dup 0 > {
@@ -792,17 +821,21 @@ fn stas.gen 2 0 {
 	}
 
 	0
-	while dup global_var_context.len < {
-		    "_g" fwrite
-		dup global_var_context[] rVariable.name string_view_to_str fwrite
-			backend_type StasBackend.fasm = if {
-				": rb " fwrite
-			} elif backend_type StasBackend.nasm = {
-				": resb " fwrite
-			} else {
-				0 assert -> 'unreachable'
-			}
-		dup global_var_context[] rVariable.size fwriteuln
+	while dup var_context.len < {
+		auto var 1
+		dup var_context[] pop var
+		var rVariable.typ VarTyp.constant != if {
+				"_g" fwrite
+			var rVariable.name string_view_to_str fwrite
+				backend_type StasBackend.fasm = if {
+					": rb " fwrite
+				} elif backend_type StasBackend.nasm = {
+					": resb " fwrite
+				} else {
+					0 assert -> 'unreachable'
+				}
+			var rVariable.size fwriteuln
+		}
 		++
 	}
 	drop

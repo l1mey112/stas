@@ -177,3 +177,183 @@ fn Array64.dump 1 0 {
 	93 putc ; `]`
 	endl
 }
+
+fn Array32.data      1 1 {      }
+fn Array32.len       1 1 { 8  + }
+fn Array32.cap       1 1 { 16 + }
+const sizeof(Array32)    { 24   }
+; (ptr -- data)
+fn rArray32.data     1 1 { Array32.data     r64 }
+fn rArray32.len      1 1 { Array32.len      r64 }
+fn rArray32.cap      1 1 { Array32.cap      r64 }
+; (ptr data)
+fn wArray32.data     2 0 { swap Array32.data swap w64 }
+fn wArray32.len      2 0 { swap Array32.len  swap w64 }
+fn wArray32.cap      2 0 { swap Array32.cap  swap w64 }
+
+; (data *Array32 -- bool)
+fn Array32<<? 2 1 {
+	auto array 1 pop array
+	
+	array
+	 dup rArray32.len
+	swap rArray32.cap >= if {
+		drop false ret
+	}
+
+	array
+	 dup rArray32.len sizeof(u32) *
+	swap rArray32.data +
+
+	swap w32
+
+	array Array32.len p64++
+
+	true
+}
+; (*Array32 -- data bool)
+fn Array32.top? 1 2 {
+	auto array 1 pop array
+	array rArray32.len 0 = if {
+		0 false ret
+	}
+
+	array
+	 dup rArray32.len -- sizeof(u32) *
+	swap rArray32.data + r32
+
+	true
+}
+; (*Array32 -- data bool)
+fn Array32.pop? 1 2 {
+	dup Array32.top? ! if {
+		drop drop 0 false ret
+	}
+
+	swap Array32.len p64--
+
+	true
+}
+; (idx *Array32 -- data bool)
+fn Array32[]? 2 2 {
+	auto arr 1 pop arr
+
+	dup arr rArray32.len >= if {
+		drop 0 false ret
+	}
+
+	sizeof(u32) *
+	arr rArray32.data + r32
+
+	true
+}
+; (value idx *Array32 -- bool)
+fn wArray32[]? 3 1 {
+	auto arr 1 pop arr
+	
+	dup arr rArray32.len >= if {
+		drop drop false ret
+	}
+
+	sizeof(u32) *
+	arr rArray32.data + swap w32
+
+	true
+}
+; (value idx *Array32)
+fn wArray32[] 3 0 {
+	wArray32[]? assert -> 'wArray32[]: index out of bounds'
+}
+; (idx *Array32 -- data)
+fn Array32[] 2 1 {
+	Array32[]? assert -> 'Array32[]: index out of bounds'
+}
+; (data *Array32)
+fn Array32<< 2 0 {
+	Array32<<? assert -> 'Array32<<: append exceeded bounds in Array32'
+}
+; (*Array32 -- u64)
+fn Array32.top 1 1 {
+	Array32.top? assert -> 'Array32.top: array is empty'
+}
+; (*Array32 -- u64)
+fn Array32.pop 1 1 {
+	Array32.pop? assert -> 'Array32.pop: array is empty'
+}
+; (idx_1 idx_2 *Array32)
+fn Array32.swap 3 0 {
+	auto arr 1 pop arr
+
+	over over
+	; (idx_1 idx_2 idx_1 idx_2)
+	arr Array32[] swap arr Array32[]
+	; (idx_1 idx_2 [idx_2] [idx_1])
+	rot rot4
+	; ([idx_2] idx_1 [idx_1] idx_2)
+	arr wArray32[]
+	arr wArray32[]
+}
+; (size *Array32)
+fn Array32.init_alloc_size 2 0 {
+	auto sz 1 swap pop sz
+
+	; (*Array32)
+	dup sz sizeof(u32) * memory.mmap_anon wArray32.data
+	; (*Array32)
+	dup sz wArray32.cap
+	    0  wArray32.len
+}
+; (buffer size *Array32)
+fn Array32.init_with_buffer_sz_bytes 3 0 {
+	auto arr 1 pop arr
+
+	dup sizeof(u32) % 0 = assert -> 'Array32.init_with_buffer_sz_bytes: size must be a multiple of 8 bytes'
+
+	sizeof(u32) / arr swap wArray32.cap
+	arr 0    wArray32.len
+	arr swap wArray32.data
+}
+; (buffer size *Array32)
+fn Array32.init_with_buffer_sz_elm 3 0 {
+	auto arr 1 pop arr
+
+	arr swap wArray32.cap
+	arr 0    wArray32.len
+	arr swap wArray32.data
+}
+; (*Array32)
+fn Array32.print 1 0 {
+	auto arr 1 pop arr
+
+	"Array32 {\n" puts
+	"	data: " puts arr rArray32.data putuln
+	"	len:  " puts arr rArray32.len  putuln
+	"	cap:  " puts arr rArray32.cap  putuln
+	"}\n" puts
+}
+; (*Array32)
+fn Array32.dump 1 0 {
+	auto arr.len 1
+
+	dup
+	rArray32.len pop arr.len
+	
+	91 putc ; `[`
+
+	rArray32.data 0
+	while dup arr.len < {
+		swap
+			dup r32
+			putu
+			sizeof(u32) +
+		swap
+		dup arr.len -- < if {
+			", " puts
+		}
+		++
+	}
+	drop drop
+
+	93 putc ; `]`
+	endl
+}
