@@ -332,7 +332,7 @@ fn ir_stream.dump {
 	drop
 }
 
-const   var_context.cap     { 512 }
+const   var_context.cap     { 1024 }
 const   sizeof(var_context) { var_context.cap sizeof(Variable) * }
 auto    var_context.len 1
 reserve var_context sizeof(var_context)
