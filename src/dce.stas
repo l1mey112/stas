@@ -3,9 +3,8 @@ const dce.inline_cutoff { 12 }
 auto  dce.max_stack_frame 1
 
 const   slits.cap     { 1024                    }
-const   sizeof(slits) { sizeof(u64) slits.cap * }
 auto    slits.len     1
-reserve slits         sizeof(slits)
+reserve slits         { sizeof(u64) slits.cap * }
 
 ; (u64)
 fn slits<< 1 0 {

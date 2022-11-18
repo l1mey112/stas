@@ -23,10 +23,9 @@ fn rFunction.tail_r_label   1 1 { Function.tail_r_label  r32 }
 fn rFunction.inlined_count  1 1 { Function.inlined_count r32 }
 fn rFunction.attributes     1 1 { Function.attributes    r64 }
 
-const functions.cap { 512 }
-auto  functions.len 1
-const sizeof(functions) { sizeof(Function) functions.cap * }
-reserve functions sizeof(functions)
+const   functions.cap { 512 }
+auto    functions.len 1
+reserve functions     { sizeof(Function) functions.cap * }
 
 const ScopeTyp.function          { 0  }
 const ScopeTyp.scope             { 1  }
@@ -295,10 +294,9 @@ fn rIR.idx  1 1 { IR.idx  r32 }
 fn rIR.inst 1 1 { IR.inst r32 }
 fn rIR.data 1 1 { IR.data r64 }
 
-const ir_stream.cap { 16384 }
-auto  ir_stream.len 1
-const sizeof(ir_stream) { sizeof(IR) ir_stream.cap * }
-reserve ir_stream sizeof(ir_stream)
+const   ir_stream.cap { 16384 }
+auto    ir_stream.len 1
+reserve ir_stream     { sizeof(IR) ir_stream.cap * }
 
 ; (idx -- *IR)
 fn ir_stream[] 1 1 {
@@ -332,10 +330,9 @@ fn ir_stream.dump {
 	drop
 }
 
-const   var_context.cap     { 1024 }
-const   sizeof(var_context) { var_context.cap sizeof(Variable) * }
+const   var_context.cap { 1024 }
 auto    var_context.len 1
-reserve var_context sizeof(var_context)
+reserve var_context     { var_context.cap sizeof(Variable) * }
 
 ; (idx -- *Variable)
 fn var_context[] 1 1 {
@@ -368,10 +365,9 @@ fn var_context.Constant<< 3 0 {
 	var_context.len var_context.cap < assert
 }
 
-const   scope_context.cap     { 512 }
-const   sizeof(scope_context) { scope_context.cap sizeof(Scope) * }
+const   scope_context.cap { 512 }
 auto    scope_context.len 1
-reserve scope_context sizeof(scope_context)
+reserve scope_context     { scope_context.cap sizeof(Scope) * }
 
 ; (idx -- *Scope)
 fn scope_context[] 1 1 {

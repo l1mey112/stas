@@ -28,9 +28,8 @@ fn rFileEntry.data         1 1 { FileEntry.data         r64 }
 fn rFileEntry.len          1 1 { FileEntry.len          r64 }
 
 const   opened_files.cap     { 128                                  }
-const   sizeof(opened_files) { sizeof(FileEntry) opened_files.cap * }
 auto    opened_files.len     1
-reserve opened_files         sizeof(opened_files)
+reserve opened_files         { sizeof(FileEntry) opened_files.cap * }
 
 ; (idx -- ptr)
 fn opened_files[] 1 1 {

@@ -160,10 +160,9 @@ fn Reg.8.to_str 1 2 {
 
 reserve rallocator_mask sizeof(Reg)
 
-const   rallocator_stack.cap     { 1024 2 * }
-const   sizeof(rallocator_stack) { rallocator_stack.cap sizeof(u8) * }
-auto    rallocator_stack.len     1
-reserve rallocator_stack         sizeof(rallocator_stack)
+const   rallocator_stack.cap { 1024 2 * }
+auto    rallocator_stack.len 1
+reserve rallocator_stack     { rallocator_stack.cap sizeof(u8) * }
 
 ; (Reg)
 fn rallocator_stack<< 1 0 {
@@ -253,13 +252,6 @@ fn r_index 1 1 {
 
 
 fn r_stack_deep_flush {
-;	0
-;	while dup sizeof(Reg) < {
-;		dup Reg.64.to_str puts ` ` putc
-;		dup rallocator_mask + r8 bool_to_str puts endl
-;		++
-;	}
-;	drop
 	0
 	while dup rallocator_stack.len < {
 		dup rallocator_stack + r8
@@ -270,15 +262,6 @@ fn r_stack_deep_flush {
 	drop
 	
 	0 pop rallocator_stack.len
-
-;	" --- \n" puts
-;	0
-;	while dup sizeof(Reg) < {
-;		dup Reg.64.to_str puts ` ` putc
-;		dup rallocator_mask + r8 bool_to_str puts endl
-;		++
-;	}
-;	drop
 }
 
 fn r_flush {
@@ -412,8 +395,6 @@ fn r_push_const 1 0 {
 	dup r_push
 	"	mov " fwrite Reg.64.to_str fwrite ", " fwrite fwriteuln
 }
-
-; `r_pop_const_word` must be emulated.
 
 fn r_prepare_push_const_word {
 	r_alloc

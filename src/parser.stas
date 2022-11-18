@@ -1181,21 +1181,22 @@ fn parse.get_constant 0 1 {
 	var rVariable.Constant.val
 }
 
-const   sizeof(sp_array_data_const) { sizeof(u32) 1024 * }
-reserve sp_array_data_const         sizeof(sp_array_data_const)
-
-const   sizeof(const_stack_data) { sizeof(u64) 1024 * }
-reserve const_stack_data         sizeof(const_stack_data)
+reserve sp_array_data_const { sizeof(u32) 1024 * }
+reserve const_stack_data    { sizeof(u64) 1024 * }
 
 ; ( -- u64 )
 fn parse.eval_const_expr 0 1 {
 	auto start_ir 1 ir_stream.len pop start_ir
 
 	reserve sp_array sizeof(Array32)
-	sp_array_data_const sizeof(sp_array_data_const) sp_array Array32.init_with_buffer_sz_bytes
+	sp_array_data_const
+		sizeof sp_array_data_const
+	sp_array Array32.init_with_buffer_sz_bytes
 
 	reserve const_stack_array sizeof(Array64)
-	const_stack_data sizeof(const_stack_data) const_stack_array Array64.init_with_buffer_sz_bytes
+	const_stack_data
+		sizeof const_stack_data
+	const_stack_array Array64.init_with_buffer_sz_bytes
 
 	while true {		
 		; (Tok bool)
@@ -1333,15 +1334,16 @@ fn parse.const_expression {
 	var_context.Constant<<
 }
 
-const   sizeof(sp_array_data) { sizeof(u32) 1024 * }
-reserve sp_array_data         sizeof(sp_array_data)
+reserve sp_array_data { sizeof(u32) 1024 * }
 
 fn stas.parse {
 	-1 pop main_fn_idx
 	0  pop pos
 
 	reserve sp_array sizeof(Array32)
-	sp_array_data sizeof(sp_array_data) sp_array Array32.init_with_buffer_sz_bytes
+	sp_array_data
+		sizeof sp_array_data
+	sp_array Array32.init_with_buffer_sz_bytes
 
 	while pos token_stream.len < {
 		pos token_stream[] rToken.tok

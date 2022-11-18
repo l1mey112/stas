@@ -1,7 +1,6 @@
 const   fwrite_buffer.cap     { 10 1024 * } ; 10 KiB
 auto    fwrite_buffer.len     1
-const   sizeof(fwrite_buffer) { fwrite_buffer.cap }
-reserve fwrite_buffer         sizeof(fwrite_buffer)
+reserve fwrite_buffer         fwrite_buffer.cap
 auto    fwrite_buffer.fd_loc  1
 
 fn fwrite_buffer.flush {

@@ -74,13 +74,13 @@ const           Tok.sizeof { 73 }
 
 ; (Tok -- str len)
 fn Tok.to_str 1 2 {
-	dup Tok.name = if {           ; 
-		"name"                    ; TODO: 
-	} elif dup Tok.string_lit = { ;     implement dereferencing of
-		"string_lit"              ;     actual contained tok data
-	} elif dup Tok.number_lit = { ; 
-		"number_lit"              ;
-	} elif dup Tok.l_cb = {       ;
+	dup Tok.name = if {
+		"name"
+	} elif dup Tok.string_lit = {
+		"string_lit"
+	} elif dup Tok.number_lit = {
+		"number_lit"
+	} elif dup Tok.l_cb = {
 		"{"
 	} elif dup Tok.r_cb = {
 		"}"
@@ -387,10 +387,9 @@ fn rToken.tok  1 1 { Token.tok  r32 }
 fn rToken.data 1 1 { Token.data r64 }
 fn rToken.len  1 1 { Token.len  r32 }
 
-const token_stream.cap { 32768 }
-const sizeof(token_stream) { sizeof(Token) token_stream.cap  * }
-reserve token_stream sizeof(token_stream)
-auto token_stream.len 1
+const   token_stream.cap { 32768 }
+reserve token_stream     { sizeof(Token) token_stream.cap  * }
+auto    token_stream.len 1
 
 ; (idx -- *Token)
 fn token_stream[] 1 1 {

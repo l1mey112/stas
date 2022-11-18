@@ -25975,7 +25975,7 @@ fwrite_buffer.assert_len:
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s328
-	mov rdx, 60
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
@@ -41662,7 +41662,7 @@ stas.gen:
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s328
-	mov rdx, 60
+	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
@@ -45798,9 +45798,9 @@ _s45: db "FATAL: Failed to stat the file descriptor", 10, 0
 _s46: db "FATAL: Could not mmap file '", 0
 _s47: db "FATAL: Failed to close file descriptor", 10, 0
 _s48: db 27, "[1m", 27, "[31msrc/stringbuffer.stas:8:5: ", 27, "[39m", 27, "[22massertation failed, 'String memory exceeded limit'", 10, 0
-_s49: db 27, "[1m", 27, "[31msrc/formatting.stas:49:38: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s49: db 27, "[1m", 27, "[31msrc/formatting.stas:48:38: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s50: db "unterminated string literal", 0
-_s51: db 27, "[1m", 27, "[31msrc/formatting.stas:37:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s51: db 27, "[1m", 27, "[31msrc/formatting.stas:36:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s52: db ":", 0
 _s53: db ": ", 0
 _s54: db 10, 0
@@ -45813,7 +45813,7 @@ _s60: db "       ", 0
 _s61: db "escape character does not exist", 0
 _s62: db "unhandled escape character", 0
 _s63: db "including file `", 0
-_s64: db 27, "[1m", 27, "[31msrc/tokens.stas:412:38: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s64: db 27, "[1m", 27, "[31msrc/tokens.stas:411:38: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s65: db "unterminated character literal", 0
 _s66: db "empty character literal", 0
 _s67: db "character literals must contain a single character", 0
@@ -45897,7 +45897,7 @@ _s144: db "[34m", 0
 _s145: db "TIME: ", 0
 _s146: db ".", 0
 _s147: db " ms", 10, 0
-_s148: db 27, "[1m", 27, "[31msrc/tokens.stas:397:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s148: db 27, "[1m", 27, "[31msrc/tokens.stas:396:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s149: db "name", 0
 _s150: db "string_lit", 0
 _s151: db "number_lit", 0
@@ -45906,22 +45906,22 @@ _s153: db " -> ", 0
 _s154: db "parsing ", 0
 _s155: db " tokens", 10, 0
 _s156: db 27, "[1m", 27, "[31mlib/array.stas:378:24: ", 27, "[39m", 27, "[22massertation failed, 'Array32.init_with_buffer_sz_bytes: size must be a multiple of 8 bytes'", 10, 0
-_s157: db 27, "[1m", 27, "[31msrc/parser.stas:1255:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s157: db 27, "[1m", 27, "[31msrc/parser.stas:1256:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
 _s158: db "expected variable name", 0
-_s159: db 27, "[1m", 27, "[31msrc/parserdefs.stas:399:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s160: db 27, "[1m", 27, "[31msrc/parserdefs.stas:378:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s161: db 27, "[1m", 27, "[31msrc/parserdefs.stas:342:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s159: db 27, "[1m", 27, "[31msrc/parserdefs.stas:395:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s160: db 27, "[1m", 27, "[31msrc/parserdefs.stas:374:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s161: db 27, "[1m", 27, "[31msrc/parserdefs.stas:339:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s162: db "name is already an existing variable", 0
 _s163: db "variable declared here", 0
-_s164: db 27, "[1m", 27, "[31msrc/parserdefs.stas:410:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s164: db 27, "[1m", 27, "[31msrc/parserdefs.stas:406:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s165: db "name already an existing function", 0
-_s166: db 27, "[1m", 27, "[31msrc/parserdefs.stas:305:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s166: db 27, "[1m", 27, "[31msrc/parserdefs.stas:303:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s167: db "function declared here", 0
 _s168: db "unexpected EOF in variable declaration", 0
 _s169: db "unknown variable name", 0
 _s170: db "referenced variable is not a constant", 0
 _s171: db "unexpected EOF when parsing constant expression", 0
-_s172: db 27, "[1m", 27, "[31msrc/parserdefs.stas:319:32: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s172: db 27, "[1m", 27, "[31msrc/parserdefs.stas:317:32: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s173: db 27, "[1m", 27, "[31mlib/array.stas:341:13: ", 27, "[39m", 27, "[22massertation failed, 'Array32<<: append exceeded bounds in Array32'", 10, 0
 _s174: db "no value on stack to consume for assertion", 0
 _s175: db 0
@@ -45936,16 +45936,16 @@ _s183: db "unsupported token inside a constant expression", 0
 _s184: db 27, "[1m", 27, "[31mlib/array.stas:111:16: ", 27, "[39m", 27, "[22massertation failed, '&Array64.top: array is empty'", 10, 0
 _s185: db 27, "[1m", 27, "[31mlib/array.stas:131:15: ", 27, "[39m", 27, "[22massertation failed, 'Array64.top: array is empty'", 10, 0
 _s186: db 27, "[1m", 27, "[31mlib/array.stas:135:15: ", 27, "[39m", 27, "[22massertation failed, 'Array64.pop: array is empty'", 10, 0
-_s187: db 27, "[1m", 27, "[31msrc/parser.stas:1225:39: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s187: db 27, "[1m", 27, "[31msrc/parser.stas:1226:39: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
 _s188: db "constant expression must contain a value", 0
 _s189: db "more than one unhandled value on left on the constant expression", 0
-_s190: db 27, "[1m", 27, "[31msrc/parser.stas:1240:37: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s190: db 27, "[1m", 27, "[31msrc/parser.stas:1241:37: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s191: db "expected size in bytes, constant name or constant expression", 0
 _s192: db "auto variables cannot have a size of zero", 0
-_s193: db 27, "[1m", 27, "[31msrc/parserdefs.stas:356:36: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s193: db 27, "[1m", 27, "[31msrc/parserdefs.stas:353:36: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s194: db "expected name of constant", 0
 _s195: db "a scope must follow a const to open an expression", 0
-_s196: db 27, "[1m", 27, "[31msrc/parserdefs.stas:368:36: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s196: db 27, "[1m", 27, "[31msrc/parserdefs.stas:365:36: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s197: db "function name must not be an intrinsic", 0
 _s198: db "a function name cannot begin with an an underscore", 0
 _s199: db "unexpected EOF in function declaration", 0
@@ -45956,9 +45956,9 @@ _s203: db "function attributes conflict", 0
 _s204: db "main", 0
 _s205: db "the main function is not inlinable", 0
 _s206: db "the main function must accept and return zero values", 0
-_s207: db 27, "[1m", 27, "[31msrc/parserdefs.stas:432:32: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s207: db 27, "[1m", 27, "[31msrc/parserdefs.stas:428:32: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s208: db 27, "[1m", 27, "[31msrc/parser.stas:261:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s209: db 27, "[1m", 27, "[31msrc/parserdefs.stas:394:40: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s209: db 27, "[1m", 27, "[31msrc/parserdefs.stas:390:40: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s210: db "expected name as function attribute", 0
 _s211: db "noinline", 0
 _s212: db "inline", 0
@@ -46010,9 +46010,9 @@ _s257: db "not enough values on the stack on early return", 0
 _s258: db "a number must appear after the arrow assert operator", 0
 _s259: db "a scope must come after the arrow assert operator", 0
 _s260: db 27, "[1m", 27, "[31msrc/parser.stas:1162:5: ", 27, "[39m", 27, "[22massertation failed, 'unimplemented'", 10, 0
-_s261: db 27, "[1m", 27, "[31msrc/parser.stas:1419:28: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s261: db 27, "[1m", 27, "[31msrc/parser.stas:1421:28: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s262: db "unexpected EOF when parsing function, scopes may be unclosed", 0
-_s263: db 27, "[1m", 27, "[31msrc/parser.stas:1424:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s263: db 27, "[1m", 27, "[31msrc/parser.stas:1426:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s264: db "parsing took ", 0
 _s265: db " functions, ", 0
 _s266: db " labels", 10, 0
@@ -46061,13 +46061,13 @@ _s308: db "s_lt", 0
 _s309: db "s_gte", 0
 _s310: db "s_lte", 0
 _s311: db "push_envp", 0
-_s312: db 27, "[1m", 27, "[31msrc/parserdefs.stas:283:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s312: db 27, "[1m", 27, "[31msrc/parserdefs.stas:282:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
 _s313: db "dce pass started", 10, 0
 _s314: db "no main function", 0
-_s315: db 27, "[1m", 27, "[31msrc/dce.stas:62:34: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s316: db 27, "[1m", 27, "[31msrc/dce.stas:22:18: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s317: db 27, "[1m", 27, "[31msrc/dce.stas:12:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s318: db 27, "[1m", 27, "[31msrc/dce.stas:139:43: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s315: db 27, "[1m", 27, "[31msrc/dce.stas:61:34: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s316: db 27, "[1m", 27, "[31msrc/dce.stas:21:18: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s317: db 27, "[1m", 27, "[31msrc/dce.stas:11:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s318: db 27, "[1m", 27, "[31msrc/dce.stas:138:43: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s319: db "dce took ", 0
 _s320: db " used functions, of which ", 0
 _s321: db " are eligible for inline", 10, 0
@@ -46076,8 +46076,8 @@ _s323: db ".tmp", 0
 _s324: db "generating code from ", 0
 _s325: db " IR instructions", 10, 0
 _s326: db "use64", 0
-_s327: db 27, "[1m", 27, "[31msrc/write.stas:17:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s328: db 27, "[1m", 27, "[31msrc/write.stas:10:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s327: db 27, "[1m", 27, "[31msrc/write.stas:16:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s328: db 27, "[1m", 27, "[31msrc/write.stas:9:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s329: db "format ELF64", 0
 _s330: db "section '.text' executable", 0
 _s331: db "public _start", 0
@@ -46101,8 +46101,8 @@ _s348: db "_exit:", 0
 _s349: db "	mov eax, 60", 0
 _s350: db "	syscall", 0
 _s351: db "	nop", 0
-_s352: db 27, "[1m", 27, "[31msrc/x86.stas:302:29: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s353: db 27, "[1m", 27, "[31msrc/x86.stas:211:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s352: db 27, "[1m", 27, "[31msrc/x86.stas:285:29: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s353: db 27, "[1m", 27, "[31msrc/x86.stas:210:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s354: db "	push ", 0
 _s355: db "rbx", 0
 _s356: db "rcx", 0
@@ -46118,9 +46118,9 @@ _s365: db "r15", 0
 _s366: db "rdx", 0
 _s367: db "rax", 0
 _s368: db 27, "[1m", 27, "[31msrc/x86.stas:48:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s369: db 27, "[1m", 27, "[31msrc/x86.stas:170:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s370: db 27, "[1m", 27, "[31msrc/x86.stas:171:46: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s371: db 27, "[1m", 27, "[31msrc/x86.stas:217:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s369: db 27, "[1m", 27, "[31msrc/x86.stas:169:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s370: db 27, "[1m", 27, "[31msrc/x86.stas:170:46: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s371: db 27, "[1m", 27, "[31msrc/x86.stas:216:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s372: db "	mov ", 0
 _s373: db ", ", 0
 _s374: db "%line ", 0
@@ -46146,7 +46146,7 @@ _s393: db "	jmp ", 0
 _s394: db "	add rsp, ", 0
 _s395: db "	ret", 0
 _s396: db "	call ", 0
-_s397: db 27, "[1m", 27, "[31msrc/x86.stas:178:27: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s397: db 27, "[1m", 27, "[31msrc/x86.stas:177:27: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s398: db "	pop ", 0
 _s399: db "	test ", 0
 _s400: db "	jnz ", 0
@@ -46173,8 +46173,8 @@ _s420: db ", 8", 0
 _s421: db "	lea ", 0
 _s422: db " * 8 + 8]", 0
 _s423: db "	jz ", 0
-_s424: db 27, "[1m", 27, "[31msrc/x86.stas:223:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s425: db 27, "[1m", 27, "[31msrc/x86.stas:385:18: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s424: db 27, "[1m", 27, "[31msrc/x86.stas:222:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s425: db 27, "[1m", 27, "[31msrc/x86.stas:368:18: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s426: db "	db 0xcc", 0
 _s427: db "add", 0
 _s428: db "imul", 0

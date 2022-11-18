@@ -797,7 +797,7 @@ fn stas.gen 2 0 {
 	"	nop"                              fwriteln
 
 	reserve const_stack_array sizeof(Array64)
-	const_stack_data sizeof(const_stack_data) const_stack_array Array64.init_with_buffer_sz_bytes
+	const_stack_data sizeof const_stack_data const_stack_array Array64.init_with_buffer_sz_bytes
 
 	0 ir_stream.len 0 const_stack_array gen_range
 	
