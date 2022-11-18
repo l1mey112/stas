@@ -1,15 +1,7 @@
-const b { 22 }
-const z { 1 }
+const a { 22 }
 
 fn main {
-	const a { b 11 + }
-
-	{
-		auto c z
-	}
-
-	a drop
-	b drop
-
-	ee
+	a 21 = assert
 }
+
+assert { a 21 = } -> 's'

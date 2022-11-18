@@ -1234,28 +1234,8 @@ fn parse.any_variable {
 const   sizeof(sp_array_data_const) { sizeof(u32) 1024 * }
 reserve sp_array_data_const         sizeof(sp_array_data_const)
 
-fn parse.const_expression {
-	auto rs_c 1 pos pop rs_c
-
-	Tok.name parse.expect? ! if {
-		pos 'expected name of constant' error.Tok
-	}
-
-	auto sv 1
-		pos token_stream[] rToken.data
-	pop sv
-
-	sv string_view_to_str parse.is_scoped_var if {
-		pos 'duplicate variable name' error.Tok
-	}
-	sv string_view_to_str name_get_function_idx -1 != if {
-		pos 'variable name is existing function' error.Tok
-	}
-
-	Tok.l_cb parse.expect? ! if {
-		pos 'a scope must follow a const to open an expression' error.Tok
-	}
-
+; ( -- u64 )
+fn parse.eval_const_expr 0 1 {
 	auto start_ir 1 ir_stream.len pop start_ir
 
 	reserve sp_array sizeof(Array32)
@@ -1298,15 +1278,39 @@ fn parse.const_expression {
 		pos 'more than one unhandled value on left on the constant expression' sp_array error_st.Tok
 	}
 
+	const_stack.pop
+
+	start_ir pop ir_stream.len
+	const_stack.len 0 = assert
+}
+
+fn parse.const_expression {
+	auto rs_c 1 pos pop rs_c
+
+	Tok.name parse.expect? ! if {
+		pos 'expected name of constant' error.Tok
+	}
+
+	auto sv 1
+		pos token_stream[] rToken.data
+	pop sv
+
+	sv string_view_to_str parse.is_scoped_var if {
+		pos 'duplicate variable name' error.Tok
+	}
+	sv string_view_to_str name_get_function_idx -1 != if {
+		pos 'variable name is existing function' error.Tok
+	}
+
+	Tok.l_cb parse.expect? ! if {
+		pos 'a scope must follow a const to open an expression' error.Tok
+	}
+
 	; (val idx name)
-		const_stack.pop
+		parse.eval_const_expr
 		rs_c
 		sv
 	var_context.Constant<<
-
-	start_ir pop ir_stream.len
-
-	const_stack.len 0 = assert
 }
 
 const   sizeof(sp_array_data) { sizeof(u32) 1024 * }
@@ -1340,6 +1344,43 @@ fn stas.parse {
 						pos "unknown function attribute" error.Tok
 					}
 					function_attributes | pop function_attributes
+				} elif dup Tok._assert = {
+					auto as_c 1 pos pop as_c
+					auto bool 1
+
+					Tok.l_cb parse.expect? ! if {
+						pos "a scope must follow a static assert to open an expression" error.Tok
+					}
+					parse.eval_const_expr pop bool
+					
+					auto msg 1 NULL pop msg
+
+					pos 2 + token_stream.len < if {
+						pos 1 + token_stream[] rToken.tok Tok.arrw       = 
+						pos 2 + token_stream[] rToken.tok Tok.string_lit =
+						& if {
+							pos 2 + token_stream[] rToken.data pop msg
+						}
+					}
+					
+					bool ! if {
+						{
+							error.start_bold_error
+								as_c token_stream[] Token.location_print
+							error.end_bold_error
+							
+							'static assertation failed' eputs
+							msg NULL != if {
+								', \'' eputs
+								msg string_view_to_str eputs
+								'\'' eputs
+								pos 2 + pop pos
+							}
+							endl
+
+							as_c Token.eprint_file_tok
+						}
+					}
 				} else {
 					pos "unknown toplevel token" error.Tok
 				}

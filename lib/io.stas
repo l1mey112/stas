@@ -7,6 +7,10 @@ fn endl {
 	stdout "\n" write drop
 }
 
+fn eendl {
+	stderr "\n" write drop
+}
+
 ; (buf num -- str len)
 fn itoa 2 2 {
 	auto buf 1
@@ -238,7 +242,7 @@ fn putuln 1 0 {
 ; (num)
 fn eputuln 1 0 {
 	stderr swap fputu
-	endl
+	eendl
 }
 
 ; (num padding)
