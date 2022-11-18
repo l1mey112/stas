@@ -1,0 +1,13 @@
+reserve BUFSIZE { 1024 8 * }
+
+assert { sizeof BUFSIZE 8192 = }
+assert { 612 55 * 2 > } -> 'this stuff'
+
+const PROTOTYPE { 64 }
+auto  AUTOBUF PROTOTYPE
+
+assert { sizeof AUTOBUF 8 / PROTOTYPE = } -> ''
+
+fn main {
+	
+}

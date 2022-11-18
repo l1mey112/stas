@@ -321,6 +321,102 @@ fn parse.assert 1 0 {
 	}
 }
 
+; ( *Array32(sp) )
+fn parse.handle_var_interaction 1 0 {
+	auto sp     1 pop sp
+	auto typ 1
+
+	pos token_stream[] rToken.tok pop typ
+
+	Tok.name parse.expect? ! if {
+		pos 'expected variable name' error.Tok
+	}
+
+	auto str 2
+		pos token_stream[] rToken.data string_view_to_str
+	pop str
+
+	auto f_idx 1
+
+	str 0 search_variable_name pop f_idx
+
+	f_idx -1 != if {
+		auto var       1
+		auto is_global 1 
+
+		f_idx var_context[] pop var
+		
+		scope_context.len 0 = if {
+			true
+		} else {
+			f_idx 0 scope_context[] rScope.var_scope <
+		} pop is_global
+
+		typ Tok.sizeof = if {
+			var rVariable.typ VarTyp.constant = if {
+				pos 'cannot get the size of a constant' error.Tok
+			}
+			Inst.push_num var rVariable.size ir
+			1 pos -- sp sp_push_p
+		} else {
+			var rVariable.typ
+			dup VarTyp.stack = if {
+				typ Tok.pop = if {
+					auto to_pop 1
+					var rVariable.size 8 / pop to_pop
+
+					sp rArray32.len to_pop < if {
+						pos 'not enought values on the stack to pop into an automatic variable' sp error_st.Tok
+					}
+
+					sp
+						dup rArray32.len to_pop -
+					wArray32.len
+
+					is_global if {
+						; f_idx eputu `\n` eputc
+						Inst.pop_global_stack_var f_idx ir
+					} else {
+						Inst.pop_local_stack_var
+							to_pop 32 <<
+							var rVariable.a_sp |
+						ir
+					}
+				} elif typ Tok.addr = {
+					1 pos -- sp sp_push_p
+
+					is_global if {
+						Inst.push_global_var_name f_idx ir
+					} else {
+						Inst.push_local_addr
+							var rVariable.a_sp
+						ir	
+					}
+				} else {
+					0 assert -> 'unreachable'
+				}
+			} elif dup VarTyp.buffer = {
+				typ Tok.pop = if {
+					pos 'cannot pop into a buffer' error.Tok
+				} elif typ Tok.addr = {
+					pos 'cannot get address of a buffer, buffer is already an address' error.Tok
+				}
+			} elif dup VarTyp.constant = {
+				typ Tok.pop = if {
+					pos 'cannot edit a constant' error.Tok
+				} elif typ Tok.addr = {
+					pos 'cannot get address of a constant as it does not reside in memory' error.Tok
+				}
+			} else {
+				0 assert -> 'unreachable'
+			}
+			drop
+		}
+	} else {
+		pos 'unknown variable' error.Tok
+	}
+}
+
 ; ( *Array32(sp) bool )
 fn parse.basic_token? 1 1 {
 	auto sp 1 pop sp
@@ -329,8 +425,8 @@ fn parse.basic_token? 1 1 {
 	; fn ir   (inst data)
 	; fn ir_p (pos inst data)
 
-	dup Tok._assert = if {
-		sp parse.assert
+	dup Tok.sizeof = if {
+		sp parse.handle_var_interaction
 	} elif dup Tok.number_lit = {
 		Inst.push_num pos token_stream[] rToken.data ir
 		1 sp sp_push
@@ -904,103 +1000,14 @@ fn parse.handle_name 1 0 {
 }
 
 ; ( *Array32(sp) )
-fn parse.handle_var_interaction 1 0 {
-	auto sp     1 pop sp
-	auto typ 1
-
-	pos token_stream[] rToken.tok pop typ
-
-	Tok.name parse.expect? ! if {
-		pos 'expected variable name' error.Tok
-	}
-
-	auto str 2
-		pos token_stream[] rToken.data string_view_to_str
-	pop str
-
-	auto f_idx 1
-
-	str 0 search_variable_name pop f_idx
-
-	f_idx -1 != if {
-		auto var       1
-		auto is_global 1 
-
-		f_idx var_context[]                        pop var
-		f_idx 0 scope_context[] rScope.var_scope < pop is_global
-
-		typ Tok.sizeof = if {
-			var rVariable.typ VarTyp.constant = if {
-				pos 'cannot get the size of a constant' error.Tok
-			}
-			Inst.push_num var rVariable.size ir
-			1 pos -- sp sp_push_p
-		} else {
-			var rVariable.typ
-			dup VarTyp.stack = if {
-				typ Tok.pop = if {
-					auto to_pop 1
-					var rVariable.size 8 / pop to_pop
-
-					sp rArray32.len to_pop < if {
-						pos 'not enought values on the stack to pop into an automatic variable' sp error_st.Tok
-					}
-
-					sp
-						dup rArray32.len to_pop -
-					wArray32.len
-
-					is_global if {
-						; f_idx eputu `\n` eputc
-						Inst.pop_global_stack_var f_idx ir
-					} else {
-						Inst.pop_local_stack_var
-							to_pop 32 <<
-							var rVariable.a_sp |
-						ir
-					}
-				} elif typ Tok.addr = {
-					1 pos -- sp sp_push_p
-
-					is_global if {
-						Inst.push_global_var_name f_idx ir
-					} else {
-						Inst.push_local_addr
-							var rVariable.a_sp
-						ir	
-					}
-				} else {
-					0 assert -> 'unreachable'
-				}
-			} elif dup VarTyp.buffer = {
-				typ Tok.pop = if {
-					pos 'cannot pop into a buffer' error.Tok
-				} elif typ Tok.addr = {
-					pos 'cannot get address of a buffer, buffer is already an address' error.Tok
-				}
-			} elif dup VarTyp.constant = {
-				typ Tok.pop = if {
-					pos 'cannot edit a constant' error.Tok
-				} elif typ Tok.addr = {
-					pos 'cannot get address of a constant as it does not reside in memory' error.Tok
-				}
-			} else {
-				0 assert -> 'unreachable'
-			}
-			drop
-		}
-	} else {
-		pos 'unknown variable' error.Tok
-	}
-}
-
-; ( *Array32(sp) )
 fn parse.fn_complex_tokens 1 0 {
 	auto sp 1 pop sp
 	pos token_stream[] rToken.tok
 
-	dup dup dup Tok.pop = rot Tok.addr = rot Tok.sizeof = | | if {
+	dup dup Tok.pop = swap Tok.addr = | if {
 		sp parse.handle_var_interaction
+	} elif dup Tok._assert = {
+		sp parse.assert
 	} elif dup Tok.name = {
 		sp parse.handle_name
 	} elif dup Tok.if_block = {
@@ -1386,22 +1393,22 @@ fn stas.parse {
 					}
 					
 					bool ! if {
-						{
-							error.start_bold_error
-								as_c token_stream[] Token.location_print
-							error.end_bold_error
-							
-							'static assertation failed' eputs
-							msg NULL != if {
-								', \'' eputs
-								msg string_view_to_str eputs
-								'\'' eputs
-								pos 2 + pop pos
-							}
-							endl
-
-							as_c Token.eprint_file_tok
+						error.start_bold_error
+							as_c token_stream[] Token.location_print
+						error.end_bold_error
+						
+						'static assertation failed' eputs
+						msg NULL != if {
+							', \'' eputs
+							msg string_view_to_str eputs
+							'\'' eputs
 						}
+						endl
+
+						as_c Token.eprint_file_tok
+					}
+					msg NULL != if {
+						pos 2 + pop pos
 					}
 				} else {
 					pos "unknown toplevel token" error.Tok

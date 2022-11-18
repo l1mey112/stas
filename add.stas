@@ -1,5 +1,7 @@
 reserve BUFSIZE { 1024 8 * }
 
+assert { sizeof BUFSIZE 8192 = }
+
 fn main {
 	sizeof BUFSIZE drop
 }
