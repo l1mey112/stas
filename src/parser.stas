@@ -1151,86 +1151,6 @@ fn parse.get_constant 0 1 {
 	var rVariable.Constant.val
 }
 
-fn parse.any_variable {
-	auto typ  1
-	auto rs_c 1 pos pop rs_c
-
-	pos token_stream[] rToken.tok
-	dup Tok.reserve = if {
-		VarTyp.buffer
-	} elif dup Tok.auto = {
-		VarTyp.stack
-	} else {
-		0
-		; does not handle constants.
-		0 assert -> 'unreachable'
-	}
-	pop typ
-	drop
-
-	Tok.name parse.expect? ! if {
-		pos 'expected variable name' error.Tok
-	}
-
-	auto str 2
-		pos token_stream[] rToken.data string_view_to_str
-	pop str
-
-	str parse.is_scoped_var if {
-		pos 'duplicate variable name' error.Tok
-	}
-	str name_get_function_idx -1 != if {
-		pos 'variable name is existing function' error.Tok
-	}
-
-	parse.next_eof? ! if {
-		pos 'unexpected EOF in variable declaration' error.Tok
-	}
-	; (Tok)
-	dup Tok.name = if {
-		parse.get_constant
-	} elif dup Tok.l_cb = {
-		0
-		0 assert -> 'unimplemented'
-		; TODO: implement const expression parsing
-	} elif dup Tok.number_lit = {
-		pos token_stream[] rToken.data
-	} else {
-		pos 'expected size in bytes, constant name or constant expression' error.Tok
-		0
-		; noreturn function
-	}
-	typ VarTyp.stack = if {
-		dup 0 = if {
-			pos 'auto variables cannot have a size of zero' error.Tok
-		}
-		8 *
-	}
-	auto size 1 pop size
-	drop
-
-	; `function_context NULL =` means toplevel
-
-	; (typ size a_sp idx name)
-		typ
-		size
-		function_context NULL != if {
-			function_context rFunction.a_sp
-		} else {
-			0
-		}
-		rs_c
-		rs_c ++ token_stream[] rToken.data
-	var_context<<
-
-	function_context NULL != if {
-		function_context Function.a_sp
-			function_context rFunction.a_sp size +
-		w32
-		function_context Function.forbid_inline 1 w8
-	}
-}
-
 const   sizeof(sp_array_data_const) { sizeof(u32) 1024 * }
 reserve sp_array_data_const         sizeof(sp_array_data_const)
 
@@ -1282,6 +1202,84 @@ fn parse.eval_const_expr 0 1 {
 
 	start_ir pop ir_stream.len
 	const_stack.len 0 = assert
+}
+
+fn parse.any_variable {
+	auto typ  1
+	auto rs_c 1 pos pop rs_c
+
+	pos token_stream[] rToken.tok
+	dup Tok.reserve = if {
+		VarTyp.buffer
+	} elif dup Tok.auto = {
+		VarTyp.stack
+	} else {
+		0
+		; does not handle constants.
+		0 assert -> 'unreachable'
+	}
+	pop typ
+	drop
+
+	Tok.name parse.expect? ! if {
+		pos 'expected variable name' error.Tok
+	}
+
+	auto str 2
+		pos token_stream[] rToken.data string_view_to_str
+	pop str
+
+	str parse.is_scoped_var if {
+		pos 'duplicate variable name' error.Tok
+	}
+	str name_get_function_idx -1 != if {
+		pos 'variable name is existing function' error.Tok
+	}
+
+	parse.next_eof? ! if {
+		pos 'unexpected EOF in variable declaration' error.Tok
+	}
+	; (Tok)
+	dup Tok.name = if {
+		parse.get_constant
+	} elif dup Tok.l_cb = {
+		parse.eval_const_expr
+	} elif dup Tok.number_lit = {
+		pos token_stream[] rToken.data
+	} else {
+		pos 'expected size in bytes, constant name or constant expression' error.Tok
+		0
+		; noreturn function
+	}
+	typ VarTyp.stack = if {
+		dup 0 = if {
+			pos 'auto variables cannot have a size of zero' error.Tok
+		}
+		8 *
+	}
+	auto size 1 pop size
+	drop
+
+	; `function_context NULL =` means toplevel
+
+	; (typ size a_sp idx name)
+		typ
+		size
+		function_context NULL != if {
+			function_context rFunction.a_sp
+		} else {
+			0
+		}
+		rs_c
+		rs_c ++ token_stream[] rToken.data
+	var_context<<
+
+	function_context NULL != if {
+		function_context Function.a_sp
+			function_context rFunction.a_sp size +
+		w32
+		function_context Function.forbid_inline 1 w8
+	}
 }
 
 fn parse.const_expression {

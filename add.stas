@@ -1,7 +1,8 @@
-const a { 22 }
-
 fn main {
-	a 21 = assert
-}
+	const c { 10 }
 
-assert { a 21 = } -> 's'
+	reserve b c
+	reserve a { 1 1 + }
+
+	a drop
+}
