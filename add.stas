@@ -1,9 +1,18 @@
-
-fn aaer {
-	auto a 1
-	addr a drop
-}
+const b { 22 }
+const z { 1 }
 
 fn main {
-	aaer
+	const a { b 11 + }
+
+	{
+		auto c z
+	}
+
+	a drop
+	b drop
+}
+
+auto e 1
+fn ee {
+	e drop
 }

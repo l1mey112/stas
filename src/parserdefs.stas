@@ -74,6 +74,10 @@ fn rVariable.a_sp 1 1  { Variable.a_sp r32 }
 fn rVariable.idx  1 1  { Variable.idx  r32 }
 fn rVariable.name 1 1  { Variable.name r64 }
 
+; UNION TYPE
+fn Variable.Constant.val  1 1 {  4 + }
+fn rVariable.Constant.val 1 1 { Variable.Constant.val  r64 }
+
 const              Inst.push_str { 1  }
 const              Inst.push_num { 2  }
 const       Inst.push_local_addr { 3  }
@@ -347,6 +351,18 @@ fn var_context<< 5 0 {
 		swap over Variable.a_sp swap w32
 		swap over Variable.size swap w32
 		          Variable.typ  swap w32
+
+	var_context.len ++ pop var_context.len
+	var_context.len var_context.cap < assert
+}
+
+; (val idx name)
+fn var_context.Constant<< 3 0 {
+	var_context.len sizeof(Variable) * var_context +
+	    swap over Variable.name           swap w64
+		swap over Variable.idx            swap w32
+		swap over Variable.Constant.val   swap w64
+		          Variable.typ VarTyp.constant w32
 
 	var_context.len ++ pop var_context.len
 	var_context.len var_context.cap < assert

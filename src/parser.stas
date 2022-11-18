@@ -10,7 +10,7 @@ auto function_context_idx 1
 auto function_attributes  1
 
 ; ( str len -- idx )
-fn is_function_name 2 1 {
+fn name_get_function_idx 2 1 {
 	functions.len 0 = if {
 		drop drop
 		-1
@@ -122,6 +122,17 @@ fn parse.lookahead? 1 1 {
 	token_stream[] rToken.tok =
 }
 
+; ( -- Tok bool )
+fn parse.next_eof? 0 2 {
+	pos ++
+	dup token_stream.len >= if {
+		drop -1 false ret
+	}
+	token_stream[] rToken.tok
+	true
+	pos ++ pop pos
+}
+
 ; ( Tok -- bool )
 fn parse.expect? 1 1 {
 	; `pos` will be unchanged on EOF
@@ -131,16 +142,6 @@ fn parse.expect? 1 1 {
 	}
 	token_stream[] rToken.tok =
 	pos ++ pop pos
-}
-
-; ( -- Tok bool )
-fn parse.next_eof? 0 2 {
-	pos ++ pop pos
-	pos token_stream.len >= if {
-		-1 false ret
-	}
-	pos token_stream[] rToken.tok
-	true
 }
 
 ; ( *Array32(sp) )
@@ -161,7 +162,7 @@ fn parse.fn_decl 1 0 {
 	name drop r8 `_` = if {
 		pos 'a function name cannot begin with an an underscore' error.Tok
 	}
-	name is_function_name -1 != if {
+	name name_get_function_idx -1 != if {
 		pos 'duplicate function name' error.Tok
 	}
 	name search_variable_name_global -1 != if {
@@ -242,6 +243,51 @@ fn parse.fn_decl 1 0 {
 		var_context.len
 	scope_context<<
 }
+			
+; ( *Array32(sp) )
+fn parse.assert 1 0 {
+	auto sp 1 pop sp
+	
+	sp rArray32.len 0 = if {
+		pos 'no value on stack to consume for assertion' error.Tok
+	}
+	sp Array32.len p64--
+
+	; Inst._assert
+
+	auto contains_message 1
+	false pop contains_message
+
+	; ( Tok -- bool )
+
+	pos 2 + token_stream.len < if {
+		pos 1 + token_stream[] rToken.tok Tok.arrw       = 
+		pos 2 + token_stream[] rToken.tok Tok.string_lit =
+		& if {
+			true pop contains_message
+		}
+	}
+
+	auto sv 1			
+	pos '' error.Tok.to_string_view pop sv
+
+	contains_message if {	
+		sv "assertation failed, '" push_string_view
+		sv
+			pos 2 + token_stream[] rToken.data string_view_to_str
+		push_string_view
+		sv "'\n" push_string_view
+		sv push_nul
+
+		Inst._assert sv ir
+		pos 2 + pop pos
+	} else {
+		sv 'assertation failed\n' push_string_view
+		sv push_nul
+		
+		Inst._assert sv ir
+	}
+}
 
 ; ( *Array32(sp) bool )
 fn parse.basic_token? 1 1 {
@@ -252,8 +298,7 @@ fn parse.basic_token? 1 1 {
 	; fn ir_p (pos inst data)
 
 	dup Tok._assert = if {
-		0 assert -> 'unimplemented'
-	;	parse.assert
+		sp parse.assert
 	} elif dup Tok.number_lit = {
 		Inst.push_num pos token_stream[] rToken.data ir
 		1 sp sp_push
@@ -448,8 +493,10 @@ fn parse.handle_close_r_cb 1 0 {
 		sp 0 wArray32.len 
 		NULL pop function_context
 		-1   pop function_context_idx
+		0    pop function_attributes
 
 		is_early_ret false w8
+		scope_context.len 0 = assert
 	} elif dup ScopeTyp.while_block_scope = {
 		reserve while_header sizeof(Scope)
 		while_header scope_context.pop_into_ptr
@@ -733,7 +780,7 @@ fn parse.handle_name 1 0 {
 	auto f_idx 1
 	auto found 1 false pop found
 
-	str is_function_name pop f_idx
+	str name_get_function_idx pop f_idx
 	f_idx -1 != if {
 		Inst.fn_call f_idx ir
 
@@ -786,7 +833,8 @@ fn parse.handle_name 1 0 {
 
 				to_push sp sp_push
 			} elif dup VarTyp.constant = {
-				0 assert -> 'unimplemented'
+				Inst.push_num var rVariable.Constant.val ir
+				1 sp sp_push
 			} else {
 				0 assert
 			}
@@ -809,7 +857,8 @@ fn parse.handle_name 1 0 {
 				Inst.push_global_stack_var f_idx ir
 				var rVariable.size 8 / sp sp_push
 			} elif dup VarTyp.constant = {
-				0 assert -> 'unimplemented'
+				Inst.push_num var rVariable.Constant.val ir
+				1 sp sp_push
 			} else {
 				0 assert -> 'unreachable'
 			}
@@ -863,6 +912,7 @@ fn parse.handle_var_interaction 1 0 {
 				wArray32.len
 
 				is_global if {
+					; f_idx eputu `\n` eputc
 					Inst.pop_global_stack_var f_idx ir
 				} else {
 					Inst.pop_local_stack_var
@@ -1084,6 +1134,23 @@ fn parse.is_scoped_var 2 1 {
 	search_variable_name -1 !=
 }
 
+; ( -- u64 )
+fn parse.get_constant 0 1 {
+	; ( str len search_idx -- idx )
+	pos token_stream[] rToken.data string_view_to_str 0 search_variable_name
+	dup -1 = if {
+		pos 'unknown variable name' error.Tok
+	}
+	auto var 1 var_context[] pop var
+
+	var rVariable.typ
+	VarTyp.constant != if {
+		pos 'referenced variable is not a constant' error.Tok
+	}
+
+	var rVariable.Constant.val
+}
+
 fn parse.any_variable {
 	auto typ  1
 	auto rs_c 1 pos pop rs_c
@@ -1109,32 +1176,38 @@ fn parse.any_variable {
 		pos token_stream[] rToken.data string_view_to_str
 	pop str
 
+	str parse.is_scoped_var if {
+		pos 'duplicate variable name' error.Tok
+	}
+	str name_get_function_idx -1 != if {
+		pos 'variable name is existing function' error.Tok
+	}
+
 	parse.next_eof? ! if {
 		pos 'unexpected EOF in variable declaration' error.Tok
 	}
 	; (Tok)
-	dup dup Tok.name = swap Tok.l_cb = | if {
+	dup Tok.name = if {
+		parse.get_constant
+	} elif dup Tok.l_cb = {
 		0
 		0 assert -> 'unimplemented'
+		; TODO: implement const expression parsing
 	} elif dup Tok.number_lit = {
 		pos token_stream[] rToken.data
-		typ VarTyp.stack = if {
-			dup 0 = if {
-				pos 'auto variables cannot have a size of zero' error.Tok
-			}
-			8 *
-		}
 	} else {
 		pos 'expected size in bytes, constant name or constant expression' error.Tok
 		0
 		; noreturn function
 	}
+	typ VarTyp.stack = if {
+		dup 0 = if {
+			pos 'auto variables cannot have a size of zero' error.Tok
+		}
+		8 *
+	}
 	auto size 1 pop size
 	drop
-
-	str parse.is_scoped_var if {
-		rs_c ++ 'duplicate variable name' error.Tok
-	}
 
 	; `function_context NULL =` means toplevel
 
@@ -1158,6 +1231,84 @@ fn parse.any_variable {
 	}
 }
 
+const   sizeof(sp_array_data_const) { sizeof(u32) 1024 * }
+reserve sp_array_data_const         sizeof(sp_array_data_const)
+
+fn parse.const_expression {
+	auto rs_c 1 pos pop rs_c
+
+	Tok.name parse.expect? ! if {
+		pos 'expected name of constant' error.Tok
+	}
+
+	auto sv 1
+		pos token_stream[] rToken.data
+	pop sv
+
+	sv string_view_to_str parse.is_scoped_var if {
+		pos 'duplicate variable name' error.Tok
+	}
+	sv string_view_to_str name_get_function_idx -1 != if {
+		pos 'variable name is existing function' error.Tok
+	}
+
+	Tok.l_cb parse.expect? ! if {
+		pos 'a scope must follow a const to open an expression' error.Tok
+	}
+
+	auto start_ir 1 ir_stream.len pop start_ir
+
+	reserve sp_array sizeof(Array32)
+	sp_array_data_const sizeof(sp_array_data_const) sp_array Array32.init_with_buffer_sz_bytes
+
+	while true {
+		; (Tok bool)
+		parse.next_eof? if {
+			Tok.r_cb = if {
+				break
+			}
+		} else {
+			drop
+			pos 'unexpected EOF when parsing constant expression' error.Tok
+		}
+
+		pos token_stream[] rToken.tok Tok.name = if {
+			Inst.push_num
+				parse.get_constant
+			ir
+			1 sp_array sp_push
+		} else {
+			sp_array parse.basic_token? ! if {
+				pos 'unsupported token inside a constant expression' error.Tok
+			}
+		}
+	}
+
+	start_ir
+	while dup ir_stream.len < {
+		dup eval_one_inst assert -> 'unreachable'
+		++
+	}
+	drop
+
+	const_stack.len 0 = if {
+		pos 'constant expression must contain a value' error.Tok
+	}
+	const_stack.len 1 > if {
+		pos 'more than one unhandled value on left on the constant expression' sp_array error_st.Tok
+	}
+
+	; (val idx name)
+		const_stack.pop
+		rs_c
+		sv
+	var_context.Constant<<
+
+	start_ir pop ir_stream.len
+
+	const_stack.len 0 = assert
+}
+
 const   sizeof(sp_array_data) { sizeof(u32) 1024 * }
 reserve sp_array_data         sizeof(sp_array_data)
 
@@ -1173,7 +1324,7 @@ fn stas.parse {
 		dup dup Tok.reserve = swap Tok.auto = | if {
 			parse.any_variable
 		} elif dup Tok.const = {
-			0 assert -> 'unimplemented'
+			parse.const_expression
 		} else {
 			scope_context.len 0 = if {
 				pos token_stream[] rToken.tok
@@ -1206,10 +1357,19 @@ fn stas.parse {
 
 	sp_array rArray32.len 0 = assert
 
-;	scope_context.len putuln
-;	0 scope_context[] rScope.idx "ee" error.Tok
 	function_context NULL != if {
 		token_stream.len -- "unexpected EOF when parsing function, scopes may be unclosed" error.Tok	
 	}
 	scope_context.len 0 = assert
+
+;	auto var 1
+;	0
+;	while dup var_context.len < {
+;		dup var_context[] pop var
+;
+;		var rVariable.name string_view_to_str eputs `\n` eputc
+;		++
+;	}
+;	drop
+;	var_context.len eputu `\n` eputc
 }
