@@ -1103,7 +1103,8 @@ fn parse.fn_complex_tokens 1 0 {
 			pos 'a scope must come after the arrow assert operator' error.Tok
 		}
 	} elif dup Tok.string_lit = {
-		Inst.push_str pos token_stream[] rToken.data ir
+		Inst.push_str pos token_stream[] rToken.data     ir
+		Inst.push_num pos token_stream[] rToken.data r64 ir
 		2 sp sp_push
 	} elif dup Tok.w8 = {
 		Inst.w8 0 ir

@@ -196,7 +196,6 @@ fn gen_range 4 0 {
 				a r_free
 			} elif dup Inst.push_str = {
 				r_prepare_push_const_word "_s" fwrite ir_data fwriteuln
-				ir_data slits[] r64 r_push_const
 			} elif dup Inst.push_num = {
 				ir_data r_push_const
 			} elif dup Inst.push_local_addr = {
