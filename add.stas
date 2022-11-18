@@ -1,8 +1,5 @@
-fn gimmie 0 2 {
-	23 7
-}
+reserve BUFSIZE { 1024 8 * }
 
-- noeval
 fn main {
-	gimmie + drop
+	sizeof BUFSIZE drop
 }
