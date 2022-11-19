@@ -71,6 +71,7 @@ const              Tok.not { 70 }
 const             Tok.addr { 71 }
 const             Tok.envp { 72 }
 const           Tok.sizeof { 73 }
+const          Tok.cextern { 74 }
 
 ; (Tok -- str len)
 fn Tok.to_str 1 2 {
@@ -218,6 +219,8 @@ fn Tok.to_str 1 2 {
 		"envp"
 	} elif dup Tok.sizeof = {
 		"sizeof"
+	} elif dup Tok.cextern = {
+		"cextern"
 	} else {
 		0 0 0 assert -> "unreachable"
 	}
@@ -367,6 +370,8 @@ fn Tok.from_str 2 1 {
 		Tok.envp
 	} elif str "sizeof" streq {
 		Tok.sizeof
+	} elif str "cextern" streq {
+		Tok.cextern
 	} else {
 		Tok.name
 	} 

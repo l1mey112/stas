@@ -143,6 +143,7 @@ const              Inst.syscall5 { 63 }
 const              Inst.syscall6 { 64 }
 const                   Inst.not { 65 }
 const             Inst.push_envp { 66 }
+const             Inst.c_fn_call { 67 }
 
 ; (Inst -- str len)
 fn Inst.to_str 1 2 {
@@ -544,4 +545,52 @@ fn ir 2 0 {
 ; (pos inst data)
 fn ir_p 3 0 {
 	ir_stream<<
+}
+
+fn CFunction.name       1 1 {      }
+fn CFunction.arg_arr    1 1 { 8  + }
+fn CFunction.arg_count  1 1 { 16 + }
+fn CFunction.return     1 1 { 20 + }
+fn CFunction.idx        1 1 { 24 + }
+const sizeof(CFunction)     { 28   }
+
+fn rCFunction.name      1 1 { CFunction.name      r64 }
+fn rCFunction.arg_arr   1 1 { CFunction.arg_arr       }
+fn rCFunction.arg_count 1 1 { CFunction.arg_count r32 }
+fn rCFunction.idx       1 1 { CFunction.idx       r32 }
+fn rCFunction.return    1 1 { CFunction.return    r32 }
+
+const   cfunctions.cap { 256 }
+auto    cfunctions.len 1
+reserve cfunctions     { cfunctions.cap sizeof(CFunction) * }
+
+; (idx -- *CFunction)
+fn cfunctions[] 1 1 {
+	dup cfunctions.len < assert
+	sizeof(CFunction) * cfunctions +
+}
+
+; (name return idx *Array32)
+fn cfunctions<< 4 0 {
+	auto arr 1 pop arr
+	auto cf  1 cfunctions.len sizeof(CFunction) * cfunctions + pop cf
+	
+	cf CFunction.idx    swap w32
+	cf CFunction.return swap w32
+	cf CFunction.name   swap w64
+
+	cf CFunction.arg_count arr rArray32.len w32
+
+	0 while dup 6 < {
+		dup arr Array32[]? ! if {
+			drop break
+		}
+		; (idx val)
+		over cf CFunction.arg_arr +
+		swap w8
+		++
+	} drop
+
+	cfunctions.len ++ pop cfunctions.len
+	cfunctions.len cfunctions.cap < assert
 }

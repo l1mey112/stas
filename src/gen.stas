@@ -49,6 +49,76 @@ fn gen_peek_inst_forward 1 2 {
 	ir_stream[] rIR.inst true
 }
 
+; ( idx -- Reg )
+fn sysv_argc_to_reg 1 1 {
+	dup 0 = if {
+		Reg.rdi
+	} elif dup 1 = {
+		Reg.rsi
+	} elif dup 2 = {
+		Reg.rdx
+	} elif dup 3 = {
+		Reg.rcx
+	} elif dup 4 = {
+		Reg.r8
+	} elif dup 5 = {
+		Reg.r9
+	} else {
+		-1
+		0 assert -> 'unimplemented'
+	}
+	swap drop
+}
+
+; (cfunctions[idx])
+fn gen_cextern_function 1 0 {
+	auto fn_c 1 cfunctions[] pop fn_c
+
+	; Preseved by called C function
+	;   rbx, rsp, rbp, r12, r13, r14, r15
+	; 
+	; Destroyed by called C function
+	;   rax, rdi, rsi, rdx, rcx, r8, r9, r10, r11
+	; 
+	; Arguments to a C function
+	;   rdi, rsi, rdx, rcx, r8, r9, return in rax
+	; 
+
+	fn_c rCFunction.arg_count 0 > if {
+		fn_c rCFunction.arg_count --
+		while true {
+			; dup ; fn_c rCFunction.arg_arr u8[] putuln
+			
+			dup sysv_argc_to_reg r_pop_r
+
+			dup 0 = if {
+				break
+			}
+			--
+		} drop
+	}
+	r_stack_deep_flush
+	Reg.rax r_release
+
+	"	mov rbp, rsp"     fwriteln
+	"	mov rsp, [_rs_p]" fwriteln
+	"	call " fwrite fn_c rCFunction.name string_view_to_str fwriteln
+	"	mov [_rs_p], rsp" fwriteln
+	"	mov rsp, rbp"     fwriteln
+
+	fn_c rCFunction.return 0 != if {
+		Reg.rax r_push
+	}
+	
+	fn_c rCFunction.return
+	dup 8 = if {
+		"	and rax, 0xFF" fwriteln
+	} elif dup 16 = {
+		"	and rax, 0xFFFF" fwriteln
+	}
+	drop
+}
+
 ; (start end inlined_count *Array64)
 fn gen_range 4 0 {
 	auto arr           1 pop arr
@@ -98,7 +168,7 @@ fn gen_range 4 0 {
 				fn_c rFunction.is_used ! fn_c rFunction.forbid_inline ! | if {
 					fn_c rFunction.end_inst pop pos
 				} else {
-					backend_type StasBackend.fasm = debug_symbols r8 & if {
+					backend_type StasBackend.fasm = object_file r8 & if {
 						"public " fwrite fn_c Function.name.fwrite_mangled fendl
 					}
 					fn_c Function.name.fwrite_mangled ":" fwriteln
@@ -673,6 +743,8 @@ fn gen_range 4 0 {
 				Reg.r10 r_free
 				Reg.r8  r_free
 				Reg.r9  r_free
+			} elif dup Inst.c_fn_call = {
+				ir_data gen_cextern_function
 			} else {
 				0 assert -> 'unreachable'
 			}
@@ -762,11 +834,16 @@ fn stas.gen 2 0 {
 	
 	backend_type StasBackend.fasm = if {
 		"use64"                           fwriteln
-		debug_symbols r8 if {
+		object_file r8 if {
 			"format ELF64"                fwriteln
 			"section '.text' executable"  fwriteln
 			"public _start"               fwriteln
 			"public _exit"                fwriteln
+			0 while dup cfunctions.len < {
+				"extrn "                     fwrite
+				dup cfunctions[] rCFunction.name string_view_to_str fwriteln
+				++
+			} drop
 		} else {
 			"format ELF64 executable"     fwriteln
 			"segment readable executable" fwriteln
@@ -779,6 +856,11 @@ fn stas.gen 2 0 {
 		"[BITS 64]"                        fwriteln
 		"[global _start]"                  fwriteln
 		"[section .text]"                  fwriteln
+		0 while dup cfunctions.len < {
+			"[extern "                     fwrite
+			dup cfunctions[] rCFunction.name string_view_to_str fwrite `]` fwritec fendl
+			++
+		} drop
 	} else {
 		0 assert -> 'unreachable'
 	}
@@ -801,7 +883,7 @@ fn stas.gen 2 0 {
 	0 ir_stream.len 0 const_stack_array gen_range
 	
 	backend_type StasBackend.fasm = if {
-		debug_symbols r8 if {
+		object_file r8 if {
 			"section '.rodata'"           fwriteln
 		} else {
 			"segment readable"            fwriteln
@@ -825,7 +907,7 @@ fn stas.gen 2 0 {
 	drop
 
 	backend_type StasBackend.fasm = if {
-		debug_symbols r8 if {
+		object_file r8 if {
 			"section '.bss' writable"     fwriteln
 		} else {
 			"segment readable writable"   fwriteln

@@ -68,6 +68,7 @@ USAGE: ./stas [OPTIONS] [FILE]
   -o <output>    Specify '-o -' to dump assembly to stdout
   -g             Debug symbols. Most effective with the `nasm` backend
   -b <backend>   Assemblers `nasm` or `fasm` as compiler backend
+  -c             Create object file for linking, will not call `ld`
   -r             Execute file after compiling. Arguments after this
                  switch will ignored and passed to the program
   -v, --verbose  Activate verbose mode

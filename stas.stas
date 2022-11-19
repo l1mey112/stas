@@ -1,5 +1,6 @@
 include 'std.stas'
 
+reserve object_file    1
 reserve debug_symbols  1
 reserve verbose_mode   1
 reserve trace_calls    1
@@ -40,6 +41,7 @@ fn usage {
 	"	-o <output>       Specify '-o -' to dump assembly to stdout\n"             eputs
 	"	-g                Debug info. Most effective with the `nasm` backend\n"    eputs
 	"	-b <backend>      Assemblers `nasm` or `fasm` as compiler backend\n"       eputs
+	"	-c                Create object file for linking, will not call `ld`\n"    eputs
 	"	-r                Execute file after compiling. Arguments after this\n"    eputs
 	"	                  switch will ignored and passed to the program\n"         eputs
 	"	-v, --verbose     Activate verbose mode\n"                                 eputs
@@ -238,6 +240,14 @@ fn main {
 			}
 			pop run_exec_arg
 			argc
+		} elif argstr "-c" streq {
+			argparse_mode ArgParseMode.none != if {
+				usage_and_exit
+			}
+			object_file r8 if {
+				usage_and_exit
+			}
+			object_file true w8
 		} elif argstr "--help" streq argstr "-h" streq | {
 			help_and_exit
 		} elif argstr "--dump-ir" streq {
@@ -290,11 +300,19 @@ fn main {
 	}
 
 	out_file drop NULL = if {
-		"a.out" pop out_file
+		object_file r8 if {
+			"a.o" pop out_file
+		} else {
+			"a.out" pop out_file
+		}
 	} else {
 		out_file "-" streq if {
 			to_stdout true w8
 		}
+	}
+
+	debug_symbols r8 if {
+		object_file true w8
 	}
 
 	verbose_mode r8 if {

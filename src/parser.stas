@@ -31,6 +31,28 @@ fn name_get_function_idx 2 1 {
 	-1
 }
 
+; ( str len -- idx )
+fn name_get_cextern_function_idx 2 1 {
+	cfunctions.len 0 = if {
+		drop drop
+		-1
+		ret
+	}
+
+	auto lit 2 pop lit
+
+	0
+	while dup cfunctions.len < {
+		dup cfunctions[] rCFunction.name string_view_to_str
+		lit streq if {
+			ret
+		}
+		++
+	}
+	drop
+	-1
+}
+
 ; ( str len search_idx -- idx )
 fn search_variable_name 3 1 {
 	auto search_p 1 pop search_p
@@ -144,6 +166,16 @@ fn parse.expect? 1 1 {
 	pos ++ pop pos
 }
 
+; ( -- str len bool )
+fn parse.inspect_current_name? 0 3 {
+	pos token_stream[] rToken.tok Tok.name = if {
+		pos token_stream[] rToken.data string_view_to_str
+		true
+	} else {
+		NULL 0 false
+	}
+}
+
 ; ( str len -- bool )
 fn parse.search_scoped_var 2 1 {
 	; (str len)
@@ -173,6 +205,14 @@ fn parse.duplicate_name {
 	dup -1 != if {
 		pos 'name is already an existing function' error_noexit.Tok
 		functions[] rFunction.start_inst ir_stream[] rIR.idx ++ 'function declared here' notice.Tok
+		1 exit
+	} else {
+		drop
+	}
+	str name_get_cextern_function_idx
+	dup -1 != if {
+		pos 'name is already an existing C extern function' error_noexit.Tok
+		cfunctions[] rCFunction.idx ++ 'function declared here' notice.Tok
 		1 exit
 	} else {
 		drop
@@ -937,6 +977,33 @@ fn parse.handle_name 1 0 {
 
 		true pop found
 	}
+	str name_get_cextern_function_idx pop f_idx
+	f_idx -1 != if {
+		Inst.c_fn_call f_idx ir
+
+		; TODO: support attributes for cextern functions
+
+	;	f_idx functions[] rFunction.attributes
+	;	FnAttribute.noreturn FnAttribute.is_set if {
+	;		parse.push_early_ret_with_pos
+	;	}
+
+		sp rArray32.len
+		f_idx cfunctions[] rCFunction.arg_count
+		< if {
+			pos 'not enough values to consume for function call' sp error_st.Tok
+		}
+
+		f_idx cfunctions[] rCFunction.arg_count
+		f_idx cfunctions[] rCFunction.return 0 = if {
+			0
+		} else {
+			1
+		}
+		sp sp_assert
+
+		true pop found
+	}
 	found ! if {
 		str 
 			0 scope_context[] rScope.var_scope ; fn scope only
@@ -1342,6 +1409,78 @@ fn parse.const_expression {
 	var_context.Constant<<
 }
 
+; ( sz )
+fn parse.one_cextern_arg 0 1 {
+	pos token_stream[] rToken.tok Tok.number_lit = if {
+		pos token_stream[] rToken.data
+		dup 64 = if {
+			ret
+		} elif dup 32 = {
+			ret
+		} elif dup 16 = {
+			ret
+		} elif dup 8 = {
+			ret
+		} else {
+			pos 'argument size specification must be 8, 16, 32 or 64' error.Tok
+		}
+		drop
+	} else {
+		pos 'unexpected keyword inside C function arguments, expected a number' error.Tok
+	}
+}
+
+fn parse.cextern {
+	object_file r8 ! if {
+		pos 'external C functions can only be used when compiling with `-c`' error.Tok
+	}
+
+	reserve argarr_data { sizeof(u32) 6 * }
+	reserve argarr sizeof(Array32)
+
+	argarr_data sizeof argarr_data argarr Array32.init_with_buffer_sz_bytes
+	
+	auto rs_c 1 pos pop rs_c
+
+	Tok.name parse.expect? ! if {
+		pos 'expected name of external C function' error.Tok
+	}
+	while true {
+		; (Tok bool)
+		parse.next_eof? if {
+			Tok.arrw = if { break }
+		} else {
+			drop
+			pos 'unexpected EOF when parsing external C function' error.Tok
+		}
+
+		parse.one_cextern_arg argarr Array32<<? ! if {
+			pos 'external C functions with more than 6 arguments are not supported' error.Tok
+		}
+	}
+	parse.next_eof? ! if {
+		pos 'unexpected EOF when parsing external C function' error.Tok
+	}
+	drop
+
+	; (name return idx *Array32)
+		rs_c ++ token_stream[] rToken.data
+	
+		parse.inspect_current_name? if {
+			'void' streq ! if {
+				pos 'unexpected name, expected number or \'void\'' error.Tok
+			}
+			0
+		} else {
+			drop drop
+			parse.one_cextern_arg
+		}
+
+		rs_c
+		argarr
+	cfunctions<<
+}
+
 reserve sp_array_data { sizeof(u32) 1024 * }
 
 fn stas.parse {
@@ -1359,6 +1498,8 @@ fn stas.parse {
 			parse.any_variable
 		} elif dup Tok.const = {
 			parse.const_expression
+		} elif dup Tok.cextern = {
+			parse.cextern
 		} else {
 			scope_context.len 0 = if {
 				pos token_stream[] rToken.tok

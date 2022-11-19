@@ -1,0 +1,23 @@
+include 'std.stas'
+
+cextern addsome 64 64 -> 64
+cextern addup 64 64 -> 64
+
+fn main {
+	12 8 addsome putuln
+
+	auto buff 10
+
+	1 2 3 4 5 6 7 8 9 10 pop buff
+
+	addr buff 10 addup putuln
+}
+
+; `./stas main.stas -c`
+;     - creates `a.o`
+
+; `gcc stas_extern.c -c stas_extern.o -ffreestanding`
+;     - creates freestanding object file
+
+; `ld a.o stas_extern.o -o a.out`
+;     - links to `a.out`
