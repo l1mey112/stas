@@ -94,7 +94,6 @@ const            Inst.fn_prelude { 14 }
 const              Inst.fn_leave { 15 }
 const               Inst.fn_call { 16 }
 const               Inst._assert { 17 }
-const       Inst.trap_breakpoint { 18 }
 const                  Inst.plus { 19 }
 const                   Inst.sub { 20 }
 const                   Inst.mul { 21 }
@@ -175,8 +174,6 @@ fn Inst.to_str 1 2 {
 		"fn_call"
 	} elif dup Inst._assert = {
 		"assert"
-	} elif dup Inst.trap_breakpoint = {
-		"trap_breakpoint"
 	} elif dup Inst.plus = {
 		"plus"
 	} elif dup Inst.sub = {

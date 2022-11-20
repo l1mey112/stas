@@ -5,7 +5,6 @@ const             Tok.l_cb { 4  }
 const             Tok.r_cb { 5  }
 const             Tok.arrw { 6  }
 const          Tok.fn_decl { 7  }
-const  Tok.trap_breakpoint { 8  }
 const            Tok.const { 9  }
 const          Tok._assert { 10 }
 const             Tok.argc { 11 }
@@ -83,8 +82,6 @@ fn Tok.to_str 1 2 {
 		"->"
 	} elif dup Tok.fn_decl = {
 		"fn"
-	} elif dup Tok.trap_breakpoint = {
-		"_breakpoint"
 	} elif dup Tok.const = {
 		"const"
 	} elif dup Tok._assert = {
@@ -222,8 +219,6 @@ fn Tok.from_str 2 1 {
 		Tok.arrw
 	} elif str "fn" streq {
 		Tok.fn_decl
-	} elif str "_breakpoint" streq {
-		Tok.trap_breakpoint
 	} elif str "const" streq {
 		Tok.const
 	} elif str "assert" streq {

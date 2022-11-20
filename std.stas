@@ -22,6 +22,7 @@ fn p8--  1 0 { dup r8  -- w8  }
 
 include 'lib/linux.stas'
 include 'lib/io.stas'
+include 'lib/misc.stas'
 include 'lib/mem.stas'
 include 'lib/alloc.stas'
 include 'lib/array.stas'

@@ -1156,9 +1156,6 @@ fn parse.fn_complex_tokens 1 0 {
 	} elif dup Tok.r64 = {
 		Inst.r64 0 ir
 		1 1 sp sp_assert
-	} elif dup Tok.trap_breakpoint = {
-		Inst.trap_breakpoint 0 ir
-		1 1 sp sp_assert
 	} elif dup Tok.argc = {
 		Inst.push_argc 0 ir
 		1 sp sp_push

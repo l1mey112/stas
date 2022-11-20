@@ -1,0 +1,6 @@
+fn dbg_breakpoint 1 1 {
+	dup
+	asm "rax" {
+		"\tdb 0xcc"
+	}
+}

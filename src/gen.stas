@@ -383,10 +383,6 @@ fn gen_range 4 0 {
 			} elif dup Inst.do_jmp = {
 				r_flush
 				"	jmp " fwrite inlined_count ir_data label.ref.fwriteln
-			} elif dup Inst.trap_breakpoint = {
-				Reg.rax r_pop_r
-				"	db 0xcc" fwriteln
-				Reg.rax r_push
 			} elif dup Inst.plus = {
 				r_pop
 				r_pop
