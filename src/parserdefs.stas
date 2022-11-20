@@ -295,7 +295,7 @@ fn rIR.idx  1 1 { IR.idx  r32 }
 fn rIR.inst 1 1 { IR.inst r32 }
 fn rIR.data 1 1 { IR.data r64 }
 
-const   ir_stream.cap { 16384 }
+const   ir_stream.cap { 32768 }
 auto    ir_stream.len 1
 reserve ir_stream     { sizeof(IR) ir_stream.cap * }
 
@@ -474,6 +474,47 @@ fn FnAttribute.is_conflict 1 1 {
 
 auto pos 1
 
+; ( Tok -- bool )
+fn parse.lookahead? 1 1 {
+	pos ++
+	dup token_stream.len >= if {
+		drop drop false ret
+	}
+	token_stream[] rToken.tok =
+}
+
+; ( -- Tok bool )
+fn parse.next_eof? 0 2 {
+	pos ++
+	dup token_stream.len >= if {
+		drop -1 false ret
+	}
+	token_stream[] rToken.tok
+	true
+	pos ++ pop pos
+}
+
+; ( Tok -- bool )
+fn parse.expect? 1 1 {
+	; `pos` will be unchanged on EOF
+	pos ++
+	dup token_stream.len >= if {
+		drop drop false ret
+	}
+	token_stream[] rToken.tok =
+	pos ++ pop pos
+}
+
+; ( -- str len bool )
+fn parse.inspect_current_name? 0 3 {
+	pos token_stream[] rToken.tok Tok.name = if {
+		pos token_stream[] rToken.data string_view_to_str
+		true
+	} else {
+		NULL 0 false
+	}
+}
+
 ; (idx str len sp)
 fn error_st.Tok 4 0 {
 	auto sp 1 pop sp
@@ -555,7 +596,6 @@ fn CFunction.idx        1 1 { 24 + }
 const sizeof(CFunction)     { 28   }
 
 fn rCFunction.name      1 1 { CFunction.name      r64 }
-fn rCFunction.arg_arr   1 1 { CFunction.arg_arr       }
 fn rCFunction.arg_count 1 1 { CFunction.arg_count r32 }
 fn rCFunction.idx       1 1 { CFunction.idx       r32 }
 fn rCFunction.return    1 1 { CFunction.return    r32 }

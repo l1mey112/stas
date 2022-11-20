@@ -1,5 +1,27 @@
 include 'std.stas'
 
 fn main {
-	
+;	asm -> rax rdx {
+;		
+;	}
+;	asm {
+;		
+;	}
+;	asm 2 3 {
+;		
+;	}
+;	asm 1 2 -> rdx rcx {
+;		
+;	}
+
+	asm _ _ -> _ _ {
+		-> $1 $2
+	}
+	asm _ _ -> _ {
+		"add $1, $2"
+		-> $1
+	}
+	asm "rdi" "rsi" "rdx" "r10" "r8" "r9" "rax" -> "rax" {
+		"syscall"
+	}
 }

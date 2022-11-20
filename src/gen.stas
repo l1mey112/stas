@@ -87,7 +87,7 @@ fn gen_cextern_function 1 0 {
 	fn_c rCFunction.arg_count 0 > if {
 		fn_c rCFunction.arg_count --
 		while true {
-			; dup ; fn_c rCFunction.arg_arr u8[] putuln
+			; dup ; fn_c CFunction.arg_arr u8[] putuln
 			
 			dup sysv_argc_to_reg r_pop_r
 
@@ -98,7 +98,7 @@ fn gen_cextern_function 1 0 {
 		} drop
 	}
 	r_stack_deep_flush
-	Reg.rax r_release
+	Reg.rax r_is_used ! assert
 
 	"	mov rbp, rsp"     fwriteln
 	"	mov rsp, [_rs_p]" fwriteln
@@ -108,15 +108,14 @@ fn gen_cextern_function 1 0 {
 
 	fn_c rCFunction.return 0 != if {
 		Reg.rax r_push
+		fn_c rCFunction.return
+		dup 8 = if {
+			"	and rax, 0xFF" fwriteln
+		} elif dup 16 = {
+			"	and rax, 0xFFFF" fwriteln
+		}
+		drop
 	}
-	
-	fn_c rCFunction.return
-	dup 8 = if {
-		"	and rax, 0xFF" fwriteln
-	} elif dup 16 = {
-		"	and rax, 0xFFFF" fwriteln
-	}
-	drop
 }
 
 ; (start end inlined_count *Array64)

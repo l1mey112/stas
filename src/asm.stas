@@ -1,0 +1,170 @@
+fn ASM.argc          1 1 {      }
+fn ASM.retc          1 1 { 4  + }
+fn ASM.clobber_list  1 1 { 8  + }
+fn ASM.s_start_idx   1 1 { 24 + }
+fn ASM.s_end_idx     1 1 { 28 + }
+fn ASM.o_start_idx   1 1 { 32 + }
+fn ASM.o_end_idx     1 1 { 36 + }
+fn ASM.idx           1 1 { 40 + }
+const sizeof(ASM)        { 44   }
+
+fn rASM.argc          1 1 { ASM.argc        r32 }
+fn rASM.retc          1 1 { ASM.retc        r32 }
+fn rASM.s_start_idx   1 1 { ASM.s_start_idx r32 }
+fn rASM.s_end_idx     1 1 { ASM.s_end_idx   r32 }
+fn rASM.o_start_idx   1 1 { ASM.o_start_idx r32 }
+fn rASM.o_end_idx     1 1 { ASM.o_end_idx   r32 }
+fn rASM.idx           1 1 { ASM.idx         r32 }
+
+; (ptr val)
+fn wASM.argc          2 0 { swap ASM.argc        swap w32 }
+fn wASM.retc          2 0 { swap ASM.retc        swap w32 }
+fn wASM.s_start_idx   2 0 { swap ASM.s_start_idx swap w32 }
+fn wASM.s_end_idx     2 0 { swap ASM.s_end_idx   swap w32 }
+fn wASM.o_start_idx   2 0 { swap ASM.o_start_idx swap w32 }
+fn wASM.o_end_idx     2 0 { swap ASM.o_end_idx   swap w32 }
+fn wASM.idx           2 0 { swap ASM.idx         swap w32 }
+
+const   inline_asms.cap { 256 }
+auto    inline_asms.len 1
+reserve inline_asms     { inline_asms.cap sizeof(ASM) * }
+
+; (idx -- *ASM)
+fn inline_asms[] 1 1 {
+	dup inline_asms.len < assert
+	sizeof(ASM) * inline_asms +
+}
+
+; (*ASM)
+fn *inline_asms<< 1 0 {
+	inline_asms.len sizeof(ASM) * inline_asms +
+
+	; (dest src len)
+	swap sizeof(ASM) memcpy
+
+	inline_asms.len ++ pop inline_asms.len
+	inline_asms.len inline_asms.cap < assert
+}
+
+fn parse.inline_asm {
+	auto _argc 1
+	auto _retc 1
+
+	reserve invok_asm sizeof(ASM)
+	invok_asm 0 sizeof invok_asm memset
+
+	invok_asm pos wASM.idx
+
+	auto fn_c 1 pos pop fn_c
+
+	parse.next_eof? ! if {
+		pos 'unexpected EOF in assembly invocation' error.Tok
+	}
+
+	dup Tok.l_cb != if {
+		dup Tok.number_lit = if {
+			Tok.number_lit parse.expect? ! if {
+				pos 'function return and argument counts must be numbers' error.Tok
+			}
+	
+			invok_asm fn_c ++  token_stream[] rToken.data wASM.argc
+			invok_asm fn_c 2 + token_stream[] rToken.data wASM.retc
+
+			pos ++ pop pos
+			pos token_stream.len >= if {
+				pos 'unexpected EOF in assembly invocation' error.Tok
+			}
+		}
+		pos token_stream[] rToken.tok Tok.arrw = if {
+			while true {
+				; (Tok bool)
+				parse.next_eof? if {
+					Tok.l_cb = if {
+						break
+					}
+				} else {
+					drop
+					pos 'unexpected EOF when parsing register list' error.Tok
+				}
+
+				pos token_stream[] rToken.tok Tok.name = if {
+					pos token_stream[] rToken.data string_view_to_str
+					Reg.64.from_str? ! if {
+						pos 'name is not a 64 bit register' error.Tok
+					}
+					invok_asm ASM.clobber_list +
+					dup r8 if {
+						pos '64 bit register is already on the list' error.Tok
+					}
+					true w8
+				} else {
+					pos 'unexpected token, expected 64 bit register name' error.Tok
+				}
+			}
+		}
+		pos token_stream[] rToken.tok Tok.l_cb != if {
+			pos 'new scope must proceed after assembly invocation' error.Tok
+		}
+	}
+	drop
+
+	invok_asm rASM.argc sizeof(Reg) > if {
+		fn_c ++ 'argument count is too big to fit inside avaliable registers' error.Tok
+	}
+	invok_asm rASM.retc sizeof(Reg) > if {
+		fn_c 2 + 'return count is too big to fit inside avaliable registers' error.Tok
+	}
+
+	; -------------- HEADER PARSED --------------
+	
+	auto is_parsing_ret 1 false pop is_parsing_ret
+
+	invok_asm pos ++ wASM.s_start_idx
+	while true {
+		; (Tok bool)
+		parse.next_eof? if {
+			Tok.r_cb = if {
+				break
+			}
+		} else {
+			drop
+			pos 'unexpected EOF when parsing inline assembly body' error.Tok
+		}
+
+		pos token_stream[] rToken.tok
+		dup Tok.arrw = if {
+			is_parsing_ret if {
+				pos 'already in return mode' error.Tok
+			}
+			invok_asm pos wASM.s_end_idx
+			invok_asm pos ++ wASM.o_start_idx
+			true pop is_parsing_ret
+		} else {
+			is_parsing_ret if {
+				dup Tok.name = if {
+					pos token_stream[] rToken.data string_view_to_str
+					puts endl
+				} else {
+					pos 'expected 64 bit register name or implicit numbered register' error.Tok
+				}
+			} else {
+				dup Tok.string_lit = if {
+					pos token_stream[] rToken.data string_view_to_str
+					puts endl
+				} else {
+					pos 'expected assembly string' error.Tok
+				}
+			}
+		}
+		drop
+	}
+	invok_asm rASM.s_end_idx 0 != if {
+		invok_asm pos wASM.o_end_idx
+	} else {
+		invok_asm pos wASM.s_end_idx
+	}
+
+	; --------------- BODY PARSED ---------------
+
+	invok_asm *inline_asms<<
+}

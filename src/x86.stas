@@ -158,6 +158,44 @@ fn Reg.8.to_str 1 2 {
 	rot rot drop
 }
 
+; ( str len -- Reg bool )
+fn Reg.64.from_str? 2 2 {
+	auto str 2 pop str
+
+	str "rbx" streq if {
+		Reg.rbx
+	} elif str "rcx" streq {
+		Reg.rcx
+	} elif str "rsi" streq {
+		Reg.rsi
+	} elif str "rdi" streq {
+		Reg.rdi
+	} elif str "r8" streq {
+		Reg.r8
+	} elif str "r9" streq {
+		Reg.r9
+	} elif str "r10" streq {
+		Reg.r10
+	} elif str "r11" streq {
+		Reg.r11
+	} elif str "r12" streq {
+		Reg.r12
+	} elif str "r13" streq {
+		Reg.r13
+	} elif str "r14" streq {
+		Reg.r14
+	} elif str "r15" streq {
+		Reg.r15
+	} elif str "rdx" streq {
+		Reg.rdx
+	} elif str "rax" streq {
+		Reg.rax
+	} else {
+		-1 false ret
+	}
+	true
+}
+
 reserve rallocator_mask sizeof(Reg)
 
 const   rallocator_stack.cap { 1024 2 * }

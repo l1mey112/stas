@@ -135,47 +135,6 @@ fn parse.push_early_ret_with_pos {
 	scope_context.len scope_context.cap < assert
 }
 
-; ( Tok -- bool )
-fn parse.lookahead? 1 1 {
-	pos ++
-	dup token_stream.len >= if {
-		drop drop false ret
-	}
-	token_stream[] rToken.tok =
-}
-
-; ( -- Tok bool )
-fn parse.next_eof? 0 2 {
-	pos ++
-	dup token_stream.len >= if {
-		drop -1 false ret
-	}
-	token_stream[] rToken.tok
-	true
-	pos ++ pop pos
-}
-
-; ( Tok -- bool )
-fn parse.expect? 1 1 {
-	; `pos` will be unchanged on EOF
-	pos ++
-	dup token_stream.len >= if {
-		drop drop false ret
-	}
-	token_stream[] rToken.tok =
-	pos ++ pop pos
-}
-
-; ( -- str len bool )
-fn parse.inspect_current_name? 0 3 {
-	pos token_stream[] rToken.tok Tok.name = if {
-		pos token_stream[] rToken.data string_view_to_str
-		true
-	} else {
-		NULL 0 false
-	}
-}
-
 ; ( str len -- bool )
 fn parse.search_scoped_var 2 1 {
 	; (str len)
@@ -258,7 +217,7 @@ fn parse.fn_decl 1 0 {
 			fn_c 'new scope must proceed after function header' error.Tok
 		}
 	} else {
-		pos 'unknown token in function declaration' error.Tok
+		pos 'unexpected token in function declaration' error.Tok
 	}
 	drop
 
@@ -1230,6 +1189,8 @@ fn parse.fn_complex_tokens 1 0 {
 	} elif dup Tok.envp = {
 		Inst.push_envp 0 ir
 		1 sp sp_push
+	} elif dup Tok.asm = {
+		parse.inline_asm
 	} else {
 		; TODO:
 		;     elif -> cannot start elif without if
@@ -1273,7 +1234,7 @@ fn parse.eval_const_expr 0 1 {
 		sizeof const_stack_data
 	const_stack_array Array64.init_with_buffer_sz_bytes
 
-	while true {		
+	while true {
 		; (Tok bool)
 		parse.next_eof? if {
 			Tok.r_cb = if {
