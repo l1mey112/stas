@@ -1,5 +1,52 @@
 include 'std.stas'
 
+fn syscall6_ 7 1 {
+	asm "rdi" "rsi" "rdx" "r10" "r8" "r9" "rax" -> "rax" {
+		"syscall"
+	}
+}
+
+fn mmap_ 6 1 {
+	sys_mmap syscall6_
+}
+
+; (str len -- ptr len)
+fn open_and_mmap_fp_ 2 2 {
+	auto path 2
+	pop path
+
+	auto fd 1
+	path fd_open_fp_readonly pop fd
+
+	auto len 1
+	fd fd_stat_size pop len
+
+	len 0 > if {
+		0
+		len
+		PROT_READ
+		MAP_PRIVATE
+		fd
+		NULL
+		mmap_
+
+		dup 0 <s if {
+			"FATAL: Could not mmap file '" eputs path eputs "'\n" eputs
+			1 exit
+		}
+
+		len
+	} else {
+		NULL 0
+	}
+
+	fd close 0 <s if {
+		"FATAL: Failed to close file descriptor\n" eputs
+		1 exit
+	}
+}
+
 fn main {
-	"Hello world!\n" puts
+	; 0 0 0 0 0 0 sys_mmap syscall6_ drop
+	"add.stas" open_and_mmap_fp_ drop drop
 }
