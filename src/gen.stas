@@ -744,6 +744,40 @@ fn gen_range 4 0 {
 				Reg.r9  r_free
 			} elif dup Inst.c_fn_call = {
 				ir_data gen_cextern_function
+			} elif dup Inst.asm_invoc = {
+				ir_data inline_asms[] pop fn_c
+
+				
+				fn_c ASM.arg_r fn_c rASM.arg_r_len +
+				; (arr+len)
+				while true {
+					--
+					dup r8 r_pop_r
+					
+					dup fn_c ASM.arg_r = if {
+						break
+					}
+				}
+				drop
+				drop
+
+				fn_c rASM.s_start_idx
+				while dup fn_c rASM.s_end_idx < {
+					dup token_stream[] rToken.data string_view_to_str fwriteln
+					++
+				}
+				drop
+
+				fn_c ASM.ret_r
+				dup fn_c rASM.arg_r_len +
+				swap
+				; (len arr)
+				while dup over2 < {
+					dup r8 r_push
+					++
+				}
+				drop
+				drop
 			} else {
 				0 assert -> 'unreachable'
 			}

@@ -1,29 +1,18 @@
-fn ASM.argc          1 1 {      }
-fn ASM.retc          1 1 { 4  + }
-fn ASM.clobber_list  1 1 { 8  + }
-fn ASM.s_start_idx   1 1 { 24 + }
-fn ASM.s_end_idx     1 1 { 28 + }
-fn ASM.o_start_idx   1 1 { 32 + }
-fn ASM.o_end_idx     1 1 { 36 + }
-fn ASM.idx           1 1 { 40 + }
-const sizeof(ASM)        { 44   }
+fn ASM.arg_r           1 1 {      }
+fn ASM.ret_r           1 1 { 16 + }
+fn ASM.arg_r_len       1 1 { 32 + }
+fn ASM.ret_r_len       1 1 { 36 + }
+fn ASM.s_start_idx     1 1 { 40 + }
+fn ASM.s_end_idx       1 1 { 44 + }
+const sizeof(ASM)          { 48   }
 
-fn rASM.argc          1 1 { ASM.argc        r32 }
-fn rASM.retc          1 1 { ASM.retc        r32 }
+fn rASM.arg_r_len     1 1 { ASM.arg_r_len   r32 }
+fn rASM.ret_r_len     1 1 { ASM.ret_r_len   r32 }
 fn rASM.s_start_idx   1 1 { ASM.s_start_idx r32 }
 fn rASM.s_end_idx     1 1 { ASM.s_end_idx   r32 }
-fn rASM.o_start_idx   1 1 { ASM.o_start_idx r32 }
-fn rASM.o_end_idx     1 1 { ASM.o_end_idx   r32 }
-fn rASM.idx           1 1 { ASM.idx         r32 }
 
-; (ptr val)
-fn wASM.argc          2 0 { swap ASM.argc        swap w32 }
-fn wASM.retc          2 0 { swap ASM.retc        swap w32 }
 fn wASM.s_start_idx   2 0 { swap ASM.s_start_idx swap w32 }
 fn wASM.s_end_idx     2 0 { swap ASM.s_end_idx   swap w32 }
-fn wASM.o_start_idx   2 0 { swap ASM.o_start_idx swap w32 }
-fn wASM.o_end_idx     2 0 { swap ASM.o_end_idx   swap w32 }
-fn wASM.idx           2 0 { swap ASM.idx         swap w32 }
 
 const   inline_asms.cap { 256 }
 auto    inline_asms.len 1
@@ -46,40 +35,78 @@ fn *inline_asms<< 1 0 {
 	inline_asms.len inline_asms.cap < assert
 }
 
-fn parse.inline_asm {
-	auto _argc 1
-	auto _retc 1
+; O(n^2) !!!!!
+; 
+; ( Reg arr[sizeof(Reg)] len -- bool )
+fn reg_exists_in_arr 3 1 {
+	auto r 1 rot rot pop r
+
+	; (arr len)
+	over +
+	swap
+
+	; (len arr)
+	while dup over2 < {
+		dup r8 r = if {
+			drop drop true ret
+		}
+		++		
+	}
+	drop
+	drop
+	false
+}
+
+; ( *Array32(sp) )
+fn parse.inline_asm 1 0 {
+	auto sp 1 pop sp
+
+	auto as_c 1 pos pop as_c
 
 	reserve invok_asm sizeof(ASM)
 	invok_asm 0 sizeof invok_asm memset
 
-	invok_asm pos wASM.idx
-
-	auto fn_c 1 pos pop fn_c
-
 	parse.next_eof? ! if {
 		pos 'unexpected EOF in assembly invocation' error.Tok
 	}
-
 	dup Tok.l_cb != if {
-		dup Tok.number_lit = if {
-			Tok.number_lit parse.expect? ! if {
-				pos 'function return and argument counts must be numbers' error.Tok
-			}
-	
-			invok_asm fn_c ++  token_stream[] rToken.data wASM.argc
-			invok_asm fn_c 2 + token_stream[] rToken.data wASM.retc
+		pos token_stream[] rToken.tok Tok.arrw != if {
+			while true {
+				pos token_stream[] rToken.tok Tok.string_lit = if {
+					pos token_stream[] rToken.data string_view_to_str
+					Reg.64.from_str? ! if {
+						pos 'name is not a 64 bit register' error.Tok
+					}
+					; (Reg)
+					dup invok_asm ASM.arg_r invok_asm rASM.arg_r_len reg_exists_in_arr if {
+						pos '64 bit register is already on the argument list' error.Tok
+					}
 
-			pos ++ pop pos
-			pos token_stream.len >= if {
-				pos 'unexpected EOF in assembly invocation' error.Tok
+					invok_asm ASM.arg_r
+					invok_asm rASM.arg_r_len +
+					; (Reg arr)
+					swap w8
+					invok_asm ASM.arg_r_len p64++
+				} else {
+					pos 'unexpected token, expected 64 bit register string' error.Tok
+				}
+
+				; (Tok bool)
+				parse.next_eof? if {
+					dup Tok.l_cb = swap Tok.arrw = | if {
+						break
+					}
+				} else {
+					drop
+					pos 'unexpected EOF when parsing register list' error.Tok
+				}
 			}
 		}
 		pos token_stream[] rToken.tok Tok.arrw = if {
 			while true {
 				; (Tok bool)
 				parse.next_eof? if {
-					Tok.l_cb = if {
+					dup Tok.l_cb = swap Tok.arrw = | if {
 						break
 					}
 				} else {
@@ -87,18 +114,22 @@ fn parse.inline_asm {
 					pos 'unexpected EOF when parsing register list' error.Tok
 				}
 
-				pos token_stream[] rToken.tok Tok.name = if {
+				pos token_stream[] rToken.tok Tok.string_lit = if {
 					pos token_stream[] rToken.data string_view_to_str
 					Reg.64.from_str? ! if {
 						pos 'name is not a 64 bit register' error.Tok
 					}
-					invok_asm ASM.clobber_list +
-					dup r8 if {
-						pos '64 bit register is already on the list' error.Tok
+					dup invok_asm ASM.ret_r invok_asm rASM.ret_r_len reg_exists_in_arr if {
+						pos '64 bit register is already on the return list' error.Tok
 					}
-					true w8
+					; ( Reg )
+					invok_asm ASM.ret_r
+					invok_asm rASM.ret_r_len +
+					; ( Reg arr )
+					swap w8
+					invok_asm ASM.ret_r_len p64++
 				} else {
-					pos 'unexpected token, expected 64 bit register name' error.Tok
+					pos 'unexpected token, expected 64 bit register string' error.Tok
 				}
 			}
 		}
@@ -107,17 +138,6 @@ fn parse.inline_asm {
 		}
 	}
 	drop
-
-	invok_asm rASM.argc sizeof(Reg) > if {
-		fn_c ++ 'argument count is too big to fit inside avaliable registers' error.Tok
-	}
-	invok_asm rASM.retc sizeof(Reg) > if {
-		fn_c 2 + 'return count is too big to fit inside avaliable registers' error.Tok
-	}
-
-	; -------------- HEADER PARSED --------------
-	
-	auto is_parsing_ret 1 false pop is_parsing_ret
 
 	invok_asm pos ++ wASM.s_start_idx
 	while true {
@@ -131,40 +151,14 @@ fn parse.inline_asm {
 			pos 'unexpected EOF when parsing inline assembly body' error.Tok
 		}
 
-		pos token_stream[] rToken.tok
-		dup Tok.arrw = if {
-			is_parsing_ret if {
-				pos 'already in return mode' error.Tok
-			}
-			invok_asm pos wASM.s_end_idx
-			invok_asm pos ++ wASM.o_start_idx
-			true pop is_parsing_ret
-		} else {
-			is_parsing_ret if {
-				dup Tok.name = if {
-					pos token_stream[] rToken.data string_view_to_str
-					puts endl
-				} else {
-					pos 'expected 64 bit register name or implicit numbered register' error.Tok
-				}
-			} else {
-				dup Tok.string_lit = if {
-					pos token_stream[] rToken.data string_view_to_str
-					puts endl
-				} else {
-					pos 'expected assembly string' error.Tok
-				}
-			}
+		pos token_stream[] rToken.tok Tok.string_lit != if {
+			pos 'expected assembly string' error.Tok
 		}
-		drop
 	}
-	invok_asm rASM.s_end_idx 0 != if {
-		invok_asm pos wASM.o_end_idx
-	} else {
-		invok_asm pos wASM.s_end_idx
-	}
+	invok_asm pos wASM.s_end_idx
 
-	; --------------- BODY PARSED ---------------
+	invok_asm rASM.arg_r_len invok_asm rASM.ret_r_len sp as_c sp_assert_p
+	Inst.asm_invoc inline_asms.len ir
 
 	invok_asm *inline_asms<<
 }

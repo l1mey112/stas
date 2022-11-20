@@ -144,6 +144,7 @@ const              Inst.syscall6 { 64 }
 const                   Inst.not { 65 }
 const             Inst.push_envp { 66 }
 const             Inst.c_fn_call { 67 }
+const             Inst.asm_invoc { 68 }
 
 ; (Inst -- str len)
 fn Inst.to_str 1 2 {
@@ -279,6 +280,10 @@ fn Inst.to_str 1 2 {
 		"syscall6"
 	} elif dup Inst.push_envp = {
 		"push_envp"
+	} elif dup Inst.c_fn_call = {
+		"c_fn_call"
+	} elif dup Inst.asm_invoc = {
+		"asm_invoc"
 	} else {
 		0 0 0 assert -> 'unreachable'
 	}
@@ -564,18 +569,34 @@ fn sp_has 2 0 {
 	}
 }
 
-; (argc retc sp)
-fn sp_assert 3 0 {
+; (argc sp pos)
+fn sp_has_p 3 0 {
+	auto p  1 pop p
+	auto sp 1 pop sp
+
+	sp rArray32.len > if {
+		p "not enough values to consume for operation" sp error_st.Tok
+	}
+}
+
+; (argc retc sp pos)
+fn sp_assert_p 4 0 {
+	auto p     1 pop p
 	auto sp    1 pop sp
 	auto retc  1 pop retc
 	auto _argc 1 pop _argc
 	
-	_argc sp sp_has
+	_argc sp p sp_has_p
 	sp
 		dup rArray32.len _argc -
 	wArray32.len
 
-	retc pos sp sp_push_p
+	retc p sp sp_push_p
+}
+
+; (argc retc sp)
+fn sp_assert 3 0 {
+	pos sp_assert_p
 }
 
 ; (inst data)
