@@ -1,3 +1,5 @@
+cextern printf 64 -> 32
+
 fn main {
-	
+	"Hello!\n" drop printf drop
 }

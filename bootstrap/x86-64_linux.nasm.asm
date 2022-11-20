@@ -41701,7 +41701,7 @@ stas.gen:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s364
-	mov rsi, 26
+	mov rsi, 35
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -42270,7 +42270,7 @@ stas.gen:
 	test rsi, rsi
 	jz .1967
 	mov rbx, _s530
-	mov rsi, 17
+	mov rsi, 25
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -42436,7 +42436,7 @@ stas.gen:
 	test rsi, rsi
 	jz .1977
 	mov rbx, _s540
-	mov rsi, 23
+	mov rsi, 32
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -42454,7 +42454,7 @@ stas.gen:
 	jmp .1979
 .1977:
 	mov rbx, _s541
-	mov rsi, 25
+	mov rsi, 26
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -43337,12 +43337,6 @@ execute_backend:
 	mov rbx, qword _gdebug_symbols
 	xor rsi, rsi
 	mov sil, [rbx]
-	mov rbx, [_gbackend_type]
-	mov rdi, 2
-	xor r8, r8
-	cmp rbx, rdi
-	sete r8b
-	or rsi, r8
 	test rsi, rsi
 	jz .2006
 	mov rbx, qword [_rs_p]
@@ -46352,7 +46346,7 @@ _s360: db "use64", 0
 _s361: db 27, "[1m", 27, "[31msrc/write.stas:16:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s362: db 27, "[1m", 27, "[31msrc/write.stas:9:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s363: db "format ELF64", 0
-_s364: db "section '.text' executable", 0
+_s364: db "section '.text' executable align 16", 0
 _s365: db "public _start", 0
 _s366: db "public _exit", 0
 _s367: db "extrn ", 0
@@ -46518,7 +46512,7 @@ _s526: db "	and rax, 0xFF", 0
 _s527: db "	and rax, 0xFFFF", 0
 _s528: db 27, "[1m", 27, "[31msrc/asm.stas:23:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s529: db 27, "[1m", 27, "[31msrc/gen.stas:728:7: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s530: db "section '.rodata'", 0
+_s530: db "section '.rodata' align 8", 0
 _s531: db "segment readable", 0
 _s532: db "[section .rodata]", 0
 _s533: db 27, "[1m", 27, "[31msrc/gen.stas:873:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
@@ -46528,8 +46522,8 @@ _s536: db 34, 0
 _s537: db ", ", 34, 0
 _s538: db 34, ", ", 0
 _s539: db ", 0", 10, 0
-_s540: db "section '.bss' writable", 0
-_s541: db "segment readable writable", 0
+_s540: db "section '.bss' writeable align 8", 0
+_s541: db "segment readable writeable", 0
 _s542: db "[section .bss]", 0
 _s543: db 27, "[1m", 27, "[31msrc/gen.stas:897:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
 _s544: db ": rb ", 0
