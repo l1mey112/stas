@@ -126,9 +126,13 @@ fn dce.recurse_function 1 0 {
 			}
 			pos ir_stream[] IR.data swap w64
 		} elif dup Inst._assert = {
-			slits.len
-			ir_data slits<<
-			pos ir_stream[] IR.data swap w64
+			strip_assert r8 if {
+				pos ir_stream[] IR.inst Inst.drop w32
+			} else {
+				slits.len
+				ir_data slits<<
+				pos ir_stream[] IR.data swap w64
+			}
 		}
 		drop
 

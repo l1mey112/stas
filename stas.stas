@@ -1,5 +1,6 @@
 include 'std.stas'
 
+reserve strip_assert   1
 reserve object_file    1
 reserve debug_symbols  1
 reserve verbose_mode   1
@@ -48,6 +49,7 @@ fn usage {
 	"	-v, --verbose     Activate verbose mode\n"                                 eputs
 	"	--dump-tok        Dump token information after scanning stage\n"           eputs
 	"	--dump-ir         Dump intermediate representation after parsing stage\n"  eputs
+	"	--unsafe          Currently only strips assertions\n"                      eputs
 	"	--trace-calls     Compiled executable will have function calls traced\n"   eputs
 	"	                  at runtime. Will not trace inlined calls.\n"             eputs
 	"	-h, --help        Show this message\n\n"                                   eputs
@@ -266,6 +268,11 @@ fn main {
 				usage_and_exit
 			}
 			trace_calls true w8
+		} elif argstr "--unsafe" streq {
+			argparse_mode ArgParseMode.none != strip_assert r8 | if {
+				usage_and_exit
+			}
+			strip_assert true w8
 		} else {
 			argparse_mode ArgParseMode.none = if {
 				in_file drop NULL != if {

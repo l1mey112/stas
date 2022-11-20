@@ -1,5 +1,3 @@
-include 'std.stas'
-
 fn main {
-	1 _breakpoint drop
+	
 }
