@@ -29,6 +29,7 @@ A release changelog is a complete post outlining all additional features added b
 Guides created by myself.
 
 - [Intro To The stas Programming Language - Core Features](https://blog.l-m.dev/posts/intro-to-stas-1/)
+- [Intro To The stas Programming Language - Variables And Memory](https://blog.l-m.dev/posts/intro-to-stas-2/)
 
 As you know, concatenative stack based programming. Think forth. Gloss over these sources.
 
