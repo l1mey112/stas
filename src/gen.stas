@@ -672,81 +672,16 @@ fn gen_range 4 0 {
 				r_pop pop a
 				"	mov " fwrite a Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
 				a r_push
-			} elif dup Inst.syscall0 = {
-				Reg.rax r_pop_r
-				"	syscall" fwriteln
-				Reg.rax r_push
-			} elif dup Inst.syscall1 = {
-				Reg.rax r_pop_r
-				Reg.rdi r_pop_r
-				"	syscall" fwriteln
-				Reg.rax r_push
-				Reg.rdi r_free
-			} elif dup Inst.syscall2 = {
-				Reg.rax r_pop_r
-				Reg.rsi r_pop_r
-				Reg.rdi r_pop_r
-				"	syscall" fwriteln
-				Reg.rax r_push
-				Reg.rdi r_free
-				Reg.rsi r_free
-			} elif dup Inst.syscall3 = {
-				Reg.rax r_pop_r
-				Reg.rdx r_pop_r
-				Reg.rsi r_pop_r
-				Reg.rdi r_pop_r
-				"	syscall" fwriteln
-				Reg.rax r_push
-				Reg.rdi r_free
-				Reg.rsi r_free
-				Reg.rdx r_free
-			} elif dup Inst.syscall4 = {
-				Reg.rax r_pop_r
-				Reg.r10 r_pop_r
-				Reg.rdx r_pop_r
-				Reg.rsi r_pop_r
-				Reg.rdi r_pop_r
-				"	syscall" fwriteln
-				Reg.rax r_push
-				Reg.rdi r_free
-				Reg.rsi r_free
-				Reg.rdx r_free
-				Reg.r10 r_free
-			} elif dup Inst.syscall5 = {
-				Reg.rax r_pop_r
-				Reg.r8  r_pop_r
-				Reg.r10 r_pop_r
-				Reg.rdx r_pop_r
-				Reg.rsi r_pop_r
-				Reg.rdi r_pop_r
-				"	syscall" fwriteln
-				Reg.rax r_push
-				Reg.rdi r_free
-				Reg.rsi r_free
-				Reg.rdx r_free
-				Reg.r10 r_free
-				Reg.r8  r_free
-			} elif dup Inst.syscall6 = {
-				Reg.rax r_pop_r
-				Reg.r9  r_pop_r
-				Reg.r8  r_pop_r
-				Reg.r10 r_pop_r
-				Reg.rdx r_pop_r
-				Reg.rsi r_pop_r
-				Reg.rdi r_pop_r
-				"	syscall" fwriteln
-				Reg.rax r_push
-				Reg.rdi r_free
-				Reg.rsi r_free
-				Reg.rdx r_free
-				Reg.r10 r_free
-				Reg.r8  r_free
-				Reg.r9  r_free
 			} elif dup Inst.c_fn_call = {
 				ir_data gen_cextern_function
 			} elif dup Inst.asm_invoc = {
 				ir_data inline_asms[] pop fn_c
-				
+
+				; 1. pop requested argument registers
+				; 2. write out ASM
+				; 3. push requested return registers
+				; 4. free argument registers that aren't in return list
+
 				fn_c ASM.arg_r fn_c rASM.arg_r_len +
 				; (arr+len)
 				while true {

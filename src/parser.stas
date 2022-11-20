@@ -1159,27 +1159,6 @@ fn parse.fn_complex_tokens 1 0 {
 	} elif dup Tok.trap_breakpoint = {
 		Inst.trap_breakpoint 0 ir
 		1 1 sp sp_assert
-	} elif dup Tok.syscall0 = {
-		Inst.syscall0 0 ir
-		1 1 sp sp_assert
-	} elif dup Tok.syscall1 = {
-		Inst.syscall1 0 ir
-		2 1 sp sp_assert
-	} elif dup Tok.syscall2 = {
-		Inst.syscall2 0 ir
-		3 1 sp sp_assert
-	} elif dup Tok.syscall3 = {
-		Inst.syscall3 0 ir
-		4 1 sp sp_assert
-	} elif dup Tok.syscall4 = {
-		Inst.syscall4 0 ir
-		5 1 sp sp_assert
-	} elif dup Tok.syscall5 = {
-		Inst.syscall5 0 ir
-		6 1 sp sp_assert
-	} elif dup Tok.syscall6 = {
-		Inst.syscall6 0 ir
-		7 1 sp sp_assert
 	} elif dup Tok.argc = {
 		Inst.push_argc 0 ir
 		1 sp sp_push

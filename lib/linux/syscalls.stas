@@ -299,3 +299,45 @@ const       sys_process_vm_readv { 310 }
 const      sys_process_vm_writev { 311 }
 const                   sys_kcmp { 312 }
 const           sys_finit_module { 313 }
+
+fn syscall0 1 1 {
+	asm "rax" -> "rax" {
+		"syscall"
+	}
+}
+
+fn syscall1 2 1 {
+	asm "rdi" "rax" -> "rax" {
+		"syscall"
+	}
+}
+
+fn syscall2 3 1 {
+	asm "rdi" "rsi" "rax" -> "rax" {
+		"syscall"
+	}
+}
+
+fn syscall3 4 1 {
+	asm "rdi" "rsi" "rdx" "rax" -> "rax" {
+		"syscall"
+	}
+}
+
+fn syscall4 5 1 {
+	asm "rdi" "rsi" "rdx" "r10" "rax" -> "rax" {
+		"syscall"
+	}
+}
+
+fn syscall5 6 1 {
+	asm "rdi" "rsi" "rdx" "r10" "r8" "rax" -> "rax" {
+		"syscall"
+	}
+}
+
+fn syscall6 7 1 {
+	asm "rdi" "rsi" "rdx" "r10" "r8" "r9" "rax" -> "rax" {
+		"syscall"
+	}
+}

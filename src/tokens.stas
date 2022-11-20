@@ -57,13 +57,6 @@ const               Tok.r8 { 56 }
 const              Tok.r16 { 57 }
 const              Tok.r32 { 58 }
 const              Tok.r64 { 59 }
-const         Tok.syscall0 { 60 }
-const         Tok.syscall1 { 61 }
-const         Tok.syscall2 { 62 }
-const         Tok.syscall3 { 63 }
-const         Tok.syscall4 { 64 }
-const         Tok.syscall5 { 65 }
-const         Tok.syscall6 { 66 }
 const          Tok.reserve { 67 }
 const             Tok.auto { 68 }
 const              Tok.pop { 69 }
@@ -194,20 +187,6 @@ fn Tok.to_str 1 2 {
 		"r32"
 	} elif dup Tok.r64 = {
 		"r64"
-	} elif dup Tok.syscall0 = {
-		"syscall0"
-	} elif dup Tok.syscall1 = {
-		"syscall1"
-	} elif dup Tok.syscall2 = {
-		"syscall2"
-	} elif dup Tok.syscall3 = {
-		"syscall3"
-	} elif dup Tok.syscall4 = {
-		"syscall4"
-	} elif dup Tok.syscall5 = {
-		"syscall5"
-	} elif dup Tok.syscall6 = {
-		"syscall6"
 	} elif dup Tok.reserve = {
 		"reserve"
 	} elif dup Tok.auto = {
@@ -347,20 +326,6 @@ fn Tok.from_str 2 1 {
 		Tok.r32
 	} elif str "r64" streq {
 		Tok.r64
-	} elif str "syscall0" streq {
-		Tok.syscall0
-	} elif str "syscall1" streq {
-		Tok.syscall1
-	} elif str "syscall2" streq {
-		Tok.syscall2
-	} elif str "syscall3" streq {
-		Tok.syscall3
-	} elif str "syscall4" streq {
-		Tok.syscall4
-	} elif str "syscall5" streq {
-		Tok.syscall5
-	} elif str "syscall6" streq {
-		Tok.syscall6
 	} elif str "reserve" streq {
 		Tok.reserve
 	} elif str "auto" streq {

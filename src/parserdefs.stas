@@ -134,13 +134,6 @@ const                    Inst.r8 { 54 }
 const                   Inst.r16 { 55 }
 const                   Inst.r32 { 56 }
 const                   Inst.r64 { 57 }
-const              Inst.syscall0 { 58 }
-const              Inst.syscall1 { 59 }
-const              Inst.syscall2 { 60 }
-const              Inst.syscall3 { 61 }
-const              Inst.syscall4 { 62 }
-const              Inst.syscall5 { 63 }
-const              Inst.syscall6 { 64 }
 const                   Inst.not { 65 }
 const             Inst.push_envp { 66 }
 const             Inst.c_fn_call { 67 }
@@ -264,20 +257,6 @@ fn Inst.to_str 1 2 {
 		"r32"
 	} elif dup Inst.r64 = {
 		"r64"
-	} elif dup Inst.syscall0 = {
-		"syscall0"
-	} elif dup Inst.syscall1 = {
-		"syscall1"
-	} elif dup Inst.syscall2 = {
-		"syscall2"
-	} elif dup Inst.syscall3 = {
-		"syscall3"
-	} elif dup Inst.syscall4 = {
-		"syscall4"
-	} elif dup Inst.syscall5 = {
-		"syscall5"
-	} elif dup Inst.syscall6 = {
-		"syscall6"
 	} elif dup Inst.push_envp = {
 		"push_envp"
 	} elif dup Inst.c_fn_call = {
