@@ -1,0 +1,34 @@
+include 'std.stas'
+
+fn main {
+	12
+	20
+
+	asm "rdi" "rsi" -> "rax" "rcx" {
+		"add rdi, 8"
+		"add rsi, 10"
+		"mov rax, rdi"
+		"mov rcx, rsi"
+	}
+
+	putuln
+	putuln
+
+	-1
+	asm "rdi" -> "rcx" {
+		"popcnt rcx, rdi"
+	}
+	putuln
+
+	UINT32_MAX
+	asm "rdi" -> "rdi" {
+		"popcnt rdi, rdi"
+	}
+	putuln
+
+	255
+	asm "rdi" -> "rax" {
+		"popcnt rax, rdi"
+	}
+	putuln
+}

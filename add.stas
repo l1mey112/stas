@@ -1,19 +1,5 @@
 include 'std.stas'
 
-fn syscall3_ 4 1 {
-	asm "rdi" "rsi" "rdx" "rax" -> "rax" {
-		"syscall"
-	}
-}
-
-fn write_ 3 1 {
-	sys_write syscall3_
-}
-
-fn puts_ 2 0 {
-	stdout rot write_ drop
-}
-
 fn main {
-	"Hello world!\n" puts_
+	"Hello world!\n" puts
 }

@@ -1,0 +1,26 @@
+; include 'std.stas'
+
+const sys_write { 1 }
+const stdout    { 1 }
+
+fn syscall3_ 4 1 {
+	asm "rdi" "rsi" "rdx" "rax" -> "rax" {
+		"\t; <asm>"
+		"\tsyscall"
+		"\t; </asm>"
+	}
+}
+
+fn write 3 1 {
+	sys_write syscall3_
+}
+
+fn puts 2 0 {
+	stdout rot write drop
+}
+
+fn main {
+	"Hello world!\n" puts
+}
+
+; `./stas add.stas -o -`

@@ -747,18 +747,27 @@ fn gen_range 4 0 {
 			} elif dup Inst.asm_invoc = {
 				ir_data inline_asms[] pop fn_c
 
+				fn_c ASM.ret_r
+				dup fn_c rASM.ret_r_len +
+				swap
+				; (len arr)
+				while dup over2 < {
+					dup r8 r_release
+					++
+				}
+				drop
+				drop
 				
 				fn_c ASM.arg_r fn_c rASM.arg_r_len +
 				; (arr+len)
 				while true {
 					--
-					dup r8 r_pop_r
+					dup r8 dup r_pop_r r_free
 					
 					dup fn_c ASM.arg_r = if {
 						break
 					}
 				}
-				drop
 				drop
 
 				fn_c rASM.s_start_idx
@@ -769,7 +778,7 @@ fn gen_range 4 0 {
 				drop
 
 				fn_c ASM.ret_r
-				dup fn_c rASM.arg_r_len +
+				dup fn_c rASM.ret_r_len +
 				swap
 				; (len arr)
 				while dup over2 < {
