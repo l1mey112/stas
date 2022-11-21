@@ -1,40 +1,10 @@
-; ( lo hi *Array64 -- )
-fn eval.all_in_range 3 0 {
-	auto arr 1 pop arr
-	auto hi  1 pop hi
-
-	while dup hi >= {
-		dup ir_stream[] rIR.inst
-		;dup Inst.fn_call = if {
-		;	auto fn_c 1
-		;	over ir_stream[] rIR.data functions[] pop fn_c
-		;	
-		;	fn_c rFunction.attributes FnAttribute.const FnAttribute.is_set ! if {
-		;			pos 'pure functions can only call other pure functions' error.Tok
-		;	}
-		;} else {
-			; (idx ir)
-			over arr eval.basic_inst assert -> 'unreachable'
-		;}
-		drop
-		++
-	}
-	drop
-}
-
-; (ir_data[idx] *Array64 -- bool)
+; ( ir_data[idx] *Array64 -- bool )
 fn eval.basic_inst 2 1 {
 	auto arr     1                          pop arr
 	auto ir_data 1 dup ir_stream[] rIR.data pop ir_data
 
 	auto found 1
 	true pop found
-
-	; ir_data putu ' -- ' puts ins Inst.to_str puts endl
-
-	; elif ins Inst._assert {
-	; 
-	; }
 
 	ir_stream[] rIR.inst
 	dup Inst.push_num = if {
@@ -191,4 +161,87 @@ fn eval.basic_inst 2 1 {
 	drop
 
 	found
+}
+
+; ( key *Array32 -- value bool )
+fn Array32.search_kv? 2 2 {
+	auto arr 1 pop arr
+	auto val 1 pop val
+
+	arr rArray32.len 2 % 0 = assert -> 'Array32.search_kv?: array length is not multiple of two'
+
+	0
+	while dup arr rArray32.len < {
+		dup ++ swap arr Array32[] val = if {
+			; (idx)
+			arr Array32[] true ret
+		}
+		++
+	}
+	drop
+	0
+	false
+}
+
+; ( lo hi *Array64 -- )
+fn eval.all_in_range 3 0 {
+	auto arr 1 pop arr
+	auto hi  1 pop hi
+
+	reserve label_lut_data { 256 sizeof(u32) * }
+	reserve label_lut_arr  sizeof(Array32)
+
+	label_lut_data sizeof label_lut_data label_lut_arr Array32.init_with_buffer_sz_bytes
+
+	auto pos 1 pop pos
+
+	auto walk_branch 1 -1 pop walk_branch
+
+	while pos hi < {
+
+		auto ins     1 pos ir_stream[] rIR.inst pop ins
+		auto ir_data 1 pos ir_stream[] rIR.data pop ir_data
+
+		ins Inst.label = if {
+			
+			ir_data label_lut_arr Array32<< ; value
+			pos label_lut_arr     Array32<< ; position
+
+			ir_data walk_branch = if {
+				-1 pop walk_branch
+			}
+		} else {
+			walk_branch -1 = if {
+				ins Inst.pure_call = if {
+					auto f_idx 1
+					ir_data functions[] pop f_idx
+
+					f_idx rFunction.start_inst ++ f_idx rFunction.end_inst arr eval.all_in_range
+
+				} elif ins Inst.do_cond_jmp = {
+					arr Array64.pop 0 = if {
+						ir_data label_lut_arr Array32.search_kv? if {
+							pop pos
+						} else {
+							drop
+							-1 walk_branch = assert
+							ir_data pop walk_branch
+						}
+					}
+				} elif ins Inst.do_jmp = {
+					ir_data label_lut_arr Array32.search_kv? if {
+						pop pos
+					} else {
+						drop
+						-1 walk_branch = assert
+						ir_data pop walk_branch
+					}
+				} else {
+					; (idx)
+					pos arr eval.basic_inst assert -> 'unreachable'
+				}
+			}
+		}
+		pos ++ pop pos
+	}
 }

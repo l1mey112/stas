@@ -909,7 +909,6 @@ fn parse.handle_name 1 0 {
 
 	str name_get_function_idx pop f_idx
 	f_idx -1 != if {
-		Inst.fn_call f_idx ir
 
 		function_context_idx f_idx = if {
 			function_context Function.forbid_inline 1 w8
@@ -923,6 +922,9 @@ fn parse.handle_name 1 0 {
 			f_idx functions[] rFunction.attributes FnAttribute.const FnAttribute.is_set ! if {
 				pos 'pure functions can only call other pure functions' error.Tok
 			}
+			Inst.pure_call f_idx ir
+		} else {
+			Inst.fn_call f_idx ir
 		}
 
 
@@ -1202,12 +1204,12 @@ fn parse.fn_complex_tokens 1 0 {
 	drop
 }
 
-; ( -- u64 )
-fn parse.get_constant 0 1 {
+; ( -- u64 bool )
+fn parse.get_constant? 0 2 {
 	; ( str len search_idx -- idx )
 	pos token_stream[] rToken.data string_view_to_str 0 search_variable_name
 	dup -1 = if {
-		pos 'unknown variable name' error.Tok
+		drop 0 false ret
 	}
 	auto var 1 var_context[] pop var
 
@@ -1217,6 +1219,7 @@ fn parse.get_constant 0 1 {
 	}
 
 	var rVariable.Constant.val
+	true
 }
 
 reserve sp_array_data_const { sizeof(u32) 1024 * }
@@ -1248,10 +1251,33 @@ fn parse.eval_const_expr 0 1 {
 		}
 
 		pos token_stream[] rToken.tok Tok.name = if {
-			Inst.push_num
-				parse.get_constant
-			ir
-			1 sp_array sp_push
+			auto f_idx 1
+
+			pos token_stream[] rToken.data string_view_to_str name_get_function_idx pop f_idx
+			f_idx -1 != if {
+				f_idx functions[] rFunction.attributes FnAttribute.const FnAttribute.is_set ! if {
+					pos 'const expressions can only call pure functions' error.Tok
+				}
+
+				sp_array rArray32.len
+				f_idx functions[] rFunction.argc
+				< if {
+					pos 'not enough values to consume for function call' sp_array error_st.Tok
+				}
+
+				f_idx functions[] rFunction.argc
+				f_idx functions[] rFunction.retc
+				sp_array sp_assert
+
+				Inst.pure_call f_idx ir
+			} else {
+				Inst.push_num
+					parse.get_constant? ! if {
+						pos 'unknown variable name or pure function' error.Tok
+					}
+				ir
+				1 sp_array sp_push
+			}			
 		} else {
 			sp_array parse.basic_token? ! if {
 				pos 'unsupported token inside a constant expression' error.Tok
@@ -1259,12 +1285,7 @@ fn parse.eval_const_expr 0 1 {
 		}
 	}
 
-	start_ir
-	while dup ir_stream.len < {
-		dup const_stack_array eval.basic_inst assert -> 'unreachable'
-		++
-	}
-	drop
+	start_ir ir_stream.len const_stack_array eval.all_in_range
 
 	const_stack_array rArray64.len 0 = if {
 		pos 'constant expression must contain a value' error.Tok
@@ -1307,7 +1328,9 @@ fn parse.any_variable {
 	}
 	; (Tok)
 	dup Tok.name = if {
-		parse.get_constant
+		parse.get_constant? ! if {
+			pos 'unknown variable name' error.Tok
+		}
 	} elif dup Tok.l_cb = {
 		parse.eval_const_expr
 	} elif dup Tok.number_lit = {

@@ -137,6 +137,7 @@ const                   Inst.not { 65 }
 const             Inst.push_envp { 66 }
 const             Inst.c_fn_call { 67 }
 const             Inst.asm_invoc { 68 }
+const             Inst.pure_call { 69 }
 
 ; (Inst -- str len)
 fn Inst.to_str 1 2 {
@@ -260,6 +261,8 @@ fn Inst.to_str 1 2 {
 		"c_fn_call"
 	} elif dup Inst.asm_invoc = {
 		"asm_invoc"
+	} elif dup Inst.pure_call = {
+		"pure_call"
 	} else {
 		0 0 0 assert -> 'unreachable'
 	}

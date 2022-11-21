@@ -1,21 +1,17 @@
-const a { 2 }
-
-const fn hello 0 1 {
-	99
+const fn sumto10 0 1 {
+	0 1 while dup 10 <= {
+		dup rot +
+		swap ++
+	} drop
 }
 
-- noinline
-const fn jj 1 1 {
-	if {
-		99 22 +
-	} else {
-		22 33 +
-	}
+const b { sumto10 }
+
+const fn test {
+	argc
 }
 
-const b { 1 jj }
-
-
+- noeval
 fn main {
-	1 jj drop
+	b drop
 }
