@@ -7,10 +7,6 @@ const fn sumto10 0 1 {
 
 const b { sumto10 }
 
-const fn test {
-	argc
-}
-
 - noeval
 fn main {
 	b drop
