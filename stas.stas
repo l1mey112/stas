@@ -40,19 +40,21 @@ fn usage {
 	"stas 0.1.1 Copyright (C) 2022  l-m.dev\n\n"                                   eputs
 	"USAGE: ./stas [OPTIONS] [FILE]\n\n"                                           eputs
 
-	"	-o <output>       Specify '-o -' to dump assembly to stdout\n"             eputs
-	"	-g                Debug info. Most effective with the `nasm` backend\n"    eputs
-	"	-b <backend>      Assemblers `nasm` or `fasm` as compiler backend\n"       eputs
-	"	-c                Create object file for linking, will not call `ld`\n"    eputs
-	"	-r                Execute file after compiling. Arguments after this\n"    eputs
-	"	                  switch will ignored and passed to the program\n"         eputs
-	"	-v, --verbose     Activate verbose mode\n"                                 eputs
-	"	--dump-tok        Dump token information after scanning stage\n"           eputs
-	"	--dump-ir         Dump intermediate representation after parsing stage\n"  eputs
-	"	--unsafe          Currently only strips assertions\n"                      eputs
-	"	--trace-calls     Compiled executable will have function calls traced\n"   eputs
-	"	                  at runtime. Will not trace inlined calls.\n"             eputs
-	"	-h, --help        Show this message\n\n"                                   eputs
+	"	-o <output>              Specify '-o -' to dump assembly to stdout\n"             eputs
+	"	-g                       Debug info. Most effective with the `nasm` backend\n"    eputs
+	"	-b <backend>             Assemblers `nasm` or `fasm` as compiler backend\n"       eputs
+	"	-c                       Create object file for linking, will not call `ld`\n"    eputs
+	"	-r                       Execute file after compiling. Arguments after this\n"    eputs
+	"	                         switch will ignored and passed to the program\n"         eputs
+	"	-v, --verbose            Activate verbose mode\n"                                 eputs
+	"	--dump-tok               Dump token information after scanning stage\n"           eputs
+	"	--dump-ir                Dump intermediate representation after parsing stage\n"  eputs
+	"	--unsafe                 Currently only strips assertions\n"                      eputs
+	"	--comptime-depth <num>   Adjust compile time recursion depth for evaluating\n"    eputs
+	"	                         comptime functions. Default: 12\n"                       eputs
+	"	--trace-calls            Compiled executable will have function calls traced\n"   eputs
+	"	                         at runtime. Will not trace inlined calls.\n"             eputs
+	"	-h, --help               Show this message\n\n"                                   eputs
 }
 
 fn help_and_exit {
@@ -67,6 +69,7 @@ fn usage_and_exit {
 
 fn usage_msg_and_exit 2 0 {
 	error.generic_fatal_noexit
+	eendl
 	usage_and_exit
 }
 
@@ -173,9 +176,24 @@ fn execute_backend 5 0 {
 	}
 }
 
-const ArgParseMode.none    { 0 }
-const ArgParseMode.output  { 1 }
-const ArgParseMode.backend { 2 }
+const ArgParseMode.none         { 0 }
+const ArgParseMode.output       { 1 }
+const ArgParseMode.backend      { 2 }
+const ArgParseMode.comptime_dep { 3 }
+
+auto argparse_mode 1
+
+fn assert_args {
+	argparse_mode ArgParseMode.none != if {
+		argparse_mode ArgParseMode.output = if {
+			"supply output file for `-o`" usage_msg_and_exit
+		} elif argparse_mode ArgParseMode.backend = {
+			"supply backend type for `-b`" usage_msg_and_exit
+		} elif argparse_mode ArgParseMode.comptime_dep = {
+			"supply integer for `--comptime-depth`" usage_msg_and_exit
+		}
+	}
+}
 
 fn main {
 	argc 1 = if {
@@ -192,11 +210,12 @@ fn main {
 
 	auto run_exec_arg  1
 	0 pop run_exec_arg
+
+	eval.default_recurse_depth pop eval.recurse_depth
 	
 	UINT64_MAX       pop fwrite_buffer.fd_loc
 	StasBackend.fasm pop backend_type            
 
-	auto argparse_mode 1
 	auto argstr        2
 
 	auto out_file 2
@@ -213,25 +232,30 @@ fn main {
 
 		argstr "-o" streq if {
 			argparse_mode ArgParseMode.none != if {
-				usage_and_exit
+				assert_args
 			}
 			ArgParseMode.output pop argparse_mode
 		} elif argstr "-b" streq {
 			argparse_mode ArgParseMode.none != if {
-				usage_and_exit
+				assert_args
 			}
 			ArgParseMode.backend pop argparse_mode
+		} elif argstr "--comptime-depth" streq {
+			argparse_mode ArgParseMode.none != if {
+				assert_args
+			}
+			ArgParseMode.comptime_dep pop argparse_mode
 		} elif argstr "-g" streq {
 			argparse_mode ArgParseMode.none != if {
-				usage_and_exit
+				assert_args
 			}
 			debug_symbols r8 if {
-				usage_and_exit
+				assert_args
 			}
 			debug_symbols true w8
 		} elif argstr "--verbose" streq argstr "-v" streq | {
 			argparse_mode ArgParseMode.none != if {
-				usage_and_exit
+				assert_args
 			}
 			verbose_mode r8 if {
 				usage_and_exit
@@ -239,13 +263,13 @@ fn main {
 			verbose_mode true w8
 		} elif argstr "-r" streq {
 			argparse_mode ArgParseMode.none != if {
-				usage_and_exit
+				assert_args
 			}
 			pop run_exec_arg
 			argc
 		} elif argstr "-c" streq {
 			argparse_mode ArgParseMode.none != if {
-				usage_and_exit
+				assert_args
 			}
 			object_file r8 if {
 				usage_and_exit
@@ -255,21 +279,30 @@ fn main {
 			help_and_exit
 		} elif argstr "--dump-ir" streq {
 			argparse_mode ArgParseMode.none != dump_ir r8 | dump_tok r8 | if {
-				usage_and_exit
+				assert_args
 			}
 			dump_ir true w8
 		} elif argstr "--dump-tok" streq {
-			argparse_mode ArgParseMode.none != dump_ir r8 | dump_tok r8 | if {
+			argparse_mode ArgParseMode.none != if {
+				assert_args
+			}
+			dump_ir r8 dump_tok r8 | if {
 				usage_and_exit
 			}
 			dump_tok true w8
 		} elif argstr "--trace-calls" streq {
-			argparse_mode ArgParseMode.none != trace_calls r8 | if {
+			argparse_mode ArgParseMode.none != if {
+				assert_args
+			}
+			trace_calls r8 if {
 				usage_and_exit
 			}
 			trace_calls true w8
 		} elif argstr "--unsafe" streq {
-			argparse_mode ArgParseMode.none != strip_assert r8 | if {
+			argparse_mode ArgParseMode.none != if {
+				assert_args
+			}
+			strip_assert r8 if {
 				usage_and_exit
 			}
 			strip_assert true w8
@@ -286,6 +319,12 @@ fn main {
 				argstr pop out_file
 			} elif argparse_mode ArgParseMode.backend = {
 				argstr parse_backend_type
+			} elif argparse_mode ArgParseMode.comptime_dep = {
+				argstr str_to_num? ! if {
+					"invalid integer for `--comptime-depth`" usage_msg_and_exit
+				}
+				
+				pop eval.recurse_depth
 			} else {
 				0 assert
 			}
@@ -295,13 +334,7 @@ fn main {
 	}
 	drop
 
-	argparse_mode ArgParseMode.none != if {
-		argparse_mode ArgParseMode.output = if {
-			"supply output file" usage_msg_and_exit
-		} elif argparse_mode ArgParseMode.backend = {
-			"supply backend type" usage_msg_and_exit
-		}
-	}
+	assert_args
 
 	in_file drop NULL = if {
 		"supply stas file" usage_msg_and_exit

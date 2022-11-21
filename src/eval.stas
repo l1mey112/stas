@@ -1,3 +1,6 @@
+auto eval.recurse_depth 1
+const eval.default_recurse_depth { 12 }
+
 ; ( ir_data[idx] *Array64 -- bool )
 fn eval.basic_inst 2 1 {
 	auto arr     1                          pop arr
@@ -163,30 +166,15 @@ fn eval.basic_inst 2 1 {
 	found
 }
 
-; ( key *Array32 -- value bool )
-fn Array32.search_kv? 2 2 {
-	auto arr 1 pop arr
-	auto val 1 pop val
-
-	arr rArray32.len 2 % 0 = assert -> 'Array32.search_kv?: array length is not multiple of two'
-
-	0
-	while dup arr rArray32.len < {
-		dup ++ swap arr Array32[] val = if {
-			; (idx)
-			arr Array32[] true ret
-		}
-		++
-	}
-	drop
-	0
-	false
-}
-
-; ( lo hi *Array64 -- )
-fn eval.all_in_range 3 0 {
+; ( lo hi *Array64 depth -- )
+fn eval.all_in_range 4 0 {
+	auto dep 1 pop dep
 	auto arr 1 pop arr
 	auto hi  1 pop hi
+
+	dep eval.recurse_depth > if {
+		"comptime constant functions recursion depth limit reached" error.generic_fatal
+	}
 
 	reserve label_lut_data { 256 sizeof(u32) * }
 	reserve label_lut_arr  sizeof(Array32)
@@ -195,10 +183,16 @@ fn eval.all_in_range 3 0 {
 
 	auto pos 1 pop pos
 
+	; " ------ \n" puts
+
+	; pos putuln
+	; hi putuln
+
+	; " ++++++ \n" puts
+
 	auto walk_branch 1 -1 pop walk_branch
 
 	while pos hi < {
-
 		auto ins     1 pos ir_stream[] rIR.inst pop ins
 		auto ir_data 1 pos ir_stream[] rIR.data pop ir_data
 
@@ -212,12 +206,11 @@ fn eval.all_in_range 3 0 {
 			}
 		} else {
 			walk_branch -1 = if {
-				ins Inst.pure_call = if {
+				ins Inst.fn_call = if {
 					auto f_idx 1
 					ir_data functions[] pop f_idx
 
-					f_idx rFunction.start_inst ++ f_idx rFunction.end_inst arr eval.all_in_range
-
+					f_idx rFunction.start_inst ++ f_idx rFunction.end_inst arr dep ++ eval.all_in_range
 				} elif ins Inst.do_cond_jmp = {
 					arr Array64.pop 0 = if {
 						ir_data label_lut_arr Array32.search_kv? if {
@@ -244,4 +237,5 @@ fn eval.all_in_range 3 0 {
 		}
 		pos ++ pop pos
 	}
+	-1 walk_branch = assert
 }

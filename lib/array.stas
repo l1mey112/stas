@@ -211,6 +211,25 @@ fn Array64.dump 1 0 {
 	93 putc ; `]`
 	endl
 }
+; ( key *Array64 -- value bool )
+fn Array64.search_kv? 2 2 {
+	auto arr 1 pop arr
+	auto val 1 pop val
+
+	arr rArray64.len 2 % 0 = assert -> 'Array64.search_kv?: array length is not multiple of two'
+
+	0
+	while dup arr rArray64.len < {
+		dup ++ swap arr Array64[] val = if {
+			; (idx)
+			arr Array64[] true ret
+		}
+		++
+	}
+	drop
+	0
+	false
+}
 
 fn Array32.data      1 1 {      }
 fn Array32.len       1 1 { 8  + }
@@ -424,4 +443,23 @@ fn Array32.dump 1 0 {
 
 	93 putc ; `]`
 	endl
+}
+; ( key *Array32 -- value bool )
+fn Array32.search_kv? 2 2 {
+	auto arr 1 pop arr
+	auto val 1 pop val
+
+	arr rArray32.len 2 % 0 = assert -> 'Array32.search_kv?: array length is not multiple of two'
+
+	0
+	while dup arr rArray32.len < {
+		dup ++ swap arr Array32[] val = if {
+			; (idx)
+			arr Array32[] true ret
+		}
+		++
+	}
+	drop
+	0
+	false
 }

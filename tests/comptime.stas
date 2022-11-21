@@ -1,0 +1,34 @@
+; (n acc)
+const fn fact_tail 2 1 {
+	over 0 = if {
+		swap drop
+	} else {
+		over 1 - rot *
+		fact_tail
+	}
+}
+
+const fn fact 1 1 {
+	1 fact_tail
+}
+
+const a {   9 fact }
+assert  { a 9 fact = }
+
+const fn sumto10 0 1 {
+	0 1 while dup 10 <= {
+		dup rot +
+		swap ++
+	} drop
+}
+
+assert { sumto10 55 = }
+
+fn main {
+	a 9 fact = assert
+
+	773 sumto10 22 + - 696 = assert
+
+	const a { 66 22 + 2 / }
+	a 44 = assert
+}

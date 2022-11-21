@@ -70,7 +70,7 @@ fn dce.recurse_function 1 0 {
 		pos ir_stream[] rIR.data pop ir_data
 		pos ir_stream[] rIR.inst
 		
-		dup Inst.fn_call = if {
+		dup Inst.fn_call = fn_c rFunction.attributes FnAttribute.const FnAttribute.is_set ! & if {
 			ir_data functions[] fn_c = if {
 				auto jmp_pos 1
 				auto in_pos  1

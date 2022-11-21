@@ -52,8 +52,8 @@ fn u64[] 2 1 {
 	swap sizeof(u64) * + r64
 }
 
-; (str len -- number)
-fn str_to_num 2 1 {
+; (str len -- number bool)
+fn str_to_num? 2 2 {
 	auto str.len 1 pop str.len
 	auto str     1 pop str
 
@@ -61,12 +61,20 @@ fn str_to_num 2 1 {
 	while dup str.len < {
 		swap 10 *
 		over str u8[]
-			dup is_dec assert
+			dup is_dec ! if {
+				drop drop drop 0 false ret
+			}
 		48 - ; `0`
 		+ swap
 		++
 	}
 	drop
+	true
+}
+
+; (str len -- number)
+fn str_to_num 2 1 {
+	str_to_num? assert
 }
 
 ; (u64)

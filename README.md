@@ -10,7 +10,7 @@ fn main {
 }
 ```
 
-Inspired by FORTH with a modern syntax, stas is a general purpose stack based programming language. With syntax designed to be short and consise, programs written in stas take a concatenative form. A form where functions and operations mutate the stack in a pipeline where each output is anothers input.
+Loosely inspired by FORTH with a modern syntax, stas is a general purpose stack based programming language. With syntax designed to be short and consise, programs written in stas take a concatenative form. A form where functions and operations mutate the stack in a pipeline where each output is anothers input.
 
 The current compiler is written in stas. stas as a language has been successfully selfhosted, a long time goal of mine.
 
@@ -66,18 +66,21 @@ stas 0.1.0 Copyright (C) 2022  l-m.dev
 
 USAGE: ./stas [OPTIONS] [FILE]
 
-  -o <output>    Specify '-o -' to dump assembly to stdout
-  -g             Debug symbols. Most effective with the `nasm` backend
-  -b <backend>   Assemblers `nasm` or `fasm` as compiler backend
-  -c             Create object file for linking, will not call `ld`
-  -r             Execute file after compiling. Arguments after this
-                 switch will ignored and passed to the program
-  -v, --verbose  Activate verbose mode
-  --dump-tok     Dump token information after scanning stage
-  --dump-ir      Dump intermediate representation after parsing stage
-  --trace-calls  Compiled executable will have function calls traced
-                 at runtime. Will not trace inlined calls.
-  -h, --help     Show this message
+  -o <output>              Specify '-o -' to dump assembly to stdout
+  -g                       Debug info. Most effective with the `nasm` backend
+  -b <backend>             Assemblers `nasm` or `fasm` as compiler backend
+  -c                       Create object file for linking, will not call `ld`
+  -r                       Execute file after compiling. Arguments after this
+                           switch will ignored and passed to the program
+  -v, --verbose            Activate verbose mode
+  --dump-tok               Dump token information after scanning stage
+  --dump-ir                Dump intermediate representation after parsing stage
+  --unsafe                 Currently only strips assertions
+  --comptime-depth <num>   Adjust compile time recursion depth for evaluating
+                           comptime functions. Default: 12
+  --trace-calls            Compiled executable will have function calls traced
+                           at runtime. Will not trace inlined calls.
+  -h, --help               Show this message
 ```
 
 ## spec

@@ -237,6 +237,9 @@ fn parse.fn_decl 1 0 {
 			function_attributes FnAttribute.inline FnAttribute.is_set if {
 				fn_c 'the main function is not inlinable' error.Tok
 			}
+			function_attributes FnAttribute.const FnAttribute.is_set if {
+				fn_c -- 'the main function may not be const' error.Tok
+			}
 
 			_argc 0 !=
 			_retc 0 != | if {
@@ -909,25 +912,22 @@ fn parse.handle_name 1 0 {
 
 	str name_get_function_idx pop f_idx
 	f_idx -1 != if {
+		Inst.fn_call f_idx ir
 
 		function_context_idx f_idx = if {
 			function_context Function.forbid_inline 1 w8
 			function_context rFunction.attributes FnAttribute.inline FnAttribute.is_set if {
 				pos 'inline functions cannot call themselves' error.Tok
 			}
-			function_context Function.tail_r_label label_allocate w32
+			function_context rFunction.attributes FnAttribute.const FnAttribute.is_set ! if {
+				function_context Function.tail_r_label label_allocate w32
+			}
 		}
 
 		function_context rFunction.attributes FnAttribute.const FnAttribute.is_set if {
 			f_idx functions[] rFunction.attributes FnAttribute.const FnAttribute.is_set ! if {
-				pos 'const functions can only call other const functions' error.Tok
+				pos 'const functions cannot call non const functions' error.Tok
 			}
-			Inst.pure_call f_idx ir
-		} else {
-			f_idx functions[] rFunction.attributes FnAttribute.const FnAttribute.is_set if {
-				pos 'functions cannot call const functions directly, wrap it in a constant variable' error.Tok
-			}
-			Inst.fn_call f_idx ir
 		}
 
 		f_idx functions[] rFunction.attributes
@@ -1276,7 +1276,7 @@ fn parse.eval_const_expr 0 1 {
 				f_idx functions[] rFunction.retc
 				sp_array sp_assert
 
-				Inst.pure_call f_idx ir
+				Inst.fn_call f_idx ir
 			} else {
 				Inst.push_num
 					parse.get_constant? ! if {
@@ -1292,7 +1292,7 @@ fn parse.eval_const_expr 0 1 {
 		}
 	}
 
-	start_ir ir_stream.len const_stack_array eval.all_in_range
+	start_ir ir_stream.len const_stack_array 0 eval.all_in_range
 
 	const_stack_array rArray64.len 0 = if {
 		pos 'constant expression must contain a value' error.Tok

@@ -128,11 +128,28 @@ fn gen_range 4 0 {
 	auto attrs           1 NULL pop attrs
 	auto early_ret_label 1 -1   pop early_ret_label
 	
+	auto fn_c 1
+
 	while pos end < {
-		attrs FnAttribute.noeval FnAttribute.is_set if {
-			true
+		pos ir_stream[] rIR.inst Inst.fn_call = if {
+			pos ir_stream[] rIR.data functions[] pop fn_c
+
+			fn_c rFunction.attributes FnAttribute.const FnAttribute.is_set if {
+				arr rArray64.len fn_c rFunction.argc >= if {
+					fn_c rFunction.start_inst ++ fn_c rFunction.end_inst arr 0 eval.all_in_range
+					false
+				} else {
+					true
+				}
+			} else {
+				true
+			}
 		} else {
-			pos arr eval.basic_inst !
+			attrs FnAttribute.noeval FnAttribute.is_set if {
+				true
+			} else {
+				pos arr eval.basic_inst !
+			}
 		} if {
 			0 while dup arr rArray64.len < {
 				dup arr Array64[] r_push_const
@@ -142,7 +159,6 @@ fn gen_range 4 0 {
 			arr 0 wArray64.len
 
 			auto ir_data 1
-			auto fn_c 1
 			
 			auto a 1
 			auto b 1
