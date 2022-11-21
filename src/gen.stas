@@ -132,7 +132,7 @@ fn gen_range 4 0 {
 		attrs FnAttribute.noeval FnAttribute.is_set if {
 			true
 		} else {
-			pos arr eval_one_inst !
+			pos arr eval.basic_inst !
 		} if {
 			0 while dup arr rArray64.len < {
 				dup arr Array64[] r_push_const

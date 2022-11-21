@@ -214,7 +214,7 @@ fn parse.fn_decl 1 0 {
 		fn_c 3 + token_stream[] rToken.data pop _retc
 
 		Tok.l_cb parse.expect? ! if {
-			fn_c 'new scope must proceed after function header' error.Tok
+			pos 'new scope must proceed after function header' error.Tok
 		}
 	} else {
 		pos 'unexpected token in function declaration' error.Tok
@@ -919,6 +919,13 @@ fn parse.handle_name 1 0 {
 			function_context Function.tail_r_label label_allocate w32
 		}
 
+		function_context rFunction.attributes FnAttribute.const FnAttribute.is_set if {
+			f_idx functions[] rFunction.attributes FnAttribute.const FnAttribute.is_set ! if {
+				pos 'pure functions can only call other pure functions' error.Tok
+			}
+		}
+
+
 		f_idx functions[] rFunction.attributes
 		FnAttribute.noreturn FnAttribute.is_set if {
 			parse.push_early_ret_with_pos
@@ -964,26 +971,47 @@ fn parse.handle_name 1 0 {
 		true pop found
 	}
 	found ! if {
-		str 
-			0 scope_context[] rScope.var_scope ; fn scope only
-		search_variable_name pop f_idx
+		str 0 search_variable_name pop f_idx
 
 		f_idx -1 != if {
-			auto var 1
+			auto var       1			
+			auto is_global 1 
+
 			f_idx var_context[] pop var
+			
+			scope_context.len 0 = if {
+				true
+			} else {
+				f_idx 0 scope_context[] rScope.var_scope <
+			} pop is_global
 
 			var rVariable.typ
+			
+			function_context rFunction.attributes FnAttribute.const FnAttribute.is_set if {
+				dup VarTyp.constant != if {
+					pos 'pure functions can only invoke constant variables' error.Tok
+				}	
+			}
+			
 			dup VarTyp.buffer = if {
-				Inst.push_local_addr var rVariable.a_sp ir
+				is_global if {
+					Inst.push_global_var_name f_idx ir
+				} else {
+					Inst.push_local_addr var rVariable.a_sp ir
+				}
 				1 sp sp_push
 			} elif dup VarTyp.stack = {
 				auto to_push 1
 				var rVariable.size 8 / pop to_push
 
-				Inst.push_local_stack_var
-					to_push 32 <<
-					var rVariable.a_sp |
-				ir
+				is_global if {
+					Inst.push_global_stack_var f_idx ir
+				} else {
+					Inst.push_local_stack_var
+						to_push 32 <<
+						var rVariable.a_sp |
+					ir
+				}
 
 				to_push sp sp_push
 			} elif dup VarTyp.constant = {
@@ -997,31 +1025,15 @@ fn parse.handle_name 1 0 {
 		}
 	}
 	found ! if {
-		str search_variable_name_global pop f_idx
-
-		f_idx -1 != if {
-			auto var 1
-			f_idx var_context[] pop var
-
-			var rVariable.typ
-			dup VarTyp.buffer = if {
-				Inst.push_global_var_name f_idx ir
-				1 sp sp_push
-			} elif dup VarTyp.stack = {
-				Inst.push_global_stack_var f_idx ir
-				var rVariable.size 8 / sp sp_push
-			} elif dup VarTyp.constant = {
-				Inst.push_num var rVariable.Constant.val ir
-				1 sp sp_push
-			} else {
-				0 assert -> 'unreachable'
-			}
-			drop
-			true pop found
-		}
-	}
-	found ! if {
 		pos 'unknown function or variable' error.Tok
+	}
+}
+
+fn parse.assert_const_fn_not {
+	function_context NULL != if {
+		function_context rFunction.attributes FnAttribute.const FnAttribute.is_set if {
+			pos 'forbidden word in pure function' error.Tok
+		}
 	}
 }
 
@@ -1031,6 +1043,7 @@ fn parse.fn_complex_tokens 1 0 {
 	pos token_stream[] rToken.tok
 
 	dup dup Tok.pop = swap Tok.addr = | if {
+		parse.assert_const_fn_not
 		sp parse.handle_var_interaction
 	} elif dup Tok._assert = {
 		sp parse.assert
@@ -1129,43 +1142,56 @@ fn parse.fn_complex_tokens 1 0 {
 			pos 'a scope must come after the arrow assert operator' error.Tok
 		}
 	} elif dup Tok.string_lit = {
+		parse.assert_const_fn_not
 		Inst.push_str pos token_stream[] rToken.data     ir
 		Inst.push_num pos token_stream[] rToken.data r64 ir
 		2 sp sp_push
 	} elif dup Tok.w8 = {
+		parse.assert_const_fn_not
 		Inst.w8 0 ir
 		2 0 sp sp_assert
 	} elif dup Tok.w16 = {
+		parse.assert_const_fn_not
 		Inst.w16 0 ir
 		2 0 sp sp_assert
 	} elif dup Tok.w32 = {
+		parse.assert_const_fn_not
 		Inst.w32 0 ir
 		2 0 sp sp_assert
 	} elif dup Tok.w64 = {
+		parse.assert_const_fn_not
 		Inst.w64 0 ir
 		2 0 sp sp_assert
 	} elif dup Tok.r8 = {
+		parse.assert_const_fn_not
 		Inst.r8 0 ir
 		1 1 sp sp_assert
 	} elif dup Tok.r16 = {
+		parse.assert_const_fn_not
 		Inst.r16 0 ir
 		1 1 sp sp_assert
 	} elif dup Tok.r32 = {
+		parse.assert_const_fn_not
 		Inst.r32 0 ir
 		1 1 sp sp_assert
 	} elif dup Tok.r64 = {
+		parse.assert_const_fn_not
 		Inst.r64 0 ir
 		1 1 sp sp_assert
 	} elif dup Tok.argc = {
+		parse.assert_const_fn_not
 		Inst.push_argc 0 ir
 		1 sp sp_push
 	} elif dup Tok.argv = {
+		parse.assert_const_fn_not
 		Inst.push_argv 0 ir
 		1 sp sp_push
 	} elif dup Tok.envp = {
+		parse.assert_const_fn_not
 		Inst.push_envp 0 ir
 		1 sp sp_push
 	} elif dup Tok.asm = {
+		parse.assert_const_fn_not
 		sp parse.inline_asm
 	} else {
 		; TODO:
@@ -1235,7 +1261,7 @@ fn parse.eval_const_expr 0 1 {
 
 	start_ir
 	while dup ir_stream.len < {
-		dup const_stack_array eval_one_inst assert -> 'unreachable'
+		dup const_stack_array eval.basic_inst assert -> 'unreachable'
 		++
 	}
 	drop
@@ -1432,17 +1458,26 @@ fn stas.parse {
 	while pos token_stream.len < {
 		pos token_stream[] rToken.tok
 		dup dup Tok.reserve = swap Tok.auto = | if {
+			parse.assert_const_fn_not
 			parse.any_variable
 		} elif dup Tok.const = {
-			parse.const_expression
+			Tok.fn_decl parse.lookahead? scope_context.len 0 = & if {
+				pos ++ pop pos
+				FnAttribute.const function_attributes |
+				pop function_attributes
+				sp_array parse.fn_decl
+			} else {
+				parse.const_expression
+			}
 		} elif dup Tok.cextern = {
 			parse.cextern
 		} else {
 			scope_context.len 0 = if {
 				pos token_stream[] rToken.tok
-
+				
 				dup Tok.fn_decl = if {
 					sp_array parse.fn_decl
+				} elif dup Tok.const = {
 				} elif dup Tok.sub = {
 					Tok.name parse.expect? ! if {
 						pos "expected name as function attribute" error.Tok

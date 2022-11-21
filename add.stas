@@ -1,5 +1,21 @@
-cextern printf 64 -> 32
+const a { 2 }
+
+const fn hello 0 1 {
+	99
+}
+
+- noinline
+const fn jj 1 1 {
+	if {
+		99 22 +
+	} else {
+		22 33 +
+	}
+}
+
+const b { 1 jj }
+
 
 fn main {
-	"Hello!\n" drop printf drop
+	1 jj drop
 }

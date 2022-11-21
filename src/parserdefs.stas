@@ -414,6 +414,7 @@ const FnAttribute.noinline { 1 0 << }
 const FnAttribute.inline   { 1 1 << }
 const FnAttribute.noreturn { 1 2 << }
 const FnAttribute.noeval   { 1 3 << }
+const FnAttribute.const    { 1 4 << }
 
 ; ( str len -- FnAttribute bool )
 fn FnAttribute.from_str? 2 2 {

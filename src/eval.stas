@@ -1,5 +1,29 @@
+; ( lo hi *Array64 -- )
+fn eval.all_in_range 3 0 {
+	auto arr 1 pop arr
+	auto hi  1 pop hi
+
+	while dup hi >= {
+		dup ir_stream[] rIR.inst
+		;dup Inst.fn_call = if {
+		;	auto fn_c 1
+		;	over ir_stream[] rIR.data functions[] pop fn_c
+		;	
+		;	fn_c rFunction.attributes FnAttribute.const FnAttribute.is_set ! if {
+		;			pos 'pure functions can only call other pure functions' error.Tok
+		;	}
+		;} else {
+			; (idx ir)
+			over arr eval.basic_inst assert -> 'unreachable'
+		;}
+		drop
+		++
+	}
+	drop
+}
+
 ; (ir_data[idx] *Array64 -- bool)
-fn eval_one_inst 2 1 {
+fn eval.basic_inst 2 1 {
 	auto arr     1                          pop arr
 	auto ir_data 1 dup ir_stream[] rIR.data pop ir_data
 
