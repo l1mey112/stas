@@ -388,6 +388,31 @@ fn ia(t IR, v u64) Instruction {
 	return Instruction{inst: t, data: v}
 }
 
+fn (i Instruction) str() string {
+	mut r := term.bold("${i.inst}\t")
+	r += term.green(match i.inst {
+		.label {
+			'l_${i.data}'
+		}
+		.push {
+			'$${i.data}'
+		}
+		.jmp_if {
+			'l_${i.data}'
+		}
+		else {''}
+	})
+	return r
+}
+
+fn (i []Instruction) str() string {
+	mut a := ''
+	for ii in i {
+		a += ii.str() + "\n"
+	}
+	return a
+}
+
 fn main() {
 	/* program := [
 		ia(.push, 0)
@@ -414,6 +439,8 @@ fn main() {
 		ia(.jmp_if, 0)
 		i(.drop)
 	]
+
+	println(program)
 
 	execute(program)
 }
