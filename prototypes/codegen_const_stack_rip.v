@@ -4,6 +4,8 @@ enum IR {
 	add
 	push
 	swap
+	eq
+	neq
 	push_r
 	new_r
 }
@@ -25,7 +27,12 @@ enum Reg {
 	_sz_
 }
 
-type Unit = Reg | u64
+enum Flags {
+	eq
+	neq
+}
+
+type Unit = Reg | u64 | Flags
 
 // TODO: Unit(memory_access)
 // TODO: Unit(label)
@@ -35,6 +42,7 @@ struct RegAllocator {
 mut:
 	reg_used   []bool = []bool{len: int(Reg._sz_)}
 	unit_stack []Unit
+	flags_set  bool
 }
 
 fn (mut a RegAllocator) r_allocate() Reg {
@@ -59,6 +67,78 @@ fn mov_to(r Reg, v u64) {
 	print_asm('mov ${r}, ${v}')
 }
 
+fn (mut a RegAllocator) realise_flag(f Flags) Reg {
+	assert a.flags_set
+
+	postfix := match f {
+		.eq {
+			"e"
+		}
+		.neq {
+			"ne"
+		}
+	}
+
+	r_1 := a.r_allocate()
+	print_asm('xor ${r_1}, ${r_1}')
+	print_asm('set${postfix} ${r_1}')
+
+	a.flags_set = false
+
+	return r_1
+}
+
+fn (mut a RegAllocator) flush_flags() {
+	assert a.flags_set
+
+	mut i := a.unit_stack.len
+	for true {
+		i--
+		if a.unit_stack[i] is Flags {
+			a.unit_stack[i] = a.realise_flag(a.unit_stack[i] as Flags)
+		}
+		if i == 0 { break }
+	}
+
+	a.flags_set = false
+}
+
+// TODO: unpack_cmp -> for FLAGS
+
+fn (mut a RegAllocator) unpack_arith(associative bool) (Unit, Unit, bool) {
+	mut r_1 := a.unit_stack.pop()
+	mut r_2 := a.unit_stack.pop()
+
+	if r_1 is Flags {
+		r_1 = a.realise_flag(r_1 as Flags)
+	}
+	if r_2 is Flags {
+		r_2 = a.realise_flag(r_2 as Flags)
+	}
+
+	if r_2 is u64 && r_1 is u64 {
+		return r_2, r_1, true
+	} else if r_2 is Reg && r_1 is u64 {
+		a.unit_stack << r_2
+		return r_2, r_1, false
+	} else if r_2 is u64 && r_1 is Reg {
+		if !associative {
+			r_3 := a.r_allocate()
+			mov_to(r_3, r_2 as u64)
+			a.unit_stack << r_3
+			a.r_free(r_1 as Reg)
+			return r_3, r_1, false
+		} else {
+			a.unit_stack << r_1
+			return r_1, r_2, false
+		}
+	} else {
+		a.unit_stack << r_2
+		a.r_free(r_1 as Reg)
+		return r_2, r_1, false
+	}
+}
+
 fn execute(program []Instruction) {
 	mut a := RegAllocator{}
 
@@ -67,36 +147,11 @@ fn execute(program []Instruction) {
 	for i in program {
 		match i.inst {
 			.add {
-				r_1 := a.unit_stack.pop()
-				r_2 := a.unit_stack.pop()
-
-				// 1. If both are constants, perform folding
-				// 2. If order matters:
-				//    1. If the first operand is a constant and the other, 
-				//       a register, flush the constant to a register and
-				//       perform the instruction.
-				//    2. If the second operand is a constant and the first,
-				//       a register, perform the instruction as is.
-				// 3. If order does not matter:
-				//    1. Swap if needed to make the register the first operand,
-				//       then perform the instruction.
-				// 4. Both registers? Perform the instruction as is.
-
-				if r_2 is u64 && r_1 is u64 {
-					a.unit_stack << r_2 + r_1
-				} else if r_2 is Reg && r_1 is u64 {
-					print_asm('add ${r_2}, ${r_1}')
-					a.unit_stack << r_2
-				} else if r_2 is u64 && r_1 is Reg {
-					r_3 := a.r_allocate()
-					mov_to(r_3, r_2)
-					print_asm('add ${r_3}, ${r_1}')
-					a.unit_stack << r_3
-					a.r_free(r_1)
+				op1, op2, c := a.unpack_arith(true)
+				if !c {
+					print_asm('add ${op1}, ${op2}')
 				} else {
-					print_asm('add ${r_2 as Reg}, ${r_1 as Reg}')
-					a.unit_stack << r_2
-					a.r_free(r_1 as Reg)
+					a.unit_stack << (op1 as u64) + (op2 as u64)
 				}
 			}
 			.push {
@@ -108,6 +163,30 @@ fn execute(program []Instruction) {
 
 				a.unit_stack << r_1
 				a.unit_stack << r_2
+			}
+			.eq {
+				if a.flags_set {
+					a.flush_flags()
+				}
+
+				r_1 := a.unit_stack.pop()
+				r_2 := a.unit_stack.pop()
+				
+				print_asm('cmp ${r_2}, ${r_1}')
+
+				a.unit_stack << Flags.eq
+			}
+			.neq {
+				if a.flags_set {
+					a.flush_flags()
+				}
+
+				r_1 := a.unit_stack.pop()
+				r_2 := a.unit_stack.pop()
+				
+				print_asm('cmp ${r_2}, ${r_1}')
+
+				a.unit_stack << Flags.neq
 			}
 			.push_r {
 				r_1 := a.r_allocate()
@@ -133,7 +212,7 @@ fn main() {
 	program := [
 		Instruction{.push, 5}
 		Instruction{.new_r, 0},
-		Instruction{.swap, 0}
+	//	Instruction{.swap, 0},
 		Instruction{.add, 0},
 	]
 
