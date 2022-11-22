@@ -42,3 +42,8 @@ stas6
 stas7
 stas8
 stas9
+
+*.core
+
+prototypes/*
+!prototypes/*.v

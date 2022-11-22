@@ -1,59 +1,7 @@
-;include 'std.stas'
-;
-;; (n acc)
-;const fn fact_tail 2 1 {
-;	over 0 = if {
-;		swap drop
-;	} else {
-;		over 1 - rot *
-;		fact_tail
-;	}
-;}
-;
-;const fn fact 1 1 {
-;	1 fact_tail
-;}
-;
-;- noinline
-;fn sluurp 1 0 { drop }
-;
-;fn eee { }
-;
-;const a { 9 fact }
-;assert { a 9 fact = }
-;
-;fn main {
-;	
-;	9 fact putuln
-;}
-;
-;; >>> math.factorial(4)
-;; 24
-;; >>> math.factorial(5)
-;; 120
-;; >>> math.factorial(6)
-;; 720
-;; >>> math.factorial(9)
-;; 362880
-
-include 'std.stas'
-
-const fn sumto10 0 1 {
-	0 1 while dup 10 <= {
-		dup rot +
-		swap ++
-	} drop
-}
-
-const b { sumto10 }
-
-- noinline
-fn sluurp 1 0 { drop }
-
-const fn ee 0 0 {
-	
-}
-
 fn main {
-	ee
+	auto a 2
+
+	99 88 pop a
+
+	a 88 = assert 99 = assert
 }
