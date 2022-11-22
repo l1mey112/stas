@@ -35,7 +35,7 @@ fn (mut a RegAllocator) r_allocate() Reg {
 			return unsafe { Reg(idx) }
 		}
 	}
-	panic("exausted registers")
+	panic('exausted registers')
 }
 
 fn (mut a RegAllocator) r_pop_debt() Reg {
@@ -66,7 +66,7 @@ fn reverse_execution(program []Instruction) {
 				r_1 := a.r_pop_debt()
 				r_2 := a.r_pop_debt()
 				p << 'add ${r_1}, ${r_2}'
-				a.reg_debt << r_2			
+				a.reg_debt << r_2
 				a.reg_debt << r_1
 			}
 			.push {
@@ -81,6 +81,8 @@ fn reverse_execution(program []Instruction) {
 		print_asm(i)
 	}
 }
+
+// TODO: strings, add string label unit
 
 fn main() {
 	program := [

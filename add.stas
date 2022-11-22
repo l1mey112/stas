@@ -1,7 +1,8 @@
 fn main {
-	auto a 2
-
-	99 88 pop a
-
-	a 88 = assert 99 = assert
+	0
+	while dup 10 != {
+		1
+		+
+	}
+	drop
 }
