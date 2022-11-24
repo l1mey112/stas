@@ -65,6 +65,7 @@ const             Tok.envp { 72 }
 const           Tok.sizeof { 73 }
 const          Tok.cextern { 74 }
 const              Tok.asm { 75 }
+const         Tok.comptime { 76 }
 
 ; (Tok -- str len)
 fn Tok.to_str 1 2 {
@@ -200,6 +201,8 @@ fn Tok.to_str 1 2 {
 		"cextern"
 	} elif dup Tok.asm = {
 		"asm"
+	} elif dup Tok.comptime = {
+		"comptime"
 	} else {
 		0 0 0 assert -> "unreachable"
 	}
@@ -337,6 +340,8 @@ fn Tok.from_str 2 1 {
 		Tok.cextern
 	} elif str "asm" streq {
 		Tok.asm
+	} elif str "comptime" streq {
+		Tok.comptime
 	} else {
 		Tok.name
 	} 

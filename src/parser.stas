@@ -105,6 +105,19 @@ fn search_variable_name_global 2 1 {
 	-1
 }
 
+; ( -- bool )
+fn is_in_function 0 1 {
+	0
+	while dup scope_context.len < {
+		dup scope_context[] rScope.typ ScopeTyp.function = if {
+			drop true ret
+		}
+		++
+	}
+	drop
+	false
+}
+
 fn parse.push_empty_scope {
 	; (typ sp sp2 idx label_id label_id2 var_scope)
 		ScopeTyp.scope
@@ -348,7 +361,7 @@ fn parse.handle_var_interaction 1 0 {
 
 		f_idx var_context[] pop var
 		
-		scope_context.len 0 = if {
+		is_in_function ! if {
 			true
 		} else {
 			f_idx 0 scope_context[] rScope.var_scope <
@@ -626,7 +639,7 @@ fn parse.handle_close_r_cb 1 0 {
 		0    pop function_attributes
 
 		is_early_ret false w8
-		scope_context.len 0 = assert
+		is_in_function ! assert
 	} elif dup ScopeTyp.while_block_scope = {
 		reserve while_header sizeof(Scope)
 		while_header scope_context.pop_into_ptr
@@ -805,6 +818,16 @@ fn parse.handle_close_r_cb 1 0 {
 		scope rScope.label_id2 UINT32_MAX != if {
 			Inst.label scope rScope.label_id2 ir
 		}
+	} elif dup ScopeTyp.comptime.ignore = {
+		; TODO: implement else
+
+		scope rScope.comptime.functions pop functions.len
+		scope rScope.comptime.ir_stream pop ir_stream.len
+		scope rScope.comptime.var_scope pop var_context.len
+
+		0 assert -> 'unimplemented'
+	} elif dup ScopeTyp.comptime.keep = {
+		; TODO: implement else
 	} else {
 		scope rScope.typ putuln
 		
@@ -983,7 +1006,7 @@ fn parse.handle_name 1 0 {
 
 			f_idx var_context[] pop var
 			
-			scope_context.len 0 = if {
+			is_in_function ! if {
 				true
 			} else {
 				f_idx 0 scope_context[] rScope.var_scope <
@@ -1092,18 +1115,12 @@ fn parse.fn_complex_tokens 1 0 {
 			var_context.len
 		scope_context<<
 	} elif dup Tok.break_block = {
-		scope_context.len 0 = if {
-			pos 'not inside while loop body' error.Tok
-		}
 		ScopeTyp.while_block_scope parse.locate_scope dup -1 = if {
 			pos 'not inside while loop body' error.Tok
 		}
 		Inst.do_jmp swap scope_context[] rScope.label_id ir
 		parse.push_early_ret_with_pos
 	} elif dup Tok.continue_block = {
-		scope_context.len 0 = if {
-			pos 'not inside while loop body' error.Tok
-		}
 		ScopeTyp.while_block parse.locate_scope dup -1 = if {
 			pos 'not inside while loop body' error.Tok
 		}
@@ -1491,7 +1508,7 @@ fn stas.parse {
 			parse.assert_const_fn_not
 			parse.any_variable
 		} elif dup Tok.const = {
-			Tok.fn_decl parse.lookahead? scope_context.len 0 = & if {
+			Tok.fn_decl parse.lookahead? is_in_function ! & if {
 				pos ++ pop pos
 				FnAttribute.const function_attributes |
 				pop function_attributes
@@ -1500,9 +1517,60 @@ fn stas.parse {
 				parse.const_expression
 			}
 		} elif dup Tok.cextern = {
+			parse.assert_const_fn_not
 			parse.cextern
+		} elif dup Tok.comptime = {
+			parse.assert_const_fn_not
+			parse.next_eof? ! if {
+				pos 'unexpected EOF in comptime declaration' error.Tok
+			}
+
+			auto val 1
+
+			; (Tok)
+			dup Tok.name = if {
+				parse.get_constant? ! if {
+					pos 'unknown variable name' error.Tok
+				}
+			} elif dup Tok.l_cb = {
+				parse.eval_const_expr
+			} elif dup Tok.number_lit = {
+				pos token_stream[] rToken.data
+			} else {
+				pos 'expected constant value' error.Tok
+				0
+				; noreturn function
+			}
+			pop val
+			drop
+
+			Tok.if_block parse.expect? ! if {
+				pos 'expected if block after comptime' error.Tok
+			}
+			Tok.l_cb parse.expect? ! if {
+				pos 'expected if block after comptime' error.Tok
+			}
+
+			; TODO: implement storing and restoring the sp.len
+
+			0 assert -> 'unimplemented'
+
+			; (typ functions.len ir_stream.len var_context.len sp.len cfunctions.len)
+				val if {
+					ScopeTyp.comptime.keep
+				} else {
+					ScopeTyp.comptime.ignore
+				}
+				functions.len
+				ir_stream.len
+				var_context.len
+				sp.len
+				cfunctions.len
+			scope_context.comptime<<
+
+			0 assert -> 'unreachable'
 		} else {
-			scope_context.len 0 = if {
+			is_in_function ! if {
 				pos token_stream[] rToken.tok
 				
 				dup Tok.fn_decl = if {

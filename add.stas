@@ -1,8 +1,21 @@
+const true { 1 }
+
+;comptime { 22 22 + 44 = } if {
+;
+;	fn ee 0 1 {
+;		232
+;	}
+;
+;} else {
+;
+;	fn ee 0 1 {
+;		999
+;	}
+;
+;}
+
 fn main {
-	0
-	while dup 10 != {
-		1
-		+
+	comptime true if {
+		
 	}
-	drop
 }
