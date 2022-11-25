@@ -98,3 +98,10 @@ fn alloc.make_str 1 2 {
 	    alloc_buffer.len swap -
 	0 alloc.push_8
 }
+
+; ( len -- ptr )
+fn alloc.alloc 1 1 {
+	dup alloc.guard_size
+	alloc.now swap
+	alloc_buffer.len + pop alloc_buffer.len
+}

@@ -143,10 +143,6 @@ fn dce.recurse_function 1 0 {
 }
 
 fn stas.dce {
-	main_fn_idx UINT64_MAX = if {
-		"no main function" error.generic_fatal
-	}
-	
 	0 pop used_functions
 	0 pop inlined_functions
 

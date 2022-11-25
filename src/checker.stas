@@ -1,0 +1,157 @@
+
+; (Inst *Array32)
+fn checker.handle_simple 2 0 {
+	auto sp 1 pop sp
+
+	dup Inst.push_num = if {
+		1 sp sp_push
+	} elif dup Inst.plus = {
+		2 1 sp sp_assert
+	} elif dup Inst.sub = {
+		2 1 sp sp_assert
+	} elif dup Inst.mul = {
+		2 1 sp sp_assert
+	} elif dup Inst.div = {
+		2 1 sp sp_assert
+	} elif dup Inst.mod = {
+		2 1 sp sp_assert
+	} elif dup Inst.inc = {
+		1 1 sp sp_assert
+	} elif dup Inst.dec = {
+		1 1 sp sp_assert
+	} elif dup Inst.divmod = {
+		2 2 sp sp_assert
+	} elif dup Inst.shr = {
+		2 1 sp sp_assert
+	} elif dup Inst.shl = {
+		2 1 sp sp_assert
+	} elif dup Inst.b_and = {
+		2 1 sp sp_assert
+	} elif dup Inst.b_or = {
+		2 1 sp sp_assert
+	} elif dup Inst.b_not = {
+		1 1 sp sp_assert
+	} elif dup Inst.not = {
+		1 1 sp sp_assert
+	} elif dup Inst.b_xor = {
+		2 1 sp sp_assert
+	} elif dup Inst.swap = {
+		2 sp sp_has
+			sp Array32.pop
+			sp Array32.pop
+			swap
+			sp Array32<<
+			sp Array32<<
+	} elif dup Inst.dup = {
+		1 sp sp_has
+		sp Array32.top sp Array32<<
+	} elif dup Inst.over = {
+		2 sp sp_has
+		sp rArray32.len 2 - sp Array32[] sp Array32<<
+	} elif dup Inst.over2 = {
+		3 sp sp_has
+		sp rArray32.len 3 - sp Array32[] sp Array32<<
+	} elif dup Inst.rot = {
+		3 sp sp_has
+			sp Array32.pop
+			sp Array32.pop
+			sp Array32.pop
+			rot rot
+			sp Array32<<
+			sp Array32<<
+			sp Array32<<
+	} elif dup Inst.rot4 = {
+		4 sp sp_has
+			sp Array32.pop
+			sp Array32.pop
+			sp Array32.pop
+			sp Array32.pop
+			rot4 rot4 rot4
+			sp Array32<<
+			sp Array32<<
+			sp Array32<<
+			sp Array32<<
+	} elif dup Inst.drop = {
+		1 0 sp sp_assert
+	} elif dup Inst.equ = {
+		2 1 sp sp_assert
+	} elif dup Inst.nequ = {
+		2 1 sp sp_assert
+	} elif dup Inst.gt = {
+		2 1 sp sp_assert
+	} elif dup Inst.lt = {
+		2 1 sp sp_assert
+	} elif dup Inst.gte = {
+		2 1 sp sp_assert
+	} elif dup Inst.lte = {
+		2 1 sp sp_assert
+	} elif dup Inst.s_gt = {
+		2 1 sp sp_assert
+	} elif dup Inst.s_lt = {
+		2 1 sp sp_assert
+	} elif dup Inst.s_gte = {
+		2 1 sp sp_assert
+	} elif dup Inst.s_lte = {
+		2 1 sp sp_assert
+	} else {
+		0 assert -> 'unreachable'
+	}
+	drop
+}
+
+; (functions[idx] *Array32)
+fn checker.checkers 2 0 {
+	auto sp   1             pop sp
+	auto fn_c 1 functions[] pop fn_c
+
+	1 while dup fn_c rFunction.end_inst < {
+		dup ir_stream[] rIR.inst
+		dup Inst.fn_call = if {
+			0 assert -> 'unimplemented'
+		} else {
+			dup sp checker.handle_simple
+		}
+		drop
+		++
+	} drop
+
+	1 fn_c rFunction.end_inst check.from
+}
+
+; (lo hi *Array32)
+fn check.from 2 0 {
+	auto dup_arr 1 pop dup_arr
+	auto hi      1 pop hi
+
+	const   sp_arr_default { sizeof(u32) 1024 * }
+	reserve sp             sizeof(Array32)
+	auto    sp_ptr         1
+	
+	sp_arr_default alloc.alloc pop sp_ptr
+
+	sp_ptr sp_arr_default sp
+	Array32.init_with_buffer_sz_bytes
+
+	dup_arr NULL != if {
+		; Array32.dup
+		0 assert -> 'unimplemented'
+	}
+
+	while dup hi < {
+		++
+	} drop
+
+	sp alloc.rewind
+}
+
+fn stas.check {
+	reserve sp_array sizeof(Array32)
+	sp_array_data_const
+		sizeof sp_array_data_const
+	sp_array Array32.init_with_buffer_sz_bytes
+
+	0 while dup functions.len < {
+		dup sp_array checker.checkers
+		++
+	} drop
+}

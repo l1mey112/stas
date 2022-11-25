@@ -135,7 +135,7 @@ fn Array64.pop 1 1 {
 	Array64.pop? assert -> 'Array64.pop: array is empty'
 }
 ; (idx_1 idx_2 *Array64)
-fn Array64.swap 3 0 {
+fn Array64.swap! 3 0 {
 	auto arr 1 pop arr
 
 	over over
@@ -368,7 +368,7 @@ fn Array32.pop 1 1 {
 	Array32.pop? assert -> 'Array32.pop: array is empty'
 }
 ; (idx_1 idx_2 *Array32)
-fn Array32.swap 3 0 {
+fn Array32.swap! 3 0 {
 	auto arr 1 pop arr
 
 	over over
@@ -462,4 +462,27 @@ fn Array32.search_kv? 2 2 {
 	drop
 	0
 	false
+}
+; ( `*Array32` *Array32 -- bool )
+fn Array32.dup? 2 1 {
+	auto def_arr 1 pop def_arr
+	auto dup_arr 1 pop dup_arr
+
+	dup_arr rArray32.len def_arr rArray32.cap >= if {
+		false ret
+	}
+
+	; (dest src len)
+	def_arr rArray32.data
+	dup_arr rArray32.data
+	dup_arr rArray32.len sizeof(u32) *
+	memcpy
+
+	; (ptr data)
+	def_arr dup_arr rArray32.len wArray32.len
+	true
+}
+; ( `*Array32` *Array32 -- bool )
+fn Array32.dup 2 0 {
+	Array32.dup? assert -> 'Array32.dup: array to dup cannot fit in target array'
 }

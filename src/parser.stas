@@ -821,6 +821,8 @@ fn parse.handle_close_r_cb 1 0 {
 	} elif dup ScopeTyp.comptime.ignore = {
 		; TODO: implement else
 
+		; TODO: implement popping
+
 		scope rScope.comptime.functions pop functions.len
 		scope rScope.comptime.ir_stream pop ir_stream.len
 		scope rScope.comptime.var_scope pop var_context.len
@@ -1564,7 +1566,7 @@ fn stas.parse {
 				functions.len
 				ir_stream.len
 				var_context.len
-				sp.len
+				sp_array rArray32.len
 				cfunctions.len
 			scope_context.comptime<<
 
@@ -1654,4 +1656,8 @@ fn stas.parse {
 ;	}
 ;	drop
 ;	var_context.len eputu `\n` eputc
+
+	main_fn_idx UINT64_MAX = if {
+		"no main function" error.generic_fatal
+	}
 }

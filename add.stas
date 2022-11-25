@@ -1,21 +1,50 @@
-const true { 1 }
-
-;comptime { 22 22 + 44 = } if {
+;const true { 1 }
 ;
-;	fn ee 0 1 {
-;		232
+;;comptime { 22 22 + 44 = } if {
+;;
+;;	fn ee 0 1 {
+;;		232
+;;	}
+;;
+;;} else {
+;;
+;;	fn ee 0 1 {
+;;		999
+;;	}
+;;
+;;}
+;
+;fn main {
+;	comptime true if {
+;		
 ;	}
-;
-;} else {
-;
-;	fn ee 0 1 {
-;		999
-;	}
-;
 ;}
 
+;fn main {
+;	22 22 drop drop
+;}
+
+include 'std.stas'
+
+fn ee 1 0 {
+	auto sp2 1 pop sp2
+	const   sp_arr_default { sizeof(u32) 1024 * }
+	reserve sp             sizeof(Array32)
+	auto    sp_ptr         1
+	sp_arr_default alloc.alloc pop sp_ptr
+	sp_ptr sp_arr_default sp
+	Array32.init_with_buffer_sz_bytes
+
+	sp2 sp Array32.dup
+}
+
 fn main {
-	comptime true if {
-		
-	}
+	const   sp_arr_default { sizeof(u32) 1024 * }
+	reserve sp             sizeof(Array32)
+	auto    sp_ptr         1
+	sp_arr_default alloc.alloc pop sp_ptr
+	sp_ptr sp_arr_default sp
+	Array32.init_with_buffer_sz_bytes
+	
+	sp ee
 }

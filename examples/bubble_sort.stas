@@ -30,7 +30,7 @@ fn main {
 			dup -- my_array Array64[]
 			swap   my_array Array64[]
 			> if {
-				dup dup -- swap my_array Array64.swap
+				dup dup -- swap my_array Array64.swap!
 				true pop swapped
 			}
 			++
