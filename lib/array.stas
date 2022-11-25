@@ -486,3 +486,17 @@ fn Array32.dup? 2 1 {
 fn Array32.dup 2 0 {
 	Array32.dup? assert -> 'Array32.dup: array to dup cannot fit in target array'
 }
+; ( item *Array32 -- bool )
+fn Array32.in 2 1 {
+	auto arr 1 pop arr
+	auto ite 1 pop ite
+
+	0 while dup arr rArray32.len < {
+		dup arr Array32[] ite = if {
+			drop true ret
+		}
+		++
+	} drop
+
+	false
+}

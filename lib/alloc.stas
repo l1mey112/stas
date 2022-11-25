@@ -20,6 +20,7 @@ fn alloc.guard {
 
 ; (size)
 fn alloc.guard_size 1 0 {
+	alloc.guard
 	dup alloc_buffer.len + alloc_buffer.cap >= if {
 		alloc_buffer.cap 2 * alloc.init
 		alloc.guard_size ; tail recursive!

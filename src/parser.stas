@@ -621,7 +621,7 @@ fn parse.handle_close_r_cb 1 0 {
 	scope rScope.typ
 	dup ScopeTyp.function = if {
 		function_context Function.end_inst ir_stream.len w32
-		Inst.fn_leave function_context_idx ir
+		function_context rFunction.start_inst ir_stream[] rIR.idx Inst.fn_leave function_context_idx ir_p
 
 		is_early_ret r8 ! if {
 			sp rArray32.len function_context rFunction.retc > if {

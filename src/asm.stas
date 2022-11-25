@@ -158,7 +158,7 @@ fn parse.inline_asm 1 0 {
 	invok_asm pos wASM.s_end_idx
 
 	invok_asm rASM.arg_r_len invok_asm rASM.ret_r_len sp as_c sp_assert_p
-	Inst.asm_invoc inline_asms.len ir
+	as_c Inst.asm_invoc inline_asms.len ir_p
 
 	invok_asm *inline_asms<<
 }
