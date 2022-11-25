@@ -33,7 +33,6 @@ include 'src/write.stas'        ; buffers + writing to files
 include 'src/x86.stas'          ; stas codegen definitions and reg allocator
 include 'src/asm.stas'          ; supporting functions for inline assembly blocks
 include 'src/parser.stas'       ; stas parser, creates IR instructions
-include 'src/checker.stas'      ; asserts conditions on the stack such as underflow and overflow
 include 'src/dce.stas'          ; dead code elimination compiler pass
 include 'src/gen.stas'          ; stas code generator, creates x86_64 asm
 
@@ -384,7 +383,6 @@ fn main {
 		log.msg.start
 	;	global_var_context.len eputu " global variables, " eputs toplevel_constants.len eputu " constants\n" eputs
 	}
-	stas.check
 
 	dump_ir r8 if {
 		ir_stream.dump
