@@ -1,7 +1,6 @@
 include 'lib/posix/syscalls.stas'
 include 'lib/posix/unistd.stas'
 
-const sizeof(stat)     { 144   }
 fn stat.st_dev     1 1 {       }
 fn stat.st_ino     1 1 { 8   + }
 fn stat.st_mode    1 1 { 24  + }
@@ -9,12 +8,25 @@ fn stat.st_nlink   1 1 { 16  + }
 fn stat.st_uid     1 1 { 28  + }
 fn stat.st_gid     1 1 { 32  + }
 fn stat.st_rdev    1 1 { 40  + }
-fn stat.st_size    1 1 { 48  + }
-fn stat.st_blksize 1 1 { 56  + }
-fn stat.st_blocks  1 1 { 64  + }
-fn stat.st_atim    1 1 { 72  + }
-fn stat.st_mtim    1 1 { 88  + }
-fn stat.st_ctim    1 1 { 104 + }
+
+comptime ?def TARGET_LINUX if {
+	const sizeof(stat)     { 144   }
+	fn stat.st_size    1 1 { 48  + }
+	fn stat.st_blksize 1 1 { 56  + }
+	fn stat.st_blocks  1 1 { 64  + }
+	fn stat.st_atim    1 1 { 72  + }
+	fn stat.st_mtim    1 1 { 88  + }
+	fn stat.st_ctim    1 1 { 104 + }
+}
+comptime ?def TARGET_FREEBSD if {
+	const sizeof(stat)     { 224   }
+	fn stat.st_size    1 1 { 112 + }
+	fn stat.st_blksize 1 1 { 128 + }
+	fn stat.st_blocks  1 1 { 120 + }
+	fn stat.st_atim    1 1 { 48  + }
+	fn stat.st_mtim    1 1 { 64  + }
+	fn stat.st_ctim    1 1 { 80  + }
+}
 
 fn fstat 2 1 {
 	sys_fstat syscall2

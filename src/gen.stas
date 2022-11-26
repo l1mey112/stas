@@ -394,9 +394,7 @@ fn gen_range 4 0 {
 				r_new pop b
 				"	mov " fwrite a Reg.64.to_str fwrite ", qword [_arg_p]" fwriteln
 				"	mov " fwrite b Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
-				target_os OS.freebsd != if {
-					"	add " fwrite a Reg.64.to_str fwrite ", 8" fwriteln
-				}
+				"	add " fwrite a Reg.64.to_str fwrite ", 8" fwriteln
 				"	lea " fwrite a Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite " + " fwrite b Reg.64.to_str fwrite " * 8 + 8]" fwriteln
 				a r_push
 				b r_free

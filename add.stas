@@ -1,48 +1,5 @@
-;include 'std.stas'
-;
-;comptime ? TARGET_LINUX if {
-;	; Linux specific syscall declarations and implementation
-;
-;	const sys_write { 1 }
-;	; ....
-;}
-;comptime ? TARGET_FREEBSD if {
-;	; FreeBSD specific syscall declarations and implementation
-;
-;	assert false -> 'unimplemented'
-;
-;	const sys_write { 4 }
-;	; ....
-;}
-;
-;comptime true if {
-;
-;	fn give_str 0 2 {
-;		"TRUE\n"
-;	}
-;
-;} else {
-;	
-;	fn give_str 0 2 {
-;		"FALSE\n"
-;	}
-;
-;}
-;
-;fn main {
-;	comptime { 22 22 + 44 = } if {
-;		give_str puts
-;	}
-;}
-
 include 'std.stas'
 
 fn main {
-;	comptime ?def TARGET_LINUX if {
-;		"linux!\n" puts
-;	}
-;	comptime ?def TARGET_FREEBSD if {
-;		"freebsd!\n" puts
-;	}
-	envp drop
+	envp r64 putuln
 }
