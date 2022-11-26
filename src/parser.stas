@@ -469,9 +469,7 @@ fn parse.basic_token? 1 1 {
 		}
 		
 		Inst.push_num
-			parse.get_constant? ! if {
-				drop 0
-			}
+			parse.get_constant? swap drop
 		ir
 		1 sp sp_push
 	} elif dup Tok.plus = {
@@ -1378,9 +1376,7 @@ fn parse.def_field 0 1 {
 		Tok.name parse.expect? ! if {
 			pos 'expected constant name' error.Tok
 		}
-		parse.get_constant? ! if {
-			drop 0
-		}
+		parse.get_constant? swap drop
 	} elif dup Tok.number_lit = {
 		pos token_stream[] rToken.data
 	} else {

@@ -1,0 +1,32 @@
+include 'std.stas'
+
+fn main {
+	comptime ?def TARGET_FREEBSD if {
+		"FreeBSD\n" puts
+	}
+	comptime ?def TARGET_LINUX if {
+		"Linux\n" puts
+	}
+
+	comptime ?def definitely_not_defined if {
+		"unreachable!\n" puts
+	}
+
+	const IS_DEFINED 0
+
+	comptime ?def IS_DEFINED if {
+		"is defined\n" puts
+	} else {
+		"isnt defined\n" puts
+	}
+
+	comptime true if {
+		; true
+	}
+	comptime 0 if {
+		; false
+	}
+	comptime { 22 22 + 44 = } if {
+		; true
+	}
+}
