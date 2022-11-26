@@ -62,12 +62,16 @@ fn rScope.var_scope   1 1 { Scope.var_scope    r32 }
 fn Scope.comptime.functions  1 1 { 4  + }
 fn Scope.comptime.ir_stream  1 1 { 8  + }
 fn Scope.comptime.var_scope  1 1 { 12 + }
-fn Scope.comptime.sp         1 1 { 16 + }
-fn Scope.comptime.cfunctions 1 1 { 20 + }
+fn Scope.comptime.cfunctions 1 1 { 16 + }
+fn Scope.comptime.sp_ptr     1 1 { 20 + }
+fn Scope.comptime.final_flag 1 1 { 28 + }
 
-fn rScope.comptime.functions 1 1 { Scope.comptime.functions r32 }
-fn rScope.comptime.ir_stream 1 1 { Scope.comptime.ir_stream r32 }
-fn rScope.comptime.var_scope 1 1 { Scope.comptime.var_scope r32 }
+fn rScope.comptime.functions  1 1 { Scope.comptime.functions  r32 }
+fn rScope.comptime.ir_stream  1 1 { Scope.comptime.ir_stream  r32 }
+fn rScope.comptime.var_scope  1 1 { Scope.comptime.var_scope  r32 }
+fn rScope.comptime.cfunctions 1 1 { Scope.comptime.cfunctions r32 }
+fn rScope.comptime.sp_ptr     1 1 { Scope.comptime.sp_ptr     r64 }
+fn rScope.comptime.final_flag 1 1 { Scope.comptime.final_flag r8  }
 
 const VarTyp.buffer   { 1 }
 const VarTyp.stack    { 2 }
@@ -385,11 +389,12 @@ fn scope_context<< 7 0 {
 	scope_context.len scope_context.cap < assert
 }
 
-; (typ functions.len ir_stream.len var_context.len sp.len cfunctions.len)
-fn scope_context.comptime<< 6 0 {
+; (typ functions.len ir_stream.len var_context.len cfunctions.len *Array32<alloc> final_flag)
+fn scope_context.comptime<< 7 0 {
 	scope_context.len sizeof(Scope) * scope_context +
+	    swap over Scope.comptime.final_flag swap w8
+	    swap over Scope.comptime.sp_ptr     swap w64
 	    swap over Scope.comptime.cfunctions swap w32
-	    swap over Scope.comptime.sp         swap w32
 	    swap over Scope.comptime.var_scope  swap w32
 		swap over Scope.comptime.ir_stream  swap w32
 		swap over Scope.comptime.functions  swap w32

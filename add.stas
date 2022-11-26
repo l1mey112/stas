@@ -1,41 +1,29 @@
-;const true { 1 }
-;
-;;comptime { 22 22 + 44 = } if {
-;;
-;;	fn ee 0 1 {
-;;		232
-;;	}
-;;
-;;} else {
-;;
-;;	fn ee 0 1 {
-;;		999
-;;	}
-;;
-;;}
-;
-;fn main {
-;	comptime true if {
-;		
-;	}
-;}
+include 'std.stas'
 
-fn eer 1 1 {
-	if {
-		1 ret
-	} else {
-		2
+comptime { 22 22 + 44 = } if {
+
+	fn give_str 0 2 {
+		"22 + 22 = 44\n"
 	}
-}
 
-fn ee 1 1 {
+} else {
+	
+	fn give_str 0 2 {
+		"22 + 22 != 44\n"
+	}
 
 }
 
 fn main {
-	while 1 {
-		1 if {
-
-		}
-	}
+	give_str puts
 }
+
+;const COMPILE_TIME_USE_HELLO { true }
+;
+;fn main {
+;	comptime COMPILE_TIME_USE_HELLO if {
+;		"hello!\n" puts
+;	} else {
+;		"world!\n" puts
+;	}
+;}
