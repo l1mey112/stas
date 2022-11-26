@@ -386,7 +386,9 @@ fn gen_range 4 0 {
 				r_new pop b
 				"	mov " fwrite a Reg.64.to_str fwrite ", qword [_arg_p]" fwriteln
 				"	mov " fwrite b Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite "]" fwriteln
-				"	add " fwrite a Reg.64.to_str fwrite ", 8" fwriteln
+				target_os OS.freebsd != if {
+					"	add " fwrite a Reg.64.to_str fwrite ", 8" fwriteln
+				}
 				"	lea " fwrite a Reg.64.to_str fwrite ", [" fwrite a Reg.64.to_str fwrite " + " fwrite b Reg.64.to_str fwrite " * 8 + 8]" fwriteln
 				a r_push
 				b r_free
@@ -867,7 +869,12 @@ fn stas.gen 2 0 {
 	}
 
 	"_start:"                             fwriteln
-	"	mov [_arg_p], rsp"                fwriteln
+	target_os OS.freebsd = if {
+		; $FREEBSD_SOURCE/lib/csu/amd64/crt1_c.c:48
+		"	mov [_arg_p], rdi" fwriteln
+	} else {
+		"	mov [_arg_p], rsp" fwriteln
+	}
 	"	mov qword [_rs_p], _rs_top"       fwriteln
 	"	mov rbp, rsp"                     fwriteln
 	"	mov rsp, [_rs_p]"                 fwriteln

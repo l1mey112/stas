@@ -38,10 +38,11 @@
 include 'std.stas'
 
 fn main {
-	comptime ?def TARGET_LINUX if {
-		"linux!\n" puts
-	}
-	comptime ?def TARGET_FREEBSD if {
-		"freebsd!\n" puts
-	}
+;	comptime ?def TARGET_LINUX if {
+;		"linux!\n" puts
+;	}
+;	comptime ?def TARGET_FREEBSD if {
+;		"freebsd!\n" puts
+;	}
+	envp drop
 }
