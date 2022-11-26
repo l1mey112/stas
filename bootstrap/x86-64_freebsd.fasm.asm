@@ -1,5 +1,5 @@
 use64
-format ELF64 executable 0
+format ELF64 executable 9
 segment readable executable
 entry _start
 _start:
@@ -22,7 +22,7 @@ memory.mmap_anon?:
 	mov r8, 34
 	mov r9, 18446744073709551615
 	mov r10, 0
-	mov r11, 9
+	mov r11, 477
 	mov rax, r11
 	mov r11, r9
 	mov r9, r10
@@ -160,7 +160,7 @@ fputu:
 	mov rbx, qword [_rs_p]
 	add rbx, 8
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -221,7 +221,7 @@ fputu:
 	mov rdi, qword [rbx + 28]
 	mov rbx, qword [_rs_p]
 	mov r8, qword [rbx + 36]
-	mov rbx, 1
+	mov rbx, 4
 	mov rax, rbx
 	mov rdx, r8
 	mov rbx, rsi
@@ -261,7 +261,7 @@ fputpu_space:
 	mov rbx, qword [_rs_p]
 	add rbx, 16
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -368,7 +368,7 @@ fputpu_space:
 	mov rdi, qword [rbx + 36]
 	mov rbx, qword [_rs_p]
 	mov r8, qword [rbx + 44]
-	mov rbx, 1
+	mov rbx, 4
 	mov rax, rbx
 	mov rdx, r8
 	mov rbx, rsi
@@ -408,7 +408,7 @@ fputpu:
 	mov rbx, qword [_rs_p]
 	add rbx, 16
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -515,7 +515,7 @@ fputpu:
 	mov rdi, qword [rbx + 36]
 	mov rbx, qword [_rs_p]
 	mov r8, qword [rbx + 44]
-	mov rbx, 1
+	mov rbx, 4
 	mov rax, rbx
 	mov rdx, r8
 	mov rbx, rsi
@@ -536,7 +536,7 @@ putc:
 	mov rbx, 1
 	mov rsi, qword [_rs_p]
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -557,7 +557,7 @@ eputc:
 	mov rbx, 2
 	mov rsi, qword [_rs_p]
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -573,7 +573,7 @@ fd_stat_size:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, 5
+	mov rsi, 551
 	mov rax, rsi
 	mov rsi, rbx
 	pop rdi
@@ -587,7 +587,7 @@ fd_stat_size:
 	mov rbx, _s63
 	mov rsi, 42
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -595,7 +595,7 @@ fd_stat_size:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -623,7 +623,7 @@ fd_open_fp_readonly:
 	mov rdi, qword [rbx + 8]
 	mov rbx, 0
 	mov rdi, 0
-	mov r8, 2
+	mov r8, 5
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -642,7 +642,7 @@ fd_open_fp_readonly:
 	mov rbx, _s61
 	mov rsi, 28
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -653,7 +653,7 @@ fd_open_fp_readonly:
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
 	mov rbx, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -663,7 +663,7 @@ fd_open_fp_readonly:
 	mov rbx, _s62
 	mov rsi, 2
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -671,7 +671,7 @@ fd_open_fp_readonly:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -694,7 +694,7 @@ fd_new_file_for_writing:
 	mov rdi, qword [rbx + 8]
 	mov rbx, 577
 	mov rdi, 448
-	mov r8, 2
+	mov r8, 5
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -713,7 +713,7 @@ fd_new_file_for_writing:
 	mov rbx, _s61
 	mov rsi, 28
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -724,7 +724,7 @@ fd_new_file_for_writing:
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
 	mov rbx, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -734,7 +734,7 @@ fd_new_file_for_writing:
 	mov rbx, _s62
 	mov rsi, 2
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -742,7 +742,7 @@ fd_new_file_for_writing:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -800,7 +800,7 @@ open_and_mmap_fp:
 	mov r9, qword [_rs_p]
 	mov r10, qword [r9 + 16]
 	mov r9, 0
-	mov r11, 9
+	mov r11, 477
 	mov rax, r11
 	mov r11, r9
 	mov r9, r11
@@ -822,7 +822,7 @@ open_and_mmap_fp:
 	mov rbx, _s64
 	mov rsi, 28
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -833,7 +833,7 @@ open_and_mmap_fp:
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
 	mov rbx, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -843,7 +843,7 @@ open_and_mmap_fp:
 	mov rbx, _s62
 	mov rsi, 2
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -851,7 +851,7 @@ open_and_mmap_fp:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -868,7 +868,7 @@ open_and_mmap_fp:
 .46:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
-	mov rbx, 3
+	mov rbx, 6
 	mov rax, rbx
 	mov rdi, rsi
 	syscall
@@ -881,7 +881,7 @@ open_and_mmap_fp:
 	mov rbx, _s65
 	mov rsi, 39
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -889,7 +889,7 @@ open_and_mmap_fp:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -911,7 +911,7 @@ child_execve_and_shut_up:
 	mov qword [rsi + 16], rbx
 	pop rbx
 	mov qword [rsi + 8], rbx
-	mov rbx, 57
+	mov rbx, 2
 	mov rax, rbx
 	syscall
 	mov rbx, rax
@@ -926,7 +926,7 @@ child_execve_and_shut_up:
 	mov rsi, _s604
 	mov rdi, 0
 	mov r8, 0
-	mov r9, 257
+	mov r9, 499
 	mov rax, r9
 	mov r10, r8
 	mov rdx, rdi
@@ -945,7 +945,7 @@ child_execve_and_shut_up:
 	mov rbx, _s605
 	mov rsi, 32
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -953,13 +953,13 @@ child_execve_and_shut_up:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
 .51:
 	mov rbx, 1
-	mov rsi, 33
+	mov rsi, 90
 	mov rax, rsi
 	mov rsi, rbx
 	pop rdi
@@ -973,7 +973,7 @@ child_execve_and_shut_up:
 	mov rbx, _s606
 	mov rsi, 42
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -981,7 +981,7 @@ child_execve_and_shut_up:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -1009,7 +1009,7 @@ child_execve_and_shut_up:
 	mov rbx, _s607
 	mov rsi, 29
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -1017,13 +1017,13 @@ child_execve_and_shut_up:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
 .55:
 	mov rbx, 0
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -1055,7 +1055,7 @@ child_execve_and_shut_up:
 	add rsi, 32
 	mov rdi, 0
 	mov r8, 0
-	mov r9, 61
+	mov r9, 7
 	mov rax, r9
 	mov r10, r8
 	mov rdx, rdi
@@ -1072,7 +1072,7 @@ child_execve_and_shut_up:
 	mov rbx, _s608
 	mov rsi, 33
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -1080,7 +1080,7 @@ child_execve_and_shut_up:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -1116,7 +1116,7 @@ child_execve_and_shut_up:
 	jz .67
 	pop rbx
 	mov rsi, rbx
-	mov rdi, 60
+	mov rdi, 1
 	mov rax, rdi
 	mov rdi, rsi
 	syscall
@@ -1147,7 +1147,7 @@ child_execve_and_shut_up:
 	mov rbx, _s609
 	mov rsi, 46
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -1170,7 +1170,7 @@ child_execve_and_shut_up:
 	mov rbx, 2
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -1178,7 +1178,7 @@ child_execve_and_shut_up:
 	mov rdi, rbx
 	syscall
 	mov rbx, 255
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -1230,7 +1230,7 @@ child_execve_and_shut_up:
 	mov rbx, _s611
 	mov rsi, 27
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -1238,7 +1238,7 @@ child_execve_and_shut_up:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -1401,7 +1401,7 @@ alloc.init:
 	jz .90
 	mov rbx, [_galloc_buffer.data]
 	mov rsi, [_galloc_buffer.cap]
-	mov rdi, 11
+	mov rdi, 73
 	mov rax, rdi
 	mov rdi, rsi
 	mov rsi, rdi
@@ -2582,7 +2582,7 @@ argp_print:
 	sub rbx, rsi
 	mov rsi, 2
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rbx
 	mov rbx, rsi
@@ -3198,7 +3198,7 @@ find_abs_path_of_executable?:
 	mov rsp, rbp
 	mov rbx, qword [rsp + 8]
 	mov rsi, 0
-	mov rdi, 21
+	mov rdi, 33
 	mov rax, rdi
 	mov rdi, rsi
 	mov rsi, rdi
@@ -3776,7 +3776,7 @@ error.start_bold_error:
 	mov rbx, _s21
 	mov rsi, 3
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -3793,7 +3793,7 @@ error.start_bold_error:
 	mov rbx, _s22
 	mov rsi, 4
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -3816,7 +3816,7 @@ error.end_bold_error:
 	mov rbx, _s24
 	mov rsi, 4
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -3833,7 +3833,7 @@ error.end_bold_error:
 	mov rbx, _s25
 	mov rsi, 4
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -3856,7 +3856,7 @@ notice.start_bold_notice:
 	mov rbx, _s21
 	mov rsi, 3
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -3873,7 +3873,7 @@ notice.start_bold_notice:
 	mov rbx, _s56
 	mov rsi, 4
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -3896,7 +3896,7 @@ notice.end_bold_notice:
 	mov rbx, _s24
 	mov rsi, 4
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -3913,7 +3913,7 @@ notice.end_bold_notice:
 	mov rbx, _s25
 	mov rsi, 4
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -7848,7 +7848,7 @@ Token.location_print:
 	add rdi, r8
 	mov rsi, [rsi]
 	mov r8, 1
-	mov r9, 1
+	mov r9, 4
 	mov rax, r9
 	mov rdx, rsi
 	mov rsi, rdi
@@ -7857,7 +7857,7 @@ Token.location_print:
 	mov rsi, _s70
 	mov rdi, 1
 	mov r8, 1
-	mov r9, 1
+	mov r9, 4
 	mov rax, r9
 	mov rdx, rdi
 	mov rdi, rsi
@@ -7880,7 +7880,7 @@ Token.location_print:
 	mov rbx, _s70
 	mov rsi, 1
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -7904,7 +7904,7 @@ Token.location_print:
 	mov rbx, _s71
 	mov rsi, 2
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -7967,7 +7967,7 @@ print_normalise_tabs:
 	mov rdi, qword [_rs_p]
 	mov r8, qword [rdi + 8]
 	mov rdi, 1
-	mov r9, 1
+	mov r9, 4
 	mov rax, r9
 	mov rdx, rsi
 	mov rsi, r8
@@ -7977,7 +7977,7 @@ print_normalise_tabs:
 	mov rsi, _s76
 	mov rdi, 4
 	mov r8, 1
-	mov r9, 1
+	mov r9, 4
 	mov rax, r9
 	mov rdx, rdi
 	mov rdi, rsi
@@ -8004,7 +8004,7 @@ print_normalise_tabs:
 	mov rsi, rdi
 	mov r8, rbx
 	mov r9, 1
-	mov r10, 1
+	mov r10, 4
 	mov rax, r10
 	mov rdx, r8
 	mov r8, rsi
@@ -8025,7 +8025,7 @@ print_normalise_tabs:
 	mov rbx, 1
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -8241,7 +8241,7 @@ Token.eprint_file_lok:
 	mov rbx, _s75
 	mov rsi, 3
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -8256,7 +8256,7 @@ Token.eprint_file_lok:
 	mov rbx, _s77
 	mov rsi, 7
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -8348,7 +8348,7 @@ Token.eprint_file_lok:
 	mov rbx, 1
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -8485,7 +8485,7 @@ token_stream.dump:
 	mov rbx, 1
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -8513,7 +8513,7 @@ token_stream.dump:
 	mov rbx, _s166
 	mov rsi, 4
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -8529,7 +8529,7 @@ token_stream.dump:
 	add rbx, rdi
 	mov rsi, [rsi]
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -8553,7 +8553,7 @@ token_stream.dump:
 	mov rbx, _s166
 	mov rsi, 4
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -8576,7 +8576,7 @@ token_stream.dump:
 	add rbx, rdi
 	mov rsi, [rsi]
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -8607,7 +8607,7 @@ token_stream.dump:
 	mov rbx, _s166
 	mov rsi, 4
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -8634,7 +8634,7 @@ token_stream.dump:
 	mov rbx, 1
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -8707,7 +8707,7 @@ error.Loc.len:
 	add rsi, rdi
 	mov rbx, [rbx]
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rbx
 	mov rbx, rsi
@@ -8718,7 +8718,7 @@ error.Loc.len:
 	mov rbx, _s70
 	mov rsi, 1
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -8741,7 +8741,7 @@ error.Loc.len:
 	mov rbx, _s70
 	mov rsi, 1
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -8762,7 +8762,7 @@ error.Loc.len:
 	mov rbx, _s71
 	mov rsi, 2
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -8778,7 +8778,7 @@ error.Loc.len:
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
 	mov rbx, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -8788,7 +8788,7 @@ error.Loc.len:
 	mov rbx, 1
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -8811,7 +8811,7 @@ error.Loc.len:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -8869,7 +8869,7 @@ error_noexit.Tok:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -8878,7 +8878,7 @@ error_noexit.Tok:
 	mov rbx, 1
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -8943,7 +8943,7 @@ notice.Tok:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -8952,7 +8952,7 @@ notice.Tok:
 	mov rbx, 1
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -9540,7 +9540,7 @@ log.start_bold_time:
 	mov rbx, _s21
 	mov rsi, 3
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -9557,7 +9557,7 @@ log.start_bold_time:
 	mov rbx, _s157
 	mov rsi, 4
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -9580,7 +9580,7 @@ log.end_bold_time:
 	mov rbx, _s24
 	mov rsi, 4
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -9597,7 +9597,7 @@ log.end_bold_time:
 	mov rbx, _s25
 	mov rsi, 4
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -9617,7 +9617,7 @@ log.time.start:
 	jz .524
 	mov rbx, 1
 	mov rsi, qword _gtimespec_start
-	mov rdi, 228
+	mov rdi, 232
 	mov rax, rdi
 	mov rdi, rsi
 	mov rsi, rdi
@@ -9632,7 +9632,7 @@ log.time.start:
 	mov rbx, _s60
 	mov rsi, 33
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -9640,7 +9640,7 @@ log.time.start:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -9666,7 +9666,7 @@ log.time.end:
 	mov rbx, _s158
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -9676,7 +9676,7 @@ log.time.end:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -9684,7 +9684,7 @@ log.time.end:
 	syscall
 	mov rbx, 1
 	mov rsi, qword [_rs_p]
-	mov rdi, 228
+	mov rdi, 232
 	mov rax, rdi
 	mov rdi, rsi
 	mov rsi, rdi
@@ -9699,7 +9699,7 @@ log.time.end:
 	mov rbx, _s60
 	mov rsi, 33
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -9707,7 +9707,7 @@ log.time.end:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -9745,7 +9745,7 @@ log.time.end:
 	mov rbx, _s159
 	mov rsi, 1
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -9766,7 +9766,7 @@ log.time.end:
 	mov rbx, _s160
 	mov rsi, 4
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -10598,7 +10598,7 @@ stas.scan_file:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -10613,7 +10613,7 @@ stas.scan_file:
 	mov rbx, _s80
 	mov rsi, 16
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -10627,7 +10627,7 @@ stas.scan_file:
 	add rbx, rdi
 	mov rsi, [rsi]
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -10637,7 +10637,7 @@ stas.scan_file:
 	mov rbx, _s59
 	mov rsi, 2
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -12573,7 +12573,7 @@ ir_stream.dump:
 	mov rbx, _s334
 	mov rsi, 17
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -12628,7 +12628,7 @@ ir_stream.dump:
 	mov rbx, _s335
 	mov rsi, 1
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -12652,7 +12652,7 @@ ir_stream.dump:
 	mov rbx, _s335
 	mov rsi, 1
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -12672,7 +12672,7 @@ ir_stream.dump:
 	mov rbx, 1
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -12681,7 +12681,7 @@ ir_stream.dump:
 	mov rbx, 1
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -13561,7 +13561,7 @@ error_st.Tok:
 	add rsp, 8
 .829:
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -16560,7 +16560,7 @@ eval.all_in_range:
 	mov rbx, _s23
 	mov rsi, 7
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -16575,7 +16575,7 @@ eval.all_in_range:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -16589,7 +16589,7 @@ eval.all_in_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -17020,7 +17020,7 @@ fwrite_buffer.assert_len:
 	mov rbx, [_gfwrite_buffer.fd_loc]
 	mov rsi, qword _gfwrite_buffer
 	mov rdi, [_gfwrite_buffer.len]
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -20202,7 +20202,7 @@ parse.inline_asm:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -20329,7 +20329,7 @@ parse.inline_asm:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -20367,7 +20367,7 @@ parse.inline_asm:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -20404,7 +20404,7 @@ parse.inline_asm:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -20447,7 +20447,7 @@ parse.inline_asm:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -20526,7 +20526,7 @@ parse.inline_asm:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -20611,7 +20611,7 @@ parse.inline_asm:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -20651,7 +20651,7 @@ parse.inline_asm:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -20690,7 +20690,7 @@ parse.inline_asm:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -20739,7 +20739,7 @@ parse.inline_asm:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -20789,7 +20789,7 @@ parse.inline_asm:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -20835,7 +20835,7 @@ parse.inline_asm:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -21559,7 +21559,7 @@ parse.duplicate_name:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -21652,7 +21652,7 @@ parse.duplicate_name:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -21725,7 +21725,7 @@ parse.duplicate_name:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -21771,7 +21771,7 @@ parse.fn_decl:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -21829,7 +21829,7 @@ parse.fn_decl:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -21861,7 +21861,7 @@ parse.fn_decl:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -21916,7 +21916,7 @@ parse.fn_decl:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -22001,7 +22001,7 @@ parse.fn_decl:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -22020,7 +22020,7 @@ parse.fn_decl:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -22050,7 +22050,7 @@ parse.fn_decl:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -22161,7 +22161,7 @@ parse.fn_decl:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -22189,7 +22189,7 @@ parse.fn_decl:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -22222,7 +22222,7 @@ parse.fn_decl:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -22359,7 +22359,7 @@ parse.assert:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -22650,7 +22650,7 @@ parse.handle_var_interaction:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -22807,7 +22807,7 @@ parse.handle_var_interaction:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -23054,7 +23054,7 @@ parse.handle_var_interaction:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -23080,7 +23080,7 @@ parse.handle_var_interaction:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -23117,7 +23117,7 @@ parse.handle_var_interaction:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -23143,7 +23143,7 @@ parse.handle_var_interaction:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -23180,7 +23180,7 @@ parse.handle_var_interaction:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -23291,7 +23291,7 @@ parse.get_constant?:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -23445,7 +23445,7 @@ parse.basic_token?:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -25255,7 +25255,7 @@ parse.slurp_early_ret:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -26068,7 +26068,7 @@ parse.handle_close_r_cb:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -26114,7 +26114,7 @@ parse.handle_close_r_cb:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -26630,7 +26630,7 @@ parse.handle_close_r_cb:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -26676,7 +26676,7 @@ parse.handle_close_r_cb:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -26920,7 +26920,7 @@ parse.handle_close_r_cb:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -27032,7 +27032,7 @@ parse.handle_open_l_cb:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -27172,7 +27172,7 @@ parse.handle_open_l_cb:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -27485,7 +27485,7 @@ parse.handle_name:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -27572,7 +27572,7 @@ parse.handle_name:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -28019,7 +28019,7 @@ parse.handle_name:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -28232,7 +28232,7 @@ parse.handle_name:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -28275,7 +28275,7 @@ parse.assert_const_fn_not:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -28413,7 +28413,7 @@ parse.fn_complex_tokens:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -28495,7 +28495,7 @@ parse.fn_complex_tokens:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -28592,7 +28592,7 @@ parse.fn_complex_tokens:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -28674,7 +28674,7 @@ parse.fn_complex_tokens:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -28918,7 +28918,7 @@ parse.fn_complex_tokens:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -28995,7 +28995,7 @@ parse.fn_complex_tokens:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -29651,7 +29651,7 @@ parse.eval_const_expr:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -29776,7 +29776,7 @@ parse.eval_const_expr:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -29924,7 +29924,7 @@ parse.eval_const_expr:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -29980,7 +29980,7 @@ parse.eval_const_expr:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30026,7 +30026,7 @@ parse.eval_const_expr:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30158,7 +30158,7 @@ parse.def_field:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30214,7 +30214,7 @@ parse.def_field:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30282,7 +30282,7 @@ parse.def_field:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30394,7 +30394,7 @@ parse.any_variable:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30426,7 +30426,7 @@ parse.any_variable:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30465,7 +30465,7 @@ parse.any_variable:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30626,7 +30626,7 @@ parse.const_expression:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30683,7 +30683,7 @@ parse.const_expression:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30830,7 +30830,7 @@ parse.one_cextern_arg:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30851,7 +30851,7 @@ parse.one_cextern_arg:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30882,7 +30882,7 @@ parse.cextern:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30926,7 +30926,7 @@ parse.cextern:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -30967,7 +30967,7 @@ parse.cextern:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -31002,7 +31002,7 @@ parse.cextern:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -31031,7 +31031,7 @@ parse.cextern:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -31118,7 +31118,7 @@ parse.cextern:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -31374,7 +31374,7 @@ stas.parse:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -31539,7 +31539,7 @@ stas.parse:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -31576,7 +31576,7 @@ stas.parse:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -31605,7 +31605,7 @@ stas.parse:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -31724,7 +31724,7 @@ stas.parse:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -31780,7 +31780,7 @@ stas.parse:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -31827,7 +31827,7 @@ stas.parse:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -31988,7 +31988,7 @@ stas.parse:
 	mov rbx, _s264
 	mov rsi, 25
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -32006,7 +32006,7 @@ stas.parse:
 	mov rbx, _s265
 	mov rsi, 3
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -32020,7 +32020,7 @@ stas.parse:
 	add rbx, rdi
 	mov rsi, [rsi]
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -32030,7 +32030,7 @@ stas.parse:
 	mov rbx, _s266
 	mov rsi, 1
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -32041,7 +32041,7 @@ stas.parse:
 	mov rbx, 1
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -32205,7 +32205,7 @@ stas.parse:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -32281,7 +32281,7 @@ stas.parse:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -32388,7 +32388,7 @@ stas.parse:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -32426,7 +32426,7 @@ stas.parse:
 	mov rbx, _s23
 	mov rsi, 7
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -32441,7 +32441,7 @@ stas.parse:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -32455,7 +32455,7 @@ stas.parse:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -45228,7 +45228,7 @@ stas.gen:
 	mov rbx, [_gfwrite_buffer.fd_loc]
 	mov rsi, qword _gfwrite_buffer
 	mov rdi, [_gfwrite_buffer.len]
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -45261,7 +45261,7 @@ usage:
 	mov rbx, _s0
 	mov rsi, 40
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45271,7 +45271,7 @@ usage:
 	mov rbx, _s1
 	mov rsi, 32
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45281,7 +45281,7 @@ usage:
 	mov rbx, _s2
 	mov rsi, 68
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45291,7 +45291,7 @@ usage:
 	mov rbx, _s3
 	mov rsi, 77
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45301,7 +45301,7 @@ usage:
 	mov rbx, _s4
 	mov rsi, 74
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45311,7 +45311,7 @@ usage:
 	mov rbx, _s5
 	mov rsi, 77
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45321,7 +45321,7 @@ usage:
 	mov rbx, _s6
 	mov rsi, 77
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45331,7 +45331,7 @@ usage:
 	mov rbx, _s7
 	mov rsi, 72
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45341,7 +45341,7 @@ usage:
 	mov rbx, _s8
 	mov rsi, 48
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45351,7 +45351,7 @@ usage:
 	mov rbx, _s9
 	mov rsi, 46
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45361,7 +45361,7 @@ usage:
 	mov rbx, _s10
 	mov rsi, 70
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45371,7 +45371,7 @@ usage:
 	mov rbx, _s11
 	mov rsi, 79
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45381,7 +45381,7 @@ usage:
 	mov rbx, _s12
 	mov rsi, 59
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45391,7 +45391,7 @@ usage:
 	mov rbx, _s13
 	mov rsi, 77
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45401,7 +45401,7 @@ usage:
 	mov rbx, _s14
 	mov rsi, 58
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45411,7 +45411,7 @@ usage:
 	mov rbx, _s15
 	mov rsi, 78
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45421,7 +45421,7 @@ usage:
 	mov rbx, _s16
 	mov rsi, 68
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45431,7 +45431,7 @@ usage:
 	mov rbx, _s17
 	mov rsi, 45
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45538,7 +45538,7 @@ parse_backend_type:
 	mov rbx, _s23
 	mov rsi, 7
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45553,7 +45553,7 @@ parse_backend_type:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -45569,7 +45569,7 @@ parse_backend_type:
 	mov rbx, 2
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -45582,7 +45582,7 @@ parse_backend_type:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -45639,7 +45639,7 @@ stas_exec:
 	mov rbx, _s23
 	mov rsi, 7
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45654,7 +45654,7 @@ stas_exec:
 	mov rbx, _s602
 	mov rsi, 26
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45665,7 +45665,7 @@ stas_exec:
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
 	mov rbx, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -45675,7 +45675,7 @@ stas_exec:
 	mov rbx, _s59
 	mov rsi, 2
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45683,7 +45683,7 @@ stas_exec:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -45709,7 +45709,7 @@ stas_exec:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45724,7 +45724,7 @@ stas_exec:
 	mov rbx, _s603
 	mov rsi, 1
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -45741,7 +45741,7 @@ stas_exec:
 	mov rbx, _s59
 	mov rsi, 2
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -46097,7 +46097,7 @@ assert_args:
 	mov rbx, _s23
 	mov rsi, 7
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -46112,7 +46112,7 @@ assert_args:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -46128,7 +46128,7 @@ assert_args:
 	mov rbx, 2
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -46141,7 +46141,7 @@ assert_args:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -46166,7 +46166,7 @@ assert_args:
 	mov rbx, _s23
 	mov rsi, 7
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -46181,7 +46181,7 @@ assert_args:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -46197,7 +46197,7 @@ assert_args:
 	mov rbx, 2
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -46210,7 +46210,7 @@ assert_args:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -46235,7 +46235,7 @@ assert_args:
 	mov rbx, _s23
 	mov rsi, 7
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -46250,7 +46250,7 @@ assert_args:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -46266,7 +46266,7 @@ assert_args:
 	mov rbx, 2
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -46279,7 +46279,7 @@ assert_args:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -46304,7 +46304,7 @@ assert_args:
 	mov rbx, _s23
 	mov rsi, 7
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -46319,7 +46319,7 @@ assert_args:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -46335,7 +46335,7 @@ assert_args:
 	mov rbx, 2
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -46348,7 +46348,7 @@ assert_args:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -46376,7 +46376,7 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -46416,7 +46416,7 @@ main:
 	mov rbx, qword _gdebug_symbols
 	mov rsi, 0
 	mov byte [rbx], sil
-	mov rbx, 1
+	mov rbx, 2
 	push rbx
 	jmp .2843.1
 	mov rbx, 0
@@ -46846,7 +46846,7 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -46977,7 +46977,7 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -47068,7 +47068,7 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 0
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -47206,7 +47206,7 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -47279,7 +47279,7 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -47351,7 +47351,7 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -47383,7 +47383,7 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -47418,7 +47418,7 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -47484,7 +47484,7 @@ main:
 	mov rbx, _s23
 	mov rsi, 7
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -47499,7 +47499,7 @@ main:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -47515,7 +47515,7 @@ main:
 	mov rbx, 2
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -47528,7 +47528,7 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -47571,7 +47571,7 @@ main:
 	mov rbx, _s23
 	mov rsi, 7
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -47586,7 +47586,7 @@ main:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -47602,7 +47602,7 @@ main:
 	mov rbx, 2
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -47615,7 +47615,7 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -47673,7 +47673,7 @@ main:
 	mov rbx, _s23
 	mov rsi, 7
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -47688,7 +47688,7 @@ main:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -47704,7 +47704,7 @@ main:
 	mov rbx, 2
 	mov rsi, _s26
 	mov rdi, 1
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -47717,7 +47717,7 @@ main:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -47817,7 +47817,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -47832,7 +47832,7 @@ main:
 	mov rbx, _s58
 	mov rsi, 15
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -47843,7 +47843,7 @@ main:
 	mov rsi, qword [rbx + 43]
 	mov rdi, qword [rbx + 51]
 	mov rbx, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -47853,7 +47853,7 @@ main:
 	mov rbx, _s59
 	mov rsi, 2
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -47967,7 +47967,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -47982,7 +47982,7 @@ main:
 	mov rbx, _s171
 	mov rsi, 8
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48001,7 +48001,7 @@ main:
 	mov rbx, _s172
 	mov rsi, 8
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48041,7 +48041,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48065,7 +48065,7 @@ main:
 	mov rbx, _s332
 	mov rsi, 12
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48085,7 +48085,7 @@ main:
 	mov rbx, _s333
 	mov rsi, 8
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48100,7 +48100,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48141,7 +48141,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48156,7 +48156,7 @@ main:
 	mov rbx, _s381
 	mov rsi, 17
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48204,7 +48204,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48228,7 +48228,7 @@ main:
 	mov rbx, _s387
 	mov rsi, 26
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48247,7 +48247,7 @@ main:
 	mov rbx, _s388
 	mov rsi, 25
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48262,7 +48262,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48286,7 +48286,7 @@ main:
 	mov rbx, _s389
 	mov rsi, 17
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48360,7 +48360,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48375,7 +48375,7 @@ main:
 	mov rbx, _s391
 	mov rsi, 21
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48394,7 +48394,7 @@ main:
 	mov rbx, _s392
 	mov rsi, 17
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48450,7 +48450,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48465,7 +48465,7 @@ main:
 	mov rbx, _s589
 	mov rsi, 10
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48504,7 +48504,7 @@ main:
 	mov rbx, _s590
 	mov rsi, 14
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48525,7 +48525,7 @@ main:
 	mov rbx, _s591
 	mov rsi, 15
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48535,7 +48535,7 @@ main:
 .2318:
 .2314:
 	mov rbx, [_gfwrite_buffer.fd_loc]
-	mov rsi, 3
+	mov rsi, 6
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -48548,7 +48548,7 @@ main:
 	mov rbx, _s65
 	mov rsi, 39
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48556,7 +48556,7 @@ main:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
@@ -48574,7 +48574,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48589,7 +48589,7 @@ main:
 	mov rbx, _s592
 	mov rsi, 15
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48603,7 +48603,7 @@ main:
 	add rbx, rdi
 	mov rsi, [rsi]
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48613,7 +48613,7 @@ main:
 	mov rbx, _s59
 	mov rsi, 2
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48634,7 +48634,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48649,7 +48649,7 @@ main:
 	mov rbx, _s593
 	mov rsi, 29
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48666,7 +48666,7 @@ main:
 	mov rbx, 2
 	pop rsi
 	pop rdi
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rdi
@@ -48675,7 +48675,7 @@ main:
 	mov rbx, _s59
 	mov rsi, 2
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48730,7 +48730,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48745,7 +48745,7 @@ main:
 	mov rbx, _s619
 	mov rsi, 16
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48756,7 +48756,7 @@ main:
 	mov rsi, qword [rbx + 27]
 	mov rdi, qword [rbx + 35]
 	mov rbx, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rdi
 	mov rdi, rsi
@@ -48766,7 +48766,7 @@ main:
 	mov rbx, _s59
 	mov rsi, 2
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48865,7 +48865,7 @@ main:
 	mov rbx, _s57
 	mov rsi, 6
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48880,7 +48880,7 @@ main:
 	mov rbx, _s620
 	mov rsi, 15
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48898,7 +48898,7 @@ main:
 	mov rbx, _s59
 	mov rsi, 2
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48921,7 +48921,7 @@ main:
 	mov rbx, _s621
 	mov rsi, 29
 	mov rdi, 2
-	mov r8, 1
+	mov r8, 4
 	mov rax, r8
 	mov rdx, rsi
 	mov rsi, rbx
@@ -48929,7 +48929,7 @@ main:
 	mov rdi, rbx
 	syscall
 	mov rbx, 1
-	mov rsi, 60
+	mov rsi, 1
 	mov rax, rsi
 	mov rdi, rbx
 	syscall

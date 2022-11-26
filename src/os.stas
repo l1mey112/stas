@@ -1,6 +1,24 @@
-const OS.linux   { 1 }
-const OS.freebsd { 2 }
-; const OS.windows { 3 }
+const OS.linux   1
+const OS.freebsd 2
+; const OS.windows 3
+
+; /usr/include/elf.h
+const ELFOSABI_NONE      0            ; UNIX System V ABI
+const ELFOSABI_SYSV      0            ; Alias. 
+const ELFOSABI_HPUX      1            ; HP-UX
+const ELFOSABI_NETBSD    2            ; NetBSD. 
+const ELFOSABI_GNU       3            ; Object uses GNU ELF extensions. 
+const ELFOSABI_LINUX     ELFOSABI_GNU ; Compatibility alias. 
+const ELFOSABI_SOLARIS   6            ; Sun Solaris. 
+const ELFOSABI_AIX       7            ; IBM AIX. 
+const ELFOSABI_IRIX      8            ; SGI Irix. 
+const ELFOSABI_FREEBSD   9            ; FreeBSD. 
+const ELFOSABI_TRU64     10           ; Compaq TRU64 UNIX. 
+const ELFOSABI_MODESTO   11           ; Novell Modesto. 
+const ELFOSABI_OPENBSD   12           ; OpenBSD. 
+const ELFOSABI_ARM_AEABI 64           ; ARM EABI
+const ELFOSABI_ARM       97           ; ARM
+const ELFOSABI_STANDALONE 255         ; Standalone (embedded) application
 
 ; ( -- OS )
 fn OS.get_host 0 1 {
@@ -28,6 +46,19 @@ fn OS.from_str? 2 2 {
 		OS.linux true
 	} elif str "freebsd" streq {
 		OS.freebsd true
+	} else {
+		0 false
+	}
+}
+
+; ( OS -- ELFOSABI bool )
+fn OS.elf_os_abi_from? 1 2 {
+	auto os 1 pop os
+
+	os OS.linux = if {
+		ELFOSABI_SYSV true
+	} elif os OS.freebsd = {
+		ELFOSABI_FREEBSD true
 	} else {
 		0 false
 	}

@@ -840,7 +840,13 @@ fn stas.gen 2 0 {
 				++
 			} drop
 		} else {
-			"format ELF64 executable"              fwriteln
+			"format ELF64 executable " fwrite 
+			target_os OS.elf_os_abi_from? if {
+				fwriteuln
+			} else {
+				fendl
+				drop
+			}
 			"segment readable executable"          fwriteln
 			"entry _start"                         fwriteln
 		}
