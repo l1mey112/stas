@@ -413,19 +413,20 @@ fn print_normalise_tabs 2 1 {
 	auto tabs 1
 	0 pop tabs
 
-	; (str)
-	while dup len < {
-		dup r8 `\t` = if {
+	auto str 1
+
+	pop str
+	while str len < {
+		str r8 `\t` = if {
 			tabs ++ pop tabs
-			dup st - -- st swap puts ; flush
+			str st - -- st swap puts ; flush
 			"    " puts
-			dup ++ pop st
+			str ++ pop st
 		}
-		++
+		str ++ pop str
 	}
-	st - st swap
-	over over puts
-	+ -- r8 `\n` != if {
+	st str st - puts
+	str -- r8 `\n` != if {
 		endl
 	}
 	tabs

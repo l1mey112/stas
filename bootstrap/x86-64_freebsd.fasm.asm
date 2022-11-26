@@ -7978,7 +7978,7 @@ Token.location_print:
 	mov rsp, [_rs_p]
 	ret
 print_normalise_tabs:
-	sub rsp, 24
+	sub rsp, 32
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [rsp + 8]
@@ -7993,92 +7993,91 @@ print_normalise_tabs:
 	mov rsi, 0
 	mov rdi, qword [_rs_p]
 	mov qword [rdi + 16], rsi
-	push rbx
+	mov rsi, qword [_rs_p]
+	mov qword [rsi + 24], rbx
 .502:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 0]
-	xor rdi, rdi
-	cmp rsi, r8
-	setb dil
-	push rbx
-	test rdi, rdi
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 24]
+	mov rbx, qword [_rs_p]
+	mov rdi, qword [rbx + 0]
+	xor rbx, rbx
+	cmp rsi, rdi
+	setb bl
+	test rbx, rbx
 	jz .503
-	pop rbx
-	mov rsi, rbx
-	xor rdi, rdi
-	mov dil, [rsi]
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 24]
+	xor rbx, rbx
+	mov bl, [rsi]
 	mov rsi, 9
-	xor r8, r8
-	cmp rdi, rsi
-	sete r8b
-	push rbx
-	test r8, r8
+	xor rdi, rdi
+	cmp rbx, rsi
+	sete dil
+	test rdi, rdi
 	jz .504
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	inc rsi
 	mov rbx, qword [_rs_p]
 	mov qword [rbx + 16], rsi
-	pop rbx
-	mov rsi, rbx
-	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 8]
-	sub rsi, r8
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 24]
+	mov rbx, qword [_rs_p]
+	mov rdi, qword [rbx + 8]
+	sub rsi, rdi
 	dec rsi
-	mov rdi, qword [_rs_p]
-	mov r8, qword [rdi + 8]
-	mov rdi, 1
-	mov r9, 4
-	mov rax, r9
+	mov rbx, qword [_rs_p]
+	mov rdi, qword [rbx + 8]
+	mov rbx, 1
+	mov r8, 4
+	mov rax, r8
 	mov rdx, rsi
-	mov rsi, r8
-	mov r8, rdi
-	mov rdi, r8
-	syscall
-	mov rsi, _s79
-	mov rdi, 4
-	mov r8, 1
-	mov r9, 4
-	mov rax, r9
-	mov rdx, rdi
-	mov rdi, rsi
 	mov rsi, rdi
-	mov rdi, r8
+	mov rdi, rbx
 	syscall
+	mov rbx, _s79
+	mov rsi, 4
+	mov rdi, 1
+	mov r8, 4
+	mov rax, r8
+	mov rdx, rsi
 	mov rsi, rbx
+	mov rbx, rdi
+	mov rdi, rbx
+	syscall
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 24]
 	inc rsi
-	mov rdi, qword [_rs_p]
-	mov qword [rdi + 8], rsi
-	push rbx
+	mov rbx, qword [_rs_p]
+	mov qword [rbx + 8], rsi
 .504:
-	pop rbx
-	inc rbx
-	push rbx
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 24]
+	inc rsi
+	mov rbx, qword [_rs_p]
+	mov qword [rbx + 24], rsi
 	jmp .502
 .503:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
-	pop rbx
-	sub rbx, rsi
-	mov rsi, qword [_rs_p]
-	mov rdi, qword [rsi + 8]
+	mov rbx, qword [_rs_p]
+	mov rdi, qword [rbx + 24]
+	mov rbx, qword [_rs_p]
+	mov r8, qword [rbx + 8]
+	sub rdi, r8
+	mov rbx, 1
+	mov r8, 4
+	mov rax, r8
+	mov rdx, rdi
+	mov rdi, rsi
 	mov rsi, rdi
-	mov r8, rbx
-	mov r9, 1
-	mov r10, 4
-	mov rax, r10
-	mov rdx, r8
-	mov r8, rsi
-	mov rsi, r8
-	mov r8, rdi
-	mov rdi, r9
+	mov rdi, rbx
 	syscall
-	add r8, rbx
-	dec r8
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 24]
+	dec rsi
 	xor rbx, rbx
-	mov bl, [r8]
+	mov bl, [rsi]
 	mov rsi, 10
 	xor rdi, rdi
 	cmp rbx, rsi
@@ -8101,7 +8100,7 @@ print_normalise_tabs:
 	push rsi
 	mov rbp, rsp
 	mov rsp, [_rs_p]
-	add rsp, 24
+	add rsp, 32
 	ret
 Token.eprint_file_lok:
 	sub rsp, 73
