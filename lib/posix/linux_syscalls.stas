@@ -57,9 +57,9 @@ const             sys_socketpair { 53 }
 const             sys_setsockopt { 54 }
 const             sys_getsockopt { 55 }
 const                 stub_clone { 56 }
-const                  stub_fork { 57 }
+const                  sys_fork { 57 }
 const                 stub_vfork { 58 }
-const                stub_execve { 59 }
+const                sys_execve { 59 }
 const                   sys_exit { 60 }
 const                  sys_wait4 { 61 }
 const                   sys_kill { 62 }
@@ -299,45 +299,3 @@ const       sys_process_vm_readv { 310 }
 const      sys_process_vm_writev { 311 }
 const                   sys_kcmp { 312 }
 const           sys_finit_module { 313 }
-
-fn syscall0 1 1 {
-	asm "rax" -> "rax" {
-		"\tsyscall"
-	}
-}
-
-fn syscall1 2 1 {
-	asm "rdi" "rax" -> "rax" {
-		"\tsyscall"
-	}
-}
-
-fn syscall2 3 1 {
-	asm "rdi" "rsi" "rax" -> "rax" {
-		"\tsyscall"
-	}
-}
-
-fn syscall3 4 1 {
-	asm "rdi" "rsi" "rdx" "rax" -> "rax" {
-		"\tsyscall"
-	}
-}
-
-fn syscall4 5 1 {
-	asm "rdi" "rsi" "rdx" "r10" "rax" -> "rax" {
-		"\tsyscall"
-	}
-}
-
-fn syscall5 6 1 {
-	asm "rdi" "rsi" "rdx" "r10" "r8" "rax" -> "rax" {
-		"\tsyscall"
-	}
-}
-
-fn syscall6 7 1 {
-	asm "rdi" "rsi" "rdx" "r10" "r8" "r9" "rax" -> "rax" {
-		"\tsyscall"
-	}
-}

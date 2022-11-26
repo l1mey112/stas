@@ -1,5 +1,5 @@
-include 'lib/linux/syscalls.stas'
-include 'lib/linux/unistd.stas'
+include 'lib/posix/syscalls.stas'
+include 'lib/posix/unistd.stas'
 
 const sizeof(stat)     { 144   }
 fn stat.st_dev     1 1 {       }

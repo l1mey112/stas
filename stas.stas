@@ -195,6 +195,8 @@ fn assert_args {
 			"supply backend type for `-b`" usage_msg_and_exit
 		} elif argparse_mode ArgParseMode.comptime_dep = {
 			"supply integer for `--comptime-depth`" usage_msg_and_exit
+		} elif argparse_mode ArgParseMode.os = {
+			"supply os for `--os`" usage_msg_and_exit
 		}
 	}
 }

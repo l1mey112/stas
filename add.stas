@@ -38,5 +38,10 @@
 include 'std.stas'
 
 fn main {
-	a putuln
+	comptime ?def TARGET_LINUX if {
+		"linux!\n" puts
+	}
+	comptime ?def TARGET_FREEBSD if {
+		"freebsd!\n" puts
+	}
 }

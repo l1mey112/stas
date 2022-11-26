@@ -7,7 +7,7 @@
 
 ; (filename argv[] envp[])
 fn execve 3 1 {
-	stub_execve syscall3
+	sys_execve syscall3
 }
 
 ; (cstr -- ret)
@@ -28,7 +28,7 @@ fn exit 1 0 {
 
 ; ()
 fn fork 0 1 {
-	stub_fork syscall0
+	sys_fork syscall0
 }
 
 ; (stream buf len -- count)

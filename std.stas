@@ -20,7 +20,7 @@ fn p32-- 1 0 { dup r32 -- w32 }
 fn p16-- 1 0 { dup r16 -- w16 }
 fn p8--  1 0 { dup r8  -- w8  }
 
-include 'lib/linux.stas'
+include 'lib/posix.stas'
 include 'lib/io.stas'
 include 'lib/misc.stas'
 include 'lib/mem.stas'

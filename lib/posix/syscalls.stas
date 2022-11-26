@@ -1,0 +1,48 @@
+comptime ?def TARGET_LINUX if {
+	include 'lib/posix/linux_syscalls.stas'
+}
+comptime ?def TARGET_FREEBSD if {
+	include 'lib/posix/freebsd_syscalls.stas'
+}
+
+fn syscall0 1 1 {
+	asm "rax" -> "rax" {
+		"\tsyscall"
+	}
+}
+
+fn syscall1 2 1 {
+	asm "rdi" "rax" -> "rax" {
+		"\tsyscall"
+	}
+}
+
+fn syscall2 3 1 {
+	asm "rdi" "rsi" "rax" -> "rax" {
+		"\tsyscall"
+	}
+}
+
+fn syscall3 4 1 {
+	asm "rdi" "rsi" "rdx" "rax" -> "rax" {
+		"\tsyscall"
+	}
+}
+
+fn syscall4 5 1 {
+	asm "rdi" "rsi" "rdx" "r10" "rax" -> "rax" {
+		"\tsyscall"
+	}
+}
+
+fn syscall5 6 1 {
+	asm "rdi" "rsi" "rdx" "r10" "r8" "rax" -> "rax" {
+		"\tsyscall"
+	}
+}
+
+fn syscall6 7 1 {
+	asm "rdi" "rsi" "rdx" "r10" "r8" "r9" "rax" -> "rax" {
+		"\tsyscall"
+	}
+}

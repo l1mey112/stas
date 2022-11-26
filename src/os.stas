@@ -25,10 +25,10 @@ fn OS.from_str? 2 2 {
 	auto str 2 pop str
 
 	str "linux" streq if {
-		OS.linux
+		OS.linux true
 	} elif str "freebsd" streq {
-		OS.freebsd
+		OS.freebsd true
 	} else {
-		0 false ret
+		0 false
 	}
 }
