@@ -607,30 +607,14 @@ fn parse.slurp_early_ret 0 1 {
 	is_early_ret r8
 }
 
-; ( ScopeTyp.comptime is_final sp )
-fn parse.create_reset_frame 3 0 {
-	auto sp_array   1 pop sp_array
+; ( ScopeTyp.comptime is_final )
+fn parse.create_reset_frame 2 0 {
 	auto is_final   1 pop is_final
 	auto typ        1 pop typ
-	auto sp_cpy_ptr 1
 
-	const sp_arr_default { sizeof(u32) 1024 * }
-	sizeof(Array32) sp_arr_default + alloc.alloc pop sp_cpy_ptr
-
-		sp_cpy_ptr sizeof(Array32) +
-		sp_arr_default
-		sp_cpy_ptr
-	Array32.init_with_buffer_sz_bytes
-
-	sp_array sp_cpy_ptr Array32.dup
-
-	; (typ functions.len ir_stream.len var_context.len cfunctions.len *Array32<alloc> final_flag)
+	; (typ idx final_flag)
 		typ
-		functions.len
-		ir_stream.len
-		var_context.len
-		cfunctions.len
-		sp_cpy_ptr
+		pos
 		is_final
 	scope_context.comptime<<
 }
@@ -641,16 +625,6 @@ fn parse.handle_comptime_else_and_reset_frame 2 0 {
 	auto scope   1                                           pop scope
 	auto is_keep 1 scope rScope.typ ScopeTyp.comptime.keep = pop is_keep
 
-	is_keep ! if {
-		scope rScope.comptime.sp_ptr sp Array32.dup ; reset
-
-		scope rScope.comptime.functions  pop functions.len 
-		scope rScope.comptime.ir_stream  pop ir_stream.len 
-		scope rScope.comptime.var_scope  pop var_context.len 
-		scope rScope.comptime.cfunctions pop cfunctions.len 
-	}
-	scope rScope.comptime.sp_ptr alloc.rewind ; deallocate copy
-	
 	Tok.else_block parse.lookahead? scope rScope.comptime.final_flag ! & if {
 		pos ++ pop pos
 		Tok.l_cb parse.expect? ! if {
@@ -663,7 +637,7 @@ fn parse.handle_comptime_else_and_reset_frame 2 0 {
 			ScopeTyp.comptime.keep
 		}
 		true
-		sp parse.create_reset_frame
+		parse.create_reset_frame
 	}
 }
 
@@ -1559,6 +1533,34 @@ fn stas.parse {
 	sp_array Array32.init_with_buffer_sz_bytes
 
 	while pos token_stream.len < {
+		scope_context.len 0 > if {
+			scope_context.top rScope.typ
+			ScopeTyp.comptime.ignore = if {
+				auto count 1
+
+				1 pop count
+				while pos token_stream.len < {
+					pos token_stream[] rToken.tok
+					
+					dup Tok.r_cb = if {
+						count -- pop count
+					} elif dup Tok.l_cb = {
+						count ++ pop count
+					}
+					drop
+
+					count 0 = if {
+						break
+					}
+
+					pos ++ pop pos
+				}
+				pos token_stream.len >= count 0 != | if {
+					scope_context.top rScope.idx 'unclosed conditional scope' error.Tok
+				}
+			}
+		}
+		
 		pos token_stream[] rToken.tok
 		dup dup Tok.reserve = swap Tok.auto = | if {
 			parse.assert_const_fn_not
@@ -1613,7 +1615,7 @@ fn stas.parse {
 				ScopeTyp.comptime.ignore
 			}
 			false
-			sp_array parse.create_reset_frame
+			parse.create_reset_frame
 		} else {
 			is_in_function ! if {
 				pos token_stream[] rToken.tok
@@ -1697,7 +1699,14 @@ fn stas.parse {
 	function_context NULL != if {
 		token_stream.len -- "unexpected EOF when parsing function, scopes may be unclosed" error.Tok	
 	}
-	scope_context.len 0 = assert
+
+	scope_context.len 0 != if {
+		scope_context.top rScope.typ ScopeTyp.comptime.keep = if {
+			scope_context.top rScope.idx 'unclosed conditional scope' error.Tok
+		} else {
+			0 assert -> 'unreachable'
+		}
+	}
 
 	main_fn_idx -1 = if {
 		"no main function" error.generic_fatal

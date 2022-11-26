@@ -923,7 +923,7 @@ child_execve_and_shut_up:
 	test rdi, rdi
 	jz .49
 	mov rbx, 18446744073709551516
-	mov rsi, _s595
+	mov rsi, _s593
 	mov rdi, 0
 	mov r8, 0
 	mov r9, 257
@@ -942,7 +942,7 @@ child_execve_and_shut_up:
 	push rax
 	test rdi, rdi
 	jz .51
-	mov rbx, _s596
+	mov rbx, _s594
 	mov rsi, 32
 	mov rdi, 2
 	mov r8, 1
@@ -970,7 +970,7 @@ child_execve_and_shut_up:
 	setl sil
 	test rsi, rsi
 	jz .53
-	mov rbx, _s597
+	mov rbx, _s595
 	mov rsi, 42
 	mov rdi, 2
 	mov r8, 1
@@ -1006,7 +1006,7 @@ child_execve_and_shut_up:
 	setl sil
 	test rsi, rsi
 	jz .55
-	mov rbx, _s598
+	mov rbx, _s596
 	mov rsi, 29
 	mov rdi, 2
 	mov r8, 1
@@ -1069,7 +1069,7 @@ child_execve_and_shut_up:
 	setl sil
 	test rsi, rsi
 	jz .63
-	mov rbx, _s599
+	mov rbx, _s597
 	mov rsi, 33
 	mov rdi, 2
 	mov r8, 1
@@ -1144,7 +1144,7 @@ child_execve_and_shut_up:
 	push rbx
 	test r8, r8
 	jz .70
-	mov rbx, _s600
+	mov rbx, _s598
 	mov rsi, 46
 	mov rdi, 2
 	mov r8, 1
@@ -1210,15 +1210,15 @@ child_execve_and_shut_up:
 .74:
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2271
+	jnz .2297
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s601
+	mov rsi, _s599
 	mov rdx, 72
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2271:
+.2297:
 .75:
 .66:
 	add rsp, 8
@@ -1227,7 +1227,7 @@ child_execve_and_shut_up:
 .59:
 	jmp .50
 .58:
-	mov rbx, _s602
+	mov rbx, _s600
 	mov rsi, 27
 	mov rdi, 2
 	mov r8, 1
@@ -1412,15 +1412,15 @@ alloc.init:
 	cmp rax, rbx
 	sete sil
 	test rsi, rsi
-	jnz .2272
+	jnz .2298
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s589
+	mov rsi, _s587
 	mov rdx, 88
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2272:
+.2298:
 .90:
 	pop rbx
 	mov rsi, rbx
@@ -1433,15 +1433,15 @@ alloc.init:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2273.1
+	jnz .2299.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s590
+	mov rsi, _s588
 	mov rdx, 88
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2273.1:
+.2299.1:
 	pop rbx
 	mov [_galloc_buffer.data], rbx
 	pop rbx
@@ -1851,7 +1851,7 @@ Array64.init_with_buffer_sz_bytes:
 	cmp rdx, rsi
 	sete dil
 	test rdi, rdi
-	jnz .2274
+	jnz .2300
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s65
@@ -1859,7 +1859,7 @@ Array64.init_with_buffer_sz_bytes:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2274:
+.2300:
 	mov rsi, 8
 	mov rax, rbx
 	xor rdx, rdx
@@ -2088,7 +2088,7 @@ Array32.init_with_buffer_sz_bytes:
 	cmp rdx, rsi
 	sete dil
 	test rdi, rdi
-	jnz .2275
+	jnz .2301
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s161
@@ -2096,7 +2096,7 @@ Array32.init_with_buffer_sz_bytes:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2275:
+.2301:
 	mov rsi, 4
 	mov rax, rbx
 	xor rdx, rdx
@@ -2144,15 +2144,15 @@ Array32.search_kv?:
 	cmp rdx, rbx
 	sete sil
 	test rsi, rsi
-	jnz .2276
+	jnz .2302
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s202
+	mov rsi, _s203
 	mov rdx, 120
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2276:
+.2302:
 	mov rbx, 0
 	push rbx
 .138:
@@ -2184,15 +2184,15 @@ Array32.search_kv?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2277.1
+	jnz .2303.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s182
+	mov rsi, _s183
 	mov rdx, 95
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2277.1:
+.2303.1:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	pop rdi
@@ -2211,15 +2211,15 @@ Array32.search_kv?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2278.2
+	jnz .2304.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s182
+	mov rsi, _s183
 	mov rdx, 95
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2278.2:
+.2304.2:
 	mov rbx, 1
 	push rbx
 	mov rbp, rsp
@@ -2788,7 +2788,7 @@ get_lines_into_array:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2279.1
+	jnz .2305.1
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -2796,7 +2796,7 @@ get_lines_into_array:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2279.1:
+.2305.1:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -2807,7 +2807,7 @@ get_lines_into_array:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2280.2
+	jnz .2306.2
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -2815,7 +2815,7 @@ get_lines_into_array:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2280.2:
+.2306.2:
 	pop rbx
 	pop rsi
 	dec rsi
@@ -2874,7 +2874,7 @@ get_lines_into_array:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2281.3
+	jnz .2307.3
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -2882,7 +2882,7 @@ get_lines_into_array:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2281.3:
+.2307.3:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -2893,7 +2893,7 @@ get_lines_into_array:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2282.4
+	jnz .2308.4
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -2901,7 +2901,7 @@ get_lines_into_array:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2282.4:
+.2308.4:
 .195:
 .193:
 	add rsp, 8
@@ -3114,7 +3114,7 @@ find_abs_path_of_executable?:
 	add rsp, 40
 	ret
 .202:
-	mov rbx, _s591
+	mov rbx, _s589
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -3129,15 +3129,15 @@ find_abs_path_of_executable?:
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jnz .2283
+	jnz .2309
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s592
+	mov rsi, _s590
 	mov rdx, 97
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2283:
+.2309:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 24], rsi
@@ -3275,15 +3275,15 @@ StasBackend.to_str:
 	mov rsi, 0
 	mov rdi, 0
 	test rdi, rdi
-	jnz .2284
+	jnz .2310
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s585
+	mov rsi, _s583
 	mov rdx, 69
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2284:
+.2310:
 	push rbx
 	push rsi
 .216:
@@ -3318,7 +3318,7 @@ new_string_view:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2285.1
+	jnz .2311.1
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s59
@@ -3326,7 +3326,7 @@ new_string_view:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2285.1:
+.2311.1:
 	mov rsi, qword _gstring_buffer
 	mov rdi, [_gstring_buffer.len]
 	add rsi, rdi
@@ -3378,7 +3378,7 @@ new_empty_string:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2286.2
+	jnz .2312.2
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s59
@@ -3386,7 +3386,7 @@ new_empty_string:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2286.2:
+.2312.2:
 	mov rbx, qword _gstring_buffer
 	mov rsi, [_gstring_buffer.len]
 	add rbx, rsi
@@ -3418,7 +3418,7 @@ push_char:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2287.3
+	jnz .2313.3
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s59
@@ -3426,7 +3426,7 @@ push_char:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2287.3:
+.2313.3:
 	pop rbx
 	pop rsi
 	mov rdi, qword [_rs_p]
@@ -3464,7 +3464,7 @@ push_nul:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2288.4
+	jnz .2314.4
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s59
@@ -3472,7 +3472,7 @@ push_nul:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2288.4:
+.2314.4:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 8
@@ -3517,7 +3517,7 @@ push_string_view:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2289.5
+	jnz .2315.5
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s59
@@ -3525,7 +3525,7 @@ push_string_view:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2289.5:
+.2315.5:
 	mov rsi, rbx
 	mov rdi, [_gstring_buffer.len]
 	add rsi, rdi
@@ -3590,7 +3590,7 @@ string_buffer.generic_append_u64:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2290.6
+	jnz .2316.6
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s59
@@ -3598,7 +3598,7 @@ string_buffer.generic_append_u64:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2290.6:
+.2316.6:
 	mov rbx, qword _gstring_buffer
 	mov rsi, [_gstring_buffer.len]
 	add rbx, rsi
@@ -3800,7 +3800,7 @@ opened_files_c_c:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2291
+	jnz .2317
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s60
@@ -3808,7 +3808,7 @@ opened_files_c_c:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2291:
+.2317:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -4824,7 +4824,7 @@ Tok.to_str:
 	mov rsi, 0
 	mov rdi, 0
 	test rdi, rdi
-	jnz .2292
+	jnz .2318
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s157
@@ -4832,7 +4832,7 @@ Tok.to_str:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2292:
+.2318:
 	push rbx
 	push rsi
 .353:
@@ -7594,7 +7594,7 @@ token_stream_c_c:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2293
+	jnz .2319
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s74
@@ -7602,7 +7602,7 @@ token_stream_c_c:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2293:
+.2319:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -7620,7 +7620,7 @@ Token.location_print:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2294.1
+	jnz .2320.1
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s62
@@ -7628,7 +7628,7 @@ Token.location_print:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2294.1:
+.2320.1:
 	mov rdi, 24
 	imul rsi, rdi
 	mov rdi, qword _gopened_files
@@ -7871,7 +7871,7 @@ Token.eprint_file_lok:
 	cmp rdi, r9
 	setb r10b
 	test r10, r10
-	jnz .2295.2
+	jnz .2321.2
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s62
@@ -7879,7 +7879,7 @@ Token.eprint_file_lok:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2295.2:
+.2321.2:
 	mov rdi, 24
 	imul r8, rdi
 	mov rdi, qword _gopened_files
@@ -7915,7 +7915,7 @@ Token.eprint_file_lok:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2296.1
+	jnz .2322.1
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s67
@@ -7923,7 +7923,7 @@ Token.eprint_file_lok:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2296.1:
+.2322.1:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	mov rbx, qword [_rs_p]
@@ -7947,7 +7947,7 @@ Token.eprint_file_lok:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2297.2
+	jnz .2323.2
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s67
@@ -7955,7 +7955,7 @@ Token.eprint_file_lok:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2297.2:
+.2323.2:
 	pop rbx
 	dec rbx
 	mov rsi, qword [_rs_p]
@@ -7986,7 +7986,7 @@ Token.eprint_file_lok:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2298.3
+	jnz .2324.3
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s67
@@ -7994,7 +7994,7 @@ Token.eprint_file_lok:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2298.3:
+.2324.3:
 	mov rbx, 1
 	mov rsi, qword [_rs_p]
 	add rsi, 48
@@ -8007,7 +8007,7 @@ Token.eprint_file_lok:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2299.4
+	jnz .2325.4
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s67
@@ -8015,7 +8015,7 @@ Token.eprint_file_lok:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2299.4:
+.2325.4:
 	mov rbx, 2
 	mov rsi, qword [_rs_p]
 	mov rdi, qword [rsi + 24]
@@ -8161,7 +8161,7 @@ Token.eprint_file_tok:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2300.1
+	jnz .2326.1
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -8169,7 +8169,7 @@ Token.eprint_file_tok:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2300.1:
+.2326.1:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -8230,7 +8230,7 @@ token_stream.dump:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2301.2
+	jnz .2327.2
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -8238,7 +8238,7 @@ token_stream.dump:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2301.2:
+.2327.2:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _gtoken_stream
@@ -8479,7 +8479,7 @@ error.Loc.len:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2302.3
+	jnz .2328.3
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s62
@@ -8487,7 +8487,7 @@ error.Loc.len:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2302.3:
+.2328.3:
 	mov rsi, 24
 	imul rbx, rsi
 	mov rsi, qword _gopened_files
@@ -8633,7 +8633,7 @@ error_noexit.Tok:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2303.3
+	jnz .2329.3
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -8641,7 +8641,7 @@ error_noexit.Tok:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2303.3:
+.2329.3:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -8707,7 +8707,7 @@ notice.Tok:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2304.4
+	jnz .2330.4
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -8715,7 +8715,7 @@ notice.Tok:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2304.4:
+.2330.4:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -8827,7 +8827,7 @@ error.Tok.to_string_view:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2305.5
+	jnz .2331.5
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -8835,7 +8835,7 @@ error.Tok.to_string_view:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2305.5:
+.2331.5:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -8850,7 +8850,7 @@ error.Tok.to_string_view:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2306.4
+	jnz .2332.4
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s62
@@ -8858,7 +8858,7 @@ error.Tok.to_string_view:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2306.4:
+.2332.4:
 	mov rdi, 24
 	imul rsi, rdi
 	mov rdi, qword _gopened_files
@@ -9090,7 +9090,7 @@ trace.Tok.to_string_view:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 21]
-	mov rbx, _s435
+	mov rbx, _s433
 	mov rdi, 4
 	push rsi
 	push rbx
@@ -9107,7 +9107,7 @@ trace.Tok.to_string_view:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2307.6
+	jnz .2333.6
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -9115,7 +9115,7 @@ trace.Tok.to_string_view:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2307.6:
+.2333.6:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -9130,7 +9130,7 @@ trace.Tok.to_string_view:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2308.5
+	jnz .2334.5
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s62
@@ -9138,7 +9138,7 @@ trace.Tok.to_string_view:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2308.5:
+.2334.5:
 	mov rdi, 24
 	imul rsi, rdi
 	mov rdi, qword _gopened_files
@@ -11224,7 +11224,7 @@ stas.scan_file:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2309.1
+	jnz .2335.1
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s82
@@ -11232,7 +11232,7 @@ stas.scan_file:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2309.1:
+.2335.1:
 	mov rbx, qword [_rs_p]
 	add rbx, 67
 	xor rsi, rsi
@@ -11401,7 +11401,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .666
-	mov rbx, _s327
+	mov rbx, _s325
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -11416,7 +11416,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .669
-	mov rbx, _s328
+	mov rbx, _s326
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -11431,7 +11431,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .671
-	mov rbx, _s329
+	mov rbx, _s327
 	mov rsi, 15
 	push rbx
 	push rsi
@@ -11446,7 +11446,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .673
-	mov rbx, _s330
+	mov rbx, _s328
 	mov rsi, 19
 	push rbx
 	push rsi
@@ -11461,7 +11461,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .675
-	mov rbx, _s331
+	mov rbx, _s329
 	mov rsi, 20
 	push rbx
 	push rsi
@@ -11476,7 +11476,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .677
-	mov rbx, _s332
+	mov rbx, _s330
 	mov rsi, 20
 	push rbx
 	push rsi
@@ -11491,7 +11491,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .679
-	mov rbx, _s333
+	mov rbx, _s331
 	mov rsi, 20
 	push rbx
 	push rsi
@@ -11506,7 +11506,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .681
-	mov rbx, _s334
+	mov rbx, _s332
 	mov rsi, 21
 	push rbx
 	push rsi
@@ -11521,7 +11521,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .683
-	mov rbx, _s335
+	mov rbx, _s333
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -11536,7 +11536,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .685
-	mov rbx, _s336
+	mov rbx, _s334
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -11551,7 +11551,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .687
-	mov rbx, _s337
+	mov rbx, _s335
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -11566,7 +11566,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .689
-	mov rbx, _s338
+	mov rbx, _s336
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -11581,7 +11581,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .691
-	mov rbx, _s339
+	mov rbx, _s337
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -11596,7 +11596,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .693
-	mov rbx, _s340
+	mov rbx, _s338
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -11611,7 +11611,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .695
-	mov rbx, _s341
+	mov rbx, _s339
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -11626,7 +11626,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .697
-	mov rbx, _s342
+	mov rbx, _s340
 	mov rsi, 7
 	push rbx
 	push rsi
@@ -11656,7 +11656,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .701
-	mov rbx, _s343
+	mov rbx, _s341
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -11671,7 +11671,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .703
-	mov rbx, _s344
+	mov rbx, _s342
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -11686,7 +11686,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .705
-	mov rbx, _s345
+	mov rbx, _s343
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -11701,7 +11701,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .707
-	mov rbx, _s346
+	mov rbx, _s344
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -11716,7 +11716,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .709
-	mov rbx, _s347
+	mov rbx, _s345
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -11731,7 +11731,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .711
-	mov rbx, _s348
+	mov rbx, _s346
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -11746,7 +11746,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .713
-	mov rbx, _s349
+	mov rbx, _s347
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -11761,7 +11761,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .715
-	mov rbx, _s350
+	mov rbx, _s348
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -11776,7 +11776,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .717
-	mov rbx, _s351
+	mov rbx, _s349
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -11791,7 +11791,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .719
-	mov rbx, _s352
+	mov rbx, _s350
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -11806,7 +11806,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .721
-	mov rbx, _s353
+	mov rbx, _s351
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -11821,7 +11821,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .723
-	mov rbx, _s354
+	mov rbx, _s352
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -11836,7 +11836,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .725
-	mov rbx, _s355
+	mov rbx, _s353
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -11851,7 +11851,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .727
-	mov rbx, _s356
+	mov rbx, _s354
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -11866,7 +11866,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .729
-	mov rbx, _s357
+	mov rbx, _s355
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -11986,7 +11986,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .745
-	mov rbx, _s358
+	mov rbx, _s356
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -12001,7 +12001,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .747
-	mov rbx, _s359
+	mov rbx, _s357
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -12016,7 +12016,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .749
-	mov rbx, _s360
+	mov rbx, _s358
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -12031,7 +12031,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .751
-	mov rbx, _s361
+	mov rbx, _s359
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -12046,7 +12046,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .753
-	mov rbx, _s362
+	mov rbx, _s360
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -12061,7 +12061,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .755
-	mov rbx, _s363
+	mov rbx, _s361
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -12076,7 +12076,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .757
-	mov rbx, _s364
+	mov rbx, _s362
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -12091,7 +12091,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .759
-	mov rbx, _s365
+	mov rbx, _s363
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -12106,7 +12106,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .761
-	mov rbx, _s366
+	mov rbx, _s364
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -12121,7 +12121,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .763
-	mov rbx, _s367
+	mov rbx, _s365
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -12256,7 +12256,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .781
-	mov rbx, _s368
+	mov rbx, _s366
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -12271,7 +12271,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .783
-	mov rbx, _s369
+	mov rbx, _s367
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -12286,7 +12286,7 @@ Inst.to_str:
 	push rbx
 	test r8, r8
 	jz .785
-	mov rbx, _s370
+	mov rbx, _s368
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -12296,15 +12296,15 @@ Inst.to_str:
 	mov rsi, 0
 	mov rdi, 0
 	test rdi, rdi
-	jnz .2310
+	jnz .2336
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s371
+	mov rsi, _s369
 	mov rdx, 80
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2310:
+.2336:
 	push rbx
 	push rsi
 .786:
@@ -12346,22 +12346,22 @@ ir_stream_c_c:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2311
+	jnz .2337
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s186
+	mov rsi, _s187
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2311:
+.2337:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
 ir_stream.dump:
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s325
+	mov rbx, _s323
 	mov rsi, 17
 	mov rdi, 1
 	mov r8, 1
@@ -12391,15 +12391,15 @@ ir_stream.dump:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2312.1
+	jnz .2338.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2312.1:
+.2338.1:
 	mov rdi, 16
 	imul rsi, rdi
 	mov rdi, qword _gir_stream
@@ -12416,7 +12416,7 @@ ir_stream.dump:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s326
+	mov rbx, _s324
 	mov rsi, 1
 	mov rdi, 1
 	mov r8, 1
@@ -12440,7 +12440,7 @@ ir_stream.dump:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s326
+	mov rbx, _s324
 	mov rsi, 1
 	mov rdi, 1
 	mov r8, 1
@@ -12527,15 +12527,15 @@ var_context_c_c:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2313
+	jnz .2339
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s214
+	mov rsi, _s215
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2313:
+.2339:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -12573,15 +12573,15 @@ var_context.Constant_c_c:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2314
+	jnz .2340
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s231
+	mov rsi, _s232
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2314:
+.2340:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -12634,53 +12634,43 @@ scope_context_c_c:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2315
+	jnz .2341
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s228
+	mov rsi, _s229
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2315:
+.2341:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
 scope_context.comptime_c_c:
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, [_gscope_context.len]
-	mov rsi, 32
-	imul rbx, rsi
-	mov rsi, qword _gscope_context
-	add rbx, rsi
-	pop rsi
-	mov rdi, rbx
-	mov r8, 20
-	add rdi, r8
-	mov dword [rdi], esi
-	pop rsi
-	mov rdi, rbx
-	mov r8, 16
-	add rdi, r8
-	mov dword [rdi], esi
-	pop rsi
-	mov rdi, rbx
-	mov r8, 12
-	add rdi, r8
-	mov dword [rdi], esi
-	pop rsi
-	mov rdi, rbx
-	mov r8, 8
-	add rdi, r8
-	mov dword [rdi], esi
-	pop rsi
-	mov rdi, rbx
+	mov rbx, 1
+	mov rsi, [_gscope_context.len]
+	mov rdi, 32
+	imul rsi, rdi
+	mov rdi, qword _gscope_context
+	add rsi, rdi
+	mov rdi, rsi
 	mov r8, 4
 	add rdi, r8
-	mov dword [rdi], esi
-	pop rsi
-	mov dword [rbx], esi
+	mov dword [rdi], ebx
+	pop rbx
+	mov rdi, rsi
+	mov r8, 28
+	add rdi, r8
+	mov byte [rdi], bl
+	pop rbx
+	mov rdi, rsi
+	mov r8, 12
+	add rdi, r8
+	mov dword [rdi], ebx
+	pop rbx
+	mov dword [rsi], ebx
 	mov rbx, [_gscope_context.len]
 	inc rbx
 	mov [_gscope_context.len], rbx
@@ -12690,7 +12680,7 @@ scope_context.comptime_c_c:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2316
+	jnz .2342
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s245
@@ -12698,7 +12688,7 @@ scope_context.comptime_c_c:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2316:
+.2342:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -12775,15 +12765,15 @@ functions_c_c:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2317
+	jnz .2343
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s226
+	mov rsi, _s227
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2317:
+.2343:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -12799,7 +12789,7 @@ FnAttribute.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s248
+	mov rbx, _s247
 	mov r8, 8
 	mov r9, rdi
 	mov r10, r8
@@ -12841,7 +12831,7 @@ FnAttribute.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s249
+	mov rbx, _s248
 	mov r8, 6
 	mov r9, rdi
 	mov r10, r8
@@ -12883,7 +12873,7 @@ FnAttribute.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s250
+	mov rbx, _s249
 	mov r8, 8
 	mov r9, rdi
 	mov r10, r8
@@ -12925,7 +12915,7 @@ FnAttribute.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s251
+	mov rbx, _s250
 	mov r8, 6
 	mov r9, rdi
 	mov r10, r8
@@ -13045,7 +13035,7 @@ parse.lookahead?:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2318.7
+	jnz .2344.7
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -13053,7 +13043,7 @@ parse.lookahead?:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2318.7:
+.2344.7:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -13098,7 +13088,7 @@ parse.next_eof?:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2319.8
+	jnz .2345.8
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -13106,7 +13096,7 @@ parse.next_eof?:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2319.8:
+.2345.8:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -13151,7 +13141,7 @@ parse.expect?:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2320.9
+	jnz .2346.9
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -13159,7 +13149,7 @@ parse.expect?:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2320.9:
+.2346.9:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -13188,7 +13178,7 @@ parse.inspect_current_name?:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2321.10
+	jnz .2347.10
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -13196,7 +13186,7 @@ parse.inspect_current_name?:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2321.10:
+.2347.10:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -13217,7 +13207,7 @@ parse.inspect_current_name?:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2322.11
+	jnz .2348.11
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -13225,7 +13215,7 @@ parse.inspect_current_name?:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2322.11:
+.2348.11:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -13302,16 +13292,16 @@ error_st.Tok:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2323.3
+	jnz .2349.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s182
+	mov rsi, _s183
 	mov rdx, 95
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2323.3:
-	mov rbx, _s183
+.2349.3:
+	mov rbx, _s184
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -13386,15 +13376,15 @@ sp_push_p:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2324.1
+	jnz .2350.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2324.1:
+.2350.1:
 	pop rbx
 	inc rbx
 	push rbx
@@ -13424,7 +13414,7 @@ sp_has:
 	test rbx, rbx
 	jz .820
 	mov rbx, [_gpos]
-	mov rsi, _s184
+	mov rsi, _s185
 	mov rdi, 42
 	mov r8, qword [_rs_p]
 	mov r9, qword [r8 + 0]
@@ -13465,7 +13455,7 @@ sp_has_p:
 	jz .822
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
-	mov rbx, _s184
+	mov rbx, _s185
 	mov rdi, 42
 	mov r8, qword [_rs_p]
 	mov r9, qword [r8 + 8]
@@ -13638,15 +13628,15 @@ cfunctions_c_c:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2325
+	jnz .2351
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s240
+	mov rsi, _s241
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2325:
+.2351:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 16
@@ -13666,15 +13656,15 @@ eval.basic_inst:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2326.2
+	jnz .2352.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2326.2:
+.2352.2:
 	mov rdi, 16
 	imul rsi, rdi
 	mov rdi, qword _gir_stream
@@ -13693,15 +13683,15 @@ eval.basic_inst:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2327.3
+	jnz .2353.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2327.3:
+.2353.3:
 	mov rsi, 16
 	imul rbx, rsi
 	mov rsi, qword _gir_stream
@@ -13730,7 +13720,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2328.5
+	jnz .2354.5
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -13738,7 +13728,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2328.5:
+.2354.5:
 	jmp .829
 .828:
 	pop rbx
@@ -13770,15 +13760,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2329.1
+	jnz .2355.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s205
+	mov rsi, _s206
 	mov rdx, 93
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2329.1:
+.2355.1:
 	pop rbx
 	mov rsi, rbx
 	mov rsi, [rsi]
@@ -13815,15 +13805,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2330.2
+	jnz .2356.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s205
+	mov rsi, _s206
 	mov rdx, 93
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2330.2:
+.2356.2:
 	pop rbx
 	mov rsi, rbx
 	mov rsi, [rsi]
@@ -13860,15 +13850,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2331.3
+	jnz .2357.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s205
+	mov rsi, _s206
 	mov rdx, 93
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2331.3:
+.2357.3:
 	pop rbx
 	mov rsi, rbx
 	mov rsi, [rsi]
@@ -13905,15 +13895,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2332.1
+	jnz .2358.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s206
+	mov rsi, _s207
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2332.1:
+.2358.1:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -13924,7 +13914,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2333.6
+	jnz .2359.6
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -13932,7 +13922,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2333.6:
+.2359.6:
 	jmp .829
 .837:
 	pop rbx
@@ -13993,15 +13983,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2334.1
+	jnz .2360.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2334.1:
+.2360.1:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14012,15 +14002,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2335.2
+	jnz .2361.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2335.2:
+.2361.2:
 	pop rbx
 	pop rsi
 	add rbx, rsi
@@ -14035,7 +14025,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2336.7
+	jnz .2362.7
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14043,7 +14033,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2336.7:
+.2362.7:
 	jmp .829
 .841:
 	pop rbx
@@ -14075,15 +14065,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2337.3
+	jnz .2363.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2337.3:
+.2363.3:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14094,15 +14084,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2338.4
+	jnz .2364.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2338.4:
+.2364.4:
 	pop rbx
 	pop rsi
 	sub rbx, rsi
@@ -14117,7 +14107,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2339.8
+	jnz .2365.8
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14125,7 +14115,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2339.8:
+.2365.8:
 	jmp .829
 .843:
 	pop rbx
@@ -14157,15 +14147,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2340.5
+	jnz .2366.5
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2340.5:
+.2366.5:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14176,15 +14166,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2341.6
+	jnz .2367.6
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2341.6:
+.2367.6:
 	pop rbx
 	pop rsi
 	imul rbx, rsi
@@ -14199,7 +14189,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2342.9
+	jnz .2368.9
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14207,7 +14197,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2342.9:
+.2368.9:
 	jmp .829
 .845:
 	pop rbx
@@ -14239,15 +14229,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2343.7
+	jnz .2369.7
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2343.7:
+.2369.7:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14258,15 +14248,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2344.8
+	jnz .2370.8
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2344.8:
+.2370.8:
 	pop rbx
 	pop rsi
 	mov rax, rbx
@@ -14283,7 +14273,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2345.10
+	jnz .2371.10
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14291,7 +14281,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2345.10:
+.2371.10:
 	jmp .829
 .847:
 	pop rbx
@@ -14323,15 +14313,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2346.9
+	jnz .2372.9
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2346.9:
+.2372.9:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14342,15 +14332,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2347.10
+	jnz .2373.10
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2347.10:
+.2373.10:
 	pop rbx
 	pop rsi
 	mov rax, rbx
@@ -14367,7 +14357,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2348.11
+	jnz .2374.11
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14375,7 +14365,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2348.11:
+.2374.11:
 	jmp .829
 .849:
 	pop rbx
@@ -14407,15 +14397,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2349.11
+	jnz .2375.11
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2349.11:
+.2375.11:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14426,15 +14416,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2350.12
+	jnz .2376.12
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2350.12:
+.2376.12:
 	pop rbx
 	pop rsi
 	mov rax, rbx
@@ -14452,7 +14442,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2351.12
+	jnz .2377.12
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14460,7 +14450,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2351.12:
+.2377.12:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14471,7 +14461,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2352.13
+	jnz .2378.13
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14479,7 +14469,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2352.13:
+.2378.13:
 	jmp .829
 .851:
 	pop rbx
@@ -14511,15 +14501,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2353.13
+	jnz .2379.13
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2353.13:
+.2379.13:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14530,15 +14520,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2354.14
+	jnz .2380.14
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2354.14:
+.2380.14:
 	pop rbx
 	pop rsi
 	mov rcx, rsi
@@ -14554,7 +14544,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2355.14
+	jnz .2381.14
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14562,7 +14552,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2355.14:
+.2381.14:
 	jmp .829
 .853:
 	pop rbx
@@ -14594,15 +14584,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2356.15
+	jnz .2382.15
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2356.15:
+.2382.15:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14613,15 +14603,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2357.16
+	jnz .2383.16
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2357.16:
+.2383.16:
 	pop rbx
 	pop rsi
 	mov rcx, rsi
@@ -14637,7 +14627,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2358.15
+	jnz .2384.15
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14645,7 +14635,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2358.15:
+.2384.15:
 	jmp .829
 .855:
 	pop rbx
@@ -14677,15 +14667,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2359.17
+	jnz .2385.17
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2359.17:
+.2385.17:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14696,15 +14686,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2360.18
+	jnz .2386.18
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2360.18:
+.2386.18:
 	pop rbx
 	pop rsi
 	and rbx, rsi
@@ -14719,7 +14709,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2361.16
+	jnz .2387.16
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14727,7 +14717,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2361.16:
+.2387.16:
 	jmp .829
 .857:
 	pop rbx
@@ -14759,15 +14749,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2362.19
+	jnz .2388.19
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2362.19:
+.2388.19:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14778,15 +14768,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2363.20
+	jnz .2389.20
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2363.20:
+.2389.20:
 	pop rbx
 	pop rsi
 	or rbx, rsi
@@ -14801,7 +14791,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2364.17
+	jnz .2390.17
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14809,7 +14799,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2364.17:
+.2390.17:
 	jmp .829
 .859:
 	pop rbx
@@ -14841,15 +14831,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2365.21
+	jnz .2391.21
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2365.21:
+.2391.21:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14860,15 +14850,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2366.22
+	jnz .2392.22
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2366.22:
+.2392.22:
 	pop rbx
 	pop rsi
 	xor rbx, rsi
@@ -14883,7 +14873,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2367.18
+	jnz .2393.18
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14891,7 +14881,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2367.18:
+.2393.18:
 	jmp .829
 .861:
 	pop rbx
@@ -14923,15 +14913,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2368.23
+	jnz .2394.23
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2368.23:
+.2394.23:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14942,15 +14932,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2369.24
+	jnz .2395.24
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2369.24:
+.2395.24:
 	pop rbx
 	pop rsi
 	mov rdi, qword [_rs_p]
@@ -14965,7 +14955,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2370.19
+	jnz .2396.19
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14973,7 +14963,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2370.19:
+.2396.19:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -14984,7 +14974,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2371.20
+	jnz .2397.20
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -14992,7 +14982,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2371.20:
+.2397.20:
 	jmp .829
 .863:
 	pop rbx
@@ -15032,7 +15022,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2372.5
+	jnz .2398.5
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s67
@@ -15040,7 +15030,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2372.5:
+.2398.5:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15051,7 +15041,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2373.21
+	jnz .2399.21
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -15059,7 +15049,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2373.21:
+.2399.21:
 	jmp .829
 .865:
 	pop rbx
@@ -15091,15 +15081,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2374.25
+	jnz .2400.25
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2374.25:
+.2400.25:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15110,15 +15100,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2375.26
+	jnz .2401.26
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2375.26:
+.2401.26:
 	pop rbx
 	pop rsi
 	xor rdi, rdi
@@ -15135,7 +15125,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2376.22
+	jnz .2402.22
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -15143,7 +15133,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2376.22:
+.2402.22:
 	jmp .829
 .867:
 	pop rbx
@@ -15175,15 +15165,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2377.27
+	jnz .2403.27
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2377.27:
+.2403.27:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15194,15 +15184,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2378.28
+	jnz .2404.28
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2378.28:
+.2404.28:
 	pop rbx
 	pop rsi
 	xor rdi, rdi
@@ -15219,7 +15209,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2379.23
+	jnz .2405.23
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -15227,7 +15217,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2379.23:
+.2405.23:
 	jmp .829
 .869:
 	pop rbx
@@ -15259,15 +15249,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2380.29
+	jnz .2406.29
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2380.29:
+.2406.29:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15278,15 +15268,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2381.30
+	jnz .2407.30
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2381.30:
+.2407.30:
 	pop rbx
 	pop rsi
 	xor rdi, rdi
@@ -15303,7 +15293,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2382.24
+	jnz .2408.24
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -15311,7 +15301,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2382.24:
+.2408.24:
 	jmp .829
 .871:
 	pop rbx
@@ -15343,15 +15333,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2383.31
+	jnz .2409.31
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2383.31:
+.2409.31:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15362,15 +15352,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2384.32
+	jnz .2410.32
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2384.32:
+.2410.32:
 	pop rbx
 	pop rsi
 	xor rdi, rdi
@@ -15387,7 +15377,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2385.25
+	jnz .2411.25
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -15395,7 +15385,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2385.25:
+.2411.25:
 	jmp .829
 .873:
 	pop rbx
@@ -15427,15 +15417,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2386.33
+	jnz .2412.33
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2386.33:
+.2412.33:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15446,15 +15436,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2387.34
+	jnz .2413.34
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2387.34:
+.2413.34:
 	pop rbx
 	pop rsi
 	xor rdi, rdi
@@ -15471,7 +15461,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2388.26
+	jnz .2414.26
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -15479,7 +15469,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2388.26:
+.2414.26:
 	jmp .829
 .875:
 	pop rbx
@@ -15511,15 +15501,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2389.35
+	jnz .2415.35
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2389.35:
+.2415.35:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15530,15 +15520,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2390.36
+	jnz .2416.36
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2390.36:
+.2416.36:
 	pop rbx
 	pop rsi
 	xor rdi, rdi
@@ -15555,7 +15545,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2391.27
+	jnz .2417.27
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -15563,7 +15553,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2391.27:
+.2417.27:
 	jmp .829
 .877:
 	pop rbx
@@ -15595,15 +15585,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2392.37
+	jnz .2418.37
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2392.37:
+.2418.37:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15614,15 +15604,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2393.38
+	jnz .2419.38
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2393.38:
+.2419.38:
 	pop rbx
 	pop rsi
 	xor rdi, rdi
@@ -15639,7 +15629,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2394.28
+	jnz .2420.28
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -15647,7 +15637,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2394.28:
+.2420.28:
 	jmp .829
 .879:
 	pop rbx
@@ -15679,15 +15669,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2395.39
+	jnz .2421.39
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2395.39:
+.2421.39:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15698,15 +15688,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2396.40
+	jnz .2422.40
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2396.40:
+.2422.40:
 	pop rbx
 	pop rsi
 	xor rdi, rdi
@@ -15723,7 +15713,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2397.29
+	jnz .2423.29
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -15731,7 +15721,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2397.29:
+.2423.29:
 	jmp .829
 .881:
 	pop rbx
@@ -15763,15 +15753,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2398.41
+	jnz .2424.41
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2398.41:
+.2424.41:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15782,15 +15772,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2399.42
+	jnz .2425.42
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2399.42:
+.2425.42:
 	pop rbx
 	pop rsi
 	xor rdi, rdi
@@ -15807,7 +15797,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2400.30
+	jnz .2426.30
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -15815,7 +15805,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2400.30:
+.2426.30:
 	jmp .829
 .883:
 	pop rbx
@@ -15847,15 +15837,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2401.43
+	jnz .2427.43
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2401.43:
+.2427.43:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15866,15 +15856,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2402.44
+	jnz .2428.44
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2402.44:
+.2428.44:
 	pop rbx
 	pop rsi
 	xor rdi, rdi
@@ -15891,7 +15881,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2403.31
+	jnz .2429.31
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -15899,7 +15889,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2403.31:
+.2429.31:
 	jmp .829
 .885:
 	pop rbx
@@ -15931,15 +15921,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2404.45
+	jnz .2430.45
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2404.45:
+.2430.45:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15950,15 +15940,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2405.46
+	jnz .2431.46
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2405.46:
+.2431.46:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -15969,15 +15959,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2406.47
+	jnz .2432.47
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2406.47:
+.2432.47:
 	pop rbx
 	pop rsi
 	pop rdi
@@ -15994,7 +15984,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2407.32
+	jnz .2433.32
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -16002,7 +15992,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2407.32:
+.2433.32:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -16013,7 +16003,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2408.33
+	jnz .2434.33
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -16021,7 +16011,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2408.33:
+.2434.33:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -16032,7 +16022,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2409.34
+	jnz .2435.34
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -16040,7 +16030,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2409.34:
+.2435.34:
 	jmp .829
 .887:
 	pop rbx
@@ -16080,7 +16070,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2410.6
+	jnz .2436.6
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s67
@@ -16088,7 +16078,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2410.6:
+.2436.6:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -16099,7 +16089,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2411.35
+	jnz .2437.35
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -16107,7 +16097,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2411.35:
+.2437.35:
 	jmp .829
 .889:
 	pop rbx
@@ -16139,15 +16129,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2412.48
+	jnz .2438.48
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2412.48:
+.2438.48:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -16158,15 +16148,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2413.49
+	jnz .2439.49
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2413.49:
+.2439.49:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -16177,15 +16167,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2414.50
+	jnz .2440.50
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2414.50:
+.2440.50:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -16196,15 +16186,15 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2415.51
+	jnz .2441.51
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2415.51:
+.2441.51:
 	pop rbx
 	pop rsi
 	pop rdi
@@ -16223,7 +16213,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2416.36
+	jnz .2442.36
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -16231,7 +16221,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2416.36:
+.2442.36:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -16242,7 +16232,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2417.37
+	jnz .2443.37
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -16250,7 +16240,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2417.37:
+.2443.37:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -16261,7 +16251,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2418.38
+	jnz .2444.38
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -16269,7 +16259,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2418.38:
+.2444.38:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -16280,7 +16270,7 @@ eval.basic_inst:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2419.39
+	jnz .2445.39
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s66
@@ -16288,7 +16278,7 @@ eval.basic_inst:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2419.39:
+.2445.39:
 	jmp .829
 .891:
 	mov rbx, 0
@@ -16326,7 +16316,7 @@ eval.all_in_range:
 	seta dil
 	test rdi, rdi
 	jz .893
-	mov rbx, _s200
+	mov rbx, _s201
 	mov rsi, 57
 	push rbx
 	push rsi
@@ -16409,15 +16399,15 @@ eval.all_in_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2420.4
+	jnz .2446.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2420.4:
+.2446.4:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -16435,15 +16425,15 @@ eval.all_in_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2421.5
+	jnz .2447.5
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2421.5:
+.2447.5:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -16474,15 +16464,15 @@ eval.all_in_range:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2422.2
+	jnz .2448.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2422.2:
+.2448.2:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 1072]
 	mov rbx, qword [_rs_p]
@@ -16496,15 +16486,15 @@ eval.all_in_range:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2423.3
+	jnz .2449.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2423.3:
+.2449.3:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 1096]
 	mov rbx, qword [_rs_p]
@@ -16544,15 +16534,15 @@ eval.all_in_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2424.1
+	jnz .2450.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2424.1:
+.2450.1:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _gfunctions
@@ -16604,15 +16594,15 @@ eval.all_in_range:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2425.52
+	jnz .2451.52
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2425.52:
+.2451.52:
 	mov rbx, 0
 	pop rdi
 	xor rsi, rsi
@@ -16647,15 +16637,15 @@ eval.all_in_range:
 	cmp rbx, rdi
 	sete sil
 	test rsi, rsi
-	jnz .2426
+	jnz .2452
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s203
+	mov rsi, _s204
 	mov rdx, 60
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2426:
+.2452:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 1096]
 	mov rbx, qword [_rs_p]
@@ -16699,15 +16689,15 @@ eval.all_in_range:
 	cmp rbx, rdi
 	sete sil
 	test rsi, rsi
-	jnz .2427
+	jnz .2453
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s204
+	mov rsi, _s205
 	mov rdx, 60
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2427:
+.2453:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 1096]
 	mov rbx, qword [_rs_p]
@@ -16728,15 +16718,15 @@ eval.all_in_range:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2428
+	jnz .2454
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s207
+	mov rsi, _s208
 	mov rdx, 75
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2428:
+.2454:
 .919:
 .905:
 .902:
@@ -16755,15 +16745,15 @@ eval.all_in_range:
 	cmp rbx, rdi
 	sete sil
 	test rsi, rsi
-	jnz .2429
+	jnz .2455
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s208
+	mov rsi, _s209
 	mov rdx, 60
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2429:
+.2455:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 1112
@@ -16778,15 +16768,15 @@ fwrite_buffer.assert_len:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2430
+	jnz .2456
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s385
+	mov rsi, _s383
 	mov rdx, 60
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2430:
+.2456:
 	mov rsi, [_gfwrite_buffer.len]
 	add rbx, rsi
 	mov rsi, 10240
@@ -16810,15 +16800,15 @@ fwrite_buffer.assert_len:
 	cmp rax, rbx
 	sete sil
 	test rsi, rsi
-	jnz .2431.1
+	jnz .2457.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s386
+	mov rsi, _s384
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2431.1:
+.2457.1:
 	mov rbx, 0
 	mov [_gfwrite_buffer.len], rbx
 .920:
@@ -16914,7 +16904,7 @@ write_remap_ch:
 	push rbx
 	test r8, r8
 	jz .922
-	mov rbx, _s425
+	mov rbx, _s423
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16934,7 +16924,7 @@ write_remap_ch:
 	push rbx
 	test r8, r8
 	jz .925
-	mov rbx, _s426
+	mov rbx, _s424
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16954,7 +16944,7 @@ write_remap_ch:
 	push rbx
 	test r8, r8
 	jz .927
-	mov rbx, _s427
+	mov rbx, _s425
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16974,7 +16964,7 @@ write_remap_ch:
 	push rbx
 	test r8, r8
 	jz .929
-	mov rbx, _s428
+	mov rbx, _s426
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -16994,7 +16984,7 @@ write_remap_ch:
 	push rbx
 	test r8, r8
 	jz .931
-	mov rbx, _s429
+	mov rbx, _s427
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17014,7 +17004,7 @@ write_remap_ch:
 	push rbx
 	test r8, r8
 	jz .933
-	mov rbx, _s430
+	mov rbx, _s428
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17034,7 +17024,7 @@ write_remap_ch:
 	push rbx
 	test r8, r8
 	jz .935
-	mov rbx, _s431
+	mov rbx, _s429
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17125,7 +17115,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .939
-	mov rbx, _s295
+	mov rbx, _s293
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17140,7 +17130,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .942
-	mov rbx, _s296
+	mov rbx, _s294
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17155,7 +17145,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .944
-	mov rbx, _s297
+	mov rbx, _s295
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17170,7 +17160,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .946
-	mov rbx, _s298
+	mov rbx, _s296
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17200,7 +17190,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .950
-	mov rbx, _s299
+	mov rbx, _s297
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17215,7 +17205,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .952
-	mov rbx, _s300
+	mov rbx, _s298
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17230,7 +17220,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .954
-	mov rbx, _s301
+	mov rbx, _s299
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17245,7 +17235,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .956
-	mov rbx, _s302
+	mov rbx, _s300
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17260,7 +17250,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .958
-	mov rbx, _s303
+	mov rbx, _s301
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17275,7 +17265,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .960
-	mov rbx, _s304
+	mov rbx, _s302
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17290,7 +17280,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .962
-	mov rbx, _s305
+	mov rbx, _s303
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17305,7 +17295,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .964
-	mov rbx, _s306
+	mov rbx, _s304
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17320,7 +17310,7 @@ Reg.64.to_str:
 	push rbx
 	test r8, r8
 	jz .966
-	mov rbx, _s307
+	mov rbx, _s305
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17330,15 +17320,15 @@ Reg.64.to_str:
 	mov rsi, 0
 	mov rdi, 0
 	test rdi, rdi
-	jnz .2432
+	jnz .2458
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s415
+	mov rsi, _s413
 	mov rdx, 72
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2432:
+.2458:
 	push rbx
 	push rsi
 .967:
@@ -17363,7 +17353,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .968
-	mov rbx, _s533
+	mov rbx, _s531
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17378,7 +17368,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .971
-	mov rbx, _s534
+	mov rbx, _s532
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17393,7 +17383,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .973
-	mov rbx, _s535
+	mov rbx, _s533
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17408,7 +17398,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .975
-	mov rbx, _s536
+	mov rbx, _s534
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17423,7 +17413,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .977
-	mov rbx, _s537
+	mov rbx, _s535
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17438,7 +17428,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .979
-	mov rbx, _s538
+	mov rbx, _s536
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17453,7 +17443,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .981
-	mov rbx, _s539
+	mov rbx, _s537
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17468,7 +17458,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .983
-	mov rbx, _s540
+	mov rbx, _s538
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17483,7 +17473,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .985
-	mov rbx, _s541
+	mov rbx, _s539
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17498,7 +17488,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .987
-	mov rbx, _s542
+	mov rbx, _s540
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17513,7 +17503,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .989
-	mov rbx, _s543
+	mov rbx, _s541
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17528,7 +17518,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .991
-	mov rbx, _s544
+	mov rbx, _s542
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17543,7 +17533,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .993
-	mov rbx, _s545
+	mov rbx, _s543
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17558,7 +17548,7 @@ Reg.32.to_str:
 	push rbx
 	test r8, r8
 	jz .995
-	mov rbx, _s546
+	mov rbx, _s544
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17568,15 +17558,15 @@ Reg.32.to_str:
 	mov rsi, 0
 	mov rdi, 0
 	test rdi, rdi
-	jnz .2433
+	jnz .2459
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s547
+	mov rsi, _s545
 	mov rdx, 72
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2433:
+.2459:
 	push rbx
 	push rsi
 .996:
@@ -17601,7 +17591,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .997
-	mov rbx, _s517
+	mov rbx, _s515
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17616,7 +17606,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1000
-	mov rbx, _s518
+	mov rbx, _s516
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17631,7 +17621,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1002
-	mov rbx, _s519
+	mov rbx, _s517
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17646,7 +17636,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1004
-	mov rbx, _s520
+	mov rbx, _s518
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17661,7 +17651,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1006
-	mov rbx, _s521
+	mov rbx, _s519
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17676,7 +17666,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1008
-	mov rbx, _s522
+	mov rbx, _s520
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17691,7 +17681,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1010
-	mov rbx, _s523
+	mov rbx, _s521
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17706,7 +17696,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1012
-	mov rbx, _s524
+	mov rbx, _s522
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17721,7 +17711,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1014
-	mov rbx, _s525
+	mov rbx, _s523
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17736,7 +17726,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1016
-	mov rbx, _s526
+	mov rbx, _s524
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17751,7 +17741,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1018
-	mov rbx, _s527
+	mov rbx, _s525
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17766,7 +17756,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1020
-	mov rbx, _s528
+	mov rbx, _s526
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17781,7 +17771,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1022
-	mov rbx, _s529
+	mov rbx, _s527
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17796,7 +17786,7 @@ Reg.16.to_str:
 	push rbx
 	test r8, r8
 	jz .1024
-	mov rbx, _s530
+	mov rbx, _s528
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17806,15 +17796,15 @@ Reg.16.to_str:
 	mov rsi, 0
 	mov rdi, 0
 	test rdi, rdi
-	jnz .2434
+	jnz .2460
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s531
+	mov rsi, _s529
 	mov rdx, 73
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2434:
+.2460:
 	push rbx
 	push rsi
 .1025:
@@ -17839,7 +17829,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1026
-	mov rbx, _s483
+	mov rbx, _s481
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17854,7 +17844,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1029
-	mov rbx, _s484
+	mov rbx, _s482
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -17869,7 +17859,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1031
-	mov rbx, _s485
+	mov rbx, _s483
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17884,7 +17874,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1033
-	mov rbx, _s486
+	mov rbx, _s484
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17899,7 +17889,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1035
-	mov rbx, _s487
+	mov rbx, _s485
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17914,7 +17904,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1037
-	mov rbx, _s488
+	mov rbx, _s486
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -17929,7 +17919,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1039
-	mov rbx, _s489
+	mov rbx, _s487
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17944,7 +17934,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1041
-	mov rbx, _s490
+	mov rbx, _s488
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17959,7 +17949,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1043
-	mov rbx, _s491
+	mov rbx, _s489
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17974,7 +17964,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1045
-	mov rbx, _s492
+	mov rbx, _s490
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -17989,7 +17979,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1047
-	mov rbx, _s493
+	mov rbx, _s491
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -18004,7 +17994,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1049
-	mov rbx, _s494
+	mov rbx, _s492
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -18019,7 +18009,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1051
-	mov rbx, _s495
+	mov rbx, _s493
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -18034,7 +18024,7 @@ Reg.8.to_str:
 	push rbx
 	test r8, r8
 	jz .1053
-	mov rbx, _s496
+	mov rbx, _s494
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -18044,15 +18034,15 @@ Reg.8.to_str:
 	mov rsi, 0
 	mov rdi, 0
 	test rdi, rdi
-	jnz .2435
+	jnz .2461
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s497
+	mov rsi, _s495
 	mov rdx, 73
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2435:
+.2461:
 	push rbx
 	push rsi
 .1054:
@@ -18077,7 +18067,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s295
+	mov rbx, _s293
 	mov r8, 3
 	mov r9, rdi
 	mov r10, r8
@@ -18119,7 +18109,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s296
+	mov rbx, _s294
 	mov r8, 3
 	mov r9, rdi
 	mov r10, r8
@@ -18161,7 +18151,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s297
+	mov rbx, _s295
 	mov r8, 3
 	mov r9, rdi
 	mov r10, r8
@@ -18203,7 +18193,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s298
+	mov rbx, _s296
 	mov r8, 3
 	mov r9, rdi
 	mov r10, r8
@@ -18287,7 +18277,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s299
+	mov rbx, _s297
 	mov r8, 2
 	mov r9, rdi
 	mov r10, r8
@@ -18329,7 +18319,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s300
+	mov rbx, _s298
 	mov r8, 3
 	mov r9, rdi
 	mov r10, r8
@@ -18371,7 +18361,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s301
+	mov rbx, _s299
 	mov r8, 3
 	mov r9, rdi
 	mov r10, r8
@@ -18413,7 +18403,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s302
+	mov rbx, _s300
 	mov r8, 3
 	mov r9, rdi
 	mov r10, r8
@@ -18455,7 +18445,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s303
+	mov rbx, _s301
 	mov r8, 3
 	mov r9, rdi
 	mov r10, r8
@@ -18497,7 +18487,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s304
+	mov rbx, _s302
 	mov r8, 3
 	mov r9, rdi
 	mov r10, r8
@@ -18539,7 +18529,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s305
+	mov rbx, _s303
 	mov r8, 3
 	mov r9, rdi
 	mov r10, r8
@@ -18581,7 +18571,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s306
+	mov rbx, _s304
 	mov r8, 3
 	mov r9, rdi
 	mov r10, r8
@@ -18623,7 +18613,7 @@ Reg.64.from_str?:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rdi, qword [rbx + 8]
-	mov rbx, _s307
+	mov rbx, _s305
 	mov r8, 3
 	mov r9, rdi
 	mov r10, r8
@@ -18688,30 +18678,30 @@ rallocator_stack_c_c:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2436
+	jnz .2462
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s416
+	mov rsi, _s414
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2436:
+.2462:
 	mov rsi, [_grallocator_stack.len]
 	mov rdi, 2048
 	xor r8, r8
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2437
+	jnz .2463
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s417
+	mov rsi, _s415
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2437:
+.2463:
 	mov rsi, qword _grallocator_stack
 	mov rdi, [_grallocator_stack.len]
 	add rsi, rdi
@@ -18731,15 +18721,15 @@ rallocator_stack.top:
 	cmp rbx, rsi
 	seta dil
 	test rdi, rdi
-	jnz .2438
+	jnz .2464
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s444
+	mov rsi, _s442
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2438:
+.2464:
 	mov rbx, [_grallocator_stack.len]
 	mov rsi, 1
 	sub rbx, rsi
@@ -18870,20 +18860,20 @@ r_stack_deep_flush:
 	cmp r8, r9
 	setb r10b
 	test r10, r10
-	jnz .2439.1
+	jnz .2465.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2439.1:
+.2465.1:
 	mov r8, qword _grallocator_mask
 	add rsi, r8
 	mov r8, 0
 	mov byte [rsi], r8b
-	mov rsi, _s414
+	mov rsi, _s412
 	mov r8, 6
 	push rbx
 	push rdi
@@ -18943,7 +18933,7 @@ r_flush:
 	add rsi, rdi
 	xor rdi, rdi
 	mov dil, [rsi]
-	mov rsi, _s414
+	mov rsi, _s412
 	mov r8, 6
 	push rbx
 	push rdi
@@ -19018,15 +19008,15 @@ r_alloc:
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jnz .2440
+	jnz .2466
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s412
+	mov rsi, _s410
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2440:
+.2466:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_stack_deep_flush
@@ -19052,15 +19042,15 @@ r_release:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2441.1
+	jnz .2467.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s473
+	mov rsi, _s471
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2441.1:
+.2467.1:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	xor rbx, rbx
@@ -19083,15 +19073,15 @@ r_release:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2442.1
+	jnz .2468.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2442.1:
+.2468.1:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 1
@@ -19104,20 +19094,20 @@ r_release:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2443.2
+	jnz .2469.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2443.2:
+.2469.2:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19139,7 +19129,7 @@ r_release:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -19225,7 +19215,7 @@ r_pop:
 	call r_alloc
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s445
+	mov rbx, _s443
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19264,15 +19254,15 @@ r_pop:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2444.2
+	jnz .2470.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2444.2:
+.2470.2:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -19296,15 +19286,15 @@ r_pop_r:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2445.2
+	jnz .2471.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s473
+	mov rsi, _s471
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2445.2:
+.2471.2:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	xor rbx, rbx
@@ -19360,20 +19350,20 @@ r_pop_r:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2446.3
+	jnz .2472.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2446.3:
+.2472.3:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19395,7 +19385,7 @@ r_pop_r:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -19434,15 +19424,15 @@ r_pop_r:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2447.3
+	jnz .2473.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s473
+	mov rsi, _s471
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2447.3:
+.2473.3:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	xor rbx, rbx
@@ -19450,16 +19440,16 @@ r_pop_r:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jnz .2448
+	jnz .2474
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s474
+	mov rsi, _s472
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2448:
-	mov rbx, _s445
+.2474:
+	mov rbx, _s443
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19497,15 +19487,15 @@ r_pop_r:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2449.3
+	jnz .2475.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2449.3:
+.2475.3:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 1
@@ -19554,20 +19544,20 @@ r_top:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2450.4
+	jnz .2476.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2450.4:
+.2476.4:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	mov rbx, _s445
+	mov rbx, _s443
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19627,20 +19617,20 @@ r_dup:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2451.5
+	jnz .2477.5
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2451.5:
+.2477.5:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19659,7 +19649,7 @@ r_dup:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -19714,20 +19704,20 @@ r_push_const:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2452.6
+	jnz .2478.6
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2452.6:
+.2478.6:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19746,7 +19736,7 @@ r_push_const:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -19796,20 +19786,20 @@ r_prepare_push_const_word:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2453.7
+	jnz .2479.7
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2453.7:
+.2479.7:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -19828,7 +19818,7 @@ r_prepare_push_const_word:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -19867,15 +19857,15 @@ _einline_asms_c_c:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2454
+	jnz .2480
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s316
+	mov rsi, _s314
 	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2454:
+.2480:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -19969,7 +19959,7 @@ parse.inline_asm:
 	test rbx, rbx
 	jz .1127
 	mov rbx, [_gpos]
-	mov rsi, _s294
+	mov rsi, _s292
 	mov rdi, 37
 	push rbx
 	push rsi
@@ -20001,7 +19991,7 @@ parse.inline_asm:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2455.12
+	jnz .2481.12
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -20009,7 +19999,7 @@ parse.inline_asm:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2455.12:
+.2481.12:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -20034,7 +20024,7 @@ parse.inline_asm:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2456.13
+	jnz .2482.13
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -20042,7 +20032,7 @@ parse.inline_asm:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2456.13:
+.2482.13:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -20063,7 +20053,7 @@ parse.inline_asm:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2457.14
+	jnz .2483.14
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -20071,7 +20061,7 @@ parse.inline_asm:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2457.14:
+.2483.14:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -20096,7 +20086,7 @@ parse.inline_asm:
 	test rbx, rbx
 	jz .1137
 	mov rbx, [_gpos]
-	mov rsi, _s308
+	mov rsi, _s306
 	mov rdi, 29
 	push rbx
 	push rsi
@@ -20134,7 +20124,7 @@ parse.inline_asm:
 	test rbx, rbx
 	jz .1139
 	mov rbx, [_gpos]
-	mov rsi, _s309
+	mov rsi, _s307
 	mov rdi, 47
 	push rbx
 	push rsi
@@ -20171,7 +20161,7 @@ parse.inline_asm:
 	jmp .1141
 .1135:
 	mov rbx, [_gpos]
-	mov rsi, _s310
+	mov rsi, _s308
 	mov rdi, 49
 	push rbx
 	push rsi
@@ -20214,7 +20204,7 @@ parse.inline_asm:
 .1142:
 	add rsp, 8
 	mov rbx, [_gpos]
-	mov rsi, _s311
+	mov rsi, _s309
 	mov rdi, 41
 	push rbx
 	push rsi
@@ -20240,7 +20230,7 @@ parse.inline_asm:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2458.15
+	jnz .2484.15
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -20248,7 +20238,7 @@ parse.inline_asm:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2458.15:
+.2484.15:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -20293,7 +20283,7 @@ parse.inline_asm:
 .1151:
 	add rsp, 8
 	mov rbx, [_gpos]
-	mov rsi, _s311
+	mov rsi, _s309
 	mov rdi, 41
 	push rbx
 	push rsi
@@ -20316,7 +20306,7 @@ parse.inline_asm:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2459.16
+	jnz .2485.16
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -20324,7 +20314,7 @@ parse.inline_asm:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2459.16:
+.2485.16:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -20345,7 +20335,7 @@ parse.inline_asm:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2460.17
+	jnz .2486.17
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -20353,7 +20343,7 @@ parse.inline_asm:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2460.17:
+.2486.17:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -20378,7 +20368,7 @@ parse.inline_asm:
 	test rbx, rbx
 	jz .1158
 	mov rbx, [_gpos]
-	mov rsi, _s308
+	mov rsi, _s306
 	mov rdi, 29
 	push rbx
 	push rsi
@@ -20418,7 +20408,7 @@ parse.inline_asm:
 	test rbx, rbx
 	jz .1160
 	mov rbx, [_gpos]
-	mov rsi, _s312
+	mov rsi, _s310
 	mov rdi, 45
 	push rbx
 	push rsi
@@ -20457,7 +20447,7 @@ parse.inline_asm:
 	jmp .1162
 .1156:
 	mov rbx, [_gpos]
-	mov rsi, _s310
+	mov rsi, _s308
 	mov rdi, 49
 	push rbx
 	push rsi
@@ -20483,7 +20473,7 @@ parse.inline_asm:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2461.18
+	jnz .2487.18
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -20491,7 +20481,7 @@ parse.inline_asm:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2461.18:
+.2487.18:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -20506,7 +20496,7 @@ parse.inline_asm:
 	test rdi, rdi
 	jz .1163
 	mov rbx, [_gpos]
-	mov rsi, _s313
+	mov rsi, _s311
 	mov rdi, 48
 	push rbx
 	push rsi
@@ -20556,7 +20546,7 @@ parse.inline_asm:
 .1167:
 	add rsp, 8
 	mov rbx, [_gpos]
-	mov rsi, _s314
+	mov rsi, _s312
 	mov rdi, 48
 	push rbx
 	push rsi
@@ -20579,7 +20569,7 @@ parse.inline_asm:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2462.19
+	jnz .2488.19
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -20587,7 +20577,7 @@ parse.inline_asm:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2462.19:
+.2488.19:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -20602,7 +20592,7 @@ parse.inline_asm:
 	test rdi, rdi
 	jz .1172
 	mov rbx, [_gpos]
-	mov rsi, _s315
+	mov rsi, _s313
 	mov rdi, 24
 	push rbx
 	push rsi
@@ -20718,15 +20708,15 @@ name_get_function_idx:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2463.2
+	jnz .2489.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2463.2:
+.2489.2:
 	mov rdi, 48
 	imul rsi, rdi
 	mov rdi, qword _gfunctions
@@ -20837,15 +20827,15 @@ name_get_cextern_function_idx:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2464.1
+	jnz .2490.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s174
+	mov rsi, _s175
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2464.1:
+.2490.1:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _gcfunctions
@@ -20954,15 +20944,15 @@ search_variable_name:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2465.1
+	jnz .2491.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2465.1:
+.2491.1:
 	mov rdi, 24
 	imul rsi, rdi
 	mov rdi, qword _gvar_context
@@ -21063,15 +21053,15 @@ is_in_function:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2466.1
+	jnz .2492.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2466.1:
+.2492.1:
 	mov rdi, 32
 	imul rsi, rdi
 	mov rdi, qword _gscope_context
@@ -21126,15 +21116,15 @@ parse.push_early_ret:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2467
+	jnz .2493
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s288
+	mov rsi, _s286
 	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2467:
+.2493:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -21162,7 +21152,7 @@ parse.push_early_ret_with_pos:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2468
+	jnz .2494
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s264
@@ -21170,7 +21160,7 @@ parse.push_early_ret_with_pos:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2468:
+.2494:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -21190,15 +21180,15 @@ parse.search_scoped_var:
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jnz .2469.1
+	jnz .2495.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s165
+	mov rsi, _s162
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2469.1:
+.2495.1:
 	mov rbx, [_gscope_context.len]
 	mov rsi, 1
 	sub rbx, rsi
@@ -21208,15 +21198,15 @@ parse.search_scoped_var:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2470.2
+	jnz .2496.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2470.2:
+.2496.2:
 	mov rsi, 32
 	imul rbx, rsi
 	mov rsi, qword _gscope_context
@@ -21249,7 +21239,7 @@ parse.duplicate_name:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2471.20
+	jnz .2497.20
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -21257,7 +21247,7 @@ parse.duplicate_name:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2471.20:
+.2497.20:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -21292,7 +21282,7 @@ parse.duplicate_name:
 	test r8, r8
 	jz .1208
 	mov rbx, [_gpos]
-	mov rsi, _s168
+	mov rsi, _s169
 	mov rdi, 36
 	push rbx
 	push rsi
@@ -21309,15 +21299,15 @@ parse.duplicate_name:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2472.2
+	jnz .2498.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2472.2:
+.2498.2:
 	mov rsi, 24
 	imul rbx, rsi
 	mov rsi, qword _gvar_context
@@ -21326,7 +21316,7 @@ parse.duplicate_name:
 	add rbx, rsi
 	mov ebx, [rbx]
 	inc rbx
-	mov rsi, _s169
+	mov rsi, _s170
 	mov rdi, 22
 	push rbx
 	push rsi
@@ -21365,7 +21355,7 @@ parse.duplicate_name:
 	test r8, r8
 	jz .1211
 	mov rbx, [_gpos]
-	mov rsi, _s171
+	mov rsi, _s172
 	mov rdi, 36
 	push rbx
 	push rsi
@@ -21382,15 +21372,15 @@ parse.duplicate_name:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2473.3
+	jnz .2499.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2473.3:
+.2499.3:
 	mov rsi, 48
 	imul rbx, rsi
 	mov rsi, qword _gfunctions
@@ -21404,22 +21394,22 @@ parse.duplicate_name:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2474.6
+	jnz .2500.6
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2474.6:
+.2500.6:
 	mov rsi, 16
 	imul rbx, rsi
 	mov rsi, qword _gir_stream
 	add rbx, rsi
 	mov ebx, [rbx]
 	inc rbx
-	mov rsi, _s173
+	mov rsi, _s174
 	mov rdi, 22
 	push rbx
 	push rsi
@@ -21458,7 +21448,7 @@ parse.duplicate_name:
 	test r8, r8
 	jz .1214
 	mov rbx, [_gpos]
-	mov rsi, _s175
+	mov rsi, _s176
 	mov rdi, 45
 	push rbx
 	push rsi
@@ -21475,15 +21465,15 @@ parse.duplicate_name:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2475.2
+	jnz .2501.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s174
+	mov rsi, _s175
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2475.2:
+.2501.2:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gcfunctions
@@ -21492,7 +21482,7 @@ parse.duplicate_name:
 	add rbx, rsi
 	mov ebx, [rbx]
 	inc rbx
-	mov rsi, _s173
+	mov rsi, _s174
 	mov rdi, 22
 	push rbx
 	push rsi
@@ -21538,7 +21528,7 @@ parse.fn_decl:
 	test rbx, rbx
 	jz .1217
 	mov rbx, [_gpos]
-	mov rsi, _s215
+	mov rsi, _s216
 	mov rdi, 38
 	push rbx
 	push rsi
@@ -21561,7 +21551,7 @@ parse.fn_decl:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2476.21
+	jnz .2502.21
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -21569,7 +21559,7 @@ parse.fn_decl:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2476.21:
+.2502.21:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -21596,7 +21586,7 @@ parse.fn_decl:
 	test rdi, rdi
 	jz .1219
 	mov rbx, [_gpos]
-	mov rsi, _s216
+	mov rsi, _s217
 	mov rdi, 50
 	push rbx
 	push rsi
@@ -21628,7 +21618,7 @@ parse.fn_decl:
 	test rbx, rbx
 	jz .1221
 	mov rbx, [_gpos]
-	mov rsi, _s217
+	mov rsi, _s218
 	mov rdi, 38
 	push rbx
 	push rsi
@@ -21683,7 +21673,7 @@ parse.fn_decl:
 	test rbx, rbx
 	jz .1227
 	mov rbx, [_gpos]
-	mov rsi, _s218
+	mov rsi, _s219
 	mov rdi, 51
 	push rbx
 	push rsi
@@ -21709,7 +21699,7 @@ parse.fn_decl:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2477.22
+	jnz .2503.22
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -21717,7 +21707,7 @@ parse.fn_decl:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2477.22:
+.2503.22:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _gtoken_stream
@@ -21737,7 +21727,7 @@ parse.fn_decl:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2478.23
+	jnz .2504.23
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -21745,7 +21735,7 @@ parse.fn_decl:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2478.23:
+.2504.23:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _gtoken_stream
@@ -21768,7 +21758,7 @@ parse.fn_decl:
 	test rbx, rbx
 	jz .1229
 	mov rbx, [_gpos]
-	mov rsi, _s219
+	mov rsi, _s220
 	mov rdi, 44
 	push rbx
 	push rsi
@@ -21787,7 +21777,7 @@ parse.fn_decl:
 	jmp .1224
 .1226:
 	mov rbx, [_gpos]
-	mov rsi, _s220
+	mov rsi, _s221
 	mov rdi, 40
 	push rbx
 	push rsi
@@ -21817,7 +21807,7 @@ parse.fn_decl:
 	jz .1232
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
-	mov rbx, _s221
+	mov rbx, _s222
 	mov rdi, 28
 	push rsi
 	push rbx
@@ -21854,7 +21844,7 @@ parse.fn_decl:
 	cmp rbx, r9
 	setb r10b
 	test r10, r10
-	jnz .2479.24
+	jnz .2505.24
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -21862,7 +21852,7 @@ parse.fn_decl:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2479.24:
+.2505.24:
 	mov rbx, 28
 	imul r8, rbx
 	mov rbx, qword _gtoken_stream
@@ -21876,7 +21866,7 @@ parse.fn_decl:
 	mov r11, qword [_rs_p]
 	mov r12, qword [r11 + 32]
 	mov r13, qword [r11 + 40]
-	mov r11, _s222
+	mov r11, _s223
 	mov r14, 4
 	mov r15, r13
 	mov rcx, r14
@@ -21928,7 +21918,7 @@ parse.fn_decl:
 	jz .1236
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
-	mov rbx, _s223
+	mov rbx, _s224
 	mov rdi, 34
 	push rsi
 	push rbx
@@ -21956,7 +21946,7 @@ parse.fn_decl:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	dec rsi
-	mov rbx, _s224
+	mov rbx, _s225
 	mov rdi, 34
 	push rsi
 	push rbx
@@ -21989,7 +21979,7 @@ parse.fn_decl:
 	jz .1240
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
-	mov rbx, _s225
+	mov rbx, _s226
 	mov rdi, 52
 	push rsi
 	push rbx
@@ -22049,15 +22039,15 @@ parse.fn_decl:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jnz .2480
+	jnz .2506
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s227
+	mov rsi, _s228
 	mov rdx, 62
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2480:
+.2506:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, 14
@@ -22171,7 +22161,7 @@ parse.assert:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2481.25
+	jnz .2507.25
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -22179,7 +22169,7 @@ parse.assert:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2481.25:
+.2507.25:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -22200,7 +22190,7 @@ parse.assert:
 	cmp rsi, r8
 	setb r9b
 	test r9, r9
-	jnz .2482.26
+	jnz .2508.26
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -22208,7 +22198,7 @@ parse.assert:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2482.26:
+.2508.26:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -22269,7 +22259,7 @@ parse.assert:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2483.27
+	jnz .2509.27
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -22277,7 +22267,7 @@ parse.assert:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2483.27:
+.2509.27:
 	mov rdi, 28
 	imul rbx, rdi
 	mov rdi, qword _gtoken_stream
@@ -22386,7 +22376,7 @@ parse.handle_var_interaction:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2484.28
+	jnz .2510.28
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -22394,7 +22384,7 @@ parse.handle_var_interaction:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2484.28:
+.2510.28:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -22417,7 +22407,7 @@ parse.handle_var_interaction:
 	test rbx, rbx
 	jz .1255
 	mov rbx, [_gpos]
-	mov rsi, _s164
+	mov rsi, _s167
 	mov rdi, 22
 	push rbx
 	push rsi
@@ -22440,7 +22430,7 @@ parse.handle_var_interaction:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2485.29
+	jnz .2511.29
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -22448,7 +22438,7 @@ parse.handle_var_interaction:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2485.29:
+.2511.29:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -22494,15 +22484,15 @@ parse.handle_var_interaction:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2486.3
+	jnz .2512.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2486.3:
+.2512.3:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _gvar_context
@@ -22532,15 +22522,15 @@ parse.handle_var_interaction:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2487.3
+	jnz .2513.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2487.3:
+.2513.3:
 	mov rdi, 32
 	imul rbx, rdi
 	mov rdi, qword _gscope_context
@@ -22574,7 +22564,7 @@ parse.handle_var_interaction:
 	test rdi, rdi
 	jz .1264
 	mov rbx, [_gpos]
-	mov rsi, _s188
+	mov rsi, _s189
 	mov rdi, 33
 	push rbx
 	push rsi
@@ -22663,7 +22653,7 @@ parse.handle_var_interaction:
 	test rbx, rbx
 	jz .1271
 	mov rbx, [_gpos]
-	mov rsi, _s189
+	mov rsi, _s190
 	mov rdi, 65
 	mov r8, qword [_rs_p]
 	mov r9, qword [r8 + 0]
@@ -22790,15 +22780,15 @@ parse.handle_var_interaction:
 .1277:
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2488
+	jnz .2514
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s190
+	mov rsi, _s191
 	mov rdx, 76
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2488:
+.2514:
 .1281:
 .1270:
 	jmp .1268
@@ -22821,7 +22811,7 @@ parse.handle_var_interaction:
 	test rdi, rdi
 	jz .1284
 	mov rbx, [_gpos]
-	mov rsi, _s191
+	mov rsi, _s192
 	mov rdi, 24
 	push rbx
 	push rsi
@@ -22847,7 +22837,7 @@ parse.handle_var_interaction:
 	test rdi, rdi
 	jz .1287
 	mov rbx, [_gpos]
-	mov rsi, _s192
+	mov rsi, _s193
 	mov rdi, 60
 	push rbx
 	push rsi
@@ -22884,7 +22874,7 @@ parse.handle_var_interaction:
 	test rdi, rdi
 	jz .1290
 	mov rbx, [_gpos]
-	mov rsi, _s193
+	mov rsi, _s194
 	mov rdi, 22
 	push rbx
 	push rsi
@@ -22910,7 +22900,7 @@ parse.handle_var_interaction:
 	test rdi, rdi
 	jz .1293
 	mov rbx, [_gpos]
-	mov rsi, _s194
+	mov rsi, _s195
 	mov rdi, 64
 	push rbx
 	push rsi
@@ -22931,15 +22921,15 @@ parse.handle_var_interaction:
 .1289:
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2489
+	jnz .2515
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s195
+	mov rsi, _s196
 	mov rdx, 76
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2489:
+.2515:
 .1294:
 .1268:
 	add rsp, 8
@@ -22947,7 +22937,7 @@ parse.handle_var_interaction:
 	jmp .1295
 .1257:
 	mov rbx, [_gpos]
-	mov rsi, _s196
+	mov rsi, _s197
 	mov rdi, 16
 	push rbx
 	push rsi
@@ -22981,7 +22971,7 @@ parse.basic_token?:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2490.30
+	jnz .2516.30
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -22989,7 +22979,7 @@ parse.basic_token?:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2490.30:
+.2516.30:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -23032,7 +23022,7 @@ parse.basic_token?:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2491.31
+	jnz .2517.31
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -23040,7 +23030,7 @@ parse.basic_token?:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2491.31:
+.2517.31:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _gtoken_stream
@@ -23651,15 +23641,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2492.1
+	jnz .2518.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s197
+	mov rsi, _s198
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2492.1:
+.2518.1:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -23670,15 +23660,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2493.2
+	jnz .2519.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s197
+	mov rsi, _s198
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2493.2:
+.2519.2:
 	pop rbx
 	pop rsi
 	mov rdi, qword [_rs_p]
@@ -23693,15 +23683,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2494.4
+	jnz .2520.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2494.4:
+.2520.4:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -23712,15 +23702,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2495.5
+	jnz .2521.5
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2495.5:
+.2521.5:
 	jmp .1297
 .1331:
 	pop rbx
@@ -23763,15 +23753,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2496.1
+	jnz .2522.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s198
+	mov rsi, _s199
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2496.1:
+.2522.1:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -23782,15 +23772,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2497.6
+	jnz .2523.6
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2497.6:
+.2523.6:
 	jmp .1297
 .1333:
 	pop rbx
@@ -23841,15 +23831,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2498.4
+	jnz .2524.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s182
+	mov rsi, _s183
 	mov rdx, 95
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2498.4:
+.2524.4:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -23860,15 +23850,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2499.7
+	jnz .2525.7
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2499.7:
+.2525.7:
 	jmp .1297
 .1335:
 	pop rbx
@@ -23919,15 +23909,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2500.5
+	jnz .2526.5
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s182
+	mov rsi, _s183
 	mov rdx, 95
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2500.5:
+.2526.5:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -23938,15 +23928,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2501.8
+	jnz .2527.8
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2501.8:
+.2527.8:
 	jmp .1297
 .1337:
 	pop rbx
@@ -23989,15 +23979,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2502.3
+	jnz .2528.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s197
+	mov rsi, _s198
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2502.3:
+.2528.3:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -24008,15 +23998,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2503.4
+	jnz .2529.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s197
+	mov rsi, _s198
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2503.4:
+.2529.4:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -24027,15 +24017,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2504.5
+	jnz .2530.5
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s197
+	mov rsi, _s198
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2504.5:
+.2530.5:
 	pop rbx
 	pop rsi
 	pop rdi
@@ -24052,15 +24042,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2505.9
+	jnz .2531.9
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2505.9:
+.2531.9:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -24071,15 +24061,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2506.10
+	jnz .2532.10
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2506.10:
+.2532.10:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -24090,15 +24080,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2507.11
+	jnz .2533.11
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2507.11:
+.2533.11:
 	jmp .1297
 .1339:
 	pop rbx
@@ -24141,15 +24131,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2508.6
+	jnz .2534.6
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s197
+	mov rsi, _s198
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2508.6:
+.2534.6:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -24160,15 +24150,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2509.7
+	jnz .2535.7
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s197
+	mov rsi, _s198
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2509.7:
+.2535.7:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -24179,15 +24169,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2510.8
+	jnz .2536.8
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s197
+	mov rsi, _s198
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2510.8:
+.2536.8:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -24198,15 +24188,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2511.9
+	jnz .2537.9
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s197
+	mov rsi, _s198
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2511.9:
+.2537.9:
 	pop rbx
 	pop rsi
 	pop rdi
@@ -24225,15 +24215,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2512.12
+	jnz .2538.12
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2512.12:
+.2538.12:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -24244,15 +24234,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2513.13
+	jnz .2539.13
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2513.13:
+.2539.13:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -24263,15 +24253,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2514.14
+	jnz .2540.14
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2514.14:
+.2540.14:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -24282,15 +24272,15 @@ parse.basic_token?:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2515.15
+	jnz .2541.15
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s185
+	mov rsi, _s186
 	mov rdx, 109
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2515.15:
+.2541.15:
 	jmp .1297
 .1341:
 	pop rbx
@@ -24726,15 +24716,15 @@ parse.slurp_early_ret:
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jnz .2516.2
+	jnz .2542.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s165
+	mov rsi, _s162
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2516.2:
+.2542.2:
 	mov rbx, [_gscope_context.len]
 	mov rsi, 1
 	sub rbx, rsi
@@ -24744,15 +24734,15 @@ parse.slurp_early_ret:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2517.4
+	jnz .2543.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2517.4:
+.2543.4:
 	mov rsi, 32
 	imul rbx, rsi
 	mov rsi, qword _gscope_context
@@ -24770,15 +24760,15 @@ parse.slurp_early_ret:
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jnz .2518.3
+	jnz .2544.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s165
+	mov rsi, _s162
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2518.3:
+.2544.3:
 	mov rbx, [_gscope_context.len]
 	mov rsi, 1
 	sub rbx, rsi
@@ -24788,15 +24778,15 @@ parse.slurp_early_ret:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2519.5
+	jnz .2545.5
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2519.5:
+.2545.5:
 	mov rsi, 32
 	imul rbx, rsi
 	mov rsi, qword _gscope_context
@@ -24878,6 +24868,124 @@ parse.slurp_early_ret:
 	mov rsp, [_rs_p]
 	add rsp, 1
 	ret
+parse.create_reset_frame:
+	sub rsp, 16
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 0], rsi
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 8], rsi
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 8]
+	mov rbx, [_gpos]
+	mov rdi, qword [_rs_p]
+	mov r8, qword [rdi + 0]
+	push rsi
+	push rbx
+	push r8
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call scope_context.comptime_c_c
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	add rsp, 16
+	ret
+parse.handle_comptime_else_and_reset_frame:
+	sub rsp, 24
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 0], rsi
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 8], rsi
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 8]
+	mov esi, [rsi]
+	mov rbx, 12
+	xor rdi, rdi
+	cmp rsi, rbx
+	sete dil
+	mov rbx, qword [_rs_p]
+	mov qword [rbx + 16], rdi
+	mov rbx, 16
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call parse.lookahead?
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 8]
+	mov rbx, 28
+	add rsi, rbx
+	xor rbx, rbx
+	mov bl, [rsi]
+	test rbx, rbx
+	sete bl
+	pop rsi
+	and rsi, rbx
+	test rsi, rsi
+	jz .1379
+	mov rbx, [_gpos]
+	inc rbx
+	mov [_gpos], rbx
+	mov rbx, 4
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call parse.expect?
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	test rbx, rbx
+	sete bl
+	test rbx, rbx
+	jz .1381
+	mov rbx, [_gpos]
+	mov rsi, _s256
+	mov rdi, 41
+	mov r8, qword [_rs_p]
+	mov r9, qword [r8 + 0]
+	push rbx
+	push rsi
+	push rdi
+	push r9
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call error_st.Tok
+	mov [_rs_p], rsp
+	mov rsp, rbp
+.1381:
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 16]
+	test rsi, rsi
+	jz .1383
+	mov rbx, 11
+	push rbx
+	jmp .1385
+.1383:
+	mov rbx, 12
+	push rbx
+.1385:
+	mov rbx, 1
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call parse.create_reset_frame
+	mov [_rs_p], rsp
+	mov rsp, rbp
+.1379:
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	add rsp, 24
+	ret
 parse.handle_close_r_cb:
 	sub rsp, 81
 	mov [_rs_p], rsp
@@ -24904,15 +25012,15 @@ parse.handle_close_r_cb:
 	cmp rsi, rdi
 	setne r8b
 	test r8, r8
-	jnz .2520.4
+	jnz .2546.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s165
+	mov rsi, _s162
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2520.4:
+.2546.4:
 	mov rsi, [_gscope_context.len]
 	mov rdi, 1
 	sub rsi, rdi
@@ -24922,15 +25030,15 @@ parse.handle_close_r_cb:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2521.6
+	jnz .2547.6
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2521.6:
+.2547.6:
 	mov rdi, 32
 	imul rsi, rdi
 	mov rdi, qword _gscope_context
@@ -24949,6 +25057,37 @@ parse.handle_close_r_cb:
 	mov [_gscope_context.len], rbx
 	mov rbx, qword [_rs_p]
 	add rbx, 9
+	mov ebx, [rbx]
+	mov rsi, rbx
+	mov rdi, 11
+	xor r8, r8
+	cmp rsi, rdi
+	sete r8b
+	mov rsi, 12
+	xor rdi, rdi
+	cmp rbx, rsi
+	sete dil
+	or r8, rdi
+	test r8, r8
+	jz .1386
+	mov rbx, qword [_rs_p]
+	add rbx, 9
+	mov rsi, qword [_rs_p]
+	mov rdi, qword [rsi + 0]
+	push rbx
+	push rdi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call parse.handle_comptime_else_and_reset_frame
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	add rsp, 81
+	ret
+.1386:
+	mov rbx, qword [_rs_p]
+	add rbx, 9
 	mov rsi, 24
 	add rbx, rsi
 	mov ebx, [rbx]
@@ -24963,7 +25102,7 @@ parse.handle_close_r_cb:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1379
+	jz .1388
 	mov rbx, [_gfunction_context]
 	mov rsi, 20
 	add rbx, rsi
@@ -24979,15 +25118,15 @@ parse.handle_close_r_cb:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2522.7
+	jnz .2548.7
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2522.7:
+.2548.7:
 	mov rsi, 16
 	imul rbx, rsi
 	mov rsi, qword _gir_stream
@@ -25010,7 +25149,7 @@ parse.handle_close_r_cb:
 	test rsi, rsi
 	sete sil
 	test rsi, rsi
-	jz .1381
+	jz .1390
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -25024,7 +25163,7 @@ parse.handle_close_r_cb:
 	cmp rsi, rbx
 	seta dil
 	test rdi, rdi
-	jz .1383
+	jz .1392
 	mov rbx, [_gfunction_context]
 	mov rsi, 16
 	add rbx, rsi
@@ -25035,15 +25174,15 @@ parse.handle_close_r_cb:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2523.8
+	jnz .2549.8
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2523.8:
+.2549.8:
 	mov rsi, 16
 	imul rbx, rsi
 	mov rsi, qword _gir_stream
@@ -25062,8 +25201,8 @@ parse.handle_close_r_cb:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1384
-.1383:
+	jmp .1393
+.1392:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -25077,7 +25216,7 @@ parse.handle_close_r_cb:
 	cmp rsi, rbx
 	setb dil
 	test rdi, rdi
-	jz .1386
+	jz .1395
 	mov rbx, [_gfunction_context]
 	mov rsi, 16
 	add rbx, rsi
@@ -25088,15 +25227,15 @@ parse.handle_close_r_cb:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2524.9
+	jnz .2550.9
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2524.9:
+.2550.9:
 	mov rsi, 16
 	imul rbx, rsi
 	mov rsi, qword _gir_stream
@@ -25115,9 +25254,9 @@ parse.handle_close_r_cb:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1386:
-.1384:
-.1381:
+.1395:
+.1393:
+.1390:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 0
@@ -25143,7 +25282,7 @@ parse.handle_close_r_cb:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jnz .2525
+	jnz .2551
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s276
@@ -25151,9 +25290,9 @@ parse.handle_close_r_cb:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2525:
-	jmp .1380
-.1379:
+.2551:
+	jmp .1389
+.1388:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 9
@@ -25162,7 +25301,7 @@ parse.handle_close_r_cb:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1388
+	jz .1397
 	mov rbx, qword [_rs_p]
 	add rbx, 41
 	mov rsi, [_gscope_context.len]
@@ -25171,15 +25310,15 @@ parse.handle_close_r_cb:
 	cmp rsi, rdi
 	setne r8b
 	test r8, r8
-	jnz .2526.5
+	jnz .2552.5
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s165
+	mov rsi, _s162
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2526.5:
+.2552.5:
 	mov rsi, [_gscope_context.len]
 	mov rdi, 1
 	sub rsi, rdi
@@ -25189,15 +25328,15 @@ parse.handle_close_r_cb:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2527.7
+	jnz .2553.7
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2527.7:
+.2553.7:
 	mov rdi, 32
 	imul rsi, rdi
 	mov rdi, qword _gscope_context
@@ -25244,8 +25383,8 @@ parse.handle_close_r_cb:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1380
-.1388:
+	jmp .1389
+.1397:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 1
@@ -25254,9 +25393,9 @@ parse.handle_close_r_cb:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1390
-	jmp .1380
-.1390:
+	jz .1399
+	jmp .1389
+.1399:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 2
@@ -25265,13 +25404,13 @@ parse.handle_close_r_cb:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1392
+	jz .1401
 	mov rbx, qword [_rs_p]
 	add rbx, 8
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .1393
+	jz .1402
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, qword [_rs_p]
@@ -25282,7 +25421,7 @@ parse.handle_close_r_cb:
 	mov rdi, 8
 	add rsi, rdi
 	mov qword [rsi], rbx
-.1393:
+.1402:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -25297,7 +25436,7 @@ parse.handle_close_r_cb:
 	cmp rsi, rbx
 	seta dil
 	test rdi, rdi
-	jz .1395
+	jz .1404
 	mov rbx, qword [_rs_p]
 	add rbx, 9
 	mov rsi, 12
@@ -25316,8 +25455,8 @@ parse.handle_close_r_cb:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1396
-.1395:
+	jmp .1405
+.1404:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -25332,7 +25471,7 @@ parse.handle_close_r_cb:
 	cmp rsi, rbx
 	setb dil
 	test rdi, rdi
-	jz .1398
+	jz .1407
 	mov rbx, qword [_rs_p]
 	add rbx, 9
 	mov rsi, 12
@@ -25351,10 +25490,10 @@ parse.handle_close_r_cb:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1398:
-.1396:
-	jmp .1380
-.1392:
+.1407:
+.1405:
+	jmp .1389
+.1401:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 3
@@ -25363,7 +25502,7 @@ parse.handle_close_r_cb:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1400
+	jz .1409
 	mov rbx, [_gpos]
 	mov rsi, 1
 	add rbx, rsi
@@ -25380,7 +25519,7 @@ parse.handle_close_r_cb:
 	cmp rsi, r8
 	setb r9b
 	test r9, r9
-	jnz .2528.32
+	jnz .2554.32
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -25388,7 +25527,7 @@ parse.handle_close_r_cb:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2528.32:
+.2554.32:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -25402,7 +25541,7 @@ parse.handle_close_r_cb:
 	sete r8b
 	and rdi, r8
 	test rdi, rdi
-	jz .1401
+	jz .1410
 	mov rbx, [_gpos]
 	inc rbx
 	mov [_gpos], rbx
@@ -25425,20 +25564,20 @@ parse.handle_close_r_cb:
 	push rbx
 	push rdi
 	test r8, r8
-	jz .1403
+	jz .1412
 	mov rbx, qword [_rs_p]
 	add rbx, 9
 	mov rsi, 4
 	add rbx, rsi
 	mov ebx, [rbx]
 	push rbx
-	jmp .1405
-.1403:
+	jmp .1414
+.1412:
 	pop rbx
 	mov rsi, rbx
 	push rbx
 	push rsi
-.1405:
+.1414:
 	mov rbx, [_gpos]
 	mov rsi, qword [_rs_p]
 	mov rdi, qword [rsi + 73]
@@ -25484,7 +25623,7 @@ parse.handle_close_r_cb:
 	cmp rbx, rsi
 	setae dil
 	test rdi, rdi
-	jz .1406
+	jz .1415
 	mov rbx, [_gpos]
 	mov rsi, 1
 	sub rbx, rsi
@@ -25503,7 +25642,7 @@ parse.handle_close_r_cb:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1406:
+.1415:
 	mov rbx, [_gpos]
 	mov rsi, rbx
 	mov rdi, [_gtoken_stream.len]
@@ -25511,7 +25650,7 @@ parse.handle_close_r_cb:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2529.33
+	jnz .2555.33
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -25519,7 +25658,7 @@ parse.handle_close_r_cb:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2529.33:
+.2555.33:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -25532,9 +25671,9 @@ parse.handle_close_r_cb:
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .1408
+	jz .1417
 	mov rbx, [_gpos]
-	mov rsi, _s280
+	mov rsi, _s256
 	mov rdi, 41
 	push rbx
 	push rsi
@@ -25549,7 +25688,7 @@ parse.handle_close_r_cb:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1408:
+.1417:
 	mov rbx, 13
 	mov rsi, qword [_rs_p]
 	add rsi, 9
@@ -25565,8 +25704,8 @@ parse.handle_close_r_cb:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1402
-.1401:
+	jmp .1411
+.1410:
 	mov rbx, [_gpos]
 	mov rsi, 1
 	add rbx, rsi
@@ -25583,7 +25722,7 @@ parse.handle_close_r_cb:
 	cmp rsi, r8
 	setb r9b
 	test r9, r9
-	jnz .2530.34
+	jnz .2556.34
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -25591,7 +25730,7 @@ parse.handle_close_r_cb:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2530.34:
+.2556.34:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -25605,7 +25744,7 @@ parse.handle_close_r_cb:
 	sete r8b
 	and rdi, r8
 	test rdi, rdi
-	jz .1411
+	jz .1420
 	mov rbx, [_gpos]
 	inc rbx
 	mov [_gpos], rbx
@@ -25622,22 +25761,22 @@ parse.handle_close_r_cb:
 	push rbx
 	push rsi
 	test r8, r8
-	jz .1412
+	jz .1421
 	mov rbx, qword [_rs_p]
 	add rbx, 9
 	mov rsi, 4
 	add rbx, rsi
 	mov ebx, [rbx]
 	push rbx
-	jmp .1414
-.1412:
+	jmp .1423
+.1421:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
 	add rsi, rbx
 	mov rsi, [rsi]
 	push rsi
-.1414:
+.1423:
 	mov rbx, [_gpos]
 	mov rsi, [_glabel_c]
 	mov rdi, rsi
@@ -25698,14 +25837,14 @@ parse.handle_close_r_cb:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1402
-.1411:
+	jmp .1411
+.1420:
 	mov rbx, qword [_rs_p]
 	add rbx, 8
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .1416
+	jz .1425
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, qword [_rs_p]
@@ -25716,7 +25855,7 @@ parse.handle_close_r_cb:
 	mov rdi, 8
 	add rsi, rdi
 	mov qword [rsi], rbx
-.1416:
+.1425:
 	mov rbx, qword [_rs_p]
 	add rbx, 9
 	mov rsi, 4
@@ -25731,9 +25870,9 @@ parse.handle_close_r_cb:
 	cmp rbx, rdi
 	setne sil
 	test rsi, rsi
-	jz .1418
+	jz .1427
 	mov rbx, [_gpos]
-	mov rsi, _s281
+	mov rsi, _s280
 	mov rdi, 51
 	mov r8, qword [_rs_p]
 	mov r9, qword [r8 + 0]
@@ -25746,7 +25885,7 @@ parse.handle_close_r_cb:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1418:
+.1427:
 	mov rbx, 13
 	mov rsi, qword [_rs_p]
 	add rsi, 9
@@ -25762,10 +25901,10 @@ parse.handle_close_r_cb:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1415:
-.1402:
-	jmp .1380
-.1400:
+.1424:
+.1411:
+	jmp .1389
+.1409:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 7
@@ -25774,7 +25913,7 @@ parse.handle_close_r_cb:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1421
+	jz .1430
 	mov rbx, [_gpos]
 	mov rsi, 1
 	add rbx, rsi
@@ -25791,7 +25930,7 @@ parse.handle_close_r_cb:
 	cmp rsi, r8
 	setb r9b
 	test r9, r9
-	jnz .2531.35
+	jnz .2557.35
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -25799,7 +25938,7 @@ parse.handle_close_r_cb:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2531.35:
+.2557.35:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -25819,7 +25958,7 @@ parse.handle_close_r_cb:
 	or r9, r8
 	and rdi, r9
 	test rdi, rdi
-	jz .1422
+	jz .1431
 	mov rbx, [_gpos]
 	inc rbx
 	mov [_gpos], rbx
@@ -25830,7 +25969,7 @@ parse.handle_close_r_cb:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2532.36
+	jnz .2558.36
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -25838,7 +25977,7 @@ parse.handle_close_r_cb:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2532.36:
+.2558.36:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -25853,11 +25992,11 @@ parse.handle_close_r_cb:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1424
+	jz .1433
 	mov rbx, 6
 	push rbx
-	jmp .1425
-.1424:
+	jmp .1434
+.1433:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 16
@@ -25866,26 +26005,26 @@ parse.handle_close_r_cb:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1427
+	jz .1436
 	mov rbx, 5
 	push rbx
-	jmp .1425
-.1427:
+	jmp .1434
+.1436:
 	mov rbx, 0
 	mov rsi, 0
 	test rsi, rsi
-	jnz .2533
+	jnz .2559
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s282
+	mov rsi, _s281
 	mov rdx, 77
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2533:
+.2559:
 	push rbx
-.1428:
-.1425:
+.1437:
+.1434:
 	pop rbx
 	pop rsi
 	mov rsi, qword [_rs_p]
@@ -25926,7 +26065,7 @@ parse.handle_close_r_cb:
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .1429
+	jz .1438
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, qword [_rs_p]
@@ -25937,7 +26076,7 @@ parse.handle_close_r_cb:
 	mov rdi, 8
 	add rsi, rdi
 	mov qword [rsi], rbx
-.1429:
+.1438:
 	mov rbx, qword [_rs_p]
 	add rbx, 9
 	mov rsi, 8
@@ -25952,9 +26091,9 @@ parse.handle_close_r_cb:
 	cmp rbx, rdi
 	setne sil
 	test rsi, rsi
-	jz .1431
+	jz .1440
 	mov rbx, [_gpos]
-	mov rsi, _s283
+	mov rsi, _s282
 	mov rdi, 55
 	mov r8, qword [_rs_p]
 	mov r9, qword [r8 + 0]
@@ -25967,7 +26106,7 @@ parse.handle_close_r_cb:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1431:
+.1440:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, qword [_rs_p]
@@ -26015,7 +26154,7 @@ parse.handle_close_r_cb:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2534.37
+	jnz .2560.37
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -26023,7 +26162,7 @@ parse.handle_close_r_cb:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2534.37:
+.2560.37:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -26036,7 +26175,7 @@ parse.handle_close_r_cb:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .1433
+	jz .1442
 	mov rbx, [_gpos]
 	inc rbx
 	mov [_gpos], rbx
@@ -26046,7 +26185,7 @@ parse.handle_close_r_cb:
 	cmp rbx, rsi
 	setae dil
 	test rdi, rdi
-	jz .1435
+	jz .1444
 	mov rbx, [_gpos]
 	mov rsi, 1
 	sub rbx, rsi
@@ -26065,7 +26204,7 @@ parse.handle_close_r_cb:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1435:
+.1444:
 	mov rbx, [_gpos]
 	mov rsi, rbx
 	mov rdi, [_gtoken_stream.len]
@@ -26073,7 +26212,7 @@ parse.handle_close_r_cb:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2535.38
+	jnz .2561.38
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -26081,7 +26220,7 @@ parse.handle_close_r_cb:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2535.38:
+.2561.38:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -26094,9 +26233,9 @@ parse.handle_close_r_cb:
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .1437
+	jz .1446
 	mov rbx, [_gpos]
-	mov rsi, _s280
+	mov rsi, _s256
 	mov rdi, 41
 	push rbx
 	push rsi
@@ -26111,16 +26250,16 @@ parse.handle_close_r_cb:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1437:
-.1433:
-	jmp .1439
-.1422:
+.1446:
+.1442:
+	jmp .1448
+.1431:
 	mov rbx, qword [_rs_p]
 	add rbx, 8
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .1440
+	jz .1449
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, qword [_rs_p]
@@ -26131,7 +26270,7 @@ parse.handle_close_r_cb:
 	mov rdi, 8
 	add rsi, rdi
 	mov qword [rsi], rbx
-.1440:
+.1449:
 	mov rbx, qword [_rs_p]
 	add rbx, 9
 	mov rsi, 8
@@ -26146,9 +26285,9 @@ parse.handle_close_r_cb:
 	cmp rbx, rdi
 	setne sil
 	test rsi, rsi
-	jz .1442
+	jz .1451
 	mov rbx, [_gpos]
-	mov rsi, _s281
+	mov rsi, _s280
 	mov rdi, 51
 	mov r8, qword [_rs_p]
 	mov r9, qword [r8 + 0]
@@ -26161,7 +26300,7 @@ parse.handle_close_r_cb:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1442:
+.1451:
 	mov rbx, 13
 	mov rsi, qword [_rs_p]
 	add rsi, 9
@@ -26192,9 +26331,9 @@ parse.handle_close_r_cb:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1439:
-	jmp .1380
-.1421:
+.1448:
+	jmp .1389
+.1430:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 5
@@ -26203,13 +26342,13 @@ parse.handle_close_r_cb:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1445
+	jz .1454
 	mov rbx, qword [_rs_p]
 	add rbx, 8
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .1446
+	jz .1455
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, qword [_rs_p]
@@ -26220,7 +26359,7 @@ parse.handle_close_r_cb:
 	mov rdi, 8
 	add rsi, rdi
 	mov qword [rsi], rbx
-.1446:
+.1455:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -26235,7 +26374,42 @@ parse.handle_close_r_cb:
 	cmp rsi, rbx
 	seta dil
 	test rdi, rdi
-	jz .1448
+	jz .1457
+	mov rbx, qword [_rs_p]
+	add rbx, 9
+	mov rsi, 12
+	add rbx, rsi
+	mov ebx, [rbx]
+	mov rsi, _s283
+	mov rdi, 94
+	mov r8, qword [_rs_p]
+	mov r9, qword [r8 + 0]
+	push rbx
+	push rsi
+	push rdi
+	push r9
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call error_st.Tok
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	jmp .1458
+.1457:
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 0]
+	mov rbx, 8
+	add rsi, rbx
+	mov rsi, [rsi]
+	mov rbx, qword [_rs_p]
+	add rbx, 9
+	mov rdi, 8
+	add rbx, rdi
+	mov ebx, [rbx]
+	xor rdi, rdi
+	cmp rsi, rbx
+	setb dil
+	test rdi, rdi
+	jz .1460
 	mov rbx, qword [_rs_p]
 	add rbx, 9
 	mov rsi, 12
@@ -26254,43 +26428,8 @@ parse.handle_close_r_cb:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1449
-.1448:
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 0]
-	mov rbx, 8
-	add rsi, rbx
-	mov rsi, [rsi]
-	mov rbx, qword [_rs_p]
-	add rbx, 9
-	mov rdi, 8
-	add rbx, rdi
-	mov ebx, [rbx]
-	xor rdi, rdi
-	cmp rsi, rbx
-	setb dil
-	test rdi, rdi
-	jz .1451
-	mov rbx, qword [_rs_p]
-	add rbx, 9
-	mov rsi, 12
-	add rbx, rsi
-	mov ebx, [rbx]
-	mov rsi, _s285
-	mov rdi, 94
-	mov r8, qword [_rs_p]
-	mov r9, qword [r8 + 0]
-	push rbx
-	push rsi
-	push rdi
-	push r9
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call error_st.Tok
-	mov [_rs_p], rsp
-	mov rsp, rbp
-.1451:
-.1449:
+.1460:
+.1458:
 	mov rbx, 13
 	mov rsi, qword [_rs_p]
 	add rsi, 9
@@ -26316,7 +26455,7 @@ parse.handle_close_r_cb:
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .1452
+	jz .1461
 	mov rbx, 13
 	mov rsi, qword [_rs_p]
 	add rsi, 9
@@ -26332,87 +26471,15 @@ parse.handle_close_r_cb:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1452:
-	jmp .1380
-.1445:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 11
-	xor r8, r8
-	cmp rsi, rdi
-	sete r8b
-	push rbx
-	test r8, r8
-	jz .1455
-	mov rbx, qword [_rs_p]
-	add rbx, 9
-	mov rsi, 4
-	add rbx, rsi
-	mov ebx, [rbx]
-	mov [_gfunctions.len], rbx
-	mov rbx, qword [_rs_p]
-	add rbx, 9
-	mov rsi, 8
-	add rbx, rsi
-	mov ebx, [rbx]
-	mov [_gir_stream.len], rbx
+.1461:
+	jmp .1389
+.1454:
 	mov rbx, qword [_rs_p]
 	add rbx, 9
 	mov rsi, 12
 	add rbx, rsi
 	mov ebx, [rbx]
-	mov [_gvar_context.len], rbx
-	mov rbx, 0
-	test rbx, rbx
-	jnz .2536
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s286
-	mov rdx, 78
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2536:
-	jmp .1380
-.1455:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 12
-	xor r8, r8
-	cmp rsi, rdi
-	sete r8b
-	push rbx
-	test r8, r8
-	jz .1457
-	jmp .1380
-.1457:
-	mov rbx, qword [_rs_p]
-	add rbx, 9
-	mov ebx, [rbx]
-	mov rsi, 1
-	push rsi
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fputu
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 1
-	mov rsi, _s24
-	mov rdi, 1
-	mov r8, 1
-	mov rax, r8
-	mov rdx, rdi
-	mov rdi, rsi
-	mov rsi, rdi
-	mov rdi, rbx
-	syscall
-	mov rbx, qword [_rs_p]
-	add rbx, 9
-	mov rsi, 12
-	add rbx, rsi
-	mov ebx, [rbx]
-	mov rsi, _s287
+	mov rsi, _s285
 	mov rdi, 73
 	push rbx
 	push rsi
@@ -26427,21 +26494,21 @@ parse.handle_close_r_cb:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1458:
-.1380:
+.1463:
+.1389:
 	add rsp, 8
 	mov rbx, qword [_rs_p]
 	add rbx, 8
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .1459
+	jz .1464
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.push_early_ret
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1459:
+.1464:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 81
@@ -26465,22 +26532,22 @@ parse.handle_open_l_cb:
 	cmp rbx, rsi
 	seta dil
 	test rdi, rdi
-	jz .1461
+	jz .1466
 	mov rbx, [_gscope_context.len]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jnz .2537.6
+	jnz .2562.6
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s165
+	mov rsi, _s162
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2537.6:
+.2562.6:
 	mov rbx, [_gscope_context.len]
 	mov rsi, 1
 	sub rbx, rsi
@@ -26490,15 +26557,15 @@ parse.handle_open_l_cb:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2538.8
+	jnz .2563.8
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2538.8:
+.2563.8:
 	mov rsi, 32
 	imul rbx, rsi
 	mov rsi, qword _gscope_context
@@ -26511,7 +26578,7 @@ parse.handle_open_l_cb:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1463
+	jz .1468
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -26522,7 +26589,7 @@ parse.handle_open_l_cb:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .1465
+	jz .1470
 	mov rbx, [_gpos]
 	mov rsi, _s272
 	mov rdi, 45
@@ -26539,7 +26606,7 @@ parse.handle_open_l_cb:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1465:
+.1470:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -26590,8 +26657,8 @@ parse.handle_open_l_cb:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1464
-.1463:
+	jmp .1469
+.1468:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 6
@@ -26600,7 +26667,7 @@ parse.handle_open_l_cb:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1468
+	jz .1473
 	mov rbx, qword [_rs_p]
 	add rbx, 16
 	mov rsi, [_gscope_context.len]
@@ -26609,15 +26676,15 @@ parse.handle_open_l_cb:
 	cmp rsi, rdi
 	setne r8b
 	test r8, r8
-	jnz .2539.7
+	jnz .2564.7
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s165
+	mov rsi, _s162
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2539.7:
+.2564.7:
 	mov rsi, [_gscope_context.len]
 	mov rdi, 1
 	sub rsi, rdi
@@ -26627,15 +26694,15 @@ parse.handle_open_l_cb:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2540.9
+	jnz .2565.9
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2540.9:
+.2565.9:
 	mov rdi, 32
 	imul rsi, rdi
 	mov rdi, qword _gscope_context
@@ -26662,7 +26729,7 @@ parse.handle_open_l_cb:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .1469
+	jz .1474
 	mov rbx, [_gpos]
 	mov rsi, _s273
 	mov rdi, 50
@@ -26679,7 +26746,7 @@ parse.handle_open_l_cb:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1469:
+.1474:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -26738,8 +26805,8 @@ parse.handle_open_l_cb:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1464
-.1468:
+	jmp .1469
+.1473:
 	mov rbx, 1
 	mov rsi, 0
 	mov rdi, 0
@@ -26759,11 +26826,11 @@ parse.handle_open_l_cb:
 	call scope_context_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1471:
-.1464:
+.1476:
+.1469:
 	add rsp, 8
-	jmp .1472
-.1461:
+	jmp .1477
+.1466:
 	mov rbx, 1
 	mov rsi, 0
 	mov rdi, 0
@@ -26783,7 +26850,7 @@ parse.handle_open_l_cb:
 	call scope_context_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1472:
+.1477:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 56
@@ -26801,14 +26868,14 @@ parse.locate_scope:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .1473
+	jz .1478
 	mov rbx, 18446744073709551615
 	push rbx
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 16
 	ret
-.1473:
+.1478:
 	mov rbx, 0
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 8], rbx
@@ -26816,10 +26883,10 @@ parse.locate_scope:
 	mov rsi, 1
 	sub rbx, rsi
 	push rbx
-.1475:
+.1480:
 	mov rbx, 1
 	test rbx, rbx
-	jz .1476
+	jz .1481
 	pop rbx
 	mov rsi, rbx
 	mov rdi, rsi
@@ -26828,15 +26895,15 @@ parse.locate_scope:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2541.10
+	jnz .2566.10
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2541.10:
+.2566.10:
 	mov rdi, 32
 	imul rsi, rdi
 	mov rdi, qword _gscope_context
@@ -26849,12 +26916,12 @@ parse.locate_scope:
 	sete dil
 	push rbx
 	test rdi, rdi
-	jz .1477
+	jz .1482
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 16
 	ret
-.1477:
+.1482:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 0
@@ -26863,14 +26930,14 @@ parse.locate_scope:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1479
-	jmp .1476
-.1479:
+	jz .1484
+	jmp .1481
+.1484:
 	pop rbx
 	dec rbx
 	push rbx
-	jmp .1475
-.1476:
+	jmp .1480
+.1481:
 	add rsp, 8
 	mov rbx, 18446744073709551615
 	push rbx
@@ -26892,7 +26959,7 @@ parse.handle_name:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2542.39
+	jnz .2567.39
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -26900,7 +26967,7 @@ parse.handle_name:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2542.39:
+.2567.39:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -26938,7 +27005,7 @@ parse.handle_name:
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .1481
+	jz .1486
 	mov rbx, 16
 	mov rsi, qword [_rs_p]
 	mov rdi, qword [rsi + 24]
@@ -26958,7 +27025,7 @@ parse.handle_name:
 	cmp rbx, rdi
 	sete sil
 	test rsi, rsi
-	jz .1483
+	jz .1488
 	mov rbx, [_gfunction_context]
 	mov rsi, 29
 	add rbx, rsi
@@ -26975,7 +27042,7 @@ parse.handle_name:
 	cmp rdi, rbx
 	sete sil
 	test rsi, rsi
-	jz .1485
+	jz .1490
 	mov rbx, [_gpos]
 	mov rsi, _s262
 	mov rdi, 39
@@ -26992,7 +27059,7 @@ parse.handle_name:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1485:
+.1490:
 	mov rbx, [_gfunction_context]
 	mov rsi, 40
 	add rbx, rsi
@@ -27006,7 +27073,7 @@ parse.handle_name:
 	test rsi, rsi
 	sete sil
 	test rsi, rsi
-	jz .1487
+	jz .1492
 	mov rbx, [_gfunction_context]
 	mov rsi, 30
 	add rbx, rsi
@@ -27015,8 +27082,8 @@ parse.handle_name:
 	inc rdi
 	mov [_glabel_c], rdi
 	mov dword [rbx], esi
-.1487:
-.1483:
+.1492:
+.1488:
 	mov rbx, [_gfunction_context]
 	mov rsi, 40
 	add rbx, rsi
@@ -27028,7 +27095,7 @@ parse.handle_name:
 	cmp rdi, rbx
 	sete sil
 	test rsi, rsi
-	jz .1489
+	jz .1494
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, rsi
@@ -27037,15 +27104,15 @@ parse.handle_name:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2543.4
+	jnz .2568.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2543.4:
+.2568.4:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _gfunctions
@@ -27062,7 +27129,7 @@ parse.handle_name:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1491
+	jz .1496
 	mov rbx, [_gpos]
 	mov rsi, _s263
 	mov rdi, 47
@@ -27079,8 +27146,8 @@ parse.handle_name:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1491:
-.1489:
+.1496:
+.1494:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, rsi
@@ -27089,15 +27156,15 @@ parse.handle_name:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2544.5
+	jnz .2569.5
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2544.5:
+.2569.5:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _gfunctions
@@ -27112,13 +27179,13 @@ parse.handle_name:
 	cmp rdi, rsi
 	sete bl
 	test rbx, rbx
-	jz .1493
+	jz .1498
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.push_early_ret_with_pos
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1493:
+.1498:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -27132,15 +27199,15 @@ parse.handle_name:
 	cmp rbx, r8
 	setb r9b
 	test r9, r9
-	jnz .2545.6
+	jnz .2570.6
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2545.6:
+.2570.6:
 	mov rbx, 48
 	imul rdi, rbx
 	mov rbx, qword _gfunctions
@@ -27150,9 +27217,9 @@ parse.handle_name:
 	cmp rsi, rdi
 	setb bl
 	test rbx, rbx
-	jz .1495
+	jz .1500
 	mov rbx, [_gpos]
-	mov rsi, _s181
+	mov rsi, _s182
 	mov rdi, 46
 	mov r8, qword [_rs_p]
 	mov r9, qword [r8 + 0]
@@ -27165,7 +27232,7 @@ parse.handle_name:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1495:
+.1500:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, rsi
@@ -27174,15 +27241,15 @@ parse.handle_name:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2546.7
+	jnz .2571.7
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2546.7:
+.2571.7:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _gfunctions
@@ -27196,15 +27263,15 @@ parse.handle_name:
 	cmp rbx, r8
 	setb r9b
 	test r9, r9
-	jnz .2547.8
+	jnz .2572.8
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2547.8:
+.2572.8:
 	mov rbx, 48
 	imul rdi, rbx
 	mov rbx, qword _gfunctions
@@ -27227,7 +27294,7 @@ parse.handle_name:
 	mov rbx, 1
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 32], rbx
-.1481:
+.1486:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 16]
@@ -27248,7 +27315,7 @@ parse.handle_name:
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .1497
+	jz .1502
 	mov rbx, 67
 	mov rsi, qword [_rs_p]
 	mov rdi, qword [rsi + 24]
@@ -27274,15 +27341,15 @@ parse.handle_name:
 	cmp rbx, r8
 	setb r9b
 	test r9, r9
-	jnz .2548.3
+	jnz .2573.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s174
+	mov rsi, _s175
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2548.3:
+.2573.3:
 	mov rbx, 28
 	imul rdi, rbx
 	mov rbx, qword _gcfunctions
@@ -27294,9 +27361,9 @@ parse.handle_name:
 	cmp rsi, rdi
 	setb bl
 	test rbx, rbx
-	jz .1499
+	jz .1504
 	mov rbx, [_gpos]
-	mov rsi, _s181
+	mov rsi, _s182
 	mov rdi, 46
 	mov r8, qword [_rs_p]
 	mov r9, qword [r8 + 0]
@@ -27309,7 +27376,7 @@ parse.handle_name:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1499:
+.1504:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, rsi
@@ -27318,15 +27385,15 @@ parse.handle_name:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2549.4
+	jnz .2574.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s174
+	mov rsi, _s175
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2549.4:
+.2574.4:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _gcfunctions
@@ -27342,15 +27409,15 @@ parse.handle_name:
 	cmp rbx, r8
 	setb r9b
 	test r9, r9
-	jnz .2550.5
+	jnz .2575.5
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s174
+	mov rsi, _s175
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2550.5:
+.2575.5:
 	mov rbx, 28
 	imul rdi, rbx
 	mov rbx, qword _gcfunctions
@@ -27364,14 +27431,14 @@ parse.handle_name:
 	sete r8b
 	push rsi
 	test r8, r8
-	jz .1501
+	jz .1506
 	mov rbx, 0
 	push rbx
-	jmp .1503
-.1501:
+	jmp .1508
+.1506:
 	mov rbx, 1
 	push rbx
-.1503:
+.1508:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, [_gpos]
@@ -27385,13 +27452,13 @@ parse.handle_name:
 	mov rbx, 1
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 32], rbx
-.1497:
+.1502:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 32]
 	test rsi, rsi
 	sete sil
 	test rsi, rsi
-	jz .1504
+	jz .1509
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 16]
@@ -27414,7 +27481,7 @@ parse.handle_name:
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .1506
+	jz .1511
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, rsi
@@ -27423,15 +27490,15 @@ parse.handle_name:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2551.4
+	jnz .2576.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2551.4:
+.2576.4:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _gvar_context
@@ -27447,11 +27514,11 @@ parse.handle_name:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1508
+	jz .1513
 	mov rbx, 1
 	push rbx
-	jmp .1510
-.1508:
+	jmp .1515
+.1513:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, 0
@@ -27461,15 +27528,15 @@ parse.handle_name:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2552.11
+	jnz .2577.11
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2552.11:
+.2577.11:
 	mov rdi, 32
 	imul rbx, rdi
 	mov rdi, qword _gscope_context
@@ -27481,7 +27548,7 @@ parse.handle_name:
 	cmp rsi, rbx
 	setb dil
 	push rdi
-.1510:
+.1515:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 48], rsi
@@ -27500,7 +27567,7 @@ parse.handle_name:
 	sete dil
 	push rsi
 	test rdi, rdi
-	jz .1511
+	jz .1516
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 3
@@ -27509,7 +27576,7 @@ parse.handle_name:
 	setne r8b
 	push rbx
 	test r8, r8
-	jz .1513
+	jz .1518
 	mov rbx, [_gpos]
 	mov rsi, _s265
 	mov rdi, 50
@@ -27526,8 +27593,8 @@ parse.handle_name:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1513:
-.1511:
+.1518:
+.1516:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 1
@@ -27536,11 +27603,11 @@ parse.handle_name:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1515
+	jz .1520
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 48]
 	test rsi, rsi
-	jz .1517
+	jz .1522
 	mov rbx, 6
 	mov rsi, qword [_rs_p]
 	mov rdi, qword [rsi + 24]
@@ -27553,8 +27620,8 @@ parse.handle_name:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1519
-.1517:
+	jmp .1524
+.1522:
 	mov rbx, 3
 	mov rsi, qword [_rs_p]
 	mov rdi, qword [rsi + 40]
@@ -27570,7 +27637,7 @@ parse.handle_name:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1519:
+.1524:
 	mov rbx, 1
 	mov rsi, qword [_rs_p]
 	mov rdi, qword [rsi + 0]
@@ -27583,8 +27650,8 @@ parse.handle_name:
 	call sp_push_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1516
-.1515:
+	jmp .1521
+.1520:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 2
@@ -27593,7 +27660,7 @@ parse.handle_name:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1521
+	jz .1526
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 40]
 	mov rbx, 4
@@ -27608,7 +27675,7 @@ parse.handle_name:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 48]
 	test rsi, rsi
-	jz .1522
+	jz .1527
 	mov rbx, 8
 	mov rsi, qword [_rs_p]
 	mov rdi, qword [rsi + 24]
@@ -27621,8 +27688,8 @@ parse.handle_name:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1524
-.1522:
+	jmp .1529
+.1527:
 	mov rbx, 5
 	mov rsi, qword [_rs_p]
 	mov rdi, qword [rsi + 56]
@@ -27644,7 +27711,7 @@ parse.handle_name:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1524:
+.1529:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	mov rbx, qword [_rs_p]
@@ -27658,8 +27725,8 @@ parse.handle_name:
 	call sp_push_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1516
-.1521:
+	jmp .1521
+.1526:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 3
@@ -27668,7 +27735,7 @@ parse.handle_name:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1526
+	jz .1531
 	mov rbx, 2
 	mov rsi, qword [_rs_p]
 	mov rdi, qword [rsi + 40]
@@ -27696,11 +27763,11 @@ parse.handle_name:
 	call sp_push_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1516
-.1526:
+	jmp .1521
+.1531:
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2553
+	jnz .2578
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s266
@@ -27708,21 +27775,21 @@ parse.handle_name:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2553:
-.1527:
-.1516:
+.2578:
+.1532:
+.1521:
 	add rsp, 8
 	mov rbx, 1
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 32], rbx
-.1506:
-.1504:
+.1511:
+.1509:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 32]
 	test rsi, rsi
 	sete sil
 	test rsi, rsi
-	jz .1528
+	jz .1533
 	mov rbx, [_gpos]
 	mov rsi, _s267
 	mov rdi, 28
@@ -27739,7 +27806,7 @@ parse.handle_name:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1528:
+.1533:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 64
@@ -27753,7 +27820,7 @@ parse.assert_const_fn_not:
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .1530
+	jz .1535
 	mov rbx, [_gfunction_context]
 	mov rsi, 40
 	add rbx, rsi
@@ -27765,9 +27832,9 @@ parse.assert_const_fn_not:
 	cmp rdi, rbx
 	sete sil
 	test rsi, rsi
-	jz .1532
+	jz .1537
 	mov rbx, [_gpos]
-	mov rsi, _s162
+	mov rsi, _s165
 	mov rdi, 32
 	push rbx
 	push rsi
@@ -27782,8 +27849,8 @@ parse.assert_const_fn_not:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1532:
-.1530:
+.1537:
+.1535:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -27801,7 +27868,7 @@ parse.fn_complex_tokens:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2554.40
+	jnz .2579.40
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -27809,7 +27876,7 @@ parse.fn_complex_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2554.40:
+.2579.40:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -27830,7 +27897,7 @@ parse.fn_complex_tokens:
 	or r9, r8
 	push rbx
 	test r9, r9
-	jz .1534
+	jz .1539
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -27844,8 +27911,8 @@ parse.fn_complex_tokens:
 	call parse.handle_var_interaction
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1534:
+	jmp .1540
+.1539:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 10
@@ -27854,7 +27921,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1537
+	jz .1542
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -27863,8 +27930,8 @@ parse.fn_complex_tokens:
 	call parse.assert
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1537:
+	jmp .1540
+.1542:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 1
@@ -27873,7 +27940,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1539
+	jz .1544
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -27882,8 +27949,8 @@ parse.fn_complex_tokens:
 	call parse.handle_name
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1539:
+	jmp .1540
+.1544:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 15
@@ -27892,7 +27959,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1541
+	jz .1546
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -27903,7 +27970,7 @@ parse.fn_complex_tokens:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .1542
+	jz .1547
 	mov rbx, [_gpos]
 	mov rsi, _s268
 	mov rdi, 45
@@ -27920,7 +27987,7 @@ parse.fn_complex_tokens:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1542:
+.1547:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -27985,7 +28052,7 @@ parse.fn_complex_tokens:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1544
+	jz .1549
 	mov rbx, [_gpos]
 	mov rsi, _s269
 	mov rdi, 39
@@ -28002,9 +28069,9 @@ parse.fn_complex_tokens:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1544:
-	jmp .1535
-.1541:
+.1549:
+	jmp .1540
+.1546:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 18
@@ -28013,7 +28080,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1547
+	jz .1552
 	mov rbx, [_glabel_c]
 	mov rsi, rbx
 	inc rsi
@@ -28056,8 +28123,8 @@ parse.fn_complex_tokens:
 	call scope_context_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1547:
+	jmp .1540
+.1552:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 19
@@ -28066,7 +28133,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1549
+	jz .1554
 	mov rbx, 9
 	push rbx
 	mov rbp, rsp
@@ -28082,7 +28149,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1550
+	jz .1555
 	mov rbx, [_gpos]
 	mov rsi, _s270
 	mov rdi, 26
@@ -28099,7 +28166,7 @@ parse.fn_complex_tokens:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1550:
+.1555:
 	mov rbx, 12
 	pop rsi
 	mov rdi, rsi
@@ -28108,15 +28175,15 @@ parse.fn_complex_tokens:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2555.12
+	jnz .2580.12
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2555.12:
+.2580.12:
 	mov rdi, 32
 	imul rsi, rdi
 	mov rdi, qword _gscope_context
@@ -28138,8 +28205,8 @@ parse.fn_complex_tokens:
 	call parse.push_early_ret_with_pos
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1549:
+	jmp .1540
+.1554:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 20
@@ -28148,7 +28215,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1553
+	jz .1558
 	mov rbx, 8
 	push rbx
 	mov rbp, rsp
@@ -28164,7 +28231,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1554
+	jz .1559
 	mov rbx, [_gpos]
 	mov rsi, _s270
 	mov rdi, 26
@@ -28181,7 +28248,7 @@ parse.fn_complex_tokens:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1554:
+.1559:
 	mov rbx, 12
 	pop rsi
 	mov rdi, rsi
@@ -28190,15 +28257,15 @@ parse.fn_complex_tokens:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2556.13
+	jnz .2581.13
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s166
+	mov rsi, _s163
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2556.13:
+.2581.13:
 	mov rdi, 32
 	imul rsi, rdi
 	mov rdi, qword _gscope_context
@@ -28220,8 +28287,8 @@ parse.fn_complex_tokens:
 	call parse.push_early_ret_with_pos
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1553:
+	jmp .1540
+.1558:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 4
@@ -28230,7 +28297,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1557
+	jz .1562
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -28239,8 +28306,8 @@ parse.fn_complex_tokens:
 	call parse.handle_open_l_cb
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1557:
+	jmp .1540
+.1562:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 5
@@ -28249,7 +28316,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1559
+	jz .1564
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	push rsi
@@ -28258,8 +28325,8 @@ parse.fn_complex_tokens:
 	call parse.handle_close_r_cb
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1559:
+	jmp .1540
+.1564:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 13
@@ -28268,14 +28335,14 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1561
+	jz .1566
 	mov rbx, [_gfunction_context]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .1562
+	jz .1567
 	mov rbx, [_gfunction_context]
 	mov rsi, 40
 	add rbx, rsi
@@ -28287,20 +28354,20 @@ parse.fn_complex_tokens:
 	cmp rdi, rbx
 	sete sil
 	test rsi, rsi
-	jz .1564
+	jz .1569
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2557
+	jnz .2582
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s289
+	mov rsi, _s287
 	mov rdx, 99
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2557:
-.1564:
-.1562:
+.2582:
+.1569:
+.1567:
 	mov rbx, 15
 	mov rsi, [_gfunction_context_idx]
 	mov rdi, [_gpos]
@@ -28325,9 +28392,9 @@ parse.fn_complex_tokens:
 	cmp rsi, rbx
 	seta dil
 	test rdi, rdi
-	jz .1566
+	jz .1571
 	mov rbx, [_gpos]
-	mov rsi, _s290
+	mov rsi, _s288
 	mov rdi, 44
 	mov r8, qword [_rs_p]
 	mov r9, qword [r8 + 0]
@@ -28340,8 +28407,8 @@ parse.fn_complex_tokens:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1567
-.1566:
+	jmp .1572
+.1571:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -28355,9 +28422,9 @@ parse.fn_complex_tokens:
 	cmp rsi, rbx
 	setb dil
 	test rdi, rdi
-	jz .1569
+	jz .1574
 	mov rbx, [_gpos]
-	mov rsi, _s291
+	mov rsi, _s289
 	mov rdi, 46
 	mov r8, qword [_rs_p]
 	mov r9, qword [r8 + 0]
@@ -28370,8 +28437,8 @@ parse.fn_complex_tokens:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1569:
-.1567:
+.1574:
+.1572:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 0
@@ -28383,8 +28450,8 @@ parse.fn_complex_tokens:
 	call parse.push_early_ret_with_pos
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1561:
+	jmp .1540
+.1566:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 6
@@ -28393,7 +28460,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1571
+	jz .1576
 	mov rbx, [_gpos]
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 24], rbx
@@ -28408,9 +28475,9 @@ parse.fn_complex_tokens:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1572
+	jz .1577
 	mov rbx, [_gpos]
-	mov rsi, _s292
+	mov rsi, _s290
 	mov rdi, 52
 	push rbx
 	push rsi
@@ -28425,7 +28492,7 @@ parse.fn_complex_tokens:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1572:
+.1577:
 	mov rbx, 2
 	mov rsi, [_gpos]
 	mov rdi, rsi
@@ -28434,7 +28501,7 @@ parse.fn_complex_tokens:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2558.41
+	jnz .2583.41
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -28442,7 +28509,7 @@ parse.fn_complex_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2558.41:
+.2583.41:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _gtoken_stream
@@ -28485,9 +28552,9 @@ parse.fn_complex_tokens:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1574
+	jz .1579
 	mov rbx, [_gpos]
-	mov rsi, _s293
+	mov rsi, _s291
 	mov rdi, 49
 	push rbx
 	push rsi
@@ -28502,9 +28569,9 @@ parse.fn_complex_tokens:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1574:
-	jmp .1535
-.1571:
+.1579:
+	jmp .1540
+.1576:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 2
@@ -28513,7 +28580,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1577
+	jz .1582
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -28527,7 +28594,7 @@ parse.fn_complex_tokens:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2559.42
+	jnz .2584.42
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -28535,7 +28602,7 @@ parse.fn_complex_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2559.42:
+.2584.42:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _gtoken_stream
@@ -28560,7 +28627,7 @@ parse.fn_complex_tokens:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2560.43
+	jnz .2585.43
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -28568,7 +28635,7 @@ parse.fn_complex_tokens:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2560.43:
+.2585.43:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _gtoken_stream
@@ -28598,8 +28665,8 @@ parse.fn_complex_tokens:
 	call sp_push_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1577:
+	jmp .1540
+.1582:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 52
@@ -28608,7 +28675,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1579
+	jz .1584
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -28639,8 +28706,8 @@ parse.fn_complex_tokens:
 	call sp_assert_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1579:
+	jmp .1540
+.1584:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 53
@@ -28649,7 +28716,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1581
+	jz .1586
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -28680,8 +28747,8 @@ parse.fn_complex_tokens:
 	call sp_assert_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1581:
+	jmp .1540
+.1586:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 54
@@ -28690,7 +28757,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1583
+	jz .1588
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -28721,8 +28788,8 @@ parse.fn_complex_tokens:
 	call sp_assert_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1583:
+	jmp .1540
+.1588:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 55
@@ -28731,7 +28798,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1585
+	jz .1590
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -28762,8 +28829,8 @@ parse.fn_complex_tokens:
 	call sp_assert_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1585:
+	jmp .1540
+.1590:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 56
@@ -28772,7 +28839,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1587
+	jz .1592
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -28803,8 +28870,8 @@ parse.fn_complex_tokens:
 	call sp_assert_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1587:
+	jmp .1540
+.1592:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 57
@@ -28813,7 +28880,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1589
+	jz .1594
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -28844,8 +28911,8 @@ parse.fn_complex_tokens:
 	call sp_assert_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1589:
+	jmp .1540
+.1594:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 58
@@ -28854,7 +28921,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1591
+	jz .1596
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -28885,8 +28952,8 @@ parse.fn_complex_tokens:
 	call sp_assert_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1591:
+	jmp .1540
+.1596:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 59
@@ -28895,7 +28962,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1593
+	jz .1598
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -28926,8 +28993,8 @@ parse.fn_complex_tokens:
 	call sp_assert_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1593:
+	jmp .1540
+.1598:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 11
@@ -28936,7 +29003,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1595
+	jz .1600
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -28965,8 +29032,8 @@ parse.fn_complex_tokens:
 	call sp_push_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1595:
+	jmp .1540
+.1600:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 12
@@ -28975,7 +29042,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1597
+	jz .1602
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -29004,8 +29071,8 @@ parse.fn_complex_tokens:
 	call sp_push_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1597:
+	jmp .1540
+.1602:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 72
@@ -29014,7 +29081,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1599
+	jz .1604
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -29043,8 +29110,8 @@ parse.fn_complex_tokens:
 	call sp_push_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1599:
+	jmp .1540
+.1604:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 75
@@ -29053,7 +29120,7 @@ parse.fn_complex_tokens:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1601
+	jz .1606
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -29067,21 +29134,21 @@ parse.fn_complex_tokens:
 	call parse.inline_asm
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1535
-.1601:
+	jmp .1540
+.1606:
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2561
+	jnz .2586
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s317
+	mov rsi, _s315
 	mov rdx, 79
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2561:
-.1602:
-.1535:
+.2586:
+.1607:
+.1540:
 	add rsp, 8
 	mov rbp, rsp
 	mov rsp, [_rs_p]
@@ -29098,7 +29165,7 @@ parse.get_constant?:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2562.44
+	jnz .2587.44
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -29106,7 +29173,7 @@ parse.get_constant?:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2562.44:
+.2587.44:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -29135,7 +29202,7 @@ parse.get_constant?:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1603
+	jz .1608
 	add rsp, 8
 	mov rbx, 0
 	mov rsi, 0
@@ -29145,7 +29212,7 @@ parse.get_constant?:
 	mov rsp, [_rs_p]
 	add rsp, 8
 	ret
-.1603:
+.1608:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, [_gvar_context.len]
@@ -29153,15 +29220,15 @@ parse.get_constant?:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2563.5
+	jnz .2588.5
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2563.5:
+.2588.5:
 	mov rsi, 24
 	imul rbx, rsi
 	mov rsi, qword _gvar_context
@@ -29176,9 +29243,9 @@ parse.get_constant?:
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .1605
+	jz .1610
 	mov rbx, [_gpos]
-	mov rsi, _s177
+	mov rsi, _s178
 	mov rdi, 37
 	push rbx
 	push rsi
@@ -29193,7 +29260,7 @@ parse.get_constant?:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1605:
+.1610:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 4
@@ -29237,10 +29304,10 @@ parse.eval_const_expr:
 	call Array64.init_with_buffer_sz_bytes
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1607:
+.1612:
 	mov rbx, 1
 	test rbx, rbx
-	jz .1608
+	jz .1613
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.next_eof?
@@ -29248,21 +29315,21 @@ parse.eval_const_expr:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jz .1609
+	jz .1614
 	mov rbx, 5
 	pop rdi
 	xor rsi, rsi
 	cmp rdi, rbx
 	sete sil
 	test rsi, rsi
-	jz .1611
-	jmp .1608
-.1611:
+	jz .1616
 	jmp .1613
-.1609:
+.1616:
+	jmp .1618
+.1614:
 	add rsp, 8
 	mov rbx, [_gpos]
-	mov rsi, _s179
+	mov rsi, _s180
 	mov rdi, 47
 	push rbx
 	push rsi
@@ -29277,7 +29344,7 @@ parse.eval_const_expr:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1613:
+.1618:
 	mov rbx, [_gpos]
 	mov rsi, rbx
 	mov rdi, [_gtoken_stream.len]
@@ -29285,7 +29352,7 @@ parse.eval_const_expr:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2564.45
+	jnz .2589.45
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -29293,7 +29360,7 @@ parse.eval_const_expr:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2564.45:
+.2589.45:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -29306,7 +29373,7 @@ parse.eval_const_expr:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .1614
+	jz .1619
 	mov rbx, [_gpos]
 	mov rsi, rbx
 	mov rdi, [_gtoken_stream.len]
@@ -29314,7 +29381,7 @@ parse.eval_const_expr:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2565.46
+	jnz .2590.46
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -29322,7 +29389,7 @@ parse.eval_const_expr:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2565.46:
+.2590.46:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -29351,7 +29418,7 @@ parse.eval_const_expr:
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .1616
+	jz .1621
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	mov rbx, rsi
@@ -29360,15 +29427,15 @@ parse.eval_const_expr:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2566.9
+	jnz .2591.9
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2566.9:
+.2591.9:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _gfunctions
@@ -29385,9 +29452,9 @@ parse.eval_const_expr:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1618
+	jz .1623
 	mov rbx, [_gpos]
-	mov rsi, _s180
+	mov rsi, _s181
 	mov rdi, 47
 	push rbx
 	push rsi
@@ -29402,7 +29469,7 @@ parse.eval_const_expr:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1618:
+.1623:
 	mov rbx, qword [_rs_p]
 	add rbx, 8
 	mov rsi, 8
@@ -29416,15 +29483,15 @@ parse.eval_const_expr:
 	cmp rsi, r8
 	setb r9b
 	test r9, r9
-	jnz .2567.10
+	jnz .2592.10
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2567.10:
+.2592.10:
 	mov rsi, 48
 	imul rdi, rsi
 	mov rsi, qword _gfunctions
@@ -29434,9 +29501,9 @@ parse.eval_const_expr:
 	cmp rbx, rdi
 	setb sil
 	test rsi, rsi
-	jz .1620
+	jz .1625
 	mov rbx, [_gpos]
-	mov rsi, _s181
+	mov rsi, _s182
 	mov rdi, 46
 	mov r8, qword [_rs_p]
 	add r8, 8
@@ -29449,7 +29516,7 @@ parse.eval_const_expr:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1620:
+.1625:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	mov rbx, rsi
@@ -29458,15 +29525,15 @@ parse.eval_const_expr:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2568.11
+	jnz .2593.11
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2568.11:
+.2593.11:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _gfunctions
@@ -29480,15 +29547,15 @@ parse.eval_const_expr:
 	cmp rbx, r8
 	setb r9b
 	test r9, r9
-	jnz .2569.12
+	jnz .2594.12
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2569.12:
+.2594.12:
 	mov rbx, 48
 	imul rdi, rbx
 	mov rbx, qword _gfunctions
@@ -29520,8 +29587,8 @@ parse.eval_const_expr:
 	call ir_stream_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1622
-.1616:
+	jmp .1627
+.1621:
 	mov rbx, 2
 	push rbx
 	mov rbp, rsp
@@ -29533,9 +29600,9 @@ parse.eval_const_expr:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1623
+	jz .1628
 	mov rbx, [_gpos]
-	mov rsi, _s187
+	mov rsi, _s188
 	mov rdi, 39
 	push rbx
 	push rsi
@@ -29550,7 +29617,7 @@ parse.eval_const_expr:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1623:
+.1628:
 	mov rbx, [_gpos]
 	pop rsi
 	pop rdi
@@ -29574,9 +29641,9 @@ parse.eval_const_expr:
 	call sp_push_p
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1622:
-	jmp .1625
-.1614:
+.1627:
+	jmp .1630
+.1619:
 	mov rbx, qword [_rs_p]
 	add rbx, 8
 	push rbx
@@ -29589,9 +29656,9 @@ parse.eval_const_expr:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1626
+	jz .1631
 	mov rbx, [_gpos]
-	mov rsi, _s199
+	mov rsi, _s200
 	mov rdi, 46
 	push rbx
 	push rsi
@@ -29606,10 +29673,10 @@ parse.eval_const_expr:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1626:
-.1625:
-	jmp .1607
-.1608:
+.1631:
+.1630:
+	jmp .1612
+.1613:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, [_gir_stream.len]
@@ -29635,9 +29702,9 @@ parse.eval_const_expr:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .1628
+	jz .1633
 	mov rbx, [_gpos]
-	mov rsi, _s209
+	mov rsi, _s210
 	mov rdi, 40
 	push rbx
 	push rsi
@@ -29652,7 +29719,7 @@ parse.eval_const_expr:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1628:
+.1633:
 	mov rbx, qword [_rs_p]
 	add rbx, 32
 	mov rsi, 8
@@ -29663,9 +29730,9 @@ parse.eval_const_expr:
 	cmp rbx, rsi
 	seta dil
 	test rdi, rdi
-	jz .1630
+	jz .1635
 	mov rbx, [_gpos]
-	mov rsi, _s210
+	mov rsi, _s211
 	mov rdi, 64
 	mov r8, qword [_rs_p]
 	add r8, 8
@@ -29678,7 +29745,7 @@ parse.eval_const_expr:
 	call error_st.Tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1630:
+.1635:
 	mov rbx, qword [_rs_p]
 	add rbx, 32
 	push rbx
@@ -29689,15 +29756,15 @@ parse.eval_const_expr:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2570.53
+	jnz .2595.53
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s201
+	mov rsi, _s202
 	mov rdx, 92
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2570.53:
+.2595.53:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov [_gir_stream.len], rsi
@@ -29711,15 +29778,15 @@ parse.eval_const_expr:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jnz .2571
+	jnz .2596
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s211
+	mov rsi, _s212
 	mov rdx, 63
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2571:
+.2596:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 64
@@ -29738,7 +29805,7 @@ parse.any_variable:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2572.47
+	jnz .2597.47
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -29746,7 +29813,7 @@ parse.any_variable:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2572.47:
+.2597.47:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -29761,11 +29828,11 @@ parse.any_variable:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1632
+	jz .1637
 	mov rbx, 1
 	push rbx
-	jmp .1633
-.1632:
+	jmp .1638
+.1637:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 68
@@ -29774,26 +29841,26 @@ parse.any_variable:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1635
+	jz .1640
 	mov rbx, 2
 	push rbx
-	jmp .1633
-.1635:
+	jmp .1638
+.1640:
 	mov rbx, 0
 	mov rsi, 0
 	test rsi, rsi
-	jnz .2573
+	jnz .2598
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s163
+	mov rsi, _s166
 	mov rdx, 77
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2573:
+.2598:
 	push rbx
-.1636:
-.1633:
+.1641:
+.1638:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 0], rsi
@@ -29809,9 +29876,9 @@ parse.any_variable:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1637
+	jz .1642
 	mov rbx, [_gpos]
-	mov rsi, _s164
+	mov rsi, _s167
 	mov rdi, 22
 	push rbx
 	push rsi
@@ -29826,7 +29893,7 @@ parse.any_variable:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1637:
+.1642:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.duplicate_name
@@ -29841,9 +29908,9 @@ parse.any_variable:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1639
+	jz .1644
 	mov rbx, [_gpos]
-	mov rsi, _s176
+	mov rsi, _s177
 	mov rdi, 38
 	push rbx
 	push rsi
@@ -29858,7 +29925,7 @@ parse.any_variable:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1639:
+.1644:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 1
@@ -29867,7 +29934,7 @@ parse.any_variable:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1641
+	jz .1646
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.get_constant?
@@ -29877,9 +29944,9 @@ parse.any_variable:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1643
+	jz .1648
 	mov rbx, [_gpos]
-	mov rsi, _s178
+	mov rsi, _s179
 	mov rdi, 21
 	push rbx
 	push rsi
@@ -29894,9 +29961,9 @@ parse.any_variable:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1643:
-	jmp .1642
-.1641:
+.1648:
+	jmp .1647
+.1646:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 4
@@ -29905,14 +29972,14 @@ parse.any_variable:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1646
+	jz .1651
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.eval_const_expr
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1642
-.1646:
+	jmp .1647
+.1651:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 3
@@ -29921,7 +29988,7 @@ parse.any_variable:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1648
+	jz .1653
 	mov rbx, [_gpos]
 	mov rsi, rbx
 	mov rdi, [_gtoken_stream.len]
@@ -29929,7 +29996,7 @@ parse.any_variable:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2574.48
+	jnz .2599.48
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -29937,7 +30004,7 @@ parse.any_variable:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2574.48:
+.2599.48:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -29946,10 +30013,10 @@ parse.any_variable:
 	add rbx, rsi
 	mov rbx, [rbx]
 	push rbx
-	jmp .1642
-.1648:
+	jmp .1647
+.1653:
 	mov rbx, [_gpos]
-	mov rsi, _s212
+	mov rsi, _s213
 	mov rdi, 60
 	push rbx
 	push rsi
@@ -29966,8 +30033,8 @@ parse.any_variable:
 	syscall
 	mov rbx, 0
 	push rbx
-.1649:
-.1642:
+.1654:
+.1647:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 2
@@ -29975,7 +30042,7 @@ parse.any_variable:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .1650
+	jz .1655
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 0
@@ -29984,9 +30051,9 @@ parse.any_variable:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1652
+	jz .1657
 	mov rbx, [_gpos]
-	mov rsi, _s213
+	mov rsi, _s214
 	mov rdi, 41
 	push rbx
 	push rsi
@@ -30001,12 +30068,12 @@ parse.any_variable:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1652:
+.1657:
 	mov rbx, 8
 	pop rsi
 	imul rsi, rbx
 	push rsi
-.1650:
+.1655:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 16], rsi
@@ -30023,17 +30090,17 @@ parse.any_variable:
 	push rsi
 	push rdi
 	test r9, r9
-	jz .1654
+	jz .1659
 	mov rbx, [_gfunction_context]
 	mov rsi, 24
 	add rbx, rsi
 	mov ebx, [rbx]
 	push rbx
-	jmp .1656
-.1654:
+	jmp .1661
+.1659:
 	mov rbx, 0
 	push rbx
-.1656:
+.1661:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rbx, qword [_rs_p]
@@ -30045,7 +30112,7 @@ parse.any_variable:
 	cmp rbx, r8
 	setb r9b
 	test r9, r9
-	jnz .2575.49
+	jnz .2600.49
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -30053,7 +30120,7 @@ parse.any_variable:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2575.49:
+.2600.49:
 	mov rbx, 28
 	imul rdi, rbx
 	mov rbx, qword _gtoken_stream
@@ -30074,7 +30141,7 @@ parse.any_variable:
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .1657
+	jz .1662
 	mov rbx, [_gfunction_context]
 	mov rsi, 24
 	add rbx, rsi
@@ -30091,7 +30158,7 @@ parse.any_variable:
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-.1657:
+.1662:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 24
@@ -30114,9 +30181,9 @@ parse.const_expression:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1659
+	jz .1664
 	mov rbx, [_gpos]
-	mov rsi, _s229
+	mov rsi, _s230
 	mov rdi, 25
 	push rbx
 	push rsi
@@ -30131,7 +30198,7 @@ parse.const_expression:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1659:
+.1664:
 	mov rbx, [_gpos]
 	mov rsi, rbx
 	mov rdi, [_gtoken_stream.len]
@@ -30139,7 +30206,7 @@ parse.const_expression:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2576.50
+	jnz .2601.50
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -30147,7 +30214,7 @@ parse.const_expression:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2576.50:
+.2601.50:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -30173,9 +30240,9 @@ parse.const_expression:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1661
+	jz .1666
 	mov rbx, [_gpos]
-	mov rsi, _s230
+	mov rsi, _s231
 	mov rdi, 49
 	push rbx
 	push rsi
@@ -30190,7 +30257,7 @@ parse.const_expression:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1661:
+.1666:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.eval_const_expr
@@ -30221,7 +30288,7 @@ parse.one_cextern_arg:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2577.51
+	jnz .2602.51
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -30229,7 +30296,7 @@ parse.one_cextern_arg:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2577.51:
+.2602.51:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -30242,7 +30309,7 @@ parse.one_cextern_arg:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .1663
+	jz .1668
 	mov rbx, [_gpos]
 	mov rsi, rbx
 	mov rdi, [_gtoken_stream.len]
@@ -30250,7 +30317,7 @@ parse.one_cextern_arg:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2578.52
+	jnz .2603.52
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -30258,7 +30325,7 @@ parse.one_cextern_arg:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2578.52:
+.2603.52:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -30273,12 +30340,12 @@ parse.one_cextern_arg:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1665
+	jz .1670
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
-	jmp .1666
-.1665:
+	jmp .1671
+.1670:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 32
@@ -30287,12 +30354,12 @@ parse.one_cextern_arg:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1668
+	jz .1673
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
-	jmp .1666
-.1668:
+	jmp .1671
+.1673:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 16
@@ -30301,12 +30368,12 @@ parse.one_cextern_arg:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1670
+	jz .1675
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
-	jmp .1666
-.1670:
+	jmp .1671
+.1675:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 8
@@ -30315,14 +30382,14 @@ parse.one_cextern_arg:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1672
+	jz .1677
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
-	jmp .1666
-.1672:
+	jmp .1671
+.1677:
 	mov rbx, [_gpos]
-	mov rsi, _s235
+	mov rsi, _s236
 	mov rdi, 51
 	push rbx
 	push rsi
@@ -30337,13 +30404,13 @@ parse.one_cextern_arg:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1673:
-.1666:
+.1678:
+.1671:
 	add rsp, 8
-	jmp .1674
-.1663:
+	jmp .1679
+.1668:
 	mov rbx, [_gpos]
-	mov rsi, _s236
+	mov rsi, _s237
 	mov rdi, 65
 	push rbx
 	push rsi
@@ -30358,7 +30425,7 @@ parse.one_cextern_arg:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1674:
+.1679:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -30372,9 +30439,9 @@ parse.cextern:
 	test rsi, rsi
 	sete sil
 	test rsi, rsi
-	jz .1675
+	jz .1680
 	mov rbx, [_gpos]
-	mov rsi, _s232
+	mov rsi, _s233
 	mov rdi, 62
 	push rbx
 	push rsi
@@ -30389,7 +30456,7 @@ parse.cextern:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1675:
+.1680:
 	mov rbx, qword [_rs_p]
 	mov rsi, 24
 	mov rdi, qword [_rs_p]
@@ -30416,9 +30483,9 @@ parse.cextern:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1677
+	jz .1682
 	mov rbx, [_gpos]
-	mov rsi, _s233
+	mov rsi, _s234
 	mov rdi, 36
 	push rbx
 	push rsi
@@ -30433,11 +30500,11 @@ parse.cextern:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1677:
-.1679:
+.1682:
+.1684:
 	mov rbx, 1
 	test rbx, rbx
-	jz .1680
+	jz .1685
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.next_eof?
@@ -30445,21 +30512,21 @@ parse.cextern:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jz .1681
+	jz .1686
 	mov rbx, 6
 	pop rdi
 	xor rsi, rsi
 	cmp rdi, rbx
 	sete sil
 	test rsi, rsi
-	jz .1683
-	jmp .1680
-.1683:
+	jz .1688
 	jmp .1685
-.1681:
+.1688:
+	jmp .1690
+.1686:
 	add rsp, 8
 	mov rbx, [_gpos]
-	mov rsi, _s234
+	mov rsi, _s235
 	mov rdi, 47
 	push rbx
 	push rsi
@@ -30474,7 +30541,7 @@ parse.cextern:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1685:
+.1690:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.one_cextern_arg
@@ -30492,9 +30559,9 @@ parse.cextern:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1686
+	jz .1691
 	mov rbx, [_gpos]
-	mov rsi, _s237
+	mov rsi, _s238
 	mov rdi, 65
 	push rbx
 	push rsi
@@ -30509,9 +30576,9 @@ parse.cextern:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1686:
-	jmp .1679
-.1680:
+.1691:
+	jmp .1684
+.1685:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.next_eof?
@@ -30521,9 +30588,9 @@ parse.cextern:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1688
+	jz .1693
 	mov rbx, [_gpos]
-	mov rsi, _s234
+	mov rsi, _s235
 	mov rdi, 47
 	push rbx
 	push rsi
@@ -30538,7 +30605,7 @@ parse.cextern:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1688:
+.1693:
 	add rsp, 8
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 48]
@@ -30549,7 +30616,7 @@ parse.cextern:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2579.53
+	jnz .2604.53
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -30557,7 +30624,7 @@ parse.cextern:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2579.53:
+.2604.53:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _gtoken_stream
@@ -30573,8 +30640,8 @@ parse.cextern:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jz .1690
-	mov rbx, _s238
+	jz .1695
+	mov rbx, _s239
 	mov rsi, 4
 	mov rdi, qword [rsp + 0]
 	mov r8, rsi
@@ -30608,9 +30675,9 @@ parse.cextern:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1692
+	jz .1697
 	mov rbx, [_gpos]
-	mov rsi, _s239
+	mov rsi, _s240
 	mov rdi, 42
 	push rbx
 	push rsi
@@ -30625,11 +30692,11 @@ parse.cextern:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1692:
+.1697:
 	mov rbx, 0
 	push rbx
-	jmp .1694
-.1690:
+	jmp .1699
+.1695:
 	add rsp, 8
 	add rsp, 8
 	mov rbp, rsp
@@ -30637,7 +30704,7 @@ parse.cextern:
 	call parse.one_cextern_arg
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1694:
+.1699:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 48]
 	mov rbx, qword [_rs_p]
@@ -30654,7 +30721,7 @@ parse.cextern:
 	add rsp, 56
 	ret
 stas.parse:
-	sub rsp, 56
+	sub rsp, 96
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, 18446744073709551615
@@ -30672,14 +30739,76 @@ stas.parse:
 	call Array32.init_with_buffer_sz_bytes
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1695:
+.1700:
 	mov rbx, [_gpos]
 	mov rsi, [_gtoken_stream.len]
 	xor rdi, rdi
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jz .1696
+	jz .1701
+	mov rbx, [_gscope_context.len]
+	mov rsi, 0
+	xor rdi, rdi
+	cmp rbx, rsi
+	seta dil
+	test rdi, rdi
+	jz .1702
+	mov rbx, [_gscope_context.len]
+	mov rsi, 0
+	xor rdi, rdi
+	cmp rbx, rsi
+	setne dil
+	test rdi, rdi
+	jnz .2605.8
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s162
+	mov rdx, 66
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2605.8:
+	mov rbx, [_gscope_context.len]
+	mov rsi, 1
+	sub rbx, rsi
+	mov rsi, rbx
+	mov rdi, [_gscope_context.len]
+	xor r8, r8
+	cmp rsi, rdi
+	setb r8b
+	test r8, r8
+	jnz .2606.14
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s163
+	mov rdx, 66
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2606.14:
+	mov rsi, 32
+	imul rbx, rsi
+	mov rsi, qword _gscope_context
+	add rbx, rsi
+	mov ebx, [rbx]
+	mov rsi, 11
+	xor rdi, rdi
+	cmp rbx, rsi
+	sete dil
+	test rdi, rdi
+	jz .1704
+	mov rbx, 1
+	mov rsi, qword [_rs_p]
+	mov qword [rsi + 24], rbx
+.1706:
+	mov rbx, [_gpos]
+	mov rsi, [_gtoken_stream.len]
+	xor rdi, rdi
+	cmp rbx, rsi
+	setb dil
+	test rdi, rdi
+	jz .1707
 	mov rbx, [_gpos]
 	mov rsi, rbx
 	mov rdi, [_gtoken_stream.len]
@@ -30687,7 +30816,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2580.54
+	jnz .2607.54
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -30695,7 +30824,149 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2580.54:
+.2607.54:
+	mov rsi, 28
+	imul rbx, rsi
+	mov rsi, qword _gtoken_stream
+	add rbx, rsi
+	mov rsi, 12
+	add rbx, rsi
+	mov ebx, [rbx]
+	mov rsi, rbx
+	mov rdi, 5
+	xor r8, r8
+	cmp rsi, rdi
+	sete r8b
+	push rbx
+	test r8, r8
+	jz .1708
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 24]
+	dec rsi
+	mov rbx, qword [_rs_p]
+	mov qword [rbx + 24], rsi
+	jmp .1709
+.1708:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 4
+	xor r8, r8
+	cmp rsi, rdi
+	sete r8b
+	push rbx
+	test r8, r8
+	jz .1711
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 24]
+	inc rsi
+	mov rbx, qword [_rs_p]
+	mov qword [rbx + 24], rsi
+.1711:
+.1709:
+	add rsp, 8
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 24]
+	mov rbx, 0
+	xor rdi, rdi
+	cmp rsi, rbx
+	sete dil
+	test rdi, rdi
+	jz .1712
+	jmp .1707
+.1712:
+	mov rbx, [_gpos]
+	inc rbx
+	mov [_gpos], rbx
+	jmp .1706
+.1707:
+	mov rbx, [_gpos]
+	mov rsi, [_gtoken_stream.len]
+	xor rdi, rdi
+	cmp rbx, rsi
+	setae dil
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 24]
+	mov rbx, 0
+	xor r8, r8
+	cmp rsi, rbx
+	setne r8b
+	or rdi, r8
+	test rdi, rdi
+	jz .1714
+	mov rbx, [_gscope_context.len]
+	mov rsi, 0
+	xor rdi, rdi
+	cmp rbx, rsi
+	setne dil
+	test rdi, rdi
+	jnz .2608.9
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s162
+	mov rdx, 66
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2608.9:
+	mov rbx, [_gscope_context.len]
+	mov rsi, 1
+	sub rbx, rsi
+	mov rsi, rbx
+	mov rdi, [_gscope_context.len]
+	xor r8, r8
+	cmp rsi, rdi
+	setb r8b
+	test r8, r8
+	jnz .2609.15
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s163
+	mov rdx, 66
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2609.15:
+	mov rsi, 32
+	imul rbx, rsi
+	mov rsi, qword _gscope_context
+	add rbx, rsi
+	mov rsi, 12
+	add rbx, rsi
+	mov ebx, [rbx]
+	mov rsi, _s164
+	mov rdi, 26
+	push rbx
+	push rsi
+	push rdi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call error_noexit.Tok
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 1
+	mov rsi, 60
+	mov rax, rsi
+	mov rdi, rbx
+	syscall
+.1714:
+.1704:
+.1702:
+	mov rbx, [_gpos]
+	mov rsi, rbx
+	mov rdi, [_gtoken_stream.len]
+	xor r8, r8
+	cmp rsi, rdi
+	setb r8b
+	test r8, r8
+	jnz .2610.55
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s153
+	mov rdx, 62
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2610.55:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -30716,7 +30987,7 @@ stas.parse:
 	or r9, r8
 	push rbx
 	test r9, r9
-	jz .1697
+	jz .1716
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -30727,8 +30998,8 @@ stas.parse:
 	call parse.any_variable
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1698
-.1697:
+	jmp .1717
+.1716:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 9
@@ -30737,7 +31008,7 @@ stas.parse:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1700
+	jz .1719
 	mov rbx, 7
 	push rbx
 	mov rbp, rsp
@@ -30756,7 +31027,7 @@ stas.parse:
 	pop rsi
 	and rsi, rbx
 	test rsi, rsi
-	jz .1701
+	jz .1720
 	mov rbx, [_gpos]
 	inc rbx
 	mov [_gpos], rbx
@@ -30771,16 +31042,16 @@ stas.parse:
 	call parse.fn_decl
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1703
-.1701:
+	jmp .1722
+.1720:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.const_expression
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1703:
-	jmp .1698
-.1700:
+.1722:
+	jmp .1717
+.1719:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 74
@@ -30789,7 +31060,7 @@ stas.parse:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1705
+	jz .1724
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -30800,8 +31071,8 @@ stas.parse:
 	call parse.cextern
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1698
-.1705:
+	jmp .1717
+.1724:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 76
@@ -30810,7 +31081,7 @@ stas.parse:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1707
+	jz .1726
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.assert_const_fn_not
@@ -30825,9 +31096,9 @@ stas.parse:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1708
+	jz .1727
 	mov rbx, [_gpos]
-	mov rsi, _s241
+	mov rsi, _s242
 	mov rdi, 38
 	push rbx
 	push rsi
@@ -30842,7 +31113,7 @@ stas.parse:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1708:
+.1727:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 1
@@ -30851,7 +31122,7 @@ stas.parse:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1710
+	jz .1729
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.get_constant?
@@ -30861,9 +31132,9 @@ stas.parse:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1712
+	jz .1731
 	mov rbx, [_gpos]
-	mov rsi, _s178
+	mov rsi, _s179
 	mov rdi, 21
 	push rbx
 	push rsi
@@ -30878,9 +31149,9 @@ stas.parse:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1712:
-	jmp .1711
-.1710:
+.1731:
+	jmp .1730
+.1729:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 4
@@ -30889,14 +31160,14 @@ stas.parse:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1715
+	jz .1734
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.eval_const_expr
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1711
-.1715:
+	jmp .1730
+.1734:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 3
@@ -30905,7 +31176,7 @@ stas.parse:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1717
+	jz .1736
 	mov rbx, [_gpos]
 	mov rsi, rbx
 	mov rdi, [_gtoken_stream.len]
@@ -30913,7 +31184,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2581.55
+	jnz .2611.56
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -30921,7 +31192,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2581.55:
+.2611.56:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -30930,10 +31201,10 @@ stas.parse:
 	add rbx, rsi
 	mov rbx, [rbx]
 	push rbx
-	jmp .1711
-.1717:
+	jmp .1730
+.1736:
 	mov rbx, [_gpos]
-	mov rsi, _s242
+	mov rsi, _s243
 	mov rdi, 23
 	push rbx
 	push rsi
@@ -30950,11 +31221,11 @@ stas.parse:
 	syscall
 	mov rbx, 0
 	push rbx
-.1718:
-.1711:
+.1737:
+.1730:
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 24], rsi
+	mov qword [rbx + 32], rsi
 	add rsp, 8
 	mov rbx, 15
 	push rbx
@@ -30967,9 +31238,9 @@ stas.parse:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1719
+	jz .1738
 	mov rbx, [_gpos]
-	mov rsi, _s243
+	mov rsi, _s244
 	mov rdi, 32
 	push rbx
 	push rsi
@@ -30984,7 +31255,7 @@ stas.parse:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1719:
+.1738:
 	mov rbx, 4
 	push rbx
 	mov rbp, rsp
@@ -30996,9 +31267,9 @@ stas.parse:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1721
+	jz .1740
 	mov rbx, [_gpos]
-	mov rsi, _s243
+	mov rsi, _s244
 	mov rdi, 32
 	push rbx
 	push rsi
@@ -31013,60 +31284,27 @@ stas.parse:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1721:
-	mov rbx, 0
-	test rbx, rbx
-	jnz .2582
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s244
-	mov rdx, 79
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2582:
+.1740:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 24]
+	mov rsi, qword [rbx + 32]
 	test rsi, rsi
-	jz .1723
+	jz .1742
 	mov rbx, 12
 	push rbx
-	jmp .1725
-.1723:
+	jmp .1744
+.1742:
 	mov rbx, 11
 	push rbx
-.1725:
-	mov rbx, [_gfunctions.len]
-	mov rsi, [_gir_stream.len]
-	mov rdi, [_gvar_context.len]
-	mov r8, qword [_rs_p]
-	mov r9, 8
-	add r8, r9
-	mov r8, [r8]
-	mov r9, [_gcfunctions.len]
+.1744:
+	mov rbx, 0
 	push rbx
-	push rsi
-	push rdi
-	push r8
-	push r9
 	mov rbp, rsp
 	mov rsp, [_rs_p]
-	call scope_context.comptime_c_c
+	call parse.create_reset_frame
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, 0
-	test rbx, rbx
-	jnz .2583
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s246
-	mov rdx, 77
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2583:
-	jmp .1698
-.1707:
+	jmp .1717
+.1726:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call is_in_function
@@ -31076,7 +31314,7 @@ stas.parse:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1727
+	jz .1746
 	mov rbx, [_gpos]
 	mov rsi, rbx
 	mov rdi, [_gtoken_stream.len]
@@ -31084,7 +31322,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2584.56
+	jnz .2612.57
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -31092,7 +31330,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2584.56:
+.2612.57:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -31107,7 +31345,7 @@ stas.parse:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1729
+	jz .1748
 	mov rbx, qword [_rs_p]
 	push rbx
 	mov rbp, rsp
@@ -31115,8 +31353,8 @@ stas.parse:
 	call parse.fn_decl
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1730
-.1729:
+	jmp .1749
+.1748:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 9
@@ -31125,9 +31363,9 @@ stas.parse:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1732
-	jmp .1730
-.1732:
+	jz .1751
+	jmp .1749
+.1751:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 22
@@ -31136,7 +31374,7 @@ stas.parse:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1734
+	jz .1753
 	mov rbx, 1
 	push rbx
 	mov rbp, rsp
@@ -31148,9 +31386,9 @@ stas.parse:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1735
+	jz .1754
 	mov rbx, [_gpos]
-	mov rsi, _s247
+	mov rsi, _s246
 	mov rdi, 35
 	push rbx
 	push rsi
@@ -31165,7 +31403,7 @@ stas.parse:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1735:
+.1754:
 	mov rbx, [_gpos]
 	mov rsi, rbx
 	mov rdi, [_gtoken_stream.len]
@@ -31173,7 +31411,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2585.57
+	jnz .2613.58
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -31181,7 +31419,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2585.57:
+.2613.58:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -31204,9 +31442,9 @@ stas.parse:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1737
+	jz .1756
 	mov rbx, [_gpos]
-	mov rsi, _s252
+	mov rsi, _s251
 	mov rdi, 26
 	push rbx
 	push rsi
@@ -31221,13 +31459,13 @@ stas.parse:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1737:
+.1756:
 	mov rbx, [_gfunction_attributes]
 	pop rsi
 	or rsi, rbx
 	mov [_gfunction_attributes], rsi
-	jmp .1730
-.1734:
+	jmp .1749
+.1753:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 10
@@ -31236,10 +31474,10 @@ stas.parse:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1740
+	jz .1759
 	mov rbx, [_gpos]
 	mov rsi, qword [_rs_p]
-	mov qword [rsi + 32], rbx
+	mov qword [rsi + 40], rbx
 	mov rbx, 4
 	push rbx
 	mov rbp, rsp
@@ -31251,9 +31489,9 @@ stas.parse:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1741
+	jz .1760
 	mov rbx, [_gpos]
-	mov rsi, _s253
+	mov rsi, _s252
 	mov rdi, 57
 	push rbx
 	push rsi
@@ -31268,7 +31506,7 @@ stas.parse:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1741:
+.1760:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call parse.eval_const_expr
@@ -31276,10 +31514,10 @@ stas.parse:
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
 	pop rsi
-	mov qword [rbx + 40], rsi
+	mov qword [rbx + 48], rsi
 	mov rbx, 0
 	mov rsi, qword [_rs_p]
-	mov qword [rsi + 48], rbx
+	mov qword [rsi + 56], rbx
 	mov rbx, [_gpos]
 	mov rsi, 2
 	add rbx, rsi
@@ -31288,7 +31526,7 @@ stas.parse:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jz .1743
+	jz .1762
 	mov rbx, [_gpos]
 	mov rsi, 1
 	add rbx, rsi
@@ -31298,7 +31536,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2586.58
+	jnz .2614.59
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -31306,7 +31544,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2586.58:
+.2614.59:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -31327,7 +31565,7 @@ stas.parse:
 	cmp rsi, r8
 	setb r9b
 	test r9, r9
-	jnz .2587.59
+	jnz .2615.60
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -31335,7 +31573,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2587.59:
+.2615.60:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -31349,7 +31587,7 @@ stas.parse:
 	sete r8b
 	and rdi, r8
 	test rdi, rdi
-	jz .1745
+	jz .1764
 	mov rbx, [_gpos]
 	mov rsi, 2
 	add rbx, rsi
@@ -31359,7 +31597,7 @@ stas.parse:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2588.60
+	jnz .2616.61
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -31367,7 +31605,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2588.60:
+.2616.61:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gtoken_stream
@@ -31376,29 +31614,29 @@ stas.parse:
 	add rbx, rsi
 	mov rbx, [rbx]
 	mov rsi, qword [_rs_p]
-	mov qword [rsi + 48], rbx
-.1745:
-.1743:
+	mov qword [rsi + 56], rbx
+.1764:
+.1762:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 40]
+	mov rsi, qword [rbx + 48]
 	test rsi, rsi
 	sete sil
 	test rsi, rsi
-	jz .1747
+	jz .1766
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call error.start_bold_error
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
+	mov rsi, qword [rbx + 40]
 	mov rbx, rsi
 	mov rdi, [_gtoken_stream.len]
 	xor r8, r8
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2589.61
+	jnz .2617.62
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -31406,7 +31644,7 @@ stas.parse:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2589.61:
+.2617.62:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _gtoken_stream
@@ -31422,7 +31660,7 @@ stas.parse:
 	call error.end_bold_error
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s254
+	mov rbx, _s253
 	mov rsi, 25
 	mov rdi, 2
 	mov r8, 1
@@ -31433,14 +31671,14 @@ stas.parse:
 	mov rdi, rbx
 	syscall
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 48]
+	mov rsi, qword [rbx + 56]
 	mov rbx, 0
 	xor rdi, rdi
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .1749
-	mov rbx, _s255
+	jz .1768
+	mov rbx, _s254
 	mov rsi, 3
 	mov rdi, 2
 	mov r8, 1
@@ -31451,7 +31689,7 @@ stas.parse:
 	mov rdi, rbx
 	syscall
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 48]
+	mov rsi, qword [rbx + 56]
 	mov rbx, rsi
 	mov rdi, 8
 	add rbx, rdi
@@ -31464,7 +31702,7 @@ stas.parse:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-	mov rbx, _s256
+	mov rbx, _s255
 	mov rsi, 1
 	mov rdi, 2
 	mov r8, 1
@@ -31474,7 +31712,7 @@ stas.parse:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-.1749:
+.1768:
 	mov rbx, 1
 	mov rsi, _s24
 	mov rdi, 1
@@ -31486,29 +31724,150 @@ stas.parse:
 	mov rdi, rbx
 	syscall
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 32]
+	mov rsi, qword [rbx + 40]
 	push rsi
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call Token.eprint_file_tok
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1747:
+.1766:
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 48]
+	mov rsi, qword [rbx + 56]
 	mov rbx, 0
 	xor rdi, rdi
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .1751
+	jz .1770
 	mov rbx, [_gpos]
 	mov rsi, 2
 	add rbx, rsi
 	mov [_gpos], rbx
-.1751:
-	jmp .1730
-.1740:
+.1770:
+	jmp .1749
+.1759:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 5
+	xor r8, r8
+	cmp rsi, rdi
+	sete r8b
+	mov rsi, [_gscope_context.len]
+	mov rdi, 0
+	xor r9, r9
+	cmp rsi, rdi
+	setne r9b
+	test r9, r9
+	jnz .2618.10
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s162
+	mov rdx, 66
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2618.10:
+	mov rsi, [_gscope_context.len]
+	mov rdi, 1
+	sub rsi, rdi
+	mov rdi, rsi
+	mov r9, [_gscope_context.len]
+	xor r10, r10
+	cmp rdi, r9
+	setb r10b
+	test r10, r10
+	jnz .2619.16
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s163
+	mov rdx, 66
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2619.16:
+	mov rdi, 32
+	imul rsi, rdi
+	mov rdi, qword _gscope_context
+	add rsi, rdi
+	mov esi, [rsi]
+	mov rdi, rsi
+	mov r9, 11
+	xor r10, r10
+	cmp rdi, r9
+	sete r10b
+	mov rdi, 12
+	xor r9, r9
+	cmp rsi, rdi
+	sete r9b
+	or r10, r9
+	and r8, r10
+	push rbx
+	test r8, r8
+	jz .1773
+	mov rbx, qword [_rs_p]
+	add rbx, 64
+	mov rsi, [_gscope_context.len]
+	mov rdi, 0
+	xor r8, r8
+	cmp rsi, rdi
+	setne r8b
+	test r8, r8
+	jnz .2620.11
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s162
+	mov rdx, 66
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2620.11:
+	mov rsi, [_gscope_context.len]
+	mov rdi, 1
+	sub rsi, rdi
+	mov rdi, rsi
+	mov r8, [_gscope_context.len]
+	xor r9, r9
+	cmp rdi, r8
+	setb r9b
+	test r9, r9
+	jnz .2621.17
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s163
+	mov rdx, 66
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2621.17:
+	mov rdi, 32
+	imul rsi, rdi
+	mov rdi, qword _gscope_context
+	add rsi, rdi
+	mov rdi, 32
+	push rbx
+	push rsi
+	push rdi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call memcpy
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, [_gscope_context.len]
+	dec rbx
+	mov [_gscope_context.len], rbx
+	mov rbx, qword [_rs_p]
+	add rbx, 64
+	mov rsi, qword [_rs_p]
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call parse.handle_comptime_else_and_reset_frame
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	jmp .1749
+.1773:
 	mov rbx, [_gpos]
 	mov rsi, _s257
 	mov rdi, 22
@@ -31525,11 +31884,11 @@ stas.parse:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1753:
-.1730:
+.1774:
+.1749:
 	add rsp, 8
-	jmp .1754
-.1727:
+	jmp .1775
+.1746:
 	mov rbx, qword [_rs_p]
 	push rbx
 	mov rbp, rsp
@@ -31541,7 +31900,7 @@ stas.parse:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1755
+	jz .1776
 	mov rbx, qword [_rs_p]
 	push rbx
 	mov rbp, rsp
@@ -31549,16 +31908,16 @@ stas.parse:
 	call parse.fn_complex_tokens
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1755:
-.1754:
-.1726:
-.1698:
+.1776:
+.1775:
+.1745:
+.1717:
 	add rsp, 8
 	mov rbx, [_gpos]
 	inc rbx
 	mov [_gpos], rbx
-	jmp .1695
-.1696:
+	jmp .1700
+.1701:
 	mov rbx, qword [_rs_p]
 	mov rsi, 8
 	add rbx, rsi
@@ -31568,25 +31927,25 @@ stas.parse:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jnz .2590
+	jnz .2622
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s318
+	mov rsi, _s316
 	mov rdx, 63
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2590:
+.2622:
 	mov rbx, [_gfunction_context]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .1757
+	jz .1778
 	mov rbx, [_gtoken_stream.len]
 	dec rbx
-	mov rsi, _s319
+	mov rsi, _s317
 	mov rdi, 60
 	push rbx
 	push rsi
@@ -31601,30 +31960,136 @@ stas.parse:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1757:
+.1778:
 	mov rbx, [_gscope_context.len]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
-	sete dil
+	setne dil
 	test rdi, rdi
-	jnz .2591
+	jz .1780
+	mov rbx, [_gscope_context.len]
+	mov rsi, 0
+	xor rdi, rdi
+	cmp rbx, rsi
+	setne dil
+	test rdi, rdi
+	jnz .2623.12
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s320
-	mov rdx, 63
+	mov rsi, _s162
+	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2591:
+.2623.12:
+	mov rbx, [_gscope_context.len]
+	mov rsi, 1
+	sub rbx, rsi
+	mov rsi, rbx
+	mov rdi, [_gscope_context.len]
+	xor r8, r8
+	cmp rsi, rdi
+	setb r8b
+	test r8, r8
+	jnz .2624.18
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s163
+	mov rdx, 66
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2624.18:
+	mov rsi, 32
+	imul rbx, rsi
+	mov rsi, qword _gscope_context
+	add rbx, rsi
+	mov ebx, [rbx]
+	mov rsi, 12
+	xor rdi, rdi
+	cmp rbx, rsi
+	sete dil
+	test rdi, rdi
+	jz .1782
+	mov rbx, [_gscope_context.len]
+	mov rsi, 0
+	xor rdi, rdi
+	cmp rbx, rsi
+	setne dil
+	test rdi, rdi
+	jnz .2625.13
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s162
+	mov rdx, 66
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2625.13:
+	mov rbx, [_gscope_context.len]
+	mov rsi, 1
+	sub rbx, rsi
+	mov rsi, rbx
+	mov rdi, [_gscope_context.len]
+	xor r8, r8
+	cmp rsi, rdi
+	setb r8b
+	test r8, r8
+	jnz .2626.19
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s163
+	mov rdx, 66
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2626.19:
+	mov rsi, 32
+	imul rbx, rsi
+	mov rsi, qword _gscope_context
+	add rbx, rsi
+	mov rsi, 12
+	add rbx, rsi
+	mov ebx, [rbx]
+	mov rsi, _s164
+	mov rdi, 26
+	push rbx
+	push rsi
+	push rdi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call error_noexit.Tok
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 1
+	mov rsi, 60
+	mov rax, rsi
+	mov rdi, rbx
+	syscall
+	jmp .1784
+.1782:
+	mov rbx, 0
+	test rbx, rbx
+	jnz .2627
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s318
+	mov rdx, 77
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2627:
+.1784:
+.1780:
 	mov rbx, [_gmain_fn_idx]
 	mov rsi, 18446744073709551615
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .1759
-	mov rbx, _s321
+	jz .1785
+	mov rbx, _s319
 	mov rsi, 16
 	push rbx
 	push rsi
@@ -31669,10 +32134,10 @@ stas.parse:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.1759:
+.1785:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
-	add rsp, 56
+	add rsp, 96
 	ret
 slits_c_c:
 	mov [_rs_p], rsp
@@ -31683,15 +32148,15 @@ slits_c_c:
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jnz .2592
+	jnz .2628
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s375
+	mov rsi, _s373
 	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2592:
+.2628:
 	mov rbx, qword _gslits
 	mov rsi, [_gslits.len]
 	mov rdi, 8
@@ -31716,15 +32181,15 @@ is_slit_duplicate?:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2593.10
+	jnz .2629.10
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2593.10:
+.2629.10:
 	mov rsi, 16
 	imul rbx, rsi
 	mov rsi, qword _gir_stream
@@ -31741,7 +32206,7 @@ is_slit_duplicate?:
 	mov qword [rdi + 0], rsi
 	mov rbx, 0
 	push rbx
-.1761:
+.1787:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, [_gslits.len]
@@ -31750,7 +32215,7 @@ is_slit_duplicate?:
 	setb r8b
 	push rbx
 	test r8, r8
-	jz .1762
+	jz .1788
 	pop rbx
 	mov rsi, rbx
 	mov rdi, rsi
@@ -31759,15 +32224,15 @@ is_slit_duplicate?:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2594.1
+	jnz .2630.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s374
+	mov rsi, _s372
 	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2594.1:
+.2630.1:
 	mov rdi, 8
 	imul rsi, rdi
 	mov rdi, qword _gslits
@@ -31813,19 +32278,19 @@ is_slit_duplicate?:
 .83.90:
 	pop rbx
 	test rbx, rbx
-	jz .1763
+	jz .1789
 	mov rbx, 1
 	push rbx
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 16
 	ret
-.1763:
+.1789:
 	pop rbx
 	inc rbx
 	push rbx
-	jmp .1761
-.1762:
+	jmp .1787
+.1788:
 	add rsp, 8
 	mov rbx, 0
 	mov rsi, 0
@@ -31839,7 +32304,7 @@ dce.recurse_function:
 	sub rsp, 40
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1795:
+.1821:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, [_gfunctions.len]
@@ -31847,15 +32312,15 @@ dce.recurse_function:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2595.13
+	jnz .2631.13
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2595.13:
+.2631.13:
 	mov rsi, 48
 	imul rbx, rsi
 	mov rsi, qword _gfunctions
@@ -31885,7 +32350,7 @@ dce.recurse_function:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1765
+	jz .1791
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 20
@@ -31904,7 +32369,7 @@ dce.recurse_function:
 	cmp rsi, rbx
 	setae dil
 	test rdi, rdi
-	jz .1767
+	jz .1793
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 29
@@ -31914,9 +32379,9 @@ dce.recurse_function:
 	mov rbx, [_ginlined_functions]
 	inc rbx
 	mov [_ginlined_functions], rbx
-.1767:
-	jmp .1769
-.1765:
+.1793:
+	jmp .1795
+.1791:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 29
@@ -31926,16 +32391,16 @@ dce.recurse_function:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jnz .2596
+	jnz .2632
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s373
+	mov rsi, _s371
 	mov rdx, 73
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2596:
-.1769:
+.2632:
+.1795:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 16
@@ -31943,7 +32408,7 @@ dce.recurse_function:
 	mov esi, [rsi]
 	mov rbx, qword [_rs_p]
 	mov qword [rbx + 16], rsi
-.1770:
+.1796:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	mov rbx, qword [_rs_p]
@@ -31955,7 +32420,7 @@ dce.recurse_function:
 	cmp rsi, rdi
 	setb bl
 	test rbx, rbx
-	jz .1771
+	jz .1797
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	mov rbx, rsi
@@ -31964,15 +32429,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2597.11
+	jnz .2633.11
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2597.11:
+.2633.11:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -31990,15 +32455,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2598.12
+	jnz .2634.12
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2598.12:
+.2634.12:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -32027,7 +32492,7 @@ dce.recurse_function:
 	and r8, rbx
 	push rsi
 	test r8, r8
-	jz .1772
+	jz .1798
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rbx, rsi
@@ -32036,15 +32501,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2599.14
+	jnz .2635.14
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2599.14:
+.2635.14:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _gfunctions
@@ -32055,7 +32520,7 @@ dce.recurse_function:
 	cmp rsi, rdi
 	sete bl
 	test rbx, rbx
-	jz .1774
+	jz .1800
 	mov rbx, 18446744073709551615
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 24], rbx
@@ -32063,10 +32528,10 @@ dce.recurse_function:
 	mov rsi, qword [rbx + 16]
 	mov rbx, qword [_rs_p]
 	mov qword [rbx + 32], rsi
-.1776:
+.1802:
 	mov rbx, 1
 	test rbx, rbx
-	jz .1777
+	jz .1803
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 32]
 	inc rsi
@@ -32080,15 +32545,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2600.13
+	jnz .2636.13
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2600.13:
+.2636.13:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -32106,15 +32571,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2601.14
+	jnz .2637.14
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2601.14:
+.2637.14:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -32129,7 +32594,7 @@ dce.recurse_function:
 	sete r8b
 	push rsi
 	test r8, r8
-	jz .1778
+	jz .1804
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rbx, qword [_rs_p]
@@ -32138,13 +32603,13 @@ dce.recurse_function:
 	cmp rsi, rdi
 	sete bl
 	test rbx, rbx
-	jz .1780
+	jz .1806
 	mov rbx, 18446744073709551615
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 24], rbx
-.1780:
-	jmp .1779
-.1778:
+.1806:
+	jmp .1805
+.1804:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 12
@@ -32153,7 +32618,7 @@ dce.recurse_function:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1783
+	jz .1809
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, 18446744073709551615
@@ -32161,14 +32626,14 @@ dce.recurse_function:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .1784
+	jz .1810
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rbx, qword [_rs_p]
 	mov qword [rbx + 24], rsi
-.1784:
-	jmp .1779
-.1783:
+.1810:
+	jmp .1805
+.1809:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 15
@@ -32177,7 +32642,7 @@ dce.recurse_function:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1787
+	jz .1813
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	mov rbx, rsi
@@ -32186,15 +32651,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2602.15
+	jnz .2638.15
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2602.15:
+.2638.15:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -32212,9 +32677,9 @@ dce.recurse_function:
 	add rdi, rbx
 	mov edi, [rdi]
 	mov qword [rsi], rdi
-	jmp .1777
-	jmp .1779
-.1787:
+	jmp .1803
+	jmp .1805
+.1813:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, 18446744073709551615
@@ -32222,15 +32687,15 @@ dce.recurse_function:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .1789
-	jmp .1777
-.1789:
-.1788:
-.1779:
-	jmp .1776
-.1777:
+	jz .1815
+	jmp .1803
+.1815:
+.1814:
+.1805:
+	jmp .1802
+.1803:
 	add rsp, 8
-.1774:
+.1800:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	mov rbx, rsi
@@ -32239,15 +32704,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2603.16
+	jnz .2639.16
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2603.16:
+.2639.16:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -32260,7 +32725,7 @@ dce.recurse_function:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .1791
+	jz .1817
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	mov rbx, rsi
@@ -32269,15 +32734,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2604.17
+	jnz .2640.17
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2604.17:
+.2640.17:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -32291,15 +32756,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2605.15
+	jnz .2641.15
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2605.15:
+.2641.15:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _gfunctions
@@ -32311,7 +32776,7 @@ dce.recurse_function:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1793
+	jz .1819
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	push rsi
@@ -32320,10 +32785,10 @@ dce.recurse_function:
 	call dce.recurse_function
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1793:
-.1791:
-	jmp .1773
-.1772:
+.1819:
+.1817:
+	jmp .1799
+.1798:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 1
@@ -32332,7 +32797,7 @@ dce.recurse_function:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1797
+	jz .1823
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	push rsi
@@ -32345,7 +32810,7 @@ dce.recurse_function:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1798
+	jz .1824
 	add rsp, 8
 	mov rbx, [_gslits.len]
 	mov rsi, qword [_rs_p]
@@ -32357,7 +32822,7 @@ dce.recurse_function:
 	call slits_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1798:
+.1824:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	mov rbx, rsi
@@ -32366,15 +32831,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2606.18
+	jnz .2642.18
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2606.18:
+.2642.18:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -32383,8 +32848,8 @@ dce.recurse_function:
 	add rsi, rbx
 	pop rbx
 	mov qword [rsi], rbx
-	jmp .1773
-.1797:
+	jmp .1799
+.1823:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 17
@@ -32393,12 +32858,12 @@ dce.recurse_function:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1801
+	jz .1827
 	mov rbx, qword _gstrip_assert
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .1802
+	jz .1828
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	mov rbx, rsi
@@ -32407,15 +32872,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2607.19
+	jnz .2643.19
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2607.19:
+.2643.19:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -32424,8 +32889,8 @@ dce.recurse_function:
 	add rsi, rbx
 	mov rbx, 39
 	mov dword [rsi], ebx
-	jmp .1804
-.1802:
+	jmp .1830
+.1828:
 	mov rbx, [_gslits.len]
 	mov rsi, qword [_rs_p]
 	mov rdi, qword [rsi + 8]
@@ -32444,15 +32909,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2608.20
+	jnz .2644.20
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2608.20:
+.2644.20:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -32461,17 +32926,17 @@ dce.recurse_function:
 	add rsi, rbx
 	pop rbx
 	mov qword [rsi], rbx
-.1804:
-.1801:
-.1773:
+.1830:
+.1827:
+.1799:
 	add rsp, 8
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	inc rsi
 	mov rbx, qword [_rs_p]
 	mov qword [rbx + 16], rsi
-	jmp .1770
-.1771:
+	jmp .1796
+.1797:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	mov rbx, rsi
@@ -32480,15 +32945,15 @@ dce.recurse_function:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2609.21
+	jnz .2645.21
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2609.21:
+.2645.21:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -32501,15 +32966,15 @@ dce.recurse_function:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jnz .2610
+	jnz .2646
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s376
+	mov rsi, _s374
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2610:
+.2646:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 40
@@ -32537,7 +33002,7 @@ label.def.fwriteln:
 	seta r8b
 	push rbx
 	test r8, r8
-	jz .1805
+	jz .1831
 	mov rbx, 46
 	push rbx
 	mov rbp, rsp
@@ -32554,7 +33019,7 @@ label.def.fwriteln:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1805:
+.1831:
 	add rsp, 8
 	mov rbx, 58
 	push rbx
@@ -32596,7 +33061,7 @@ label.ref.fwriteln:
 	seta r8b
 	push rbx
 	test r8, r8
-	jz .1807
+	jz .1833
 	mov rbx, 46
 	push rbx
 	mov rbp, rsp
@@ -32613,7 +33078,7 @@ label.ref.fwriteln:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1807:
+.1833:
 	add rsp, 8
 	mov rbx, 10
 	push rbx
@@ -32657,7 +33122,7 @@ gen_inst:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -32697,11 +33162,11 @@ sysv_argc_to_reg:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1813
+	jz .1839
 	mov rbx, 2
 	push rbx
-	jmp .1814
-.1813:
+	jmp .1840
+.1839:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 1
@@ -32710,11 +33175,11 @@ sysv_argc_to_reg:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1816
+	jz .1842
 	mov rbx, 1
 	push rbx
-	jmp .1814
-.1816:
+	jmp .1840
+.1842:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 2
@@ -32723,11 +33188,11 @@ sysv_argc_to_reg:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1818
+	jz .1844
 	mov rbx, 12
 	push rbx
-	jmp .1814
-.1818:
+	jmp .1840
+.1844:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 3
@@ -32736,11 +33201,11 @@ sysv_argc_to_reg:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1820
+	jz .1846
 	mov rbx, 11
 	push rbx
-	jmp .1814
-.1820:
+	jmp .1840
+.1846:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 4
@@ -32749,11 +33214,11 @@ sysv_argc_to_reg:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1822
+	jz .1848
 	mov rbx, 3
 	push rbx
-	jmp .1814
-.1822:
+	jmp .1840
+.1848:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 5
@@ -32762,26 +33227,26 @@ sysv_argc_to_reg:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1824
+	jz .1850
 	mov rbx, 4
 	push rbx
-	jmp .1814
-.1824:
+	jmp .1840
+.1850:
 	mov rbx, 18446744073709551615
 	mov rsi, 0
 	test rsi, rsi
-	jnz .2611
+	jnz .2647
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s548
+	mov rsi, _s546
 	mov rdx, 74
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2611:
+.2647:
 	push rbx
-.1825:
-.1814:
+.1851:
+.1840:
 	pop rbx
 	pop rsi
 	push rbx
@@ -32799,15 +33264,15 @@ gen_cextern_function:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2612.6
+	jnz .2648.6
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s174
+	mov rsi, _s175
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2612.6:
+.2648.6:
 	mov rsi, 28
 	imul rbx, rsi
 	mov rsi, qword _gcfunctions
@@ -32824,7 +33289,7 @@ gen_cextern_function:
 	cmp rsi, rbx
 	seta dil
 	test rdi, rdi
-	jz .1826
+	jz .1852
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 16
@@ -32832,10 +33297,10 @@ gen_cextern_function:
 	mov esi, [rsi]
 	dec rsi
 	push rsi
-.1828:
+.1854:
 	mov rbx, 1
 	test rbx, rbx
-	jz .1829
+	jz .1855
 	pop rbx
 	mov rsi, rbx
 	push rbx
@@ -32858,16 +33323,16 @@ gen_cextern_function:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1830
-	jmp .1829
-.1830:
+	jz .1856
+	jmp .1855
+.1856:
 	pop rbx
 	dec rbx
 	push rbx
-	jmp .1828
-.1829:
+	jmp .1854
+.1855:
 	add rsp, 8
-.1826:
+.1852:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_stack_deep_flush
@@ -32880,15 +33345,15 @@ gen_cextern_function:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2613.4
+	jnz .2649.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s473
+	mov rsi, _s471
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2613.4:
+.2649.4:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	xor rsi, rsi
@@ -32896,16 +33361,16 @@ gen_cextern_function:
 	test rsi, rsi
 	sete sil
 	test rsi, rsi
-	jnz .2614
+	jnz .2650
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s549
+	mov rsi, _s547
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2614:
-	mov rbx, _s404
+.2650:
+	mov rbx, _s402
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -32921,7 +33386,7 @@ gen_cextern_function:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s405
+	mov rbx, _s403
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -32937,7 +33402,7 @@ gen_cextern_function:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s443
+	mov rbx, _s441
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -32967,7 +33432,7 @@ gen_cextern_function:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s433
+	mov rbx, _s431
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -32983,7 +33448,7 @@ gen_cextern_function:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s434
+	mov rbx, _s432
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -33009,7 +33474,7 @@ gen_cextern_function:
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .1832
+	jz .1858
 	mov rbx, 13
 	mov rsi, rbx
 	push rbx
@@ -33026,15 +33491,15 @@ gen_cextern_function:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2615.8
+	jnz .2651.8
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2615.8:
+.2651.8:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -33051,8 +33516,8 @@ gen_cextern_function:
 	sete r8b
 	push rsi
 	test r8, r8
-	jz .1834
-	mov rbx, _s550
+	jz .1860
+	mov rbx, _s548
 	mov rsi, 14
 	push rbx
 	push rsi
@@ -33068,8 +33533,8 @@ gen_cextern_function:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1835
-.1834:
+	jmp .1861
+.1860:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 16
@@ -33078,8 +33543,8 @@ gen_cextern_function:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1837
-	mov rbx, _s551
+	jz .1863
+	mov rbx, _s549
 	mov rsi, 16
 	push rbx
 	push rsi
@@ -33095,10 +33560,10 @@ gen_cextern_function:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1837:
-.1835:
+.1863:
+.1861:
 	add rsp, 8
-.1832:
+.1858:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 8
@@ -33107,7 +33572,7 @@ gen_range:
 	sub rsp, 184
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1886:
+.1912:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 0], rsi
@@ -33126,7 +33591,7 @@ gen_range:
 	mov rbx, 18446744073709551615
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 40], rbx
-.1838:
+.1864:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, qword [_rs_p]
@@ -33135,7 +33600,7 @@ gen_range:
 	cmp rsi, rdi
 	setb bl
 	test rbx, rbx
-	jz .1839
+	jz .1865
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, rsi
@@ -33144,15 +33609,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2616.22
+	jnz .2652.22
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2616.22:
+.2652.22:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -33165,7 +33630,7 @@ gen_range:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .1840
+	jz .1866
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, rsi
@@ -33174,15 +33639,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2617.23
+	jnz .2653.23
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2617.23:
+.2653.23:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -33196,15 +33661,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2618.16
+	jnz .2654.16
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2618.16:
+.2654.16:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _gfunctions
@@ -33223,7 +33688,7 @@ gen_range:
 	cmp rdi, rsi
 	sete bl
 	test rbx, rbx
-	jz .1842
+	jz .1868
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 8
@@ -33236,7 +33701,7 @@ gen_range:
 	cmp rsi, rdi
 	setae bl
 	test rbx, rbx
-	jz .1844
+	jz .1870
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 48]
 	mov rbx, 16
@@ -33262,18 +33727,18 @@ gen_range:
 	mov rsp, rbp
 	mov rbx, 0
 	push rbx
-	jmp .1846
-.1844:
+	jmp .1872
+.1870:
 	mov rbx, 1
 	push rbx
-.1846:
-	jmp .1847
-.1842:
+.1872:
+	jmp .1873
+.1868:
 	mov rbx, 1
 	push rbx
-.1847:
-	jmp .1848
-.1840:
+.1873:
+	jmp .1874
+.1866:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 32]
 	mov rbx, 8
@@ -33283,11 +33748,11 @@ gen_range:
 	cmp rdi, rsi
 	sete bl
 	test rbx, rbx
-	jz .1849
+	jz .1875
 	mov rbx, 1
 	push rbx
-	jmp .1851
-.1849:
+	jmp .1877
+.1875:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, qword [_rs_p]
@@ -33303,14 +33768,14 @@ gen_range:
 	test rbx, rbx
 	sete bl
 	push rbx
-.1851:
-.1848:
+.1877:
+.1874:
 	pop rbx
 	test rbx, rbx
-	jz .1852
+	jz .1878
 	mov rbx, 0
 	push rbx
-.1854:
+.1880:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
@@ -33323,7 +33788,7 @@ gen_range:
 	setb dil
 	push rbx
 	test rdi, rdi
-	jz .1855
+	jz .1881
 	pop rbx
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
@@ -33338,7 +33803,7 @@ gen_range:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jnz .2619.7
+	jnz .2655.7
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s67
@@ -33346,7 +33811,7 @@ gen_range:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2619.7:
+.2655.7:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_push_const
@@ -33355,8 +33820,8 @@ gen_range:
 	pop rbx
 	inc rbx
 	push rbx
-	jmp .1854
-.1855:
+	jmp .1880
+.1881:
 	add rsp, 8
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
@@ -33374,7 +33839,7 @@ gen_range:
 	mov sil, [rbx]
 	and rdi, rsi
 	test rdi, rdi
-	jz .1856
+	jz .1882
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, rsi
@@ -33383,15 +33848,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2620.24
+	jnz .2656.24
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2620.24:
+.2656.24:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -33403,7 +33868,7 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2621.62
+	jnz .2657.63
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -33411,13 +33876,13 @@ gen_range:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2621.62:
+.2657.63:
 	mov rbx, 28
 	imul rsi, rbx
 	mov rbx, qword _gtoken_stream
 	add rsi, rbx
 	mov rbx, rsi
-	mov rdi, _s421
+	mov rdi, _s419
 	mov r8, 6
 	push rsi
 	push rbx
@@ -33436,7 +33901,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s422
+	mov rbx, _s420
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -33455,7 +33920,7 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2622.6
+	jnz .2658.6
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s62
@@ -33463,7 +33928,7 @@ gen_range:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2622.6:
+.2658.6:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _gopened_files
@@ -33480,7 +33945,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s256
+	mov rbx, _s255
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -33496,7 +33961,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1856:
+.1882:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, rsi
@@ -33505,15 +33970,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2623.25
+	jnz .2659.25
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2623.25:
+.2659.25:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -33531,15 +33996,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2624.26
+	jnz .2660.26
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2624.26:
+.2660.26:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -33554,7 +34019,7 @@ gen_range:
 	sete r8b
 	push rsi
 	test r8, r8
-	jz .1858
+	jz .1884
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_flush
@@ -33571,8 +34036,8 @@ gen_range:
 	call label.def.fwriteln
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1859
-.1858:
+	jmp .1885
+.1884:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 14
@@ -33581,22 +34046,22 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1861
+	jz .1887
 	mov rbx, [_grallocator_stack.len]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jnz .2625
+	jnz .2661
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s423
+	mov rsi, _s421
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2625:
+.2661:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	mov rbx, rsi
@@ -33605,15 +34070,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2626.17
+	jnz .2662.17
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2626.17:
+.2662.17:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _gfunctions
@@ -33638,7 +34103,7 @@ gen_range:
 	sete sil
 	or rbx, rsi
 	test rbx, rbx
-	jz .1862
+	jz .1888
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 48]
 	mov rbx, 20
@@ -33646,8 +34111,8 @@ gen_range:
 	mov esi, [rsi]
 	mov rbx, qword [_rs_p]
 	mov qword [rbx + 24], rsi
-	jmp .1864
-.1862:
+	jmp .1890
+.1888:
 	mov rbx, [_gbackend_type]
 	mov rsi, 1
 	xor rdi, rdi
@@ -33658,8 +34123,8 @@ gen_range:
 	mov sil, [rbx]
 	and rdi, rsi
 	test rdi, rdi
-	jz .1865
-	mov rbx, _s424
+	jz .1891
+	mov rbx, _s422
 	mov rsi, 7
 	push rbx
 	push rsi
@@ -33683,7 +34148,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1865:
+.1891:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 48]
 	push rsi
@@ -33718,8 +34183,8 @@ gen_range:
 	cmp rsi, rbx
 	seta dil
 	test rdi, rdi
-	jz .1867
-	mov rbx, _s432
+	jz .1893
+	mov rbx, _s430
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -33746,8 +34211,8 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1867:
-	mov rbx, _s433
+.1893:
+	mov rbx, _s431
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -33763,7 +34228,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s434
+	mov rbx, _s432
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -33791,7 +34256,7 @@ gen_range:
 	setne r8b
 	push rsi
 	test r8, r8
-	jz .1869
+	jz .1895
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	pop rbx
@@ -33804,13 +34269,13 @@ gen_range:
 	mov rsp, rbp
 	mov rbx, 0
 	push rbx
-.1869:
+.1895:
 	add rsp, 8
 	mov rbx, qword _gtrace_calls
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .1871
+	jz .1897
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	mov rbx, rsi
@@ -33819,15 +34284,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2627.27
+	jnz .2663.27
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s172
+	mov rsi, _s173
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2627.27:
+.2663.27:
 	mov rbx, 16
 	imul rsi, rbx
 	mov rbx, qword _gir_stream
@@ -33888,39 +34353,39 @@ gen_range:
 	call slits_c_c
 	mov [_rs_p], rsp
 	mov rsp, rbp
+	mov rbx, _s434
+	mov rsi, 11
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s435
+	mov rsi, 11
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
 	mov rbx, _s436
-	mov rsi, 11
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s437
-	mov rsi, 11
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s438
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -33937,15 +34402,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2628.2
+	jnz .2664.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s374
+	mov rsi, _s372
 	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2628.2:
+.2664.2:
 	mov rsi, 8
 	imul rbx, rsi
 	mov rsi, qword _gslits
@@ -33965,7 +34430,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s439
+	mov rbx, _s437
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -33989,7 +34454,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s410
+	mov rbx, _s408
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -34005,7 +34470,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1871:
+.1897:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 48]
 	mov rbx, 40
@@ -34013,9 +34478,9 @@ gen_range:
 	mov rsi, [rsi]
 	mov rbx, qword [_rs_p]
 	mov qword [rbx + 32], rsi
-.1864:
-	jmp .1859
-.1861:
+.1890:
+	jmp .1885
+.1887:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 15
@@ -34024,7 +34489,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1874
+	jz .1900
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_flush
@@ -34037,7 +34502,7 @@ gen_range:
 	cmp rsi, rbx
 	seta dil
 	test rdi, rdi
-	jz .1875
+	jz .1901
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 40]
 	mov rbx, 18446744073709551615
@@ -34045,15 +34510,15 @@ gen_range:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .1877
+	jz .1903
 	mov rbx, [_glabel_c]
 	mov rsi, rbx
 	inc rsi
 	mov [_glabel_c], rsi
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 40], rbx
-.1877:
-	mov rbx, _s440
+.1903:
+	mov rbx, _s438
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -34073,8 +34538,8 @@ gen_range:
 	call label.ref.fwriteln
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1879
-.1875:
+	jmp .1905
+.1901:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	mov rbx, rsi
@@ -34083,22 +34548,22 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2629.18
+	jnz .2665.18
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2629.18:
+.2665.18:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _gfunctions
 	add rsi, rbx
 	mov rbx, qword [_rs_p]
 	mov qword [rbx + 48], rsi
-	mov rbx, _s404
+	mov rbx, _s402
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -34114,7 +34579,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s405
+	mov rbx, _s403
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -34140,8 +34605,8 @@ gen_range:
 	cmp rsi, rbx
 	seta dil
 	test rdi, rdi
-	jz .1880
-	mov rbx, _s441
+	jz .1906
+	mov rbx, _s439
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -34168,8 +34633,8 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1880:
-	mov rbx, _s442
+.1906:
+	mov rbx, _s440
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -34185,9 +34650,9 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1879:
-	jmp .1859
-.1874:
+.1905:
+	jmp .1885
+.1900:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 16
@@ -34196,7 +34661,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1883
+	jz .1909
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	mov rbx, rsi
@@ -34205,15 +34670,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2630.19
+	jnz .2666.19
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s170
+	mov rsi, _s171
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2630.19:
+.2666.19:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _gfunctions
@@ -34229,7 +34694,7 @@ gen_range:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .1884
+	jz .1910
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 48]
 	mov rbx, 34
@@ -34266,14 +34731,14 @@ gen_range:
 	call gen_range
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1887
-.1884:
+	jmp .1913
+.1910:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_flush
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s404
+	mov rbx, _s402
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -34289,7 +34754,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s405
+	mov rbx, _s403
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -34305,7 +34770,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s443
+	mov rbx, _s441
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -34329,7 +34794,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s433
+	mov rbx, _s431
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -34345,7 +34810,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s434
+	mov rbx, _s432
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -34361,9 +34826,9 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1887:
-	jmp .1859
-.1883:
+.1913:
+	jmp .1885
+.1909:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 17
@@ -34372,7 +34837,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1889
+	jz .1915
 	mov rbx, [_glabel_c]
 	mov rsi, rbx
 	inc rsi
@@ -34387,7 +34852,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s446
+	mov rbx, _s444
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -34409,7 +34874,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -34438,7 +34903,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s447
+	mov rbx, _s445
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -34458,7 +34923,7 @@ gen_range:
 	call label.ref.fwriteln
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s448
+	mov rbx, _s446
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -34474,7 +34939,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s449
+	mov rbx, _s447
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -34490,7 +34955,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s439
+	mov rbx, _s437
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -34514,7 +34979,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s438
+	mov rbx, _s436
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -34531,15 +34996,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2631.3
+	jnz .2667.3
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s374
+	mov rsi, _s372
 	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2631.3:
+.2667.3:
 	mov rbx, 8
 	imul rsi, rbx
 	mov rbx, qword _gslits
@@ -34559,7 +35024,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s410
+	mov rbx, _s408
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -34575,7 +35040,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s450
+	mov rbx, _s448
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -34591,7 +35056,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s451
+	mov rbx, _s449
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -34626,21 +35091,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2632.4
+	jnz .2668.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2632.4:
+.2668.4:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1889:
+	jmp .1885
+.1915:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 1
@@ -34649,13 +35114,13 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1891
+	jz .1917
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_prepare_push_const_word
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s452
+	mov rbx, _s450
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -34679,8 +35144,8 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1859
-.1891:
+	jmp .1885
+.1917:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 2
@@ -34689,7 +35154,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1893
+	jz .1919
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	push rsi
@@ -34698,8 +35163,8 @@ gen_range:
 	call r_push_const
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1859
-.1893:
+	jmp .1885
+.1919:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 3
@@ -34708,13 +35173,13 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1895
+	jz .1921
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_prepare_push_const_word
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s453
+	mov rbx, _s451
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -34737,8 +35202,8 @@ gen_range:
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .1896
-	mov rbx, _s454
+	jz .1922
+	mov rbx, _s452
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -34762,7 +35227,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -34786,9 +35251,9 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1896:
-	jmp .1859
-.1895:
+.1922:
+	jmp .1885
+.1921:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 4
@@ -34797,7 +35262,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1899
+	jz .1925
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	mov rbx, 4294967295
@@ -34824,22 +35289,22 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2633.9
+	jnz .2669.9
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2633.9:
+.2669.9:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
 	mov byte [rsi], dil
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 120], rbx
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -34861,7 +35326,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s455
+	mov rbx, _s453
 	mov rsi, 15
 	push rbx
 	push rsi
@@ -34880,7 +35345,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 112]
 	push rsi
-.1900:
+.1926:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 0
@@ -34889,7 +35354,7 @@ gen_range:
 	seta r8b
 	push rbx
 	test r8, r8
-	jz .1901
+	jz .1927
 	pop rbx
 	dec rbx
 	mov rsi, rbx
@@ -34907,7 +35372,7 @@ gen_range:
 	mov rsp, rbp
 	pop rbx
 	pop rsi
-	mov rdi, _s456
+	mov rdi, _s454
 	mov r8, 12
 	push rbx
 	push rsi
@@ -34931,7 +35396,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s457
+	mov rbx, _s455
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -34945,7 +35410,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s458
+	mov rbx, _s456
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -34962,15 +35427,15 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2634.5
+	jnz .2670.5
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2634.5:
+.2670.5:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 0
@@ -34993,8 +35458,8 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1900
-.1901:
+	jmp .1926
+.1927:
 	add rsp, 8
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 120]
@@ -35004,21 +35469,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2635.6
+	jnz .2671.6
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2635.6:
+.2671.6:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1899:
+	jmp .1885
+.1925:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 5
@@ -35027,7 +35492,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1903
+	jz .1929
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	mov rbx, 4294967295
@@ -35054,22 +35519,22 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2636.10
+	jnz .2672.10
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2636.10:
+.2672.10:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
 	mov byte [rsi], dil
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 144], rbx
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -35091,7 +35556,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s455
+	mov rbx, _s453
 	mov rsi, 15
 	push rbx
 	push rsi
@@ -35110,7 +35575,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 136]
 	push rsi
-.1904:
+.1930:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 0
@@ -35119,7 +35584,7 @@ gen_range:
 	seta r8b
 	push rbx
 	test r8, r8
-	jz .1905
+	jz .1931
 	pop rbx
 	dec rbx
 	mov rsi, rbx
@@ -35140,7 +35605,7 @@ gen_range:
 	call r_prepare_push_const_word
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s459
+	mov rbx, _s457
 	mov rsi, 7
 	push rbx
 	push rsi
@@ -35162,7 +35627,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s457
+	mov rbx, _s455
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -35176,7 +35641,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s460
+	mov rbx, _s458
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -35192,8 +35657,8 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1904
-.1905:
+	jmp .1930
+.1931:
 	add rsp, 8
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 144]
@@ -35203,21 +35668,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2637.7
+	jnz .2673.7
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2637.7:
+.2673.7:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1903:
+	jmp .1885
+.1929:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 6
@@ -35226,13 +35691,13 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1907
+	jz .1933
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_prepare_push_const_word
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s461
+	mov rbx, _s459
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -35249,15 +35714,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2638.6
+	jnz .2674.6
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2638.6:
+.2674.6:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _gvar_context
@@ -35283,8 +35748,8 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1859
-.1907:
+	jmp .1885
+.1933:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 7
@@ -35293,7 +35758,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1909
+	jz .1935
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	mov rbx, rsi
@@ -35302,15 +35767,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2639.7
+	jnz .2675.7
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2639.7:
+.2675.7:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _gvar_context
@@ -35331,7 +35796,7 @@ gen_range:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .1910
+	jz .1936
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -35340,7 +35805,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 152], rsi
-	mov rbx, _s462
+	mov rbx, _s460
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -35357,15 +35822,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2640.8
+	jnz .2676.8
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2640.8:
+.2676.8:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _gvar_context
@@ -35384,7 +35849,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s458
+	mov rbx, _s456
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -35413,8 +35878,8 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1912
-.1910:
+	jmp .1938
+.1936:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_alloc
@@ -35428,22 +35893,22 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2641.11
+	jnz .2677.11
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2641.11:
+.2677.11:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
 	mov byte [rsi], dil
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 152], rbx
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -35465,7 +35930,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s463
+	mov rbx, _s461
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -35482,15 +35947,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2642.9
+	jnz .2678.9
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2642.9:
+.2678.9:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _gvar_context
@@ -35519,7 +35984,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 160]
 	push rsi
-.1913:
+.1939:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 0
@@ -35528,7 +35993,7 @@ gen_range:
 	seta r8b
 	push rbx
 	test r8, r8
-	jz .1914
+	jz .1940
 	pop rbx
 	dec rbx
 	mov rsi, rbx
@@ -35541,7 +36006,7 @@ gen_range:
 	call r_pop
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s456
+	mov rbx, _s454
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -35563,7 +36028,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s457
+	mov rbx, _s455
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -35581,7 +36046,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s458
+	mov rbx, _s456
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -35598,15 +36063,15 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2643.8
+	jnz .2679.8
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2643.8:
+.2679.8:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 0
@@ -35629,10 +36094,10 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1913
-.1914:
+	jmp .1939
+.1940:
 	add rsp, 8
-.1912:
+.1938:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 152]
 	mov rbx, rsi
@@ -35641,21 +36106,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2644.9
+	jnz .2680.9
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2644.9:
+.2680.9:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1909:
+	jmp .1885
+.1935:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 8
@@ -35664,7 +36129,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1916
+	jz .1942
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	mov rbx, rsi
@@ -35673,15 +36138,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2645.10
+	jnz .2681.10
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2645.10:
+.2681.10:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _gvar_context
@@ -35708,15 +36173,15 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2646.12
+	jnz .2682.12
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2646.12:
+.2682.12:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -35730,8 +36195,8 @@ gen_range:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .1917
-	mov rbx, _s419
+	jz .1943
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -35753,7 +36218,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s464
+	mov rbx, _s462
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -35770,15 +36235,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2647.11
+	jnz .2683.11
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2647.11:
+.2683.11:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _gvar_context
@@ -35797,7 +36262,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s460
+	mov rbx, _s458
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -35830,22 +36295,22 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2648.13
+	jnz .2684.13
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2648.13:
+.2684.13:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .1919
-.1917:
-	mov rbx, _s419
+	jmp .1945
+.1943:
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -35867,7 +36332,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s463
+	mov rbx, _s461
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -35884,15 +36349,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2649.12
+	jnz .2685.12
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2649.12:
+.2685.12:
 	mov rbx, 24
 	imul rsi, rbx
 	mov rbx, qword _gvar_context
@@ -35921,7 +36386,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 176]
 	push rsi
-.1920:
+.1946:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 0
@@ -35930,7 +36395,7 @@ gen_range:
 	seta r8b
 	push rbx
 	test r8, r8
-	jz .1921
+	jz .1947
 	pop rbx
 	dec rbx
 	mov rsi, rbx
@@ -35948,7 +36413,7 @@ gen_range:
 	call r_prepare_push_const_word
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s459
+	mov rbx, _s457
 	mov rsi, 7
 	push rbx
 	push rsi
@@ -35970,7 +36435,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s457
+	mov rbx, _s455
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -35984,7 +36449,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s460
+	mov rbx, _s458
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -36000,8 +36465,8 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1920
-.1921:
+	jmp .1946
+.1947:
 	add rsp, 8
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 168]
@@ -36011,22 +36476,22 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2650.10
+	jnz .2686.10
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2650.10:
+.2686.10:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-.1919:
-	jmp .1859
-.1916:
+.1945:
+	jmp .1885
+.1942:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 9
@@ -36035,7 +36500,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1923
+	jz .1949
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_alloc
@@ -36049,22 +36514,22 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2651.14
+	jnz .2687.14
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2651.14:
+.2687.14:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
 	mov byte [rsi], dil
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 64], rbx
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -36086,7 +36551,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s465
+	mov rbx, _s463
 	mov rsi, 16
 	push rbx
 	push rsi
@@ -36102,7 +36567,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -36124,7 +36589,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s466
+	mov rbx, _s464
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -36146,7 +36611,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s460
+	mov rbx, _s458
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -36179,21 +36644,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2652.15
+	jnz .2688.15
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2652.15:
+.2688.15:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .1859
-.1923:
+	jmp .1885
+.1949:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 10
@@ -36202,7 +36667,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1925
+	jz .1951
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_alloc
@@ -36216,22 +36681,60 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2653.16
+	jnz .2689.16
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2653.16:
+.2689.16:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
 	mov byte [rsi], dil
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 64], rbx
-	mov rbx, _s419
+	mov rbx, _s417
+	mov rsi, 5
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 64]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s463
+	mov rsi, 16
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s452
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -36254,44 +36757,6 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s465
-	mov rsi, 16
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s454
-	mov rsi, 5
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 64]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s467
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -36324,21 +36789,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2654.17
+	jnz .2690.17
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2654.17:
+.2690.17:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .1859
-.1925:
+	jmp .1885
+.1951:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 66
@@ -36347,7 +36812,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1927
+	jz .1953
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_alloc
@@ -36361,15 +36826,15 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2655.18
+	jnz .2691.18
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2655.18:
+.2691.18:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -36389,22 +36854,120 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2656.19
+	jnz .2692.19
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2656.19:
+.2692.19:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
 	mov byte [rsi], dil
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 72], rbx
-	mov rbx, _s419
+	mov rbx, _s417
+	mov rsi, 5
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 64]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s463
+	mov rsi, 16
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s417
+	mov rsi, 5
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 72]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s464
+	mov rsi, 3
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 64]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s458
+	mov rsi, 1
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s452
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -36427,7 +36990,7 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s465
-	mov rsi, 16
+	mov rsi, 3
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -36442,7 +37005,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s419
+	mov rbx, _s466
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -36452,7 +37015,7 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 72]
+	mov rsi, qword [rbx + 64]
 	push rsi
 	mov rbp, rsp
 	mov rsp, [_rs_p]
@@ -36464,7 +37027,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s466
+	mov rbx, _s464
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -36486,24 +37049,8 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s460
-	mov rsi, 1
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s454
-	mov rsi, 5
+	mov rbx, _s455
+	mov rsi, 3
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -36512,7 +37059,7 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 64]
+	mov rsi, qword [rbx + 72]
 	push rsi
 	mov rbp, rsp
 	mov rsp, [_rs_p]
@@ -36525,88 +37072,6 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s467
-	mov rsi, 3
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s468
-	mov rsi, 5
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 64]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s466
-	mov rsi, 3
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 64]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s457
-	mov rsi, 3
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 72]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s469
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -36639,15 +37104,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2657.20
+	jnz .2693.20
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2657.20:
+.2693.20:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -36660,21 +37125,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2658.11
+	jnz .2694.11
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2658.11:
+.2694.11:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1927:
+	jmp .1885
+.1953:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 11
@@ -36683,7 +37148,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1929
+	jz .1955
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -36697,7 +37162,7 @@ gen_range:
 	call r_flush
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s446
+	mov rbx, _s444
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -36719,7 +37184,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -36748,7 +37213,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s470
+	mov rbx, _s468
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -36776,21 +37241,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2659.12
+	jnz .2695.12
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2659.12:
+.2695.12:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1929:
+	jmp .1885
+.1955:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 12
@@ -36799,13 +37264,13 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1931
+	jz .1957
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_flush
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s440
+	mov rbx, _s438
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -36825,8 +37290,8 @@ gen_range:
 	call label.ref.fwriteln
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1859
-.1931:
+	jmp .1885
+.1957:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 19
@@ -36835,7 +37300,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1933
+	jz .1959
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -36848,7 +37313,7 @@ gen_range:
 	mov rsp, rbp
 	mov rbx, qword [rsp + 8]
 	mov rsi, qword [rsp + 0]
-	mov rdi, _s471
+	mov rdi, _s469
 	mov r8, 3
 	push rbx
 	push rsi
@@ -36875,15 +37340,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2660.21
+	jnz .2696.21
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2660.21:
+.2696.21:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -36895,21 +37360,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2661.13
+	jnz .2697.13
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2661.13:
+.2697.13:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 0
 	mov byte [rbx], sil
-	jmp .1859
-.1933:
+	jmp .1885
+.1959:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 20
@@ -36918,7 +37383,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1935
+	jz .1961
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -36931,7 +37396,7 @@ gen_range:
 	mov rsp, rbp
 	mov rbx, qword [rsp + 8]
 	mov rsi, qword [rsp + 0]
-	mov rdi, _s344
+	mov rdi, _s342
 	mov r8, 3
 	push rbx
 	push rsi
@@ -36958,15 +37423,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2662.22
+	jnz .2698.22
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2662.22:
+.2698.22:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -36978,21 +37443,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2663.14
+	jnz .2699.14
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2663.14:
+.2699.14:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 0
 	mov byte [rbx], sil
-	jmp .1859
-.1935:
+	jmp .1885
+.1961:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 21
@@ -37001,7 +37466,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1937
+	jz .1963
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -37014,7 +37479,7 @@ gen_range:
 	mov rsp, rbp
 	mov rbx, qword [rsp + 8]
 	mov rsi, qword [rsp + 0]
-	mov rdi, _s472
+	mov rdi, _s470
 	mov r8, 4
 	push rbx
 	push rsi
@@ -37041,15 +37506,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2664.23
+	jnz .2700.23
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2664.23:
+.2700.23:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -37061,21 +37526,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2665.15
+	jnz .2701.15
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2665.15:
+.2701.15:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 0
 	mov byte [rbx], sil
-	jmp .1859
-.1937:
+	jmp .1885
+.1963:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 22
@@ -37084,7 +37549,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1939
+	jz .1965
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -37107,7 +37572,7 @@ gen_range:
 	call r_release
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s475
+	mov rbx, _s473
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -37123,7 +37588,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s476
+	mov rbx, _s474
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -37168,15 +37633,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2666.24
+	jnz .2702.24
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2666.24:
+.2702.24:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -37188,15 +37653,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2667.16
+	jnz .2703.16
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2667.16:
+.2703.16:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -37209,21 +37674,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2668.17
+	jnz .2704.17
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2668.17:
+.2704.17:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1939:
+	jmp .1885
+.1965:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 23
@@ -37232,7 +37697,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1941
+	jz .1967
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -37255,7 +37720,7 @@ gen_range:
 	call r_release
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s475
+	mov rbx, _s473
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -37271,7 +37736,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s476
+	mov rbx, _s474
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -37316,15 +37781,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2669.25
+	jnz .2705.25
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2669.25:
+.2705.25:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -37336,15 +37801,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2670.18
+	jnz .2706.18
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2670.18:
+.2706.18:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 0
@@ -37357,21 +37822,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2671.19
+	jnz .2707.19
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2671.19:
+.2707.19:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1941:
+	jmp .1885
+.1967:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 24
@@ -37380,12 +37845,285 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1943
+	jz .1969
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_top
 	mov [_rs_p], rsp
 	mov rsp, rbp
+	mov rbx, _s475
+	mov rsi, 5
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	jmp .1885
+.1969:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 25
+	xor r8, r8
+	cmp rsi, rdi
+	sete r8b
+	push rbx
+	test r8, r8
+	jz .1971
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_top
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s476
+	mov rsi, 5
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	jmp .1885
+.1971:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 26
+	xor r8, r8
+	cmp rsi, rdi
+	sete r8b
+	push rbx
+	test r8, r8
+	jz .1973
+	mov rbx, 12
+	mov rsi, rbx
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_release
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor r8, r8
+	cmp rsi, rdi
+	setb r8b
+	test r8, r8
+	jnz .2708.26
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s416
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2708.26:
+	mov rsi, qword _grallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov byte [rbx], sil
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 72], rsi
+	mov rbx, 13
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop_r
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s473
+	mov rsi, 13
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s474
+	mov rsi, 5
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 72]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 72]
+	mov rbx, rsi
+	mov rdi, 14
+	xor r8, r8
+	cmp rbx, rdi
+	setb r8b
+	test r8, r8
+	jnz .2709.20
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s411
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2709.20:
+	mov rbx, qword _grallocator_mask
+	add rsi, rbx
+	mov rbx, 0
+	mov byte [rsi], bl
+	mov rbx, 13
+	mov rsi, rbx
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call rallocator_stack_c_c
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor r8, r8
+	cmp rsi, rdi
+	setb r8b
+	test r8, r8
+	jnz .2710.27
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s416
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2710.27:
+	mov rsi, qword _grallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov byte [rbx], sil
+	mov rbx, 12
+	mov rsi, rbx
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call rallocator_stack_c_c
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor r8, r8
+	cmp rsi, rdi
+	setb r8b
+	test r8, r8
+	jnz .2711.28
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s416
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2711.28:
+	mov rsi, qword _grallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov byte [rbx], sil
+	jmp .1885
+.1973:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 27
+	xor r8, r8
+	cmp rsi, rdi
+	sete r8b
+	push rbx
+	test r8, r8
+	jz .1975
+	mov rbx, 11
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop_r
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 64], rsi
 	mov rbx, _s477
 	mov rsi, 5
 	push rbx
@@ -37395,6 +38133,9 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 64]
+	push rsi
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call Reg.64.to_str
@@ -37403,114 +38144,10 @@ gen_range:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	jmp .1859
-.1943:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 25
-	xor r8, r8
-	cmp rsi, rdi
-	sete r8b
-	push rbx
-	test r8, r8
-	jz .1945
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_top
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s478
-	mov rsi, 5
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	jmp .1859
-.1945:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 26
-	xor r8, r8
-	cmp rsi, rdi
-	sete r8b
-	push rbx
-	test r8, r8
-	jz .1947
-	mov rbx, 12
-	mov rsi, rbx
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_release
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor r8, r8
-	cmp rsi, rdi
-	setb r8b
-	test r8, r8
-	jnz .2672.26
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s418
-	mov rdx, 59
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2672.26:
-	mov rsi, qword _grallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov byte [rbx], sil
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 72], rsi
-	mov rbx, 13
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop_r
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s475
-	mov rsi, 13
+	mov rsi, 4
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -37525,60 +38162,11 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s476
-	mov rsi, 5
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
 	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 72]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 72]
+	mov rsi, qword [rbx + 64]
 	mov rbx, rsi
-	mov rdi, 14
-	xor r8, r8
-	cmp rbx, rdi
-	setb r8b
-	test r8, r8
-	jnz .2673.20
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s413
-	mov rdx, 59
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2673.20:
-	mov rbx, qword _grallocator_mask
-	add rsi, rbx
-	mov rbx, 0
-	mov byte [rsi], bl
-	mov rbx, 13
-	mov rsi, rbx
-	push rbx
 	push rsi
+	push rbx
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call rallocator_stack_c_c
@@ -37591,59 +38179,50 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2674.27
+	jnz .2712.29
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2674.27:
+.2712.29:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	mov rbx, 12
-	mov rsi, rbx
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call rallocator_stack_c_c
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
+	mov rbx, 11
 	mov rsi, rbx
 	mov rdi, 14
 	xor r8, r8
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2675.28
+	jnz .2713.21
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2675.28:
+.2713.21:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
-	mov rsi, 1
+	mov rsi, 0
 	mov byte [rbx], sil
-	jmp .1859
-.1947:
+	jmp .1885
+.1975:
 	pop rbx
 	mov rsi, rbx
-	mov rdi, 27
+	mov rdi, 28
 	xor r8, r8
 	cmp rsi, rdi
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1949
+	jz .1977
 	mov rbx, 11
 	push rbx
 	mov rbp, rsp
@@ -37681,7 +38260,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s480
+	mov rbx, _s478
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -37714,15 +38293,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2676.29
+	jnz .2714.30
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2676.29:
+.2714.30:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -37734,135 +38313,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2677.21
+	jnz .2715.22
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2677.21:
+.2715.22:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 0
 	mov byte [rbx], sil
-	jmp .1859
-.1949:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 28
-	xor r8, r8
-	cmp rsi, rdi
-	sete r8b
-	push rbx
-	test r8, r8
-	jz .1951
-	mov rbx, 11
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop_r
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 64], rsi
-	mov rbx, _s481
-	mov rsi, 5
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 64]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s480
-	mov rsi, 4
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 64]
-	mov rbx, rsi
-	push rsi
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call rallocator_stack_c_c
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor r8, r8
-	cmp rsi, rdi
-	setb r8b
-	test r8, r8
-	jnz .2678.30
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s418
-	mov rdx, 59
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2678.30:
-	mov rsi, qword _grallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov byte [rbx], sil
-	mov rbx, 11
-	mov rsi, rbx
-	mov rdi, 14
-	xor r8, r8
-	cmp rsi, rdi
-	setb r8b
-	test r8, r8
-	jnz .2679.22
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s413
-	mov rdx, 59
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2679.22:
-	mov rsi, qword _grallocator_mask
-	add rbx, rsi
-	mov rsi, 0
-	mov byte [rbx], sil
-	jmp .1859
-.1951:
+	jmp .1885
+.1977:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 65
@@ -37871,7 +38336,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1953
+	jz .1979
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -37880,7 +38345,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s446
+	mov rbx, _s444
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -37902,7 +38367,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -37931,7 +38396,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s482
+	mov rbx, _s480
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -37977,21 +38442,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2680.31
+	jnz .2716.31
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2680.31:
+.2716.31:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .1859
-.1953:
+	jmp .1885
+.1979:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 29
@@ -38000,7 +38465,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1955
+	jz .1981
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -38013,7 +38478,7 @@ gen_range:
 	mov rsp, rbp
 	mov rbx, qword [rsp + 8]
 	mov rsi, qword [rsp + 0]
-	mov rdi, _s498
+	mov rdi, _s496
 	mov r8, 3
 	push rbx
 	push rsi
@@ -38040,15 +38505,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2681.32
+	jnz .2717.32
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2681.32:
+.2717.32:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -38060,21 +38525,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2682.23
+	jnz .2718.23
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2682.23:
+.2718.23:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 0
 	mov byte [rbx], sil
-	jmp .1859
-.1955:
+	jmp .1885
+.1981:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 30
@@ -38083,7 +38548,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1957
+	jz .1983
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -38096,7 +38561,7 @@ gen_range:
 	mov rsp, rbp
 	mov rbx, qword [rsp + 8]
 	mov rsi, qword [rsp + 0]
-	mov rdi, _s499
+	mov rdi, _s497
 	mov r8, 2
 	push rbx
 	push rsi
@@ -38123,15 +38588,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2683.33
+	jnz .2719.33
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2683.33:
+.2719.33:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -38143,21 +38608,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2684.24
+	jnz .2720.24
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2684.24:
+.2720.24:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 0
 	mov byte [rbx], sil
-	jmp .1859
-.1957:
+	jmp .1885
+.1983:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 31
@@ -38166,7 +38631,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1959
+	jz .1985
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -38175,7 +38640,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s500
+	mov rbx, _s498
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -38221,21 +38686,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2685.34
+	jnz .2721.34
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2685.34:
+.2721.34:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .1859
-.1959:
+	jmp .1885
+.1985:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 32
@@ -38244,7 +38709,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1961
+	jz .1987
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -38257,7 +38722,7 @@ gen_range:
 	mov rsp, rbp
 	mov rbx, qword [rsp + 8]
 	mov rsi, qword [rsp + 0]
-	mov rdi, _s501
+	mov rdi, _s499
 	mov r8, 3
 	push rbx
 	push rsi
@@ -38284,15 +38749,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2686.35
+	jnz .2722.35
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2686.35:
+.2722.35:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -38304,21 +38769,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2687.25
+	jnz .2723.25
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2687.25:
+.2723.25:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 0
 	mov byte [rbx], sil
-	jmp .1859
-.1961:
+	jmp .1885
+.1987:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 33
@@ -38327,7 +38792,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1963
+	jz .1989
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -38361,15 +38826,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2688.36
+	jnz .2724.36
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2688.36:
+.2724.36:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -38391,21 +38856,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2689.37
+	jnz .2725.37
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2689.37:
+.2725.37:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .1859
-.1963:
+	jmp .1885
+.1989:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 34
@@ -38414,7 +38879,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1965
+	jz .1991
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_top
@@ -38425,8 +38890,8 @@ gen_range:
 	call r_dup
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1859
-.1965:
+	jmp .1885
+.1991:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 35
@@ -38435,14 +38900,14 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1967
+	jz .1993
 	mov rbx, [_grallocator_stack.len]
 	mov rsi, 2
 	xor rdi, rdi
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jz .1968
+	jz .1994
 	mov rbx, 1
 	mov rsi, [_grallocator_stack.len]
 	sub rbx, rsi
@@ -38454,7 +38919,7 @@ gen_range:
 	call r_prepare_push_const_word
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s502
+	mov rbx, _s500
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -38468,7 +38933,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s460
+	mov rbx, _s458
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -38484,8 +38949,8 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1970
-.1968:
+	jmp .1996
+.1994:
 	mov rbx, [_grallocator_stack.len]
 	mov rsi, 2
 	sub rbx, rsi
@@ -38499,9 +38964,9 @@ gen_range:
 	call r_dup
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1970:
-	jmp .1859
-.1967:
+.1996:
+	jmp .1885
+.1993:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 36
@@ -38510,14 +38975,14 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1972
+	jz .1998
 	mov rbx, [_grallocator_stack.len]
 	mov rsi, 3
 	xor rdi, rdi
 	cmp rbx, rsi
 	setb dil
 	test rdi, rdi
-	jz .1973
+	jz .1999
 	mov rbx, 2
 	mov rsi, [_grallocator_stack.len]
 	sub rbx, rsi
@@ -38529,7 +38994,7 @@ gen_range:
 	call r_prepare_push_const_word
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s502
+	mov rbx, _s500
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -38543,7 +39008,7 @@ gen_range:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s460
+	mov rbx, _s458
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -38559,8 +39024,8 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1975
-.1973:
+	jmp .2001
+.1999:
 	mov rbx, [_grallocator_stack.len]
 	mov rsi, 3
 	sub rbx, rsi
@@ -38574,9 +39039,9 @@ gen_range:
 	call r_dup
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1975:
-	jmp .1859
-.1972:
+.2001:
+	jmp .1885
+.1998:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 37
@@ -38585,7 +39050,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1977
+	jz .2003
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -38627,15 +39092,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2690.38
+	jnz .2726.38
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2690.38:
+.2726.38:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -38657,15 +39122,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2691.39
+	jnz .2727.39
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2691.39:
+.2727.39:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -38687,21 +39152,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2692.40
+	jnz .2728.40
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2692.40:
+.2728.40:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .1859
-.1977:
+	jmp .1885
+.2003:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 38
@@ -38710,7 +39175,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1979
+	jz .2005
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -38760,15 +39225,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2693.41
+	jnz .2729.41
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2693.41:
+.2729.41:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -38790,15 +39255,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2694.42
+	jnz .2730.42
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2694.42:
+.2730.42:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -38820,15 +39285,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2695.43
+	jnz .2731.43
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2695.43:
+.2731.43:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -38850,21 +39315,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2696.44
+	jnz .2732.44
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2696.44:
+.2732.44:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .1859
-.1979:
+	jmp .1885
+.2005:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 39
@@ -38873,14 +39338,14 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1981
+	jz .2007
 	mov rbx, [_grallocator_stack.len]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	seta dil
 	test rdi, rdi
-	jz .1982
+	jz .2008
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call rallocator_stack.top
@@ -38896,22 +39361,22 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2697.26
+	jnz .2733.26
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2697.26:
+.2733.26:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 0
 	mov byte [rbx], sil
-	jmp .1984
-.1982:
-	mov rbx, _s503
+	jmp .2010
+.2008:
+	mov rbx, _s501
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -38927,9 +39392,9 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.1984:
-	jmp .1859
-.1981:
+.2010:
+	jmp .1885
+.2007:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 40
@@ -38938,7 +39403,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1986
+	jz .2012
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_alloc
@@ -38952,15 +39417,15 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2698.45
+	jnz .2734.45
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2698.45:
+.2734.45:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -38983,7 +39448,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s504
+	mov rbx, _s502
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -39005,7 +39470,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -39034,7 +39499,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s505
+	mov rbx, _s503
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -39056,7 +39521,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -39085,7 +39550,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s482
+	mov rbx, _s480
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -39131,15 +39596,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2699.46
+	jnz .2735.46
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2699.46:
+.2735.46:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -39152,15 +39617,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2700.27
+	jnz .2736.27
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2700.27:
+.2736.27:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -39173,21 +39638,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2701.28
+	jnz .2737.28
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2701.28:
+.2737.28:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1986:
+	jmp .1885
+.2012:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 41
@@ -39196,7 +39661,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1988
+	jz .2014
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_alloc
@@ -39210,15 +39675,15 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2702.47
+	jnz .2738.47
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2702.47:
+.2738.47:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -39241,7 +39706,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s504
+	mov rbx, _s502
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -39263,7 +39728,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -39292,7 +39757,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s505
+	mov rbx, _s503
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -39314,7 +39779,523 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
+	mov rsi, 2
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 72]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s504
+	mov rsi, 7
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 80]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.8.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 80]
+	mov rbx, rsi
+	push rsi
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call rallocator_stack_c_c
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor r8, r8
+	cmp rsi, rdi
+	setb r8b
+	test r8, r8
+	jnz .2739.48
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s416
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2739.48:
+	mov rsi, qword _grallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov byte [rbx], sil
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 64]
+	mov rbx, rsi
+	mov rdi, 14
+	xor r8, r8
+	cmp rbx, rdi
+	setb r8b
+	test r8, r8
+	jnz .2740.29
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s411
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2740.29:
+	mov rbx, qword _grallocator_mask
+	add rsi, rbx
+	mov rbx, 0
+	mov byte [rsi], bl
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 72]
+	mov rbx, rsi
+	mov rdi, 14
+	xor r8, r8
+	cmp rbx, rdi
+	setb r8b
+	test r8, r8
+	jnz .2741.30
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s411
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2741.30:
+	mov rbx, qword _grallocator_mask
+	add rsi, rbx
+	mov rbx, 0
+	mov byte [rsi], bl
+	jmp .1885
+.2014:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 42
+	xor r8, r8
+	cmp rsi, rdi
+	sete r8b
+	push rbx
+	test r8, r8
+	jz .2016
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_alloc
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, rsi
+	mov r8, 14
+	xor r9, r9
+	cmp rdi, r8
+	setb r9b
+	test r9, r9
+	jnz .2742.49
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s416
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2742.49:
+	mov rdi, qword _grallocator_mask
+	add rsi, rdi
+	mov rdi, 1
+	mov byte [rsi], dil
+	mov rsi, qword [_rs_p]
+	mov qword [rsi + 80], rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 72], rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 64], rsi
+	mov rbx, _s502
+	mov rsi, 5
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 80]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s418
+	mov rsi, 2
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 80]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s503
+	mov rsi, 5
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 64]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s418
+	mov rsi, 2
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 72]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s505
+	mov rsi, 6
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 80]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.8.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 80]
+	mov rbx, rsi
+	push rsi
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call rallocator_stack_c_c
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 14
+	xor r8, r8
+	cmp rsi, rdi
+	setb r8b
+	test r8, r8
+	jnz .2743.50
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s416
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2743.50:
+	mov rsi, qword _grallocator_mask
+	add rbx, rsi
+	mov rsi, 1
+	mov byte [rbx], sil
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 64]
+	mov rbx, rsi
+	mov rdi, 14
+	xor r8, r8
+	cmp rbx, rdi
+	setb r8b
+	test r8, r8
+	jnz .2744.31
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s411
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2744.31:
+	mov rbx, qword _grallocator_mask
+	add rsi, rbx
+	mov rbx, 0
+	mov byte [rsi], bl
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 72]
+	mov rbx, rsi
+	mov rdi, 14
+	xor r8, r8
+	cmp rbx, rdi
+	setb r8b
+	test r8, r8
+	jnz .2745.32
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s411
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2745.32:
+	mov rbx, qword _grallocator_mask
+	add rsi, rbx
+	mov rbx, 0
+	mov byte [rsi], bl
+	jmp .1885
+.2016:
+	pop rbx
+	mov rsi, rbx
+	mov rdi, 43
+	xor r8, r8
+	cmp rsi, rdi
+	sete r8b
+	push rbx
+	test r8, r8
+	jz .2018
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_alloc
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	pop rbx
+	mov rsi, rbx
+	mov rdi, rsi
+	mov r8, 14
+	xor r9, r9
+	cmp rdi, r8
+	setb r9b
+	test r9, r9
+	jnz .2746.51
+	mov eax, 1
+	mov edi, 2
+	mov rsi, _s416
+	mov rdx, 59
+	syscall
+	mov rdi, 1
+	jmp _exit
+.2746.51:
+	mov rdi, qword _grallocator_mask
+	add rsi, rdi
+	mov rdi, 1
+	mov byte [rsi], dil
+	mov rsi, qword [_rs_p]
+	mov qword [rsi + 80], rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 72], rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call r_pop
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	pop rsi
+	mov qword [rbx + 64], rsi
+	mov rbx, _s502
+	mov rsi, 5
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 80]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s418
+	mov rsi, 2
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 80]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, 10
+	push rbx
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwritec
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s503
+	mov rsi, 5
+	push rbx
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, qword [_rs_p]
+	mov rsi, qword [rbx + 64]
+	push rsi
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call Reg.64.to_str
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbp, rsp
+	mov rsp, [_rs_p]
+	call fwrite
+	mov [_rs_p], rsp
+	mov rsp, rbp
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -39344,7 +40325,7 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s506
-	mov rsi, 7
+	mov rsi, 6
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -39389,15 +40370,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2703.48
+	jnz .2747.52
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2703.48:
+.2747.52:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -39410,15 +40391,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2704.29
+	jnz .2748.33
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2704.29:
+.2748.33:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -39431,30 +40412,30 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2705.30
+	jnz .2749.34
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2705.30:
+.2749.34:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1988:
+	jmp .1885
+.2018:
 	pop rbx
 	mov rsi, rbx
-	mov rdi, 42
+	mov rdi, 44
 	xor r8, r8
 	cmp rsi, rdi
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1990
+	jz .2020
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_alloc
@@ -39468,15 +40449,15 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2706.49
+	jnz .2750.53
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2706.49:
+.2750.53:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -39499,7 +40480,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s504
+	mov rbx, _s502
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -39521,7 +40502,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -39550,7 +40531,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s505
+	mov rbx, _s503
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -39572,7 +40553,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -39602,7 +40583,7 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s507
-	mov rsi, 6
+	mov rsi, 7
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -39647,15 +40628,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2707.50
+	jnz .2751.54
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2707.50:
+.2751.54:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -39668,15 +40649,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2708.31
+	jnz .2752.35
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2708.31:
+.2752.35:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -39689,30 +40670,30 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2709.32
+	jnz .2753.36
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2709.32:
+.2753.36:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1990:
+	jmp .1885
+.2020:
 	pop rbx
 	mov rsi, rbx
-	mov rdi, 43
+	mov rdi, 45
 	xor r8, r8
 	cmp rsi, rdi
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1992
+	jz .2022
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_alloc
@@ -39726,15 +40707,15 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2710.51
+	jnz .2754.55
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2710.51:
+.2754.55:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -39757,7 +40738,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s504
+	mov rbx, _s502
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -39779,7 +40760,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -39808,7 +40789,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s505
+	mov rbx, _s503
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -39830,7 +40811,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -39860,7 +40841,7 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s508
-	mov rsi, 6
+	mov rsi, 7
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -39905,15 +40886,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2711.52
+	jnz .2755.56
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2711.52:
+.2755.56:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -39926,15 +40907,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2712.33
+	jnz .2756.37
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2712.33:
+.2756.37:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -39947,30 +40928,30 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2713.34
+	jnz .2757.38
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2713.34:
+.2757.38:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1992:
+	jmp .1885
+.2022:
 	pop rbx
 	mov rsi, rbx
-	mov rdi, 44
+	mov rdi, 46
 	xor r8, r8
 	cmp rsi, rdi
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1994
+	jz .2024
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_alloc
@@ -39984,15 +40965,15 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2714.53
+	jnz .2758.57
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2714.53:
+.2758.57:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -40015,7 +40996,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s504
+	mov rbx, _s502
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -40037,7 +41018,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -40066,7 +41047,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s505
+	mov rbx, _s503
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -40088,7 +41069,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -40118,7 +41099,7 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s509
-	mov rsi, 7
+	mov rsi, 6
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -40163,15 +41144,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2715.54
+	jnz .2759.58
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2715.54:
+.2759.58:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -40184,15 +41165,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2716.35
+	jnz .2760.39
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2716.35:
+.2760.39:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -40205,30 +41186,30 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2717.36
+	jnz .2761.40
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2717.36:
+.2761.40:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1994:
+	jmp .1885
+.2024:
 	pop rbx
 	mov rsi, rbx
-	mov rdi, 45
+	mov rdi, 47
 	xor r8, r8
 	cmp rsi, rdi
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1996
+	jz .2026
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_alloc
@@ -40242,15 +41223,15 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2718.55
+	jnz .2762.59
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2718.55:
+.2762.59:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -40273,7 +41254,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s504
+	mov rbx, _s502
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -40295,7 +41276,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -40324,7 +41305,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s505
+	mov rbx, _s503
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -40346,7 +41327,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -40376,7 +41357,7 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s510
-	mov rsi, 7
+	mov rsi, 6
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -40421,15 +41402,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2719.56
+	jnz .2763.60
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2719.56:
+.2763.60:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -40442,15 +41423,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2720.37
+	jnz .2764.41
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2720.37:
+.2764.41:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -40463,30 +41444,30 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2721.38
+	jnz .2765.42
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2721.38:
+.2765.42:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1996:
+	jmp .1885
+.2026:
 	pop rbx
 	mov rsi, rbx
-	mov rdi, 46
+	mov rdi, 48
 	xor r8, r8
 	cmp rsi, rdi
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .1998
+	jz .2028
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_alloc
@@ -40500,15 +41481,15 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2722.57
+	jnz .2766.61
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2722.57:
+.2766.61:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -40531,7 +41512,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s504
+	mov rbx, _s502
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -40553,7 +41534,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -40582,7 +41563,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s505
+	mov rbx, _s503
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -40604,7 +41585,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -40634,7 +41615,7 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s511
-	mov rsi, 6
+	mov rsi, 7
 	push rbx
 	push rsi
 	mov rbp, rsp
@@ -40679,15 +41660,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2723.58
+	jnz .2767.62
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2723.58:
+.2767.62:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -40700,15 +41681,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2724.39
+	jnz .2768.43
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2724.39:
+.2768.43:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -40721,30 +41702,30 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2725.40
+	jnz .2769.44
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2725.40:
+.2769.44:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.1998:
+	jmp .1885
+.2028:
 	pop rbx
 	mov rsi, rbx
-	mov rdi, 47
+	mov rdi, 49
 	xor r8, r8
 	cmp rsi, rdi
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .2000
+	jz .2030
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_alloc
@@ -40758,15 +41739,15 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2726.59
+	jnz .2770.63
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2726.59:
+.2770.63:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
@@ -40789,7 +41770,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s504
+	mov rbx, _s502
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -40811,7 +41792,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -40840,7 +41821,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s505
+	mov rbx, _s503
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -40862,7 +41843,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -40892,264 +41873,6 @@ gen_range:
 	mov [_rs_p], rsp
 	mov rsp, rbp
 	mov rbx, _s512
-	mov rsi, 6
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 80]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.8.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 80]
-	mov rbx, rsi
-	push rsi
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call rallocator_stack_c_c
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor r8, r8
-	cmp rsi, rdi
-	setb r8b
-	test r8, r8
-	jnz .2727.60
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s418
-	mov rdx, 59
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2727.60:
-	mov rsi, qword _grallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov byte [rbx], sil
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 64]
-	mov rbx, rsi
-	mov rdi, 14
-	xor r8, r8
-	cmp rbx, rdi
-	setb r8b
-	test r8, r8
-	jnz .2728.41
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s413
-	mov rdx, 59
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2728.41:
-	mov rbx, qword _grallocator_mask
-	add rsi, rbx
-	mov rbx, 0
-	mov byte [rsi], bl
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 72]
-	mov rbx, rsi
-	mov rdi, 14
-	xor r8, r8
-	cmp rbx, rdi
-	setb r8b
-	test r8, r8
-	jnz .2729.42
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s413
-	mov rdx, 59
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2729.42:
-	mov rbx, qword _grallocator_mask
-	add rsi, rbx
-	mov rbx, 0
-	mov byte [rsi], bl
-	jmp .1859
-.2000:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 48
-	xor r8, r8
-	cmp rsi, rdi
-	sete r8b
-	push rbx
-	test r8, r8
-	jz .2002
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_alloc
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, rsi
-	mov r8, 14
-	xor r9, r9
-	cmp rdi, r8
-	setb r9b
-	test r9, r9
-	jnz .2730.61
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s418
-	mov rdx, 59
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2730.61:
-	mov rdi, qword _grallocator_mask
-	add rsi, rdi
-	mov rdi, 1
-	mov byte [rsi], dil
-	mov rsi, qword [_rs_p]
-	mov qword [rsi + 80], rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 72], rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 64], rsi
-	mov rbx, _s504
-	mov rsi, 5
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 80]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s420
-	mov rsi, 2
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 80]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s505
-	mov rsi, 5
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 64]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s420
-	mov rsi, 2
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 72]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s513
 	mov rsi, 7
 	push rbx
 	push rsi
@@ -41195,15 +41918,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2731.62
+	jnz .2771.64
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2731.62:
+.2771.64:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -41216,15 +41939,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2732.43
+	jnz .2772.45
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2732.43:
+.2772.45:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -41237,279 +41960,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2733.44
+	jnz .2773.46
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2733.44:
+.2773.46:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.2002:
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 49
-	xor r8, r8
-	cmp rsi, rdi
-	sete r8b
-	push rbx
-	test r8, r8
-	jz .2004
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_alloc
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, rsi
-	mov r8, 14
-	xor r9, r9
-	cmp rdi, r8
-	setb r9b
-	test r9, r9
-	jnz .2734.63
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s418
-	mov rdx, 59
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2734.63:
-	mov rdi, qword _grallocator_mask
-	add rsi, rdi
-	mov rdi, 1
-	mov byte [rsi], dil
-	mov rsi, qword [_rs_p]
-	mov qword [rsi + 80], rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 72], rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call r_pop
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	pop rsi
-	mov qword [rbx + 64], rsi
-	mov rbx, _s504
-	mov rsi, 5
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 80]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s420
-	mov rsi, 2
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 80]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s505
-	mov rsi, 5
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 64]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s420
-	mov rsi, 2
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 72]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.64.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, _s514
-	mov rsi, 7
-	push rbx
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 80]
-	push rsi
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call Reg.8.to_str
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwrite
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, 10
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call fwritec
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 80]
-	mov rbx, rsi
-	push rsi
-	push rbx
-	mov rbp, rsp
-	mov rsp, [_rs_p]
-	call rallocator_stack_c_c
-	mov [_rs_p], rsp
-	mov rsp, rbp
-	pop rbx
-	mov rsi, rbx
-	mov rdi, 14
-	xor r8, r8
-	cmp rsi, rdi
-	setb r8b
-	test r8, r8
-	jnz .2735.64
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s418
-	mov rdx, 59
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2735.64:
-	mov rsi, qword _grallocator_mask
-	add rbx, rsi
-	mov rsi, 1
-	mov byte [rbx], sil
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 64]
-	mov rbx, rsi
-	mov rdi, 14
-	xor r8, r8
-	cmp rbx, rdi
-	setb r8b
-	test r8, r8
-	jnz .2736.45
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s413
-	mov rdx, 59
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2736.45:
-	mov rbx, qword _grallocator_mask
-	add rsi, rbx
-	mov rbx, 0
-	mov byte [rsi], bl
-	mov rbx, qword [_rs_p]
-	mov rsi, qword [rbx + 72]
-	mov rbx, rsi
-	mov rdi, 14
-	xor r8, r8
-	cmp rbx, rdi
-	setb r8b
-	test r8, r8
-	jnz .2737.46
-	mov eax, 1
-	mov edi, 2
-	mov rsi, _s413
-	mov rdx, 59
-	syscall
-	mov rdi, 1
-	jmp _exit
-.2737.46:
-	mov rbx, qword _grallocator_mask
-	add rsi, rbx
-	mov rbx, 0
-	mov byte [rsi], bl
-	jmp .1859
-.2004:
+	jmp .1885
+.2030:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 50
@@ -41518,7 +41983,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .2006
+	jz .2032
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -41535,7 +42000,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s515
+	mov rbx, _s513
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -41557,7 +42022,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s458
+	mov rbx, _s456
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -41594,15 +42059,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2738.47
+	jnz .2774.47
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2738.47:
+.2774.47:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -41615,21 +42080,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2739.48
+	jnz .2775.48
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2739.48:
+.2775.48:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.2006:
+	jmp .1885
+.2032:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 51
@@ -41638,7 +42103,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .2008
+	jz .2034
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -41655,7 +42120,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s516
+	mov rbx, _s514
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -41677,7 +42142,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s458
+	mov rbx, _s456
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -41714,15 +42179,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2740.49
+	jnz .2776.49
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2740.49:
+.2776.49:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -41735,21 +42200,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2741.50
+	jnz .2777.50
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2741.50:
+.2777.50:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.2008:
+	jmp .1885
+.2034:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 52
@@ -41758,7 +42223,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .2010
+	jz .2036
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -41775,7 +42240,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s532
+	mov rbx, _s530
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -41797,7 +42262,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s458
+	mov rbx, _s456
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -41834,15 +42299,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2742.51
+	jnz .2778.51
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2742.51:
+.2778.51:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -41855,21 +42320,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2743.52
+	jnz .2779.52
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2743.52:
+.2779.52:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.2010:
+	jmp .1885
+.2036:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 53
@@ -41878,7 +42343,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .2012
+	jz .2038
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -41895,7 +42360,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s456
+	mov rbx, _s454
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -41917,7 +42382,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s458
+	mov rbx, _s456
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -41954,15 +42419,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2744.53
+	jnz .2780.53
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2744.53:
+.2780.53:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
@@ -41975,21 +42440,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2745.54
+	jnz .2781.54
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2745.54:
+.2781.54:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.2012:
+	jmp .1885
+.2038:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 54
@@ -41998,7 +42463,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .2014
+	jz .2040
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -42020,22 +42485,22 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2746.65
+	jnz .2782.65
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2746.65:
+.2782.65:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
 	mov byte [rsi], dil
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 72], rbx
-	mov rbx, _s504
+	mov rbx, _s502
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -42057,7 +42522,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -42086,7 +42551,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -42108,7 +42573,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s466
+	mov rbx, _s464
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -42130,7 +42595,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s460
+	mov rbx, _s458
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -42163,15 +42628,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2747.66
+	jnz .2783.66
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2747.66:
+.2783.66:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -42184,21 +42649,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2748.55
+	jnz .2784.55
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2748.55:
+.2784.55:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.2014:
+	jmp .1885
+.2040:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 55
@@ -42207,7 +42672,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .2016
+	jz .2042
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -42229,22 +42694,22 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2749.67
+	jnz .2785.67
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2749.67:
+.2785.67:
 	mov rdi, qword _grallocator_mask
 	add rsi, rdi
 	mov rdi, 1
 	mov byte [rsi], dil
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 72], rbx
-	mov rbx, _s504
+	mov rbx, _s502
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -42266,7 +42731,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s420
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -42295,7 +42760,7 @@ gen_range:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -42317,7 +42782,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s466
+	mov rbx, _s464
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -42339,7 +42804,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s460
+	mov rbx, _s458
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -42372,15 +42837,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2750.68
+	jnz .2786.68
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2750.68:
+.2786.68:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -42393,21 +42858,21 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2751.56
+	jnz .2787.56
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2751.56:
+.2787.56:
 	mov rbx, qword _grallocator_mask
 	add rsi, rbx
 	mov rbx, 0
 	mov byte [rsi], bl
-	jmp .1859
-.2016:
+	jmp .1885
+.2042:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 56
@@ -42416,7 +42881,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .2018
+	jz .2044
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -42425,7 +42890,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -42447,7 +42912,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s466
+	mov rbx, _s464
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -42469,7 +42934,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s460
+	mov rbx, _s458
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -42502,21 +42967,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2752.69
+	jnz .2788.69
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2752.69:
+.2788.69:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .1859
-.2018:
+	jmp .1885
+.2044:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 57
@@ -42525,7 +42990,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .2020
+	jz .2046
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call r_pop
@@ -42534,7 +42999,7 @@ gen_range:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 64], rsi
-	mov rbx, _s419
+	mov rbx, _s417
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -42556,7 +43021,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s466
+	mov rbx, _s464
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -42578,7 +43043,7 @@ gen_range:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s460
+	mov rbx, _s458
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -42611,21 +43076,21 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2753.70
+	jnz .2789.70
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2753.70:
+.2789.70:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .1859
-.2020:
+	jmp .1885
+.2046:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 67
@@ -42634,7 +43099,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .2022
+	jz .2048
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	push rsi
@@ -42643,8 +43108,8 @@ gen_range:
 	call gen_cextern_function
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .1859
-.2022:
+	jmp .1885
+.2048:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 68
@@ -42653,7 +43118,7 @@ gen_range:
 	sete r8b
 	push rbx
 	test r8, r8
-	jz .2024
+	jz .2050
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 56]
 	mov rbx, rsi
@@ -42662,15 +43127,15 @@ gen_range:
 	cmp rbx, rdi
 	setb r8b
 	test r8, r8
-	jnz .2754.1
+	jnz .2790.1
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s552
+	mov rsi, _s550
 	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2754.1:
+.2790.1:
 	mov rbx, 48
 	imul rsi, rbx
 	mov rbx, qword _ginline_asms
@@ -42686,10 +43151,10 @@ gen_range:
 	mov edi, [rdi]
 	add rsi, rdi
 	push rsi
-.2025:
+.2051:
 	mov rbx, 1
 	test rbx, rbx
-	jz .2026
+	jz .2052
 	pop rbx
 	dec rbx
 	mov rsi, rbx
@@ -42711,11 +43176,11 @@ gen_range:
 	sete dil
 	push rbx
 	test rdi, rdi
-	jz .2027
-	jmp .2026
-.2027:
-	jmp .2025
-.2026:
+	jz .2053
+	jmp .2052
+.2053:
+	jmp .2051
+.2052:
 	add rsp, 8
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 48]
@@ -42723,7 +43188,7 @@ gen_range:
 	add rsi, rbx
 	mov esi, [rsi]
 	push rsi
-.2029:
+.2055:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
@@ -42736,7 +43201,7 @@ gen_range:
 	setb dil
 	push rbx
 	test rdi, rdi
-	jz .2030
+	jz .2056
 	pop rbx
 	mov rsi, rbx
 	mov rdi, rsi
@@ -42745,7 +43210,7 @@ gen_range:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2755.63
+	jnz .2791.64
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s153
@@ -42753,7 +43218,7 @@ gen_range:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2755.63:
+.2791.64:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _gtoken_stream
@@ -42783,8 +43248,8 @@ gen_range:
 	pop rbx
 	inc rbx
 	push rbx
-	jmp .2029
-.2030:
+	jmp .2055
+.2056:
 	add rsp, 8
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 48]
@@ -42799,7 +43264,7 @@ gen_range:
 	add rbx, r8
 	push rbx
 	push rsi
-.2031:
+.2057:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, qword [rsp + 0]
@@ -42808,7 +43273,7 @@ gen_range:
 	setb r8b
 	push rbx
 	test r8, r8
-	jz .2032
+	jz .2058
 	pop rbx
 	mov rsi, rbx
 	xor rdi, rdi
@@ -42829,15 +43294,15 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2756.71
+	jnz .2792.71
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s418
+	mov rsi, _s416
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2756.71:
+.2792.71:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 1
@@ -42845,8 +43310,8 @@ gen_range:
 	pop rbx
 	inc rbx
 	push rbx
-	jmp .2031
-.2032:
+	jmp .2057
+.2058:
 	add rsp, 8
 	add rsp, 8
 	mov rbx, qword [_rs_p]
@@ -42858,10 +43323,10 @@ gen_range:
 	mov edi, [rdi]
 	add rsi, rdi
 	push rsi
-.2033:
+.2059:
 	mov rbx, 1
 	test rbx, rbx
-	jz .2034
+	jz .2060
 	pop rbx
 	dec rbx
 	mov rsi, rbx
@@ -42891,7 +43356,7 @@ gen_range:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .2035
+	jz .2061
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 14
@@ -42899,23 +43364,23 @@ gen_range:
 	cmp rsi, rdi
 	setb r8b
 	test r8, r8
-	jnz .2757.57
+	jnz .2793.57
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s413
+	mov rsi, _s411
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2757.57:
+.2793.57:
 	mov rsi, qword _grallocator_mask
 	add rbx, rsi
 	mov rsi, 0
 	mov byte [rbx], sil
-	jmp .2037
-.2035:
+	jmp .2063
+.2061:
 	add rsp, 8
-.2037:
+.2063:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
@@ -42925,36 +43390,36 @@ gen_range:
 	sete dil
 	push rbx
 	test rdi, rdi
-	jz .2038
-	jmp .2034
-.2038:
-	jmp .2033
-.2034:
+	jz .2064
+	jmp .2060
+.2064:
+	jmp .2059
+.2060:
 	add rsp, 8
-	jmp .1859
-.2024:
+	jmp .1885
+.2050:
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2758
+	jnz .2794
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s553
+	mov rsi, _s551
 	mov rdx, 73
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2758:
-.2040:
-.1859:
+.2794:
+.2066:
+.1885:
 	add rsp, 8
-.1852:
+.1878:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 24]
 	inc rsi
 	mov rbx, qword [_rs_p]
 	mov qword [rbx + 24], rsi
-	jmp .1838
-.1839:
+	jmp .1864
+.1865:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 40]
 	mov rbx, 18446744073709551615
@@ -42962,7 +43427,7 @@ gen_range:
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .2041
+	jz .2067
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rbx, qword [_rs_p]
@@ -42974,7 +43439,7 @@ gen_range:
 	call label.def.fwriteln
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2041:
+.2067:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 184
@@ -42993,14 +43458,14 @@ isprint_pp_escape:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .2043
+	jz .2069
 	mov rbx, 0
 	push rbx
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 8
 	ret
-.2043:
+.2069:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 32
@@ -43043,8 +43508,8 @@ string_literal_pretty_printer:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .2045
-	mov rbx, _s559
+	jz .2071
+	mov rbx, _s557
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -43057,7 +43522,7 @@ string_literal_pretty_printer:
 	mov rsp, [_rs_p]
 	add rsp, 24
 	ret
-.2045:
+.2071:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 0]
 	mov rbx, 0
@@ -43065,7 +43530,7 @@ string_literal_pretty_printer:
 	cmp rsi, rbx
 	seta dil
 	test rdi, rdi
-	jz .2047
+	jz .2073
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	xor rbx, rbx
@@ -43080,8 +43545,8 @@ string_literal_pretty_printer:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jz .2049
-	mov rbx, _s560
+	jz .2075
+	mov rbx, _s558
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -43098,8 +43563,8 @@ string_literal_pretty_printer:
 	mov rbx, 1
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 16], rbx
-	jmp .2051
-.2049:
+	jmp .2077
+.2075:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call fwriteu
@@ -43108,11 +43573,11 @@ string_literal_pretty_printer:
 	mov rbx, 0
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 16], rbx
-.2051:
-.2047:
+.2077:
+.2073:
 	mov rbx, 1
 	push rbx
-.2052:
+.2078:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
@@ -43122,7 +43587,7 @@ string_literal_pretty_printer:
 	setb dil
 	push rbx
 	test rdi, rdi
-	jz .2053
+	jz .2079
 	pop rbx
 	mov rsi, rbx
 	mov rdi, qword [_rs_p]
@@ -43141,19 +43606,19 @@ string_literal_pretty_printer:
 	mov rsp, rbp
 	pop rbx
 	test rbx, rbx
-	jz .2054
+	jz .2080
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	test rsi, rsi
-	jz .2056
+	jz .2082
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2058
-.2056:
-	mov rbx, _s561
+	jmp .2084
+.2082:
+	mov rbx, _s559
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -43167,17 +43632,17 @@ string_literal_pretty_printer:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2058:
+.2084:
 	mov rbx, 1
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 16], rbx
-	jmp .2059
-.2054:
+	jmp .2085
+.2080:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	test rsi, rsi
-	jz .2060
-	mov rbx, _s562
+	jz .2086
+	mov rbx, _s560
 	mov rsi, 3
 	push rbx
 	push rsi
@@ -43191,9 +43656,9 @@ string_literal_pretty_printer:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2062
-.2060:
-	mov rbx, _s420
+	jmp .2088
+.2086:
+	mov rbx, _s418
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -43207,22 +43672,22 @@ string_literal_pretty_printer:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2062:
+.2088:
 	mov rbx, 0
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 16], rbx
-.2059:
+.2085:
 	pop rbx
 	inc rbx
 	push rbx
-	jmp .2052
-.2053:
+	jmp .2078
+.2079:
 	add rsp, 8
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 16]
 	test rsi, rsi
-	jz .2063
-	mov rbx, _s560
+	jz .2089
+	mov rbx, _s558
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -43231,8 +43696,8 @@ string_literal_pretty_printer:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2063:
-	mov rbx, _s563
+.2089:
+	mov rbx, _s561
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -43260,8 +43725,8 @@ stas.gen:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2065
-	mov rbx, _s384
+	jz .2091
+	mov rbx, _s382
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -43281,8 +43746,8 @@ stas.gen:
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2067
-	mov rbx, _s387
+	jz .2093
+	mov rbx, _s385
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -43298,7 +43763,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s388
+	mov rbx, _s386
 	mov rsi, 35
 	push rbx
 	push rsi
@@ -43314,7 +43779,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s389
+	mov rbx, _s387
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -43330,7 +43795,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s390
+	mov rbx, _s388
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -43348,7 +43813,7 @@ stas.gen:
 	mov rsp, rbp
 	mov rbx, 0
 	push rbx
-.2069:
+.2095:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, [_gcfunctions.len]
@@ -43357,8 +43822,8 @@ stas.gen:
 	setb r8b
 	push rbx
 	test r8, r8
-	jz .2070
-	mov rbx, _s391
+	jz .2096
+	mov rbx, _s389
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -43375,15 +43840,15 @@ stas.gen:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2759.7
+	jnz .2795.7
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s174
+	mov rsi, _s175
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2759.7:
+.2795.7:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _gcfunctions
@@ -43411,12 +43876,12 @@ stas.gen:
 	pop rbx
 	inc rbx
 	push rbx
-	jmp .2069
-.2070:
+	jmp .2095
+.2096:
 	add rsp, 8
-	jmp .2071
-.2067:
-	mov rbx, _s392
+	jmp .2097
+.2093:
+	mov rbx, _s390
 	mov rsi, 23
 	push rbx
 	push rsi
@@ -43432,7 +43897,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s393
+	mov rbx, _s391
 	mov rsi, 27
 	push rbx
 	push rsi
@@ -43448,7 +43913,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s394
+	mov rbx, _s392
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -43464,22 +43929,22 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2071:
-	jmp .2066
-.2065:
+.2097:
+	jmp .2092
+.2091:
 	mov rbx, [_gbackend_type]
 	mov rsi, 2
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2073
+	jz .2099
 	mov rbx, qword _gdebug_symbols
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2074
-	mov rbx, _s395
+	jz .2100
+	mov rbx, _s393
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -43498,7 +43963,7 @@ stas.gen:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s256
+	mov rbx, _s255
 	mov rsi, 1
 	push rbx
 	push rsi
@@ -43514,8 +43979,8 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2074:
-	mov rbx, _s396
+.2100:
+	mov rbx, _s394
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -43531,7 +43996,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s397
+	mov rbx, _s395
 	mov rsi, 15
 	push rbx
 	push rsi
@@ -43547,7 +44012,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s398
+	mov rbx, _s396
 	mov rsi, 15
 	push rbx
 	push rsi
@@ -43565,7 +44030,7 @@ stas.gen:
 	mov rsp, rbp
 	mov rbx, 0
 	push rbx
-.2076:
+.2102:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, [_gcfunctions.len]
@@ -43574,8 +44039,8 @@ stas.gen:
 	setb r8b
 	push rbx
 	test r8, r8
-	jz .2077
-	mov rbx, _s399
+	jz .2103
+	mov rbx, _s397
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -43592,15 +44057,15 @@ stas.gen:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2760.8
+	jnz .2796.8
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s174
+	mov rsi, _s175
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2760.8:
+.2796.8:
 	mov rdi, 28
 	imul rsi, rdi
 	mov rdi, qword _gcfunctions
@@ -43635,25 +44100,25 @@ stas.gen:
 	pop rbx
 	inc rbx
 	push rbx
-	jmp .2076
-.2077:
+	jmp .2102
+.2103:
 	add rsp, 8
-	jmp .2066
-.2073:
+	jmp .2092
+.2099:
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2761
+	jnz .2797
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s400
+	mov rsi, _s398
 	mov rdx, 73
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2761:
-.2078:
-.2066:
-	mov rbx, _s401
+.2797:
+.2104:
+.2092:
+	mov rbx, _s399
 	mov rsi, 7
 	push rbx
 	push rsi
@@ -43669,7 +44134,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s402
+	mov rbx, _s400
 	mov rsi, 18
 	push rbx
 	push rsi
@@ -43685,7 +44150,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s403
+	mov rbx, _s401
 	mov rsi, 27
 	push rbx
 	push rsi
@@ -43701,7 +44166,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s404
+	mov rbx, _s402
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -43717,7 +44182,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s405
+	mov rbx, _s403
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -43733,7 +44198,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s406
+	mov rbx, _s404
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -43749,7 +44214,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s407
+	mov rbx, _s405
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -43765,7 +44230,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s408
+	mov rbx, _s406
 	mov rsi, 6
 	push rbx
 	push rsi
@@ -43781,7 +44246,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s409
+	mov rbx, _s407
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -43797,7 +44262,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s410
+	mov rbx, _s408
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -43813,7 +44278,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s411
+	mov rbx, _s409
 	mov rsi, 4
 	push rbx
 	push rsi
@@ -43861,13 +44326,13 @@ stas.gen:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2079
+	jz .2105
 	mov rbx, qword _gobject_file
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2081
-	mov rbx, _s554
+	jz .2107
+	mov rbx, _s552
 	mov rsi, 25
 	push rbx
 	push rsi
@@ -43883,9 +44348,9 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2083
-.2081:
-	mov rbx, _s555
+	jmp .2109
+.2107:
+	mov rbx, _s553
 	mov rsi, 16
 	push rbx
 	push rsi
@@ -43901,17 +44366,17 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2083:
-	jmp .2080
-.2079:
+.2109:
+	jmp .2106
+.2105:
 	mov rbx, [_gbackend_type]
 	mov rsi, 2
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2085
-	mov rbx, _s556
+	jz .2111
+	mov rbx, _s554
 	mov rsi, 17
 	push rbx
 	push rsi
@@ -43927,24 +44392,24 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2080
-.2085:
+	jmp .2106
+.2111:
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2762
+	jnz .2798
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s557
+	mov rsi, _s555
 	mov rdx, 73
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2762:
-.2086:
-.2080:
+.2798:
+.2112:
+.2106:
 	mov rbx, 0
 	push rbx
-.2087:
+.2113:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, [_gslits.len]
@@ -43953,10 +44418,10 @@ stas.gen:
 	setb r8b
 	push rbx
 	test r8, r8
-	jz .2088
+	jz .2114
 	pop rbx
 	mov rsi, rbx
-	mov rdi, _s452
+	mov rdi, _s450
 	mov r8, 2
 	push rbx
 	push rsi
@@ -43972,7 +44437,7 @@ stas.gen:
 	call fwriteu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s558
+	mov rbx, _s556
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -43989,15 +44454,15 @@ stas.gen:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2763.4
+	jnz .2799.4
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s374
+	mov rsi, _s372
 	mov rdx, 58
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2763.4:
+.2799.4:
 	mov rdi, 8
 	imul rsi, rdi
 	mov rdi, qword _gslits
@@ -44018,8 +44483,8 @@ stas.gen:
 	pop rbx
 	inc rbx
 	push rbx
-	jmp .2087
-.2088:
+	jmp .2113
+.2114:
 	add rsp, 8
 	mov rbx, [_gbackend_type]
 	mov rsi, 1
@@ -44027,13 +44492,13 @@ stas.gen:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2089
+	jz .2115
 	mov rbx, qword _gobject_file
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2091
-	mov rbx, _s564
+	jz .2117
+	mov rbx, _s562
 	mov rsi, 32
 	push rbx
 	push rsi
@@ -44049,9 +44514,9 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2093
-.2091:
-	mov rbx, _s565
+	jmp .2119
+.2117:
+	mov rbx, _s563
 	mov rsi, 26
 	push rbx
 	push rsi
@@ -44067,17 +44532,17 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2093:
-	jmp .2090
-.2089:
+.2119:
+	jmp .2116
+.2115:
 	mov rbx, [_gbackend_type]
 	mov rsi, 2
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2095
-	mov rbx, _s566
+	jz .2121
+	mov rbx, _s564
 	mov rsi, 14
 	push rbx
 	push rsi
@@ -44093,24 +44558,24 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2090
-.2095:
+	jmp .2116
+.2121:
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2764
+	jnz .2800
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s567
+	mov rsi, _s565
 	mov rdx, 73
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2764:
-.2096:
-.2090:
+.2800:
+.2122:
+.2116:
 	mov rbx, 0
 	push rbx
-.2097:
+.2123:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, [_gvar_context.len]
@@ -44119,7 +44584,7 @@ stas.gen:
 	setb r8b
 	push rbx
 	test r8, r8
-	jz .2098
+	jz .2124
 	pop rbx
 	mov rsi, rbx
 	mov rdi, rsi
@@ -44128,15 +44593,15 @@ stas.gen:
 	cmp rdi, r8
 	setb r9b
 	test r9, r9
-	jnz .2765.13
+	jnz .2801.13
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s167
+	mov rsi, _s168
 	mov rdx, 66
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2765.13:
+.2801.13:
 	mov rdi, 24
 	imul rsi, rdi
 	mov rdi, qword _gvar_context
@@ -44152,8 +44617,8 @@ stas.gen:
 	setne r8b
 	push rbx
 	test r8, r8
-	jz .2099
-	mov rbx, _s431
+	jz .2125
+	mov rbx, _s429
 	mov rsi, 2
 	push rbx
 	push rsi
@@ -44184,8 +44649,8 @@ stas.gen:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2101
-	mov rbx, _s568
+	jz .2127
+	mov rbx, _s566
 	mov rsi, 5
 	push rbx
 	push rsi
@@ -44194,16 +44659,16 @@ stas.gen:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2102
-.2101:
+	jmp .2128
+.2127:
 	mov rbx, [_gbackend_type]
 	mov rsi, 2
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2104
-	mov rbx, _s569
+	jz .2130
+	mov rbx, _s567
 	mov rsi, 7
 	push rbx
 	push rsi
@@ -44212,21 +44677,21 @@ stas.gen:
 	call fwrite
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2102
-.2104:
+	jmp .2128
+.2130:
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2766
+	jnz .2802
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s570
+	mov rsi, _s568
 	mov rdx, 73
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2766:
-.2105:
-.2102:
+.2802:
+.2131:
+.2128:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 40]
 	mov rbx, 4
@@ -44245,12 +44710,12 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2099:
+.2125:
 	pop rbx
 	inc rbx
 	push rbx
-	jmp .2097
-.2098:
+	jmp .2123
+.2124:
 	add rsp, 8
 	mov rbx, [_gbackend_type]
 	mov rsi, 1
@@ -44258,8 +44723,8 @@ stas.gen:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2106
-	mov rbx, _s571
+	jz .2132
+	mov rbx, _s569
 	mov rsi, 12
 	push rbx
 	push rsi
@@ -44275,7 +44740,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s572
+	mov rbx, _s570
 	mov rsi, 11
 	push rbx
 	push rsi
@@ -44291,7 +44756,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s573
+	mov rbx, _s571
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -44314,16 +44779,16 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2107
-.2106:
+	jmp .2133
+.2132:
 	mov rbx, [_gbackend_type]
 	mov rsi, 2
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2109
-	mov rbx, _s574
+	jz .2135
+	mov rbx, _s572
 	mov rsi, 14
 	push rbx
 	push rsi
@@ -44339,7 +44804,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s575
+	mov rbx, _s573
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -44355,7 +44820,7 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s576
+	mov rbx, _s574
 	mov rsi, 10
 	push rbx
 	push rsi
@@ -44378,22 +44843,22 @@ stas.gen:
 	call fwritec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2107
-.2109:
+	jmp .2133
+.2135:
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2767
+	jnz .2803
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s577
+	mov rsi, _s575
 	mov rdx, 73
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2767:
-.2110:
-.2107:
-	mov rbx, _s578
+.2803:
+.2136:
+.2133:
+	mov rbx, _s576
 	mov rsi, 8
 	push rbx
 	push rsi
@@ -44424,15 +44889,15 @@ stas.gen:
 	cmp rax, rbx
 	sete sil
 	test rsi, rsi
-	jnz .2768.2
+	jnz .2804.2
 	mov eax, 1
 	mov edi, 2
-	mov rsi, _s386
+	mov rsi, _s384
 	mov rdx, 59
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2768.2:
+.2804.2:
 	mov rbx, 0
 	mov [_gfwrite_buffer.len], rbx
 	mov rbp, rsp
@@ -44654,11 +45119,11 @@ parse_backend_type:
 .83.91:
 	pop rbx
 	test rbx, rbx
-	jz .2111
+	jz .2137
 	mov rbx, 1
 	mov [_gbackend_type], rbx
-	jmp .2112
-.2111:
+	jmp .2138
+.2137:
 	mov rbx, qword [rsp + 8]
 	mov rsi, qword [rsp + 0]
 	mov rdi, _s41
@@ -44695,11 +45160,11 @@ parse_backend_type:
 .83.92:
 	pop rbx
 	test rbx, rbx
-	jz .2114
+	jz .2140
 	mov rbx, 2
 	mov [_gbackend_type], rbx
-	jmp .2112
-.2114:
+	jmp .2138
+.2140:
 	mov rbx, _s42
 	mov rsi, 15
 	push rbx
@@ -44760,8 +45225,8 @@ parse_backend_type:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2115:
-.2112:
+.2141:
+.2138:
 	add rsp, 8
 	add rsp, 8
 	mov rbp, rsp
@@ -44804,7 +45269,7 @@ stas_exec:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2116
+	jz .2142
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call error.start_bold_error
@@ -44825,7 +45290,7 @@ stas_exec:
 	call error.end_bold_error
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s593
+	mov rbx, _s591
 	mov rsi, 26
 	mov rdi, 2
 	mov r8, 1
@@ -44861,7 +45326,7 @@ stas_exec:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2116:
+.2142:
 	pop rbx
 	pop rsi
 	pop rdi
@@ -44874,7 +45339,7 @@ stas_exec:
 	push r8
 	push rdi
 	test r10, r10
-	jz .2118
+	jz .2144
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call notice.start_bold_notice
@@ -44895,7 +45360,7 @@ stas_exec:
 	call notice.end_bold_notice
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s594
+	mov rbx, _s592
 	mov rsi, 1
 	mov rdi, 2
 	mov r8, 1
@@ -44922,7 +45387,7 @@ stas_exec:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-.2118:
+.2144:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call child_execve_and_shut_up
@@ -44966,7 +45431,7 @@ execute_backend:
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2120
+	jz .2146
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 8]
 	mov rdi, qword [rbx + 16]
@@ -44979,7 +45444,7 @@ execute_backend:
 	mov rsp, rbp
 	pop rbx
 	mov rsi, rbx
-	mov rdi, _s586
+	mov rdi, _s584
 	mov r8, 2
 	push rbx
 	push rsi
@@ -45007,14 +45472,14 @@ execute_backend:
 	mov rbx, 1
 	mov rsi, qword [_rs_p]
 	mov qword [rsi + 0], rbx
-.2120:
+.2146:
 	mov rbx, [_gbackend_type]
 	mov rsi, 1
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2122
+	jz .2148
 	mov rbx, qword [_rs_p]
 	add rbx, 40
 	mov rsi, rbx
@@ -45037,12 +45502,12 @@ execute_backend:
 	mov rsi, 8
 	add rbx, rsi
 	mov rsi, rbx
-	mov rdi, _s587
+	mov rdi, _s585
 	mov qword [rsi], rdi
 	mov rsi, 8
 	add rbx, rsi
 	mov rsi, rbx
-	mov rdi, _s588
+	mov rdi, _s586
 	mov qword [rsi], rdi
 	mov rsi, 8
 	add rbx, rsi
@@ -45063,15 +45528,15 @@ execute_backend:
 	call stas_exec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2123
-.2122:
+	jmp .2149
+.2148:
 	mov rbx, [_gbackend_type]
 	mov rsi, 2
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2125
+	jz .2151
 	mov rbx, qword [_rs_p]
 	add rbx, 40
 	mov rsi, rbx
@@ -45099,24 +45564,24 @@ execute_backend:
 	mov rsi, 8
 	add rbx, rsi
 	mov rsi, rbx
-	mov rdi, _s603
+	mov rdi, _s601
 	mov qword [rsi], rdi
 	mov rsi, 8
 	add rbx, rsi
 	mov rsi, rbx
-	mov rdi, _s604
+	mov rdi, _s602
 	mov qword [rsi], rdi
 	mov rsi, qword _gdebug_symbols
 	xor rdi, rdi
 	mov dil, [rsi]
 	push rbx
 	test rdi, rdi
-	jz .2126
+	jz .2152
 	mov rbx, 8
 	pop rsi
 	add rsi, rbx
 	mov rbx, rsi
-	mov rdi, _s605
+	mov rdi, _s603
 	mov qword [rbx], rdi
 	mov rbx, 8
 	add rsi, rbx
@@ -45124,7 +45589,7 @@ execute_backend:
 	mov rdi, _s29
 	mov qword [rbx], rdi
 	push rsi
-.2126:
+.2152:
 	mov rbx, 8
 	pop rsi
 	add rsi, rbx
@@ -45145,8 +45610,8 @@ execute_backend:
 	call stas_exec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2125:
-.2123:
+.2151:
+.2149:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 312]
 	mov rdi, qword [rbx + 320]
@@ -45155,11 +45620,11 @@ execute_backend:
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .2128
+	jz .2154
 	mov rbx, qword [_rs_p]
 	add rbx, 40
 	mov rsi, rbx
-	mov rdi, _s606
+	mov rdi, _s604
 	mov qword [rsi], rdi
 	mov rsi, 8
 	add rbx, rsi
@@ -45184,7 +45649,7 @@ execute_backend:
 	add rbx, rsi
 	mov rsi, 0
 	mov qword [rbx], rsi
-	mov rbx, _s606
+	mov rbx, _s604
 	mov rsi, 2
 	mov rdi, qword [_rs_p]
 	add rdi, 40
@@ -45199,17 +45664,17 @@ execute_backend:
 	call stas_exec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2130
-.2128:
+	jmp .2156
+.2154:
 	mov rbx, qword [_rs_p]
 	add rbx, 40
 	mov rsi, rbx
-	mov rdi, _s607
+	mov rdi, _s605
 	mov qword [rsi], rdi
 	mov rsi, 8
 	add rbx, rsi
 	mov rsi, rbx
-	mov rdi, _s608
+	mov rdi, _s606
 	mov qword [rsi], rdi
 	mov rsi, 8
 	add rbx, rsi
@@ -45222,7 +45687,7 @@ execute_backend:
 	add rbx, rsi
 	mov rsi, 0
 	mov qword [rbx], rsi
-	mov rbx, _s607
+	mov rbx, _s605
 	mov rsi, 5
 	mov rdi, qword [_rs_p]
 	add rdi, 40
@@ -45237,7 +45702,7 @@ execute_backend:
 	call stas_exec
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2130:
+.2156:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 328
@@ -45251,14 +45716,14 @@ assert_args:
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .2131
+	jz .2157
 	mov rbx, [_gargparse_mode]
 	mov rsi, 1
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2133
+	jz .2159
 	mov rbx, _s18
 	mov rsi, 27
 	push rbx
@@ -45319,15 +45784,15 @@ assert_args:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-	jmp .2134
-.2133:
+	jmp .2160
+.2159:
 	mov rbx, [_gargparse_mode]
 	mov rsi, 2
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2136
+	jz .2162
 	mov rbx, _s25
 	mov rsi, 28
 	push rbx
@@ -45388,15 +45853,15 @@ assert_args:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-	jmp .2134
-.2136:
+	jmp .2160
+.2162:
 	mov rbx, [_gargparse_mode]
 	mov rsi, 3
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2138
+	jz .2164
 	mov rbx, _s26
 	mov rsi, 37
 	push rbx
@@ -45457,9 +45922,9 @@ assert_args:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2138:
-.2134:
-.2131:
+.2164:
+.2160:
+.2157:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	ret
@@ -45474,7 +45939,7 @@ main:
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2139
+	jz .2165
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call usage
@@ -45485,7 +45950,7 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2139:
+.2165:
 	mov rbx, qword [_rs_p]
 	add rbx, 2
 	mov rsi, 0
@@ -45523,7 +45988,7 @@ main:
 	mov byte [rbx], sil
 	mov rbx, 1
 	push rbx
-.2141:
+.2167:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, qword [_arg_p]
@@ -45533,7 +45998,7 @@ main:
 	setb r8b
 	push rbx
 	test r8, r8
-	jz .2142
+	jz .2168
 	pop rbx
 	mov rsi, rbx
 	push rbx
@@ -45585,24 +46050,24 @@ main:
 .83.93:
 	pop rbx
 	test rbx, rbx
-	jz .2143
+	jz .2169
 	mov rbx, [_gargparse_mode]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .2145
+	jz .2171
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call assert_args
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2145:
+.2171:
 	mov rbx, 1
 	mov [_gargparse_mode], rbx
-	jmp .2144
-.2143:
+	jmp .2170
+.2169:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -45640,24 +46105,24 @@ main:
 .83.94:
 	pop rbx
 	test rbx, rbx
-	jz .2148
+	jz .2174
 	mov rbx, [_gargparse_mode]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .2149
+	jz .2175
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call assert_args
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2149:
+.2175:
 	mov rbx, 2
 	mov [_gargparse_mode], rbx
-	jmp .2144
-.2148:
+	jmp .2170
+.2174:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -45695,24 +46160,24 @@ main:
 .83.95:
 	pop rbx
 	test rbx, rbx
-	jz .2152
+	jz .2178
 	mov rbx, [_gargparse_mode]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .2153
+	jz .2179
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call assert_args
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2153:
+.2179:
 	mov rbx, 3
 	mov [_gargparse_mode], rbx
-	jmp .2144
-.2152:
+	jmp .2170
+.2178:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -45750,36 +46215,36 @@ main:
 .83.96:
 	pop rbx
 	test rbx, rbx
-	jz .2156
+	jz .2182
 	mov rbx, [_gargparse_mode]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .2157
+	jz .2183
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call assert_args
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2157:
+.2183:
 	mov rbx, qword _gdebug_symbols
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2159
+	jz .2185
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call assert_args
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2159:
+.2185:
 	mov rbx, qword _gdebug_symbols
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .2144
-.2156:
+	jmp .2170
+.2182:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -45854,25 +46319,25 @@ main:
 	pop rsi
 	or rsi, rbx
 	test rsi, rsi
-	jz .2162
+	jz .2188
 	mov rbx, [_gargparse_mode]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .2163
+	jz .2189
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call assert_args
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2163:
+.2189:
 	mov rbx, qword _gverbose_mode
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2165
+	jz .2191
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call usage
@@ -45883,12 +46348,12 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2165:
+.2191:
 	mov rbx, qword _gverbose_mode
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .2144
-.2162:
+	jmp .2170
+.2188:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -45926,28 +46391,28 @@ main:
 .83.99:
 	pop rbx
 	test rbx, rbx
-	jz .2168
+	jz .2194
 	mov rbx, [_gargparse_mode]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .2169
+	jz .2195
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call assert_args
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2169:
+.2195:
 	mov rbx, qword [_rs_p]
 	pop rsi
 	mov qword [rbx + 3], rsi
 	mov rbx, qword [_arg_p]
 	mov rbx, [rbx]
 	push rbx
-	jmp .2144
-.2168:
+	jmp .2170
+.2194:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -45985,25 +46450,25 @@ main:
 .83.100:
 	pop rbx
 	test rbx, rbx
-	jz .2172
+	jz .2198
 	mov rbx, [_gargparse_mode]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .2173
+	jz .2199
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call assert_args
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2173:
+.2199:
 	mov rbx, qword _gobject_file
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2175
+	jz .2201
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call usage
@@ -46014,12 +46479,12 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2175:
+.2201:
 	mov rbx, qword _gobject_file
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .2144
-.2172:
+	jmp .2170
+.2198:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -46094,7 +46559,7 @@ main:
 	pop rsi
 	or rsi, rbx
 	test rsi, rsi
-	jz .2178
+	jz .2204
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call usage
@@ -46105,8 +46570,8 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-	jmp .2144
-.2178:
+	jmp .2170
+.2204:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -46144,7 +46609,7 @@ main:
 .83.103:
 	pop rbx
 	test rbx, rbx
-	jz .2180
+	jz .2206
 	mov rbx, [_gargparse_mode]
 	mov rsi, 0
 	xor rdi, rdi
@@ -46160,18 +46625,18 @@ main:
 	mov sil, [rbx]
 	or rdi, rsi
 	test rdi, rdi
-	jz .2181
+	jz .2207
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call assert_args
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2181:
+.2207:
 	mov rbx, qword [_rs_p]
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .2144
-.2180:
+	jmp .2170
+.2206:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -46209,20 +46674,20 @@ main:
 .83.104:
 	pop rbx
 	test rbx, rbx
-	jz .2184
+	jz .2210
 	mov rbx, [_gargparse_mode]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .2185
+	jz .2211
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call assert_args
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2185:
+.2211:
 	mov rbx, qword [_rs_p]
 	xor rsi, rsi
 	mov sil, [rbx]
@@ -46232,7 +46697,7 @@ main:
 	mov dil, [rbx]
 	or rsi, rdi
 	test rsi, rsi
-	jz .2187
+	jz .2213
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call usage
@@ -46243,13 +46708,13 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2187:
+.2213:
 	mov rbx, qword [_rs_p]
 	add rbx, 1
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .2144
-.2184:
+	jmp .2170
+.2210:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -46287,25 +46752,25 @@ main:
 .83.105:
 	pop rbx
 	test rbx, rbx
-	jz .2190
+	jz .2216
 	mov rbx, [_gargparse_mode]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .2191
+	jz .2217
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call assert_args
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2191:
+.2217:
 	mov rbx, qword _gtrace_calls
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2193
+	jz .2219
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call usage
@@ -46316,12 +46781,12 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2193:
+.2219:
 	mov rbx, qword _gtrace_calls
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .2144
-.2190:
+	jmp .2170
+.2216:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -46359,25 +46824,25 @@ main:
 .83.106:
 	pop rbx
 	test rbx, rbx
-	jz .2196
+	jz .2222
 	mov rbx, [_gargparse_mode]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	setne dil
 	test rdi, rdi
-	jz .2197
+	jz .2223
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call assert_args
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2197:
+.2223:
 	mov rbx, qword _gstrip_assert
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2199
+	jz .2225
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call usage
@@ -46388,19 +46853,19 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2199:
+.2225:
 	mov rbx, qword _gstrip_assert
 	mov rsi, 1
 	mov byte [rbx], sil
-	jmp .2144
-.2196:
+	jmp .2170
+.2222:
 	mov rbx, [_gargparse_mode]
 	mov rsi, 0
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2202
+	jz .2228
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 43]
 	mov rdi, qword [rbx + 51]
@@ -46409,7 +46874,7 @@ main:
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .2204
+	jz .2230
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call usage
@@ -46420,22 +46885,22 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2204:
+.2230:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
 	mov rbx, qword [_rs_p]
 	mov qword [rbx + 51], rdi
 	mov qword [rbx + 43], rsi
-	jmp .2203
-.2202:
+	jmp .2229
+.2228:
 	mov rbx, [_gargparse_mode]
 	mov rsi, 1
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2207
+	jz .2233
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 27]
 	mov rdi, qword [rbx + 35]
@@ -46444,7 +46909,7 @@ main:
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .2208
+	jz .2234
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call usage
@@ -46455,22 +46920,22 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2208:
+.2234:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
 	mov rbx, qword [_rs_p]
 	mov qword [rbx + 35], rdi
 	mov qword [rbx + 27], rsi
-	jmp .2203
-.2207:
+	jmp .2229
+.2233:
 	mov rbx, [_gargparse_mode]
 	mov rsi, 2
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2211
+	jz .2237
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -46481,15 +46946,15 @@ main:
 	call parse_backend_type
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	jmp .2203
-.2211:
+	jmp .2229
+.2237:
 	mov rbx, [_gargparse_mode]
 	mov rsi, 3
 	xor rdi, rdi
 	cmp rbx, rsi
 	sete dil
 	test rdi, rdi
-	jz .2213
+	jz .2239
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 11]
 	mov rdi, qword [rbx + 19]
@@ -46504,7 +46969,7 @@ main:
 	test rbx, rbx
 	sete bl
 	test rbx, rbx
-	jz .2214
+	jz .2240
 	mov rbx, _s43
 	mov rsi, 38
 	push rbx
@@ -46565,14 +47030,14 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2214:
+.2240:
 	pop rbx
 	mov [_geval.recurse_depth], rbx
-	jmp .2203
-.2213:
+	jmp .2229
+.2239:
 	mov rbx, 0
 	test rbx, rbx
-	jnz .2769
+	jnz .2805
 	mov eax, 1
 	mov edi, 2
 	mov rsi, _s44
@@ -46580,18 +47045,18 @@ main:
 	syscall
 	mov rdi, 1
 	jmp _exit
-.2769:
-.2216:
-.2203:
+.2805:
+.2242:
+.2229:
 	mov rbx, 0
 	mov [_gargparse_mode], rbx
-.2201:
-.2144:
+.2227:
+.2170:
 	pop rbx
 	inc rbx
 	push rbx
-	jmp .2141
-.2142:
+	jmp .2167
+.2168:
 	add rsp, 8
 	mov rbp, rsp
 	mov rsp, [_rs_p]
@@ -46606,7 +47071,7 @@ main:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .2217
+	jz .2243
 	mov rbx, _s45
 	mov rsi, 16
 	push rbx
@@ -46667,7 +47132,7 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2217:
+.2243:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 27]
 	mov rdi, qword [rbx + 35]
@@ -46676,27 +47141,27 @@ main:
 	cmp rsi, rbx
 	sete dil
 	test rdi, rdi
-	jz .2219
+	jz .2245
 	mov rbx, qword _gobject_file
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2221
+	jz .2247
 	mov rbx, _s46
 	mov rsi, 3
 	mov rdi, qword [_rs_p]
 	mov qword [rdi + 35], rsi
 	mov qword [rdi + 27], rbx
-	jmp .2223
-.2221:
+	jmp .2249
+.2247:
 	mov rbx, _s47
 	mov rsi, 5
 	mov rdi, qword [_rs_p]
 	mov qword [rdi + 35], rsi
 	mov qword [rdi + 27], rbx
-.2223:
-	jmp .2224
-.2219:
+.2249:
+	jmp .2250
+.2245:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 27]
 	mov rdi, qword [rbx + 35]
@@ -46734,27 +47199,27 @@ main:
 .83.107:
 	pop rbx
 	test rbx, rbx
-	jz .2225
+	jz .2251
 	mov rbx, qword [_rs_p]
 	add rbx, 2
 	mov rsi, 1
 	mov byte [rbx], sil
-.2225:
-.2224:
+.2251:
+.2250:
 	mov rbx, qword _gdebug_symbols
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2227
+	jz .2253
 	mov rbx, qword _gobject_file
 	mov rsi, 1
 	mov byte [rbx], sil
-.2227:
+.2253:
 	mov rbx, qword _gverbose_mode
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2229
+	jz .2255
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call notice.start_bold_notice
@@ -46806,7 +47271,7 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-.2229:
+.2255:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call log.time.start
@@ -46836,7 +47301,7 @@ main:
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2231
+	jz .2257
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call token_stream.dump
@@ -46846,12 +47311,12 @@ main:
 	mov rsp, [_rs_p]
 	add rsp, 75
 	ret
-.2231:
+.2257:
 	mov rbx, qword _gverbose_mode
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2233
+	jz .2259
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call notice.start_bold_notice
@@ -46901,7 +47366,7 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-.2233:
+.2259:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call log.time.start
@@ -46912,7 +47377,7 @@ main:
 	call stas.parse
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s322
+	mov rbx, _s320
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -46925,7 +47390,7 @@ main:
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2235
+	jz .2261
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call notice.start_bold_notice
@@ -46955,7 +47420,7 @@ main:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s323
+	mov rbx, _s321
 	mov rsi, 12
 	mov rdi, 2
 	mov r8, 1
@@ -46975,7 +47440,7 @@ main:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s324
+	mov rbx, _s322
 	mov rsi, 8
 	mov rdi, 2
 	mov r8, 1
@@ -47005,12 +47470,12 @@ main:
 	call notice.end_bold_notice
 	mov [_rs_p], rsp
 	mov rsp, rbp
-.2235:
+.2261:
 	mov rbx, qword [_rs_p]
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2237
+	jz .2263
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call ir_stream.dump
@@ -47020,12 +47485,12 @@ main:
 	mov rsp, [_rs_p]
 	add rsp, 75
 	ret
-.2237:
+.2263:
 	mov rbx, qword _gverbose_mode
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2239
+	jz .2265
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call notice.start_bold_notice
@@ -47046,7 +47511,7 @@ main:
 	call notice.end_bold_notice
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s372
+	mov rbx, _s370
 	mov rsi, 17
 	mov rdi, 2
 	mov r8, 1
@@ -47056,7 +47521,7 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-.2239:
+.2265:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call log.time.start
@@ -47075,7 +47540,7 @@ main:
 	mov rsp, rbp
 	mov rbx, 65536
 	mov [_gdce.max_stack_frame], rbx
-	mov rbx, _s377
+	mov rbx, _s375
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -47088,7 +47553,7 @@ main:
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2241
+	jz .2267
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call notice.start_bold_notice
@@ -47118,7 +47583,7 @@ main:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s378
+	mov rbx, _s376
 	mov rsi, 26
 	mov rdi, 2
 	mov r8, 1
@@ -47137,7 +47602,7 @@ main:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s379
+	mov rbx, _s377
 	mov rsi, 25
 	mov rdi, 2
 	mov r8, 1
@@ -47176,7 +47641,7 @@ main:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s380
+	mov rbx, _s378
 	mov rsi, 17
 	mov rdi, 2
 	mov r8, 1
@@ -47186,7 +47651,7 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-.2241:
+.2267:
 	mov rbx, qword [_rs_p]
 	add rbx, 2
 	xor rsi, rsi
@@ -47194,7 +47659,7 @@ main:
 	test rsi, rsi
 	sete sil
 	test rsi, rsi
-	jz .2243
+	jz .2269
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 27]
 	mov rdi, qword [rbx + 35]
@@ -47207,7 +47672,7 @@ main:
 	mov rsp, rbp
 	pop rbx
 	mov rsi, rbx
-	mov rdi, _s381
+	mov rdi, _s379
 	mov r8, 4
 	push rbx
 	push rsi
@@ -47235,16 +47700,16 @@ main:
 	mov rsp, rbp
 	pop rbx
 	mov [_gfwrite_buffer.fd_loc], rbx
-	jmp .2245
-.2243:
+	jmp .2271
+.2269:
 	mov rbx, 1
 	mov [_gfwrite_buffer.fd_loc], rbx
-.2245:
+.2271:
 	mov rbx, qword _gverbose_mode
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2246
+	jz .2272
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call notice.start_bold_notice
@@ -47265,7 +47730,7 @@ main:
 	call notice.end_bold_notice
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s382
+	mov rbx, _s380
 	mov rsi, 21
 	mov rdi, 2
 	mov r8, 1
@@ -47284,7 +47749,7 @@ main:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s383
+	mov rbx, _s381
 	mov rsi, 17
 	mov rdi, 2
 	mov r8, 1
@@ -47294,7 +47759,7 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-.2246:
+.2272:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call log.time.start
@@ -47310,7 +47775,7 @@ main:
 	call stas.gen
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s579
+	mov rbx, _s577
 	mov rsi, 9
 	push rbx
 	push rsi
@@ -47324,17 +47789,17 @@ main:
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2248
+	jz .2274
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 75
 	ret
-.2248:
+.2274:
 	mov rbx, qword _gverbose_mode
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2250
+	jz .2276
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call notice.start_bold_notice
@@ -47355,7 +47820,7 @@ main:
 	call notice.end_bold_notice
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s580
+	mov rbx, _s578
 	mov rsi, 10
 	mov rdi, 2
 	mov r8, 1
@@ -47384,7 +47849,7 @@ main:
 	seta dil
 	push rbx
 	test rdi, rdi
-	jz .2252
+	jz .2278
 	mov rbx, 2
 	pop rsi
 	push rbx
@@ -47394,7 +47859,7 @@ main:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s581
+	mov rbx, _s579
 	mov rsi, 14
 	mov rdi, 2
 	mov r8, 1
@@ -47404,8 +47869,8 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-	jmp .2254
-.2252:
+	jmp .2280
+.2278:
 	mov rbx, 2
 	pop rsi
 	push rbx
@@ -47415,7 +47880,7 @@ main:
 	call fputu
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s582
+	mov rbx, _s580
 	mov rsi, 15
 	mov rdi, 2
 	mov r8, 1
@@ -47425,8 +47890,8 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-.2254:
-.2250:
+.2280:
+.2276:
 	mov rbx, [_gfwrite_buffer.fd_loc]
 	mov rsi, 3
 	mov rax, rsi
@@ -47437,7 +47902,7 @@ main:
 	cmp rax, rbx
 	setl sil
 	test rsi, rsi
-	jz .2255
+	jz .2281
 	mov rbx, _s58
 	mov rsi, 39
 	mov rdi, 2
@@ -47453,12 +47918,12 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2255:
+.2281:
 	mov rbx, qword _gverbose_mode
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2257
+	jz .2283
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call notice.start_bold_notice
@@ -47479,7 +47944,7 @@ main:
 	call notice.end_bold_notice
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s583
+	mov rbx, _s581
 	mov rsi, 15
 	mov rdi, 2
 	mov r8, 1
@@ -47513,12 +47978,12 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-.2257:
+.2283:
 	mov rbx, qword _gverbose_mode
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2259
+	jz .2285
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call notice.start_bold_notice
@@ -47539,7 +48004,7 @@ main:
 	call notice.end_bold_notice
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s584
+	mov rbx, _s582
 	mov rsi, 29
 	mov rdi, 2
 	mov r8, 1
@@ -47575,7 +48040,7 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-.2259:
+.2285:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call log.time.start
@@ -47601,7 +48066,7 @@ main:
 	call execute_backend
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s609
+	mov rbx, _s607
 	mov rsi, 13
 	push rbx
 	push rsi
@@ -47614,7 +48079,7 @@ main:
 	xor rsi, rsi
 	mov sil, [rbx]
 	test rsi, rsi
-	jz .2261
+	jz .2287
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call notice.start_bold_notice
@@ -47635,7 +48100,7 @@ main:
 	call notice.end_bold_notice
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s610
+	mov rbx, _s608
 	mov rsi, 16
 	mov rdi, 2
 	mov r8, 1
@@ -47666,7 +48131,7 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-.2261:
+.2287:
 	mov rbx, qword [_rs_p]
 	mov rsi, qword [rbx + 3]
 	mov rbx, 0
@@ -47674,7 +48139,7 @@ main:
 	cmp rsi, rbx
 	setne dil
 	test rdi, rdi
-	jz .2263
+	jz .2289
 	mov rbx, qword _gstring_buffer
 	mov rsi, [_gstring_buffer.len]
 	add rbx, rsi
@@ -47694,7 +48159,7 @@ main:
 	mov rbx, 1
 	add rsi, rbx
 	push rsi
-.2265:
+.2291:
 	pop rbx
 	mov rsi, rbx
 	mov rdi, qword [_arg_p]
@@ -47704,7 +48169,7 @@ main:
 	setb r8b
 	push rbx
 	test r8, r8
-	jz .2266
+	jz .2292
 	pop rbx
 	mov rsi, rbx
 	mov rdi, 8
@@ -47723,8 +48188,8 @@ main:
 	pop rbx
 	inc rbx
 	push rbx
-	jmp .2265
-.2266:
+	jmp .2291
+.2292:
 	add rsp, 8
 	mov rbx, 0
 	push rbx
@@ -47749,7 +48214,7 @@ main:
 	push rdi
 	push rbx
 	test r9, r9
-	jz .2267
+	jz .2293
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	call notice.start_bold_notice
@@ -47770,7 +48235,7 @@ main:
 	call notice.end_bold_notice
 	mov [_rs_p], rsp
 	mov rsp, rbp
-	mov rbx, _s611
+	mov rbx, _s609
 	mov rsi, 15
 	mov rdi, 2
 	mov r8, 1
@@ -47798,7 +48263,7 @@ main:
 	mov rbx, rdi
 	mov rdi, rbx
 	syscall
-.2267:
+.2293:
 	mov rbx, 59
 	mov rax, rbx
 	pop rdx
@@ -47810,8 +48275,8 @@ main:
 	cmp rax, rbx
 	setl sil
 	test rsi, rsi
-	jz .2269
-	mov rbx, _s612
+	jz .2295
+	mov rbx, _s610
 	mov rsi, 29
 	mov rdi, 2
 	mov r8, 1
@@ -47826,8 +48291,8 @@ main:
 	mov rax, rsi
 	mov rdi, rbx
 	syscall
-.2269:
-.2263:
+.2295:
+.2289:
 	mov rbp, rsp
 	mov rsp, [_rs_p]
 	add rsp, 75
@@ -47995,101 +48460,101 @@ _s158: db " -> ", 0
 _s159: db "parsing ", 0
 _s160: db " tokens", 10, 0
 _s161: db 27, "[1m", 27, "[31mlib/array.stas:397:24: ", 27, "[39m", 27, "[22massertation failed, 'Array32.init_with_buffer_sz_bytes: size must be a multiple of 8 bytes'", 10, 0
-_s162: db "forbidden word in const function", 0
-_s163: db 27, "[1m", 27, "[31msrc/parser.stas:1341:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s164: db "expected variable name", 0
-_s165: db 27, "[1m", 27, "[31msrc/parserdefs.stas:404:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s166: db 27, "[1m", 27, "[31msrc/parserdefs.stas:369:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s167: db 27, "[1m", 27, "[31msrc/parserdefs.stas:334:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s168: db "name is already an existing variable", 0
-_s169: db "variable declared here", 0
-_s170: db 27, "[1m", 27, "[31msrc/parserdefs.stas:415:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s171: db "name is already an existing function", 0
-_s172: db 27, "[1m", 27, "[31msrc/parserdefs.stas:298:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s173: db "function declared here", 0
-_s174: db 27, "[1m", 27, "[31msrc/parserdefs.stas:643:23: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s175: db "name is already an existing C extern function", 0
-_s176: db "unexpected EOF in variable declaration", 0
-_s177: db "referenced variable is not a constant", 0
-_s178: db "unknown variable name", 0
-_s179: db "unexpected EOF when parsing constant expression", 0
-_s180: db "const expressions can only call const functions", 0
-_s181: db "not enough values to consume for function call", 0
-_s182: db 27, "[1m", 27, "[31mlib/array.stas:356:13: ", 27, "[39m", 27, "[22massertation failed, 'Array32[]: index out of bounds'", 10, 0
-_s183: db "backtrace", 0
-_s184: db "not enough values to consume for operation", 0
-_s185: db 27, "[1m", 27, "[31mlib/array.stas:360:13: ", 27, "[39m", 27, "[22massertation failed, 'Array32<<: append exceeded bounds in Array32'", 10, 0
-_s186: db 27, "[1m", 27, "[31msrc/parserdefs.stas:312:32: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s187: db "unknown variable name or const function", 0
-_s188: db "cannot get the size of a constant", 0
-_s189: db "not enought values on the stack to pop into an automatic variable", 0
-_s190: db 27, "[1m", 27, "[31msrc/parser.stas:411:8: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s191: db "cannot pop into a buffer", 0
-_s192: db "cannot get address of a buffer, buffer is already an address", 0
-_s193: db "cannot edit a constant", 0
-_s194: db "cannot get address of a constant as it does not reside in memory", 0
-_s195: db 27, "[1m", 27, "[31msrc/parser.stas:426:7: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s196: db "unknown variable", 0
-_s197: db 27, "[1m", 27, "[31mlib/array.stas:368:15: ", 27, "[39m", 27, "[22massertation failed, 'Array32.pop: array is empty'", 10, 0
-_s198: db 27, "[1m", 27, "[31mlib/array.stas:364:15: ", 27, "[39m", 27, "[22massertation failed, 'Array32.top: array is empty'", 10, 0
-_s199: db "unsupported token inside a constant expression", 0
-_s200: db "comptime constant functions recursion depth limit reached", 0
-_s201: db 27, "[1m", 27, "[31mlib/array.stas:135:15: ", 27, "[39m", 27, "[22massertation failed, 'Array64.pop: array is empty'", 10, 0
-_s202: db 27, "[1m", 27, "[31mlib/array.stas:452:27: ", 27, "[39m", 27, "[22massertation failed, 'Array32.search_kv?: array length is not multiple of two'", 10, 0
-_s203: db 27, "[1m", 27, "[31msrc/eval.stas:220:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s204: db 27, "[1m", 27, "[31msrc/eval.stas:229:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s205: db 27, "[1m", 27, "[31mlib/array.stas:111:16: ", 27, "[39m", 27, "[22massertation failed, '&Array64.top: array is empty'", 10, 0
-_s206: db 27, "[1m", 27, "[31mlib/array.stas:131:15: ", 27, "[39m", 27, "[22massertation failed, 'Array64.top: array is empty'", 10, 0
-_s207: db 27, "[1m", 27, "[31msrc/eval.stas:234:30: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s208: db 27, "[1m", 27, "[31msrc/eval.stas:240:19: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s209: db "constant expression must contain a value", 0
-_s210: db "more than one unhandled value on left on the constant expression", 0
-_s211: db 27, "[1m", 27, "[31msrc/parser.stas:1326:37: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s212: db "expected size in bytes, constant name or constant expression", 0
-_s213: db "auto variables cannot have a size of zero", 0
-_s214: db 27, "[1m", 27, "[31msrc/parserdefs.stas:348:36: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s215: db "function name must not be an intrinsic", 0
-_s216: db "a function name cannot begin with an an underscore", 0
-_s217: db "unexpected EOF in function declaration", 0
-_s218: db "function return and argument counts must be numbers", 0
-_s219: db "new scope must proceed after function header", 0
-_s220: db "unexpected token in function declaration", 0
-_s221: db "function attributes conflict", 0
-_s222: db "main", 0
-_s223: db "the main function is not inlinable", 0
-_s224: db "the main function may not be const", 0
-_s225: db "the main function must accept and return zero values", 0
-_s226: db 27, "[1m", 27, "[31msrc/parserdefs.stas:437:32: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s227: db 27, "[1m", 27, "[31msrc/parser.stas:276:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s228: db 27, "[1m", 27, "[31msrc/parserdefs.stas:385:40: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s229: db "expected name of constant", 0
-_s230: db "a scope must follow a const to open an expression", 0
-_s231: db 27, "[1m", 27, "[31msrc/parserdefs.stas:360:36: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s232: db "external C functions can only be used when compiling with `-c`", 0
-_s233: db "expected name of external C function", 0
-_s234: db "unexpected EOF when parsing external C function", 0
-_s235: db "argument size specification must be 8, 16, 32 or 64", 0
-_s236: db "unexpected keyword inside C function arguments, expected a number", 0
-_s237: db "external C functions with more than 6 arguments are not supported", 0
-_s238: db "void", 0
-_s239: db "unexpected name, expected number or 'void'", 0
-_s240: db 27, "[1m", 27, "[31msrc/parserdefs.stas:669:34: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s241: db "unexpected EOF in comptime declaration", 0
-_s242: db "expected constant value", 0
-_s243: db "expected if block after comptime", 0
-_s244: db 27, "[1m", 27, "[31msrc/parser.stas:1558:6: ", 27, "[39m", 27, "[22massertation failed, 'unimplemented'", 10, 0
-_s245: db 27, "[1m", 27, "[31msrc/parserdefs.stas:399:40: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s246: db 27, "[1m", 27, "[31msrc/parser.stas:1573:6: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s247: db "expected name as function attribute", 0
-_s248: db "noinline", 0
-_s249: db "inline", 0
-_s250: db "noreturn", 0
-_s251: db "noeval", 0
-_s252: db "unknown function attribute", 0
-_s253: db "a scope must follow a static assert to open an expression", 0
-_s254: db "static assertation failed", 0
-_s255: db ", '", 0
-_s256: db "'", 0
+_s162: db 27, "[1m", 27, "[31msrc/parserdefs.stas:399:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s163: db 27, "[1m", 27, "[31msrc/parserdefs.stas:365:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s164: db "unclosed conditional scope", 0
+_s165: db "forbidden word in const function", 0
+_s166: db 27, "[1m", 27, "[31msrc/parser.stas:1369:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s167: db "expected variable name", 0
+_s168: db 27, "[1m", 27, "[31msrc/parserdefs.stas:330:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s169: db "name is already an existing variable", 0
+_s170: db "variable declared here", 0
+_s171: db 27, "[1m", 27, "[31msrc/parserdefs.stas:410:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s172: db "name is already an existing function", 0
+_s173: db 27, "[1m", 27, "[31msrc/parserdefs.stas:294:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s174: db "function declared here", 0
+_s175: db 27, "[1m", 27, "[31msrc/parserdefs.stas:638:23: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s176: db "name is already an existing C extern function", 0
+_s177: db "unexpected EOF in variable declaration", 0
+_s178: db "referenced variable is not a constant", 0
+_s179: db "unknown variable name", 0
+_s180: db "unexpected EOF when parsing constant expression", 0
+_s181: db "const expressions can only call const functions", 0
+_s182: db "not enough values to consume for function call", 0
+_s183: db 27, "[1m", 27, "[31mlib/array.stas:356:13: ", 27, "[39m", 27, "[22massertation failed, 'Array32[]: index out of bounds'", 10, 0
+_s184: db "backtrace", 0
+_s185: db "not enough values to consume for operation", 0
+_s186: db 27, "[1m", 27, "[31mlib/array.stas:360:13: ", 27, "[39m", 27, "[22massertation failed, 'Array32<<: append exceeded bounds in Array32'", 10, 0
+_s187: db 27, "[1m", 27, "[31msrc/parserdefs.stas:308:32: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s188: db "unknown variable name or const function", 0
+_s189: db "cannot get the size of a constant", 0
+_s190: db "not enought values on the stack to pop into an automatic variable", 0
+_s191: db 27, "[1m", 27, "[31msrc/parser.stas:411:8: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s192: db "cannot pop into a buffer", 0
+_s193: db "cannot get address of a buffer, buffer is already an address", 0
+_s194: db "cannot edit a constant", 0
+_s195: db "cannot get address of a constant as it does not reside in memory", 0
+_s196: db 27, "[1m", 27, "[31msrc/parser.stas:426:7: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s197: db "unknown variable", 0
+_s198: db 27, "[1m", 27, "[31mlib/array.stas:368:15: ", 27, "[39m", 27, "[22massertation failed, 'Array32.pop: array is empty'", 10, 0
+_s199: db 27, "[1m", 27, "[31mlib/array.stas:364:15: ", 27, "[39m", 27, "[22massertation failed, 'Array32.top: array is empty'", 10, 0
+_s200: db "unsupported token inside a constant expression", 0
+_s201: db "comptime constant functions recursion depth limit reached", 0
+_s202: db 27, "[1m", 27, "[31mlib/array.stas:135:15: ", 27, "[39m", 27, "[22massertation failed, 'Array64.pop: array is empty'", 10, 0
+_s203: db 27, "[1m", 27, "[31mlib/array.stas:452:27: ", 27, "[39m", 27, "[22massertation failed, 'Array32.search_kv?: array length is not multiple of two'", 10, 0
+_s204: db 27, "[1m", 27, "[31msrc/eval.stas:220:25: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s205: db 27, "[1m", 27, "[31msrc/eval.stas:229:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s206: db 27, "[1m", 27, "[31mlib/array.stas:111:16: ", 27, "[39m", 27, "[22massertation failed, '&Array64.top: array is empty'", 10, 0
+_s207: db 27, "[1m", 27, "[31mlib/array.stas:131:15: ", 27, "[39m", 27, "[22massertation failed, 'Array64.top: array is empty'", 10, 0
+_s208: db 27, "[1m", 27, "[31msrc/eval.stas:234:30: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s209: db 27, "[1m", 27, "[31msrc/eval.stas:240:19: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s210: db "constant expression must contain a value", 0
+_s211: db "more than one unhandled value on left on the constant expression", 0
+_s212: db 27, "[1m", 27, "[31msrc/parser.stas:1354:37: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s213: db "expected size in bytes, constant name or constant expression", 0
+_s214: db "auto variables cannot have a size of zero", 0
+_s215: db 27, "[1m", 27, "[31msrc/parserdefs.stas:344:36: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s216: db "function name must not be an intrinsic", 0
+_s217: db "a function name cannot begin with an an underscore", 0
+_s218: db "unexpected EOF in function declaration", 0
+_s219: db "function return and argument counts must be numbers", 0
+_s220: db "new scope must proceed after function header", 0
+_s221: db "unexpected token in function declaration", 0
+_s222: db "function attributes conflict", 0
+_s223: db "main", 0
+_s224: db "the main function is not inlinable", 0
+_s225: db "the main function may not be const", 0
+_s226: db "the main function must accept and return zero values", 0
+_s227: db 27, "[1m", 27, "[31msrc/parserdefs.stas:432:32: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s228: db 27, "[1m", 27, "[31msrc/parser.stas:276:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s229: db 27, "[1m", 27, "[31msrc/parserdefs.stas:381:40: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s230: db "expected name of constant", 0
+_s231: db "a scope must follow a const to open an expression", 0
+_s232: db 27, "[1m", 27, "[31msrc/parserdefs.stas:356:36: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s233: db "external C functions can only be used when compiling with `-c`", 0
+_s234: db "expected name of external C function", 0
+_s235: db "unexpected EOF when parsing external C function", 0
+_s236: db "argument size specification must be 8, 16, 32 or 64", 0
+_s237: db "unexpected keyword inside C function arguments, expected a number", 0
+_s238: db "external C functions with more than 6 arguments are not supported", 0
+_s239: db "void", 0
+_s240: db "unexpected name, expected number or 'void'", 0
+_s241: db 27, "[1m", 27, "[31msrc/parserdefs.stas:664:34: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s242: db "unexpected EOF in comptime declaration", 0
+_s243: db "expected constant value", 0
+_s244: db "expected if block after comptime", 0
+_s245: db 27, "[1m", 27, "[31msrc/parserdefs.stas:394:40: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s246: db "expected name as function attribute", 0
+_s247: db "noinline", 0
+_s248: db "inline", 0
+_s249: db "noreturn", 0
+_s250: db "noeval", 0
+_s251: db "unknown function attribute", 0
+_s252: db "a scope must follow a static assert to open an expression", 0
+_s253: db "static assertation failed", 0
+_s254: db ", '", 0
+_s255: db "'", 0
+_s256: db "a scope must come after an else statement", 0
 _s257: db "unknown toplevel token", 0
 _s258: db "no value on stack to consume for assertion", 0
 _s259: db 0
@@ -48099,7 +48564,7 @@ _s262: db "inline functions cannot call themselves", 0
 _s263: db "const functions cannot call non const functions", 0
 _s264: db 27, "[1m", 27, "[31msrc/parser.stas:148:40: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s265: db "const functions can only invoke constant variables", 0
-_s266: db 27, "[1m", 27, "[31msrc/parser.stas:1050:7: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s266: db 27, "[1m", 27, "[31msrc/parser.stas:1078:7: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s267: db "unknown function or variable", 0
 _s268: db "no value on stack to consume for if statement", 0
 _s269: db "a scope must come after an if statement", 0
@@ -48109,343 +48574,341 @@ _s272: db "no value on stack to consume for while header", 0
 _s273: db "no value on stack to consume for else if statement", 0
 _s274: db "unhandled data on the stack", 0
 _s275: db "not enough values on the stack on function return", 0
-_s276: db 27, "[1m", 27, "[31msrc/parser.stas:642:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s276: db 27, "[1m", 27, "[31msrc/parser.stas:684:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
 _s277: db "scope assertation failed, more values on the stack than expected (TODO: write count)", 0
 _s278: db "scope assertation failed, less values on the stack than expected (TODO: write count)", 0
 _s279: db "unexpected EOF when parsing else statement", 0
-_s280: db "a scope must come after an else statement", 0
-_s281: db "the stack must remain the same with single branches", 0
-_s282: db 27, "[1m", 27, "[31msrc/parser.stas:754:10: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s283: db "the stack must remain the same each with else if branch", 0
-_s284: db "unbalanced stack on both if and else branches, else has more than expected (TODO: write count)", 0
-_s285: db "unbalanced stack on both if and else branches, else has less than expected (TODO: write count)", 0
-_s286: db 27, "[1m", 27, "[31msrc/parser.stas:830:5: ", 27, "[39m", 27, "[22massertation failed, 'unimplemented'", 10, 0
-_s287: db "block expects body, an unhandled elif or while keyword may be the culprit", 0
-_s288: db 27, "[1m", 27, "[31msrc/parser.stas:139:40: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s289: db 27, "[1m", 27, "[31msrc/parser.stas:1140:7: ", 27, "[39m", 27, "[22massertation failed, 'unimplemented for const functions'", 10, 0
-_s290: db "unhandled data on the stack for early return", 0
-_s291: db "not enough values on the stack on early return", 0
-_s292: db "a number must appear after the arrow assert operator", 0
-_s293: db "a scope must come after the arrow assert operator", 0
-_s294: db "unexpected EOF in assembly invocation", 0
-_s295: db "rbx", 0
-_s296: db "rcx", 0
-_s297: db "rsi", 0
-_s298: db "rdi", 0
-_s299: db "r9", 0
-_s300: db "r10", 0
-_s301: db "r11", 0
-_s302: db "r12", 0
-_s303: db "r13", 0
-_s304: db "r14", 0
-_s305: db "r15", 0
-_s306: db "rdx", 0
-_s307: db "rax", 0
-_s308: db "name is not a 64 bit register", 0
-_s309: db "64 bit register is already on the argument list", 0
-_s310: db "unexpected token, expected 64 bit register string", 0
-_s311: db "unexpected EOF when parsing register list", 0
-_s312: db "64 bit register is already on the return list", 0
-_s313: db "new scope must proceed after assembly invocation", 0
-_s314: db "unexpected EOF when parsing inline assembly body", 0
-_s315: db "expected assembly string", 0
-_s316: db 27, "[1m", 27, "[31msrc/asm.stas:35:36: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s317: db 27, "[1m", 27, "[31msrc/parser.stas:1228:5: ", 27, "[39m", 27, "[22massertation failed, 'unimplemented'", 10, 0
-_s318: db 27, "[1m", 27, "[31msrc/parser.stas:1642:28: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s319: db "unexpected EOF when parsing function, scopes may be unclosed", 0
-_s320: db 27, "[1m", 27, "[31msrc/parser.stas:1647:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s321: db "no main function", 0
-_s322: db "parsing took ", 0
-_s323: db " functions, ", 0
-_s324: db " labels", 10, 0
-_s325: db "tok[]	data	inst", 10, 10, 0
-_s326: db "	", 0
-_s327: db "push_str", 0
-_s328: db "push_num", 0
-_s329: db "push_local_addr", 0
-_s330: db "pop_local_stack_var", 0
-_s331: db "push_local_stack_var", 0
-_s332: db "push_global_var_name", 0
-_s333: db "pop_global_stack_var", 0
-_s334: db "push_global_stack_var", 0
-_s335: db "push_argc", 0
-_s336: db "push_argv", 0
-_s337: db "do_cond_jmp", 0
-_s338: db "do_jmp", 0
-_s339: db "label", 0
-_s340: db "fn_prelude", 0
-_s341: db "fn_leave", 0
-_s342: db "fn_call", 0
-_s343: db "plus", 0
-_s344: db "sub", 0
-_s345: db "mul", 0
-_s346: db "div", 0
-_s347: db "mod", 0
-_s348: db "inc", 0
-_s349: db "dec", 0
-_s350: db "divmod", 0
-_s351: db "shr", 0
-_s352: db "shl", 0
-_s353: db "not", 0
-_s354: db "b_and", 0
-_s355: db "b_or", 0
-_s356: db "b_not", 0
-_s357: db "b_xor", 0
-_s358: db "equ", 0
-_s359: db "nequ", 0
-_s360: db "gt", 0
-_s361: db "lt", 0
-_s362: db "gte", 0
-_s363: db "lte", 0
-_s364: db "s_gt", 0
-_s365: db "s_lt", 0
-_s366: db "s_gte", 0
-_s367: db "s_lte", 0
-_s368: db "push_envp", 0
-_s369: db "c_fn_call", 0
-_s370: db "asm_invoc", 0
-_s371: db 27, "[1m", 27, "[31msrc/parserdefs.stas:277:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s372: db "dce pass started", 10, 0
-_s373: db 27, "[1m", 27, "[31msrc/dce.stas:61:34: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s374: db 27, "[1m", 27, "[31msrc/dce.stas:21:18: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s375: db 27, "[1m", 27, "[31msrc/dce.stas:11:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s376: db 27, "[1m", 27, "[31msrc/dce.stas:142:43: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s377: db "dce took ", 0
-_s378: db " used functions, of which ", 0
-_s379: db " are eligible for inline", 10, 0
-_s380: db " string literals", 10, 0
-_s381: db ".tmp", 0
-_s382: db "generating code from ", 0
-_s383: db " IR instructions", 10, 0
-_s384: db "use64", 0
-_s385: db 27, "[1m", 27, "[31msrc/write.stas:16:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s386: db 27, "[1m", 27, "[31msrc/write.stas:9:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s387: db "format ELF64", 0
-_s388: db "section '.text' executable align 16", 0
-_s389: db "public _start", 0
-_s390: db "public _exit", 0
-_s391: db "extrn ", 0
-_s392: db "format ELF64 executable", 0
-_s393: db "segment readable executable", 0
-_s394: db "entry _start", 0
-_s395: db "%line 0+0 '", 0
-_s396: db "[BITS 64]", 0
-_s397: db "[global _start]", 0
-_s398: db "[section .text]", 0
-_s399: db "[extern ", 0
-_s400: db 27, "[1m", 27, "[31msrc/gen.stas:860:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s401: db "_start:", 0
-_s402: db "	mov [_arg_p], rsp", 0
-_s403: db "	mov qword [_rs_p], _rs_top", 0
-_s404: db "	mov rbp, rsp", 0
-_s405: db "	mov rsp, [_rs_p]", 0
-_s406: db "	call main", 0
-_s407: db "	xor rdi, rdi", 0
-_s408: db "_exit:", 0
-_s409: db "	mov eax, 60", 0
-_s410: db "	syscall", 0
-_s411: db "	nop", 0
-_s412: db 27, "[1m", 27, "[31msrc/x86.stas:323:29: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s413: db 27, "[1m", 27, "[31msrc/x86.stas:248:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s414: db "	push ", 0
-_s415: db 27, "[1m", 27, "[31msrc/x86.stas:48:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s416: db 27, "[1m", 27, "[31msrc/x86.stas:207:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s417: db 27, "[1m", 27, "[31msrc/x86.stas:208:46: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s418: db 27, "[1m", 27, "[31msrc/x86.stas:254:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s419: db "	mov ", 0
-_s420: db ", ", 0
-_s421: db "%line ", 0
-_s422: db "+0 '", 0
-_s423: db 27, "[1m", 27, "[31msrc/gen.stas:180:30: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s424: db "public ", 0
-_s425: db "_a", 0
-_s426: db "_b", 0
-_s427: db "_c", 0
-_s428: db "_d", 0
-_s429: db "_e", 0
-_s430: db "_f", 0
-_s431: db "_g", 0
-_s432: db "	sub rsp, ", 0
-_s433: db "	mov [_rs_p], rsp", 0
-_s434: db "	mov rsp, rbp", 0
-_s435: db "[35m", 0
-_s436: db "	mov rax, 1", 0
-_s437: db "	mov rdi, 2", 0
-_s438: db "	mov rdx, ", 0
-_s439: db "	mov rsi, _s", 0
-_s440: db "	jmp ", 0
-_s441: db "	add rsp, ", 0
-_s442: db "	ret", 0
-_s443: db "	call ", 0
-_s444: db 27, "[1m", 27, "[31msrc/x86.stas:215:27: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s445: db "	pop ", 0
-_s446: db "	test ", 0
-_s447: db "	jnz ", 0
-_s448: db "	mov eax, 1", 0
-_s449: db "	mov edi, 2", 0
-_s450: db "	mov rdi, 1", 0
-_s451: db "	jmp _exit", 0
-_s452: db "_s", 0
-_s453: db "qword [_rs_p]", 0
-_s454: db "	add ", 0
-_s455: db ", qword [_rs_p]", 0
-_s456: db "	mov qword [", 0
-_s457: db " + ", 0
-_s458: db "], ", 0
-_s459: db "qword [", 0
-_s460: db "]", 0
-_s461: db "qword _g", 0
-_s462: db "	mov [_g", 0
-_s463: db ", _g", 0
-_s464: db ", [_g", 0
-_s465: db ", qword [_arg_p]", 0
-_s466: db ", [", 0
-_s467: db ", 8", 0
-_s468: db "	lea ", 0
-_s469: db " * 8 + 8]", 0
-_s470: db "	jz ", 0
-_s471: db "add", 0
-_s472: db "imul", 0
-_s473: db 27, "[1m", 27, "[31msrc/x86.stas:260:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s474: db 27, "[1m", 27, "[31msrc/x86.stas:406:18: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s475: db "	xor rdx, rdx", 0
-_s476: db "	div ", 0
-_s477: db "	inc ", 0
-_s478: db "	dec ", 0
-_s479: db "	shr ", 0
-_s480: db ", cl", 0
-_s481: db "	shl ", 0
-_s482: db "	sete ", 0
-_s483: db "bl", 0
-_s484: db "cl", 0
-_s485: db "sil", 0
-_s486: db "dil", 0
-_s487: db "r8b", 0
-_s488: db "r9b", 0
-_s489: db "r10b", 0
-_s490: db "r11b", 0
-_s491: db "r12b", 0
-_s492: db "r13b", 0
-_s493: db "r14b", 0
-_s494: db "r15b", 0
-_s495: db "dl", 0
-_s496: db "al", 0
-_s497: db 27, "[1m", 27, "[31msrc/x86.stas:156:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s498: db "and", 0
-_s499: db "or", 0
-_s500: db "	not ", 0
-_s501: db "xor", 0
-_s502: db "qword [rsp + ", 0
-_s503: db "	add rsp, 8", 0
-_s504: db "	xor ", 0
-_s505: db "	cmp ", 0
-_s506: db "	setne ", 0
-_s507: db "	seta ", 0
-_s508: db "	setb ", 0
-_s509: db "	setae ", 0
-_s510: db "	setbe ", 0
-_s511: db "	setg ", 0
-_s512: db "	setl ", 0
-_s513: db "	setge ", 0
-_s514: db "	setle ", 0
-_s515: db "	mov byte [", 0
-_s516: db "	mov word [", 0
-_s517: db "bx", 0
-_s518: db "cx", 0
-_s519: db "si", 0
-_s520: db "di", 0
-_s521: db "r8w", 0
-_s522: db "r9w", 0
-_s523: db "r10w", 0
-_s524: db "r11w", 0
-_s525: db "r12w", 0
-_s526: db "r13w", 0
-_s527: db "r14w", 0
-_s528: db "r15w", 0
-_s529: db "dx", 0
-_s530: db "ax", 0
-_s531: db 27, "[1m", 27, "[31msrc/x86.stas:120:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s532: db "	mov dword [", 0
-_s533: db "ebx", 0
-_s534: db "ecx", 0
-_s535: db "esi", 0
-_s536: db "edi", 0
-_s537: db "r8d", 0
-_s538: db "r9d", 0
-_s539: db "r10d", 0
-_s540: db "r11d", 0
-_s541: db "r12d", 0
-_s542: db "r13d", 0
-_s543: db "r14d", 0
-_s544: db "r15d", 0
-_s545: db "edx", 0
-_s546: db "eax", 0
-_s547: db 27, "[1m", 27, "[31msrc/x86.stas:84:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s548: db 27, "[1m", 27, "[31msrc/gen.stas:68:5: ", 27, "[39m", 27, "[22massertation failed, 'unimplemented'", 10, 0
-_s549: db 27, "[1m", 27, "[31msrc/gen.stas:101:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s550: db "	and rax, 0xFF", 0
-_s551: db "	and rax, 0xFFFF", 0
-_s552: db 27, "[1m", 27, "[31msrc/asm.stas:23:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
-_s553: db 27, "[1m", 27, "[31msrc/gen.stas:744:7: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s554: db "section '.rodata' align 8", 0
-_s555: db "segment readable", 0
-_s556: db "[section .rodata]", 0
-_s557: db 27, "[1m", 27, "[31msrc/gen.stas:889:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s558: db ": db ", 0
-_s559: db "0", 10, 0
-_s560: db 34, 0
-_s561: db ", ", 34, 0
-_s562: db 34, ", ", 0
-_s563: db ", 0", 10, 0
-_s564: db "section '.bss' writeable align 8", 0
-_s565: db "segment readable writeable", 0
-_s566: db "[section .bss]", 0
-_s567: db 27, "[1m", 27, "[31msrc/gen.stas:913:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s568: db ": rb ", 0
-_s569: db ": resb ", 0
-_s570: db 27, "[1m", 27, "[31msrc/gen.stas:928:8: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s571: db "_arg_p: rq 1", 0
-_s572: db "_rs_p: rq 1", 0
-_s573: db "_rs: rb ", 0
-_s574: db "_arg_p: resq 1", 0
-_s575: db "_rs_p: resq 1", 0
-_s576: db "_rs: resb ", 0
-_s577: db 27, "[1m", 27, "[31msrc/gen.stas:945:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s578: db "_rs_top:", 0
-_s579: db "gen took ", 0
-_s580: db "generated ", 0
-_s581: db " KiBs of code", 10, 0
-_s582: db " bytes of code", 10, 0
-_s583: db "wrote code to `", 0
-_s584: db "executing assembler backend `", 0
-_s585: db 27, "[1m", 27, "[31mstas.stas:20:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s586: db ".o", 0
-_s587: db "-m", 0
-_s588: db "1048576", 0
-_s589: db 27, "[1m", 27, "[31mlib/alloc.stas:9:49: ", 27, "[39m", 27, "[22massertation failed, 'alloc.init: munmap failed'", 10, 0
-_s590: db 27, "[1m", 27, "[31mlib/linux.stas:82:20: ", 27, "[39m", 27, "[22massertation failed, 'memory.mmap_anon: failed'", 10, 0
-_s591: db "PATH", 0
-_s592: db 27, "[1m", 27, "[31mlib/os.stas:22:16: ", 27, "[39m", 27, "[22massertation failed, ''PATH' enviroment variable not found'", 10, 0
-_s593: db "cannot locate executable `", 0
-_s594: db "`", 0
-_s595: db "/dev/null", 0
-_s596: db "FATAL: Could not open /dev/null", 10, 0
-_s597: db "FATAL: Could not open /dev/null as stdout", 10, 0
-_s598: db "FATAL: Could not execve child", 0
-_s599: db "FATAL: Could not wait for process", 0
-_s600: db "FATAL: Child process was terminated by signal ", 0
-_s601: db 27, "[1m", 27, "[31mlib/io.stas:436:8: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
-_s602: db "FATAL: Could not fork child", 0
-_s603: db "-O0", 0
-_s604: db "-felf64", 0
-_s605: db "-Fdwarf", 0
-_s606: db "ld", 0
-_s607: db "chmod", 0
-_s608: db "+x", 0
-_s609: db "backend took ", 0
-_s610: db "created binary `", 0
-_s611: db "execve binary `", 0
-_s612: db "FATAL: Could not execve file", 10, 0
+_s280: db "the stack must remain the same with single branches", 0
+_s281: db 27, "[1m", 27, "[31msrc/parser.stas:796:10: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s282: db "the stack must remain the same each with else if branch", 0
+_s283: db "unbalanced stack on both if and else branches, else has more than expected (TODO: write count)", 0
+_s284: db "unbalanced stack on both if and else branches, else has less than expected (TODO: write count)", 0
+_s285: db "block expects body, an unhandled elif or while keyword may be the culprit", 0
+_s286: db 27, "[1m", 27, "[31msrc/parser.stas:139:40: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s287: db 27, "[1m", 27, "[31msrc/parser.stas:1168:7: ", 27, "[39m", 27, "[22massertation failed, 'unimplemented for const functions'", 10, 0
+_s288: db "unhandled data on the stack for early return", 0
+_s289: db "not enough values on the stack on early return", 0
+_s290: db "a number must appear after the arrow assert operator", 0
+_s291: db "a scope must come after the arrow assert operator", 0
+_s292: db "unexpected EOF in assembly invocation", 0
+_s293: db "rbx", 0
+_s294: db "rcx", 0
+_s295: db "rsi", 0
+_s296: db "rdi", 0
+_s297: db "r9", 0
+_s298: db "r10", 0
+_s299: db "r11", 0
+_s300: db "r12", 0
+_s301: db "r13", 0
+_s302: db "r14", 0
+_s303: db "r15", 0
+_s304: db "rdx", 0
+_s305: db "rax", 0
+_s306: db "name is not a 64 bit register", 0
+_s307: db "64 bit register is already on the argument list", 0
+_s308: db "unexpected token, expected 64 bit register string", 0
+_s309: db "unexpected EOF when parsing register list", 0
+_s310: db "64 bit register is already on the return list", 0
+_s311: db "new scope must proceed after assembly invocation", 0
+_s312: db "unexpected EOF when parsing inline assembly body", 0
+_s313: db "expected assembly string", 0
+_s314: db 27, "[1m", 27, "[31msrc/asm.stas:35:36: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s315: db 27, "[1m", 27, "[31msrc/parser.stas:1256:5: ", 27, "[39m", 27, "[22massertation failed, 'unimplemented'", 10, 0
+_s316: db 27, "[1m", 27, "[31msrc/parser.stas:1697:28: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s317: db "unexpected EOF when parsing function, scopes may be unclosed", 0
+_s318: db 27, "[1m", 27, "[31msrc/parser.stas:1707:6: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s319: db "no main function", 0
+_s320: db "parsing took ", 0
+_s321: db " functions, ", 0
+_s322: db " labels", 10, 0
+_s323: db "tok[]	data	inst", 10, 10, 0
+_s324: db "	", 0
+_s325: db "push_str", 0
+_s326: db "push_num", 0
+_s327: db "push_local_addr", 0
+_s328: db "pop_local_stack_var", 0
+_s329: db "push_local_stack_var", 0
+_s330: db "push_global_var_name", 0
+_s331: db "pop_global_stack_var", 0
+_s332: db "push_global_stack_var", 0
+_s333: db "push_argc", 0
+_s334: db "push_argv", 0
+_s335: db "do_cond_jmp", 0
+_s336: db "do_jmp", 0
+_s337: db "label", 0
+_s338: db "fn_prelude", 0
+_s339: db "fn_leave", 0
+_s340: db "fn_call", 0
+_s341: db "plus", 0
+_s342: db "sub", 0
+_s343: db "mul", 0
+_s344: db "div", 0
+_s345: db "mod", 0
+_s346: db "inc", 0
+_s347: db "dec", 0
+_s348: db "divmod", 0
+_s349: db "shr", 0
+_s350: db "shl", 0
+_s351: db "not", 0
+_s352: db "b_and", 0
+_s353: db "b_or", 0
+_s354: db "b_not", 0
+_s355: db "b_xor", 0
+_s356: db "equ", 0
+_s357: db "nequ", 0
+_s358: db "gt", 0
+_s359: db "lt", 0
+_s360: db "gte", 0
+_s361: db "lte", 0
+_s362: db "s_gt", 0
+_s363: db "s_lt", 0
+_s364: db "s_gte", 0
+_s365: db "s_lte", 0
+_s366: db "push_envp", 0
+_s367: db "c_fn_call", 0
+_s368: db "asm_invoc", 0
+_s369: db 27, "[1m", 27, "[31msrc/parserdefs.stas:273:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s370: db "dce pass started", 10, 0
+_s371: db 27, "[1m", 27, "[31msrc/dce.stas:61:34: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s372: db 27, "[1m", 27, "[31msrc/dce.stas:21:18: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s373: db 27, "[1m", 27, "[31msrc/dce.stas:11:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s374: db 27, "[1m", 27, "[31msrc/dce.stas:142:43: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s375: db "dce took ", 0
+_s376: db " used functions, of which ", 0
+_s377: db " are eligible for inline", 10, 0
+_s378: db " string literals", 10, 0
+_s379: db ".tmp", 0
+_s380: db "generating code from ", 0
+_s381: db " IR instructions", 10, 0
+_s382: db "use64", 0
+_s383: db 27, "[1m", 27, "[31msrc/write.stas:16:26: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s384: db 27, "[1m", 27, "[31msrc/write.stas:9:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s385: db "format ELF64", 0
+_s386: db "section '.text' executable align 16", 0
+_s387: db "public _start", 0
+_s388: db "public _exit", 0
+_s389: db "extrn ", 0
+_s390: db "format ELF64 executable", 0
+_s391: db "segment readable executable", 0
+_s392: db "entry _start", 0
+_s393: db "%line 0+0 '", 0
+_s394: db "[BITS 64]", 0
+_s395: db "[global _start]", 0
+_s396: db "[section .text]", 0
+_s397: db "[extern ", 0
+_s398: db 27, "[1m", 27, "[31msrc/gen.stas:860:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s399: db "_start:", 0
+_s400: db "	mov [_arg_p], rsp", 0
+_s401: db "	mov qword [_rs_p], _rs_top", 0
+_s402: db "	mov rbp, rsp", 0
+_s403: db "	mov rsp, [_rs_p]", 0
+_s404: db "	call main", 0
+_s405: db "	xor rdi, rdi", 0
+_s406: db "_exit:", 0
+_s407: db "	mov eax, 60", 0
+_s408: db "	syscall", 0
+_s409: db "	nop", 0
+_s410: db 27, "[1m", 27, "[31msrc/x86.stas:323:29: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s411: db 27, "[1m", 27, "[31msrc/x86.stas:248:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s412: db "	push ", 0
+_s413: db 27, "[1m", 27, "[31msrc/x86.stas:48:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s414: db 27, "[1m", 27, "[31msrc/x86.stas:207:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s415: db 27, "[1m", 27, "[31msrc/x86.stas:208:46: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s416: db 27, "[1m", 27, "[31msrc/x86.stas:254:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s417: db "	mov ", 0
+_s418: db ", ", 0
+_s419: db "%line ", 0
+_s420: db "+0 '", 0
+_s421: db 27, "[1m", 27, "[31msrc/gen.stas:180:30: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s422: db "public ", 0
+_s423: db "_a", 0
+_s424: db "_b", 0
+_s425: db "_c", 0
+_s426: db "_d", 0
+_s427: db "_e", 0
+_s428: db "_f", 0
+_s429: db "_g", 0
+_s430: db "	sub rsp, ", 0
+_s431: db "	mov [_rs_p], rsp", 0
+_s432: db "	mov rsp, rbp", 0
+_s433: db "[35m", 0
+_s434: db "	mov rax, 1", 0
+_s435: db "	mov rdi, 2", 0
+_s436: db "	mov rdx, ", 0
+_s437: db "	mov rsi, _s", 0
+_s438: db "	jmp ", 0
+_s439: db "	add rsp, ", 0
+_s440: db "	ret", 0
+_s441: db "	call ", 0
+_s442: db 27, "[1m", 27, "[31msrc/x86.stas:215:27: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s443: db "	pop ", 0
+_s444: db "	test ", 0
+_s445: db "	jnz ", 0
+_s446: db "	mov eax, 1", 0
+_s447: db "	mov edi, 2", 0
+_s448: db "	mov rdi, 1", 0
+_s449: db "	jmp _exit", 0
+_s450: db "_s", 0
+_s451: db "qword [_rs_p]", 0
+_s452: db "	add ", 0
+_s453: db ", qword [_rs_p]", 0
+_s454: db "	mov qword [", 0
+_s455: db " + ", 0
+_s456: db "], ", 0
+_s457: db "qword [", 0
+_s458: db "]", 0
+_s459: db "qword _g", 0
+_s460: db "	mov [_g", 0
+_s461: db ", _g", 0
+_s462: db ", [_g", 0
+_s463: db ", qword [_arg_p]", 0
+_s464: db ", [", 0
+_s465: db ", 8", 0
+_s466: db "	lea ", 0
+_s467: db " * 8 + 8]", 0
+_s468: db "	jz ", 0
+_s469: db "add", 0
+_s470: db "imul", 0
+_s471: db 27, "[1m", 27, "[31msrc/x86.stas:260:20: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s472: db 27, "[1m", 27, "[31msrc/x86.stas:406:18: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s473: db "	xor rdx, rdx", 0
+_s474: db "	div ", 0
+_s475: db "	inc ", 0
+_s476: db "	dec ", 0
+_s477: db "	shr ", 0
+_s478: db ", cl", 0
+_s479: db "	shl ", 0
+_s480: db "	sete ", 0
+_s481: db "bl", 0
+_s482: db "cl", 0
+_s483: db "sil", 0
+_s484: db "dil", 0
+_s485: db "r8b", 0
+_s486: db "r9b", 0
+_s487: db "r10b", 0
+_s488: db "r11b", 0
+_s489: db "r12b", 0
+_s490: db "r13b", 0
+_s491: db "r14b", 0
+_s492: db "r15b", 0
+_s493: db "dl", 0
+_s494: db "al", 0
+_s495: db 27, "[1m", 27, "[31msrc/x86.stas:156:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s496: db "and", 0
+_s497: db "or", 0
+_s498: db "	not ", 0
+_s499: db "xor", 0
+_s500: db "qword [rsp + ", 0
+_s501: db "	add rsp, 8", 0
+_s502: db "	xor ", 0
+_s503: db "	cmp ", 0
+_s504: db "	setne ", 0
+_s505: db "	seta ", 0
+_s506: db "	setb ", 0
+_s507: db "	setae ", 0
+_s508: db "	setbe ", 0
+_s509: db "	setg ", 0
+_s510: db "	setl ", 0
+_s511: db "	setge ", 0
+_s512: db "	setle ", 0
+_s513: db "	mov byte [", 0
+_s514: db "	mov word [", 0
+_s515: db "bx", 0
+_s516: db "cx", 0
+_s517: db "si", 0
+_s518: db "di", 0
+_s519: db "r8w", 0
+_s520: db "r9w", 0
+_s521: db "r10w", 0
+_s522: db "r11w", 0
+_s523: db "r12w", 0
+_s524: db "r13w", 0
+_s525: db "r14w", 0
+_s526: db "r15w", 0
+_s527: db "dx", 0
+_s528: db "ax", 0
+_s529: db 27, "[1m", 27, "[31msrc/x86.stas:120:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s530: db "	mov dword [", 0
+_s531: db "ebx", 0
+_s532: db "ecx", 0
+_s533: db "esi", 0
+_s534: db "edi", 0
+_s535: db "r8d", 0
+_s536: db "r9d", 0
+_s537: db "r10d", 0
+_s538: db "r11d", 0
+_s539: db "r12d", 0
+_s540: db "r13d", 0
+_s541: db "r14d", 0
+_s542: db "r15d", 0
+_s543: db "edx", 0
+_s544: db "eax", 0
+_s545: db 27, "[1m", 27, "[31msrc/x86.stas:84:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s546: db 27, "[1m", 27, "[31msrc/gen.stas:68:5: ", 27, "[39m", 27, "[22massertation failed, 'unimplemented'", 10, 0
+_s547: db 27, "[1m", 27, "[31msrc/gen.stas:101:22: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s548: db "	and rax, 0xFF", 0
+_s549: db "	and rax, 0xFFFF", 0
+_s550: db 27, "[1m", 27, "[31msrc/asm.stas:23:24: ", 27, "[39m", 27, "[22massertation failed", 10, 0
+_s551: db 27, "[1m", 27, "[31msrc/gen.stas:744:7: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s552: db "section '.rodata' align 8", 0
+_s553: db "segment readable", 0
+_s554: db "[section .rodata]", 0
+_s555: db 27, "[1m", 27, "[31msrc/gen.stas:889:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s556: db ": db ", 0
+_s557: db "0", 10, 0
+_s558: db 34, 0
+_s559: db ", ", 34, 0
+_s560: db 34, ", ", 0
+_s561: db ", 0", 10, 0
+_s562: db "section '.bss' writeable align 8", 0
+_s563: db "segment readable writeable", 0
+_s564: db "[section .bss]", 0
+_s565: db 27, "[1m", 27, "[31msrc/gen.stas:913:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s566: db ": rb ", 0
+_s567: db ": resb ", 0
+_s568: db 27, "[1m", 27, "[31msrc/gen.stas:928:8: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s569: db "_arg_p: rq 1", 0
+_s570: db "_rs_p: rq 1", 0
+_s571: db "_rs: rb ", 0
+_s572: db "_arg_p: resq 1", 0
+_s573: db "_rs_p: resq 1", 0
+_s574: db "_rs: resb ", 0
+_s575: db 27, "[1m", 27, "[31msrc/gen.stas:945:5: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s576: db "_rs_top:", 0
+_s577: db "gen took ", 0
+_s578: db "generated ", 0
+_s579: db " KiBs of code", 10, 0
+_s580: db " bytes of code", 10, 0
+_s581: db "wrote code to `", 0
+_s582: db "executing assembler backend `", 0
+_s583: db 27, "[1m", 27, "[31mstas.stas:20:9: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s584: db ".o", 0
+_s585: db "-m", 0
+_s586: db "1048576", 0
+_s587: db 27, "[1m", 27, "[31mlib/alloc.stas:9:49: ", 27, "[39m", 27, "[22massertation failed, 'alloc.init: munmap failed'", 10, 0
+_s588: db 27, "[1m", 27, "[31mlib/linux.stas:82:20: ", 27, "[39m", 27, "[22massertation failed, 'memory.mmap_anon: failed'", 10, 0
+_s589: db "PATH", 0
+_s590: db 27, "[1m", 27, "[31mlib/os.stas:22:16: ", 27, "[39m", 27, "[22massertation failed, ''PATH' enviroment variable not found'", 10, 0
+_s591: db "cannot locate executable `", 0
+_s592: db "`", 0
+_s593: db "/dev/null", 0
+_s594: db "FATAL: Could not open /dev/null", 10, 0
+_s595: db "FATAL: Could not open /dev/null as stdout", 10, 0
+_s596: db "FATAL: Could not execve child", 0
+_s597: db "FATAL: Could not wait for process", 0
+_s598: db "FATAL: Child process was terminated by signal ", 0
+_s599: db 27, "[1m", 27, "[31mlib/io.stas:436:8: ", 27, "[39m", 27, "[22massertation failed, 'unreachable'", 10, 0
+_s600: db "FATAL: Could not fork child", 0
+_s601: db "-O0", 0
+_s602: db "-felf64", 0
+_s603: db "-Fdwarf", 0
+_s604: db "ld", 0
+_s605: db "chmod", 0
+_s606: db "+x", 0
+_s607: db "backend took ", 0
+_s608: db "created binary `", 0
+_s609: db "execve binary `", 0
+_s610: db "FATAL: Could not execve file", 10, 0
 segment readable writeable
 _galloc_buffer.cap: rb 8
 _galloc_buffer.len: rb 8

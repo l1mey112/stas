@@ -1,15 +1,15 @@
 include 'std.stas'
 
-comptime { 22 22 + 44 = } if {
+comptime true if {
 
 	fn give_str 0 2 {
-		"22 + 22 = 44\n"
+		"TRUE\n"
 	}
 
 } else {
 	
 	fn give_str 0 2 {
-		"22 + 22 != 44\n"
+		"FALSE\n"
 	}
 
 }
@@ -17,13 +17,3 @@ comptime { 22 22 + 44 = } if {
 fn main {
 	give_str puts
 }
-
-;const COMPILE_TIME_USE_HELLO { true }
-;
-;fn main {
-;	comptime COMPILE_TIME_USE_HELLO if {
-;		"hello!\n" puts
-;	} else {
-;		"world!\n" puts
-;	}
-;}
