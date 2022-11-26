@@ -1,0 +1,34 @@
+const OS.linux   { 1 }
+const OS.freebsd { 2 }
+; const OS.windows { 3 }
+
+; ( -- OS )
+fn OS.get_host 0 1 {
+	comptime ?def TARGET_LINUX if {
+		OS.linux
+		ret
+	}
+	comptime ?def TARGET_FREEBSD if {
+		OS.freebsd
+		ret
+	}
+;	comptime ?def TARGET_WINDOWS {
+;		OS.windows
+;		ret
+;	}
+	0
+	0 assert -> 'unknown host OS'
+}
+
+; ( str len -- OS bool )
+fn OS.from_str? 2 2 {
+	auto str 2 pop str
+
+	str "linux" streq if {
+		OS.linux
+	} elif str "freebsd" streq {
+		OS.freebsd
+	} else {
+		0 false ret
+	}
+}

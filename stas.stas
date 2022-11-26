@@ -6,6 +6,7 @@ reserve debug_symbols  1
 reserve verbose_mode   1
 reserve trace_calls    1
 auto    backend_type   1
+auto    target_os      1
 
 const StasBackend.fasm { 1 }
 const StasBackend.nasm { 2 }
@@ -22,6 +23,7 @@ fn StasBackend.to_str 1 2 {
 	rot rot drop
 }
 
+include 'src/os.stas'           ; comptime os defs
 include 'src/stringbuffer.stas' ; handling strings
 include 'src/formatting.stas'   ; basic utility formatting and files
 include 'src/tokens.stas'       ; stas token definitions
@@ -47,6 +49,7 @@ fn usage {
 	"	-r                       Execute file after compiling. Arguments after this\n"    eputs
 	"	                         switch will ignored and passed to the program\n"         eputs
 	"	-v, --verbose            Activate verbose mode\n"                                 eputs
+	"	--os <os>                `linux` | `freebsd`\n"                                   eputs
 	"	--dump-tok               Dump token information after scanning stage\n"           eputs
 	"	--dump-ir                Dump intermediate representation after parsing stage\n"  eputs
 	"	--unsafe                 Currently only strips assertions\n"                      eputs
@@ -180,6 +183,7 @@ const ArgParseMode.none         { 0 }
 const ArgParseMode.output       { 1 }
 const ArgParseMode.backend      { 2 }
 const ArgParseMode.comptime_dep { 3 }
+const ArgParseMode.os           { 4 }
 
 auto argparse_mode 1
 
@@ -226,6 +230,8 @@ fn main {
 	ArgParseMode.none pop argparse_mode
 	debug_symbols false w8
 
+	OS.get_host pop target_os
+
 	1
 	while dup argc < {
 		dup args[] pop argstr
@@ -245,6 +251,11 @@ fn main {
 				assert_args
 			}
 			ArgParseMode.comptime_dep pop argparse_mode
+		} elif argstr "--os" streq {
+			argparse_mode ArgParseMode.none != if {
+				assert_args
+			}
+			ArgParseMode.os pop argparse_mode
 		} elif argstr "-g" streq {
 			argparse_mode ArgParseMode.none != if {
 				assert_args
@@ -319,6 +330,11 @@ fn main {
 				argstr pop out_file
 			} elif argparse_mode ArgParseMode.backend = {
 				argstr parse_backend_type
+			} elif argparse_mode ArgParseMode.os = {
+				argstr OS.from_str? ! if {
+					"unknown OS for `--os`" usage_msg_and_exit
+				}
+				pop target_os
 			} elif argparse_mode ArgParseMode.comptime_dep = {
 				argstr str_to_num? ! if {
 					"invalid integer for `--comptime-depth`" usage_msg_and_exit
@@ -368,6 +384,14 @@ fn main {
 	dump_tok r8 if {
 		token_stream.dump
 		ret
+	}
+
+	target_os OS.linux = if {
+		"TARGET_LINUX" true parse.def_comptime_const
+	} elif target_os OS.freebsd = {
+		"TARGET_FREEBSD" true parse.def_comptime_const
+	} else {
+		0 assert -> 'unreachable'
 	}
 
 	verbose_mode r8 if {

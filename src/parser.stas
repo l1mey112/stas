@@ -1448,6 +1448,18 @@ fn parse.any_variable {
 	}
 }
 
+; ( str len value -- )
+fn parse.def_comptime_const 3 0 {
+	auto v  1                 pop v
+	auto sv 1 new_string_view pop sv
+
+	; (val idx name)
+		v
+		-1
+		sv
+	var_context.Constant<<
+}
+
 fn parse.const_expression {
 	auto rs_c 1 pos pop rs_c
 
