@@ -432,6 +432,24 @@ fn parse.handle_var_interaction 1 0 {
 	}
 }
 
+; ( -- u64 bool )
+fn parse.get_constant? 0 2 {
+	; ( str len search_idx -- idx )
+	pos token_stream[] rToken.data string_view_to_str 0 search_variable_name
+	dup -1 = if {
+		drop 0 false ret
+	}
+	auto var 1 var_context[] pop var
+
+	var rVariable.typ
+	VarTyp.constant != if {
+		pos 'referenced variable is not a constant' error.Tok
+	}
+
+	var rVariable.Constant.val
+	true
+}
+
 ; ( *Array32(sp) bool )
 fn parse.basic_token? 1 1 {
 	auto sp 1 pop sp
@@ -444,6 +462,17 @@ fn parse.basic_token? 1 1 {
 		sp parse.handle_var_interaction
 	} elif dup Tok.number_lit = {
 		Inst.push_num pos token_stream[] rToken.data ir
+		1 sp sp_push
+	} elif dup Tok.ifdef = {
+		Tok.name parse.expect? ! if {
+			pos 'expected constant name' error.Tok
+		}
+		
+		Inst.push_num
+			parse.get_constant? ! if {
+				drop 0
+			}
+		ir
 		1 sp sp_push
 	} elif dup Tok.plus = {
 		Inst.plus 0 ir
@@ -1258,24 +1287,6 @@ fn parse.fn_complex_tokens 1 0 {
 	drop
 }
 
-; ( -- u64 bool )
-fn parse.get_constant? 0 2 {
-	; ( str len search_idx -- idx )
-	pos token_stream[] rToken.data string_view_to_str 0 search_variable_name
-	dup -1 = if {
-		drop 0 false ret
-	}
-	auto var 1 var_context[] pop var
-
-	var rVariable.typ
-	VarTyp.constant != if {
-		pos 'referenced variable is not a constant' error.Tok
-	}
-
-	var rVariable.Constant.val
-	true
-}
-
 reserve sp_array_data_const { sizeof(u32) 1024 * }
 reserve const_stack_data    { sizeof(u64) 1024 * }
 
@@ -1354,6 +1365,31 @@ fn parse.eval_const_expr 0 1 {
 	const_stack_array rArray64.len 0 = assert
 }
 
+; ( -- u64 )
+fn parse.def_field 0 1 {
+	pos token_stream[] rToken.tok
+	dup Tok.name = if {
+		parse.get_constant? ! if {
+			pos 'unknown constant name' error.Tok
+		}
+	} elif dup Tok.l_cb = {
+		parse.eval_const_expr
+	} elif dup Tok.ifdef = {
+		Tok.name parse.expect? ! if {
+			pos 'expected constant name' error.Tok
+		}
+		parse.get_constant? ! if {
+			drop 0
+		}
+	} elif dup Tok.number_lit = {
+		pos token_stream[] rToken.data
+	} else {
+		pos 'expected value, constant name, expression scope, or `?def`' error.Tok
+		0
+	}
+	swap drop
+}
+
 fn parse.any_variable {
 	auto typ  1
 	auto rs_c 1 pos pop rs_c
@@ -1377,23 +1413,11 @@ fn parse.any_variable {
 
 	parse.duplicate_name
 
-	parse.next_eof? ! if {
+	parse.iter_eof? ! if {
 		pos 'unexpected EOF in variable declaration' error.Tok
 	}
-	; (Tok)
-	dup Tok.name = if {
-		parse.get_constant? ! if {
-			pos 'unknown variable name' error.Tok
-		}
-	} elif dup Tok.l_cb = {
-		parse.eval_const_expr
-	} elif dup Tok.number_lit = {
-		pos token_stream[] rToken.data
-	} else {
-		pos 'expected size in bytes, constant name or constant expression' error.Tok
-		0
-		; noreturn function
-	}
+	; ( -- u64 )
+	parse.def_field
 	typ VarTyp.stack = if {
 		dup 0 = if {
 			pos 'auto variables cannot have a size of zero' error.Tok
@@ -1401,7 +1425,6 @@ fn parse.any_variable {
 		8 *
 	}
 	auto size 1 pop size
-	drop
 
 	; `function_context NULL =` means toplevel
 
@@ -1438,12 +1461,12 @@ fn parse.const_expression {
 
 	parse.duplicate_name
 
-	Tok.l_cb parse.expect? ! if {
-		pos 'a scope must follow a const to open an expression' error.Tok
+	parse.iter_eof? ! if {
+		pos 'unexpected EOF when parsing const expression' error.Tok
 	}
 
 	; (val idx name)
-		parse.eval_const_expr
+		parse.def_field
 		rs_c
 		sv
 	var_context.Constant<<
@@ -1579,28 +1602,13 @@ fn stas.parse {
 			parse.cextern
 		} elif dup Tok.comptime = {
 			parse.assert_const_fn_not
-			parse.next_eof? ! if {
-				pos 'unexpected EOF in comptime declaration' error.Tok
-			}
-
 			auto val 1
 
-			; (Tok)
-			dup Tok.name = if {
-				parse.get_constant? ! if {
-					pos 'unknown variable name' error.Tok
-				}
-			} elif dup Tok.l_cb = {
-				parse.eval_const_expr
-			} elif dup Tok.number_lit = {
-				pos token_stream[] rToken.data
-			} else {
-				pos 'expected constant value' error.Tok
-				0
-				; noreturn function
+			parse.iter_eof? ! if {
+				pos 'unexpected EOF in comptime declaration' error.Tok
 			}
-			pop val
-			drop
+			; ( -- u64 )
+			parse.def_field pop val
 
 			Tok.if_block parse.expect? ! if {
 				pos 'expected if block after comptime' error.Tok

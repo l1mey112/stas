@@ -507,6 +507,16 @@ fn parse.next_eof? 0 2 {
 	pos ++ pop pos
 }
 
+; ( -- bool )
+fn parse.iter_eof? 0 1 {
+	pos ++ pop pos
+	pos token_stream.len >= if {
+		false
+	} else {
+		true
+	}
+}
+
 ; ( Tok -- bool )
 fn parse.expect? 1 1 {
 	; `pos` will be unchanged on EOF
