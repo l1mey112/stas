@@ -207,7 +207,11 @@ fn gen_range 4 0 {
 						dup      push_nul
 						slits<<
 						; (slits.len len)
-						"	mov rax, 1"  fwriteln
+						target_os OS.freebsd = if {
+							"	mov eax, 4" fwriteln
+						} else {
+							"	mov eax, 1" fwriteln
+						}
 						"	mov rdi, 2"  fwriteln
 						"	mov rdx, "   fwrite slits.len -- slits[] r64 fwriteuln
 						"	mov rsi, _s" fwrite slits.len -- fwriteuln
@@ -270,7 +274,11 @@ fn gen_range 4 0 {
 				r_pop pop a
 				"	test " fwrite a Reg.64.to_str fwrite ", " fwrite a Reg.64.to_str fwriteln
 				"	jnz "            fwrite inlined_count lbl label.ref.fwriteln
-				"	mov eax, 1"      fwriteln
+				target_os OS.freebsd = if {
+					"	mov eax, 4" fwriteln
+				} else {
+					"	mov eax, 1" fwriteln
+				}
 				"	mov edi, 2"      fwriteln
 				"	mov rsi, _s"     fwrite ir_data fwriteuln
 				"	mov rdx, "       fwrite ir_data slits[] r64 fwriteuln
@@ -881,7 +889,11 @@ fn stas.gen 2 0 {
 	"	call main"                        fwriteln
 	"	xor rdi, rdi"                     fwriteln
 	"_exit:"                              fwriteln
-	"	mov eax, 60"                      fwriteln
+	target_os OS.freebsd = if {
+		"	mov eax, 1" fwriteln
+	} else {
+		"	mov eax, 60" fwriteln
+	}
 	"	syscall"                          fwriteln
 	"	nop"                              fwriteln
 
