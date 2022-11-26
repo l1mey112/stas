@@ -39,8 +39,9 @@ include 'src/dce.stas'          ; dead code elimination compiler pass
 include 'src/gen.stas'          ; stas code generator, creates x86_64 asm
 
 fn usage {
-	"stas 0.1.1 Copyright (C) 2022  l-m.dev\n\n"                                   eputs
-	"USAGE: ./stas [OPTIONS] [FILE]\n\n"                                           eputs
+	OS.get_host OS.to_pretty_str eputs
+	" stas 0.2.0 Copyright (C) 2022  l-m.dev" eputs
+	"\n\nUSAGE: ./stas [OPTIONS] [FILE]\n\n"                                              eputs
 
 	"	-o <output>              Specify '-o -' to dump assembly to stdout\n"             eputs
 	"	-g                       Debug info. Most effective with the `nasm` backend\n"    eputs
@@ -49,7 +50,7 @@ fn usage {
 	"	-r                       Execute file after compiling. Arguments after this\n"    eputs
 	"	                         switch will ignored and passed to the program\n"         eputs
 	"	-v, --verbose            Activate verbose mode\n"                                 eputs
-	"	--os <os>                `linux` | `freebsd`\n"                                   eputs
+	"	-os <os>                 `linux` | `freebsd`\n"                                   eputs
 	"	--dump-tok               Dump token information after scanning stage\n"           eputs
 	"	--dump-ir                Dump intermediate representation after parsing stage\n"  eputs
 	"	--unsafe                 Currently only strips assertions\n"                      eputs
@@ -196,7 +197,7 @@ fn assert_args {
 		} elif argparse_mode ArgParseMode.comptime_dep = {
 			"supply integer for `--comptime-depth`" usage_msg_and_exit
 		} elif argparse_mode ArgParseMode.os = {
-			"supply os for `--os`" usage_msg_and_exit
+			"supply os for `-os`" usage_msg_and_exit
 		}
 	}
 }
@@ -253,7 +254,7 @@ fn main {
 				assert_args
 			}
 			ArgParseMode.comptime_dep pop argparse_mode
-		} elif argstr "--os" streq {
+		} elif argstr "-os" streq {
 			argparse_mode ArgParseMode.none != if {
 				assert_args
 			}
@@ -334,7 +335,7 @@ fn main {
 				argstr parse_backend_type
 			} elif argparse_mode ArgParseMode.os = {
 				argstr OS.from_str? ! if {
-					"unknown OS for `--os`" usage_msg_and_exit
+					"unknown OS for `-os`" usage_msg_and_exit
 				}
 				pop target_os
 			} elif argparse_mode ArgParseMode.comptime_dep = {

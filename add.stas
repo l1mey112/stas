@@ -1,5 +1,5 @@
 include 'std.stas'
 
 fn main {
-	envp r64 putuln
+	eeee
 }

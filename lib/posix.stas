@@ -39,7 +39,12 @@ const PROT_NONE     { 0 }
 const MAP_SHARED    { 1 }
 const MAP_PRIVATE   { 2 }
 const MAP_FIXED     { 16 }
-const MAP_ANONYMOUS { 32 }
+comptime ?def TARGET_LINUX if {
+	const MAP_ANONYMOUS 32
+}
+comptime ?def TARGET_FREEBSD if {
+	const MAP_ANONYMOUS 4096
+}
 const MAP_FAILED    { 18446744073709551615 }
 const MAP_PRW       { PROT_READ PROT_WRITE      | }
 const MAP_PA        { MAP_PRIVATE MAP_ANONYMOUS | }
@@ -85,7 +90,7 @@ fn clock_gettime 2 1 {
 
 ; (size -- ptr bool)
 fn memory.mmap_anon? 1 2 {
-	0 swap MAP_PRW MAP_PA UINT64_MAX 0 mmap
+	NULL swap MAP_PRW MAP_PA UINT64_MAX 0 mmap
 	dup MAP_FAILED !=
 }
 

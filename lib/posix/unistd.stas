@@ -41,61 +41,33 @@ fn write 3 1 {
 	sys_write syscall3
 }
 
-;auto __curbrk 1
-;
-;; DOES NOT WORK FOR SOME REASON
-;;     brk does not grow....
-;
-;; (-1 = ENOMEM: Out of memory)
-;; (ptr -- int)
-;fn brk 1 1 {
-;	dup
-;	sys_brk syscall1 pop __curbrk
-;
-;	__curbrk swap < if {
-;		UINT64_MAX
-;	} else {
-;		0
-;	}
-;}
-;
-;; (ptr -- ptr)
-;fn sbrk 1 1 {
-;	__curbrk 0 = if {
-;		0 brk 0 != if {
-;			drop UINT64_MAX ret
-;		}
-;	}
-;
-;	dup 0 = if {
-;		drop __curbrk ret
-;	}
-;
-;	dup
-;
-;	__curbrk + 0 != if {
-;		drop UINT64_MAX ret
-;	}
-;}
-
-; int brk(void *addr);
-; void *sbrk(intptr_t increment);
-
-const   AT_FDCWD { 18446744073709551516 }
-const  O_ACCMODE { 3 }
-const   O_RDONLY { 0 }
-const   O_WRONLY { 1 }
-const     O_RDWR { 2 }
-const    O_CREAT { 64 }
-const     O_EXCL { 128 }
-const   O_NOCTTY { 256 }
-const    O_TRUNC { 512 }
-const   O_APPEND { 1024 }
-const O_NONBLOCK { 2048 }
-const   O_NDELAY { O_NONBLOCK }
-const     O_SYNC { 1052672 }
-const    O_FSYNC { O_SYNC }
-const    O_ASYNC { 8192 }
+const   AT_FDCWD -100
+const   O_RDONLY 0
+const   O_WRONLY 1
+const     O_RDWR 2
+const  O_ACCMODE 3
+comptime ?def TARGET_LINUX if {
+	const O_CREAT    64
+	const O_EXCL     128
+	const O_NOCTTY   256
+	const O_TRUNC    512
+	const O_APPEND   1024
+	const O_NONBLOCK 2048
+	const O_SYNC     1052672
+	const O_ASYNC    8192
+}
+comptime ?def TARGET_FREEBSD if {
+	const O_CREAT    512
+	const O_EXCL     2048
+	const O_NOCTTY   32768
+	const O_TRUNC    1024
+	const O_APPEND   8
+	const O_NONBLOCK 4
+	const O_SYNC     128
+	const O_ASYNC    64
+}
+const O_NDELAY O_NONBLOCK
+const O_FSYNC  O_SYNC
 
 fn open 3 1 {
 	sys_open syscall3
@@ -147,3 +119,8 @@ fn WEXITSTATUS 1 1 {
 fn access 2 1 {
 	sys_access syscall2
 }
+
+const F_OK 0 ; test for existence of file
+const X_OK 1 ; test for execute or search permission
+const W_OK 2 ; test for write permission
+const R_OK 4 ; test for read permission

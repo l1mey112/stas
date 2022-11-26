@@ -51,6 +51,20 @@ fn OS.from_str? 2 2 {
 	}
 }
 
+; ( OS -- str len )
+fn OS.to_pretty_str 1 2 {
+	auto os 1 pop os
+	
+	os OS.linux = if {
+		"Linux"
+	} elif os OS.freebsd = {
+		"FreeBSD"
+	} else {
+		NULL 0
+		0 assert -> 'unreachable'
+	}
+}
+
 ; ( OS -- ELFOSABI bool )
 fn OS.elf_os_abi_from? 1 2 {
 	auto os 1 pop os
