@@ -128,7 +128,7 @@ fn execute_backend 5 0 {
 	auto name 2
 	auto ld   2 NULL 0 pop ld
 
-	debug_symbols r8 if {
+	debug_symbols r8 object_file r8 ! & if {
 		outfile       new_string_view
 		dup     ".o"  push_string_view
 		string_view_to_str
@@ -164,19 +164,21 @@ fn execute_backend 5 0 {
 		sizeof(u64) + NULL w64
 		"nasm" arg_buf is_blocking stas_exec
 	}
-	ld drop NULL != if {
-		arg_buf       dup "ld"      drop w64
-		sizeof(u64) + dup outfile   drop w64
-		sizeof(u64) + dup "-o"      drop w64
-		sizeof(u64) + dup ld        drop w64
-		sizeof(u64) +               NULL w64
-		"ld" arg_buf is_blocking stas_exec
-	} else {
-		arg_buf       dup "chmod"   drop w64
-		sizeof(u64) + dup "+x"      drop w64
-		sizeof(u64) + dup outfile   drop w64
-		sizeof(u64) +               NULL w64
-		"chmod" arg_buf is_blocking stas_exec
+	object_file r8 ! if {
+		ld drop NULL != if {
+			arg_buf       dup "ld"      drop w64
+			sizeof(u64) + dup outfile   drop w64
+			sizeof(u64) + dup "-o"      drop w64
+			sizeof(u64) + dup ld        drop w64
+			sizeof(u64) +               NULL w64
+			"ld" arg_buf is_blocking stas_exec
+		} else {
+			arg_buf       dup "chmod"   drop w64
+			sizeof(u64) + dup "+x"      drop w64
+			sizeof(u64) + dup outfile   drop w64
+			sizeof(u64) +               NULL w64
+			"chmod" arg_buf is_blocking stas_exec
+		}
 	}
 }
 

@@ -124,3 +124,14 @@ const F_OK 0 ; test for existence of file
 const X_OK 1 ; test for execute or search permission
 const W_OK 2 ; test for write permission
 const R_OK 4 ; test for read permission
+
+fn readlink 3 1 {
+	sys_readlink syscall3
+}
+
+
+comptime ?def TARGET_FREEBSD if {
+	fn sysctl 6 1  {
+		sys_sysctl syscall6
+	}
+}

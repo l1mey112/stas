@@ -1,0 +1,1748 @@
+; ( 'int number' '...' -- c )
+fn syscall 2 1 {
+	sys_syscall syscall2
+}
+; ( 'int rval' -- c )
+fn exit 1 1 {
+	sys_exit syscall1
+}
+; ( -- c )
+fn fork 0 1 {
+	sys_fork syscall0
+}
+; ( 'int fd' 'void *bu' 'size_t nbyte' -- c )
+fn read 3 1 {
+	sys_read syscall3
+}
+; ( 'int fd' 'const void *bu' 'size_t nbyte' -- c )
+fn write 3 1 {
+	sys_write syscall3
+}
+; ( 'const char *path' 'int flags' 'mode_t mode' -- c )
+fn open 3 1 {
+	sys_open syscall3
+}
+; ( 'int fd' -- c )
+fn close 1 1 {
+	sys_close syscall1
+}
+; ( 'int pid' 'int *status' 'int options' ' struct rusage *rusage' -- c )
+fn wait4 4 1 {
+	sys_wait4 syscall4
+}
+; ( 'const char *path' 'int mode' -- c )
+fn creat 2 1 {
+	sys_creat syscall2
+}
+; ( 'const char *path' 'const char *link' -- c )
+fn link 2 1 {
+	sys_link syscall2
+}
+; ( 'const char *path' -- c )
+fn unlink 1 1 {
+	sys_unlink syscall1
+}
+; ( 'const char *path' -- c )
+fn chdir 1 1 {
+	sys_chdir syscall1
+}
+; ( 'int fd' -- c )
+fn fchdir 1 1 {
+	sys_fchdir syscall1
+}
+; ( 'const char *path' 'int mode' 'uint32_t dev' -- c )
+fn mknod 3 1 {
+	sys_mknod syscall3
+}
+; ( 'const char *path' 'mode_t mode' -- c )
+fn chmod 2 1 {
+	sys_chmod syscall2
+}
+; ( 'const char *path' 'int uid' 'int gid' -- c )
+fn chown 3 1 {
+	sys_chown syscall3
+}
+; ( 'char *nsize' -- c )
+fn *break 1 1 {
+	sys_*break syscall1
+}
+; ( 'Contains_long_ struct ostatfs *bu' 'long bufsize' 'int mode' -- c )
+fn getfsstat 3 1 {
+	sys_getfsstat syscall3
+}
+; ( 'int fd' 'long offset' 'int whence' -- c )
+fn lseek 3 1 {
+	sys_lseek syscall3
+}
+; ( -- c )
+fn getpid 0 1 {
+	sys_getpid syscall0
+}
+; ( 'const char *type' 'const char *path' 'int flags' 'void *data' -- c )
+fn mount 4 1 {
+	sys_mount syscall4
+}
+; ( 'const char *path' 'int flags' -- c )
+fn unmount 2 1 {
+	sys_unmount syscall2
+}
+; ( 'uid_t uid' -- c )
+fn setuid 1 1 {
+	sys_setuid syscall1
+}
+; ( -- c )
+fn getuid 0 1 {
+	sys_getuid syscall0
+}
+; ( -- c )
+fn geteuid 0 1 {
+	sys_geteuid syscall0
+}
+; ( 'int req' 'id_t pid' 'ptr_ caddr_t addr' 'int data' -- c )
+fn ptrace 4 1 {
+	sys_ptrace syscall4
+}
+; ( 'int s' 'Contains_ptr_ struct msghdr *msg' 'int flags' -- c )
+fn recvmsg 3 1 {
+	sys_recvmsg syscall3
+}
+; ( 'int s' 'Contains_ptr_ const struct msghdr *msg' 'int flags' -- c )
+fn sendmsg 3 1 {
+	sys_sendmsg syscall3
+}
+; ( 'int s' 'void *bu' 'size_t len' 'int flags' 'struct sockaddr *fro' '__socklen_t *fromlenaddr' -- c )
+fn recvfrom 6 1 {
+	sys_recvfrom syscall6
+}
+; ( 'int s' 'struct sockaddr *nam' '__socklen_t *anamelen' -- c )
+fn accept 3 1 {
+	sys_accept syscall3
+}
+; ( 'int fdes' 'struct sockaddr *as' '__socklen_t *alen' -- c )
+fn getpeername 3 1 {
+	sys_getpeername syscall3
+}
+; ( 'int fdes' 'struct sockaddr *as' 'socklen_t *alen' -- c )
+fn getsockname 3 1 {
+	sys_getsockname syscall3
+}
+; ( 'const char *path' 'int amode' -- c )
+fn access 2 1 {
+	sys_access syscall2
+}
+; ( 'const char *path' 'u_long flags' -- c )
+fn chflags 2 1 {
+	sys_chflags syscall2
+}
+; ( 'int fd' 'u_long flags' -- c )
+fn fchflags 2 1 {
+	sys_fchflags syscall2
+}
+; ( -- c )
+fn sync 0 1 {
+	sys_sync syscall0
+}
+; ( 'int pid' 'int signum' -- c )
+fn kill 2 1 {
+	sys_kill syscall2
+}
+; ( 'const char *path' 'Contains_timet_ struct ostat *ub' -- c )
+fn stat 2 1 {
+	sys_stat syscall2
+}
+; ( -- c )
+fn getppid 0 1 {
+	sys_getppid syscall0
+}
+; ( 'const char *path' 'Contains_timet_ struct ostat *ub' -- c )
+fn lstat 2 1 {
+	sys_lstat syscall2
+}
+; ( 'u_int fd' -- c )
+fn dup 1 1 {
+	sys_dup syscall1
+}
+; ( -- c )
+fn pipe 0 1 {
+	sys_pipe syscall0
+}
+; ( -- c )
+fn getegid 0 1 {
+	sys_getegid syscall0
+}
+; ( 'char *sample' 'size_t size' 'size_t offset' 'u_int scale' -- c )
+fn profil 4 1 {
+	sys_profil syscall4
+}
+; ( 'const char *fname' 'int ops' 'int facs' 'int pid' -- c )
+fn ktrace 4 1 {
+	sys_ktrace syscall4
+}
+; ( 'int signum' ' struct osigaction *nsa' ' struct osigaction *osa' -- c )
+fn sigaction 3 1 {
+	sys_sigaction syscall3
+}
+; ( -- c )
+fn getgid 0 1 {
+	sys_getgid syscall0
+}
+; ( 'int how' 'sigset_t mask' -- c )
+fn sigprocmask 2 1 {
+	sys_sigprocmask syscall2
+}
+; ( 'char *namebu' 'u_int namelen' -- c )
+fn getlogin 2 1 {
+	sys_getlogin syscall2
+}
+; ( 'const char *namebuf' -- c )
+fn setlogin 1 1 {
+	sys_setlogin syscall1
+}
+; ( 'const char *path' -- c )
+fn acct 1 1 {
+	sys_acct syscall1
+}
+; ( -- c )
+fn sigpending 0 1 {
+	sys_sigpending syscall0
+}
+; ( 'ptr_ const struct sigaltstack *ss' 'ptr_ struct sigaltstack *oss' -- c )
+fn sigaltstack 2 1 {
+	sys_sigaltstack syscall2
+}
+; ( 'int fd' 'u_long com' 'ptr_ char *data' -- c )
+fn ioctl 3 1 {
+	sys_ioctl syscall3
+}
+; ( 'int opt' -- c )
+fn reboot 1 1 {
+	sys_reboot syscall1
+}
+; ( 'const char *path' -- c )
+fn revoke 1 1 {
+	sys_revoke syscall1
+}
+; ( 'const char *path' 'const char *link' -- c )
+fn symlink 2 1 {
+	sys_symlink syscall2
+}
+; ( 'const char *path' 'char *bu' 'size_t count' -- c )
+fn readlink 3 1 {
+	sys_readlink syscall3
+}
+; ( 'const char *fname' 'char **argv' 'char **envv' -- c )
+fn execve 3 1 {
+	sys_execve syscall3
+}
+; ( 'mode_t newmask' -- c )
+fn umask 1 1 {
+	sys_umask syscall1
+}
+; ( 'const char *path' -- c )
+fn chroot 1 1 {
+	sys_chroot syscall1
+}
+; ( 'int fd' 'Contains_timet_ struct ostat *sb' -- c )
+fn fstat 2 1 {
+	sys_fstat syscall2
+}
+; ( 'int op' 'char *wher' 'size_t *size' 'int arg' -- c )
+fn getkerninfo 4 1 {
+	sys_getkerninfo syscall4
+}
+; ( -- c )
+fn getpagesize 0 1 {
+	sys_getpagesize syscall0
+}
+; ( 'void *addr' 'size_t len' 'int flags' -- c )
+fn msync 3 1 {
+	sys_msync syscall3
+}
+; ( -- c )
+fn vfork 0 1 {
+	sys_vfork syscall0
+}
+; ( 'int incr' -- c )
+fn sbrk 1 1 {
+	sys_sbrk syscall1
+}
+; ( 'int incr' -- c )
+fn sstk 1 1 {
+	sys_sstk syscall1
+}
+; ( 'void *addr' 'int len' 'int prot' 'int flags' 'int fd' 'long pos' -- c )
+fn *mmap 6 1 {
+	sys_*mmap syscall6
+}
+; ( 'int anom' -- c )
+fn vadvise 1 1 {
+	sys_vadvise syscall1
+}
+; ( 'void *addr' 'size_t len' -- c )
+fn munmap 2 1 {
+	sys_munmap syscall2
+}
+; ( 'void *addr' 'size_t len' 'int prot' -- c )
+fn mprotect 3 1 {
+	sys_mprotect syscall3
+}
+; ( 'void *addr' 'size_t len' 'int behav' -- c )
+fn madvise 3 1 {
+	sys_madvise syscall3
+}
+; ( 'const void *addr' 'size_t len' 'char *ve' -- c )
+fn mincore 3 1 {
+	sys_mincore syscall3
+}
+; ( 'int gidsetsize' 'gid_t *gidse' -- c )
+fn getgroups 2 1 {
+	sys_getgroups syscall2
+}
+; ( 'int gidsetsize' 'const gid_t *gidse' -- c )
+fn setgroups 2 1 {
+	sys_setgroups syscall2
+}
+; ( -- c )
+fn getpgrp 0 1 {
+	sys_getpgrp syscall0
+}
+; ( 'int pid' 'int pgid' -- c )
+fn setpgid 2 1 {
+	sys_setpgid syscall2
+}
+; ( 'int which' 'Contains_timet_ const struct itimerval *itv' ' struct itimerval *oitv' -- c )
+fn setitimer 3 1 {
+	sys_setitimer syscall3
+}
+; ( -- c )
+fn wait 0 1 {
+	sys_wait syscall0
+}
+; ( 'const char *name' -- c )
+fn swapon 1 1 {
+	sys_swapon syscall1
+}
+; ( 'int which' 'Contains_timet_ struct itimerval *itv' -- c )
+fn getitimer 2 1 {
+	sys_getitimer syscall2
+}
+; ( 'char *hostnam' 'u_int len' -- c )
+fn gethostname 2 1 {
+	sys_gethostname syscall2
+}
+; ( 'char *hostnam' 'u_int len' -- c )
+fn sethostname 2 1 {
+	sys_sethostname syscall2
+}
+; ( -- c )
+fn getdtablesize 0 1 {
+	sys_getdtablesize syscall0
+}
+; ( 'u_int from' 'u_int to' -- c )
+fn dup2 2 1 {
+	sys_dup2 syscall2
+}
+; ( 'int fd' 'int cmd' 'long arg' -- c )
+fn fcntl 3 1 {
+	sys_fcntl syscall3
+}
+; ( 'int nd' 'fd_set *in' 'fd_set *ou' 'fd_set *ex' ' struct timeval *tv' -- c )
+fn select 5 1 {
+	sys_select syscall5
+}
+; ( 'int fd' -- c )
+fn fsync 1 1 {
+	sys_fsync syscall1
+}
+; ( 'int which' 'int who' 'int prio' -- c )
+fn setpriority 3 1 {
+	sys_setpriority syscall3
+}
+; ( 'int domain' 'int type' 'int protocol' -- c )
+fn socket 3 1 {
+	sys_socket syscall3
+}
+; ( 'int s' 'const struct sockaddr *nam' 'socklen_t namelen' -- c )
+fn connect 3 1 {
+	sys_connect syscall3
+}
+; ( 'int s' 'struct sockaddr *nam' 'socklen_t *anamelen' -- c )
+fn accept 3 1 {
+	sys_accept syscall3
+}
+; ( 'int which' 'int who' -- c )
+fn getpriority 2 1 {
+	sys_getpriority syscall2
+}
+; ( 'int s' 'const void *bu' 'int len' 'int flags' -- c )
+fn send 4 1 {
+	sys_send syscall4
+}
+; ( 'int s' 'void *bu' 'int len' 'int flags' -- c )
+fn recv 4 1 {
+	sys_recv syscall4
+}
+; ( 'struct osigcontext *sigcntxp' -- c )
+fn sigreturn 1 1 {
+	sys_sigreturn syscall1
+}
+; ( 'int s' 'const struct sockaddr *nam' 'socklen_t namelen' -- c )
+fn bind 3 1 {
+	sys_bind syscall3
+}
+; ( 'int s' 'int level' 'int name' 'const void *va' 'socklen_t valsize' -- c )
+fn setsockopt 5 1 {
+	sys_setsockopt syscall5
+}
+; ( 'int s' 'int backlog' -- c )
+fn listen 2 1 {
+	sys_listen syscall2
+}
+; ( 'int signum' ' struct sigvec *nsv' ' struct sigvec *osv' -- c )
+fn sigvec 3 1 {
+	sys_sigvec syscall3
+}
+; ( 'int mask' -- c )
+fn sigblock 1 1 {
+	sys_sigblock syscall1
+}
+; ( 'int mask' -- c )
+fn sigsetmask 1 1 {
+	sys_sigsetmask syscall1
+}
+; ( 'sigset_t mask' -- c )
+fn sigsuspend 1 1 {
+	sys_sigsuspend syscall1
+}
+; ( ' struct sigstack *nss' ' struct sigstack *oss' -- c )
+fn sigstack 2 1 {
+	sys_sigstack syscall2
+}
+; ( 'int s' 'Contains_ptr_ struct omsghdr *msg' 'int flags' -- c )
+fn recvmsg 3 1 {
+	sys_recvmsg syscall3
+}
+; ( 'int s' 'Contains_ptr_ const struct omsghdr *msg' 'int flags' -- c )
+fn sendmsg 3 1 {
+	sys_sendmsg syscall3
+}
+; ( 'Contains_long_timet_ struct timeval *tp' 'struct timezone *tzp' -- c )
+fn gettimeofday 2 1 {
+	sys_gettimeofday syscall2
+}
+; ( 'int who' 'Contains_long_ struct rusage *rusage' -- c )
+fn getrusage 2 1 {
+	sys_getrusage syscall2
+}
+; ( 'int s' 'int level' 'int name' 'void *va' 'socklen_t *avalsize' -- c )
+fn getsockopt 5 1 {
+	sys_getsockopt syscall5
+}
+; ( 'int fd' 'Contains_long_ptr_ struct iovec *iov' 'u_int iovcnt' -- c )
+fn readv 3 1 {
+	sys_readv syscall3
+}
+; ( 'int fd' 'Contains_long_ptr_ struct iovec *iov' 'u_int iovcnt' -- c )
+fn writev 3 1 {
+	sys_writev syscall3
+}
+; ( 'Contains_long_timet_ const struct timeval *tv' 'const struct timezone *tzp' -- c )
+fn settimeofday 2 1 {
+	sys_settimeofday syscall2
+}
+; ( 'int fd' 'int uid' 'int gid' -- c )
+fn fchown 3 1 {
+	sys_fchown syscall3
+}
+; ( 'int fd' 'mode_t mode' -- c )
+fn fchmod 2 1 {
+	sys_fchmod syscall2
+}
+; ( 'int s' 'void *bu' 'size_t len' 'int flags' 'struct sockaddr *fro' 'socklen_t *fromlenaddr' -- c )
+fn recvfrom 6 1 {
+	sys_recvfrom syscall6
+}
+; ( 'int ruid' 'int euid' -- c )
+fn setreuid 2 1 {
+	sys_setreuid syscall2
+}
+; ( 'int rgid' 'int egid' -- c )
+fn setregid 2 1 {
+	sys_setregid syscall2
+}
+; ( 'const char *from' 'const char *to' -- c )
+fn rename 2 1 {
+	sys_rename syscall2
+}
+; ( 'const char *path' 'long length' -- c )
+fn truncate 2 1 {
+	sys_truncate syscall2
+}
+; ( 'int fd' 'long length' -- c )
+fn ftruncate 2 1 {
+	sys_ftruncate syscall2
+}
+; ( 'int fd' 'int how' -- c )
+fn flock 2 1 {
+	sys_flock syscall2
+}
+; ( 'const char *path' 'mode_t mode' -- c )
+fn mkfifo 2 1 {
+	sys_mkfifo syscall2
+}
+; ( 'int s' 'const void *bu' 'size_t len' 'int flags' 'const struct sockaddr *t' 'socklen_t tolen' -- c )
+fn sendto 6 1 {
+	sys_sendto syscall6
+}
+; ( 'int s' 'int how' -- c )
+fn shutdown 2 1 {
+	sys_shutdown syscall2
+}
+; ( 'int domain' 'int type' 'int protocol' 'int *rs' -- c )
+fn socketpair 4 1 {
+	sys_socketpair syscall4
+}
+; ( 'const char *path' 'mode_t mode' -- c )
+fn mkdir 2 1 {
+	sys_mkdir syscall2
+}
+; ( 'const char *path' -- c )
+fn rmdir 1 1 {
+	sys_rmdir syscall1
+}
+; ( 'const char *path' 'Contains_long_timet_ const struct timeval *tptr' -- c )
+fn utimes 2 1 {
+	sys_utimes syscall2
+}
+; ( 'Contains_long_timet_ const struct timeval *delta' ' struct timeval *olddelta' -- c )
+fn adjtime 2 1 {
+	sys_adjtime syscall2
+}
+; ( 'int fdes' 'struct sockaddr *as' '__socklen_t *alen' -- c )
+fn getpeername 3 1 {
+	sys_getpeername syscall3
+}
+; ( -- c )
+fn gethostid 0 1 {
+	sys_gethostid syscall0
+}
+; ( 'long hostid' -- c )
+fn sethostid 1 1 {
+	sys_sethostid syscall1
+}
+; ( 'u_int which' 'struct orlimit *rlp' -- c )
+fn getrlimit 2 1 {
+	sys_getrlimit syscall2
+}
+; ( 'u_int which' 'struct orlimit *rlp' -- c )
+fn setrlimit 2 1 {
+	sys_setrlimit syscall2
+}
+; ( 'int pgid' 'int signum' -- c )
+fn killpg 2 1 {
+	sys_killpg syscall2
+}
+; ( -- c )
+fn setsid 0 1 {
+	sys_setsid syscall0
+}
+; ( 'const char *path' 'int cmd' 'int uid' 'void *arg' -- c )
+fn quotactl 4 1 {
+	sys_quotactl syscall4
+}
+; ( -- c )
+fn quota 0 1 {
+	sys_quota syscall0
+}
+; ( 'int fdes' 'struct sockaddr *as' 'socklen_t *alen' -- c )
+fn getsockname 3 1 {
+	sys_getsockname syscall3
+}
+; ( 'int fd' 'char *bu' 'u_int count' 'long *basep' -- c )
+fn getdirentries 4 1 {
+	sys_getdirentries syscall4
+}
+; ( 'const char *path' 'Contains_long_ struct ostatfs *buf' -- c )
+fn statfs 2 1 {
+	sys_statfs syscall2
+}
+; ( 'int fd' 'Contains_long_ struct ostatfs *buf' -- c )
+fn fstatfs 2 1 {
+	sys_fstatfs syscall2
+}
+; ( 'const char *fname' 'struct fhandle *fhp' -- c )
+fn lgetfh 2 1 {
+	sys_lgetfh syscall2
+}
+; ( 'const char *fname' 'struct fhandle *fhp' -- c )
+fn getfh 2 1 {
+	sys_getfh syscall2
+}
+; ( 'char *domainnam' 'int len' -- c )
+fn getdomainname 2 1 {
+	sys_getdomainname syscall2
+}
+; ( 'char *domainnam' 'int len' -- c )
+fn setdomainname 2 1 {
+	sys_setdomainname syscall2
+}
+; ( 'struct utsname *name' -- c )
+fn uname 1 1 {
+	sys_uname syscall1
+}
+; ( 'int op' 'char *parms' -- c )
+fn sysarch 2 1 {
+	sys_sysarch syscall2
+}
+; ( 'int function' 'id_t pid' 'struct rtprio *rtp' -- c )
+fn rtprio 3 1 {
+	sys_rtprio syscall3
+}
+; ( 'int fd' 'void *bu' 'size_t nbyte' 'int pad' 'ff_t offset' -- c )
+fn pread 5 1 {
+	sys_pread syscall5
+}
+; ( 'int fd' 'const void *bu' 'size_t nbyte' 'int pad' 'ff_t offset' -- c )
+fn pwrite 5 1 {
+	sys_pwrite syscall5
+}
+; ( 'int fibnum' -- c )
+fn setfib 1 1 {
+	sys_setfib syscall1
+}
+; ( 'Contains_long_ struct timex *tp' -- c )
+fn ntp_adjtime 1 1 {
+	sys_ntp_adjtime syscall1
+}
+; ( 'gid_t gid' -- c )
+fn setgid 1 1 {
+	sys_setgid syscall1
+}
+; ( 'gid_t egid' -- c )
+fn setegid 1 1 {
+	sys_setegid syscall1
+}
+; ( 'uid_t euid' -- c )
+fn seteuid 1 1 {
+	sys_seteuid syscall1
+}
+; ( 'const char *path' 'Contains_timet_ struct freebsd11_stat *ub' -- c )
+fn stat 2 1 {
+	sys_stat syscall2
+}
+; ( 'int fd' 'Contains_timet_ struct freebsd11_stat *sb' -- c )
+fn fstat 2 1 {
+	sys_fstat syscall2
+}
+; ( 'const char *path' 'Contains_timet_ struct freebsd11_stat *ub' -- c )
+fn lstat 2 1 {
+	sys_lstat syscall2
+}
+; ( 'const char *path' 'int name' -- c )
+fn pathconf 2 1 {
+	sys_pathconf syscall2
+}
+; ( 'int fd' 'int name' -- c )
+fn fpathconf 2 1 {
+	sys_fpathconf syscall2
+}
+; ( 'u_int which' 'struct rlimit *rlp' -- c )
+fn getrlimit 2 1 {
+	sys_getrlimit syscall2
+}
+; ( 'u_int which' 'struct rlimit *rlp' -- c )
+fn setrlimit 2 1 {
+	sys_setrlimit syscall2
+}
+; ( 'int fd' 'char *bu' 'u_int count' 'long *basep' -- c )
+fn getdirentries 4 1 {
+	sys_getdirentries syscall4
+}
+; ( 'void *addr' 'size_t len' 'int prot' 'int flags' 'int fd' 'int pad' 'ff_t pos' -- c )
+fn *mmap 7 1 {
+	sys_*mmap syscall7
+}
+; ( 'int64_t number' '...' -- c )
+fn __syscall 2 1 {
+	sys___syscall syscall2
+}
+; ( 'int fd' 'int pad' 'ff_t offset' 'int whence' -- c )
+fn lseek 4 1 {
+	sys_lseek syscall4
+}
+; ( 'const char *path' 'int pad' 'ff_t length' -- c )
+fn truncate 3 1 {
+	sys_truncate syscall3
+}
+; ( 'int fd' 'int pad' 'ff_t length' -- c )
+fn ftruncate 3 1 {
+	sys_ftruncate syscall3
+}
+; ( 'int *nam' 'u_int namelen' 'void *ol' 'size_t *oldlenp' 'const void *ne' 'size_t newlen' -- c )
+fn __sysctl 6 1 {
+	sys___sysctl syscall6
+}
+; ( 'const void *addr' 'size_t len' -- c )
+fn mlock 2 1 {
+	sys_mlock syscall2
+}
+; ( 'const void *addr' 'size_t len' -- c )
+fn munlock 2 1 {
+	sys_munlock syscall2
+}
+; ( 'const char *path' -- c )
+fn undelete 1 1 {
+	sys_undelete syscall1
+}
+; ( 'int fd' 'Contains_long_timet_ const struct timeval *tpt' -- c )
+fn futimes 2 1 {
+	sys_futimes syscall2
+}
+; ( 'id_t pid' -- c )
+fn getpgid 1 1 {
+	sys_getpgid syscall1
+}
+; ( 'struct pollfd *fd' 'u_int nfds' 'int timeout' -- c )
+fn poll 3 1 {
+	sys_poll syscall3
+}
+; ( 'clockid_t clock_id' 'Contains_long_timet_ struct timespec *tp' -- c )
+fn clock_gettime 2 1 {
+	sys_clock_gettime syscall2
+}
+; ( 'clockid_t clock_id' 'Contains_long_timet_ const struct timespec *tp' -- c )
+fn clock_settime 2 1 {
+	sys_clock_settime syscall2
+}
+; ( 'clockid_t clock_id' 'Contains_long_timet_ struct timespec *tp' -- c )
+fn clock_getres 2 1 {
+	sys_clock_getres syscall2
+}
+; ( 'clockid_t clock_id' 'Contains_long_ptr_ struct sigevent *evp' 'int *timerid' -- c )
+fn ktimer_create 3 1 {
+	sys_ktimer_create syscall3
+}
+; ( 'int timerid' -- c )
+fn ktimer_delete 1 1 {
+	sys_ktimer_delete syscall1
+}
+; ( 'int timerid' 'int flags' 'Contains_long_timet_ const struct itimerspec *value' ' struct itimerspec *ovalue' -- c )
+fn ktimer_settime 4 1 {
+	sys_ktimer_settime syscall4
+}
+; ( 'int timerid' 'Contains_long_timet_ struct itimerspec *value' -- c )
+fn ktimer_gettime 2 1 {
+	sys_ktimer_gettime syscall2
+}
+; ( 'int timerid' -- c )
+fn ktimer_getoverrun 1 1 {
+	sys_ktimer_getoverrun syscall1
+}
+; ( 'Contains_long_timet_ const struct timespec *rqtp' ' struct timespec *rmtp' -- c )
+fn nanosleep 2 1 {
+	sys_nanosleep syscall2
+}
+; ( 'ffcounter *ffcount' -- c )
+fn ffclock_getcounter 1 1 {
+	sys_ffclock_getcounter syscall1
+}
+; ( 'Contains_timet_ struct ffclock_estimate *cest' -- c )
+fn ffclock_setestimate 1 1 {
+	sys_ffclock_setestimate syscall1
+}
+; ( 'Contains_timet_ struct ffclock_estimate *cest' -- c )
+fn ffclock_getestimate 1 1 {
+	sys_ffclock_getestimate syscall1
+}
+; ( 'clockid_t clock_id' 'int flags' 'Contains_long_timet_ const struct timespec *rqtp' ' struct timespec *rmtp' -- c )
+fn clock_nanosleep 4 1 {
+	sys_clock_nanosleep syscall4
+}
+; ( 'id_t id' 'int which' 'clockid_t *clock_id' -- c )
+fn clock_getcpuclockid2 3 1 {
+	sys_clock_getcpuclockid2 syscall3
+}
+; ( 'Contains_long_timet_ struct ntptimeval *ntvp' -- c )
+fn ntp_gettime 1 1 {
+	sys_ntp_gettime syscall1
+}
+; ( 'void *addr' 'size_t len' 'int inherit' -- c )
+fn minherit 3 1 {
+	sys_minherit syscall3
+}
+; ( 'int flags' -- c )
+fn rfork 1 1 {
+	sys_rfork syscall1
+}
+; ( -- c )
+fn issetugid 0 1 {
+	sys_issetugid syscall0
+}
+; ( 'const char *path' 'int uid' 'int gid' -- c )
+fn lchown 3 1 {
+	sys_lchown syscall3
+}
+; ( 'Contains_long_ptr_ struct aiocb *aiocbp' -- c )
+fn aio_read 1 1 {
+	sys_aio_read syscall1
+}
+; ( 'Contains_long_ptr_ struct aiocb *aiocbp' -- c )
+fn aio_write 1 1 {
+	sys_aio_write syscall1
+}
+; ( 'int mode' 'Contains_long_ptr_ struct aiocb * const *acb_lis' 'int nent' 'ptr_ struct sigevent *sig' -- c )
+fn lio_listio 4 1 {
+	sys_lio_listio syscall4
+}
+; ( 'int fd' 'char *bu' 'size_t count' -- c )
+fn getdents 3 1 {
+	sys_getdents syscall3
+}
+; ( 'const char *path' 'mode_t mode' -- c )
+fn lchmod 2 1 {
+	sys_lchmod syscall2
+}
+; ( 'const char *path' 'Contains_long_timet_ const struct timeval *tptr' -- c )
+fn lutimes 2 1 {
+	sys_lutimes syscall2
+}
+; ( 'const char *path' 'Contains_long_timet_ struct nstat *ub' -- c )
+fn nstat 2 1 {
+	sys_nstat syscall2
+}
+; ( 'int fd' 'Contains_long_timet_ struct nstat *sb' -- c )
+fn nfstat 2 1 {
+	sys_nfstat syscall2
+}
+; ( 'const char *path' 'Contains_long_timet_ struct nstat *ub' -- c )
+fn nlstat 2 1 {
+	sys_nlstat syscall2
+}
+; ( 'int fd' 'Contains_long_ptr_ struct iovec *iov' 'u_int iovcnt' 'ff_t offset' -- c )
+fn preadv 4 1 {
+	sys_preadv syscall4
+}
+; ( 'int fd' 'Contains_long_ptr_ struct iovec *iov' 'u_int iovcnt' 'ff_t offset' -- c )
+fn pwritev 4 1 {
+	sys_pwritev syscall4
+}
+; ( 'const struct fhandle *u_fhp' 'Contains_long_ struct ostatfs *buf' -- c )
+fn fhstatfs 2 1 {
+	sys_fhstatfs syscall2
+}
+; ( 'const struct fhandle *u_fhp' 'int flags' -- c )
+fn fhopen 2 1 {
+	sys_fhopen syscall2
+}
+; ( 'const struct fhandle *u_fhp' 'Contains_long_timet_ struct freebsd11_stat *sb' -- c )
+fn fhstat 2 1 {
+	sys_fhstat syscall2
+}
+; ( 'int modid' -- c )
+fn modnext 1 1 {
+	sys_modnext syscall1
+}
+; ( 'int modid' 'Contains_long_ struct module_stat *stat' -- c )
+fn modstat 2 1 {
+	sys_modstat syscall2
+}
+; ( 'int modid' -- c )
+fn modfnext 1 1 {
+	sys_modfnext syscall1
+}
+; ( 'const char *name' -- c )
+fn modfind 1 1 {
+	sys_modfind syscall1
+}
+; ( 'const char *file' -- c )
+fn kldload 1 1 {
+	sys_kldload syscall1
+}
+; ( 'int fileid' -- c )
+fn kldunload 1 1 {
+	sys_kldunload syscall1
+}
+; ( 'const char *file' -- c )
+fn kldfind 1 1 {
+	sys_kldfind syscall1
+}
+; ( 'int fileid' -- c )
+fn kldnext 1 1 {
+	sys_kldnext syscall1
+}
+; ( 'int fileid' 'Contains_long_ptr_ struct kld_file_stat *stat' -- c )
+fn kldstat 2 1 {
+	sys_kldstat syscall2
+}
+; ( 'int fileid' -- c )
+fn kldfirstmod 1 1 {
+	sys_kldfirstmod syscall1
+}
+; ( 'id_t pid' -- c )
+fn getsid 1 1 {
+	sys_getsid syscall1
+}
+; ( 'uid_t ruid' 'uid_t euid' 'uid_t suid' -- c )
+fn setresuid 3 1 {
+	sys_setresuid syscall3
+}
+; ( 'gid_t rgid' 'gid_t egid' 'gid_t sgid' -- c )
+fn setresgid 3 1 {
+	sys_setresgid syscall3
+}
+; ( 'Contains_long_ptr_ struct aiocb *aiocbp' -- c )
+fn aio_return 1 1 {
+	sys_aio_return syscall1
+}
+; ( 'Contains_long_ptr_ struct aiocb * const * aiocb' 'int nent' ' const struct timespec *timeout' -- c )
+fn aio_suspend 3 1 {
+	sys_aio_suspend syscall3
+}
+; ( 'int fd' 'ptr_ struct aiocb *aiocbp' -- c )
+fn aio_cancel 2 1 {
+	sys_aio_cancel syscall2
+}
+; ( 'Contains_long_ptr_ struct aiocb *aiocbp' -- c )
+fn aio_error 1 1 {
+	sys_aio_error syscall1
+}
+; ( 'Contains_long_ptr_ struct oaiocb *aiocbp' -- c )
+fn aio_read 1 1 {
+	sys_aio_read syscall1
+}
+; ( 'Contains_long_ptr_ struct oaiocb *aiocbp' -- c )
+fn aio_write 1 1 {
+	sys_aio_write syscall1
+}
+; ( 'int mode' 'Contains_long_ptr_ struct oaiocb * const *acb_lis' 'int nent' ' struct osigevent *sig' -- c )
+fn lio_listio 4 1 {
+	sys_lio_listio syscall4
+}
+; ( -- c )
+fn yield 0 1 {
+	sys_yield syscall0
+}
+; ( 'int how' -- c )
+fn mlockall 1 1 {
+	sys_mlockall syscall1
+}
+; ( -- c )
+fn munlockall 0 1 {
+	sys_munlockall syscall0
+}
+; ( 'char *bu' 'size_t buflen' -- c )
+fn __getcwd 2 1 {
+	sys___getcwd syscall2
+}
+; ( 'id_t pid' 'const struct sched_param *param' -- c )
+fn sched_setparam 2 1 {
+	sys_sched_setparam syscall2
+}
+; ( 'id_t pid' 'struct sched_param *param' -- c )
+fn sched_getparam 2 1 {
+	sys_sched_getparam syscall2
+}
+; ( 'id_t pid' 'int policy' 'const struct sched_param *param' -- c )
+fn sched_setscheduler 3 1 {
+	sys_sched_setscheduler syscall3
+}
+; ( 'id_t pid' -- c )
+fn sched_getscheduler 1 1 {
+	sys_sched_getscheduler syscall1
+}
+; ( -- c )
+fn sched_yield 0 1 {
+	sys_sched_yield syscall0
+}
+; ( 'int policy' -- c )
+fn sched_get_priority_max 1 1 {
+	sys_sched_get_priority_max syscall1
+}
+; ( 'int policy' -- c )
+fn sched_get_priority_min 1 1 {
+	sys_sched_get_priority_min syscall1
+}
+; ( 'id_t pid' 'Contains_long_timet_ struct timespec *interval' -- c )
+fn sched_rr_get_interval 2 1 {
+	sys_sched_rr_get_interval syscall2
+}
+; ( 'const void *add' 'size_t len' -- c )
+fn utrace 2 1 {
+	sys_utrace syscall2
+}
+; ( 'int fd' 'int s' 'ff_t offset' 'size_t nbytes' ' struct sf_hdtr *hdtr' 'off_t *sbytes' 'int flags' -- c )
+fn sendfile 7 1 {
+	sys_sendfile syscall7
+}
+; ( 'int fileid' 'int cmd' 'Contains_long_ptr_ void *data' -- c )
+fn kldsym 3 1 {
+	sys_kldsym syscall3
+}
+; ( 'Contains_ptr_ struct jail *jail' -- c )
+fn jail 1 1 {
+	sys_jail syscall1
+}
+; ( 'int how' 'const sigset_t *set' 'sigset_t *oset' -- c )
+fn sigprocmask 3 1 {
+	sys_sigprocmask syscall3
+}
+; ( 'const sigset_t *sigmask' -- c )
+fn sigsuspend 1 1 {
+	sys_sigsuspend syscall1
+}
+; ( 'int sig' ' const struct sigaction *act' ' struct sigaction *oact' -- c )
+fn sigaction 3 1 {
+	sys_sigaction syscall3
+}
+; ( 'sigset_t *set' -- c )
+fn sigpending 1 1 {
+	sys_sigpending syscall1
+}
+; ( 'Contains_long_ptr_ const struct freebsd4_ucontext *sigcntxp' -- c )
+fn sigreturn 1 1 {
+	sys_sigreturn syscall1
+}
+; ( 'const sigset_t *set' 'ptr_ struct siginfo *info' ' const struct timespec *timeout' -- c )
+fn sigtimedwait 3 1 {
+	sys_sigtimedwait syscall3
+}
+; ( 'const sigset_t *set' 'ptr_ struct siginfo *info' -- c )
+fn sigwaitinfo 2 1 {
+	sys_sigwaitinfo syscall2
+}
+; ( 'const char *path' 'acl_type_t type' 'struct acl *aclp' -- c )
+fn __acl_get_file 3 1 {
+	sys___acl_get_file syscall3
+}
+; ( 'const char *path' 'acl_type_t type' 'struct acl *aclp' -- c )
+fn __acl_set_file 3 1 {
+	sys___acl_set_file syscall3
+}
+; ( 'int filedes' 'acl_type_t type' 'struct acl *aclp' -- c )
+fn __acl_get_fd 3 1 {
+	sys___acl_get_fd syscall3
+}
+; ( 'int filedes' 'acl_type_t type' 'struct acl *aclp' -- c )
+fn __acl_set_fd 3 1 {
+	sys___acl_set_fd syscall3
+}
+; ( 'const char *path' 'acl_type_t type' -- c )
+fn __acl_delete_file 2 1 {
+	sys___acl_delete_file syscall2
+}
+; ( 'int filedes' 'acl_type_t type' -- c )
+fn __acl_delete_fd 2 1 {
+	sys___acl_delete_fd syscall2
+}
+; ( 'const char *path' 'acl_type_t type' 'struct acl *aclp' -- c )
+fn __acl_aclcheck_file 3 1 {
+	sys___acl_aclcheck_file syscall3
+}
+; ( 'int filedes' 'acl_type_t type' 'struct acl *aclp' -- c )
+fn __acl_aclcheck_fd 3 1 {
+	sys___acl_aclcheck_fd syscall3
+}
+; ( 'const char *path' 'int cmd' 'const char *filename' 'int attrnamespace' 'const char *attrname' -- c )
+fn extattrctl 5 1 {
+	sys_extattrctl syscall5
+}
+; ( 'const char *path' 'int attrnamespace' 'const char *attrname' 'void *dat' 'size_t nbytes' -- c )
+fn extattr_set_file 5 1 {
+	sys_extattr_set_file syscall5
+}
+; ( 'const char *path' 'int attrnamespace' 'const char *attrname' 'void *dat' 'size_t nbytes' -- c )
+fn extattr_get_file 5 1 {
+	sys_extattr_get_file syscall5
+}
+; ( 'const char *path' 'int attrnamespace' 'const char *attrname' -- c )
+fn extattr_delete_file 3 1 {
+	sys_extattr_delete_file syscall3
+}
+; ( 'Outptr_result_maybenull_ struct aiocb **aiocbp' ' struct timespec *timeout' -- c )
+fn aio_waitcomplete 2 1 {
+	sys_aio_waitcomplete syscall2
+}
+; ( 'uid_t *ruid' 'uid_t *euid' 'uid_t *suid' -- c )
+fn getresuid 3 1 {
+	sys_getresuid syscall3
+}
+; ( 'gid_t *rgid' 'gid_t *egid' 'gid_t *sgid' -- c )
+fn getresgid 3 1 {
+	sys_getresgid syscall3
+}
+; ( -- c )
+fn kqueue 0 1 {
+	sys_kqueue syscall0
+}
+; ( 'int fd' 'Contains_ptr_ const struct freebsd11_kevent *changelis' 'int nchanges' 'Contains_ptr_ struct freebsd11_kevent *eventlis' 'int nevents' ' const struct timespec *timeout' -- c )
+fn kevent 6 1 {
+	sys_kevent syscall6
+}
+; ( 'int fd' 'int attrnamespace' 'const char *attrname' 'void *dat' 'size_t nbytes' -- c )
+fn extattr_set_fd 5 1 {
+	sys_extattr_set_fd syscall5
+}
+; ( 'int fd' 'int attrnamespace' 'const char *attrname' 'void *dat' 'size_t nbytes' -- c )
+fn extattr_get_fd 5 1 {
+	sys_extattr_get_fd syscall5
+}
+; ( 'int fd' 'int attrnamespace' 'const char *attrname' -- c )
+fn extattr_delete_fd 3 1 {
+	sys_extattr_delete_fd syscall3
+}
+; ( 'int flag' -- c )
+fn __setugid 1 1 {
+	sys___setugid syscall1
+}
+; ( 'const char *path' 'int amode' -- c )
+fn eaccess 2 1 {
+	sys_eaccess syscall2
+}
+; ( 'Contains_long_ptr_ struct iovec *iov' 'unsigned int iovcnt' 'int flags' -- c )
+fn nmount 3 1 {
+	sys_nmount syscall3
+}
+; ( 'Contains_long_ptr_ struct mac *mac_p' -- c )
+fn __mac_get_proc 1 1 {
+	sys___mac_get_proc syscall1
+}
+; ( 'Contains_long_ptr_ struct mac *mac_p' -- c )
+fn __mac_set_proc 1 1 {
+	sys___mac_set_proc syscall1
+}
+; ( 'int fd' 'Contains_long_ptr_ struct mac *mac_p' -- c )
+fn __mac_get_fd 2 1 {
+	sys___mac_get_fd syscall2
+}
+; ( 'const char *path_p' 'Contains_long_ptr_ struct mac *mac_p' -- c )
+fn __mac_get_file 2 1 {
+	sys___mac_get_file syscall2
+}
+; ( 'int fd' 'Contains_long_ptr_ struct mac *mac_p' -- c )
+fn __mac_set_fd 2 1 {
+	sys___mac_set_fd syscall2
+}
+; ( 'const char *path_p' 'Contains_long_ptr_ struct mac *mac_p' -- c )
+fn __mac_set_file 2 1 {
+	sys___mac_set_file syscall2
+}
+; ( 'int what' 'const char *name' 'char *valu' 'int len' -- c )
+fn kenv 4 1 {
+	sys_kenv syscall4
+}
+; ( 'const char *path' 'u_long flags' -- c )
+fn lchflags 2 1 {
+	sys_lchflags syscall2
+}
+; ( 'struct uuid *stor' 'int count' -- c )
+fn uuidgen 2 1 {
+	sys_uuidgen syscall2
+}
+; ( 'int fd' 'int s' 'ff_t offset' 'size_t nbytes' ' struct sf_hdtr *hdtr' 'off_t *sbytes' 'int flags' -- c )
+fn sendfile 7 1 {
+	sys_sendfile syscall7
+}
+; ( 'const char *policy' 'int call' 'void *arg' -- c )
+fn mac_syscall 3 1 {
+	sys_mac_syscall syscall3
+}
+; ( 'struct freebsd11_statfs *bu' 'long bufsize' 'int mode' -- c )
+fn getfsstat 3 1 {
+	sys_getfsstat syscall3
+}
+; ( 'const char *path' 'struct freebsd11_statfs *buf' -- c )
+fn statfs 2 1 {
+	sys_statfs syscall2
+}
+; ( 'int fd' 'struct freebsd11_statfs *buf' -- c )
+fn fstatfs 2 1 {
+	sys_fstatfs syscall2
+}
+; ( 'const struct fhandle *u_fhp' 'struct freebsd11_statfs *buf' -- c )
+fn fhstatfs 2 1 {
+	sys_fhstatfs syscall2
+}
+; ( 'id_t pid' 'Contains_long_ptr_ struct mac *mac_p' -- c )
+fn __mac_get_pid 2 1 {
+	sys___mac_get_pid syscall2
+}
+; ( 'const char *path_p' 'Contains_long_ptr_ struct mac *mac_p' -- c )
+fn __mac_get_link 2 1 {
+	sys___mac_get_link syscall2
+}
+; ( 'const char *path_p' 'Contains_long_ptr_ struct mac *mac_p' -- c )
+fn __mac_set_link 2 1 {
+	sys___mac_set_link syscall2
+}
+; ( 'const char *path' 'int attrnamespace' 'const char *attrname' 'void *dat' 'size_t nbytes' -- c )
+fn extattr_set_link 5 1 {
+	sys_extattr_set_link syscall5
+}
+; ( 'const char *path' 'int attrnamespace' 'const char *attrname' 'void *dat' 'size_t nbytes' -- c )
+fn extattr_get_link 5 1 {
+	sys_extattr_get_link syscall5
+}
+; ( 'const char *path' 'int attrnamespace' 'const char *attrname' -- c )
+fn extattr_delete_link 3 1 {
+	sys_extattr_delete_link syscall3
+}
+; ( 'const char *fname' 'char **argv' 'char **envv' 'Contains_long_ptr_ struct mac *mac_p' -- c )
+fn __mac_execve 4 1 {
+	sys___mac_execve syscall4
+}
+; ( 'int sig' ' const struct sigaction *act' ' struct sigaction *oact' -- c )
+fn sigaction 3 1 {
+	sys_sigaction syscall3
+}
+; ( 'Contains_long_ptr_ const struct __ucontext *sigcntxp' -- c )
+fn sigreturn 1 1 {
+	sys_sigreturn syscall1
+}
+; ( 'Contains_long_ptr_ struct __ucontext *ucp' -- c )
+fn getcontext 1 1 {
+	sys_getcontext syscall1
+}
+; ( 'Contains_long_ptr_ const struct __ucontext *ucp' -- c )
+fn setcontext 1 1 {
+	sys_setcontext syscall1
+}
+; ( 'Contains_long_ptr_ struct __ucontext *oucp' 'Contains_long_ptr_ const struct __ucontext *ucp' -- c )
+fn swapcontext 2 1 {
+	sys_swapcontext syscall2
+}
+; ( 'const char *name' -- c )
+fn swapoff 1 1 {
+	sys_swapoff syscall1
+}
+; ( 'const char *path' 'acl_type_t type' 'struct acl *aclp' -- c )
+fn __acl_get_link 3 1 {
+	sys___acl_get_link syscall3
+}
+; ( 'const char *path' 'acl_type_t type' 'struct acl *aclp' -- c )
+fn __acl_set_link 3 1 {
+	sys___acl_set_link syscall3
+}
+; ( 'const char *path' 'acl_type_t type' -- c )
+fn __acl_delete_link 2 1 {
+	sys___acl_delete_link syscall2
+}
+; ( 'const char *path' 'acl_type_t type' 'struct acl *aclp' -- c )
+fn __acl_aclcheck_link 3 1 {
+	sys___acl_aclcheck_link syscall3
+}
+; ( 'const sigset_t *set' 'int *sig' -- c )
+fn sigwait 2 1 {
+	sys_sigwait syscall2
+}
+; ( 'Contains_long_ptr_ ucontext_t *ctx' 'long *id' 'int flags' -- c )
+fn thr_create 3 1 {
+	sys_thr_create syscall3
+}
+; ( 'long *state' -- c )
+fn thr_exit 1 1 {
+	sys_thr_exit syscall1
+}
+; ( 'long *id' -- c )
+fn thr_self 1 1 {
+	sys_thr_self syscall1
+}
+; ( 'long id' 'int sig' -- c )
+fn thr_kill 2 1 {
+	sys_thr_kill syscall2
+}
+; ( 'struct umtx *umtx' -- c )
+fn _umtx_lock 1 1 {
+	sys__umtx_lock syscall1
+}
+; ( 'struct umtx *umtx' -- c )
+fn _umtx_unlock 1 1 {
+	sys__umtx_unlock syscall1
+}
+; ( 'int jid' -- c )
+fn jail_attach 1 1 {
+	sys_jail_attach syscall1
+}
+; ( 'int fd' 'int attrnamespace' 'void *dat' 'size_t nbytes' -- c )
+fn extattr_list_fd 4 1 {
+	sys_extattr_list_fd syscall4
+}
+; ( 'const char *path' 'int attrnamespace' 'void *dat' 'size_t nbytes' -- c )
+fn extattr_list_file 4 1 {
+	sys_extattr_list_file syscall4
+}
+; ( 'const char *path' 'int attrnamespace' 'void *dat' 'size_t nbytes' -- c )
+fn extattr_list_link 4 1 {
+	sys_extattr_list_link syscall4
+}
+; ( ' const struct timespec *timeout' -- c )
+fn thr_suspend 1 1 {
+	sys_thr_suspend syscall1
+}
+; ( 'long id' -- c )
+fn thr_wake 1 1 {
+	sys_thr_wake syscall1
+}
+; ( 'int fileid' 'int flags' -- c )
+fn kldunloadf 2 1 {
+	sys_kldunloadf syscall2
+}
+; ( 'const void *recor' 'u_int length' -- c )
+fn audit 2 1 {
+	sys_audit syscall2
+}
+; ( 'int cmd' 'void *data' 'u_int length' -- c )
+fn auditon 3 1 {
+	sys_auditon syscall3
+}
+; ( 'uid_t *auid' -- c )
+fn getauid 1 1 {
+	sys_getauid syscall1
+}
+; ( 'uid_t *auid' -- c )
+fn setauid 1 1 {
+	sys_setauid syscall1
+}
+; ( 'struct auditinfo *auditinfo' -- c )
+fn getaudit 1 1 {
+	sys_getaudit syscall1
+}
+; ( 'struct auditinfo *auditinfo' -- c )
+fn setaudit 1 1 {
+	sys_setaudit syscall1
+}
+; ( 'struct auditinfo_addr *auditinfo_add' 'u_int length' -- c )
+fn getaudit_addr 2 1 {
+	sys_getaudit_addr syscall2
+}
+; ( 'struct auditinfo_addr *auditinfo_add' 'u_int length' -- c )
+fn setaudit_addr 2 1 {
+	sys_setaudit_addr syscall2
+}
+; ( 'const char *path' -- c )
+fn auditctl 1 1 {
+	sys_auditctl syscall1
+}
+; ( 'void *obj' 'int op' 'u_long val' 'void *uaddr1' 'void *uaddr2' -- c )
+fn _umtx_op 5 1 {
+	sys__umtx_op syscall5
+}
+; ( 'Contains_long_ptr_ struct thr_param *param' 'int param_size' -- c )
+fn thr_new 2 1 {
+	sys_thr_new syscall2
+}
+; ( 'id_t pid' 'int signum' 'void *value' -- c )
+fn sigqueue 3 1 {
+	sys_sigqueue syscall3
+}
+; ( 'const char *why' 'int nargs' 'void **arg' -- c )
+fn abort2 3 1 {
+	sys_abort2 syscall3
+}
+; ( 'long id' 'const char *name' -- c )
+fn thr_set_name 2 1 {
+	sys_thr_set_name syscall2
+}
+; ( 'int op' 'Contains_long_ptr_ struct aiocb *aiocbp' -- c )
+fn aio_fsync 2 1 {
+	sys_aio_fsync syscall2
+}
+; ( 'int function' 'lwpid_t lwpid' 'struct rtprio *rtp' -- c )
+fn rtprio_thread 3 1 {
+	sys_rtprio_thread syscall3
+}
+; ( 'int fd' 'void *bu' 'size_t nbyte' 'ff_t offset' -- c )
+fn pread 4 1 {
+	sys_pread syscall4
+}
+; ( 'int fd' 'const void *bu' 'size_t nbyte' 'ff_t offset' -- c )
+fn pwrite 4 1 {
+	sys_pwrite syscall4
+}
+; ( 'void *addr' 'size_t len' 'int prot' 'int flags' 'int fd' 'ff_t pos' -- c )
+fn *mmap 6 1 {
+	sys_*mmap syscall6
+}
+; ( 'int fd' 'ff_t offset' 'int whence' -- c )
+fn lseek 3 1 {
+	sys_lseek syscall3
+}
+; ( 'const char *path' 'ff_t length' -- c )
+fn truncate 2 1 {
+	sys_truncate syscall2
+}
+; ( 'int fd' 'ff_t length' -- c )
+fn ftruncate 2 1 {
+	sys_ftruncate syscall2
+}
+; ( 'id_t pid' 'long id' 'int sig' -- c )
+fn thr_kill2 3 1 {
+	sys_thr_kill2 syscall3
+}
+; ( 'const char *path' 'int flags' 'mode_t mode' -- c )
+fn shm_open 3 1 {
+	sys_shm_open syscall3
+}
+; ( 'const char *path' -- c )
+fn shm_unlink 1 1 {
+	sys_shm_unlink syscall1
+}
+; ( 'cpusetid_t *setid' -- c )
+fn cpuset 1 1 {
+	sys_cpuset syscall1
+}
+; ( 'cpuwhich_t which' 'id_t id' 'cpusetid_t setid' -- c )
+fn cpuset_setid 3 1 {
+	sys_cpuset_setid syscall3
+}
+; ( 'cpulevel_t level' 'cpuwhich_t which' 'id_t id' 'cpusetid_t *setid' -- c )
+fn cpuset_getid 4 1 {
+	sys_cpuset_getid syscall4
+}
+; ( 'cpulevel_t level' 'cpuwhich_t which' 'id_t id' 'size_t cpusetsize' 'cpuset_t *mask' -- c )
+fn cpuset_getaffinity 5 1 {
+	sys_cpuset_getaffinity syscall5
+}
+; ( 'cpulevel_t level' 'cpuwhich_t which' 'id_t id' 'size_t cpusetsize' 'const cpuset_t *mask' -- c )
+fn cpuset_setaffinity 5 1 {
+	sys_cpuset_setaffinity syscall5
+}
+; ( 'int fd' 'const char *path' 'int amode' 'int flag' -- c )
+fn faccessat 4 1 {
+	sys_faccessat syscall4
+}
+; ( 'int fd' 'const char *path' 'mode_t mode' 'int flag' -- c )
+fn fchmodat 4 1 {
+	sys_fchmodat syscall4
+}
+; ( 'int fd' 'const char *path' 'uid_t uid' 'gid_t gid' 'int flag' -- c )
+fn fchownat 5 1 {
+	sys_fchownat syscall5
+}
+; ( 'int fd' 'char **argv' 'char **envv' -- c )
+fn fexecve 3 1 {
+	sys_fexecve syscall3
+}
+; ( 'int fd' 'const char *path' 'Contains_long_timet_ struct freebsd11_stat *buf' 'int flag' -- c )
+fn fstatat 4 1 {
+	sys_fstatat syscall4
+}
+; ( 'int fd' 'const char *path' 'Contains_long_timet_ const struct timeval *time' -- c )
+fn futimesat 3 1 {
+	sys_futimesat syscall3
+}
+; ( 'int fd1' 'const char *path1' 'int fd2' 'const char *path2' 'int flag' -- c )
+fn linkat 5 1 {
+	sys_linkat syscall5
+}
+; ( 'int fd' 'const char *path' 'mode_t mode' -- c )
+fn mkdirat 3 1 {
+	sys_mkdirat syscall3
+}
+; ( 'int fd' 'const char *path' 'mode_t mode' -- c )
+fn mkfifoat 3 1 {
+	sys_mkfifoat syscall3
+}
+; ( 'int fd' 'const char *path' 'mode_t mode' 'uint32_t dev' -- c )
+fn mknodat 4 1 {
+	sys_mknodat syscall4
+}
+; ( 'int fd' 'const char *path' 'int flag' 'mode_t mode' -- c )
+fn openat 4 1 {
+	sys_openat syscall4
+}
+; ( 'int fd' 'const char *path' 'char *bu' 'size_t bufsize' -- c )
+fn readlinkat 4 1 {
+	sys_readlinkat syscall4
+}
+; ( 'int oldfd' 'const char *old' 'int newfd' 'const char *new' -- c )
+fn renameat 4 1 {
+	sys_renameat syscall4
+}
+; ( 'const char *path1' 'int fd' 'const char *path2' -- c )
+fn symlinkat 3 1 {
+	sys_symlinkat syscall3
+}
+; ( 'int fd' 'const char *path' 'int flag' -- c )
+fn unlinkat 3 1 {
+	sys_unlinkat syscall3
+}
+; ( 'int flags' -- c )
+fn posix_openpt 1 1 {
+	sys_posix_openpt syscall1
+}
+; ( 'Contains_long_ptr_ struct iovec *iov' 'unsigned int iovcnt' 'int flags' -- c )
+fn jail_get 3 1 {
+	sys_jail_get syscall3
+}
+; ( 'Contains_long_ptr_ struct iovec *iov' 'unsigned int iovcnt' 'int flags' -- c )
+fn jail_set 3 1 {
+	sys_jail_set syscall3
+}
+; ( 'int jid' -- c )
+fn jail_remove 1 1 {
+	sys_jail_remove syscall1
+}
+; ( 'int lowfd' -- c )
+fn closefrom 1 1 {
+	sys_closefrom syscall1
+}
+; ( 'const char *path' 'int name' -- c )
+fn lpathconf 2 1 {
+	sys_lpathconf syscall2
+}
+; ( 'int version' 'int fd' 'cap_rights_t *rightsp' -- c )
+fn __cap_rights_get 3 1 {
+	sys___cap_rights_get syscall3
+}
+; ( -- c )
+fn cap_enter 0 1 {
+	sys_cap_enter syscall0
+}
+; ( 'u_int *modep' -- c )
+fn cap_getmode 1 1 {
+	sys_cap_getmode syscall1
+}
+; ( 'int *fdp' 'int flags' -- c )
+fn pdfork 2 1 {
+	sys_pdfork syscall2
+}
+; ( 'int fd' 'int signum' -- c )
+fn pdkill 2 1 {
+	sys_pdkill syscall2
+}
+; ( 'int fd' 'id_t *pidp' -- c )
+fn pdgetpid 2 1 {
+	sys_pdgetpid syscall2
+}
+; ( 'int nd' 'fd_set *in' 'fd_set *ou' 'fd_set *ex' ' const struct timespec *ts' 'const sigset_t *sm' -- c )
+fn pselect 6 1 {
+	sys_pselect syscall6
+}
+; ( 'char *namebu' 'size_t namelen' -- c )
+fn getloginclass 2 1 {
+	sys_getloginclass syscall2
+}
+; ( 'const char *namebuf' -- c )
+fn setloginclass 1 1 {
+	sys_setloginclass syscall1
+}
+; ( 'const void *inbuf' 'size_t inbuflen' 'void *outbuf' 'size_t outbuflen' -- c )
+fn rctl_get_racct 4 1 {
+	sys_rctl_get_racct syscall4
+}
+; ( 'const void *inbuf' 'size_t inbuflen' 'void *outbuf' 'size_t outbuflen' -- c )
+fn rctl_get_rules 4 1 {
+	sys_rctl_get_rules syscall4
+}
+; ( 'const void *inbuf' 'size_t inbuflen' 'void *outbuf' 'size_t outbuflen' -- c )
+fn rctl_get_limits 4 1 {
+	sys_rctl_get_limits syscall4
+}
+; ( 'const void *inbuf' 'size_t inbuflen' 'void *outbuf' 'size_t outbuflen' -- c )
+fn rctl_add_rule 4 1 {
+	sys_rctl_add_rule syscall4
+}
+; ( 'const void *inbuf' 'size_t inbuflen' 'void *outbuf' 'size_t outbuflen' -- c )
+fn rctl_remove_rule 4 1 {
+	sys_rctl_remove_rule syscall4
+}
+; ( 'int fd' 'ff_t offset' 'ff_t len' -- c )
+fn posix_fallocate 3 1 {
+	sys_posix_fallocate syscall3
+}
+; ( 'int fd' 'ff_t offset' 'ff_t len' 'int advice' -- c )
+fn posix_fadvise 4 1 {
+	sys_posix_fadvise syscall4
+}
+; ( 'idtype_t idtype' 'id_t id' 'int *status' 'int options' ' struct __wrusage *wrusage' 'ptr_ struct siginfo *info' -- c )
+fn wait6 6 1 {
+	sys_wait6 syscall6
+}
+; ( 'int fd' 'cap_rights_t *rightsp' -- c )
+fn cap_rights_limit 2 1 {
+	sys_cap_rights_limit syscall2
+}
+; ( 'int fd' 'const u_long *cmd' 'size_t ncmds' -- c )
+fn cap_ioctls_limit 3 1 {
+	sys_cap_ioctls_limit syscall3
+}
+; ( 'int fd' 'u_long *cmd' 'size_t maxcmds' -- c )
+fn cap_ioctls_get 3 1 {
+	sys_cap_ioctls_get syscall3
+}
+; ( 'int fd' 'uint32_t fcntlrights' -- c )
+fn cap_fcntls_limit 2 1 {
+	sys_cap_fcntls_limit syscall2
+}
+; ( 'int fd' 'uint32_t *fcntlrightsp' -- c )
+fn cap_fcntls_get 2 1 {
+	sys_cap_fcntls_get syscall2
+}
+; ( 'int fd' 'int s' 'const struct sockaddr *nam' 'socklen_t namelen' -- c )
+fn bindat 4 1 {
+	sys_bindat syscall4
+}
+; ( 'int fd' 'int s' 'const struct sockaddr *nam' 'socklen_t namelen' -- c )
+fn connectat 4 1 {
+	sys_connectat syscall4
+}
+; ( 'int fd' 'const char *path' 'u_long flags' 'int atflag' -- c )
+fn chflagsat 4 1 {
+	sys_chflagsat syscall4
+}
+; ( 'int s' 'struct sockaddr *nam' '__socklen_t *anamelen' 'int flags' -- c )
+fn accept4 4 1 {
+	sys_accept4 syscall4
+}
+; ( 'int *filde' 'int flags' -- c )
+fn pipe2 2 1 {
+	sys_pipe2 syscall2
+}
+; ( 'Contains_long_ptr_ struct aiocb *aiocbp' -- c )
+fn aio_mlock 1 1 {
+	sys_aio_mlock syscall1
+}
+; ( 'idtype_t idtype' 'id_t id' 'int com' 'void *data' -- c )
+fn procctl 4 1 {
+	sys_procctl syscall4
+}
+; ( 'struct pollfd *fd' 'u_int nfds' ' const struct timespec *ts' 'const sigset_t *set' -- c )
+fn ppoll 4 1 {
+	sys_ppoll syscall4
+}
+; ( 'int fd' 'Contains_long_timet_ const struct timespec *time' -- c )
+fn futimens 2 1 {
+	sys_futimens syscall2
+}
+; ( 'int fd' 'const char *path' 'Contains_long_timet_ const struct timespec *time' 'int flag' -- c )
+fn utimensat 4 1 {
+	sys_utimensat syscall4
+}
+; ( 'int fd' -- c )
+fn fdatasync 1 1 {
+	sys_fdatasync syscall1
+}
+; ( 'int fd' 'Contains_long_timet_ struct stat *sb' -- c )
+fn fstat 2 1 {
+	sys_fstat syscall2
+}
+; ( 'int fd' 'const char *path' 'Contains_long_timet_ struct stat *buf' 'int flag' -- c )
+fn fstatat 4 1 {
+	sys_fstatat syscall4
+}
+; ( 'const struct fhandle *u_fhp' 'Contains_long_timet_ struct stat *sb' -- c )
+fn fhstat 2 1 {
+	sys_fhstat syscall2
+}
+; ( 'int fd' 'char *bu' 'size_t count' 'ff_t *basep' -- c )
+fn getdirentries 4 1 {
+	sys_getdirentries syscall4
+}
+; ( 'const char *path' 'struct statfs *buf' -- c )
+fn statfs 2 1 {
+	sys_statfs syscall2
+}
+; ( 'int fd' 'struct statfs *buf' -- c )
+fn fstatfs 2 1 {
+	sys_fstatfs syscall2
+}
+; ( 'struct statfs *bu' 'long bufsize' 'int mode' -- c )
+fn getfsstat 3 1 {
+	sys_getfsstat syscall3
+}
+; ( 'const struct fhandle *u_fhp' 'struct statfs *buf' -- c )
+fn fhstatfs 2 1 {
+	sys_fhstatfs syscall2
+}
+; ( 'int fd' 'const char *path' 'mode_t mode' 'dev_t dev' -- c )
+fn mknodat 4 1 {
+	sys_mknodat syscall4
+}
+; ( 'int fd' 'Contains_ptr_ const struct kevent *changelis' 'int nchanges' 'Contains_ptr_ struct kevent *eventlis' 'int nevents' ' const struct timespec *timeout' -- c )
+fn kevent 6 1 {
+	sys_kevent syscall6
+}
+; ( 'cpulevel_t level' 'cpuwhich_t which' 'id_t id' 'size_t domainsetsize' 'domainset_t *mas' 'int *policy' -- c )
+fn cpuset_getdomain 6 1 {
+	sys_cpuset_getdomain syscall6
+}
+; ( 'cpulevel_t level' 'cpuwhich_t which' 'id_t id' 'size_t domainsetsize' 'domainset_t *mask' 'int policy' -- c )
+fn cpuset_setdomain 6 1 {
+	sys_cpuset_setdomain syscall6
+}
+; ( 'void *bu' 'size_t buflen' 'unsigned int flags' -- c )
+fn getrandom 3 1 {
+	sys_getrandom syscall3
+}
+; ( 'int fd' 'char *path' 'struct fhandle *fhp' 'int flags' -- c )
+fn getfhat 4 1 {
+	sys_getfhat syscall4
+}
+; ( 'struct fhandle *fhp' 'const char *to' -- c )
+fn fhlink 2 1 {
+	sys_fhlink syscall2
+}
+; ( 'struct fhandle *fhp' 'int tofd' 'const char *to' -- c )
+fn fhlinkat 3 1 {
+	sys_fhlinkat syscall3
+}
+; ( 'struct fhandle *fhp' 'char *bu' 'size_t bufsize' -- c )
+fn fhreadlink 3 1 {
+	sys_fhreadlink syscall3
+}
+; ( 'int dfd' 'const char *path' 'int fd' 'int flag' -- c )
+fn funlinkat 4 1 {
+	sys_funlinkat syscall4
+}
+; ( 'int infd' 'off_t *inoffp' 'int outfd' 'off_t *outoffp' 'size_t len' 'unsigned int flags' -- c )
+fn copy_file_range 6 1 {
+	sys_copy_file_range syscall6
+}
+; ( 'const char *nam' 'size_t namelen' 'void *ol' 'size_t *oldlenp' 'void *ne' 'size_t newlen' -- c )
+fn __sysctlbyname 6 1 {
+	sys___sysctlbyname syscall6
+}
+; ( 'const char *path' 'int flags' 'mode_t mode' 'int shmflags' 'const char *name' -- c )
+fn shm_open2 5 1 {
+	sys_shm_open2 syscall5
+}
+; ( 'const char *path_from' 'const char *path_to' 'int flags' -- c )
+fn shm_rename 3 1 {
+	sys_shm_rename syscall3
+}
+; ( 'int cmd' 'uint32_t *ptr' -- c )
+fn sigfastblock 2 1 {
+	sys_sigfastblock syscall2
+}
+; ( 'int fd' 'const char *path' 'char *bu' 'size_t size' 'int flags' -- c )
+fn __realpathat 5 1 {
+	sys___realpathat syscall5
+}
+; ( 'u_int lowfd' 'u_int highfd' 'int flags' -- c )
+fn close_range 3 1 {
+	sys_close_range syscall3
+}
+; ( 'int type' 'const void *re' 'size_t len' -- c )
+fn __specialfd 3 1 {
+	sys___specialfd syscall3
+}
+; ( 'Contains_long_ptr_ struct aiocb *aiocbp' -- c )
+fn aio_writev 1 1 {
+	sys_aio_writev syscall1
+}
+; ( 'Contains_long_ptr_ struct aiocb *aiocbp' -- c )
+fn aio_readv 1 1 {
+	sys_aio_readv syscall1
+}
+; ( 'int fd' 'int cmd' 'const struct spacectl_range *rqsr' 'int flags' 'struct spacectl_range *rmsr' -- c )
+fn fspacectl 5 1 {
+	sys_fspacectl syscall5
+}
+; ( -- c )
+fn sched_getcpu 0 1 {
+	sys_sched_getcpu syscall0
+}
+; ( 'const char *name' 'u_int flags' -- c )
+fn swapoff 2 1 {
+	sys_swapoff syscall2
+}
