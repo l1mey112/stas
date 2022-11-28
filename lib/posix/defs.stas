@@ -1,0 +1,111 @@
+const STDIN_FILENO 0 ; Standard input.  
+const STDOUT_FILENO 1 ; Standard output.  
+const STDERR_FILENO 2 ; Standard error output.
+; ./makedefinitions.vsh fcntl.h
+const S_IFMT  61440
+const S_IFDIR 16384
+const S_IFCHR 8192
+const S_IFBLK 24576
+const S_IFREG 32768
+const S_IFIFO 4096
+const S_IFLNK 40960
+const S_IFSOCK 49152
+const S_ISUID 2048       ; Set user ID on execution.  
+const S_ISGID 1024       ; Set group ID on execution.  
+const S_ISVTX 512
+const S_IRUSR 256       ; Read by owner.  
+const S_IWUSR 128      ; Write by owner.  
+const S_IXUSR 64       ; Execute by owner.  
+const S_IRWXU { S_IRUSR S_IWUSR | S_IXUSR | }
+const S_IRGRP { S_IRUSR 3 >> }  ; Read by group.  
+const S_IWGRP { S_IWUSR 3 >> }  ; Write by group.  
+const S_IXGRP { S_IXUSR 3 >> }  ; Execute by group.  
+const S_IRWXG { S_IRWXU 3 >> }
+const S_IROTH { S_IRGRP 3 >> }  ; Read by others.  
+const S_IWOTH { S_IWGRP 3 >> }  ; Write by others.  
+const S_IXOTH { S_IXGRP 3 >> }  ; Execute by others.  
+const S_IRWXO { S_IRWXG 3 >> }
+const R_OK 4  ; Test for read permission.  
+const W_OK 2  ; Test for write permission.  
+const X_OK 1  ; Test for execute permission.  
+const F_OK 0  ; Test for existence.  
+const SEEK_SET 0 ; Seek from beginning of file.  
+const SEEK_CUR 1 ; Seek from current position.  
+const SEEK_END 2 ; Seek from end of file.  
+const F_ULOCK 0 ; Unlock a previously locked region.  
+const F_LOCK  1 ; Lock a region for exclusive use.  
+const F_TLOCK 2 ; Test and lock a region for exclusive use.  
+const F_TEST  3 ; Test a region for other processes locks.  
+; ./makedefinitions.vsh bits/fcntl.h
+const F_GETLK64 5 ; Get record locking info.  
+const F_SETLK64 6 ; Set record locking info (non-blocking).  
+const F_SETLKW64 7 ; Set record locking info (blocking).
+const AT_FDCWD -100
+const AT_SYMLINK_NOFOLLOW 256 ; Do not follow symbolic links.  
+const AT_REMOVEDIR  512 ; Remove directory instead of
+const AT_SYMLINK_FOLLOW 1024 ; Follow symbolic links.  
+const AT_NO_AUTOMOUNT 2048 ; Suppress terminal automount
+const AT_EMPTY_PATH  4096 ; Allow empty relative pathname.  
+const AT_STATX_SYNC_TYPE 24576
+const AT_STATX_SYNC_AS_STAT 0
+const AT_STATX_FORCE_SYNC 8192
+const AT_STATX_DONT_SYNC 16384
+const AT_RECURSIVE  32768 ; Apply to the entire subtree.  
+const AT_EACCESS  512 ; Test access permitted for
+const O_RDONLY  0
+const O_WRONLY  1
+const O_RDWR    2
+const O_ACCMODE 3
+comptime ?def TARGET_LINUX if {
+	const O_CREAT    64
+	const O_EXCL     128
+	const O_NOCTTY   256
+	const O_TRUNC    512
+	const O_APPEND   1024
+	const O_NONBLOCK 2048
+	const O_SYNC     1052672
+	const O_ASYNC    8192
+}
+comptime ?def TARGET_FREEBSD if {
+	const O_CREAT    512
+	const O_EXCL     2048
+	const O_NOCTTY   32768
+	const O_TRUNC    1024
+	const O_APPEND   8
+	const O_NONBLOCK 4
+	const O_SYNC     128
+	const O_ASYNC    64
+}
+const O_NDELAY O_NONBLOCK
+const O_FSYNC  O_SYNC
+comptime ?def TARGET_LINUX if {
+	fn WIFSTOPPED   1 1 { 255 & 127 =         }
+	fn WIFCONTINUED 1 1 { 65535 =             }
+	fn WIFSIGNALED  1 1 { 127 & 1 + 1 >> 0 >s }
+	fn WEXITSTATUS  1 1 { 65280 & 8 >>        }
+}
+comptime ?def TARGET_FREEBSD if {
+	fn WIFSTOPPED   1 1 { 127 & 127 =                  }	
+	fn WIFCONTINUED 1 1 { 19 =                         }
+	fn WIFSIGNALED  1 1 { 127 & dup 127 != swap 0 != & }
+	fn WEXITSTATUS  1 1 { 8 >>                         }
+}
+fn WTERMSIG     1 1 { 127 &     }
+fn WIFEXITED    1 1 { 127 & 0 = }
+const PROT_READ   1
+const PROT_WRITE  2
+const PROT_EXEC   4
+const PROT_NONE   0
+const MAP_SHARED  1
+const MAP_PRIVATE 2
+const MAP_FIXED   16
+comptime ?def TARGET_LINUX if {
+	const MAP_ANONYMOUS 32
+}
+comptime ?def TARGET_FREEBSD if {
+	const MAP_ANONYMOUS 4096
+}
+const MAP_FAILED      -1
+const MAP_PRW         { PROT_READ PROT_WRITE      | }
+const MAP_PA          { MAP_PRIVATE MAP_ANONYMOUS | }
+const CLOCK_MONOTONIC 1

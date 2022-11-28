@@ -2,21 +2,6 @@
 
 import io
 
-/*
-fn main() {
-	// Make a new connection
-	mut conn := net.dial_tcp('google.com:80')!
-	conn.write_string('GET /index.html HTTP/1.0\r\n\r\n')!
-	
-	mut r := io.new_buffered_reader(reader: conn)
-	for {
-		l := r.read_line() or { break }
-		println('${l}')
-		// Make it nice and obvious that we are doing this line by line
-		time.sleep(100 * time.millisecond)
-	}
-}*/
-
 const sysc_typ_ignore = ['NOSTD', 'UNIMPL', 'OBSOL']
 
 const annotation_prefix = ['_In_z_', '_Out_z_', '_Inout_z_', '_In_', '_Out_', '_Inout_']
@@ -25,6 +10,7 @@ const annotation_prefix_operand = ['_In_reads_z_', '_Out_writes_z_', '_Inout_upd
 	'_In_reads_', '_Out_writes_', '_Inout_updates_', '_In_reads_bytes_', '_Out_writes_bytes_',
 	'_Inout_updates_bytes']
 
+// grep -Eo '\b_Contains_\S*' syscalls.master | uniq
 const fuckthisoff = ['_Contains_long_timet_', '_Contains_long_', '_Contains_long_ptr_',
 	'_Contains_ptr_', '_Contains_timet_', '_Contains_ptr_', '_Contains_long_ptr_', '_Contains_timet_',
 	'_Contains_long_timet_', '_Contains_ptr_', '_Contains_long_timet_', '_Contains_long_',
@@ -49,7 +35,7 @@ if !exists('syscalls.master') {
 
 mut r := io.new_buffered_reader(reader: open('syscalls.master')!)
 
-mut implf  := create('impl.stas')!
+mut implf := create('impl.stas')!
 mut constf := create('syscalls.stas')!
 
 outer: for {
@@ -127,8 +113,7 @@ outer: for {
 			for arg in argl {
 				argannot += '\'${arg}\' '
 			}
-			out :=
-'; ( ${argannot}-- c )
+			out := '; ( ${argannot}-- c )
 fn ${name} ${argl.len} 1 {
 	sys_${name} syscall${argl.len}
 }'

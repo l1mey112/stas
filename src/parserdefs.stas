@@ -23,7 +23,7 @@ fn rFunction.tail_r_label   1 1 { Function.tail_r_label  r32 }
 fn rFunction.inlined_count  1 1 { Function.inlined_count r32 }
 fn rFunction.attributes     1 1 { Function.attributes    r64 }
 
-const   functions.cap { 512 }
+const   functions.cap { 2048 }
 auto    functions.len 1
 reserve functions     { sizeof(Function) functions.cap * }
 
