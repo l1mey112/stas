@@ -108,3 +108,31 @@ fn hash.final 3 3 {
 
 	a b c
 }
+
+; ( a b -- c )
+fn hash.wymum 2 1 {
+	auto b 1 pop b
+	auto a 1 pop a
+	
+	auto x0 1
+	auto x1 1
+	auto y0 1
+	auto y1 1
+	auto w1 1
+	auto w2 1
+
+	const mask32 4294967295
+	
+	a mask32 &              pop x0
+	a 32 >>                 pop x1
+	b mask32 &              pop y0
+	b 32 >>                 pop y1
+	
+	x1 y0 * x0 y0 * 32 >> +
+	dup mask32 & x0 y1 * + pop w1
+	    32 >>              pop w2
+	
+	x1 y1 * w2 + w1 32 >> +
+	a b *
+	^
+}

@@ -62,7 +62,10 @@
 include 'std.stas'
 
 fn main {
-	; "ab" hash.djb2 putuln
+	5555 rand.seed
 
-	1 7777 223 hash.final hash.mix hash.final putuln putuln putuln
+	0 while dup 10 < {
+		rand.u64 putuln
+		++
+	} drop
 }

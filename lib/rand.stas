@@ -1,14 +1,20 @@
-auto _rand_state 1
+; Implementation of the WyRand pseudo-random number generator
 
-fn srand 1 0 {
-	pop _rand_state
+const rand.wyp0 11562461410679940143
+const rand.wyp1 16646288086500911323
+
+auto rand.state      1
+auto rand.buffer     1
+auto rand.bytes_left 1
+
+; ( a -- )
+fn rand.seed 1 0 {
+	  pop rand.state
+	0 pop rand.buffer
+	0 pop rand.bytes_left
 }
 
-; glibc/stdlib/random_r.c:364:7
-; https://en.wikipedia.org/wiki/Linear_congruential_generator
-
-fn rand 0 1 {
-	_rand_state
-	1103515245 * 12345 +
-	dup pop _rand_state
+fn rand.u64 0 1 {
+	rand.state rand.wyp0 + pop rand.state
+	rand.state rand.wyp1 ^ rand.state hash.wymum
 }
