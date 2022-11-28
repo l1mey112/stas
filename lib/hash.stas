@@ -1,0 +1,110 @@
+; ( str len -- hash )
+fn hash.sdbm 2 1 {
+	auto len  1   pop len
+	auto str  1   pop str
+	auto hash 1 0 pop hash
+
+	0
+	while dup len < {
+		dup
+			str u8[]
+			hash 6 << +
+			hash 16 << +
+			hash -
+		pop hash
+		++
+	}
+	drop
+
+	hash
+}
+
+; ( str len -- hash )
+fn hash.djb2 2 1 {
+	auto len  1      pop len
+	auto str  1      pop str
+	auto hash 1 5381 pop hash
+
+	0
+	while dup len < {
+		dup
+			str u8[]
+			hash 5 <<
+			hash +
+			+
+		pop hash
+		++
+	}
+	drop
+
+	hash
+}
+
+- inline
+; ( a b -- c )
+fn hash.rot 2 1 {
+	over over << rot
+	32 - >> |
+}
+
+; ( a b c -- 'a 'b 'c )
+fn hash.mix 3 3 {
+	auto c 1 pop c
+	auto b 1 pop b
+	auto a 1 pop a
+
+	a c -             pop a
+	a c 4 hash.rot ^  pop a
+	c b +             pop c
+
+	b a -             pop b
+	b a 6 hash.rot ^  pop b
+	a c +             pop a
+
+	c b -             pop c
+	c b 8 hash.rot ^  pop c
+	b a +             pop b
+
+	a c -             pop a
+	a c 16 hash.rot ^ pop a
+	c b +             pop c
+
+	b a -             pop b
+	b a 19 hash.rot ^ pop b
+	a c +             pop a
+
+	c b -             pop c
+	c b 4 hash.rot ^  pop c
+	b a +             pop b
+
+	a b c
+}
+
+fn hash.final 3 3 {
+	auto c 1 pop c
+	auto b 1 pop b
+	auto a 1 pop a
+
+	c b ^             pop c
+	c b 14 hash.rot - pop c
+
+	a c ^             pop a
+	a c 11 hash.rot - pop a
+
+	b a ^             pop b
+	b a 25 hash.rot - pop b
+
+	c b ^             pop c
+	c b 16 hash.rot - pop c
+
+	a c ^             pop a
+	a c 4 hash.rot -  pop a
+
+	b a ^             pop b
+	b a 14 hash.rot - pop b
+
+	c b ^             pop c
+	c b 24 hash.rot - pop c
+
+	a b c
+}

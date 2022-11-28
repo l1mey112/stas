@@ -86,7 +86,7 @@ fn string.starts_with 4 1 {
 }
 
 fn string.assert 2 2 {
-	over over assert assert
+	over assert -> 'string.assert: string is NULL'
 }
 
 ; ( str len u8 -- str len )
@@ -101,4 +101,161 @@ fn string.trim_len_delim_u8 3 2 {
 			break
 		}
 	}
+}
+
+; (u8 -- data bool)
+fn char.parse_escape? 1 2 {
+	dup 39 = if {
+		39
+	} elif dup 34 = {
+		34
+	} elif dup `\\` = {
+		`\\`
+	} elif dup `a` = {
+		`\a`
+	} elif dup `b` = {
+		`\b`
+	} elif dup `f` = {
+		`\f`
+	} elif dup `n` = {
+		`\n`
+	} elif dup `r` = {
+		`\r`
+	} elif dup `t` = {
+		`\t`
+	} elif dup `v` = {
+		`\v`
+	} elif dup `\`` = {
+		`\``
+	} else {
+		drop 0 false ret
+	}
+	swap drop
+	true
+}
+
+- inline
+; (u8 -- bool)
+fn char.is_whitespace 1 1 {
+	dup `\r` = if {
+		1
+	} elif dup `\n` = {
+		1
+	} elif dup `\t` = {
+		1
+	} elif dup ` ` = {
+		1
+	} else {
+		0
+	}
+	swap drop
+}
+
+; ( is_negative str len -- bool )
+fn string.int_literal_overflow 3 1 {
+	auto str.len 1 pop str.len
+	auto str     1 pop str
+
+	if {
+		"9223372036854775808"
+	} else {
+		"18446744073709551615"
+	}
+
+	; (str len)
+
+	dup str.len swap > if {
+		drop drop true ret
+	} elif dup str.len = {
+		drop
+		auto strn 1 pop strn
+		0
+		; (len)
+		while dup str.len < {
+			str r8 strn r8 < if {
+				break
+			}
+
+			str r8 strn r8 > if {
+				drop true ret
+			}
+			
+			str  ++ pop str
+			strn ++ pop strn
+			++
+		}
+		drop
+	} else {
+		drop drop
+	}
+
+	false
+}
+
+; (u8 -- bool)
+fn char.is_dec 1 1 {
+	dup `0` >= swap `9` <= &
+}
+
+; (str len -- number bool)
+fn string.to_num? 2 2 {
+	auto str.len 1 pop str.len
+	auto str     1 pop str
+
+	0 0 ; (num idx)
+	while dup str.len < {
+		swap 10 *
+		over str u8[]
+			dup char.is_dec ! if {
+				drop drop drop 0 false ret
+			}
+		48 - ; `0`
+		+ swap
+		++
+	}
+	drop
+	true
+}
+
+; (str len -- number)
+fn string.to_num 2 1 {
+	string.to_num? assert
+}
+
+; (buf num -- str len)
+fn itoa_unsafe 2 2 {
+	auto buf 1
+	swap pop buf
+
+	auto pos 1
+	auto len 1
+
+	dup 0 = if {
+		drop
+
+		buf 48    w8
+		buf 1 + 0 w8
+		buf 1
+		
+		ret
+	}
+	
+	0 pop len
+	buf 21 + pop pos
+
+	while dup 0 > {
+		pos -- pop pos
+
+		10 %%
+		48 +
+
+		pos swap w8
+
+		len ++ pop len
+	}
+	drop
+
+	;buf len + 0 w8
+
+	pos len
 }

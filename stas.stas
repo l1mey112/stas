@@ -93,7 +93,7 @@ const sizeof(fasm_arg_buf) { sizeof(u64) 32 * }
 ; (str len argv[] is_blocking)
 fn stas_exec 4 0 {
 	auto n       2 rot4 rot4 pop n
-	auto old_brk 1 alloc.now pop old_brk
+	auto old_brk 1 salloc.now pop old_brk
 
 	n find_abs_path_of_executable? over NULL = if {
 		error.generic_fatal_begin
@@ -114,7 +114,7 @@ fn stas_exec 4 0 {
 	
 	child_execve_and_shut_up
 
-	old_brk alloc.rewind
+	old_brk salloc.rewind
 }
 
 ; (infile.str infile.len outfile.str outfile.len is_blocking)
@@ -341,7 +341,7 @@ fn main {
 				}
 				pop target_os
 			} elif argparse_mode ArgParseMode.comptime_dep = {
-				argstr str_to_num? ! if {
+				argstr string.to_num? ! if {
 					"invalid integer for `--comptime-depth`" usage_msg_and_exit
 				}
 				

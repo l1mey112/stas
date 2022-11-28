@@ -1,1 +1,58 @@
-; TODO: impl
+; twos complement negation
+; 
+; ( u64 -- u64 )
+fn negate 1 1 {
+	~ ++
+}
+
+fn min 2 1 {
+	over over > if {
+		swap
+	}
+	drop
+}
+
+fn max 2 1 {
+	over over < if {
+		swap
+	}
+	drop
+}
+
+; ( a b -- c )
+fn pow 2 1 {
+	auto b 1   pop b
+	auto p 1   pop p
+	auto v 1 1 pop v
+
+	while b 0 > {
+		b 1 & 0 > if {
+			v p * pop v
+		}
+		p p * pop p
+		b 1 >> pop b
+	}
+
+	v
+}
+
+; TODO: this is quite slow as it generates a pretty bad first approximation
+; ( a -- b )
+fn sqrt 1 1 {
+	auto y 1
+	auto r 1
+
+	  pop y
+	y pop r
+
+	while r r * y > {
+		r 1 - pop r
+	}
+
+	r
+}
+
+; ( a -- |a| )
+fn s_abs 1 1 {
+	dup 0 <s if { negate }
+}

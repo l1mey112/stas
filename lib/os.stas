@@ -1,12 +1,12 @@
 ; ( str len str len -- str len )
 fn join_path_cstr 4 2 {
-	auto a 1 alloc.now pop a
+	auto a 1 salloc.now pop a
 
-	rot4 rot4 `/` string.trim_len_delim_u8 alloc.push
-	          `/`                          alloc.push_8
-					                       alloc.push
-	          0                            alloc.push_8
-	a alloc.make_str
+	rot4 rot4 `/` string.trim_len_delim_u8 salloc.push
+	          `/`                          salloc.push_8
+					                       salloc.push
+	          0                            salloc.push_8
+	a salloc.make_str
 }
 
 ; (str len -- str? len)
@@ -30,7 +30,7 @@ fn find_abs_path_of_executable? 2 2 {
 			drop drop
 			break
 		} else {
-			alloc.now pop old_brk
+			salloc.now pop old_brk
 
 			abc join_path_cstr
 			; (str len)
@@ -38,7 +38,7 @@ fn find_abs_path_of_executable? 2 2 {
 			over F_OK access 0 = if {
 				ret
 			} else {
-				drop drop old_brk alloc.rewind
+				drop drop old_brk salloc.rewind
 			}
 		}
 	}

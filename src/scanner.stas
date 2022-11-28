@@ -2,95 +2,6 @@ const LF_CH           { `\n` }
 const SINGLE_QUOTE_CH { 39   }
 const DOUBLE_QUOTE_CH { 34   }
 
-- inline
-; (u8 -- bool)
-fn is_whitespace 1 1 {
-	dup `\r` = if {
-		1
-	} elif dup `\n` = {
-		1
-	} elif dup `\t` = {
-		1
-	} elif dup ` ` = {
-		1
-	} else {
-		0
-	}
-	swap drop
-}
-
-; (u8 -- data bool)
-fn parse_escape_ch 1 2 {
-	dup SINGLE_QUOTE_CH = if {
-		SINGLE_QUOTE_CH
-	} elif dup DOUBLE_QUOTE_CH = {
-		DOUBLE_QUOTE_CH
-	} elif dup `\\` = {
-		`\\`
-	} elif dup `a` = {
-		`\a`
-	} elif dup `b` = {
-		`\b`
-	} elif dup `f` = {
-		`\f`
-	} elif dup `n` = {
-		`\n`
-	} elif dup `r` = {
-		`\r`
-	} elif dup `t` = {
-		`\t`
-	} elif dup `v` = {
-		`\v`
-	} elif dup `\`` = {
-		`\``
-	} else {
-		drop 0 false ret
-	}
-	swap drop
-	true
-}
-
-; ( is_negative str len -- bool )
-fn does_int_literal_overflow 3 1 {
-	auto str.len 1 pop str.len
-	auto str     1 pop str
-
-	if {
-		"9223372036854775808"
-	} else {
-		"18446744073709551615"
-	}
-
-	; (str len)
-
-	dup str.len swap > if {
-		drop drop true ret
-	} elif dup str.len = {
-		drop
-		auto strn 1 pop strn
-		0
-		; (len)
-		while dup str.len < {
-			str r8 strn r8 < if {
-				break
-			}
-
-			str r8 strn r8 > if {
-				drop true ret
-			}
-			
-			str  ++ pop str
-			strn ++ pop strn
-			++
-		}
-		drop
-	} else {
-		drop drop
-	}
-
-	false	
-}
-
 ; (str len)
 fn stas.scan_file 2 0 {
 	auto file_path 2
@@ -129,7 +40,7 @@ fn stas.scan_file 2 0 {
 		pos data.len >= if {
 			break
 		}
-		while data pos u8[] dup is_whitespace {
+		while data pos u8[] dup char.is_whitespace {
 			LF_CH = if {
 				row ++ pop row
 				0      pop col
@@ -184,7 +95,7 @@ fn stas.scan_file 2 0 {
 				delim r8 if {
 					data pos u8[]
 
-					parse_escape_ch ! if {
+					char.parse_escape? ! if {
 						row col open_file_pos 'escape character does not exist' error.Loc
 					}
 					str_buf swap push_char
@@ -279,7 +190,7 @@ fn stas.scan_file 2 0 {
 				}
 
 				data start 2 + u8[]
-				parse_escape_ch ! if {
+				char.parse_escape? ! if {
 					start_row start_col open_file_pos 'escape character does not exist' error.Loc
 				}
 				pop ch
@@ -305,7 +216,7 @@ fn stas.scan_file 2 0 {
 		}
 
 		data pos u8[] `-` = if {
-			data pos ++ u8[] is_dec if {
+			data pos ++ u8[] char.is_dec if {
 				leading_dash 1 w8
 				
 				col ++ pop col
@@ -316,9 +227,9 @@ fn stas.scan_file 2 0 {
 			}
 		}
 
-		while data pos u8[] is_whitespace ! {
+		while data pos u8[] char.is_whitespace ! {
 			is_number r8 if {
-				data pos u8[] is_dec ! if {
+				data pos u8[] char.is_dec ! if {
 					is_number 0 w8
 					leading_dash r8 if {
 						start     -- pop start
@@ -350,14 +261,14 @@ fn stas.scan_file 2 0 {
 		is_number r8 if { ; pos start - 1 > &
 			row start_col open_file_pos Tok.number_lit
 
-			leading_dash r8 lit does_int_literal_overflow
+			leading_dash r8 lit string.int_literal_overflow
 			if {
 				start_row start_col open_file_pos
 					addr lit 8 + r64 ; str.len
 				'number overflows' error.Loc.len
 			}
 			
-			lit str_to_num
+			lit string.to_num
 
 			leading_dash r8 if {
 				negate	

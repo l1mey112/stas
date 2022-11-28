@@ -4,26 +4,26 @@ auto  alloc_buffer.len  1
 auto  alloc_buffer.data 1
 
 ; (size)
-fn alloc.init 1 0 {
+fn salloc.init 1 0 {
 	alloc_buffer.data 0 != if {
-		alloc_buffer.data alloc_buffer.cap munmap 0 = assert -> 'alloc.init: munmap failed'
+		alloc_buffer.data alloc_buffer.cap munmap 0 = assert -> 'salloc.init: munmap failed'
 	}
 	dup memory.mmap_anon pop alloc_buffer.data
 	                     pop alloc_buffer.cap
 }
 
-fn alloc.guard {
+fn salloc.guard {
 	alloc_buffer.data 0 = if {
-		alloc_buffer.default_size alloc.init
+		alloc_buffer.default_size salloc.init
 	}
 }
 
 ; (size)
-fn alloc.guard_size 1 0 {
-	alloc.guard
+fn salloc.guard_size 1 0 {
+	salloc.guard
 	dup alloc_buffer.len + alloc_buffer.cap >= if {
-		alloc_buffer.cap 2 * alloc.init
-		alloc.guard_size ; tail recursive!
+		alloc_buffer.cap 2 * salloc.init
+		salloc.guard_size ; tail recursive!
 	} else {
 		drop
 	}
@@ -32,22 +32,22 @@ fn alloc.guard_size 1 0 {
 
 - noinline
 ; ( -- ptr )
-fn alloc.now 0 1 {
-	alloc.guard
+fn salloc.now 0 1 {
+	salloc.guard
 	alloc_buffer.data alloc_buffer.len +
 }
 
 - noinline
 ; (ptr)
-fn alloc.rewind 1 0 {
-	alloc.guard
+fn salloc.rewind 1 0 {
+	salloc.guard
 	alloc_buffer.data -
 	pop alloc_buffer.len
 }
 
 ; (str len)
-fn alloc.push 2 0 {
-	dup alloc.guard_size
+fn salloc.push 2 0 {
+	dup salloc.guard_size
 	dup rot
 	; (len str len)
 	alloc_buffer.data alloc_buffer.len +
@@ -56,36 +56,36 @@ fn alloc.push 2 0 {
 }
 
 ; (u8)
-fn alloc.push_8 1 0 {
-	sizeof(u8) alloc.guard_size
+fn salloc.push_8 1 0 {
+	sizeof(u8) salloc.guard_size
 	alloc_buffer.data alloc_buffer.len + swap w8
 	alloc_buffer.len ++ pop alloc_buffer.len
 }
 
 ; (u16)
-fn alloc.push_16 1 0 {
-	sizeof(u16) alloc.guard_size
+fn salloc.push_16 1 0 {
+	sizeof(u16) salloc.guard_size
 	alloc_buffer.data alloc_buffer.len + swap w16
 	alloc_buffer.len sizeof(u16) + pop alloc_buffer.len
 }
 
 ; (u32)
-fn alloc.push_32 1 0 {
-	sizeof(u32) alloc.guard_size
+fn salloc.push_32 1 0 {
+	sizeof(u32) salloc.guard_size
 	alloc_buffer.data alloc_buffer.len + swap w32
 	alloc_buffer.len sizeof(u32) + pop alloc_buffer.len
 }
 
 ; (u64)
-fn alloc.push_64 1 0 {
-	sizeof(u64) alloc.guard_size
+fn salloc.push_64 1 0 {
+	sizeof(u64) salloc.guard_size
 	alloc_buffer.data alloc_buffer.len + swap w64
 	alloc_buffer.len sizeof(u64) + pop alloc_buffer.len
 }
 
 ; (val len)
-fn alloc.push_memset 2 0 {
-	dup alloc.guard_size
+fn salloc.push_memset 2 0 {
+	dup salloc.guard_size
 	dup rot
 	; (len val len)
 	alloc_buffer.data alloc_buffer.len + rot memset
@@ -94,15 +94,15 @@ fn alloc.push_memset 2 0 {
 }
 
 ; ( ptr -- str len )
-fn alloc.make_str 1 2 {
+fn salloc.make_str 1 2 {
 	dup alloc_buffer.data -
 	    alloc_buffer.len swap -
-	0 alloc.push_8
+	0 salloc.push_8
 }
 
 ; ( len -- ptr )
-fn alloc.alloc 1 1 {
-	dup alloc.guard_size
-	alloc.now swap
+fn salloc.alloc 1 1 {
+	dup salloc.guard_size
+	salloc.now swap
 	alloc_buffer.len + pop alloc_buffer.len
 }

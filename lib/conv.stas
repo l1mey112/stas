@@ -37,51 +37,6 @@ fn argp_print 1 0 {
 	drop
 }
 
-; (u8 -- bool)
-fn is_dec 1 1 {
-	dup `0` >= swap `9` <= &
-}
-
-; (idx ptr -- u8)
-fn u8[] 2 1 {
-	+ r8
-}
-
-; (idx ptr -- u64)
-fn u64[] 2 1 {
-	swap sizeof(u64) * + r64
-}
-
-; (str len -- number bool)
-fn str_to_num? 2 2 {
-	auto str.len 1 pop str.len
-	auto str     1 pop str
-
-	0 0 ; (num idx)
-	while dup str.len < {
-		swap 10 *
-		over str u8[]
-			dup is_dec ! if {
-				drop drop drop 0 false ret
-			}
-		48 - ; `0`
-		+ swap
-		++
-	}
-	drop
-	true
-}
-
-; (str len -- number)
-fn str_to_num 2 1 {
-	str_to_num? assert
-}
-
-; (u64)
-fn negate 1 1 {
-	~ ++
-}
-
 ; (lo hi str len *Array64)
 fn get_lines_into_array 5 0 {
 	auto arr 1        pop arr

@@ -109,3 +109,20 @@ const MAP_FAILED      -1
 const MAP_PRW         { PROT_READ PROT_WRITE      | }
 const MAP_PA          { MAP_PRIVATE MAP_ANONYMOUS | }
 const CLOCK_MONOTONIC 1
+; /usr/include/elf.h
+const ELFOSABI_NONE      0            ; UNIX System V ABI
+const ELFOSABI_SYSV      0            ; Alias. 
+const ELFOSABI_HPUX      1            ; HP-UX
+const ELFOSABI_NETBSD    2            ; NetBSD. 
+const ELFOSABI_GNU       3            ; Object uses GNU ELF extensions. 
+const ELFOSABI_LINUX     ELFOSABI_GNU ; Compatibility alias. 
+const ELFOSABI_SOLARIS   6            ; Sun Solaris. 
+const ELFOSABI_AIX       7            ; IBM AIX. 
+const ELFOSABI_IRIX      8            ; SGI Irix. 
+const ELFOSABI_FREEBSD   9            ; FreeBSD. 
+const ELFOSABI_TRU64     10           ; Compaq TRU64 UNIX. 
+const ELFOSABI_MODESTO   11           ; Novell Modesto. 
+const ELFOSABI_OPENBSD   12           ; OpenBSD. 
+const ELFOSABI_ARM_AEABI 64           ; ARM EABI
+const ELFOSABI_ARM       97           ; ARM
+const ELFOSABI_STANDALONE 255         ; Standalone (embedded) application

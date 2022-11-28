@@ -1,14 +1,14 @@
-const false { 0 }
-const true  { 1 }
+const false 0
+const true  1
 
-const sizeof(u64) { 8 }
-const sizeof(u32) { 4 }
-const sizeof(u16) { 2 }
-const sizeof(u8)  { 1 }
+const sizeof(u64) 8
+const sizeof(u32) 4
+const sizeof(u16) 2
+const sizeof(u8)  1
 
-const UINT32_MAX { 4294967295 }
-const UINT64_MAX { 18446744073709551615 }
-const       NULL { 0 }
+const UINT32_MAX 4294967295
+const UINT64_MAX 18446744073709551615
+const NULL       0
 
 ; (ptr)
 fn p64++ 1 0 { dup r64 ++ w64 }
@@ -20,11 +20,33 @@ fn p32-- 1 0 { dup r32 -- w32 }
 fn p16-- 1 0 { dup r16 -- w16 }
 fn p8--  1 0 { dup r8  -- w8  }
 
+; (idx ptr -- u8)
+fn u8[] 2 1 {
+	+ r8
+}
+
+; (idx ptr -- u64)
+fn u16[] 2 1 {
+	swap sizeof(u16) * + r16
+}
+
+; (idx ptr -- u64)
+fn u32[] 2 1 {
+	swap sizeof(u32) * + r32
+}
+
+; (idx ptr -- u64)
+fn u64[] 2 1 {
+	swap sizeof(u64) * + r64
+}
+
+include 'lib/math.stas'
+include 'lib/hash.stas'
 include 'lib/posix.stas'
 include 'lib/io.stas'
 include 'lib/misc.stas'
 include 'lib/mem.stas'
-include 'lib/alloc.stas'
+include 'lib/salloc.stas'
 include 'lib/array.stas'
 include 'lib/string.stas'
 include 'lib/conv.stas'
