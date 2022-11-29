@@ -742,10 +742,6 @@ fn mlockall 1 1 {
 fn munlockall 0 1 {
 	sys_munlockall syscall0
 }
-; ( 'char *bu' 'size_t buflen' -- c )
-fn i__getcwd 2 1 {
-	sys___getcwd syscall2
-}
 ; ( 'id_t pid' 'const struct sched_param *param' -- c )
 fn sched_setparam 2 1 {
 	sys_sched_setparam syscall2

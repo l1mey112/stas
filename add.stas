@@ -1,60 +1,60 @@
-;include 'std.stas'
-;
-;;  ( str len -- str len )
-;; fn try_locate_file 2 2 {
-;; 
-;; }
-;
-;; ( str len -- bool )
-;fn is_abs_path 2 1 {
-;	dup 0 = if {
-;		drop drop false ret
-;	}
-;	drop r8 `/` =
-;}
-;
-;; fn get_executable_path_fallback 0 2 {
-;; 
-;; }
-;
-;; ( -- str len )
-;fn get_executable_path 0 2 {
-;	auto buf 1
-;
-;	4096 salloc.alloc pop buf
-;	
-;	comptime ?def TARGET_LINUX if {
-;		"/proc/self/exe" drop buf 4096 readlink
-;		dup 0 <s if {
-;			; FAILED! - implement a fallback using argv[0]
-;			0 assert -> 'unimplemented'
-;		}
-;		buf + salloc.rewind
-;		buf salloc.make_str
-;		ret
-;	}
-;	comptime ?def TARGET_FREEBSD if {
-;		auto mib   1 salloc.now pop mib
-;		auto bufsz 1 4096      pop bufsz
-;
-;		1  salloc.push_32 ; CTL_KERN
-;		14 salloc.push_32 ; KERN_PROC
-;		12 salloc.push_32 ; KERN_PROC_PATHNAME
-;		-1 salloc.push_32
-;
-;		mib 4 buf addr bufsz 0 0 sysctl
-;		0 <s if {
-;			; FAILED! - implement a fallback using argv[0]
-;			0 assert -> 'unimplemented'
-;		}
-;		buf strlen buf + salloc.rewind
-;		buf salloc.make_str
-;		ret
-;	}
-;	0 assert -> 'unimplemented for OSes not Linux|FreeBSD'
-;	NULL 0
-;}
-;
-;fn main {
-;	get_executable_path puts endl
-;}
+include 'std.stas'
+
+;  ( str len -- str len )
+; fn try_locate_file 2 2 {
+; 
+; }
+
+; ( str len -- bool )
+fn is_abs_path 2 1 {
+	dup 0 = if {
+		drop drop false ret
+	}
+	drop r8 `/` =
+}
+
+fn get_executable_path_fallback 0 2 {
+	
+}
+
+; ( -- str len )
+fn get_executable_path 0 2 {
+	auto buf 1
+
+	4096 salloc.alloc pop buf
+	
+	comptime ?def TARGET_LINUX if {
+		"/proc/self/exe" drop buf 4096 readlink
+		dup 0 <s if {
+			; FAILED! - implement a fallback using argv[0]
+			0 assert -> 'unimplemented'
+		}
+		buf + salloc.rewind
+		buf salloc.make_str
+		ret
+	}
+	comptime ?def TARGET_FREEBSD if {
+		auto mib   1 salloc.now pop mib
+		auto bufsz 1 4096      pop bufsz
+
+		1  salloc.push_32 ; CTL_KERN
+		14 salloc.push_32 ; KERN_PROC
+		12 salloc.push_32 ; KERN_PROC_PATHNAME
+		-1 salloc.push_32
+
+		mib 4 buf addr bufsz 0 0 sysctl
+		0 <s if {
+			; FAILED! - implement a fallback using argv[0]
+			0 assert -> 'unimplemented'
+		}
+		buf strlen buf + salloc.rewind
+		buf salloc.make_str
+		ret
+	}
+	0 assert -> 'unimplemented for OSes not Linux|FreeBSD'
+	NULL 0
+}
+
+fn main {
+	get_executable_path puts endl
+}

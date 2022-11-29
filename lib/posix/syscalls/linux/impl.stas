@@ -310,10 +310,6 @@ fn ftruncate 2 1 {
 fn getdents 3 1 {
 	sys_getdents syscall3
 }
-; ( 'char* buf' 'unsigned long size' -- c )
-fn getcwd 2 1 {
-	sys_getcwd syscall2
-}
 ; ( 'const char* filename' -- c )
 fn chdir 1 1 {
 	sys_chdir syscall1

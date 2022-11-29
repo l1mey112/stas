@@ -58,3 +58,13 @@ comptime ?def TARGET_FREEBSD if {
 fn exit 1 0 {
 	sys_exit syscall1 drop
 }
+
+; ( 'char* buf' 'unsigned long size' -- c )
+fn getcwd 2 1 {
+	comptime ?def TARGET_LINUX if {
+		sys_getcwd syscall2
+	}
+	comptime ?def TARGET_FREEBSD if {
+		sys___getcwd syscall2
+	}
+}

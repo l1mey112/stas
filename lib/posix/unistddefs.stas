@@ -126,3 +126,4 @@ const ELFOSABI_OPENBSD   12           ; OpenBSD.
 const ELFOSABI_ARM_AEABI 64           ; ARM EABI
 const ELFOSABI_ARM       97           ; ARM
 const ELFOSABI_STANDALONE 255         ; Standalone (embedded) application
+const PATH_MAX 4096
