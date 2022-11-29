@@ -85,10 +85,10 @@ comptime ?def TARGET_LINUX if {
 	fn WEXITSTATUS  1 1 { 65280 & 8 >>        }
 }
 comptime ?def TARGET_FREEBSD if {
-	fn WIFSTOPPED   1 1 { 127 & 127 =                  }	
-	fn WIFCONTINUED 1 1 { 19 =                         }
-	fn WIFSIGNALED  1 1 { 127 & dup 127 != swap 0 != & }
-	fn WEXITSTATUS  1 1 { 8 >>                         }
+	fn WIFSTOPPED   1 1 { 127 & 127 =                                 }	
+	fn WIFCONTINUED 1 1 { 19 =                                        }
+	fn WIFSIGNALED  1 1 { 127 & dup dup 127 != rot 0 != rot 19 != & & }
+	fn WEXITSTATUS  1 1 { 65535 & 8 >>                                }
 }
 fn WTERMSIG     1 1 { 127 &     }
 fn WIFEXITED    1 1 { 127 & 0 = }

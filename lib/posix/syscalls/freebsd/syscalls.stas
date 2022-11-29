@@ -79,6 +79,7 @@ const sys_accept 99
 const sys_getpriority 100
 const sys_send 101
 const sys_recv 102
+const sys_bind 104
 const sys_setsockopt 105
 const sys_listen 106
 const sys_sigvec 108

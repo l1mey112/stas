@@ -409,7 +409,7 @@ fn main {
 	verbose_mode r8 if {
 		log.msg.start
 		functions.len eputu " functions, " eputs label_c ++ eputu " labels\n" eputs
-		log.msg.start
+	;	log.msg.start
 	;	global_var_context.len eputu " global variables, " eputs toplevel_constants.len eputu " constants\n" eputs
 	}
 

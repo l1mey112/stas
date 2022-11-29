@@ -13,9 +13,9 @@ fn is_abs_path 2 1 {
 	drop r8 `/` =
 }
 
-fn get_executable_path_fallback 0 2 {
-	
-}
+; fn get_executable_path_fallback 0 2 {
+; 	
+; }
 
 ; ( -- str len )
 fn get_executable_path 0 2 {
@@ -42,7 +42,7 @@ fn get_executable_path 0 2 {
 		12 salloc.push_32 ; KERN_PROC_PATHNAME
 		-1 salloc.push_32
 
-		mib 4 buf addr bufsz 0 0 sysctl
+		mib 4 buf addr bufsz 0 0 i__sysctl
 		0 <s if {
 			; FAILED! - implement a fallback using argv[0]
 			0 assert -> 'unimplemented'
@@ -56,5 +56,7 @@ fn get_executable_path 0 2 {
 }
 
 fn main {
-	get_executable_path puts endl
+	; "eee\n" puts
+	777 WIFSIGNALED putuln
+	; get_executable_path puts endl
 }

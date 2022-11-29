@@ -286,6 +286,10 @@ fn getpriority 2 1 {
 fn recv 4 1 {
 	sys_recv syscall4
 }
+; ( 'int fd' 'const struct sockaddr *nam' 'socklen_t namelen' -- c )
+fn bind 3 1 {
+	sys_bind syscall3
+}
 ; ( 'int s' 'int level' 'int name' 'const void *va' 'socklen_t valsize' -- c )
 fn setsockopt 5 1 {
 	sys_setsockopt syscall5
