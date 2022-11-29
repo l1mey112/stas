@@ -1,0 +1,44 @@
+const tcpsocket.default_backlog 8
+
+; ( port -- fd bool )
+fn tcpsocket.create_localhost? 1 2 {
+	reserve sockaddr sizeof(sockaddr)
+	sockaddr sockaddr_in.sin_port   swap            htons w16
+	sockaddr sockaddr_in.sin_family AF_INET               w16
+	sockaddr sockaddr_in.sin_addr   INADDR_LOOPBACK htonl w32
+
+	auto fd 1
+		AF_INET SOCK_STREAM 0 socket pop fd
+
+	fd 0 <s if {
+		-1 false ret
+	}
+	
+	auto optv 1
+		true pop optv
+	
+	fd SOL_SOCKET SO_REUSEADDR addr optv sizeof(u32) setsockopt
+
+	0 != if {
+		-1 false ret
+	}
+
+	fd sockaddr sizeof(sockaddr) bind
+
+	0 != if {
+		-1 false ret
+	}
+
+	fd tcpsocket.default_backlog listen
+
+	0 != if {
+		-1 false ret
+	}
+
+	fd true
+}
+
+; ( fd -- cfd bool )
+fn tcpsocket.await_client? 1 2 {
+	NULL NULL accept dup 0 >s
+}

@@ -58,14 +58,3 @@
 ;fn main {
 ;	get_executable_path puts endl
 ;}
-
-include 'std.stas'
-
-fn main {
-	5555 rand.seed
-
-	0 while dup 10 < {
-		rand.u64 putuln
-		++
-	} drop
-}

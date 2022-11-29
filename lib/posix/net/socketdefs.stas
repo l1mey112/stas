@@ -1,0 +1,260 @@
+const PF_UNSPEC 0 ; Unspecified.  
+const PF_LOCAL 1 ; Local to host (pipes and file-domain).  
+const PF_UNIX  PF_LOCAL ; POSIX name for PF_LOCAL.  
+const PF_FILE  PF_LOCAL ; Another non-standard name for PF_LOCAL.  
+const PF_INET  2 ; IP protocol family.  
+const PF_AX25  3 ; Amateur Radio AX.25.  
+const PF_IPX  4 ; Novell Internet Protocol.  
+const PF_APPLETALK 5 ; Appletalk DDP.  
+const PF_NETROM 6 ; Amateur radio NetROM.  
+const PF_BRIDGE 7 ; Multiprotocol bridge.  
+const PF_ATMPVC 8 ; ATM PVCs.  
+const PF_X25  9 ; Reserved for X.25 project.  
+const PF_INET6 10 ; IP version 6.  
+const PF_ROSE  11 ; Amateur Radio X.25 PLP.  
+const PF_DECnet 12 ; Reserved for DECnet project.  
+const PF_NETBEUI 13 ; Reserved for 802.2LLC project.  
+const PF_SECURITY 14 ; Security callback pseudo AF.  
+const PF_KEY  15 ; PF_KEY key management API.  
+const PF_NETLINK 16
+const PF_ROUTE PF_NETLINK ; Alias to emulate 4.4BSD.  
+const PF_PACKET 17 ; Packet family.  
+const PF_ASH  18 ; Ash.  
+const PF_ECONET 19 ; Acorn Econet.  
+const PF_ATMSVC 20 ; ATM SVCs.  
+const PF_RDS  21 ; RDS sockets.  
+const PF_SNA  22 ; Linux SNA Project 
+const PF_IRDA  23 ; IRDA sockets.  
+const PF_PPPOX 24 ; PPPoX sockets.  
+const PF_WANPIPE 25 ; Wanpipe API sockets.  
+const PF_LLC  26 ; Linux LLC.  
+const PF_IB  27 ; Native InfiniBand address.  
+const PF_MPLS  28 ; MPLS.  
+const PF_CAN  29 ; Controller Area Network.  
+const PF_TIPC  30 ; TIPC sockets.  
+const PF_BLUETOOTH 31 ; Bluetooth sockets.  
+const PF_IUCV  32 ; IUCV sockets.  
+const PF_RXRPC 33 ; RxRPC sockets.  
+const PF_ISDN  34 ; mISDN sockets.  
+const PF_PHONET 35 ; Phonet sockets.  
+const PF_IEEE802154 36 ; IEEE 802.15.4 sockets.  
+const PF_CAIF  37 ; CAIF sockets.  
+const PF_ALG  38 ; Algorithm sockets.  
+const PF_NFC  39 ; NFC sockets.  
+const PF_VSOCK 40 ; vSockets.  
+const PF_KCM  41 ; Kernel Connection Multiplexor.  
+const PF_QIPCRTR 42 ; Qualcomm IPC Router.  
+const PF_SMC  43 ; SMC sockets.  
+const PF_XDP  44 ; XDP sockets.  
+const PF_MCTP  45 ; Management component transport protocol.  
+const PF_MAX  46 ; For now..  
+const AF_UNSPEC PF_UNSPEC
+const AF_LOCAL PF_LOCAL
+const AF_UNIX  PF_UNIX
+const AF_FILE  PF_FILE
+const AF_INET  PF_INET
+const AF_AX25  PF_AX25
+const AF_IPX  PF_IPX
+const AF_APPLETALK PF_APPLETALK
+const AF_NETROM PF_NETROM
+const AF_BRIDGE PF_BRIDGE
+const AF_ATMPVC PF_ATMPVC
+const AF_X25  PF_X25
+const AF_INET6 PF_INET6
+const AF_ROSE  PF_ROSE
+const AF_DECnet PF_DECnet
+const AF_NETBEUI PF_NETBEUI
+const AF_SECURITY PF_SECURITY
+const AF_KEY  PF_KEY
+const AF_NETLINK PF_NETLINK
+const AF_ROUTE PF_ROUTE
+const AF_PACKET PF_PACKET
+const AF_ASH  PF_ASH
+const AF_ECONET PF_ECONET
+const AF_ATMSVC PF_ATMSVC
+const AF_RDS  PF_RDS
+const AF_SNA  PF_SNA
+const AF_IRDA  PF_IRDA
+const AF_PPPOX PF_PPPOX
+const AF_WANPIPE PF_WANPIPE
+const AF_LLC  PF_LLC
+const AF_IB  PF_IB
+const AF_MPLS  PF_MPLS
+const AF_CAN  PF_CAN
+const AF_TIPC  PF_TIPC
+const AF_BLUETOOTH PF_BLUETOOTH
+const AF_IUCV  PF_IUCV
+const AF_RXRPC PF_RXRPC
+const AF_ISDN  PF_ISDN
+const AF_PHONET PF_PHONET
+const AF_IEEE802154 PF_IEEE802154
+const AF_CAIF  PF_CAIF
+const AF_ALG  PF_ALG
+const AF_NFC  PF_NFC
+const AF_VSOCK PF_VSOCK
+const AF_KCM  PF_KCM
+const AF_QIPCRTR PF_QIPCRTR
+const AF_SMC  PF_SMC
+const AF_XDP  PF_XDP
+const AF_MCTP  PF_MCTP
+const AF_MAX  PF_MAX
+const SOL_RAW  255
+const SOL_DECNET      261
+const SOL_X25         262
+const SOL_PACKET 263
+const SOL_ATM  264 ; ATM layer (cell level).  
+const SOL_AAL  265 ; ATM Adaption Layer (packet level).  
+const SOL_IRDA 266
+const SOL_NETBEUI 267
+const SOL_LLC  268
+const SOL_DCCP 269
+const SOL_NETLINK 270
+const SOL_TIPC 271
+const SOL_RXRPC 272
+const SOL_PPPOL2TP 273
+const SOL_BLUETOOTH 274
+const SOL_PNPIPE 275
+const SOL_RDS  276
+const SOL_IUCV 277
+const SOL_CAIF 278
+const SOL_ALG  279
+const SOL_NFC  280
+const SOL_KCM  281
+const SOL_TLS  282
+const SOL_XDP  283
+const SOL_MPTCP 284
+const SOL_MCTP 285
+const SOL_SMC  286
+const SOMAXCONN 4096
+const MSG_OOB 1 ; /* Process out-of-band data.  */
+const MSG_PEEK 2 ; /* Peek at incoming messages.  */
+const MSG_DONTROUTE 4 ; /* Don't use local routing.  */
+const MSG_TRYHARD MSG_DONTROUTE
+const MSG_CTRUNC 8 ; /* Control data lost before delivery.  */
+const MSG_PROXY 16 ; /* Supply or ask second address.  */
+const MSG_TRUNC 32 ;
+const MSG_DONTWAIT 64 ; /* Nonblocking IO.  */
+const MSG_EOR 128 ; /* End of record.  */
+const MSG_WAITALL 256 ; /* Wait for a full request.  */
+const MSG_FIN 512 ;
+const MSG_SYN 1024 ;
+const MSG_CONFIRM 2048 ; /* Confirm path validity.  */
+const MSG_RST 4096 ;
+const MSG_ERRQUEUE 8192 ; /* Fetch message from error queue.  */
+const MSG_NOSIGNAL 16384 ; /* Do not generate SIGPIPE.  */
+const MSG_MORE 32768 ;  /* Sender will send more.  */
+const MSG_WAITFORONE 65536 ; /* Wait for at least one packet to return.*/
+const MSG_BATCH 262144 ; /* sendmmsg: more messages coming.  */
+const MSG_ZEROCOPY 67108864 ; /* Use user data in kernel path.  */
+const MSG_FASTOPEN 536870912 ; /* Send data in TCP SYN.  */
+const MSG_CMSG_CLOEXEC 1073741824 ; /* Set close_on_exit for file descriptor received through SCM_RIGHTS.  */
+  
+const SOCK_STREAM 1 ;   /* Sequenced, reliable, connection-based byte streams.  */
+const SOCK_DGRAM 2 ;   /* Connectionless, unreliable datagrams of fixed maximum length.  */
+const SOCK_RAW 3 ;   /* Raw protocol interface.  */
+const SOCK_RDM 4 ;   /* Reliably-delivered messages.  */
+const SOCK_SEQPACKET 5 ;  /* Sequenced, reliable, connection-based, datagrams of fixed maximum length.  */
+const SOCK_DCCP 6 ;  /* Datagram Congestion Control Protocol.  */
+const SOCK_PACKET 10 ;  /* Linux specific way of getting packets at the dev level.  For writing rarp and other similar things on the user level. */
+;  /* Flags to be ORed into the type parameter of socket and socketpair and
+;     used for the flags parameter of paccept.  */
+const SOCK_CLOEXEC 524288 ; /* Atomically set close-on-exec flag for the new descriptor(s).  */
+const SOCK_NONBLOCK 2048 ; /* Atomically mark descriptor(s) as non-blocking.  */
+
+comptime ?def TARGET_LINUX if {
+	const sizeof(sockaddr) 16
+	fn sockaddr_in.sin_family 1 1 {     }
+	fn sockaddr_in.sin_port   1 1 { 2 + }
+	fn sockaddr_in.sin_addr   1 1 { 4 + }
+	const IP_TOS  1
+	const IP_TTL  2
+	const IP_HDRINCL 3
+	const IP_OPTIONS 4
+	const IP_ROUTER_ALERT 5
+	const IP_RECVOPTS 6
+	const IP_RETOPTS 7
+	const IP_PKTINFO 8
+	const IP_PKTOPTIONS 9
+	const IP_MTU_DISCOVER 10
+	const IP_RECVERR 11
+	const IP_RECVTTL 12
+	const IP_RECVTOS 13
+	const IP_MTU  14
+	const IP_FREEBIND 15
+	const IP_IPSEC_POLICY 16
+	const IP_XFRM_POLICY 17
+	const IP_PASSSEC 18
+	const IP_TRANSPARENT 19
+	const IP_RECVRETOPTS IP_RETOPTS
+	const IP_ORIGDSTADDR       20
+	const IP_RECVORIGDSTADDR   IP_ORIGDSTADDR
+	const IP_MINTTL       21
+	const IP_NODEFRAG     22
+	const IP_CHECKSUM 23
+	const IP_BIND_ADDRESS_NO_PORT 24
+	const IP_RECVFRAGSIZE 25
+	const IP_RECVERR_RFC4884 26
+	const IP_PMTUDISC_DONT  0 ; Never send DF frames 
+	const IP_PMTUDISC_WANT  1 ; Use per route hints 
+	const IP_PMTUDISC_DO   2 ; Always DF  
+	const IP_PMTUDISC_PROBE  3       ; Ignore dst pmtu      
+	const IP_PMTUDISC_INTERFACE  4
+	const IP_PMTUDISC_OMIT  5
+	const IP_MULTICAST_IF   32
+	const IP_MULTICAST_TTL   33
+	const IP_MULTICAST_LOOP   34
+	const IP_ADD_MEMBERSHIP  35
+	const IP_DROP_MEMBERSHIP  36
+	const IP_UNBLOCK_SOURCE  37
+	const IP_BLOCK_SOURCE   38
+	const IP_ADD_SOURCE_MEMBERSHIP 39
+	const IP_DROP_SOURCE_MEMBERSHIP 40
+	const IP_MSFILTER   41
+	const MCAST_JOIN_GROUP  42
+	const MCAST_BLOCK_SOURCE  43
+	const MCAST_UNBLOCK_SOURCE  44
+	const MCAST_LEAVE_GROUP  45
+	const MCAST_JOIN_SOURCE_GROUP  46
+	const MCAST_LEAVE_SOURCE_GROUP 47
+	const MCAST_MSFILTER   48
+	const IP_MULTICAST_ALL  49
+	const IP_UNICAST_IF   50
+	const MCAST_EXCLUDE 0
+	const MCAST_INCLUDE 1
+	const IP_DEFAULT_MULTICAST_TTL        1
+	const IP_DEFAULT_MULTICAST_LOOP       1
+	const INADDR_ANY  0
+	const INADDR_BROADCAST 4294967295
+	const INADDR_NONE  4294967295
+	const INADDR_DUMMY  3221225480
+	const IN_LOOPBACKNET  127
+	const INADDR_LOOPBACK  2130706433 ; 127.0.0.1   
+	fn IN_LOOPBACK 1 1 { 4278190080 & 2130706432 = }
+}
+
+fn htons 1 1 {
+	dup 255 & 8 << swap 8 >> 255 & |
+}
+
+fn htonl 1 1 {
+	dup 255        & 24 << swap
+	dup 65280      & 8  << swap
+	dup 16711680   & 8  >> swap
+	    4278190080 & 24 >>
+	| | |
+}
+
+const SOL_SOCKET 1
+const SO_ACCEPTCONN 30
+const SO_BROADCAST 6
+const SO_DONTROUTE 5
+const SO_ERROR 4
+const SO_KEEPALIVE 9
+const SO_LINGER 13
+const SO_OOBINLINE 10
+const SO_RCVBUF 8
+const SO_RCVLOWAT 18
+const SO_REUSEADDR 2
+const SO_SNDBUF 7
+const SO_SNDLOWAT 19
+const SO_TYPE 3

@@ -1,0 +1,42 @@
+include 'std.stas'
+
+; ( fd -- )
+fn fd_send 1 0 {
+'
+   :::: ::::   
+  :+:     :+:   
+  +:+     +:+   
++#+         +#+ 
+  +#+     +#+   
+  #+#     #+#   
+   #### ####    
+   
+Hello From stas!
+'
+	0 send drop
+}
+
+fn main {
+	auto fd 1
+
+	8080 tcpsocket.create_localhost? assert -> 'failed to create socket!'
+		pop fd
+
+	'Starting event loop!\n' eputs
+
+	; `netcat localhost 8080 -v`
+
+	while true {
+		auto cfd 1
+
+		fd tcpsocket.await_client? assert -> 'failed to accept client!'
+			pop cfd
+
+		'Accepted client!\n' eputs
+
+		cfd fd_send
+		cfd close drop
+	}
+
+	fd close drop
+}
