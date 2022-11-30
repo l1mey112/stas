@@ -1,0 +1,40 @@
+include 'std.stas'
+
+fn main {
+	term.start_bold
+	{
+		term.start_underline
+		{
+			term.start_red
+				"Red!     (underlined)\n" puts
+			term.end_red
+		}
+		term.end_underline
+		
+		term.start_italic
+		{
+			term.start_green
+				"Green!   (italicised)\n" puts
+			term.end_green
+		}
+		term.end_italic
+
+		term.start_strikethough
+		{
+			term.start_magenta
+				"Magenta! (strikethough)\n" puts
+			term.end_magenta
+		}
+		term.end_strikethough
+
+		term.start_dim
+		{
+			term.start_cyan
+				"Cyan!    (dimmed)\n" puts
+			term.end_cyan
+		}
+		term.end_dim
+	}
+	term.end_bold
+}
+	

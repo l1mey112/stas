@@ -33,6 +33,17 @@ fn term.erase_screen_reset_cursor {
 
 fn term.end_c { 27 putc '[39m' puts }
 
+fn term.start_bold         { 27 putc '[1m'  puts }
+fn term.end_bold           { 27 putc '[22m' puts }
+fn term.start_dim          { 27 putc '[2m'  puts }
+fn term.end_dim            { 27 putc '[22m' puts }
+fn term.start_italic       { 27 putc '[3m'  puts }
+fn term.end_italic         { 27 putc '[23m' puts }
+fn term.start_underline    { 27 putc '[4m'  puts }
+fn term.end_underline      { 27 putc '[24m' puts }
+fn term.start_strikethough { 27 putc '[9m'  puts }
+fn term.end_strikethough   { 27 putc '[29m' puts }
+
 fn term.start_black   { 27 putc '[30m' puts }
 fn term.end_black     { term.end_c }
 fn term.start_red     { 27 putc '[31m' puts }
