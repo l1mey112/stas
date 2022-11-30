@@ -30,3 +30,22 @@ fn term.erase_screen_reset_cursor {
     term.escape `H` putc
     term.escape `J` putc
 }
+
+fn term.end_c { 27 putc '[39m' puts }
+
+fn term.start_black   { 27 putc '[30m' puts }
+fn term.end_black     { term.end_c }
+fn term.start_red     { 27 putc '[31m' puts }
+fn term.end_red       { term.end_c }
+fn term.start_green   { 27 putc '[32m' puts }
+fn term.end_green     { term.end_c }
+fn term.start_yellow  { 27 putc '[33m' puts }
+fn term.end_yellow    { term.end_c }
+fn term.start_blue    { 27 putc '[34m' puts }
+fn term.end_blue      { term.end_c }
+fn term.start_magenta { 27 putc '[35m' puts }
+fn term.end_magenta   { term.end_c }
+fn term.start_cyan    { 27 putc '[36m' puts }
+fn term.end_cyan      { term.end_c }
+fn term.start_white   { 27 putc '[37m' puts }
+fn term.end_white     { term.end_c }
