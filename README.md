@@ -49,38 +49,39 @@ Use FASM, the [flat-assembler](https://flatassembler.net/), to compile the binar
 
 ```sh
 $ fasm -m 1048576 bootstrap/x86-64_linux.fasm.asm stas
-$ ./stas stas.stas -o stas
-$ ./stas stas.stas -o stas
-$ ./stas stas.stas -o stas
-$ ./stas stas.stas -o stas
-$ ./stas stas.stas -o stas
-$ ./stas stas.stas -o stas
-$ ./stas stas.stas -o stas
+$ ./stas stas.stas -o stas1
+$ ./stas2 stas.stas -o stas3
+$ ./stas3 stas.stas -o stas4
+$ ./stas4 stas.stas -o stas5
+$ ./stas5 stas.stas -o stas6
+$ ./stas6 stas.stas -o stas7
+$ ./stas7 stas.stas -o stas8
   ....
   ....
 ```
 
 ```
-$ ./stas -h
-stas 0.1.0 Copyright (C) 2022  l-m.dev
+$ ./stas
+stas 0.2.0 Copyright (C) 2022  l-m.dev
 
 USAGE: ./stas [OPTIONS] [FILE]
 
-  -o <output>              Specify '-o -' to dump assembly to stdout
-  -g                       Debug info. Most effective with the `nasm` backend
-  -b <backend>             Assemblers `nasm` or `fasm` as compiler backend
-  -c                       Create object file for linking, will not call `ld`
-  -r                       Execute file after compiling. Arguments after this
-                           switch will ignored and passed to the program
-  -v, --verbose            Activate verbose mode
-  --dump-tok               Dump token information after scanning stage
-  --dump-ir                Dump intermediate representation after parsing stage
-  --unsafe                 Currently only strips assertions
-  --comptime-depth <num>   Adjust compile time recursion depth for evaluating
-                           comptime functions. Default: 12
-  --trace-calls            Compiled executable will have function calls traced
-                           at runtime. Will not trace inlined calls.
-  -h, --help               Show this message
+  -o <output>             Specify '-o -' to dump assembly to stdout
+  -g                      Debug info. Most effective with the `nasm` backend
+  -b <backend>            Assemblers `nasm` or `fasm` as compiler backend
+  -c                      Create object file for linking, will not call `ld`
+  -r                      Execute file after compiling. Arguments after this
+                          switch will ignored and passed to the program
+  -v                      Activate verbose mode
+  -os <os>                `linux` | `freebsd`
+  -dump-tok               Dump token information after scanning stage
+  -dump-ir                Dump intermediate representation after parsing stage
+  -unsafe                 Currently only strips assertions
+  -comptime-depth <num>   Adjust compile time recursion depth for evaluating
+                          comptime functions. Default: 12
+  -trace-calls            Compiled executable will have function calls traced
+                          at runtime. Will not trace inlined calls.
+  -h, --help              Show this message
 ```
 
 ## spec
