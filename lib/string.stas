@@ -1,7 +1,7 @@
 ; ( str len u8 -- str len )
 fn string.after_delim_u8 3 2 {
 	over 0 = if { ; len == 0
-		drop ret
+		drop drop drop NULL 0 ret
 	}
 
 	; (str len u8)
@@ -50,6 +50,56 @@ fn string.after_delim_u8.ret_both 3 4 {
 	a over2 swap - ; new len
 	-- ; do not include delim
 	rot a rot4
+}
+
+; ( str len u8 -- str len )
+fn string.before_delim_u8 3 2 {
+	over 0 = if { ; len == 0
+		drop drop drop NULL 0 ret
+	}
+
+	; (str len u8)
+	
+	auto ch 1 pop ch
+	
+	; (str len)
+	over +
+	auto str 1 swap pop str
+
+	; (str_t)
+	while true {
+		--
+
+		; (str)
+		dup r8 ch = if {
+			str - str swap ret
+		}
+		
+		dup str = if {
+			break
+		}
+	}
+	drop
+
+	NULL 0
+}
+
+; ( str len u8 -- 'str 'len str len )
+fn string.before_delim_u8.ret_both 3 4 {
+	auto a     1
+	auto a.len 1
+
+	over2 over2 pop a.len pop a
+
+	; (str len u8)
+	string.before_delim_u8 over NULL = if {
+		drop drop a a.len NULL 0 ret
+	}
+	
+	; (str len)
+	over over + ++
+	; (str len nptr len)
+	over a.len -- swap - rot4 rot4
 }
 
 ; ( str len u8 -- bool )

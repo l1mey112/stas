@@ -387,7 +387,7 @@ fn find_abs_path_of_executable? 2 2 {
 	while true {
 		search_str `:` string.after_delim_u8.ret_both pop search_str
 
-		search_str drop NULL = if {
+		search_str 0 = swap NULL = | if {
 			drop drop
 			break
 		} else {
