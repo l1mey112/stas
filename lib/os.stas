@@ -633,3 +633,17 @@ fn normalise_path 2 2 {
 
 	str_stack rArray64.data rooted
 }
+
+fn path_exists 2 1 {
+	drop F_OK access 0 =
+}
+
+fn path_can_read 2 1 {
+	drop R_OK access 0 =
+}
+fn path_can_write 2 1 {
+	drop W_OK access 0 =
+}
+fn path_can_execute 2 1 {
+	drop X_OK access 0 =
+}

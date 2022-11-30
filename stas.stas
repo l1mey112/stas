@@ -57,8 +57,13 @@ fn usage {
 	"	-comptime-depth <num>   Adjust compile time recursion depth for evaluating\n"    eputs
 	"	                        comptime functions. Default: 12\n"                       eputs
 	"	-trace-calls            Compiled executable will have function calls traced\n"   eputs
-	"	                        at runtime. Will not trace inlined calls.\n"             eputs
-	"	-h, --help              Show this message\n\n"                                   eputs
+	"	                        at runtime. Will not trace inlined calls\n"              eputs
+	"	-h, --help              Show this message\n"                                     eputs
+
+	"\nSUBCOMMANDS\n"                                                                    eputs
+
+	"\n	./stas symlink          Will place the stas compiler in `/usr/local/bin/stas`\n" eputs
+	"	                        to allow it to be accessible by PATH\n\n"                eputs
 }
 
 fn help_and_exit {
@@ -86,6 +91,28 @@ fn parse_backend_type 2 0 {
 		"unknown backend" usage_msg_and_exit
 	}
 	drop drop
+}
+
+fn symlink_exe {
+	'/usr/local/bin' path_exists ! if {
+		'path `/usr/local/bin` not found!'
+		error.generic_fatal_noexit
+		1 exit
+	}
+
+	'/usr/local/bin/stas' path_exists if {
+		'/usr/local/bin/stas' drop unlink errno? ! if {
+			'failed to remove existing symlink at path `/usr/local/bin/stas`, missing permissions?'
+			error.generic_fatal_noexit
+			1 exit
+		}
+	}
+
+	get_executable_path drop '/usr/local/bin/stas' drop symlink errno? ! if {
+		'failed to symlink executable to path `/usr/local/bin/stas`, missing permissions?'
+		error.generic_fatal_noexit
+		1 exit
+	}
 }
 
 const sizeof(fasm_arg_buf) { sizeof(u64) 32 * }
@@ -196,6 +223,13 @@ fn assert_args {
 fn main {
 	argc 1 = if {
 		usage_and_exit
+	}
+
+	argc 2 = if {
+		1 args[] "symlink" streq if {
+			symlink_exe
+			0 exit
+		}
 	}
 
 	reserve dump_ir   1
