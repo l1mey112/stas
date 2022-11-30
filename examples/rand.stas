@@ -1,0 +1,8 @@
+include 'std.stas'
+
+fn main {
+	0 while dup 15 < {
+		rand.u64 putuln
+		++
+	} drop
+}

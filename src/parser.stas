@@ -308,7 +308,7 @@ fn parse.assert 1 0 {
 	; ( Tok -- bool )
 
 	pos 2 + token_stream.len < if {
-		pos 1 + token_stream[] rToken.tok Tok.arrw       = 
+		pos ++ token_stream[] rToken.tok Tok.arrw       = 
 		pos 2 + token_stream[] rToken.tok Tok.string_lit =
 		& if {
 			true pop contains_message
@@ -715,6 +715,8 @@ fn parse.handle_close_r_cb 1 0 {
 
 		Inst.do_jmp while_header rScope.label_id ir
 		Inst.label  scope        rScope.label_id ir
+
+		is_early_ret false w8
 	} elif dup ScopeTyp.scope = {
 		; nop
 	} elif dup ScopeTyp.checked_scope = {
@@ -733,8 +735,8 @@ fn parse.handle_close_r_cb 1 0 {
 			sp error_st.Tok
 		}
 	} elif dup ScopeTyp.if_block = {
-		pos 1 + token_stream.len <
-		pos 1 + token_stream[] rToken.tok Tok.else_block =
+		pos ++ token_stream.len <
+		pos ++ token_stream[] rToken.tok Tok.else_block =
 		& if {
 			pos ++ pop pos
 
@@ -769,8 +771,8 @@ fn parse.handle_close_r_cb 1 0 {
 			}
 			Inst.label scope rScope.label_id ir
 		} elif
-			pos 1 + token_stream.len <
-			pos 1 + token_stream[] rToken.tok Tok.elif_block =
+			pos ++ token_stream.len <
+			pos ++ token_stream[] rToken.tok Tok.elif_block =
 		& {
 			pos ++ pop pos
 
@@ -803,10 +805,12 @@ fn parse.handle_close_r_cb 1 0 {
 				pos 'the stack must remain the same with single branches' sp error_st.Tok
 			}
 			Inst.label scope rScope.label_id ir
+
+			is_early_ret false w8
 		}
 	} elif dup ScopeTyp.elif_block_scope = {
-		pos 1 + token_stream.len <
-			pos 1 + token_stream[] rToken.tok
+		pos ++ token_stream.len <
+			pos ++ token_stream[] rToken.tok
 			dup  Tok.elif_block =
 			swap Tok.else_block =
 		| &
@@ -867,6 +871,8 @@ fn parse.handle_close_r_cb 1 0 {
 			}
 			Inst.label scope rScope.label_id  ir
 			Inst.label scope rScope.label_id2 ir
+		
+			is_early_ret false w8
 		}
 	} elif dup ScopeTyp.else_block_scope = {
 		is_early_ret r8 if {
@@ -887,9 +893,11 @@ fn parse.handle_close_r_cb 1 0 {
 		scope rScope.label_id2 UINT32_MAX != if {
 			Inst.label scope rScope.label_id2 ir
 		}
+
+		is_early_ret false w8
 	} else {
 		scope rScope.idx
-			'block expects body, an unhandled elif or while keyword may be the culprit'
+			'block expects body, an unhandled elif or while keyword may be causing this'
 		error.Tok
 	}
 	drop
@@ -1277,6 +1285,11 @@ fn parse.fn_complex_tokens 1 0 {
 		parse.assert_const_fn_not
 		sp parse.inline_asm
 	} else {
+		dup Tok.fn_decl = if {
+			pos 'cannot define a function inside a function' error.Tok
+		} elif dup Tok.elif_block = {
+			pos 'must proceed after an if statement or chained `elif`' error.Tok
+		}
 		; TODO:
 		;     elif -> cannot start elif without if
 		;     fn   -> no define function inside function
@@ -1496,9 +1509,10 @@ fn parse.one_cextern_arg 0 1 {
 			pos 'argument size specification must be 8, 16, 32 or 64' error.Tok
 		}
 		drop
-	} else {
-		pos 'unexpected keyword inside C function arguments, expected a number' error.Tok
 	}
+	pos 'unexpected keyword inside C function arguments, expected a number' error.Tok
+	; TODO: `noreturn`
+	0
 }
 
 fn parse.cextern {
@@ -1660,7 +1674,7 @@ fn stas.parse {
 					auto msg 1 NULL pop msg
 
 					pos 2 + token_stream.len < if {
-						pos 1 + token_stream[] rToken.tok Tok.arrw       = 
+						pos ++ token_stream[] rToken.tok Tok.arrw       = 
 						pos 2 + token_stream[] rToken.tok Tok.string_lit =
 						& if {
 							pos 2 + token_stream[] rToken.data pop msg

@@ -5,9 +5,8 @@ fn rec 2 1 {
 		drop drop 1 ret
 	} elif over over < {
 		drop drop 0 ret
-	} else {
-		drop drop
 	}
+	drop drop
 
 	3
 }

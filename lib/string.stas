@@ -192,7 +192,7 @@ fn string.int_literal_overflow 3 1 {
 	dup str.len swap > if {
 		drop drop true ret
 	} elif dup str.len = {
-		drop
+		over
 		auto strn 1 pop strn
 		0
 		; (len)
@@ -202,7 +202,7 @@ fn string.int_literal_overflow 3 1 {
 			}
 
 			str r8 strn r8 > if {
-				drop true ret
+				drop drop drop true ret
 			}
 			
 			str  ++ pop str
@@ -210,9 +210,8 @@ fn string.int_literal_overflow 3 1 {
 			++
 		}
 		drop
-	} else {
-		drop drop
 	}
+	drop drop
 
 	false
 }

@@ -11,9 +11,8 @@ fn getenv 2 2 {
 			`=` string.after_delim_u8
 			; (envp 'str 'len)
 			rot rot drop ret
-		} else {
-			drop drop
 		}
+		drop drop
 		
 		sizeof(u64) +
 	}
@@ -399,10 +398,10 @@ fn find_abs_path_of_executable? 2 2 {
 
 			over F_OK access 0 = if {
 				ret
-			} else {
-				drop drop old_brk salloc.rewind
 			}
+			old_brk salloc.rewind
 		}
+		drop drop
 	}
 
 	NULL 0
@@ -512,9 +511,8 @@ fn execute_child? 5 1 {
 		envp execve
 		dup errno_abs ENOENT = if {
 			drop false ret
-		} else {
-			errno? assert -> 'execute_child?: `execve` invocation failed'
 		}
+		errno? assert -> 'execute_child?: `execve` invocation failed'
 	} else {
 		auto proc_status 1
 		
