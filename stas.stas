@@ -90,36 +90,27 @@ fn parse_backend_type 2 0 {
 
 const sizeof(fasm_arg_buf) { sizeof(u64) 32 * }
 
-; (str len argv[] is_blocking)
-fn stas_exec 4 0 {
-	auto n       2 rot4 rot4 pop n
-	auto old_brk 1 salloc.now pop old_brk
+; (str len argv[])
+fn stas_exec 3 0 {
+	auto args 1 pop args
+	auto str  2 pop str
 
-	n find_abs_path_of_executable? over NULL = if {
+	str args true false execute_child? ! if {
 		error.generic_fatal_begin
-			"cannot locate executable `" eputs
-			n eputs "`\n" eputs
+		"Failed to execute process `" eputs str eputs "`\n" eputs
 		1 exit
 	}
 
-	rot4 rot4
-	; (str len argv[] is_blocking)
-	
 	verbose_mode r8 if {
 		log.msg.start
 		"`" eputs
-			over argp_print
+			args argp_print
 		"`\n" eputs	
 	}
-	
-	child_execve_and_shut_up
-
-	old_brk salloc.rewind
 }
 
-; (infile.str infile.len outfile.str outfile.len is_blocking)
-fn execute_backend 5 0 {
-	auto is_blocking 1 pop is_blocking
+; (infile.str infile.len outfile.str outfile.len)
+fn execute_backend 4 0 {
 	auto outfile     2 pop outfile
 	auto infile      2 pop infile
 
@@ -135,8 +126,6 @@ fn execute_backend 5 0 {
 
 		outfile pop ld
 		        pop outfile
-
-		true pop is_blocking
 	}
 
 	backend_type StasBackend.fasm = if {
@@ -147,7 +136,7 @@ fn execute_backend 5 0 {
 		sizeof(u64) + dup "1048576" drop w64
 		sizeof(u64) +               NULL w64
 
-		"fasm" arg_buf is_blocking stas_exec
+		"fasm" arg_buf stas_exec
 	} elif backend_type StasBackend.nasm = {
 		arg_buf       dup "nasm"    drop w64
 		sizeof(u64) + dup infile    drop w64
@@ -162,7 +151,7 @@ fn execute_backend 5 0 {
 		}
 
 		sizeof(u64) + NULL w64
-		"nasm" arg_buf is_blocking stas_exec
+		"nasm" arg_buf stas_exec
 	}
 	object_file r8 ! if {
 		ld drop NULL != if {
@@ -171,13 +160,13 @@ fn execute_backend 5 0 {
 			sizeof(u64) + dup "-o"      drop w64
 			sizeof(u64) + dup ld        drop w64
 			sizeof(u64) +               NULL w64
-			"ld" arg_buf is_blocking stas_exec
+			"ld" arg_buf stas_exec
 		} else {
 			arg_buf       dup "chmod"   drop w64
 			sizeof(u64) + dup "+x"      drop w64
 			sizeof(u64) + dup outfile   drop w64
 			sizeof(u64) +               NULL w64
-			"chmod" arg_buf is_blocking stas_exec
+			"chmod" arg_buf stas_exec
 		}
 	}
 }
@@ -484,7 +473,7 @@ fn main {
 	}
 
 	log.time.start
-		out_file_asm_sv string_view_to_str out_file true execute_backend ; run_exec_arg 0 !=
+		out_file_asm_sv string_view_to_str out_file execute_backend ; run_exec_arg 0 !=
 	"backend took " log.time.end
 	
 	verbose_mode r8 if {

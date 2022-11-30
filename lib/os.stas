@@ -9,218 +9,336 @@ fn join_path_cstr 4 2 {
 	a salloc.make_str
 }
 
+; ( -errno -- errno
+fn errno_abs 1 1 {
+	dup 0 <s if { negate }
+}
+
 ; ( errno -- bool )
 fn errno? 1 1 {
 	dup 0 = if {
 		drop true ret
 	}
 
+	dup 0 <s if {
+		negate
+	}
+
 	; TODO: move the immediate mode style term colours to `term.stas`
 	27 eputc '[1m'  eputs
 	27 eputc '[31m' eputs
 
-	dup EPERM = if {
+	; cat dups | awk '{$1=$1};!seen[$1]++'
+
+	dup EPERM = if { 
 		'EPERM: Operation not permitted\n'
-	} elif dup ENOENT = {
+	} elif dup ENOENT = { 
 		'ENOENT: No such file or directory\n'
-	} elif dup ESRCH = {
+	} elif dup ESRCH = { 
 		'ESRCH: No such process\n'
-	} elif dup EINTR = {
+	} elif dup EINTR = { 
 		'EINTR: Interrupted system call\n'
-	} elif dup EIO = {
+	} elif dup EIO = { 
 		'EIO: Input/output error\n'
-	} elif dup ENXIO = {
-		'ENXIO: Device not configured\n'
-	} elif dup E2BIG = {
+	} elif dup ENXIO = { 
+		'ENXIO: No such device or address\n'
+	} elif dup E2BIG = { 
 		'E2BIG: Argument list too long\n'
-	} elif dup ENOEXEC = {
+	} elif dup ENOEXEC = { 
 		'ENOEXEC: Exec format error\n'
-	} elif dup EBADF = {
+	} elif dup EBADF = { 
 		'EBADF: Bad file descriptor\n'
-	} elif dup ECHILD = {
+	} elif dup ECHILD = { 
 		'ECHILD: No child processes\n'
-	} elif dup EDEADLK = {
-		'EDEADLK: Resource deadlock avoided\n'
-	} elif dup ENOMEM = {
-		'ENOMEM: Cannot allocate memory\n'
-	} elif dup EACCES = {
-		'EACCES: Permission denied\n'
-	} elif dup EFAULT = {
-		'EFAULT: Bad address\n'
-	} elif dup ENOTBLK = {
-		'ENOTBLK: Block device required\n'
-	} elif dup EBUSY = {
-		'EBUSY: Device busy\n'
-	} elif dup EEXIST = {
-		'EEXIST: File exists\n'
-	} elif dup EXDEV = {
-		'EXDEV: Cross-device link\n'
-	} elif dup ENODEV = {
-		'ENODEV: Operation not supported by device\n'
-	} elif dup ENOTDIR = {
-		'ENOTDIR: Not a directory\n'
-	} elif dup EISDIR = {
-		'EISDIR: Is a directory\n'
-	} elif dup EINVAL = {
-		'EINVAL: Invalid argument\n'
-	} elif dup ENFILE = {
-		'ENFILE: Too many open files in system\n'
-	} elif dup EMFILE = {
-		'EMFILE: Too many open files\n'
-	} elif dup ENOTTY = {
-		'ENOTTY: Inappropriate ioctl for device\n'
-	} elif dup ETXTBSY = {
-		'ETXTBSY: Text file busy\n'
-	} elif dup EFBIG = {
-		'EFBIG: File too large\n'
-	} elif dup ENOSPC = {
-		'ENOSPC: No space left on device\n'
-	} elif dup ESPIPE = {
-		'ESPIPE: Illegal seek\n'
-	} elif dup EROFS = {
-		'EROFS: Read-only filesystem\n'
-	} elif dup EMLINK = {
-		'EMLINK: Too many links\n'
-	} elif dup EPIPE = {
-		'EPIPE: Broken pipe\n'
-	} elif dup EDOM = {
-		'EDOM: Numerical argument out of domain\n'
-	} elif dup ERANGE = {
-		'ERANGE: Result too large\n'
-	} elif dup EAGAIN = {
+	} elif dup EAGAIN = { 
 		'EAGAIN: Resource temporarily unavailable\n'
-	} elif dup EWOULDBLOCK = {
-		'EWOULDBLOCK: Operation would block\n'
-	} elif dup EINPROGRESS = {
-		'EINPROGRESS: Operation now in progress\n'
-	} elif dup EALREADY = {
-		'EALREADY: Operation already in progress\n'
-	} elif dup ENOTSOCK = {
-		'ENOTSOCK: Socket operation on non-socket\n'
-	} elif dup EDESTADDRREQ = {
-		'EDESTADDRREQ: Destination address required\n'
-	} elif dup EMSGSIZE = {
-		'EMSGSIZE: Message too long\n'
-	} elif dup EPROTOTYPE = {
-		'EPROTOTYPE: Protocol wrong type for socket\n'
-	} elif dup ENOPROTOOPT = {
-		'ENOPROTOOPT: Protocol not available\n'
-	} elif dup EPROTONOSUPPORT = {
-		'EPROTONOSUPPORT: Protocol not supported\n'
-	} elif dup ESOCKTNOSUPPORT = {
-		'ESOCKTNOSUPPORT: Socket type not supported\n'
-	} elif dup EOPNOTSUPP = {
-		'EOPNOTSUPP: Operation not supported\n'
-	} elif dup ENOTSUP = {
-		'ENOTSUP: Operation not supported\n'
-	} elif dup EPFNOSUPPORT = {
-		'EPFNOSUPPORT: Protocol family not supported\n'
-	} elif dup EAFNOSUPPORT = {
-		'EAFNOSUPPORT: Address family not supported by protocol family\n'
-	} elif dup EADDRINUSE = {
-		'EADDRINUSE: Address already in use\n'
-	} elif dup EADDRNOTAVAIL = {
-		'EADDRNOTAVAIL: Can\'t assign requested address\n'
-	} elif dup ENETDOWN = {
-		'ENETDOWN: Network is down\n'
-	} elif dup ENETUNREACH = {
-		'ENETUNREACH: Network is unreachable\n'
-	} elif dup ENETRESET = {
-		'ENETRESET: Network dropped connection on reset\n'
-	} elif dup ECONNABORTED = {
-		'ECONNABORTED: Software caused connection abort\n'
-	} elif dup ECONNRESET = {
-		'ECONNRESET: Connection reset by peer\n'
-	} elif dup ENOBUFS = {
-		'ENOBUFS: No buffer space available\n'
-	} elif dup EISCONN = {
-		'EISCONN: Socket is already connected\n'
-	} elif dup ENOTCONN = {
-		'ENOTCONN: Socket is not connected\n'
-	} elif dup ESHUTDOWN = {
-		'ESHUTDOWN: Can\'t send after socket shutdown\n'
-	} elif dup ETOOMANYREFS = {
-		'ETOOMANYREFS: Too many references: can\'t splice\n'
-	} elif dup ETIMEDOUT = {
-		'ETIMEDOUT: Operation timed out\n'
-	} elif dup ECONNREFUSED = {
-		'ECONNREFUSED: Connection refused\n'
-	} elif dup ELOOP = {
-		'ELOOP: Too many levels of symbolic links\n'
-	} elif dup ENAMETOOLONG = {
+	} elif dup ENOMEM = { 
+		'ENOMEM: Cannot allocate memory\n'
+	} elif dup EACCES = { 
+		'EACCES: Permission denied\n'
+	} elif dup EFAULT = { 
+		'EFAULT: Bad address\n'
+	} elif dup ENOTBLK = { 
+		'ENOTBLK: Block device required\n'
+	} elif dup EBUSY = { 
+		'EBUSY: Device or resource busy\n'
+	} elif dup EEXIST = { 
+		'EEXIST: File exists\n'
+	} elif dup EXDEV = { 
+		'EXDEV: Invalid cross-device link\n'
+	} elif dup ENODEV = { 
+		'ENODEV: No such device\n'
+	} elif dup ENOTDIR = { 
+		'ENOTDIR: Not a directory\n'
+	} elif dup EISDIR = { 
+		'EISDIR: Is a directory\n'
+	} elif dup EINVAL = { 
+		'EINVAL: Invalid argument\n'
+	} elif dup ENFILE = { 
+		'ENFILE: Too many open files in system\n'
+	} elif dup EMFILE = { 
+		'EMFILE: Too many open files\n'
+	} elif dup ENOTTY = { 
+		'ENOTTY: Inappropriate ioctl for device\n'
+	} elif dup ETXTBSY = { 
+		'ETXTBSY: Text file busy\n'
+	} elif dup EFBIG = { 
+		'EFBIG: File too large\n'
+	} elif dup ENOSPC = { 
+		'ENOSPC: No space left on device\n'
+	} elif dup ESPIPE = { 
+		'ESPIPE: Illegal seek\n'
+	} elif dup EROFS = { 
+		'EROFS: Read-only file system\n'
+	} elif dup EMLINK = { 
+		'EMLINK: Too many links\n'
+	} elif dup EPIPE = { 
+		'EPIPE: Broken pipe\n'
+	} elif dup EDOM = { 
+		'EDOM: Numerical argument out of domain\n'
+	} elif dup ERANGE = { 
+		'ERANGE: Numerical result out of range\n'
+	} elif dup EDEADLK = { 
+		'EDEADLK: Resource deadlock avoided\n'
+	} elif dup ENAMETOOLONG = { 
 		'ENAMETOOLONG: File name too long\n'
-	} elif dup EHOSTDOWN = {
-		'EHOSTDOWN: Host is down\n'
-	} elif dup EHOSTUNREACH = {
-		'EHOSTUNREACH: No route to host\n'
-	} elif dup ENOTEMPTY = {
-		'ENOTEMPTY: Directory not empty\n'
-	} elif dup EPROCLIM = {
-		'EPROCLIM: Too many processes\n'
-	} elif dup EUSERS = {
-		'EUSERS: Too many users\n'
-	} elif dup EDQUOT = {
-		'EDQUOT: Disc quota exceeded\n'
-	} elif dup ESTALE = {
-		'ESTALE: Stale NFS file handle\n'
-	} elif dup EREMOTE = {
-		'EREMOTE: Too many levels of remote in path\n'
-	} elif dup EBADRPC = {
-		'EBADRPC: RPC struct is bad\n'
-	} elif dup ERPCMISMATCH = {
-		'ERPCMISMATCH: RPC version wrong\n'
-	} elif dup EPROGUNAVAIL = {
-		'EPROGUNAVAIL: RPC prog. not avail\n'
-	} elif dup EPROGMISMATCH = {
-		'EPROGMISMATCH: Program version wrong\n'
-	} elif dup EPROCUNAVAIL = {
-		'EPROCUNAVAIL: Bad procedure for program\n'
-	} elif dup ENOLCK = {
+	} elif dup ENOLCK = { 
 		'ENOLCK: No locks available\n'
-	} elif dup ENOSYS = {
+	} elif dup ENOSYS = { 
 		'ENOSYS: Function not implemented\n'
-	} elif dup EFTYPE = {
-		'EFTYPE: Inappropriate file type or format\n'
-	} elif dup EAUTH = {
-		'EAUTH: Authentication error\n'
-	} elif dup ENEEDAUTH = {
-		'ENEEDAUTH: Need authenticator\n'
-	} elif dup EIDRM = {
-		'EIDRM: Identifier removed\n'
-	} elif dup ENOMSG = {
+	} elif dup ENOTEMPTY = { 
+		'ENOTEMPTY: Directory not empty\n'
+	} elif dup ELOOP = { 
+		'ELOOP: Too many levels of symbolic links\n'
+	} elif dup EWOULDBLOCK = { 
+		'EWOULDBLOCK: Resource temporarily unavailable\n'
+	} elif dup ENOMSG = { 
 		'ENOMSG: No message of desired type\n'
-	} elif dup EOVERFLOW = {
-		'EOVERFLOW: Value too large to be stored in data type\n'
-	} elif dup ECANCELED = {
-		'ECANCELED: Operation canceled\n'
-	} elif dup EILSEQ = {
-		'EILSEQ: Illegal byte sequence\n'
-	} elif dup ENOATTR = {
-		'ENOATTR: Attribute not found\n'
-	} elif dup EDOOFUS = {
-		'EDOOFUS: Programming error\n'
-	} elif dup EBADMSG = {
-		'EBADMSG: Bad message\n'
-	} elif dup EMULTIHOP = {
-		'EMULTIHOP: Multihop attempted\n'
-	} elif dup ENOLINK = {
+	} elif dup EIDRM = { 
+		'EIDRM: Identifier removed\n'
+	} elif dup EREMOTE = { 
+		'EREMOTE: Object is remote\n'
+	} elif dup ENOLINK = { 
 		'ENOLINK: Link has been severed\n'
-	} elif dup EPROTO = {
+	} elif dup EPROTO = { 
 		'EPROTO: Protocol error\n'
-	} elif dup ENOTCAPABLE = {
-		'ENOTCAPABLE: Capabilities insufficient\n'
-	} elif dup ECAPMODE = {
-		'ECAPMODE: Not permitted in capability mode\n'
-	} elif dup ENOTRECOVERABLE = {
+	} elif dup EMULTIHOP = { 
+		'EMULTIHOP: Multihop attempted\n'
+	} elif dup EBADMSG = { 
+		'EBADMSG: Bad message\n'
+	} elif dup EOVERFLOW = { 
+		'EOVERFLOW: Value too large for defined data type\n'
+	} elif dup EILSEQ = { 
+		'EILSEQ: Invalid or incomplete multibyte or wide character\n'
+	} elif dup EUSERS = { 
+		'EUSERS: Too many users\n'
+	} elif dup ENOTSOCK = { 
+		'ENOTSOCK: Socket operation on non-socket\n'
+	} elif dup EDESTADDRREQ = { 
+		'EDESTADDRREQ: Destination address required\n'
+	} elif dup EMSGSIZE = { 
+		'EMSGSIZE: Message too long\n'
+	} elif dup EPROTOTYPE = { 
+		'EPROTOTYPE: Protocol wrong type for socket\n'
+	} elif dup ENOPROTOOPT = { 
+		'ENOPROTOOPT: Protocol not available\n'
+	} elif dup EPROTONOSUPPORT = { 
+		'EPROTONOSUPPORT: Protocol not supported\n'
+	} elif dup ESOCKTNOSUPPORT = { 
+		'ESOCKTNOSUPPORT: Socket type not supported\n'
+	} elif dup EOPNOTSUPP = { 
+		'EOPNOTSUPP: Operation not supported\n'
+	} elif dup EPFNOSUPPORT = { 
+		'EPFNOSUPPORT: Protocol family not supported\n'
+	} elif dup EAFNOSUPPORT = { 
+		'EAFNOSUPPORT: Address family not supported by protocol\n'
+	} elif dup EADDRINUSE = { 
+		'EADDRINUSE: Address already in use\n'
+	} elif dup EADDRNOTAVAIL = { 
+		'EADDRNOTAVAIL: Cannot assign requested address\n'
+	} elif dup ENETDOWN = { 
+		'ENETDOWN: Network is down\n'
+	} elif dup ENETUNREACH = { 
+		'ENETUNREACH: Network is unreachable\n'
+	} elif dup ENETRESET = { 
+		'ENETRESET: Network dropped connection on reset\n'
+	} elif dup ECONNABORTED = { 
+		'ECONNABORTED: Software caused connection abort\n'
+	} elif dup ECONNRESET = { 
+		'ECONNRESET: Connection reset by peer\n'
+	} elif dup ENOBUFS = { 
+		'ENOBUFS: No buffer space available\n'
+	} elif dup EISCONN = { 
+		'EISCONN: Transport endpoint is already connected\n'
+	} elif dup ENOTCONN = { 
+		'ENOTCONN: Transport endpoint is not connected\n'
+	} elif dup ESHUTDOWN = { 
+		'ESHUTDOWN: Cannot send after transport endpoint shutdown\n'
+	} elif dup ETOOMANYREFS = { 
+		'ETOOMANYREFS: Too many references: cannot splice\n'
+	} elif dup ETIMEDOUT = { 
+		'ETIMEDOUT: Connection timed out\n'
+	} elif dup ECONNREFUSED = { 
+		'ECONNREFUSED: Connection refused\n'
+	} elif dup EHOSTDOWN = { 
+		'EHOSTDOWN: Host is down\n'
+	} elif dup EHOSTUNREACH = { 
+		'EHOSTUNREACH: No route to host\n'
+	} elif dup EALREADY = { 
+		'EALREADY: Operation already in progress\n'
+	} elif dup EINPROGRESS = { 
+		'EINPROGRESS: Operation now in progress\n'
+	} elif dup ESTALE = { 
+		'ESTALE: Stale file handle\n'
+	} elif dup EDQUOT = { 
+		'EDQUOT: Disk quota exceeded\n'
+	} elif dup ECANCELED = { 
+		'ECANCELED: Operation canceled\n'
+	} elif dup EOWNERDEAD = { 
+		'EOWNERDEAD: Owner died\n'
+	} elif dup ENOTRECOVERABLE = { 
 		'ENOTRECOVERABLE: State not recoverable\n'
-	} elif dup EOWNERDEAD = {
-		'EOWNERDEAD: Previous owner died\n'
-	} elif dup EINTEGRITY = {
-		'EINTEGRITY: Integrity check failed\n'
-	} elif dup ELAST = {
-		'ELAST: Must be equal largest\n'
+	} elif dup ENOTSUP = { 
+		'ENOTSUP: Operation not supported\n'
 	} else {
-		'ERRNO is unknown\n'
+		comptime ?def TARGET_FREEBSD if {
+			dup EPROCLIM = if { 
+				'EPROCLIM: Too many processes\n'
+			} elif dup EBADRPC = { 
+				'EBADRPC: RPC struct is bad\n'
+			} elif dup ERPCMISMATCH = { 
+				'ERPCMISMATCH: RPC version wrong\n'
+			} elif dup EPROGUNAVAIL = { 
+				'EPROGUNAVAIL: RPC prog. not avail\n'
+			} elif dup EPROGMISMATCH = { 
+				'EPROGMISMATCH: Program version wrong\n'
+			} elif dup EPROCUNAVAIL = { 
+				'EPROCUNAVAIL: Bad procedure for program\n'
+			} elif dup EFTYPE = { 
+				'EFTYPE: Inappropriate file type or format\n'
+			} elif dup EAUTH = { 
+				'EAUTH: Authentication error\n'
+			} elif dup ENEEDAUTH = { 
+				'ENEEDAUTH: Need authenticator\n'
+			} elif dup ENOATTR = { 
+				'ENOATTR: Attribute not found\n'
+			} elif dup EDOOFUS = { 
+				'EDOOFUS: Programming error\n'
+			} elif dup ENOTCAPABLE = { 
+				'ENOTCAPABLE: Capabilities insufficient\n'
+			} elif dup ECAPMODE = { 
+				'ECAPMODE: Not permitted in capability mode\n'
+			} elif dup EINTEGRITY = { 
+				'EINTEGRITY: Integrity check failed\n'
+			} elif dup ELAST = { 
+				'ELAST: Integrity check failed\n'
+			} else {
+				'ERRNO: Unknown\n'
+			}
+		}
+		comptime ?def TARGET_LINUX if {
+			dup ECHRNG = if { 
+				'ECHRNG: Channel number out of range\n'
+			} elif dup EL2NSYNC = { 
+				'EL2NSYNC: Level 2 not synchronized\n'
+			} elif dup EL3HLT = { 
+				'EL3HLT: Level 3 halted\n'
+			} elif dup EL3RST = { 
+				'EL3RST: Level 3 reset\n'
+			} elif dup ELNRNG = { 
+				'ELNRNG: Link number out of range\n'
+			} elif dup EUNATCH = { 
+				'EUNATCH: Protocol driver not attached\n'
+			} elif dup ENOCSI = { 
+				'ENOCSI: No CSI structure available\n'
+			} elif dup EL2HLT = { 
+				'EL2HLT: Level 2 halted\n'
+			} elif dup EBADE = { 
+				'EBADE: Invalid exchange\n'
+			} elif dup EBADR = { 
+				'EBADR: Invalid request descriptor\n'
+			} elif dup EXFULL = { 
+				'EXFULL: Exchange full\n'
+			} elif dup ENOANO = { 
+				'ENOANO: No anode\n'
+			} elif dup EBADRQC = { 
+				'EBADRQC: Invalid request code\n'
+			} elif dup EBADSLT = { 
+				'EBADSLT: Invalid slot\n'
+			} elif dup EDEADLOCK = { 
+				'EDEADLOCK: Resource deadlock avoided\n'
+			} elif dup EBFONT = { 
+				'EBFONT: Bad font file format\n'
+			} elif dup ENOSTR = { 
+				'ENOSTR: Device not a stream\n'
+			} elif dup ENODATA = { 
+				'ENODATA: No data available\n'
+			} elif dup ETIME = { 
+				'ETIME: Timer expired\n'
+			} elif dup ENOSR = { 
+				'ENOSR: Out of streams resources\n'
+			} elif dup ENONET = { 
+				'ENONET: Machine is not on the network\n'
+			} elif dup ENOPKG = { 
+				'ENOPKG: Package not installed\n'
+			} elif dup EADV = { 
+				'EADV: Advertise error\n'
+			} elif dup ESRMNT = { 
+				'ESRMNT: Srmount error\n'
+			} elif dup ECOMM = { 
+				'ECOMM: Communication error on send\n'
+			} elif dup EDOTDOT = { 
+				'EDOTDOT: RFS specific error\n'
+			} elif dup ENOTUNIQ = { 
+				'ENOTUNIQ: Name not unique on network\n'
+			} elif dup EBADFD = { 
+				'EBADFD: File descriptor in bad state\n'
+			} elif dup EREMCHG = { 
+				'EREMCHG: Remote address changed\n'
+			} elif dup ELIBACC = { 
+				'ELIBACC: Can not access a needed shared library\n'
+			} elif dup ELIBBAD = { 
+				'ELIBBAD: Accessing a corrupted shared library\n'
+			} elif dup ELIBSCN = {
+				'ELIBSCN: ib section in a.out corrupted\n'
+			} elif dup ELIBMAX = { 
+				'ELIBMAX: Attempting to link in too many shared libraries\n'
+			} elif dup ELIBEXEC = { 
+				'ELIBEXEC: Cannot exec a shared library directly\n'
+			} elif dup ERESTART = { 
+				'ERESTART: Interrupted system call should be restarted\n'
+			} elif dup ESTRPIPE = { 
+				'ESTRPIPE: Streams pipe error\n'
+			} elif dup EUCLEAN = { 
+				'EUCLEAN: Structure needs cleaning\n'
+			} elif dup ENOTNAM = { 
+				'ENOTNAM: Not a XENIX named type file\n'
+			} elif dup ENAVAIL = { 
+				'ENAVAIL: No XENIX semaphores available\n'
+			} elif dup EISNAM = { 
+				'EISNAM: Is a named type file\n'
+			} elif dup EREMOTEIO = { 
+				'EREMOTEIO: Remote I/O error\n'
+			} elif dup ENOMEDIUM = { 
+				'ENOMEDIUM: No medium found\n'
+			} elif dup EMEDIUMTYPE = { 
+				'EMEDIUMTYPE: Wrong medium type\n'
+			} elif dup ENOKEY = { 
+				'ENOKEY: Required key not available\n'
+			} elif dup EKEYEXPIRED = { 
+				'EKEYEXPIRED: Key has expired\n'
+			} elif dup EKEYREVOKED = { 
+				'EKEYREVOKED: Key has been revoked\n'
+			} elif dup EKEYREJECTED = { 
+				'EKEYREJECTED: Key was rejected by service\n'
+			} elif dup ERFKILL = { 
+				'ERFKILL: Operation not possible due to RF-kill\n'
+			} elif dup EHWPOISON = { 
+				'EHWPOISON: Memory page has hardware error\n'
+			} else {
+				'ERRNO: Unknown\n'
+			}
+		}
 	}
 	rot rot drop
 	eputs
@@ -264,4 +382,138 @@ fn find_abs_path_of_executable? 2 2 {
 	}
 
 	NULL 0
+}
+
+; ( str len -- bool )
+fn is_abs_path 2 1 {
+	dup 0 = if {
+		drop drop false ret
+	}
+	drop r8 `/` =
+}
+
+; ( str len -- bool )
+fn is_rel_path 2 1 {
+	dup 0 = if {
+		drop drop false ret
+	}
+	over rot `/` string.contains_u8 if {
+		drop true ret
+	}
+	; (str)
+	r8 `.` = if {
+		true	
+	} else {
+		false
+	}
+}
+
+; ( -- str len )
+fn get_executable_path 0 2 {
+	auto buf 1
+
+	4096 salloc.alloc pop buf
+	
+	comptime ?def TARGET_LINUX if {
+		"/proc/self/exe" drop buf 4096 readlink
+		dup 0 != assert -> 'unreachable'
+		buf + salloc.rewind
+		buf salloc.make_str
+		ret
+	}
+	comptime ?def TARGET_FREEBSD if {
+		auto mib   1 salloc.now pop mib
+		auto bufsz 1 4096       pop bufsz
+
+		1  salloc.push_32 ; CTL_KERN
+		14 salloc.push_32 ; KERN_PROC
+		12 salloc.push_32 ; KERN_PROC_PATHNAME
+		-1 salloc.push_32 ; PROCESS ID
+
+		mib 4 buf addr bufsz 0 0 sysctl
+		0 = assert -> 'unreachable'
+		buf strlen buf + salloc.rewind
+		buf salloc.make_str
+		ret
+	}
+	0 assert -> 'unimplemented for OSes not Linux|FreeBSD'
+	NULL 0
+}
+
+; Execute a child process with arguments.
+; 
+; `argv` can be NULL to execute with zero arguments.
+; Will return false if cannot find executable.
+; 
+; ( str len argv ignore_stdio? ignore_stderr? -- bool )
+fn execute_child? 5 1 {
+	auto ignore_fd_stderr 1            pop ignore_fd_stderr
+	auto ignore_fd_stdio  1            pop ignore_fd_stdio
+	auto args             1            pop args
+	auto str              2            pop str
+	auto old_brk          1 salloc.now pop old_brk
+
+	auto pid 1
+
+	str is_abs_path str is_rel_path | if {
+		str
+	} else {
+		str find_abs_path_of_executable? over NULL = if {
+			drop drop false ret
+		}
+	}
+	pop str
+
+	fork pop pid
+	
+	pid 0 >=s assert -> 'execute_child?: `fork` invocation failed'
+
+	pid 0 = if {
+		ignore_fd_stdio ignore_fd_stderr | if {
+			auto black_hole 1
+
+			AT_FDCWD "/dev/null" drop O_RDONLY 0 openat dup 0 >s assert -> 'execute_child?: opening `/dev/null` failed'
+				pop black_hole
+
+			ignore_fd_stdio if {
+				black_hole stdout dup2 -1 != assert -> 'execute_child?: failed to clear stdout with `dup2`'
+			}
+			ignore_fd_stderr if {
+				black_hole stderr dup2 -1 != assert -> 'execute_child?: failed to clear stderr with `dup2`'
+			}
+		}
+
+		str drop
+			args NULL = if { addr args } else { args }
+		envp execve
+		dup errno_abs ENOENT = if {
+			drop false ret
+		} else {
+			errno? assert -> 'execute_child?: `execve` invocation failed'
+		}
+	} else {
+		auto proc_status 1
+		
+		while true {
+			-1 addr proc_status 0 NULL
+			
+			wait4 -1 != assert -> 'execute_child?: `wait4` invocation failed'
+
+			proc_status WIFEXITED if {
+				proc_status WEXITSTATUS 
+				dup 0 >s if {
+					exit	
+				} else {
+					drop
+				}
+				break
+			} elif proc_status WIFSIGNALED {
+				"execute_child?: child process was terminated by signal " eputs proc_status WTERMSIG eputuln
+				false ret
+			}
+		}
+	}
+
+	old_brk salloc.rewind
+	true
 }

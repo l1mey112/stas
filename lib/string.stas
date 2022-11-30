@@ -85,6 +85,31 @@ fn string.starts_with 4 1 {
 	streq
 }
 
+; ( str len u8 -- bool )
+fn string.contains_u8 3 1 {
+	; (str len u8)
+	over 0 = if {
+		drop drop drop false ret
+	}
+
+	auto ch     1 pop ch
+	auto lenptr 1
+
+	; (str len)
+	over + pop lenptr
+
+	; (str)
+	while dup lenptr < {
+		dup r8 ch = if {
+			drop true ret
+		}
+		++
+	}
+	drop
+	
+	false
+}
+
 fn string.assert 2 2 {
 	over assert -> 'string.assert: string is NULL'
 }

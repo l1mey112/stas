@@ -367,7 +367,7 @@ fn rToken.tok  1 1 { Token.tok  r32 }
 fn rToken.data 1 1 { Token.data r64 }
 fn rToken.len  1 1 { Token.len  r32 }
 
-const   token_stream.cap { 32768 }
+const   token_stream.cap { 65536 }
 reserve token_stream     { sizeof(Token) token_stream.cap  * }
 auto    token_stream.len 1
 

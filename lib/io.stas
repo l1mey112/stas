@@ -1,6 +1,6 @@
-const stdin  { 0 }
-const stdout { 1 }
-const stderr { 2 }
+const stdin  STDIN_FILENO
+const stdout STDOUT_FILENO
+const stderr STDERR_FILENO
 const EOF    { UINT64_MAX }
 
 fn endl {
@@ -323,86 +323,4 @@ fn open_and_mmap_fp 2 2 {
 		"FATAL: Failed to close file descriptor\n" eputs
 		1 exit
 	}
-}
-
-; (execute.str execute.len argv[] is_blocking)
-fn child_execve_and_shut_up 4 0 {
-	auto is_blocking 1 pop is_blocking
-	swap drop
-	
-	auto args 2
-	pop args
-	
-	fork
-
-	dup 0 = if {
-		{
-			AT_FDCWD
-			"/dev/null" drop
-			O_RDONLY
-			0
-		} openat
-
-		dup 0 <s if {
-			"FATAL: Could not open /dev/null\n" eputs
-			1 exit
-		}
-
-		stdout
-
-		dup2 0 <s if {
-			"FATAL: Could not open /dev/null as stdout\n" eputs
-			1 exit
-		}
-
-		args envp execve 0 <s if {
-			"FATAL: Could not execve child" eputs
-			1 exit
-		}
-
-		0 exit
-	} elif dup 0 >s {
-		is_blocking if {
-			auto loop 1
-			true pop loop
-			
-			reserve proc_status sizeof(u64)
-
-			while loop {
-				UINT64_MAX
-				proc_status
-				0
-				NULL
-				
-				wait4 0 <s if {
-					"FATAL: Could not wait for process" eputs
-					1 exit
-				}
-
-				proc_status r64
-				dup WIFEXITED if {
-					dup WEXITSTATUS 
-					dup 0 >s if {
-						dup exit	
-					}
-					drop
-					false pop loop
-				} elif dup WIFSIGNALED {
-					"FATAL: Child process was terminated by signal " eputs dup WTERMSIG eputuln
-					255 exit
-				} elif dup WIFSTOPPED {
-					
-				} elif dup WIFCONTINUED {
-					
-				} else {
-					0 assert -> 'unreachable'
-				}
-				drop
-			}
-		}
-	} else {
-		"FATAL: Could not fork child" eputs
-		1 exit
-	}
-	drop
 }
