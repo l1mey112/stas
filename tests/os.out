@@ -1,0 +1,23 @@
+8
+../gello
+1
+/
+15
+../../file.stas
+22
+hello/executeable.exec
+13
+hello/plebbit
+23
+hello/top/s/top/plebbit
+[1m[31mEPERM: Operation not permitted
+[39m[22mfalse
+[1m[31mEIO: Input/output error
+[39m[22mfalse
+[1m[31mEFAULT: Bad address
+[39m[22mfalse
+[1m[31mEBADMSG: Bad message
+[39m[22mfalse
+true
+true
+false

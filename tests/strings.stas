@@ -1,0 +1,57 @@
+include 'std.stas'
+
+fn forward {
+	auto search_str 2
+
+	"/usr/home/l-m/git/stas" pop search_str
+
+	while true {
+		search_str `/` string.after_delim_u8.ret_both pop search_str
+
+		dup 0 != if {
+			; len > 0
+			puts " " puts
+		} else {
+			; len == 0
+			drop drop
+		}
+
+		search_str 0 = swap NULL = | if {	
+			break
+		}
+	}
+	endl
+}
+
+fn reverse {
+	auto search_str 2
+
+	"/usr/home/l-m/git/stas" pop search_str
+
+	while true {
+		search_str `/` string.before_delim_u8.ret_both pop search_str
+
+		dup 0 != if {
+			; len > 0
+			puts " " puts
+		} else {
+			; len == 0
+			drop drop
+		}
+
+		search_str 0 = swap NULL = | if {	
+			break
+		}
+	}
+	endl
+}
+
+fn main {
+	'Hello-\n!-Hello\n' `!` string.after_delim_u8 puts
+	'Hello-\n!-Hello\n' `!` string.before_delim_u8 puts
+
+	"\n/usr/home/l-m/git/stas\n\n" puts
+
+	forward
+	reverse
+}

@@ -1,0 +1,50 @@
+include 'std.stas'
+
+fn test_normalise_path {
+	auto old_brk 1
+		salloc.now pop old_brk
+
+	'../hello/../gello' normalise_path over strlen putuln puts endl
+
+	old_brk salloc.rewind
+
+	'//.///./' normalise_path over strlen putuln puts endl
+
+	old_brk salloc.rewind
+
+	'eer/../ree/../../../file.stas' normalise_path over strlen putuln puts endl
+
+	old_brk salloc.rewind
+}
+
+fn test_join_path {
+	auto old_brk 1
+		salloc.now pop old_brk
+
+	'hello///' 'executeable.exec' join_path_cstr over strlen putuln puts endl
+
+	'hello' 'plebbit' join_path_cstr over strlen putuln puts endl
+
+	old_brk salloc.rewind
+
+	'hello/top/s/' 'top/plebbit' join_path_cstr over strlen putuln puts endl
+
+	old_brk salloc.rewind
+}
+
+fn test_errno {
+	EPERM          errno? bool.to_str puts endl
+	EIO            errno? bool.to_str puts endl
+	EFAULT  negate errno? bool.to_str puts endl
+	EBADMSG negate errno? bool.to_str puts endl
+	0              errno? bool.to_str puts endl
+}
+
+fn main {
+	test_normalise_path
+	test_join_path
+	test_errno
+
+	"/hello"       is_abs_path bool.to_str puts endl
+	"hello/heeler" is_abs_path bool.to_str puts endl
+}
