@@ -1,0 +1,30 @@
+include 'std.stas'
+
+fn print_bool_ln 1 0 {
+	bool.to_str puts endl
+}
+
+fn syscall_return_errno 0 1 {
+	ENOMEM
+}
+
+fn syscall_return_negative_errno 0 1 {
+	ENOMEM negate
+}
+
+fn errno_print {
+	EPERM  errno? print_bool_ln ; `EPERM: Operation not permitted`    ( -- false )
+	ENOENT errno? print_bool_ln ; `ENOENT: No such file or directory` ( -- false )
+	0      errno? print_bool_ln ; ...                                 ( -- true )
+}
+
+fn main {
+	errno_print
+
+	; The `errno?` function can be used as an intermediary to go right into an assertion
+
+	"\n---------\n\n" puts
+
+	syscall_return_negative_errno
+		errno? assert -> 'main: failed'
+}

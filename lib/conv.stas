@@ -1,5 +1,5 @@
 ; (bool -- str len)
-fn bool_to_str 1 2 {
+fn bool.to_str 1 2 {
 	if {
 		"true"
 	} else {

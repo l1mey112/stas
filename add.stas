@@ -1,0 +1,6 @@
+fn main {
+	3
+	asm "rax" {
+		"; eeeeeeeeeeeeee"
+	}
+}

@@ -702,52 +702,57 @@ fn gen_range 4 0 {
 				; 3. push requested return registers
 				; 4. free argument registers that aren't in return list
 
-				fn_c ASM.arg_r fn_c rASM.arg_r_len +
-				; (arr+len)
-				while true {
-					--
-					dup r8 r_pop_r
-					
-					dup fn_c ASM.arg_r = if {
-						break
+				fn_c rASM.arg_r_len 0 != if {
+					fn_c ASM.arg_r fn_c rASM.arg_r_len +
+					; (arr+len)
+					while true {
+						--
+						dup r8 r_pop_r
+						
+						dup fn_c ASM.arg_r = if {
+							break
+						}
 					}
+					drop
 				}
-				drop
 
 				fn_c rASM.s_start_idx
 				while dup fn_c rASM.s_end_idx < {
+					`\t` fwritec
 					dup token_stream[] rToken.data string_view_to_str fwriteln
 					++
 				}
 				drop
 
-				fn_c ASM.ret_r
-				dup fn_c rASM.ret_r_len +
-				swap
-				; (len arr)
-				while dup over2 < {
-					dup r8 r_push
-					++
-				}
-				drop
-				drop
+				fn_c rASM.ret_r_len 0 != if {
+					fn_c ASM.ret_r
+					dup fn_c rASM.ret_r_len +
+					swap
+					; (len arr)
+					while dup over2 < {
+						dup r8 r_push
+						++
+					}
+					drop
+					drop
 
-				fn_c ASM.arg_r fn_c rASM.arg_r_len +
-				; (arr+len)
-				while true {
-					--
-					dup r8
-					dup fn_c ASM.ret_r fn_c rASM.ret_r_len reg_exists_in_arr ! if {
-						r_free
-					} else {
-						drop
+					fn_c ASM.arg_r fn_c rASM.arg_r_len +
+					; (arr+len)
+					while true {
+						--
+						dup r8
+						dup fn_c ASM.ret_r fn_c rASM.ret_r_len reg_exists_in_arr ! if {
+							r_free
+						} else {
+							drop
+						}
+						
+						dup fn_c ASM.arg_r = if {
+							break
+						}
 					}
-					
-					dup fn_c ASM.arg_r = if {
-						break
-					}
+					drop
 				}
-				drop
 			} else {
 				0 assert -> 'unreachable'
 			}
