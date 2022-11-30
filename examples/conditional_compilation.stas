@@ -30,3 +30,21 @@ fn main {
 		; true
 	}
 }
+
+const LOGLEVEL 0
+
+comptime { LOGLEVEL 1 } = if {
+	fn log {
+		; eeee
+	}
+}
+comptime { LOGLEVEL 2 } = if {
+	fn log {
+		; eeee
+	}
+}
+comptime { LOGLEVEL 3 } = if {
+	fn log {
+		; eeee
+	}
+}

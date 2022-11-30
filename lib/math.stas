@@ -1,18 +1,18 @@
 ; twos complement negation
 ; 
 ; ( u64 -- u64 )
-fn negate 1 1 {
+const fn negate 1 1 {
 	~ ++
 }
 
-fn min 2 1 {
+const fn min 2 1 {
 	over over > if {
 		swap
 	}
 	drop
 }
 
-fn max 2 1 {
+const fn max 2 1 {
 	over over < if {
 		swap
 	}
@@ -53,6 +53,6 @@ fn sqrt 1 1 {
 }
 
 ; ( a -- |a| )
-fn s_abs 1 1 {
+const fn s_abs 1 1 {
 	dup 0 <s if { negate }
 }

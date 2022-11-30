@@ -1,47 +1,21 @@
-const alloc_buffer.default_size { 1024 256 * } ; 256 KiB
-auto  alloc_buffer.cap  1
-auto  alloc_buffer.len  1
-auto  alloc_buffer.data 1
-
-; (size)
-fn salloc.init 1 0 {
-	alloc_buffer.data 0 != if {
-		alloc_buffer.data alloc_buffer.cap munmap 0 = assert -> 'salloc.init: munmap failed'
-	}
-	dup memory.mmap_anon pop alloc_buffer.data
-	                     pop alloc_buffer.cap
-}
-
-fn salloc.guard {
-	alloc_buffer.data 0 = if {
-		alloc_buffer.default_size salloc.init
-	}
-}
+const   alloc_buffer.cap  { 16 1024 * }
+auto    alloc_buffer.len  1
+reserve alloc_buffer.data alloc_buffer.cap
 
 ; (size)
 fn salloc.guard_size 1 0 {
-	salloc.guard
-	dup alloc_buffer.len + alloc_buffer.cap >= if {
-		alloc_buffer.cap 2 * salloc.init
-		salloc.guard_size ; tail recursive!
-	} else {
-		drop
-	}
+	alloc_buffer.len + alloc_buffer.cap < assert -> 'salloc.guard_size: static buffer length exceeded'
 }
 
-
-- noinline
 ; ( -- ptr )
 fn salloc.now 0 1 {
-	salloc.guard
 	alloc_buffer.data alloc_buffer.len +
 }
 
-- noinline
 ; (ptr)
 fn salloc.rewind 1 0 {
-	salloc.guard
 	alloc_buffer.data -
+	dup alloc_buffer.len <= assert -> 'salloc.rewind: cannot rewind allocation stack to higher length'
 	pop alloc_buffer.len
 }
 

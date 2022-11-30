@@ -50,11 +50,11 @@ comptime ?def TARGET_FREEBSD if {
 	const INADDR_DUMMY  3221225480
 }
 
-fn htons 1 1 {
+const fn htons 1 1 {
 	dup 255 & 8 << swap 8 >> 255 & |
 }
 
-fn htonl 1 1 {
+const fn htonl 1 1 {
 	dup 255        & 24 << swap
 	dup 65280      & 8  << swap
 	dup 16711680   & 8  >> swap

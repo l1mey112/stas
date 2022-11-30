@@ -1,0 +1,23 @@
+include 'std.stas'
+
+fn main {
+	salloc.now
+	{
+			"concat!\n" salloc.push
+			"concat!\n" salloc.push
+			"concat!\n" salloc.push
+		dup salloc.make_str puts
+	}
+	salloc.rewind
+
+	salloc.now
+	{
+		get_executable_path puts endl ; allocates memory
+		
+		"sh" find_abs_path_of_executable? ; allocates memory
+			over NULL != assert -> 'main: cannot find `sh` executable'
+		; ( str len )
+		puts endl
+	}
+	salloc.rewind
+}

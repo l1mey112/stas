@@ -1,3 +1,27 @@
+; ( str len -- str? len )
+fn getenv 2 2 {
+	auto str 2 pop str
+
+	envp
+	while dup r64 NULL != {
+		dup
+		
+		r64 cstr_to_stastr
+		over over str string.starts_with if {
+			`=` string.after_delim_u8
+			; (envp 'str 'len)
+			rot rot drop ret
+		} else {
+			drop drop
+		}
+		
+		sizeof(u64) +
+	}
+	drop
+
+	NULL 0
+}
+
 ; ( str len str len -- str len )
 fn join_path_cstr 4 2 {
 	auto a 1 salloc.now pop a
