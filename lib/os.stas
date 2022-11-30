@@ -634,10 +634,10 @@ fn normalise_path 2 2 {
 	str_stack rArray64.data rooted
 }
 
+; `access` does follow symlinks, use `lstat` instead
 fn path_exists 2 1 {
 	drop F_OK access 0 =
 }
-
 fn path_can_read 2 1 {
 	drop R_OK access 0 =
 }

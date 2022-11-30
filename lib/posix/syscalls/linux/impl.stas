@@ -22,10 +22,6 @@ fn stat 2 1 {
 fn fstat 2 1 {
 	sys_fstat syscall2
 }
-; ( 'const char* filename' 'struct stat* statbuf' -- c )
-fn lstat 2 1 {
-	sys_lstat syscall2
-}
 ; ( 'struct poll_fd* ufds' 'unsigned int nfds' 'long timeout_msecs' -- c )
 fn poll 3 1 {
 	sys_poll syscall3

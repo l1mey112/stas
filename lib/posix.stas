@@ -1,5 +1,5 @@
-include 'lib/posix/syscalls.stas'
 include 'lib/posix/unistddefs.stas'
+include 'lib/posix/syscalls.stas'
 include 'lib/posix/struc.stas'
 include 'lib/posix/errno.stas'
 include 'lib/posix/net/socketdefs.stas'

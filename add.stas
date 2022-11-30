@@ -9,5 +9,5 @@ include 'std.stas'
 ;}
 
 fn main {
-	999 putuln
+	; errno? assert ; bool.to_str puts endl
 }

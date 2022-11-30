@@ -48040,18 +48040,21 @@ symlink_exe:
 		syscall
 .2480:
 	mov rbx, _s33
-	mov rsi, 19
 	mov rsi, 0
-	mov rdi, 33
-	mov rax, rdi
-	mov rdi, rsi
-	mov rsi, rdi
+	mov rdi, 18446744073709551516
+	mov r8, 512
+	mov r9, 552
+	mov rax, r9
+	mov r10, r8
+	mov rdx, rsi
+	mov rsi, rbx
+	mov rbx, rdi
 	mov rdi, rbx
 		syscall
-	mov rbx, 0
+	mov rbx, 2
 	xor rsi, rsi
 	cmp rax, rbx
-	sete sil
+	setne sil
 	test rsi, rsi
 	jz .2482
 	mov rbx, _s33

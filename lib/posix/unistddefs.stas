@@ -37,26 +37,26 @@ const F_LOCK  1 ; Lock a region for exclusive use.
 const F_TLOCK 2 ; Test and lock a region for exclusive use.  
 const F_TEST  3 ; Test a region for other processes locks.  
 ; ./makedefinitions.vsh bits/fcntl.h
-const F_GETLK64 5 ; Get record locking info.  
-const F_SETLK64 6 ; Set record locking info (non-blocking).  
-const F_SETLKW64 7 ; Set record locking info (blocking).
 const AT_FDCWD -100
-const AT_SYMLINK_NOFOLLOW 256 ; Do not follow symbolic links.  
-const AT_REMOVEDIR  512 ; Remove directory instead of
 const AT_SYMLINK_FOLLOW 1024 ; Follow symbolic links.  
-const AT_NO_AUTOMOUNT 2048 ; Suppress terminal automount
-const AT_EMPTY_PATH  4096 ; Allow empty relative pathname.  
-const AT_STATX_SYNC_TYPE 24576
-const AT_STATX_SYNC_AS_STAT 0
-const AT_STATX_FORCE_SYNC 8192
-const AT_STATX_DONT_SYNC 16384
-const AT_RECURSIVE  32768 ; Apply to the entire subtree.  
-const AT_EACCESS  512 ; Test access permitted for
 const O_RDONLY  0
 const O_WRONLY  1
 const O_RDWR    2
 const O_ACCMODE 3
 comptime ?def TARGET_LINUX if {
+	const AT_EACCESS  512 ; Test access permitted for
+	const AT_RECURSIVE  32768 ; Apply to the entire subtree.  
+	const AT_STATX_DONT_SYNC 16384
+	const AT_STATX_FORCE_SYNC 8192
+	const AT_STATX_SYNC_AS_STAT 0
+	const AT_STATX_SYNC_TYPE 24576
+	const AT_EMPTY_PATH  4096 ; Allow empty relative pathname.  
+	const AT_NO_AUTOMOUNT 2048 ; Suppress terminal automount
+	const AT_SYMLINK_NOFOLLOW 256 ; Do not follow symbolic links.  
+	const AT_REMOVEDIR  512 ; Remove directory instead of
+	const F_GETLK64 5 ; Get record locking info.  
+	const F_SETLK64 6 ; Set record locking info (non-blocking).  
+	const F_SETLKW64 7 ; Set record locking info (blocking).
 	const O_CREAT    64
 	const O_EXCL     128
 	const O_NOCTTY   256
@@ -67,6 +67,10 @@ comptime ?def TARGET_LINUX if {
 	const O_ASYNC    8192
 }
 comptime ?def TARGET_FREEBSD if {
+	const AT_EACCESS 256 ; Test access permitted for
+	const AT_EMPTY_PATH  16384 ; Allow empty relative pathname.  
+	const AT_SYMLINK_NOFOLLOW 512 ; Do not follow symbolic links.  
+	const AT_REMOVEDIR  2048 ; Remove directory instead of
 	const O_CREAT    512
 	const O_EXCL     2048
 	const O_NOCTTY   32768

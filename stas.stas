@@ -100,7 +100,7 @@ fn symlink_exe {
 		1 exit
 	}
 
-	'/usr/local/bin/stas' path_exists if {
+	'/usr/local/bin/stas' drop NULL lstat ENOENT != if {
 		'/usr/local/bin/stas' drop unlink errno? ! if {
 			'failed to remove existing symlink at path `/usr/local/bin/stas`, missing permissions?'
 			error.generic_fatal_noexit
