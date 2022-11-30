@@ -28,7 +28,6 @@ fn join_path_cstr 4 2 {
 	rot4 rot4 `/` string.trim_len_delim_u8 salloc.push
 	          `/`                          salloc.push_8
 					                       salloc.push
-	          0                            salloc.push_8
 	a salloc.make_str
 }
 
@@ -416,7 +415,7 @@ fn is_abs_path 2 1 {
 }
 
 ; ( str len -- bool )
-fn is_rel_path 2 1 {
+fn is_exe_name 2 1 {
 	dup 0 = if {
 		drop drop false ret
 	}
@@ -478,7 +477,7 @@ fn execute_child? 5 1 {
 
 	auto pid 1
 
-	str is_abs_path str is_rel_path | if {
+	str is_exe_name if {
 		str
 	} else {
 		str find_abs_path_of_executable? over NULL = if {
@@ -538,4 +537,99 @@ fn execute_child? 5 1 {
 
 	old_brk salloc.rewind
 	true
+}
+
+; ( str len -- str len )
+fn normalise_path 2 2 {
+	auto str 2 pop str
+
+	const ssz 4096
+	reserve str_stack sizeof(Array64)
+
+	ssz salloc.alloc ssz str_stack Array64.init_with_buffer_sz_bytes
+
+	auto outpath 1 salloc.now pop outpath
+
+	auto rooted 1
+		str is_abs_path pop rooted
+
+	auto backlinks 1
+		0 pop backlinks
+
+	auto search_str 2
+		str pop search_str
+
+	rooted if {
+		`/` salloc.push_8
+	}
+
+	while true {
+		search_str `/` string.before_delim_u8.ret_both pop search_str
+
+		dup 0 = if {
+			drop drop	
+		} elif over over ".." streq {
+			backlinks ++ pop backlinks
+			drop drop
+		} elif over over "." streq {
+			drop drop
+		} else {
+			backlinks 0 != if {
+				backlinks -- pop backlinks
+				drop drop
+			} else {
+				str_stack Array64<<
+				str_stack Array64<<
+			}
+		}
+
+		search_str 0 = swap NULL = | if {	
+			break
+		}
+	}
+	; MAKE SURE TO REVERSE ARRAY
+
+	backlinks 0 != rooted ! & if {
+		0 while dup backlinks < {
+			'..' salloc.push
+			dup backlinks -- = str_stack rArray64.len 0 = & if {
+				break
+			}
+			'/' salloc.push
+			++
+		} drop
+	}
+
+	str_stack rArray64.len 0 != if {
+		str_stack rArray64.len
+		while true {
+			--
+			dup str_stack Array64[] swap
+			--
+			dup str_stack Array64[] swap
+			rot salloc.push
+
+			dup 0 = if {
+				break
+			} else {
+				'/' salloc.push
+			}
+		}
+		drop
+	} else {
+		outpath salloc.now = if {
+			rooted if {
+				'/' ret
+			} else {
+				'.' ret
+			}
+		}
+	}
+
+	; (dest src len)
+	str_stack rArray64.data outpath salloc.make_str dup pop rooted ++ memcpy
+	str_stack rArray64.data rooted + ++ salloc.rewind
+	; make sure to copy nul terminator
+
+	str_stack rArray64.data rooted
 }

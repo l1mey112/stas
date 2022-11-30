@@ -1,6 +1,6 @@
 include 'std.stas'
 
-;; ( str len -- str len bool )
+; ( str len -- str len bool )
 ;fn real_path? 2 3 {
 ;	auto str 2 pop str
 ;	auto buf 1
@@ -8,109 +8,6 @@ include 'std.stas'
 ;	4096 salloc.alloc pop buf
 ;}
 
-;; ( str len -- str len )
-;fn normalise_path 2 0 {
-;	auto str 2 pop str
-;
-;	const ssz 4096
-;	reserve str_stack sizeof(Array64)
-;
-;	ssz salloc.alloc ssz str_stack Array64.init_with_buffer_sz_bytes
-;
-;	auto rooted 1
-;		str is_abs_path pop rooted
-;
-;	auto backlinks 1
-;		0 pop backlinks
-;
-;	auto search_str 2
-;		str pop search_str
-;
-;	rooted if {
-;		'/' puts
-;	}
-;
-;	while true {
-;		search_str `/` string.after_delim_u8.ret_both pop search_str
-;
-;		dup 0 = if {
-;			drop drop	
-;		} elif over over ".." streq {
-;			backlinks ++ pop backlinks
-;			drop drop
-;		} else {
-;			backlinks 0 != if {
-;				backlinks -- pop backlinks
-;				drop drop
-;			} else {
-;				str_stack Array64<<
-;				str_stack Array64<<
-;			}
-;		}
-;
-;		search_str 0 = swap NULL = | if {	
-;			break
-;		}
-;	}
-;	; MAKE SURE TO REVERSE ARRAY
-;
-;	backlinks 0 != rooted ! & if {
-;		str_stack rArray64.len 2 / 0 = if {
-;			'..' puts
-;		} else {
-;			0 while dup backlinks < {
-;				'..' puts
-;				dup backlinks -- = if {
-;					break
-;				}
-;				'/' puts
-;			} drop
-;		}
-;	}
-;
-;	str_stack rArray64.len 0 != if {
-;		str_stack rArray64.len
-;		while true {
-;			--
-;			dup str_stack Array64[] swap
-;			--
-;			dup str_stack Array64[] swap
-;			swap puts
-;
-;			dup 0 = if {
-;				break
-;			}
-;		}
-;		drop
-;	} else {
-;	;	rooted if {
-;	;		'/' puts
-;	;	} else {
-;	;		'.' puts
-;	;	}
-;	}
-;
-;	endl
-;
-;	str_stack Array64.dump
-;
-;	; str_stack rArray64.data salloc.rewind ; deallocate all
-;}
-
 fn main {
-	; "../../hello/../hello" normalise_path
-
-	auto search_str 2
-
-	"AAA/BBB/EEE/CCeee" pop search_str
-
-	while true {
-		search_str `/` string.before_delim_u8.ret_both pop search_str
-
-		puts endl
-
-		search_str 0 = swap NULL = | if {	
-			break
-		}
-	}
+	
 }

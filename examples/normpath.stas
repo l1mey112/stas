@@ -1,0 +1,20 @@
+include 'std.stas'
+
+fn main {
+	auto old_brk 1
+		salloc.now pop old_brk
+	
+	; allocates just enough memory for nul terminated string with len using salloc
+
+	'../hello/../gello' normalise_path puts endl
+
+	old_brk salloc.rewind
+
+	'//.///./' normalise_path puts endl
+
+	old_brk salloc.rewind
+
+	'././' normalise_path puts endl
+
+	old_brk salloc.rewind
+}
