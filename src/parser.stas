@@ -1129,6 +1129,29 @@ fn parse.assert_const_fn_not {
 	}
 }
 
+; ( -- bool )
+fn parse.is_inside_while_header 0 1 {
+	scope_context.len 1 -
+	while 1 {
+		dup scope_context[] rScope.typ
+		
+		dup ScopeTyp.while_block_scope = if {
+			break
+		} elif dup ScopeTyp.while_block = {
+			drop drop true ret
+		}
+		drop
+
+		dup 0 = if {
+			break
+		}
+		--
+	}
+	drop
+
+	false
+}
+
 ; ( *Array32(sp) )
 fn parse.fn_complex_tokens 1 0 {
 	auto sp 1 pop sp
@@ -1165,6 +1188,10 @@ fn parse.fn_complex_tokens 1 0 {
 			pos 'a scope must come after an if statement' error.Tok
 		}
 	} elif dup Tok.while_block = {
+		parse.is_inside_while_header if {
+			pos 'cannot declare a while loop inside an existing while loop header' error.Tok
+		}
+
 		auto lbl 1
 		label_allocate pop lbl
 
@@ -1180,15 +1207,22 @@ fn parse.fn_complex_tokens 1 0 {
 			var_context.len
 		scope_context<<
 	} elif dup Tok.break_block = {
+		parse.is_inside_while_header if {
+			pos 'not inside while loop body' error.Tok
+		}
 		ScopeTyp.while_block_scope parse.locate_scope dup -1 = if {
 			pos 'not inside while loop body' error.Tok
 		}
 		Inst.do_jmp swap scope_context[] rScope.label_id ir
 		parse.push_early_ret_with_pos
 	} elif dup Tok.continue_block = {
+		parse.is_inside_while_header if {
+			pos 'not inside while loop body' error.Tok
+		}
 		ScopeTyp.while_block parse.locate_scope dup -1 = if {
 			pos 'not inside while loop body' error.Tok
 		}
+
 		; dup -- scope_context[] dup rScope.typ ScopeTyp.while_block = assert -> 'TODO: zero support for nested while loops or loops with complex blocks inside its header'
 		; TODO: still a todo...
 		Inst.do_jmp swap scope_context[] rScope.label_id ir
