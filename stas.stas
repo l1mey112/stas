@@ -396,6 +396,14 @@ fn main {
 		}
 	}
 
+	in_file path_file_isread ! if {
+		error.generic_fatal_begin
+		"cannot read file `" eputs
+			in_file eputs
+		"`\n" eputs
+		1 exit
+	}
+
 	verbose_mode r8 if {
 		log.msg.start
 		"scanning file `" eputs in_file eputs "`\n" eputs
@@ -458,7 +466,13 @@ fn main {
 		dup ".tmp" push_string_view
 		dup pop out_file_asm_sv
 
-		string_view_to_str fd_new_file_for_writing
+		string_view_to_str create_new_file_fd? ! if {
+			error.generic_fatal_begin
+			"cannot create new file `" eputs
+				out_file_asm_sv string_view_to_str eputs
+			"` for writing\n" eputs
+			1 exit
+		}
 		pop fwrite_buffer.fd_loc
 	} else {
 		stdout pop fwrite_buffer.fd_loc
@@ -479,7 +493,7 @@ fn main {
 		log.msg.start
 		"generated " eputs
 
-		fwrite_buffer.fd_loc fd_stat_size
+		fwrite_buffer.fd_loc fd.stat_size? assert -> 'unreachable'
 
 		dup 1024 / 0 > if {
 			eputu " KiBs of code\n" eputs

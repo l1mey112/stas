@@ -49,7 +49,7 @@ fn main {
 	auto data.len 1
 	auto pos 1
 	
-	1 args[] open_and_mmap_fp
+	1 args[] read_file? assert -> 'failed to open file'
 		pop data.len
 		pop data
 		0 pop pos
