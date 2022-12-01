@@ -27,6 +27,6 @@ diff stas2 stas3
 cp stas3 stas
 ./test.vsh
 
-git clean -fX
+git clean -fX --exclude=\!stas
 
 make_exe
