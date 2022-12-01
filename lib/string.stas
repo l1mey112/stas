@@ -135,6 +135,57 @@ fn string.starts_with 4 1 {
 	streq
 }
 
+; ( str len u8 -- idx )
+fn string.index_of_u8 3 1 {
+	; (str len u8)
+	over 0 = if {
+		drop drop drop false ret
+	}
+
+	auto ch 1 pop ch
+
+	auto len 1 pop len
+	auto str 1 pop str
+
+	0
+	while dup len < {
+		dup str u8[] ch = if {
+			ret
+		}
+		++
+	}
+	drop
+	
+	-1
+}
+
+; ( str len u8 -- idx )
+fn string.last_index_of_u8 3 1 {
+	; (str len u8)
+	over 0 = if {
+		drop drop drop false ret
+	}
+
+	auto ch 1 pop ch
+	
+	swap
+	auto str 1 pop str
+	
+	while true {
+		--
+		dup str u8[] ch = if {
+			ret
+		}
+		
+		dup 0 = if {
+			break
+		}
+	}
+	drop
+	
+	-1
+}
+
 ; ( str len u8 -- bool )
 fn string.contains_u8 3 1 {
 	; (str len u8)

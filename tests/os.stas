@@ -40,10 +40,19 @@ fn test_errno {
 	0              errno? bool.to_str puts endl
 }
 
+fn test_file_dir {
+	'/usr/home/l-m/git/stas/lib/posix/makedefinitions.vsh' file_dir puts endl
+	'/usr/home/l-m/git/compiler/tests/comptime.out' file_dir puts endl
+	'' file_dir puts endl
+	'eeeeeeeeeeee' file_dir puts endl
+	'/eee' file_dir puts endl
+}
+
 fn main {
 	test_normalise_path
 	test_join_path
 	test_errno
+	test_file_dir
 
 	"/hello"       is_abs_path bool.to_str puts endl
 	"hello/heeler" is_abs_path bool.to_str puts endl

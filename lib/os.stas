@@ -679,3 +679,39 @@ fn abs_path 2 2 {
 	str + salloc.rewind
 	str salloc.make_str
 }
+
+; ( str len -- bool )
+fn is_dir 2 1 {
+	reserve statbuf sizeof(stat)
+	drop statbuf stat
+	
+	dup ENOENT errnoeq if {
+		drop
+		false ret
+	}
+	errno? assert -> 'is_dir: syscall `stat` failed'
+
+	statbuf stat.st_mode r32 S_IFMT & S_IFDIR =
+}
+
+; ( str len -- str len )
+fn file_dir 2 2 {
+	dup 0 = if {
+		drop drop '.' ret
+	}
+
+	auto str 1
+		over pop str
+
+	`/` string.last_index_of_u8
+
+	; (idx)
+	dup -1 = if {
+		drop '.' ret
+	}
+	dup 0 = if {
+		drop '/' ret
+	}
+
+	str swap
+}
