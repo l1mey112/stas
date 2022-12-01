@@ -62,8 +62,8 @@ fn usage {
 
 	"\nSUBCOMMANDS\n"                                                                    eputs
 
-	"\n	./stas symlink          Will place the stas compiler in `/usr/local/bin/stas`\n" eputs
-	"	                        to allow it to be accessible by PATH\n\n"                eputs
+	"\n	./stas symlink          Will create a symbolic link to the stas compiler\n"      eputs
+	"	                        inside `/usr/local/bin/stas`\n\n"                        eputs
 }
 
 fn help_and_exit {
@@ -100,7 +100,7 @@ fn symlink_exe {
 		1 exit
 	}
 
-	'/usr/local/bin/stas' drop NULL lstat ENOENT != if {
+	'/usr/local/bin/stas' drop NULL lstat ENOENT errnoeq ! if {
 		'/usr/local/bin/stas' drop unlink errno? ! if {
 			'failed to remove existing symlink at path `/usr/local/bin/stas`, missing permissions?'
 			error.generic_fatal_noexit

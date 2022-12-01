@@ -647,3 +647,8 @@ fn path_can_write 2 1 {
 fn path_can_execute 2 1 {
 	drop X_OK access 0 =
 }
+
+; ( errno errno -- bool )
+fn errnoeq 2 1 {
+	s_abs swap s_abs =
+}

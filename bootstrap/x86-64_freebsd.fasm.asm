@@ -47800,7 +47800,7 @@ usage:
 	mov rdi, rbx
 		syscall
 	mov rbx, _s23
-	mov rsi, 80
+	mov rsi, 75
 	mov rdi, 2
 	mov r8, 4
 	mov rax, r8
@@ -47810,7 +47810,7 @@ usage:
 	mov rdi, rbx
 		syscall
 	mov rbx, _s24
-	mov rsi, 63
+	mov rsi, 55
 	mov rdi, 2
 	mov r8, 4
 	mov rax, r8
@@ -48053,10 +48053,44 @@ symlink_exe:
 	mov rdi, rbx
 		syscall
 	mov rbx, 2
-	xor rsi, rsi
-	cmp rax, rbx
-	setne sil
-	test rsi, rsi
+	mov rsi, rbx
+	mov rdi, 0
+	xor r8, r8
+	cmp rsi, rdi
+	setl r8b
+	push rax
+	push rbx
+	test r8, r8
+	jz .10.1
+	pop rbx
+	not rbx
+	inc rbx
+	push rbx
+.10.1:
+	pop rbx
+	pop rsi
+	mov rdi, rsi
+	mov r8, 0
+	xor r9, r9
+	cmp rdi, r8
+	setl r9b
+	push rbx
+	push rsi
+	test r9, r9
+	jz .10.2
+	pop rbx
+	not rbx
+	inc rbx
+	push rbx
+.10.2:
+	pop rsi
+	pop rdi
+	xor rbx, rbx
+	cmp rdi, rsi
+	sete bl
+	test rbx, rbx
+	sete bl
+	test rbx, rbx
 	jz .2482
 	mov rbx, _s33
 	mov rsi, 10
@@ -51536,8 +51570,8 @@ _s19: db "	-trace-calls            Compiled executable will have function calls 
 _s20: db "	                        at runtime. Will not trace inlined calls", 10, 0
 _s21: db "	-h, --help              Show this message", 10, 0
 _s22: db 10, "SUBCOMMANDS", 10, 0
-_s23: db 10, "	./stas symlink          Will place the stas compiler in `/usr/local/bin/stas`", 10, 0
-_s24: db "	                        to allow it to be accessible by PATH", 10, 10, 0
+_s23: db 10, "	./stas symlink          Will create a symbolic link to the stas compiler", 10, 0
+_s24: db "	                        inside `/usr/local/bin/stas`", 10, 10, 0
 _s25: db "symlink", 0
 _s26: db "/usr/local/bin", 0
 _s27: db "path `/usr/local/bin` not found!", 0

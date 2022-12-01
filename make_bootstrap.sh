@@ -1,9 +1,6 @@
 #!/bin/sh
 
-set -xe
-
-if [ ! -f "./stas" ]; then
-
+make_exe() {
 	os=$(uname)
 	if [ "$os" = 'Linux' ]; then
 		fasm -m 1048576 bootstrap/x86-64_linux.fasm.asm stas
@@ -11,6 +8,12 @@ if [ ! -f "./stas" ]; then
 		fasm -m 1048576 bootstrap/x86-64_freebsd.fasm.asm stas
 	fi
 	chmod +x stas
+}
+
+set -xe
+
+if [ ! -f "./stas" ]; then
+	make_exe
 fi
 
 ./stas stas.stas -o stas1 -r stas.stas -o stas2 -r stas.stas -o stas3 -r -h
@@ -25,3 +28,5 @@ cp stas3 stas
 ./test.vsh
 
 git clean -fX
+
+make_exe
