@@ -1,6 +1,4 @@
-fn write 3 0 {
-	1 syscall3 drop
-}
+include <std.stas>
 
 fn main {
 	auto state 1
@@ -14,17 +12,17 @@ fn main {
 			dup state swap >>
 
 			1 & if {
-				1 "⣿⣿" write
+				"⣿⣿" puts
 			} else {
-				1 "  " write
+				"  " puts
 			}
 
 			--
 		}
 		drop
 
-		1 "\n" write
-		
+		endl
+
 		-> 0 {
 			state 1 >>
 			state state 1 << |
