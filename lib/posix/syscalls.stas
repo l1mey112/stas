@@ -80,3 +80,12 @@ fn lstat 2 1 {
 		AT_FDCWD rot AT_SYMLINK_NOFOLLOW fstatat
 	}
 }
+; ( 'const char* filename' 'struct stat* statbuf' -- c )
+fn stat 2 1 {
+	comptime ?def TARGET_LINUX if {
+		sys_stat syscall2
+	}
+	comptime ?def TARGET_FREEBSD if {
+		AT_FDCWD rot 0 fstatat
+	}
+}

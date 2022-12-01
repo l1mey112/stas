@@ -14,10 +14,6 @@ fn open 3 1 {
 fn close 1 1 {
 	sys_close syscall1
 }
-; ( 'const char* filename' 'struct stat* statbuf' -- c )
-fn stat 2 1 {
-	sys_stat syscall2
-}
 ; ( 'unsigned int fd' 'struct stat* statbuf' -- c )
 fn fstat 2 1 {
 	sys_fstat syscall2
