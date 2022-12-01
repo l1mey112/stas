@@ -7,7 +7,7 @@ fn hash.sdbm 2 1 {
 	0
 	while dup len < {
 		dup
-			str u8[]
+			str + r8
 			hash 6 << +
 			hash 16 << +
 			hash -
@@ -28,7 +28,7 @@ fn hash.djb2 2 1 {
 	0
 	while dup len < {
 		dup
-			str u8[]
+			str + r8
 			hash 5 <<
 			hash +
 			+

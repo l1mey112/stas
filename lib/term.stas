@@ -1,3 +1,5 @@
+include <std.stas>
+
 fn term.escape {
     27 putc `[` putc
 }

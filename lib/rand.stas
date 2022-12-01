@@ -1,3 +1,5 @@
+include <hash.stas>
+
 ; Implementation of the WyRand pseudo-random number generator
 
 const rand.wyp0 11562461410679940143

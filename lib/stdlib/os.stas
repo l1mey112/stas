@@ -1,3 +1,5 @@
+include <salloc.stas>
+
 ; ( str len -- str? len )
 fn getenv 2 2 {
 	auto str 2 pop str

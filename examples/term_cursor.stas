@@ -1,4 +1,5 @@
 include <std.stas>
+include <term.stas>
 
 fn main {
 	auto p 1

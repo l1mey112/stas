@@ -1,4 +1,5 @@
 include <std.stas>
+include <salloc.stas>
 
 fn test_normalise_path {
 	auto old_brk 1
