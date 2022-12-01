@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 ; sum all numbers starting from 1 to 10
 

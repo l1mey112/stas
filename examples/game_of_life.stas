@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 const HEIGHT  { 40 }
 const WIDTH   { 40 }

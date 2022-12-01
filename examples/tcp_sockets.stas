@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 ; ( fd -- )
 fn fd_send 1 0 {

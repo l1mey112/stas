@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 ; (idx -- num)
 fn fib_iterative 1 1 {

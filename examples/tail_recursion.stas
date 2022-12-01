@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 ; (n acc)
 fn fact_tail 2 1 {

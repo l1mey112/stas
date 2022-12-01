@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 const a { 22 }
 

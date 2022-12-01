@@ -530,3 +530,39 @@ fn token_stream.dump {
 	}
 	drop
 }
+
+; ( str len str len -- str len )
+fn find_file_to_include 4 2 {
+	auto ctx 2 pop ctx
+	auto fp  2 pop fp
+
+	ctx drop NULL != fp is_abs_path ! & if {
+		ctx fp join_path_cstr
+	} else {
+		fp
+	}
+
+	normalise_path
+
+	over over path_file_isread if {
+		ret
+	} else {
+		over over is_abs_path if {
+			drop drop NULL 0 ret
+		}
+	}
+	pop ctx
+
+	NULL 0
+}
+
+; ( str len -- str len )
+fn find_file_to_include_stasdir 2 2 {
+	get_executable_path file_dir "lib" join_path_cstr rot4 rot4 join_path_cstr
+	over over path_file_isread if {
+		ret
+	}
+	drop drop
+
+	NULL 0
+}

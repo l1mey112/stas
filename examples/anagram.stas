@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 ; (buf count -- bool)
 fn is_anagram 2 1 {

@@ -40,19 +40,19 @@ fn u64[] 2 1 {
 	swap sizeof(u64) * + r64
 }
 
-include 'lib/math.stas'
-include 'lib/hash.stas'
-include 'lib/posix.stas'
-include 'lib/io.stas'
-include 'lib/misc.stas'
-include 'lib/mem.stas'
-include 'lib/salloc.stas'
-include 'lib/array.stas'
-include 'lib/string.stas'
-include 'lib/conv.stas'
-include 'lib/os.stas'
-include 'lib/rand.stas'
-include 'lib/term.stas'
+include 'math.stas'
+include 'hash.stas'
+include 'posix.stas'
+include 'io.stas'
+include 'misc.stas'
+include 'mem.stas'
+include 'salloc.stas'
+include 'array.stas'
+include 'string.stas'
+include 'conv.stas'
+include 'os.stas'
+include 'rand.stas'
+include 'term.stas'
 
 fn string.str 1 1    {     }
 fn string.len 1 1    { 8 + }

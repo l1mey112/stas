@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 fn main {
 	auto old_brk 1

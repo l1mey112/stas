@@ -63,13 +63,31 @@ fn stas.scan_file 2 0 {
 		auto start_col 1 col pop start_col
 		auto start_row 1 row pop start_row
 
+		; (ch2 ch1 ch)
+
 		; handle special tokens
 		data pos u8[]
-			dup SINGLE_QUOTE_CH =
-			swap DOUBLE_QUOTE_CH =
-		| if {
-			auto str_quote 1 data pos u8[]    pop str_quote
-			auto str_buf   1 new_empty_string pop str_buf
+			dup SINGLE_QUOTE_CH = swap
+			dup DOUBLE_QUOTE_CH = rot
+			is_next_inc r8 if {
+				`<` = if {
+					true
+				} else {
+					false
+				}
+			} else {
+				drop false
+			}
+		| | if {
+			auto str_quote 1
+
+			data pos u8[] dup `<` = if {
+				drop `>` pop str_quote
+			} else {
+				pop str_quote
+			}
+			
+			auto str_buf 1 new_empty_string pop str_buf
 
 			reserve delim 1 delim 0 w8
 			while 1 {
@@ -130,14 +148,27 @@ fn stas.scan_file 2 0 {
 			pos ++ pop pos
 
 			is_next_inc r8 if {
+				auto inc_str 2
+
+					str_buf string_view_to_str
+				str_quote `>` = if {
+					find_file_to_include_stasdir
+				} else {
+					file_path file_dir find_file_to_include
+				}
+				over NULL = if {
+					start_row start_col open_file_pos col start_col - 'unable to locate file to include' error.Loc.len
+				}
+				pop inc_str
+
 				verbose_mode r8 if {
 					log.msg.start
 					"including file `" eputs
-						str_buf string_view_to_str eputs
+						inc_str eputs
 					"`\n" eputs
 				}
-
-				str_buf string_view_to_str stas.scan_file
+				
+				inc_str stas.scan_file
 
 				is_next_inc 0 w8
 			} else {

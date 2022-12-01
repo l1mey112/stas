@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 cextern addsome 64 64 -> 64
 cextern addup 64 64 -> 64

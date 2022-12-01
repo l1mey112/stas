@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 - inline
 fn inline 1 0 {

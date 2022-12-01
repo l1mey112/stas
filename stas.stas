@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 reserve strip_assert   1
 reserve object_file    1

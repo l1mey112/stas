@@ -1,13 +1,13 @@
-; include 'std.stas'
+; include <std.stas>
 
 const sys_write { 1 }
 const stdout    { 1 }
 
 fn syscall3_ 4 1 {
 	asm "rdi" "rsi" "rdx" "rax" -> "rax" {
-		"\t; <asm>"
-		"\tsyscall"
-		"\t; </asm>"
+		"; <asm>"
+		"syscall"
+		"; </asm>"
 	}
 }
 

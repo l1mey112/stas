@@ -635,6 +635,9 @@ fn normalise_path 2 2 {
 }
 
 ; `access` does follow symlinks, use `lstat` instead
+fn path_file_isread 2 1 {
+	drop F_OK R_OK | access 0 =
+}
 fn path_exists 2 1 {
 	drop F_OK access 0 =
 }
@@ -653,6 +656,17 @@ fn errnoeq 2 1 {
 	s_abs swap s_abs =
 }
 
+fn getcwd_alloc 0 2 {
+	salloc.now
+	{
+		4096 salloc.alloc 4096 getcwd
+			dup 0 >s assert -> 'getcwd_alloc: failed to get current working directory'
+
+		-- over + salloc.rewind
+	}
+	salloc.make_str
+}
+
 ; ( str len -- str len )
 fn abs_path 2 2 {
 	over over is_abs_path if {
@@ -663,12 +677,7 @@ fn abs_path 2 2 {
 	auto str 1
 		salloc.now pop str
 
-	4096 salloc.alloc 4096 getcwd
-		dup 0 >s assert -> 'abs_path: failed to get current working directory'
-
-	-- str + salloc.rewind
-	
-	str salloc.make_str
+	getcwd_alloc
 		`/` string.trim_len_delim_u8 + salloc.rewind
 		`/`                            salloc.push_8
 		                               salloc.push

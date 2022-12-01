@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 fn print_bool_ln 1 0 {
 	bool.to_str puts endl

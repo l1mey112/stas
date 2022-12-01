@@ -1,57 +1,57 @@
 comptime ?def TARGET_LINUX if {
-	include 'lib/posix/syscalls/linux/syscalls.stas'
+	include 'syscalls/linux/syscalls.stas'
 }
 comptime ?def TARGET_FREEBSD if {
-	include 'lib/posix/syscalls/freebsd/syscalls.stas'
+	include 'syscalls/freebsd/syscalls.stas'
 }
 
 fn syscall0 1 1 {
 	asm "rax" -> "rax" {
-		"\tsyscall"
+		"syscall"
 	}
 }
 
 fn syscall1 2 1 {
 	asm "rdi" "rax" -> "rax" {
-		"\tsyscall"
+		"syscall"
 	}
 }
 
 fn syscall2 3 1 {
 	asm "rdi" "rsi" "rax" -> "rax" {
-		"\tsyscall"
+		"syscall"
 	}
 }
 
 fn syscall3 4 1 {
 	asm "rdi" "rsi" "rdx" "rax" -> "rax" {
-		"\tsyscall"
+		"syscall"
 	}
 }
 
 fn syscall4 5 1 {
 	asm "rdi" "rsi" "rdx" "r10" "rax" -> "rax" {
-		"\tsyscall"
+		"syscall"
 	}
 }
 
 fn syscall5 6 1 {
 	asm "rdi" "rsi" "rdx" "r10" "r8" "rax" -> "rax" {
-		"\tsyscall"
+		"syscall"
 	}
 }
 
 fn syscall6 7 1 {
 	asm "rdi" "rsi" "rdx" "r10" "r8" "r9" "rax" -> "rax" {
-		"\tsyscall"
+		"syscall"
 	}
 }
 
 comptime ?def TARGET_LINUX if {
-	include 'lib/posix/syscalls/linux/impl.stas'
+	include 'syscalls/linux/impl.stas'
 }
 comptime ?def TARGET_FREEBSD if {
-	include 'lib/posix/syscalls/freebsd/impl.stas'
+	include 'syscalls/freebsd/impl.stas'
 }
 
 ; ( 'int error_code' -- c )

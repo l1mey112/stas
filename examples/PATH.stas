@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 const buf_size { 128 }
 

@@ -1,5 +1,6 @@
-include 'std.stas'
+include <std.stas>
 
 fn main {
-	
+;	'array.stas' NULL 0 find_file_to_include over NULL != assert -> 'not found'
+;		puts endl
 }

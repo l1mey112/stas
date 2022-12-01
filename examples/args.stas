@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 ; argc -> int argc
 ; argv -> char **argv

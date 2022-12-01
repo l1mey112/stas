@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 ; (ptr)
 fn inc8 1 0 {

@@ -1,4 +1,4 @@
-include 'std.stas'
+include <std.stas>
 
 fn main {
 	reserve my_array sizeof(Array64)

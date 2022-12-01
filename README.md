@@ -3,7 +3,7 @@
 A stack based compiled programming language.
 
 ```
-include 'std.stas'
+include <std.stas>
 
 fn main {
     'Hello world!\n' puts
