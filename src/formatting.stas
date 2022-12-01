@@ -47,3 +47,17 @@ fn opened_files<< 3 0 {
 	opened_files.len ++ pop opened_files.len
 	opened_files.len opened_files.cap < assert
 }
+
+; ( str len -- bool )
+fn opened_files.does_fp_exist 2 1 {
+	auto str 2 pop str
+
+	0 while dup opened_files.len < {
+		dup opened_files[] rFileEntry.file_path_sv string_view_to_str str streq if {
+			drop true ret
+		}
+		++
+	} drop
+
+	false
+}

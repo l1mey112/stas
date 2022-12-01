@@ -12,6 +12,10 @@ fn stas.scan_file 2 0 {
 	auto data     1
 	auto data.len 1
 
+	file_path opened_files.does_fp_exist if {
+		ret
+	}
+
 	-> 0 {
 		file_path open_and_mmap_fp
 		pop data.len pop data
@@ -160,6 +164,10 @@ fn stas.scan_file 2 0 {
 					start_row start_col open_file_pos col start_col - 'unable to locate file to include' error.Loc.len
 				}
 				pop inc_str
+
+				inc_str is_dir if {
+					start_row start_col open_file_pos col start_col - 'file specified to include is a directory' error.Loc.len
+				}
 
 				verbose_mode r8 if {
 					log.msg.start
