@@ -1600,6 +1600,17 @@ fn parse.cextern {
 	cfunctions<<
 }
 
+; ( -- bool )
+fn parse.is_top_comptime 0 1 {
+	scope_context.len 0 > if {
+		scope_context.top rScope.typ dup 
+		ScopeTyp.comptime.ignore = swap
+		ScopeTyp.comptime.keep = |
+	} else {
+		false
+	}
+}
+
 reserve sp_array_data { sizeof(u32) 1024 * }
 
 fn stas.parse {
@@ -1682,11 +1693,8 @@ fn stas.parse {
 			parse.create_reset_frame
 		} else {
 			is_in_function ! if {
-				pos token_stream[] rToken.tok
-				
 				dup Tok.fn_decl = if {
 					sp_array parse.fn_decl
-				} elif dup Tok.const = {
 				} elif dup Tok.sub = {
 					Tok.name parse.expect? ! if {
 						pos "expected name as function attribute" error.Tok
@@ -1733,11 +1741,7 @@ fn stas.parse {
 					msg NULL != if {
 						pos 2 + pop pos
 					}
-				} elif dup Tok.r_cb = 
-					scope_context.top rScope.typ dup 
-						ScopeTyp.comptime.ignore = swap
-						ScopeTyp.comptime.keep = | 
-				& {
+				} elif dup Tok.r_cb = parse.is_top_comptime & {
 					reserve scope sizeof(Scope)
 					scope scope_context.pop_into_ptr
 
@@ -1746,7 +1750,6 @@ fn stas.parse {
 				} else {
 					pos "unknown toplevel token" error.Tok
 				}
-				drop
 			} else {
 				sp_array parse.basic_token? ! if {
 					sp_array parse.fn_complex_tokens
