@@ -1,13 +1,5 @@
 include 'std.stas'
 
-; ( str len -- str len bool )
-;fn real_path? 2 3 {
-;	auto str 2 pop str
-;	auto buf 1
-;	
-;	4096 salloc.alloc pop buf
-;}
-
 fn main {
-	; errno? assert ; bool.to_str puts endl
+	999 putuln
 }

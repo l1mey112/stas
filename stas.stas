@@ -396,10 +396,6 @@ fn main {
 		}
 	}
 
-	debug_symbols r8 if {
-		object_file true w8
-	}
-
 	verbose_mode r8 if {
 		log.msg.start
 		"scanning file `" eputs in_file eputs "`\n" eputs
