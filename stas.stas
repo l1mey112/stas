@@ -458,18 +458,26 @@ fn main {
 		log.msg.start
 		slits.len eputu " string literals\n" eputs
 	}
+
+	assert_tmp_dir
 	
-	auto out_file_asm_sv 1 
+	auto out_file_asm 2 
 
 	to_stdout r8 ! if {
-		out_file new_string_view
-		dup ".tmp" push_string_view
-		dup pop out_file_asm_sv
+		get_tmp_dir
+		{
+			salloc.now
+				out_file file_base salloc.push
+				".asm"             salloc.push
+			salloc.make_str
+		}
+		join_path_cstr
+		pop out_file_asm
 
-		string_view_to_str create_new_file_fd? ! if {
+		out_file_asm create_new_file_fd? ! if {
 			error.generic_fatal_begin
 			"cannot create new file `" eputs
-				out_file_asm_sv string_view_to_str eputs
+				out_file_asm eputs
 			"` for writing\n" eputs
 			1 exit
 		}
@@ -508,7 +516,7 @@ fn main {
 	}
 	verbose_mode r8 if {
 		log.msg.start
-		"wrote code to `" eputs out_file_asm_sv string_view_to_str eputs "`\n" eputs
+		"wrote code to `" eputs out_file_asm eputs "`\n" eputs
 	}
 
 	verbose_mode r8 if {
@@ -517,7 +525,7 @@ fn main {
 	}
 
 	log.time.start
-		out_file_asm_sv string_view_to_str out_file execute_backend ; run_exec_arg 0 !=
+		out_file_asm out_file execute_backend ; run_exec_arg 0 !=
 	"backend took " log.time.end
 	
 	verbose_mode r8 if {
