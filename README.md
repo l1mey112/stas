@@ -12,7 +12,7 @@ fn main {
 
 Loosely inspired by FORTH with a modern syntax, stas is a general purpose stack based programming language. With syntax designed to be short and consise, programs written in stas take a concatenative form. A form where functions and operations mutate the stack in a pipeline where each output is anothers input.
 
-The current compiler is written in stas. stas as a language has been successfully selfhosted, a long time goal of mine.
+The stas programming language compiler supports x86_64 systems using the Linux and FreeBSD kernels and can cross compile to both with ease. Unencumbered by a C library, stas utilises OS specific native system calls to interact with the system. The full POSIX API and it's definitions are avaliable in the standard library.
 
 This is my first ever programming language and compiler, the initial journey with all of the guesswork has been documented on my blog at [`tags/stas`](https://blog.l-m.dev/tags/stas/), these show the small steps taken to achieve initial V version of the compiler. The V source code of the bootstrap compiler is in [a-different-branch](https://github.com/l1mey112/stas/tree/0.1.0-v-compiler).
 
