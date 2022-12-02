@@ -658,11 +658,11 @@ fn errnoeq 2 1 {
 	s_abs swap s_abs =
 }
 
-fn getcwd_alloc 0 2 {
+fn getwd 0 2 {
 	salloc.now
 	{
 		4096 salloc.alloc 4096 getcwd
-			dup 0 >s assert -> 'getcwd_alloc: failed to get current working directory'
+			dup 0 >s assert -> 'getwd: failed to get current working directory'
 
 		-- over + salloc.rewind
 	}
@@ -679,7 +679,7 @@ fn abs_path 2 2 {
 	auto str 1
 		salloc.now pop str
 
-	getcwd_alloc
+	getwd
 		`/` string.trim_len_delim_u8 + salloc.rewind
 		`/`                            salloc.push_8
 		                               salloc.push
@@ -798,4 +798,26 @@ fn read_file? 2 3 {
 	fd close 0 = assert -> 'read_file?: failed to close file descriptor'
 
 	true
+}
+
+; ( str len -- str len )
+fn make_path_relative_to_wd 2 2 {
+	auto str    2       pop str
+	auto wd.len 1 getwd pop wd.len
+	auto wd     1       pop wd
+
+	str `/` string.trim_len_delim_u8 wd wd.len streq if {
+		'.' ret
+	}
+
+	str wd wd.len string.starts_with if {
+		; ( str len )
+		; /home/liaml/git/compiler
+		; /home/liaml/git/compiler/a.out
+		str
+		swap wd.len ++ +
+		swap wd.len ++ -
+	} else {
+		str
+	}
 }

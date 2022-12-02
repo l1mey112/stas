@@ -83,19 +83,19 @@ comptime ?def TARGET_FREEBSD if {
 const O_NDELAY O_NONBLOCK
 const O_FSYNC  O_SYNC
 comptime ?def TARGET_LINUX if {
-	fn WIFSTOPPED   1 1 { 255 & 127 =         }
-	fn WIFCONTINUED 1 1 { 65535 =             }
-	fn WIFSIGNALED  1 1 { 127 & 1 + 1 >> 0 >s }
-	fn WEXITSTATUS  1 1 { 65280 & 8 >>        }
+	const fn WIFSTOPPED   1 1 { 255 & 127 =         }
+	const fn WIFCONTINUED 1 1 { 65535 =             }
+	const fn WIFSIGNALED  1 1 { 127 & 1 + 1 >> 0 >s }
+	const fn WEXITSTATUS  1 1 { 65280 & 8 >>        }
 }
 comptime ?def TARGET_FREEBSD if {
-	fn WIFSTOPPED   1 1 { 127 & 127 =                                 }	
-	fn WIFCONTINUED 1 1 { 19 =                                        }
-	fn WIFSIGNALED  1 1 { 127 & dup dup 127 != rot 0 != rot 19 != & & }
-	fn WEXITSTATUS  1 1 { 65535 & 8 >>                                }
+	const fn WIFSTOPPED   1 1 { 127 & 127 =                                 }	
+	const fn WIFCONTINUED 1 1 { 19 =                                        }
+	const fn WIFSIGNALED  1 1 { 127 & dup dup 127 != rot 0 != rot 19 != & & }
+	const fn WEXITSTATUS  1 1 { 65535 & 8 >>                                }
 }
-fn WTERMSIG     1 1 { 127 &     }
-fn WIFEXITED    1 1 { 127 & 0 = }
+const fn WTERMSIG     1 1 { 127 &     }
+const fn WIFEXITED    1 1 { 127 & 0 = }
 const PROT_READ   1
 const PROT_WRITE  2
 const PROT_EXEC   4

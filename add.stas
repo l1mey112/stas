@@ -1,1 +1,5 @@
-ee
+include <std.stas>
+
+fn main {
+	
+}
