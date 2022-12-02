@@ -1737,6 +1737,7 @@ fn stas.parse {
 						endl
 
 						as_c Token.eprint_file_tok
+						1 exit
 					}
 					msg NULL != if {
 						pos 2 + pop pos

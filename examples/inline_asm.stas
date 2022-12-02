@@ -1,26 +1,34 @@
-; include <std.stas>
+include <std.stas>
 
-const sys_write { 1 }
-const stdout    { 1 }
-
-fn syscall3_ 4 1 {
-	asm "rdi" "rsi" "rdx" "rax" -> "rax" {
-		"; <asm>"
-		"syscall"
-		"; </asm>"
+fn addup_asm 1 1 {
+	asm "rsi" -> "rax" {
+		"	xor rax, rax"
+		"loop_start:"
+		"	test rsi, rsi"
+		"	jz loop_leave"
+		"	add rax, rsi"
+		"	dec rsi"
+		"	jmp loop_start"
+		"loop_leave:"
 	}
 }
 
-fn write 3 1 {
-	sys_write syscall3_
+fn addsome 1 1 {
+	asm "rdi" -> "rdi" {
+		"add rdi, 1000"
+	}
 }
 
-fn puts 2 0 {
-	stdout rot write drop
+fn givesome 0 1 {
+	asm -> "rdi" {
+		"mov rdi, 22"
+	}
 }
 
 fn main {
-	"Hello world!\n" puts
+	999 addsome putuln
+	10 addup_asm putuln
+	givesome putuln
 }
 
-; `./stas add.stas -o -`
+; `stas add.stas -o -`

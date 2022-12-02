@@ -736,22 +736,24 @@ fn gen_range 4 0 {
 					drop
 					drop
 
-					fn_c ASM.arg_r fn_c rASM.arg_r_len +
-					; (arr+len)
-					while true {
-						--
-						dup r8
-						dup fn_c ASM.ret_r fn_c rASM.ret_r_len reg_exists_in_arr ! if {
-							r_free
-						} else {
-							drop
+					fn_c rASM.arg_r_len 0 != if {
+						fn_c ASM.arg_r fn_c rASM.arg_r_len +
+						; (arr+len)
+						while true {
+							--
+							dup r8
+							dup fn_c ASM.ret_r fn_c rASM.ret_r_len reg_exists_in_arr ! if {
+								r_free
+							} else {
+								drop
+							}
+							
+							dup fn_c ASM.arg_r = if {
+								break
+							}
 						}
-						
-						dup fn_c ASM.arg_r = if {
-							break
-						}
+						drop
 					}
-					drop
 				}
 			} else {
 				0 assert -> 'unreachable'

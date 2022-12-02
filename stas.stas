@@ -41,7 +41,7 @@ include 'src/gen.stas'          ; stas code generator, creates x86_64 asm
 fn usage {
 	OS.get_host OS.to_pretty_str eputs
 	" stas 0.2.0 Copyright (C) 2022  l-m.dev" eputs
-	"\n\nUSAGE: ./stas [OPTIONS] [FILE]\n\n"                                             eputs
+	"\n\nUSAGE: stas [OPTIONS] [FILE]\n\n"                                             eputs
 
 	"	-o <output>             Specify '-o -' to dump assembly to stdout\n"             eputs
 	"	-g                      Debug info. Most effective with the `nasm` backend\n"    eputs

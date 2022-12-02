@@ -1,5 +1,4 @@
+include 'std.stas'
 include <std.stas>
 
-fn main {
-	'eeee/eee.stas/////////s//////ee/ee' file_base dup putuln puts endl
-}
+include 'eee'

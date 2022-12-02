@@ -13,7 +13,7 @@ fn main {
 	addr buff 10 addup putuln
 }
 
-; `./stas main.stas -c`
+; `stas main.stas -c`
 ;     - creates `a.o`
 
 ; `gcc stas_extern.c -c stas_extern.o -ffreestanding`

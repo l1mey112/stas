@@ -23,6 +23,7 @@ A release changelog is a complete post outlining all additional features added b
 - [stas `0.1.1` Changelog](https://blog.l-m.dev/posts/release-stas-0.1.1/) - [Github Release](https://github.com/l1mey112/stas/releases/tag/0.1.1)
 - [stas `0.1.2` Changelog](https://blog.l-m.dev/posts/release-stas-0.1.2/) - [Github Release](https://github.com/l1mey112/stas/releases/tag/0.1.2)
 - [stas `0.1.3` Changelog](https://blog.l-m.dev/posts/release-stas-0.1.3/) - [Github Release](https://github.com/l1mey112/stas/releases/tag/0.1.3)
+- [stas `0.2.0` Changelog](https://blog.l-m.dev/posts/release-stas-0.2.0/) - [Github Release](https://github.com/l1mey112/stas/releases/tag/0.2.0)
 
 ## programming in stas
 
@@ -49,15 +50,9 @@ Use FASM, the [flat-assembler](https://flatassembler.net/), to compile the binar
 
 ```sh
 $ fasm -m 1048576 bootstrap/x86-64_linux.fasm.asm stas
-$ ./stas stas.stas -o stas1
-$ ./stas2 stas.stas -o stas3
-$ ./stas3 stas.stas -o stas4
-$ ./stas4 stas.stas -o stas5
-$ ./stas5 stas.stas -o stas6
-$ ./stas6 stas.stas -o stas7
-$ ./stas7 stas.stas -o stas8
-  ....
-  ....
+$ doas|sudo ./stas symlink
+$ stas -h
+....
 ```
 
 ```
@@ -80,8 +75,14 @@ USAGE: ./stas [OPTIONS] [FILE]
   -comptime-depth <num>   Adjust compile time recursion depth for evaluating
                           comptime functions. Default: 12
   -trace-calls            Compiled executable will have function calls traced
-                          at runtime. Will not trace inlined calls.
+                          at runtime. Will not trace inlined calls
   -h, --help              Show this message
+
+SUBCOMMANDS
+
+  ./stas symlink          Will create a symbolic link to the stas compiler
+                          inside `/usr/local/bin/stas`
+
 ```
 
 ## spec
