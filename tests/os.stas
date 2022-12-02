@@ -49,11 +49,20 @@ fn test_file_dir {
 	'/eee' file_dir puts endl
 }
 
+fn test_file_base {
+	'/usr/home/l-m/git/stas/lib/posix/makedefinitions.vsh' file_base puts endl
+	'/usr/home/l-m/git/compiler/tests/comptime.out' file_base puts endl
+	'' file_base puts endl
+	'eeeeeeeeeeee' file_base puts endl
+	'/eee' file_base puts endl
+}
+
 fn main {
 	test_normalise_path
 	test_join_path
 	test_errno
 	test_file_dir
+	test_file_base
 
 	"/hello"       is_abs_path bool.to_str puts endl
 	"hello/heeler" is_abs_path bool.to_str puts endl

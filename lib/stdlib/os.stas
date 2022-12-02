@@ -727,6 +727,31 @@ fn file_dir 2 2 {
 	str swap
 }
 
+fn file_base 2 2 {
+	dup 0 = if {
+		drop drop '.' ret
+	}
+
+	auto str     1 over pop str
+	auto str.len 1 dup  pop str.len
+
+	`/` string.last_index_of_u8
+
+	; (idx)
+	dup -1 = if {
+		drop str str.len ret
+	}
+	dup ++ str.len = if {
+		drop
+		str str.len -- file_base
+		ret
+	}
+	++
+
+	dup str + swap
+	    str.len swap -
+}
+
 ; ( fd -- size bool )
 fn fd.stat_size? 1 2 {
 	reserve struct_stat sizeof(stat)
@@ -820,4 +845,15 @@ fn make_path_relative_to_wd 2 2 {
 	} else {
 		str
 	}
+}
+
+fn assert_tmp_dir {
+	'/tmp/stas' path_exists ! if {
+		'/tmp/stas' drop S_RWE_OWNER mkdir errno? assert -> 'get_tmp_dir: `mkdir` failed'
+	}
+}
+
+; ( -- str len )
+fn get_tmp_dir 0 2 {
+	'/tmp/stas'
 }
