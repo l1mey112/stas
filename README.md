@@ -1,6 +1,6 @@
 # `stas - st(ack) as(sembler)` 
 
-A stack based compiled programming language.
+A stack based compiled systems programming language.
 
 ```
 include <std.stas>
@@ -10,7 +10,7 @@ fn main {
 }
 ```
 
-Loosely inspired by FORTH with a modern syntax, stas is a general purpose stack based programming language. With syntax designed to be short and consise, programs written in stas take a concatenative form. A form where functions and operations mutate the stack in a pipeline where each output is anothers input.
+Loosely inspired by FORTH with a modern syntax, stas is a general purpose low level stack based systems programming language. With syntax designed to be short and consise, programs written in stas take a concatenative form. A form where functions and operations mutate the stack in a pipeline where each output is anothers input.
 
 The stas programming language compiler supports x86_64 systems using the Linux and FreeBSD kernels and can cross compile to both with ease. Unencumbered by a C library, stas utilises OS specific native system calls to interact with the system. The full POSIX API and it's definitions are avaliable in the standard library.
 
